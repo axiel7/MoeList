@@ -29,11 +29,9 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        //val tinyDB = TinyDB(this)
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE) ?: return
         val isUserLogged = sharedPref.getBoolean("isUserLogged", false)
 
-        //val isUserLogged = tinyDB.getBoolean("isUserLogged")
         if (!isUserLogged) {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)

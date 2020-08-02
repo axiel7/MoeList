@@ -26,7 +26,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class LoginActivity : Activity() {
 
-    //private lateinit var tinyDB: TinyDB
     private lateinit var codeVerifier: String
     private lateinit var codeChallenge: String
 
@@ -41,8 +40,6 @@ class LoginActivity : Activity() {
         setContentView(R.layout.activity_login)
 
         window.setDecorFitsSystemWindows(false)
-
-        //tinyDB = TinyDB(this)
 
         codeVerifier = PkceGenerator.generateVerifier(128)
         codeChallenge = codeVerifier
@@ -100,11 +97,6 @@ class LoginActivity : Activity() {
                 val token = accessToken?.accessToken
                 if (token != null) {
                     Log.d("MoeLog", token)
-                    //tinyDB.putString("accessToken", accessToken?.accessToken)
-                    //tinyDB.putString("refreshToken", accessToken?.refreshToken)
-                    //tinyDB.putString("tokenType", accessToken?.tokenType)
-                    //tinyDB.putString("authCode", code)
-                    //tinyDB.putBoolean("isUserLogged", true)
                     val sharedPref = this.getPreferences(Context.MODE_PRIVATE) ?: return
                     with (sharedPref.edit()) {
                         putString("accessToken", accessToken?.accessToken)
