@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MoeList</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="shared_preferences">com.axiel7.moelist.SharedPrefs</string>
+</resources>
