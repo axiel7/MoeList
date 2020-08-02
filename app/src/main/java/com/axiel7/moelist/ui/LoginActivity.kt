@@ -12,6 +12,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 import com.axiel7.moelist.MainActivity
 import com.axiel7.moelist.R
 import com.axiel7.moelist.model.AccessToken2
+import com.axiel7.moelist.private.ClientId
 import com.axiel7.moelist.rest.LoginService
 import com.axiel7.moelist.utils.PkceGenerator
 import okhttp3.OkHttpClient
@@ -30,7 +31,7 @@ class LoginActivity : Activity() {
     private lateinit var codeChallenge: String
 
     companion object {
-        const val clientId = "###"
+        const val clientId = ClientId.clientId
         const val redirectUri = "moelist://moelist.page.link/"
         const val state = "MoeList123"
     }
