@@ -13,3 +13,4 @@
 .externalNativeBuild
 .cxx
 /app/src/main/java/com/axiel7/moelist/private/ClientId.kt
+/.idea/discord.xml
