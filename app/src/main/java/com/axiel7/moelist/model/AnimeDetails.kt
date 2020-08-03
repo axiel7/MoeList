@@ -18,17 +18,19 @@ data class AnimeDetails(
     val updated_at: String,
     val media_type: String,
     val status: String,
-    val genres: List<Genre>
-
-)
-
-data class AlternativeTitles(
-    val synonyms: List<String>,
-    val en: String,
-    val ja: String
-)
-
-data class Genre(
-    val id: Int,
-    val name: String
+    val genres: List<Genre>,
+    val my_list_status: MyListStatus,
+    val num_episodes: Int,
+    val start_season: StartSeason,
+    val broadcast: Broadcast,
+    val source: String,
+    val average_episode_duration: Int,
+    val rating: String,
+    val pictures: List<MainPicture>,
+    val background: String,
+    val related_anime: List<RelatedAnime>,
+    //val related_manga: List<RelatedManga>,
+    val recommendations: List<Recommendations>,
+    val studios: List<Studio>,
+    val  statistics: Statistics
 )
