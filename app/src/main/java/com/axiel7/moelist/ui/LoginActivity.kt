@@ -11,18 +11,14 @@ import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
 import com.axiel7.moelist.MainActivity
 import com.axiel7.moelist.R
-import com.axiel7.moelist.model.AccessToken2
+import com.axiel7.moelist.model.AccessToken
 import com.axiel7.moelist.private.ClientId
 import com.axiel7.moelist.rest.LoginService
+import com.axiel7.moelist.rest.ServiceGenerator
 import com.axiel7.moelist.utils.PkceGenerator
-import okhttp3.OkHttpClient
-import okhttp3.Protocol
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class LoginActivity : Activity() {
 
@@ -56,58 +52,43 @@ class LoginActivity : Activity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
 
-        val uri = intent.data
+        val uri = intent?.data
         if (uri!=null && uri.toString().startsWith(redirectUri)) {
             val code = uri.getQueryParameter("code")
             val receivedState = uri.getQueryParameter("state")
-            Log.d("MoeLog", code.orEmpty())
             if (code!=null && receivedState==state) {
-                val logging = HttpLoggingInterceptor()
-                logging.setLevel(HttpLoggingInterceptor.Level.BODY)
-                val okHttpClient = OkHttpClient.Builder()
-                    .addInterceptor(logging)
-                    .protocols(listOf(Protocol.HTTP_1_1))
-                    .build()
-                val retrofit = Retrofit.Builder()
-                    .baseUrl("https://myanimelist.net")
-                    .client(okHttpClient)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-                val loginService = retrofit.create(LoginService::class.java)
-                val call :Call<AccessToken2> = loginService.getAccessToken(clientId, code, codeVerifier,"authorization_code")
-                var accessToken: AccessToken2?
+                val loginService = ServiceGenerator.createService(LoginService::class.java)
+                val call :Call<AccessToken> = loginService.getAccessToken(clientId, code, codeVerifier,"authorization_code")
+                var accessToken: AccessToken?
                 accessToken = null
-                call.enqueue(object :Callback<AccessToken2>{
+                call.enqueue(object :Callback<AccessToken>{
 
-                    override fun onResponse(call: Call<AccessToken2>, response: Response<AccessToken2>) {
-                        Log.d("MoeLog", response.message())
-                        Log.d("MoeLog", response.errorBody().toString())
-                        Log.d("MoeLog", response.toString())
+                    override fun onResponse(call: Call<AccessToken>, response: Response<AccessToken>) {
+
                         accessToken = response.body()
+                        val token = accessToken?.access_token
+                        if (token != null) {
+                            Log.d("MoeLog", "AccessToken=$token")
+                            val sharedPref = this@LoginActivity.getSharedPreferences(getString(R.string.shared_preferences) ,Context.MODE_PRIVATE) ?: return
+                            with (sharedPref.edit()) {
+                                putString("accessToken", accessToken?.access_token)
+                                putString("refreshToken", accessToken?.refresh_token)
+                                putBoolean("isUserLogged", true)
+                                apply()
+                            }
+                            val openMainActivity = Intent(this@LoginActivity, MainActivity::class.java)
+                            startActivity(openMainActivity)
+                        }
+                        else { Log.d("MoeLog", "token was null") }
                     }
 
-                    override fun onFailure(call: Call<AccessToken2>, t: Throwable) {
+                    override fun onFailure(call: Call<AccessToken>, t: Throwable) {
                         Log.d("MoeLog", t.toString())
                     }
-
                 })
-                val token = accessToken?.accessToken
-                if (token != null) {
-                    Log.d("MoeLog", token)
-                    val sharedPref = this.getPreferences(Context.MODE_PRIVATE) ?: return
-                    with (sharedPref.edit()) {
-                        putString("accessToken", accessToken?.accessToken)
-                        putString("refreshToken", accessToken?.refreshToken)
-                        putBoolean("isUserLogged", true)
-                        apply()
-                    }
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                }
-                else { Log.d("MoeLog", "token was null") }
             }
             else if (uri.getQueryParameter("error")!=null) {
                 Toast.makeText(this, "Login error", Toast.LENGTH_SHORT).show()

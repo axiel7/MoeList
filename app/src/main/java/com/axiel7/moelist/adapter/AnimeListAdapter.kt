@@ -37,8 +37,8 @@ class AnimeListAdapter(private val animes: List<AnimeList>, private val rowLayou
     }
 
     override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
-        val posterUrl = animes[position].data.node.main_picture.medium
-        val animeTitle = animes[position].data.node.title
+        val posterUrl = animes[position].node.main_picture.medium
+        val animeTitle = animes[position].node.title
         holder.animePoster.load(posterUrl)
         holder.animeTitle.text = animeTitle
     }

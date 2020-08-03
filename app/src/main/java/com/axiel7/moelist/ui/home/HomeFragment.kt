@@ -1,34 +1,31 @@
 package com.axiel7.moelist.ui.home
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.AnimeListAdapter
-import com.axiel7.moelist.model.AnimeList
+import com.axiel7.moelist.model.AnimeListResponse
 import com.axiel7.moelist.rest.MalApiService
+import com.axiel7.moelist.rest.ServiceApiGenerator
+import com.axiel7.moelist.utils.RefreshToken
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.lang.RuntimeException
 
 class HomeFragment : Fragment() {
 
-    //private lateinit var testRecyclerView: RecyclerView
-    //private lateinit var animes: List<AnimeList>
-    //private lateinit var animeListAdapter: AnimeListAdapter
-    //private var retrofit: Retrofit? = null
+    private lateinit var sharedPref: SharedPreferences
+    private lateinit var testRecyclerView: RecyclerView
+    private lateinit var animeListAdapter: AnimeListAdapter
+    private lateinit var accessToken: String
+    private lateinit var refreshToken: String
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -37,28 +34,59 @@ class HomeFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_home, container, false)
 
-        //testRecyclerView = root.findViewById(R.id.test_recycler)
+        testRecyclerView = root.findViewById(R.id.test_recycler)
+        sharedPref = context?.getSharedPreferences(getString(R.string.shared_preferences), Context.MODE_PRIVATE)!!
+        accessToken = sharedPref.getString("accessToken", "").toString()
+        refreshToken = sharedPref.getString("refreshToken", "").toString()
+
+        connectAndGetApiData()
 
         return root
     }
 
-    /*private fun connectAndGetApiData() {
-        if (retrofit == null) {
-            retrofit = Retrofit.Builder()
-                .baseUrl("https://api.myanimelist.net/v2/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        }
-        val malApiService = retrofit!!.create(MalApiService::class.java)
-        val call = malApiService.getAnimeList("one", 100,0,"")
-        call.enqueue(object : Callback<AnimeList> {
-            override fun onResponse(call: Call<AnimeList>, response: Response<AnimeList>) {
+    private fun connectAndGetApiData() {
+
+        val malApiService = ServiceApiGenerator.createService(MalApiService::class.java, accessToken)
+        val call = malApiService.getAnimeList("beastars", 10,0,"id,title,main_picture")
+        enqueueCall(call)
+    }
+    private fun enqueueCall(call: Call<AnimeListResponse>) {
+        call.enqueue(object : Callback<AnimeListResponse> {
+            override fun onResponse(call: Call<AnimeListResponse>, response: Response<AnimeListResponse>) {
                 Log.d("MoeLog", call.request().toString())
+
+                if (response.isSuccessful) {
+                    val animesResponse = response.body()!!
+                    val animeList = animesResponse.data
+                    Log.d("MoeLog", animesResponse.toString())
+
+                    animeListAdapter =
+                        context?.let {
+                            AnimeListAdapter(
+                                animeList,
+                                R.layout.list_item_anime_grid,
+                                it
+                            )
+                        }!!
+                    testRecyclerView.adapter = animeListAdapter
+                }
+                //TODO else if error -> invalid_token 401 Unauthorized
+                else {
+                    val tokenResponse = RefreshToken.getNewToken(refreshToken)
+                    accessToken = tokenResponse?.access_token.toString()
+                    refreshToken = tokenResponse?.refresh_token.toString()
+                    with (sharedPref.edit()) {
+                        putString("accessToken", accessToken)
+                        putString("refreshToken", refreshToken)
+                        apply()
+                    }
+                    enqueueCall(call)
+                }
             }
 
-            override fun onFailure(call: Call<AnimeList>, t: Throwable) {
+            override fun onFailure(call: Call<AnimeListResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
             }
         })
-    }*/
+    }
 }

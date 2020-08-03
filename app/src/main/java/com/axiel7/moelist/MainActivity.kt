@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        val sharedPref = this.getPreferences(Context.MODE_PRIVATE) ?: return
+        val sharedPref = this.getSharedPreferences(getString(R.string.shared_preferences), Context.MODE_PRIVATE) ?: return
         val isUserLogged = sharedPref.getBoolean("isUserLogged", false)
 
         if (!isUserLogged) {

@@ -1,6 +1,6 @@
 package com.axiel7.moelist.rest
 
-import com.axiel7.moelist.model.AccessToken2
+import com.axiel7.moelist.model.AccessToken
 import retrofit2.Call
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -13,5 +13,5 @@ interface LoginService {
     fun getAccessToken(@Field("client_id") clientId: String,
                        @Field("code") code: String,
                        @Field("code_verifier") codeVerifier: String,
-                       @Field("grant_type") grantType: String) :Call<AccessToken2>
+                       @Field("grant_type") grantType: String) :Call<AccessToken>
 }
