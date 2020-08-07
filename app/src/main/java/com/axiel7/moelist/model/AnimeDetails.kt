@@ -28,9 +28,9 @@ data class AnimeDetails(
     val rating: String,
     val pictures: List<MainPicture>,
     val background: String,
-    val related_anime: List<RelatedAnime>,
+    val related_anime: MutableList<RelatedAnime>,
     //val related_manga: List<RelatedManga>,
-    val recommendations: List<Recommendations>,
+    val recommendations: MutableList<Recommendations>,
     val studios: List<Studio>,
     val  statistics: Statistics
 )

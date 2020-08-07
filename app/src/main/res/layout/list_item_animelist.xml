@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:id="@+id/anime_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="15dp"
+    android:layout_marginEnd="15dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:elevation="8dp"
+    android:gravity="center_horizontal"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    android:backgroundTint="@color/colorToolbar"
+    android:minHeight="72dp"
+    app:cardCornerRadius="5dp">
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:backgroundTint="@color/colorToolbar">
+
+        <FrameLayout
+            android:layout_width="110dp"
+            android:layout_height="150dp">
+
+            <ImageView
+                android:id="@+id/anime_poster"
+                android:layout_width="110dp"
+                android:layout_height="150dp"
+                android:layout_gravity="start"
+                android:background="@color/colorPlaceHolder"
+                android:scaleType="centerCrop" />
+            <TextView
+                android:id="@+id/score_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_gravity="start|bottom"
+                android:gravity="center"
+                android:background="@drawable/score_background"
+                android:text="7"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                tools:ignore="HardcodedText"
+                android:drawablePadding="2dp"
+                app:drawableEndCompat="@drawable/ic_round_star_24" />
+
+        </FrameLayout>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/anime_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginTop="8dp"
+                android:text="Boku no Pico"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textSize="16sp"
+                tools:ignore="HardcodedText" />
+            <TextView
+                android:id="@+id/media_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginTop="8dp"
+                android:text="TV • Airing"
+                android:textColor="?attr/colorControlNormal"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/progress_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginStart="8dp"
+                    android:text="5/24"
+                    android:textColor="?attr/colorControlNormal"
+                    android:layout_alignParentBottom="true"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/add_one_button"
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_margin="10dp"
+                    android:text="+1"
+                    style="?attr/materialButtonOutlinedStyle"/>
+
+                <ProgressBar
+                    android:id="@+id/episodes_progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_alignParentBottom="true"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/progress_bar"
+                    style="?android:attr/progressBarStyleHorizontal"/>
+
+            </RelativeLayout>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.cardview.widget.CardView>
