@@ -42,6 +42,13 @@
 
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.AnimeDetailsActivity"
+            android:label="Details"
+            android:configChanges="keyboard|orientation|screenSize">
+
+        </activity>
     </application>
 
 </manifest>

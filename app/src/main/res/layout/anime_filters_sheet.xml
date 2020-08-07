@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <RadioGroup
+        android:id="@+id/status_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/watching_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Watching" />
+        <RadioButton
+            android:id="@+id/completed_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Completed" />
+        <RadioButton
+            android:id="@+id/onhold_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="On Hold" />
+        <RadioButton
+            android:id="@+id/dropped_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dropped" />
+        <RadioButton
+            android:id="@+id/ptw_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Plan to Watch" />
+
+    </RadioGroup>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
