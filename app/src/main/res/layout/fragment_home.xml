@@ -4,16 +4,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     tools:context=".ui.home.HomeFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/test_recycler"
+    <TextView
+        android:id="@+id/season_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/text_margin"
+        android:text="This Season"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:drawableEnd="@drawable/ic_round_arrow_forward_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/season_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/season_title"
+        tools:listitem="@layout/list_item_anime_seasonal"/>
+
+    <TextView
+        android:id="@+id/recommend_title"
+        android:layout_width="418dp"
+        android:layout_height="59dp"
+        android:drawableEnd="@drawable/ic_round_arrow_forward_24"
+        android:padding="@dimen/text_margin"
+        android:text="Recommendations"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/season_recycler" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recommend_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recommend_title"
+        tools:listitem="@layout/list_item_anime_seasonal"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

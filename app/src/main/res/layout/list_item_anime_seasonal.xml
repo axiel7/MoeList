@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:id="@+id/anime_layout"
+    android:layout_width="110dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:gravity="center_horizontal"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground"
+    android:minHeight="72dp"
+    android:padding="5dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/anime_poster"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:layout_gravity="start"
+        android:layout_marginBottom="10dp"
+        android:background="@color/colorPlaceHolder"
+        android:elevation="10dp"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/circleImageView"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="start"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/anime_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Boku no Pico"
+            android:textColor="?attr/colorControlNormal"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textSize="14sp"
+            tools:ignore="HardcodedText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

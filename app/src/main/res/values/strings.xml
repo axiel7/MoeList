@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MoeList</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="shared_preferences">com.axiel7.moelist.SharedPrefs</string>
+    <string name="title_anime_list">Anime</string>
+    <string name="title_manga_list">Manga</string>
+    <string name="lorem_ipsun">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
 </resources>
