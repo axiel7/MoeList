@@ -1,6 +1,5 @@
 package com.axiel7.moelist.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +10,10 @@ import coil.api.load
 import com.axiel7.moelist.R
 import com.axiel7.moelist.model.AnimeList
 
-class ListAnimeAdapter(private val animes: MutableList<AnimeList>,
-                       private val rowLayout: Int,
-                       private val context: Context,
-                       private val onClickListener: (View, AnimeList) -> Unit) :
-    RecyclerView.Adapter<ListAnimeAdapter.AnimeViewHolder>() {
+class RecommendationsAdapter(private val animes: MutableList<AnimeList>,
+                             private val rowLayout: Int,
+                             private val onClickListener: (View, AnimeList) -> Unit) :
+    RecyclerView.Adapter<RecommendationsAdapter.AnimeViewHolder>() {
     private var endListReachedListener: EndListReachedListener? = null
 
     inner class AnimeViewHolder internal constructor(v: View) : RecyclerView.ViewHolder(v) {
@@ -33,8 +31,8 @@ class ListAnimeAdapter(private val animes: MutableList<AnimeList>,
     }
 
     override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
-        val posterUrl = animes[position].node?.main_picture?.medium
-        val animeTitle = animes[position].node?.title
+        val posterUrl = animes[position].node.main_picture.medium
+        val animeTitle = animes[position].node.title
         holder.animePoster.load(posterUrl) {
             crossfade(true)
             crossfade(500)

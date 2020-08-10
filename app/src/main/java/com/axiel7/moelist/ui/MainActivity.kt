@@ -48,8 +48,8 @@ class MainActivity : AppCompatActivity() {
                     or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
         }
 
-        //bottom sheet
-        val dialogView = layoutInflater.inflate(R.layout.main_bottom_sheet, null)
+        // bottom sheet
+        val dialogView = layoutInflater.inflate(R.layout.bottom_sheet_main, null)
         val bottomSheetDialog = BottomSheetDialog(this)
         bottomSheetDialog.setContentView(dialogView)
         toolbar.setNavigationOnClickListener { bottomSheetDialog.show() }
@@ -86,19 +86,19 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_anime_list -> selectedFragment = animeListFragment
                 R.id.navigation_manga_list -> selectedFragment = mangaListFragment
             }
-            val fade = Fade()
+            val fade = MaterialFadeThrough()
             selectedFragment.enterTransition = fade
             selectedFragment.exitTransition = fade
             fragmentManager.beginTransaction()
                 .replace(R.id.nav_host_fragment, selectedFragment)
-                .commitAllowingStateLoss()
+                .commit()
 
             return@setOnNavigationItemSelectedListener true
         }
     }
 
     private fun setupTransitions() {
-        val fade = Fade()
+        val fade = MaterialFadeThrough()
 
         homeFragment.enterTransition = fade
         homeFragment.exitTransition = fade

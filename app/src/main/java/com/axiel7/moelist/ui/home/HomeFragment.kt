@@ -13,7 +13,7 @@ import com.axiel7.moelist.MyApplication.Companion.animeDb
 import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.AnimeRankingAdapter
 import com.axiel7.moelist.adapter.EndListReachedListener
-import com.axiel7.moelist.adapter.ListAnimeAdapter
+import com.axiel7.moelist.adapter.RecommendationsAdapter
 import com.axiel7.moelist.model.*
 import com.axiel7.moelist.rest.MalApiService
 import com.axiel7.moelist.ui.AnimeDetailsActivity
@@ -44,7 +44,6 @@ class HomeFragment : Fragment() {
     private var animesRankingResponse: AnimeRankingResponse? = null
     private var animesRecommendResponse: AnimeListResponse? = null
     private var retrofit: Retrofit? = null
-    private var cache: Cache? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,21 +87,18 @@ class HomeFragment : Fragment() {
         recommendLoading = view.findViewById(R.id.loading_recommend)
         recommendLoading.show()
         animeRecommendAdapter =
-            context?.let {
-                ListAnimeAdapter(
+                RecommendationsAdapter(
                     animeListRecommend,
                     R.layout.list_item_anime_seasonal,
-                    it,
-                    onClickListener = { _, animeList -> openDetails(animeList.node?.id) }
+                    onClickListener = { _, animeList -> openDetails(animeList.node.id) }
                 )
-            }!!
         animeRankingAdapter.setEndListReachedListener(object :EndListReachedListener {
             override fun onBottomReached(position: Int) {
-                if (animeListSeasonal.size <= 25) {
-                    val nextPage: String = animesRankingResponse.paging.next
-                    if (nextPage.isNotEmpty() || nextPage.isNotBlank()) {
+                if (animesRankingResponse!=null && animeListSeasonal.size <= 25) {
+                    val nextPage: String? = animesRankingResponse!!.paging.next
+                    if (nextPage?.isNotEmpty()!! || nextPage.isNotBlank()) {
                         val getMoreCall = malApiService.getNextRankingPage(nextPage)
-                        initRankingCall(getMoreCall, false)
+                        initRankingCall(getMoreCall)
                     }
                 }
             }
@@ -128,10 +124,10 @@ class HomeFragment : Fragment() {
         initRankingCall(rankingCall, true)
         initRecommendCall(recommendCall, true)
     }
-    private fun initRankingCall(call: Call<AnimeRankingResponse>?, shouldClear: Boolean) {
+    private fun initRankingCall(call: Call<AnimeRankingResponse>?) {
         call?.enqueue(object : Callback<AnimeRankingResponse> {
             override fun onResponse(call: Call<AnimeRankingResponse>, response: Response<AnimeRankingResponse>) {
-                Log.d("MoeLog", call.request().toString())
+                //Log.d("MoeLog", call.request().toString())
 
                 if (response.isSuccessful) {
                     animesRankingResponse = response.body()!!
@@ -168,7 +164,7 @@ class HomeFragment : Fragment() {
     private fun initRecommendCall(call: Call<AnimeListResponse>?, shouldClear: Boolean) {
         call?.enqueue(object : Callback<AnimeListResponse> {
             override fun onResponse(call: Call<AnimeListResponse>, response: Response<AnimeListResponse>) {
-                Log.d("MoeLog", call.request().toString())
+                //Log.d("MoeLog", call.request().toString())
 
                 if (response.isSuccessful) {
                     animesRecommendResponse = response.body()!!
@@ -176,7 +172,6 @@ class HomeFragment : Fragment() {
                     if (animeListRecommend!=animeList2) {
                         if (shouldClear) {
                             animeListRecommend.clear()
-                            sharedPref.saveObject("animesRecommendResponse", animesRecommendResponse)
                         }
                         animeListRecommend.addAll(animeList2)
                         animeDb?.listAnimeDao()?.insertAllListAnimes(animeListRecommend)
@@ -212,7 +207,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun openDetails(animeId: Int?) {
-        Log.d("MoeLog", "item clicked")
         val intent = Intent(context, AnimeDetailsActivity::class.java)
         intent.putExtra("animeId", animeId)
         startActivity(intent)

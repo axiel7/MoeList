@@ -10,6 +10,8 @@
         android:id="@+id/animelist_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="15dp"
+        android:clipToPadding="false"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/list_item_animelist"/>
 
@@ -17,7 +19,7 @@
         android:id="@+id/filters_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
+        android:layout_margin="@dimen/fab_margin"
         android:layout_gravity="bottom|end"
         android:src="@drawable/ic_round_filter_list_24"
         app:layout_constraintBottom_toBottomOf="parent"

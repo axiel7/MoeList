@@ -50,7 +50,6 @@ class AnimeListFragment : Fragment() {
     private lateinit var listStatus: String
     private var defaultStatus: Int? = null
     private var retrofit: Retrofit? = null
-    private var cache: Cache? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,8 +72,7 @@ class AnimeListFragment : Fragment() {
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
+            savedInstanceState: Bundle?): View? {
 
         return inflater.inflate(R.layout.fragment_animelist, container, false)
     }
@@ -84,14 +82,11 @@ class AnimeListFragment : Fragment() {
 
         animeListRecycler = view.findViewById(R.id.animelist_recycler)
         animeListAdapter =
-            context?.let {
                 MyAnimeListAdapter(
                     animeList,
                     R.layout.list_item_animelist,
-                    it,
-                    onClickListener = { _, userAnimeList -> openDetails(userAnimeList.node?.id) }
+                    onClickListener = { _, userAnimeList -> openDetails(userAnimeList.node.id) }
                 )
-            }!!
         animeListAdapter.setEndListReachedListener(object :EndListReachedListener {
             override fun onBottomReached(position: Int) {
                 if (animeListResponse!=null) {
@@ -123,7 +118,7 @@ class AnimeListFragment : Fragment() {
 
 
         filtersFab = view.findViewById(R.id.filters_fab)
-        val dialogView = layoutInflater.inflate(R.layout.anime_filters_sheet, null)
+        val dialogView = layoutInflater.inflate(R.layout.bottom_sheet_filters, null)
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         bottomSheetDialog.setContentView(dialogView)
         val bottomSheetBehavior = bottomSheetDialog.behavior
@@ -180,7 +175,7 @@ class AnimeListFragment : Fragment() {
     private fun initAnimeListCall(call: Call<UserAnimeListResponse>, shouldClear: Boolean) {
         call.enqueue(object: Callback<UserAnimeListResponse> {
             override fun onResponse(call: Call<UserAnimeListResponse>, response: Response<UserAnimeListResponse>) {
-                Log.d("MoeLog", call.request().toString())
+                //Log.d("MoeLog", call.request().toString())
 
                 if (response.isSuccessful) {
                     animeListResponse = response.body()!!
@@ -254,7 +249,6 @@ class AnimeListFragment : Fragment() {
         }
     }
     private fun openDetails(animeId: Int?) {
-        Log.d("MoeLog", "item clicked")
         val intent = Intent(context, AnimeDetailsActivity::class.java)
         intent.putExtra("animeId", animeId)
         startActivityForResult(intent, 17)

@@ -17,14 +17,14 @@ interface MalApiService {
 
     @GET("/v2/anime/ranking")
     fun getAnimeRanking(@Query("ranking_type") rankingType: String,
-                        @Query("fields") fields: String): Call<AnimeRankingResponse>
+                        @Query("fields") fields: String?): Call<AnimeRankingResponse>
 
     @GET("/v2/anime/suggestions")
-    fun getAnimeRecommend(@Query("limit") limit: Int): Call<AnimeListResponse>
+    fun getAnimeRecommend(@Query("limit") limit: Int?): Call<AnimeListResponse>
 
     @GET("/v2/users/@me/animelist")
     fun getUserAnimeList(@Query("status") status: String,
-                         @Query("fields") fields: String,
+                         @Query("fields") fields: String?,
                          @Query("sort") sort: String): Call<UserAnimeListResponse>
 
     @GET

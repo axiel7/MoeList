@@ -20,10 +20,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/loading_season"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:padding="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/season_title"
+        style="?android:attr/progressBarStyleLarge"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/season_recycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="220dp"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,10 +54,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/season_recycler" />
 
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/loading_recommend"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:padding="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recommend_title"
+        style="?android:attr/progressBarStyleLarge"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recommend_recycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="220dp"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"

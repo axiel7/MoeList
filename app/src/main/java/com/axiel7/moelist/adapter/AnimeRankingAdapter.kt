@@ -1,6 +1,5 @@
 package com.axiel7.moelist.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import com.axiel7.moelist.model.AnimeRanking
 
 class AnimeRankingAdapter(private val animes: MutableList<AnimeRanking>,
                           private val rowLayout: Int,
-                          private val context: Context,
                           private val onClickListener: (View, AnimeRanking) -> Unit) :
     RecyclerView.Adapter<AnimeRankingAdapter.AnimeViewHolder>() {
     private var endListReachedListener: EndListReachedListener? = null
@@ -33,8 +31,8 @@ class AnimeRankingAdapter(private val animes: MutableList<AnimeRanking>,
     }
 
     override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
-        val posterUrl = animes[position].node?.main_picture?.medium
-        val animeTitle = animes[position].node?.title
+        val posterUrl = animes[position].node.main_picture.medium
+        val animeTitle = animes[position].node.title
         holder.animePoster.load(posterUrl) {
             crossfade(true)
             crossfade(500)
