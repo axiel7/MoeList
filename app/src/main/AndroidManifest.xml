@@ -59,6 +59,14 @@
             android:configChanges="keyboard|orientation|screenSize">
 
         </activity>
+        <activity
+            android:name=".ui.FullPosterActivity"
+            android:parentActivityName=".ui.AnimeDetailsActivity"
+            android:label="Image"
+            android:hardwareAccelerated="true"
+            android:configChanges="keyboard|orientation|screenSize">
+
+        </activity>
     </application>
 
 </manifest>

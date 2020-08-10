@@ -335,6 +335,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
 
         //poster and main title
         animePosterView.load(animeDetails.main_picture?.medium)
+        animePosterView.setOnClickListener { openFullPoster() }
         animeTitleView.text = animeDetails.title
 
         //media type
@@ -462,6 +463,20 @@ class AnimeDetailsActivity : AppCompatActivity() {
         statusField.setText(statusValue, false)
 
         scoreSlider.value = myListStatus.score.toFloat()
+    }
+
+    private fun openFullPoster() {
+        val intent = Intent(this, FullPosterActivity::class.java)
+        val largePicture = animeDetails.main_picture?.large
+        val mediumPicture = animeDetails.main_picture?.medium
+        if (!largePicture.isNullOrEmpty()) {
+            intent.putExtra("posterUrl", largePicture)
+            startActivity(intent)
+        }
+        else if (!mediumPicture.isNullOrEmpty()) {
+            intent.putExtra("posterUrl", mediumPicture)
+            startActivity(intent)
+        }
     }
 
     override fun finish() {
