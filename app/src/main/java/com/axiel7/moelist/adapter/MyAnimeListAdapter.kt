@@ -32,6 +32,8 @@ class MyAnimeListAdapter(private val animes: MutableList<UserAnimeList>,
         val plusButton: Button = v.findViewById(R.id.add_one_button)
 
         init {
+            plusButton.setOnClickListener { view ->
+                plusButtonTouchedListener?.onButtonTouched(view, adapterPosition) }
             animePoster.clipToOutline = true
         }
     }
@@ -83,7 +85,14 @@ class MyAnimeListAdapter(private val animes: MutableList<UserAnimeList>,
         holder.itemView.setOnClickListener { view ->
             onClickListener(view, anime)
         }
-        holder.plusButton.setOnClickListener { plusButtonTouchedListener }
+        if (animes[position].list_status?.status.equals("watching")) {
+            holder.plusButton.visibility = View.VISIBLE
+            holder.plusButton.isEnabled = true
+        }
+        else {
+            holder.plusButton.visibility = View.INVISIBLE
+            holder.plusButton.isEnabled = false
+        }
     }
 
     override fun getItemCount(): Int {
@@ -98,7 +107,13 @@ class MyAnimeListAdapter(private val animes: MutableList<UserAnimeList>,
         this.plusButtonTouchedListener = plusButtonTouchedListener
     }
 
-    fun getAnimeId(position: Int): Int? {
-        return animes[position].node?.id
+    fun getAnimeId(position: Int): Int {
+        return animes[position].node.id
+    }
+    fun getWatchedEpisodes(position: Int): Int? {
+        return animes[position].list_status?.num_episodes_watched
+    }
+    fun getTotalEpisodes(position: Int): Int? {
+        return animes[position].node.num_episodes
     }
 }

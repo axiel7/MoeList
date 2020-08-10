@@ -102,6 +102,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
                     android:layout_margin="10dp"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:text="+1"
                     style="?attr/materialButtonOutlinedStyle"/>
 

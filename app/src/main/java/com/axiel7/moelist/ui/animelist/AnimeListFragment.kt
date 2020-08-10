@@ -104,8 +104,18 @@ class AnimeListFragment : Fragment() {
             }
         })
         animeListAdapter.setPlusButtonTouchedListener(object :PlusButtonTouchedListener {
-            override fun onButtonTouched(position: Int) {
-                TODO("Not yet implemented")
+            override fun onButtonTouched(view: View, position: Int) {
+                val animeId = animeListAdapter.getAnimeId(position)
+                val watchedEpisodes = animeListAdapter.getWatchedEpisodes(position)
+                val totalEpisodes = animeListAdapter.getTotalEpisodes(position)
+                if (totalEpisodes!=null) {
+                    if (watchedEpisodes==totalEpisodes.minus(1)) {
+                        TODO("Move to completed")
+                    }
+                    else {
+                        addOneEpisode(animeId, watchedEpisodes?.plus(1))
+                    }
+                }
             }
         })
 
@@ -205,6 +215,33 @@ class AnimeListFragment : Fragment() {
             }
 
         })
+    }
+    private fun addOneEpisode(animeId: Int, watchedEpisodes: Int?) {
+
+        val shouldNotUpdate = watchedEpisodes==null
+        if (!shouldNotUpdate) {
+            val updateListCall = malApiService
+                .updateAnimeList(Urls.apiBaseUrl + "anime/$animeId/my_list_status", null, null, watchedEpisodes)
+            updateListCall.enqueue(object :Callback<MyListStatus> {
+                override fun onResponse(call: Call<MyListStatus>, response: Response<MyListStatus>) {
+                    if (response.isSuccessful) {
+                        //val myListStatus = response.body()!!
+                        initCalls()
+                        Toast.makeText(context, "Updated", Toast.LENGTH_SHORT).show()
+                    }
+                    else {
+                        Toast.makeText(context, "Error updating list", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<MyListStatus>, t: Throwable) {
+                    Log.d("MoeLog", t.toString())
+                    Toast.makeText(context, "Error updating list", Toast.LENGTH_SHORT).show()
+                }
+            })
+        } else {
+            Toast.makeText(context, "No changes", Toast.LENGTH_SHORT).show()
+        }
     }
     private fun changeStatusFilter(radioButton: Int) {
         listStatus = when(radioButton) {
