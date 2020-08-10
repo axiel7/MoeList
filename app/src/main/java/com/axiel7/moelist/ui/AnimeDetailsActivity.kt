@@ -1,18 +1,20 @@
 package com.axiel7.moelist.ui
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import coil.api.load
+import com.axiel7.moelist.MyApplication.Companion.animeDb
 import com.axiel7.moelist.R
 import com.axiel7.moelist.model.AnimeDetails
+import com.axiel7.moelist.model.MyListStatus
 import com.axiel7.moelist.rest.MalApiService
 import com.axiel7.moelist.utils.*
 import com.google.android.material.chip.Chip
@@ -32,6 +34,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
     private lateinit var refreshToken: String
     private lateinit var malApiService: MalApiService
     private lateinit var fields: String
+    private lateinit var animeDetails: AnimeDetails
     private lateinit var loadingView: FrameLayout
     private lateinit var animePosterView: ShapeableImageView
     private lateinit var animeTitleView: TextView
@@ -87,8 +90,11 @@ class AnimeDetailsActivity : AppCompatActivity() {
                 "source,average_episode_duration,studios"
 
         initViews()
-
-        cache = GetCacheFile.getCacheFile(this, 20)
+        setupBottomSheet()
+        if (animeDb?.animeDetailsDao()?.getAnimeDetailsById(animeId)!=null) {
+            animeDetails = animeDb?.animeDetailsDao()?.getAnimeDetailsById(animeId)!!
+            setDataToViews()
+        }
 
         connectAndGetApiData()
 
@@ -112,76 +118,9 @@ class AnimeDetailsActivity : AppCompatActivity() {
                 Log.d("MoeLog", call.request().toString())
 
                 if (response.isSuccessful) {
-                    val animeDetails = response.body()!!
-
-                    loadingView.visibility = View.GONE
-                    animePosterView.load(animeDetails.main_picture.medium)
-                    animeTitleView.text = animeDetails.title
-
-                    val mediaTypeText = StringFormat.formatMediaType(animeDetails.media_type)
-                    mediaTypeView.text = mediaTypeText
-
-                    val numEpisodes = animeDetails.num_episodes
-                    var episodesText = "$numEpisodes Episodes"
-                    if (numEpisodes==0) {
-                        episodesText = "?? Episodes"
-                    }
-                    totalEpisodesView.text = episodesText
-
-                    val statusText = StringFormat.formatStatus(animeDetails.status)
-                    statusView.text = statusText
-
-                    scoreView.text = animeDetails.mean.toString()
-                    synopsisView.text = animeDetails.synopsis
-
-                    val genres = animeDetails.genres
-                    for (genre in genres) {
-                        val chip = Chip(genresView.context)
-                        chip.text = genre.name
-                        genresView.addView(chip)
-                    }
-
-                    val topRank = animeDetails.rank
-                    val rankText = "#$topRank"
-                    rankView.text = rankText
-
-                    val membersRank = animeDetails.num_scoring_users
-                    numScoresView.text = membersRank.toString()
-
-                    membersView.text = animeDetails.num_list_users.toString()
-
-                    val popularity = animeDetails.popularity
-                    val popularityText = "#$popularity"
-                    popularityView.text = popularityText
-
-                    val synonyms = animeDetails.alternative_titles.synonyms
-                    val synonymsText = synonyms.joinToString(separator = "\n")
-                    synonymsView.text = synonymsText
-
-                    jpTitleView.text = animeDetails.alternative_titles.ja
-                    startDateView.text = animeDetails.start_date
-                    val year = animeDetails.start_season.year
-                    var season = animeDetails.start_season.season
-                    season = StringFormat.formatSeason(season)
-                    val seasonText = "$season $year"
-                    seasonView.text = seasonText
-
-                    val duration = animeDetails.average_episode_duration / 60
-                    val durationText = "$duration min."
-                    durationView.text = durationText
-
-                    var sourceText =  animeDetails.source
-                    sourceText = StringFormat.formatSource(sourceText)
-                    sourceView.text = sourceText
-
-                    val studios = animeDetails.studios
-                    val studiosNames = mutableListOf<String>()
-                    for (studio in studios) {
-                        studiosNames.add(studio.name)
-                    }
-                    val studiosText = studiosNames.joinToString(separator = "\n")
-                    studiosView.text = studiosText
-
+                    animeDetails = response.body()!!
+                    setDataToViews()
+                    animeDb?.animeDetailsDao()?.insertAnimeDetails(animeDetails)
                 }
                 //TODO (not tested)
                 else if (response.code()==401) {

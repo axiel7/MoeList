@@ -1,5 +1,6 @@
 package com.axiel7.moelist.ui.animelist
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,25 +8,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.axiel7.moelist.MyApplication.Companion.animeDb
 import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.EndListReachedListener
 import com.axiel7.moelist.adapter.MyAnimeListAdapter
 import com.axiel7.moelist.adapter.PlusButtonTouchedListener
+import com.axiel7.moelist.model.MyListStatus
 import com.axiel7.moelist.model.UserAnimeList
 import com.axiel7.moelist.model.UserAnimeListResponse
 import com.axiel7.moelist.rest.MalApiService
 import com.axiel7.moelist.ui.AnimeDetailsActivity
-import com.axiel7.moelist.utils.CreateOkHttpClient.createOkHttpClient
-import com.axiel7.moelist.utils.GetCacheFile
+import com.axiel7.moelist.ui.MainActivity
+import com.axiel7.moelist.utils.CreateOkHttpClient
 import com.axiel7.moelist.utils.RefreshToken
 import com.axiel7.moelist.utils.SharedPrefsHelpers
 import com.axiel7.moelist.utils.Urls
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import okhttp3.Cache
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,13 +42,13 @@ class AnimeListFragment : Fragment() {
     private lateinit var animeListRecycler: RecyclerView
     private lateinit var filtersFab: FloatingActionButton
     private lateinit var animeListAdapter: MyAnimeListAdapter
-    private lateinit var animeListResponse: UserAnimeListResponse
-    private var savedAnimeListResponse: UserAnimeListResponse? = null
+    private var animeListResponse: UserAnimeListResponse? = null
     private lateinit var animeList: MutableList<UserAnimeList>
     private lateinit var malApiService: MalApiService
     private lateinit var accessToken: String
     private lateinit var refreshToken: String
     private lateinit var listStatus: String
+    private var defaultStatus: Int? = null
     private var retrofit: Retrofit? = null
     private var cache: Cache? = null
 
@@ -57,22 +60,14 @@ class AnimeListFragment : Fragment() {
         accessToken = sharedPref.getString("accessToken", "").toString()
         refreshToken = sharedPref.getString("refreshToken", "").toString()
 
-        animeList = mutableListOf()
-        for (i in 0..5) {
-            animeList.add(i, UserAnimeList(null, null))
+        defaultStatus = sharedPref.getInt("checkedStatusButton", R.id.watching_button)
+        changeStatusFilter(defaultStatus!!)
+
+        if (animeDb?.userAnimeListDao()?.getUserAnimeListByStatus(listStatus)!=null) {
+            animeList = animeDb?.userAnimeListDao()?.getUserAnimeListByStatus(listStatus)!!
         }
 
-        savedAnimeListResponse = sharedPref.getObject("userAnimeListResponse", UserAnimeListResponse::class.java)
-
-        if (savedAnimeListResponse!=null) {
-            animeListResponse = savedAnimeListResponse as UserAnimeListResponse
-            animeList = animeListResponse.data
-        }
-
-        listStatus = "watching"
-
-        cache = context?.let { GetCacheFile.getCacheFile(it, 20) }
-
+        createRetrofitAndApiService()
     }
 
     override fun onCreateView(
@@ -99,10 +94,12 @@ class AnimeListFragment : Fragment() {
             }!!
         animeListAdapter.setEndListReachedListener(object :EndListReachedListener {
             override fun onBottomReached(position: Int) {
-                val nextPage: String? = animeListResponse.paging.next
-                if (nextPage!=null) {
-                    val getMoreCall = malApiService.getNextAnimeListPage(nextPage)
-                    initAnimeListCall(getMoreCall, false)
+                if (animeListResponse!=null) {
+                    val nextPage: String? = animeListResponse!!.paging.next
+                    if (nextPage!=null) {
+                        val getMoreCall = malApiService.getNextAnimeListPage(nextPage)
+                        initAnimeListCall(getMoreCall, false)
+                    }
                 }
             }
         })
@@ -127,13 +124,19 @@ class AnimeListFragment : Fragment() {
         }
 
         val radioGroup = dialogView.findViewById<RadioGroup>(R.id.status_radio_group)
-        radioGroup.check(sharedPref.getInt("checkedStatusButton", R.id.watching_button))
-        val checkedRadioButton = radioGroup.checkedRadioButtonId
-        changeStatusFilter(checkedRadioButton)
+        val defaultCheck = sharedPref.getInt("checkedStatusButton", R.id.watching_button)
+        radioGroup.check(defaultCheck)
+        changeStatusFilter(defaultCheck)
         radioGroup.setOnCheckedChangeListener{ _, i ->
             changeStatusFilter(i)
-            connectAndGetApiData()
             sharedPref.saveInt("checkedStatusButton", i)
+            if (animeDb?.userAnimeListDao()?.getUserAnimeListByStatus(listStatus)!=null) {
+                animeList.clear()
+                val animeList2 = animeDb?.userAnimeListDao()?.getUserAnimeListByStatus(listStatus)!!
+                animeList.addAll(animeList2)
+                animeListAdapter.notifyDataSetChanged()
+            }
+            initCalls()
         }
 
         animeListRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -171,15 +174,17 @@ class AnimeListFragment : Fragment() {
 
                 if (response.isSuccessful) {
                     animeListResponse = response.body()!!
-                    val animeList2 = animeListResponse.data
-
-                    if (!shouldClear || savedAnimeListResponse != animeListResponse) {
+                    val animeList2 = animeListResponse!!.data
+                    if (animeList2!=animeList) {
+                        for (anime in animeList2) {
+                            anime.status = listStatus
+                        }
                         if (shouldClear) {
                             animeList.clear()
-                            sharedPref.saveObject("userAnimeListResponse", animeListResponse)
                         }
                         animeList.addAll(animeList2)
 
+                        animeDb?.userAnimeListDao()?.insertUserAnimeList(animeList)
                         animeListAdapter.notifyDataSetChanged()
                     }
                 }
@@ -202,22 +207,29 @@ class AnimeListFragment : Fragment() {
         })
     }
     private fun changeStatusFilter(radioButton: Int) {
-        when(radioButton) {
-            R.id.watching_button -> listStatus = "watching"
-            R.id.completed_button -> listStatus = "completed"
-            R.id.onhold_button -> listStatus = "on_hold"
-            R.id.dropped_button -> listStatus = "dropped"
-            R.id.ptw_button -> listStatus = "plan_to_watch"
+        listStatus = when(radioButton) {
+            R.id.watching_button -> "watching"
+            R.id.completed_button -> "completed"
+            R.id.onhold_button -> "on_hold"
+            R.id.dropped_button -> "dropped"
+            R.id.ptw_button -> "plan_to_watch"
+            else -> "watching"
         }
     }
     private fun openDetails(animeId: Int?) {
         Log.d("MoeLog", "item clicked")
         val intent = Intent(context, AnimeDetailsActivity::class.java)
         intent.putExtra("animeId", animeId)
-        startActivity(intent)
+        startActivityForResult(intent, 17)
     }
-    override fun onDestroy() {
-        super.onDestroy()
-        cache?.flush()
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode==17 && resultCode==Activity.RESULT_OK) {
+            val shouldUpdate :Boolean = data?.extras?.get("entryUpdated") as Boolean
+            if (shouldUpdate) {
+                initCalls()
+            }
+        }
     }
 }

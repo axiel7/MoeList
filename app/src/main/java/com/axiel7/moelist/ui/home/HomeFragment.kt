@@ -6,8 +6,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.ContentLoadingProgressBar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.axiel7.moelist.MyApplication.Companion.animeDb
 import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.AnimeRankingAdapter
 import com.axiel7.moelist.adapter.EndListReachedListener
@@ -28,19 +30,19 @@ class HomeFragment : Fragment() {
 
     private lateinit var sharedPref: SharedPrefsHelpers
     private lateinit var seasonRecycler: RecyclerView
+    private lateinit var seasonLoading: ContentLoadingProgressBar
     private lateinit var recommendRecycler: RecyclerView
+    private lateinit var recommendLoading: ContentLoadingProgressBar
     private lateinit var animeRankingAdapter: AnimeRankingAdapter
-    private lateinit var animeRecommendAdapter: ListAnimeAdapter
-    private lateinit var animesRankingResponse: AnimeRankingResponse
-    private lateinit var animesRecommendResponse: AnimeListResponse
-    private var savedAnimesRankingResponse: AnimeRankingResponse? = null
-    private var savedAnimesRecommendResponse: AnimeListResponse? = null
+    private lateinit var animeRecommendAdapter: RecommendationsAdapter
     private lateinit var animeListSeasonal: MutableList<AnimeRanking>
     private lateinit var animeListRecommend: MutableList<AnimeList>
     private lateinit var malApiService: MalApiService
     private lateinit var currentSeason: StartSeason
     private lateinit var accessToken: String
     private lateinit var refreshToken: String
+    private var animesRankingResponse: AnimeRankingResponse? = null
+    private var animesRecommendResponse: AnimeListResponse? = null
     private var retrofit: Retrofit? = null
     private var cache: Cache? = null
 
@@ -54,28 +56,8 @@ class HomeFragment : Fragment() {
 
         currentSeason = StartSeason(SeasonCalendar.getCurrentYear(), SeasonCalendar.getCurrentSeason())
 
-        savedAnimesRankingResponse = sharedPref.getObject("animesRankingResponse", AnimeRankingResponse::class.java)
-        savedAnimesRecommendResponse = sharedPref.getObject("animesRecommendResponse", AnimeListResponse::class.java)
-
-        animeListSeasonal = mutableListOf(AnimeRanking(null, null), AnimeRanking(null, null),
-            AnimeRanking(null, null), AnimeRanking(null, null))
-        animeListRecommend = mutableListOf(AnimeList(null), AnimeList(null), AnimeList(null) ,AnimeList(null))
-
-        if (savedAnimesRankingResponse!=null) {
-            animesRankingResponse = savedAnimesRankingResponse as AnimeRankingResponse
-            val animeListSeasonal2 = animesRankingResponse.data
-            animeListSeasonal.clear()
-            for (anime in animeListSeasonal2) {
-                if (anime.node?.start_season==currentSeason) {
-                    animeListSeasonal.add(anime)
-                }
-            }
-        }
-        if (savedAnimesRecommendResponse!=null) {
-            animesRecommendResponse = savedAnimesRecommendResponse as AnimeListResponse
-            animeListRecommend = animesRecommendResponse.data
-        }
-
+        animeListSeasonal = animeDb?.rankingAnimeDao()?.getRankingAnimes()!!
+        animeListRecommend = animeDb?.listAnimeDao()?.getListAnimes()!!
 
         cache = context?.let { GetCacheFile.getCacheFile(it, 20) }
 
@@ -94,18 +76,17 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         seasonRecycler = view.findViewById(R.id.season_recycler)
-        animeRankingAdapter =
-            context?.let {
-                AnimeRankingAdapter(
-                    animeListSeasonal,
-                    R.layout.list_item_anime_seasonal,
-                    it,
-                    onClickListener = { _, animeRanking ->  openDetails(animeRanking.node?.id) }
-                )
-            }!!
+        seasonLoading = view.findViewById(R.id.loading_season)
+        seasonLoading.show()
+        animeRankingAdapter = AnimeRankingAdapter(
+            animeListSeasonal,
+            R.layout.list_item_anime_seasonal,
+            onClickListener = { _, animeRanking ->  openDetails(animeRanking.node.id)})
         seasonRecycler.adapter = animeRankingAdapter
 
         recommendRecycler = view.findViewById(R.id.recommend_recycler)
+        recommendLoading = view.findViewById(R.id.loading_recommend)
+        recommendLoading.show()
         animeRecommendAdapter =
             context?.let {
                 ListAnimeAdapter(
@@ -154,20 +135,18 @@ class HomeFragment : Fragment() {
 
                 if (response.isSuccessful) {
                     animesRankingResponse = response.body()!!
-                    val animeList2 = animesRankingResponse.data
-                    if (!shouldClear || savedAnimesRankingResponse != animesRankingResponse) {
-                        if (shouldClear) {
-                            animeListSeasonal.clear()
-                            sharedPref.saveObject("animesRankingResponse", animesRankingResponse)
-                        }
+                    val animeList2 = animesRankingResponse!!.data
+                    if (animeListSeasonal!=animeList2) {
                         for (anime in animeList2) {
-                            if (anime.node?.start_season==currentSeason && !animeListSeasonal.contains(anime)) {
+                            if (!animeListSeasonal.contains(anime) &&
+                                anime.node.start_season==currentSeason) {
                                 animeListSeasonal.add(anime)
                             }
                         }
-
-                        animeRankingAdapter.notifyDataSetChanged()
+                        animeDb?.rankingAnimeDao()?.insertAllRankingAnimes(animeListSeasonal)
                     }
+                    seasonLoading.hide()
+                    animeRankingAdapter.notifyDataSetChanged()
                 }
                 //TODO (not tested)
                 else if (response.code()==401) {
@@ -193,24 +172,26 @@ class HomeFragment : Fragment() {
 
                 if (response.isSuccessful) {
                     animesRecommendResponse = response.body()!!
-                    val animeList2 = animesRecommendResponse.data
-                    if (savedAnimesRecommendResponse != animesRecommendResponse) {
+                    val animeList2 = animesRecommendResponse!!.data
+                    if (animeListRecommend!=animeList2) {
                         if (shouldClear) {
                             animeListRecommend.clear()
                             sharedPref.saveObject("animesRecommendResponse", animesRecommendResponse)
                         }
                         animeListRecommend.addAll(animeList2)
-                        animeRecommendAdapter.setEndListReachedListener(object :EndListReachedListener {
-                            override fun onBottomReached(position: Int) {
-                                if (animeListRecommend.size <= 25) {
-                                    val getMoreCall = malApiService.getNextRecommendPage(animesRecommendResponse.paging.next)
-                                    initRecommendCall(getMoreCall, false)
-                                }
-                            }
-                        })
-
-                        animeRecommendAdapter.notifyDataSetChanged()
+                        animeDb?.listAnimeDao()?.insertAllListAnimes(animeListRecommend)
                     }
+                    animeRecommendAdapter.setEndListReachedListener(object :EndListReachedListener {
+                        override fun onBottomReached(position: Int) {
+                            if (animesRecommendResponse!=null && animeListRecommend.size <= 25) {
+                                val getMoreCall = malApiService.getNextRecommendPage(animesRecommendResponse?.paging?.next!!)
+                                initRecommendCall(getMoreCall, false)
+                            }
+                        }
+                    })
+
+                    recommendLoading.hide()
+                    animeRecommendAdapter.notifyDataSetChanged()
                 }
                 //TODO (not tested)
                 else if (response.code()==401) {
@@ -235,9 +216,5 @@ class HomeFragment : Fragment() {
         val intent = Intent(context, AnimeDetailsActivity::class.java)
         intent.putExtra("animeId", animeId)
         startActivity(intent)
-    }
-    override fun onDestroy() {
-        super.onDestroy()
-        cache?.flush()
     }
 }
