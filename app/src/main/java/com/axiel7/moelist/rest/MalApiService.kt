@@ -42,8 +42,10 @@ interface MalApiService {
     @FormUrlEncoded
     @PATCH
     fun updateAnimeList(@Url url: String,
-                        @Field("status") status: String,
-                        @Field("score") score: Int,
-                        @Field("num_watched_episodes") watchedEpisodes: Int)
+                        @Field("status") status: String?,
+                        @Field("score") score: Int?,
+                        @Field("num_watched_episodes") watchedEpisodes: Int?): Call<MyListStatus>
 
+    @DELETE
+    fun deleteAnimeEntry(@Url url: String): Call<Void>
 }

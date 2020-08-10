@@ -8,4 +8,5 @@
     <color name="colorBackground">#FFFFFF</color>
     <color name="colorToolbar">#FFFFFF</color>
     <color name="colorPlaceHolder">#dedede</color>
+    <color name="colorError">#B00020</color>
 </resources>
