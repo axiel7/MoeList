@@ -13,16 +13,23 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.ui.animelist.AnimeListFragment
 import com.axiel7.moelist.ui.home.HomeFragment
 import com.axiel7.moelist.ui.mangalist.MangaListFragment
+import com.axiel7.moelist.utils.CreateOkHttpClient
 import com.axiel7.moelist.utils.SharedPrefsHelpers
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.transition.MaterialFadeThrough
+import okhttp3.OkHttpClient
 
 class MainActivity : AppCompatActivity() {
 
     private val fragmentManager = supportFragmentManager
-    private var homeFragment = HomeFragment()
-    private var animeListFragment = AnimeListFragment()
-    private var mangaListFragment = MangaListFragment()
+    private val homeFragment = HomeFragment()
+    private val animeListFragment = AnimeListFragment()
+    private val mangaListFragment = MangaListFragment()
+
+    companion object {
+        var httpClient: OkHttpClient? = null
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -67,15 +74,16 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-
-
-        //bottom nav and fragments
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
-        setupTransitions()
-        setupBottomBar(navView)
-        fragmentManager.beginTransaction()
-            .replace(R.id.nav_host_fragment, homeFragment)
-            .commit()
+        else {
+            httpClient = CreateOkHttpClient.createOkHttpClient(applicationContext, true)
+            //bottom nav and fragments
+            val navView: BottomNavigationView = findViewById(R.id.nav_view)
+            setupTransitions()
+            setupBottomBar(navView)
+            fragmentManager.beginTransaction()
+                .replace(R.id.nav_host_fragment, homeFragment)
+                .commit()
+        }
     }
 
     private fun setupBottomBar(navigationView: BottomNavigationView) {

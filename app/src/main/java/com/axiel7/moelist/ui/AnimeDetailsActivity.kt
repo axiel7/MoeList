@@ -110,19 +110,27 @@ class AnimeDetailsActivity : AppCompatActivity() {
             setDataToViews()
         }
 
-        connectAndGetApiData()
-
+        createRetrofitAndApiService()
+        initCalls()
     }
-    private fun connectAndGetApiData() {
-        if (retrofit==null) {
-            retrofit = Retrofit.Builder()
+    private fun createRetrofitAndApiService() {
+        retrofit = if (MainActivity.httpClient!=null) {
+            Retrofit.Builder()
                 .baseUrl(Urls.apiBaseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(CreateOkHttpClient.createOkHttpClient(accessToken, this, true))
+                .client(MainActivity.httpClient!!)
+                .build()
+        } else {
+            Retrofit.Builder()
+                .baseUrl(Urls.apiBaseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(CreateOkHttpClient.createOkHttpClient(this, true))
                 .build()
         }
 
         malApiService = retrofit?.create(MalApiService::class.java)!!
+    }
+    private fun initCalls() {
         val detailsCall = malApiService.getAnimeDetails(Urls.apiBaseUrl + "anime/$animeId", fields)
         initDetailsCall(detailsCall)
     }

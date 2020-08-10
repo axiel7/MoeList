@@ -157,18 +157,26 @@ class AnimeListFragment : Fragment() {
             }
         })
 
-        connectAndGetApiData()
+        initCalls()
     }
-    private fun connectAndGetApiData() {
-        if (retrofit==null) {
-            retrofit = Retrofit.Builder()
+    private fun createRetrofitAndApiService() {
+        retrofit = if (MainActivity.httpClient!=null) {
+            Retrofit.Builder()
                 .baseUrl(Urls.apiBaseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(createOkHttpClient(accessToken, requireContext(), true))
+                .client(MainActivity.httpClient!!)
+                .build()
+        } else {
+            Retrofit.Builder()
+                .baseUrl(Urls.apiBaseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(CreateOkHttpClient.createOkHttpClient(requireContext(), true))
                 .build()
         }
 
         malApiService = retrofit?.create(MalApiService::class.java)!!
+    }
+    private fun initCalls() {
         val animeListCall = malApiService.getUserAnimeList(listStatus, "list_status,num_episodes,media_type,status", "anime_title")
         initAnimeListCall(animeListCall, true)
     }

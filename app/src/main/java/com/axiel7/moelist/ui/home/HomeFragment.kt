@@ -17,9 +17,8 @@ import com.axiel7.moelist.adapter.RecommendationsAdapter
 import com.axiel7.moelist.model.*
 import com.axiel7.moelist.rest.MalApiService
 import com.axiel7.moelist.ui.AnimeDetailsActivity
+import com.axiel7.moelist.ui.MainActivity
 import com.axiel7.moelist.utils.*
-import com.axiel7.moelist.utils.CreateOkHttpClient.createOkHttpClient
-import okhttp3.Cache
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -58,8 +57,7 @@ class HomeFragment : Fragment() {
         animeListSeasonal = animeDb?.rankingAnimeDao()?.getRankingAnimes()!!
         animeListRecommend = animeDb?.listAnimeDao()?.getListAnimes()!!
 
-        cache = context?.let { GetCacheFile.getCacheFile(it, 20) }
-
+        createRetrofitAndApiService()
     }
 
     override fun onCreateView(
@@ -106,23 +104,30 @@ class HomeFragment : Fragment() {
 
         recommendRecycler.adapter = animeRecommendAdapter
 
-        connectAndGetApiData()
+        initCalls()
+    }
+    private fun initCalls() {
+        val rankingCall = malApiService.getAnimeRanking("airing","start_season")
+        initRankingCall(rankingCall)
+        val recommendCall = malApiService.getAnimeRecommend(30)
+        initRecommendCall(recommendCall, true)
     }
 
-    private fun connectAndGetApiData() {
-        if (retrofit==null) {
-            retrofit = Retrofit.Builder()
+    private fun createRetrofitAndApiService() {
+        retrofit = if (MainActivity.httpClient!=null) {
+            Retrofit.Builder()
                 .baseUrl(Urls.apiBaseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(createOkHttpClient(accessToken, requireContext(), true))
+                .client(MainActivity.httpClient!!)
+                .build()
+        } else {
+            Retrofit.Builder()
+                .baseUrl(Urls.apiBaseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(CreateOkHttpClient.createOkHttpClient(requireContext(), true))
                 .build()
         }
-
         malApiService = retrofit?.create(MalApiService::class.java)!!
-        val rankingCall = malApiService.getAnimeRanking("airing","start_season")
-        val recommendCall = malApiService.getAnimeRecommend(30)
-        initRankingCall(rankingCall, true)
-        initRecommendCall(recommendCall, true)
     }
     private fun initRankingCall(call: Call<AnimeRankingResponse>?) {
         call?.enqueue(object : Callback<AnimeRankingResponse> {
