@@ -2,6 +2,7 @@
 Another unofficial MAL client
 
 W.I.P.
+![screenshots](https://user-images.githubusercontent.com/12379835/89779064-e5d22100-db0e-11ea-86fe-f45806758b7c.jpg)
 
 Follow the development on the official Discord server:
 
