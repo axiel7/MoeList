@@ -5,14 +5,13 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true">
 
-    <TextView
+    <ImageView
         android:id="@+id/moeList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:padding="20dp"
-        android:text="MoeList"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display3" />
+        android:padding="40dp"
+        android:src="@drawable/moelist_banner"/>
 
     <Button
         android:id="@+id/login"
