@@ -3,8 +3,9 @@ package com.axiel7.moelist.ui
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.transition.Fade
 import android.view.View
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -60,6 +61,7 @@ class MainActivity : AppCompatActivity() {
         val bottomSheetDialog = BottomSheetDialog(this)
         bottomSheetDialog.setContentView(dialogView)
         toolbar.setNavigationOnClickListener { bottomSheetDialog.show() }
+        setupBottomSheet(dialogView)
 
         //shared preferences
         SharedPrefsHelpers.init(this)
