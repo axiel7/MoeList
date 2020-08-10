@@ -8,9 +8,9 @@ interface MalApiService {
 
     @GET("/v2/anime")
     fun getAnimeList(@Query("q") search: String,
-                     @Query("limit") limit: Int,
-                     @Query("offset") offset: Int,
-                     @Query("fields") fields: String): Call<AnimeListResponse>
+                     @Query("limit") limit: Int?,
+                     @Query("offset") offset: Int?,
+                     @Query("fields") fields: String?): Call<AnimeListResponse>
 
     @GET
     fun getSeasonalAnime(@Url url: String, @Query("sort") sort: String): Call<SeasonalAnimeResponse>

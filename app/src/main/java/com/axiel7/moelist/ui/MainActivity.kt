@@ -109,4 +109,16 @@ class MainActivity : AppCompatActivity() {
         mangaListFragment.enterTransition = fade
         mangaListFragment.exitTransition = fade
     }
+
+    private fun setupBottomSheet(dialogView: View) {
+        val settings = dialogView.findViewById<TextView>(R.id.settings)
+        settings.setOnClickListener {
+            Toast.makeText(this, "(´⊙ω⊙`)！", Toast.LENGTH_SHORT).show()
+        }
+
+    }
+    fun openSearch(view: View) {
+        val intent = Intent(this, SearchActivity::class.java)
+        startActivity(intent)
+    }
 }

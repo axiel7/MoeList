@@ -47,6 +47,15 @@
             android:name=".ui.AnimeDetailsActivity"
             android:parentActivityName=".ui.MainActivity"
             android:label="Details"
+            android:hardwareAccelerated="true"
+            android:configChanges="keyboard|orientation|screenSize">
+
+        </activity>
+        <activity
+            android:name=".ui.SearchActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:label="Search"
+            android:hardwareAccelerated="true"
             android:configChanges="keyboard|orientation|screenSize">
 
         </activity>
