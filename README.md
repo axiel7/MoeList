@@ -19,7 +19,7 @@ Follow the development on the official Discord server:
 * Spanish translations
 
 # Screenshots
-![screenshots](https://user-images.githubusercontent.com/12379835/89779064-e5d22100-db0e-11ea-86fe-f45806758b7c.jpg)
+![screenshots](https://user-images.githubusercontent.com/12379835/89934175-7b090e80-dc10-11ea-8ca7-de79a46cebd7.png)
 
 # Other
 **Special thanks:**
