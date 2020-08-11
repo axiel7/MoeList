@@ -1,5 +1,7 @@
-# ![app-icon](https://github.com/axiel7/MoeList/blob/master/app/src/main/res/mipmap-mdpi/ic_launcher.png)MoeList
+# ![app-icon](https://github.com/axiel7/MoeList/blob/master/app/src/main/res/mipmap-mdpi/ic_launcher_round.png)MoeList
 Another unofficial MAL client
+
+[Download](https://github.com/axiel7/MoeList/releases/latest)
 
 Follow the development on the official Discord server:
 
