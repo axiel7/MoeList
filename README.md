@@ -8,17 +8,19 @@ Follow the development on the official Discord server:
 ![Discord Banner 3](https://discordapp.com/api/guilds/741059285122940928/widget.png?style=banner3)
 
 # Features
-* Manage your Anime list
-* View Anime details
-* Search Anime
+* Manage your Anime/Manga list
+* View Anime/Manga details
+* Search Anime/Manga
 * Seasonal Anime
 * Anime recommendations
 
 **Coming soon:**
-* Manga support
 * View your profile
-* App settings
-* Spanish translations
+* NSFW toggle
+* App theme settings
+* Pictures download
+* Share Anime/Manga link
+* View details on MAL button
 
 # Screenshots
 ![screenshots](https://user-images.githubusercontent.com/12379835/89934175-7b090e80-dc10-11ea-8ca7-de79a46cebd7.png)
