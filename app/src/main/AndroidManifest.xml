@@ -44,7 +44,15 @@
         </activity>
 
         <activity
-            android:name=".ui.AnimeDetailsActivity"
+            android:name=".ui.details.AnimeDetailsActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:label="Details"
+            android:hardwareAccelerated="true"
+            android:configChanges="keyboard|orientation|screenSize">
+
+        </activity>
+        <activity
+            android:name=".ui.details.MangaDetailsActivity"
             android:parentActivityName=".ui.MainActivity"
             android:label="Details"
             android:hardwareAccelerated="true"

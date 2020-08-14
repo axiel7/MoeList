@@ -1,0 +1,118 @@
+package com.axiel7.moelist.adapter
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import coil.api.load
+import com.axiel7.moelist.R
+import com.axiel7.moelist.model.UserMangaList
+import com.axiel7.moelist.utils.StringFormat
+
+class MyMangaListAdapter(private val mangas: MutableList<UserMangaList>,
+                         private val rowLayout: Int,
+                         private val onClickListener: (View, UserMangaList) -> Unit) :
+    RecyclerView.Adapter<MyMangaListAdapter.AnimeViewHolder>() {
+    private var endListReachedListener: EndListReachedListener? = null
+    private var plusButtonTouchedListener: PlusButtonTouchedListener? = null
+
+    inner class AnimeViewHolder internal constructor(v: View) : RecyclerView.ViewHolder(v) {
+        val mangaTitle: TextView = v.findViewById(R.id.manga_title)
+        val mangaPoster: ImageView = v.findViewById(R.id.manga_poster)
+        val mangaScore: TextView = v.findViewById(R.id.score_text)
+        val progressText: TextView = v.findViewById(R.id.progress_text)
+        val progressBar: ProgressBar = v.findViewById(R.id.chapters_progress)
+        val mediaStatus: TextView = v.findViewById(R.id.media_status)
+        val plusButton: Button = v.findViewById(R.id.add_one_button)
+
+        init {
+            plusButton.setOnClickListener { view ->
+                plusButtonTouchedListener?.onButtonTouched(view, adapterPosition) }
+            mangaPoster.clipToOutline = true
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(rowLayout, parent, false)
+
+        return AnimeViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
+        val posterUrl = mangas[position].node.main_picture.medium
+        val mangaTitle = mangas[position].node.title
+        val mangaScore = mangas[position].list_status?.score
+        val chaptersRead = mangas[position].list_status?.num_chapters_read
+        val totalChapters = mangas[position].node.num_chapters
+        var mediaType = mangas[position].node.media_type
+        var status = mangas[position].node.status
+        status = status?.let { StringFormat.formatStatus(it) }
+        mediaType = mediaType?.let { StringFormat.formatMediaType(it) }
+
+        val progressText = "$chaptersRead/$totalChapters"
+        val mediaStatus = "$mediaType • $status"
+
+        holder.mangaPoster.load(posterUrl) {
+            crossfade(true)
+            crossfade(500)
+            error(R.drawable.ic_launcher_foreground)
+            allowHardware(false)
+        }
+        holder.mangaTitle.text = mangaTitle
+        holder.mangaScore.text = mangaScore.toString()
+        holder.progressText.text = progressText
+        holder.mediaStatus.text = mediaStatus
+        if (totalChapters != null && chaptersRead != null
+            && totalChapters != 0) {
+            holder.progressBar.max = totalChapters
+            holder.progressBar.progress = chaptersRead
+        }
+        else {
+            holder.progressBar.max = 100
+            holder.progressBar.progress = 50
+        }
+
+        if (position == mangas.size - 2) run {
+            endListReachedListener?.onBottomReached(position)
+        }
+
+        val manga = mangas[position]
+        holder.itemView.setOnClickListener { view ->
+            onClickListener(view, manga)
+        }
+        if (mangas[position].list_status?.status.equals("reading")) {
+            holder.plusButton.visibility = View.VISIBLE
+            holder.plusButton.isEnabled = true
+        }
+        else {
+            holder.plusButton.visibility = View.INVISIBLE
+            holder.plusButton.isEnabled = false
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return mangas.size
+    }
+
+    fun setEndListReachedListener(endListReachedListener: EndListReachedListener?) {
+        this.endListReachedListener = endListReachedListener
+    }
+
+    fun setPlusButtonTouchedListener(plusButtonTouchedListener: PlusButtonTouchedListener?) {
+        this.plusButtonTouchedListener = plusButtonTouchedListener
+    }
+
+    fun getAnimeId(position: Int): Int {
+        return mangas[position].node.id
+    }
+    fun getWatchedEpisodes(position: Int): Int? {
+        return mangas[position].list_status?.num_chapters_read
+    }
+    fun getTotalEpisodes(position: Int): Int? {
+        return mangas[position].node.num_chapters
+    }
+}

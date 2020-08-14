@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
+
+    <FrameLayout
+        android:id="@+id/loading_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="15dp"
+        android:visibility="visible"
+        android:background="@color/colorBackground">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/details_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/details_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorBackground"
+                android:layout_alignParentTop="true"
+                app:title="Details"/>
+            <View
+                android:id="@+id/toolbar_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/details_toolbar"
+                android:background="?android:attr/listDivider" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/manga_poster"
+                android:layout_width="150dp"
+                android:layout_height="213dp"
+                android:layout_margin="@dimen/text_margin"
+                android:layout_alignParentStart="true"
+                android:layout_alignTop="@id/toolbar_divider"
+                android:background="@color/colorPlaceHolder"
+                android:elevation="10dp"
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/circleImageView"/>
+
+            <TextView
+                android:id="@+id/main_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/manga_poster"
+                android:layout_alignTop="@id/toolbar_divider"
+                android:layout_marginEnd="@dimen/text_margin"
+                android:layout_marginTop="@dimen/text_margin"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:text="177013"
+                android:textColor="@color/colorText"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textIsSelectable="true"
+                tools:ignore="HardcodedText" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/media_type_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/main_title"
+                android:layout_toEndOf="@id/manga_poster"
+                android:layout_marginEnd="@dimen/text_margin"
+                android:layout_marginTop="10dp"
+                android:text="Manga"
+                android:textColor="?attr/colorControlNormal"
+                android:textSize="16sp"
+                android:drawablePadding="6dp"
+                tools:ignore="HardcodedText"
+                app:drawableStartCompat="@drawable/ic_round_menu_book_24" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/episodes_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/media_type_text"
+                android:layout_toEndOf="@id/manga_poster"
+                android:layout_marginEnd="@dimen/text_margin"
+                android:layout_marginTop="10dp"
+                android:text="12 Chapters"
+                android:textColor="?attr/colorControlNormal"
+                android:textSize="16sp"
+                android:drawablePadding="6dp"
+                tools:ignore="HardcodedText"
+                app:drawableStartCompat="@drawable/ic_round_timer_24" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/status_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/episodes_text"
+                android:layout_toEndOf="@id/manga_poster"
+                android:layout_marginEnd="@dimen/text_margin"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:text="Publishing"
+                android:textColor="?attr/colorControlNormal"
+                android:textSize="16sp"
+                android:drawablePadding="5dp"
+                tools:ignore="HardcodedText"
+                app:drawableStartCompat="@drawable/ic_round_rss_feed_24" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/score_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/status_text"
+                android:layout_toEndOf="@id/manga_poster"
+                android:layout_marginEnd="@dimen/text_margin"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:text="4.52"
+                android:textColor="?attr/colorControlNormal"
+                android:textSize="16sp"
+                android:drawablePadding="6dp"
+                tools:ignore="HardcodedText"
+                app:drawableStartCompat="@drawable/ic_round_details_star_24" />
+
+            <HorizontalScrollView
+                android:id="@+id/genres_scroll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:layout_below="@id/manga_poster">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chip_group_genres"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    app:singleLine="true" />
+
+            </HorizontalScrollView>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/synopsis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/genres_scroll"
+                android:text="@string/lorem_ipsun"
+                android:ellipsize="end"
+                android:maxLines="5"
+                android:paddingStart="@dimen/text_margin"
+                android:paddingEnd="@dimen/text_margin"
+                android:paddingTop="@dimen/text_margin" />
+            <ImageView
+                android:id="@+id/synopsis_icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/synopsis"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/ic_round_keyboard_arrow_down_24"/>
+
+            <TextView
+                android:id="@+id/stats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/synopsis_icon"
+                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginEnd="@dimen/text_margin"
+                android:layout_marginTop="@dimen/text_margin"
+                android:text="Stats"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/stats_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/stats"
+                android:layout_marginTop="@dimen/text_margin"
+                android:layout_marginBottom="@dimen/text_margin"
+                android:gravity="top"
+                android:divider="?android:attr/listDivider"
+                android:showDividers="middle"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/rank_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:gravity="center"
+                    android:text="# 24"
+                    android:textColor="?attr/colorControlNormal"
+                    android:tooltipText="Top ranked"
+                    tools:ignore="HardcodedText"
+                    app:drawableTopCompat="@drawable/ic_round_bar_chart_24" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/num_scores_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:gravity="center"
+                    android:text="116,329"
+                    android:textColor="?attr/colorControlNormal"
+                    android:tooltipText="Users scores"
+                    tools:ignore="HardcodedText"
+                    app:drawableTopCompat="@drawable/ic_round_thumbs_up_down_24" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/members_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:gravity="center"
+                    android:text="116,329"
+                    android:textColor="?attr/colorControlNormal"
+                    android:tooltipText="Members"
+                    tools:ignore="HardcodedText"
+                    app:drawableTopCompat="@drawable/ic_round_group_24" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/popularity_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:gravity="center"
+                    android:text="# 1096"
+                    android:textColor="?attr/colorControlNormal"
+                    android:tooltipText="Popularity"
+                    tools:ignore="HardcodedText"
+                    app:drawableTopCompat="@drawable/ic_round_trending_up_24" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <TextView
+                android:id="@+id/more_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/stats_layout"
+                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginEnd="@dimen/text_margin"
+                android:layout_marginTop="@dimen/text_margin"
+                android:text="More Info"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/authors_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="54dp"
+                android:layout_marginTop="16dp"
+                android:layout_below="@id/more_info">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/text_margin"
+                    android:text="Authors" />
+                <TextView
+                    android:id="@+id/authors_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textIsSelectable="true"
+                    android:text="Inio Asano"
+                    android:textColor="?attr/colorControlNormal"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/volumes_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="54dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@id/authors_layout">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/text_margin"
+                    android:text="Volumes" />
+                <TextView
+                    android:id="@+id/volumes_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="13"
+                    android:textColor="?attr/colorControlNormal"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <View
+                android:id="@+id/divider0"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/volumes_layout"
+                android:background="?android:attr/listDivider" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/synonyms_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="54dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/divider0">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/text_margin"
+                    android:text="Synonyms" />
+                <TextView
+                    android:id="@+id/synonyms_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="My Pico\nBoku no Pico OVA 1"
+                    android:textIsSelectable="true"
+                    android:textColor="?attr/colorControlNormal"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/jp_title_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="54dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/synonyms_layout">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/text_margin"
+                    android:text="Japanese" />
+                <TextView
+                    android:id="@+id/jp_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="ぼくのぴこ"
+                    android:textIsSelectable="true"
+                    android:textColor="?attr/colorControlNormal"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <View
+                android:id="@+id/divider1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/jp_title_layout"
+                android:background="?android:attr/listDivider" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/start_date_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="54dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/divider1">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/text_margin"
+                    android:text="Start Date" />
+                <TextView
+                    android:id="@+id/start_date_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Sep 7, 2006"
+                    android:textColor="?attr/colorControlNormal"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/end_date_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="54dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@id/start_date_layout">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/text_margin"
+                    android:text="End date" />
+                <TextView
+                    android:id="@+id/end_date_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Feb 4, 2007"
+                    android:textColor="?attr/colorControlNormal"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/source_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="54dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@id/end_date_layout">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/text_margin"
+                    android:text="Source" />
+                <TextView
+                    android:id="@+id/source_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Original"
+                    android:textColor="?attr/colorControlNormal"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/source_layout"
+                android:background="?android:attr/listDivider" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/serial_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="54dp"
+                android:layout_marginTop="10dp"
+                android:paddingBottom="100dp"
+                android:layout_below="@id/divider2">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/text_margin"
+                    android:text="Serialization" />
+                <TextView
+                    android:id="@+id/serial_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Shonen Jump"
+                    android:textColor="?attr/colorControlNormal"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/edit_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:text="Edit"
+        app:icon="@drawable/ic_round_edit_24"
+        app:layout_anchor="@id/details_scroll"
+        app:layout_anchorGravity="bottom|end" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

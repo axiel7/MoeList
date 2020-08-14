@@ -6,16 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".ui.mangalist.MangaListFragment">
 
-    <TextView
-        android:id="@+id/text_soon"
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/loading_mangalist"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="180dp"
+        android:elevation="10dp"
+        style="?android:attr/progressBarStyleLarge"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/mangalist_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="15dp"
+        android:clipToPadding="false"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/list_item_animelist"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/filters_fab"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAlignment="center"
-        android:text="(๑•﹏•)\n\nComing Soon."
-        android:textSize="20sp"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/ic_round_filter_list_24"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

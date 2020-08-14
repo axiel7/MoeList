@@ -2,7 +2,7 @@ package com.axiel7.moelist.utils
 
 object StringFormat {
     fun formatMediaType(mediaType: String): String {
-        var result = ""
+        var result = mediaType
         when (mediaType) {
             "tv" -> result = "TV"
             "ova" -> result = "OVA"
@@ -11,42 +11,53 @@ object StringFormat {
             "special" -> result = "Special"
             "music" -> result = "Music"
             "unknown" -> result = "Unknown"
+            "manga" -> result = "Manga"
+            "one_shot" -> result = "One Shot"
+            "manhwa" -> result = "Manhwa"
+            "novel" -> result = "Novel"
         }
         return result
     }
     fun formatStatus(status: String): String {
-        var result = ""
+        var result = status
         when (status) {
             "currently_airing" -> result = "Airing"
             "finished_airing" -> result = "Finished"
             "not_yet_aired" -> result = "Not Yet Aired"
+            "currently_publishing" -> result = "Publishing"
+            "finished" -> result = "Finished"
+            "on_hiatus" -> result = "On Hiatus"
         }
         return result
     }
     fun formatListStatus(status: String?): String {
-        var result = ""
+        var result = status!!
         when (status) {
             "watching" -> result = "Watching"
+            "reading" -> result = "Reading"
             "completed" -> result = "Completed"
             "on_hold" -> result = "On Hold"
             "dropped" -> result = "Dropped"
             "plan_to_watch" -> result = "Plan to Watch"
+            "plan_to_read" -> result = "Plan to Read"
         }
         return result
     }
     fun formatListStatusInverted(status: String?): String {
-        var result = ""
+        var result = status!!
         when (status) {
             "Watching" -> result = "watching"
+            "Reading" -> result = "reading"
             "Completed" -> result = "completed"
             "On Hold" -> result = "on_hold"
             "Dropped" -> result = "dropped"
             "Plan to Watch" -> result = "plan_to_watch"
+            "Plan to Read" -> result = "plan_to_read"
         }
         return result
     }
     fun formatSeason(season: String): String {
-        var result = ""
+        var result = season
         when (season) {
             "winter" -> result = "Winter"
             "spring" -> result = "Spring"
@@ -56,7 +67,7 @@ object StringFormat {
         return result
     }
     fun formatSource(source: String): String {
-        var result = ""
+        var result = source
         when (source) {
             "original" -> result = "Original"
             "manga" -> result = "Manga"

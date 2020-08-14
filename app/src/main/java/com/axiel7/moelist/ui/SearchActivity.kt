@@ -4,8 +4,9 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
 import android.view.View
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -14,10 +15,15 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.recyclerview.widget.RecyclerView
 import com.axiel7.moelist.R
-import com.axiel7.moelist.adapter.SearchAdapter
+import com.axiel7.moelist.adapter.SearchAnimeAdapter
+import com.axiel7.moelist.adapter.SearchMangaAdapter
 import com.axiel7.moelist.model.AnimeList
 import com.axiel7.moelist.model.AnimeListResponse
+import com.axiel7.moelist.model.MangaList
+import com.axiel7.moelist.model.MangaListResponse
 import com.axiel7.moelist.rest.MalApiService
+import com.axiel7.moelist.ui.details.AnimeDetailsActivity
+import com.axiel7.moelist.ui.details.MangaDetailsActivity
 import com.axiel7.moelist.utils.CreateOkHttpClient
 import com.axiel7.moelist.utils.RefreshToken
 import com.axiel7.moelist.utils.SharedPrefsHelpers
@@ -36,9 +42,13 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var malApiService: MalApiService
     private lateinit var loadingBar: ContentLoadingProgressBar
     private lateinit var noResultsText: TextView
-    private lateinit var searchItems: MutableList<AnimeList>
-    private lateinit var searchAdapter: SearchAdapter
-    private lateinit var fields: String
+    private lateinit var searchItemsAnime: MutableList<AnimeList>
+    private lateinit var searchItemsManga: MutableList<MangaList>
+    private lateinit var searchAnimeAdapter: SearchAnimeAdapter
+    private lateinit var searchMangaAdapter: SearchMangaAdapter
+    private lateinit var buttonType: Button
+    private lateinit var searchType: String
+    private var showNsfw = false
     private var retrofit: Retrofit? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,35 +83,37 @@ class SearchActivity : AppCompatActivity() {
         noResultsText = findViewById(R.id.no_result_text)
 
         val recyclerSearch = findViewById<RecyclerView>(R.id.recycler_search)
-        searchItems = mutableListOf()
-        searchAdapter = SearchAdapter(
-            searchItems,
+        searchItemsAnime = mutableListOf()
+        searchItemsManga = mutableListOf()
+        searchAnimeAdapter = SearchAnimeAdapter(
+            searchItemsAnime,
             R.layout.list_item_search_result,
-            onClickListener = { _, animeList ->  openDetails(animeList.node.id)}
+            onClickListener = { _, animeList ->  openAnimeDetails(animeList.node.id)}
         )
-        recyclerSearch.adapter = searchAdapter
+        searchMangaAdapter = SearchMangaAdapter(
+            searchItemsManga,
+            R.layout.list_item_search_result,
+            onClickListener = { _, mangaList -> openMangaDetails(mangaList.node.id) }
+        )
+        recyclerSearch.adapter = searchAnimeAdapter
 
-        fields = "id,title,main_picture,mean,media_type,num_episodes,start_season"
-
-        createRetrofitAndApiService()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.search_menu, menu)
-
-        val searchMenu = menu?.findItem(R.id.app_bar_search)
-
-        val searchView :SearchView = searchMenu?.actionView as SearchView
+        val searchView: SearchView = toolbar.findViewById(R.id.search_view)
+        val searchViewIcon = searchView.findViewById<ImageView>(androidx.appcompat.R.id.search_mag_icon)
+        searchViewIcon.visibility = View.GONE
+        searchViewIcon.setImageDrawable(null)
         searchView.queryHint = "Search"
-        searchView.maxWidth = Int.MAX_VALUE
-        searchView.isIconified = false
+        searchView.setIconifiedByDefault(false)
         searchView.requestFocus()
 
         searchView.setOnQueryTextListener(object :SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrEmpty()) {
-                    initSearch(query)
+                    if (searchType == "manga") {
+                        initMangaSearch(query)
+                    }
+                    else {
+                        initAnimeSearch(query)
+                    }
                 }
                 return true
             }
@@ -112,7 +124,24 @@ class SearchActivity : AppCompatActivity() {
 
         })
 
-        return super.onCreateOptionsMenu(menu)
+        buttonType = findViewById(R.id.search_type_button)
+        searchType = buttonType.text.toString()
+        buttonType.setOnClickListener {
+            searchView.setQuery("", false)
+            searchView.requestFocus()
+            if (searchType == "anime") {
+                buttonType.text = "manga"
+                searchType = "manga"
+                recyclerSearch.adapter = searchMangaAdapter
+            }
+            else {
+                buttonType.text = "anime"
+                searchType = "anime"
+                recyclerSearch.adapter = searchAnimeAdapter
+            }
+        }
+
+        createRetrofitAndApiService()
     }
     private fun createRetrofitAndApiService() {
         if (retrofit==null) {
@@ -132,18 +161,19 @@ class SearchActivity : AppCompatActivity() {
         }
         malApiService = retrofit?.create(MalApiService::class.java)!!
     }
-    private fun initSearch(search: String) {
+    private fun initAnimeSearch(search: String) {
         loadingBar.show()
-        val call = malApiService.getAnimeList(search,null,null, fields)
+        val fields = "id,title,main_picture,mean,media_type,num_episodes,start_season"
+        val call = malApiService.getAnimeList(search,null,null, showNsfw, fields)
         call.enqueue(object :Callback<AnimeListResponse> {
             override fun onResponse(call: Call<AnimeListResponse>, response: Response<AnimeListResponse>) {
                 if (response.isSuccessful) {
                     val animeResponse = response.body()
                     loadingBar.hide()
                     val results = animeResponse?.data!!
-                    searchItems.clear()
-                    searchItems.addAll(results)
-                    searchAdapter.notifyDataSetChanged()
+                    searchItemsAnime.clear()
+                    searchItemsAnime.addAll(results)
+                    searchAnimeAdapter.notifyDataSetChanged()
                 }
                 //TODO (not tested)
                 else if (response.code()==401) {
@@ -164,10 +194,48 @@ class SearchActivity : AppCompatActivity() {
             }
         })
     }
+    private fun initMangaSearch(search: String) {
+        loadingBar.show()
+        val fields = "id,title,main_picture,mean,media_type,num_chapters,start_date"
+        val call = malApiService.getMangaList(search,null,null, showNsfw, fields)
+        call.enqueue(object :Callback<MangaListResponse> {
+            override fun onResponse(call: Call<MangaListResponse>, response: Response<MangaListResponse>) {
+                if (response.isSuccessful) {
+                    val mangaResponse = response.body()
+                    loadingBar.hide()
+                    val results = mangaResponse?.data!!
+                    searchItemsManga.clear()
+                    searchItemsManga.addAll(results)
+                    searchMangaAdapter.notifyDataSetChanged()
+                }
+                //TODO (not tested)
+                else if (response.code()==401) {
+                    val tokenResponse = RefreshToken.getNewToken(refreshToken)
+                    accessToken = tokenResponse?.access_token.toString()
+                    refreshToken = tokenResponse?.refresh_token.toString()
+                    sharedPref.saveString("accessToken", accessToken)
+                    sharedPref.saveString("refreshToken", refreshToken)
 
-    private fun openDetails(animeId: Int?) {
+                    call.clone()
+                }
+            }
+
+            override fun onFailure(call: Call<MangaListResponse>, t: Throwable) {
+                Log.e("MoeLog", t.toString())
+                loadingBar.hide()
+                Toast.makeText(this@SearchActivity, "Error connecting to server", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun openAnimeDetails(animeId: Int?) {
         val intent = Intent(this, AnimeDetailsActivity::class.java)
         intent.putExtra("animeId", animeId)
+        startActivity(intent)
+    }
+    private fun openMangaDetails(mangaId: Int?) {
+        val intent = Intent(this, MangaDetailsActivity::class.java)
+        intent.putExtra("mangaId", mangaId)
         startActivity(intent)
     }
 }

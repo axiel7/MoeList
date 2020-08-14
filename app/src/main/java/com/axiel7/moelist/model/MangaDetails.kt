@@ -3,9 +3,9 @@ package com.axiel7.moelist.model
 import androidx.room.Entity
 import androidx.room.Index
 
-@Entity(tableName = "anime_details", primaryKeys = ["id"],
+@Entity(tableName = "manga_details", primaryKeys = ["id"],
     indices = [Index(value = ["id"], unique = true)])
-data class AnimeDetails(
+data class MangaDetails(
     val id: Int,
     val title: String?,
     val main_picture: MainPicture?,
@@ -24,18 +24,14 @@ data class AnimeDetails(
     val media_type: String?,
     val status: String?,
     val genres: List<Genre>?,
-    var my_list_status: MyListStatus?,
-    val num_episodes: Int?,
-    val start_season: StartSeason?,
-    val broadcast: Broadcast?,
-    val source: String?,
-    val average_episode_duration: Int?,
-    val rating: String?,
+    var my_list_status: MyMangaListStatus?,
+    val num_volumes: Int?,
+    val num_chapters: Int?,
+    val authors: List<Author>?,
     val pictures: List<MainPicture>?,
     val background: String?,
     val related_anime: List<Related>?,
     val related_manga: List<Related>?,
     val recommendations: List<Recommendations>?,
-    val studios: List<Studio>?,
-    val statistics: Statistics?
+    val serialization: List<Serialization>?
 )

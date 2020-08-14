@@ -6,6 +6,8 @@ import retrofit2.http.*
 
 interface MalApiService {
 
+    // anime
+
     @GET("/v2/anime")
     fun getAnimeList(@Query("q") search: String,
                      @Query("limit") limit: Int?,
@@ -47,5 +49,42 @@ interface MalApiService {
                         @Field("num_watched_episodes") watchedEpisodes: Int?): Call<MyListStatus>
 
     @DELETE
-    fun deleteAnimeEntry(@Url url: String): Call<Void>
+    fun deleteEntry(@Url url: String): Call<Void>
+
+
+    // manga
+
+    @GET("/v2/manga")
+    fun getMangaList(@Query("q") search: String,
+                     @Query("limit") limit: Int?,
+                     @Query("offset") offset: Int?,
+                     @Query("nsfw") nsfw: Boolean,
+                     @Query("fields") fields: String?): Call<MangaListResponse>
+
+    @GET
+    fun getMangaDetails(@Url url: String, @Query("fields") fields: String): Call<MangaDetails>
+
+    @GET("/v2/manga/ranking")
+    fun getMangaRanking(@Query("ranking_type") rankingType: String,
+                        @Query("fields") fields: String?): Call<MangaRankingResponse>
+
+    @GET("/v2/users/@me/mangalist")
+    fun getUserMangaList(@Query("status") status: String,
+                         @Query("fields") fields: String?,
+                         @Query("sort") sort: String): Call<UserMangaListResponse>
+    @GET
+    fun getNextMangaListPage(@Url url: String): Call<UserMangaListResponse>
+
+    //TODO (implement: is_rereading, priority, num_times_reread, reread_value, tags, comments)
+    @FormUrlEncoded
+    @PATCH
+    fun updateMangaList(@Url url: String,
+                        @Field("status") status: String?,
+                        @Field("score") score: Int?,
+                        @Field("num_chapters_read") readChapters: Int?,
+                        @Field("num_volumes_read") readVolumes: Int?): Call<MyMangaListStatus>
+
+    // user
+    @GET("/users/@me")
+    fun getUserInfo(@Query("fields") fields: String?): Call<User>
 }

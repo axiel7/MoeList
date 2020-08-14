@@ -11,10 +11,10 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.model.AnimeList
 import com.axiel7.moelist.utils.StringFormat
 
-class SearchAdapter(private val animes: MutableList<AnimeList>,
-                    private val rowLayout: Int,
-                    private val onClickListener: (View, AnimeList) -> Unit) :
-    RecyclerView.Adapter<SearchAdapter.AnimeViewHolder>() {
+class SearchAnimeAdapter(private val animes: MutableList<AnimeList>,
+                         private val rowLayout: Int,
+                         private val onClickListener: (View, AnimeList) -> Unit) :
+    RecyclerView.Adapter<SearchAnimeAdapter.AnimeViewHolder>() {
     private var endListReachedListener: EndListReachedListener? = null
 
     inner class AnimeViewHolder internal constructor(v: View) : RecyclerView.ViewHolder(v) {

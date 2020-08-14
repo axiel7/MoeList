@@ -137,15 +137,15 @@ class TypeConverters {
 
     // list related anime
     @TypeConverter
-    fun stringToListRelatedAnime(data: String?): List<RelatedAnime?>? {
+    fun stringToListRelatedAnime(data: String?): List<Related?>? {
         if (data==null) {
             return Collections.emptyList()
         }
-        val listType: Type = object : TypeToken<List<RelatedAnime?>?>() {}.type
-        return gson.fromJson<List<RelatedAnime?>>(data, listType)
+        val listType: Type = object : TypeToken<List<Related?>?>() {}.type
+        return gson.fromJson<List<Related?>>(data, listType)
     }
     @TypeConverter
-    fun listRelatedAnimeToString(someObject: List<RelatedAnime?>?): String? {
+    fun listRelatedAnimeToString(someObject: List<Related?>?): String? {
         return gson.toJson(someObject)
     }
 
@@ -201,6 +201,148 @@ class TypeConverters {
     }
     @TypeConverter
     fun statisticsStatusToString(someObject: StatisticsStatus?): String? {
+        return gson.toJson(someObject)
+    }
+
+
+    // manga
+
+    // node
+    @TypeConverter
+    fun stringToNodeManga(data: String?): NodeManga? {
+        if (data==null) {
+            return null
+        }
+        val type: Type = object : TypeToken<NodeManga?>() {}.type
+        return gson.fromJson<NodeManga>(data, type)
+    }
+    @TypeConverter
+    fun nodeMangaToString(someObject: NodeManga?): String? {
+        return gson.toJson(someObject)
+    }
+    // serialization node
+    @TypeConverter
+    fun stringToSerialNode(data: String?): SerialNode? {
+        if (data==null) {
+            return null
+        }
+        val type: Type = object : TypeToken<SerialNode?>() {}.type
+        return gson.fromJson<SerialNode>(data, type)
+    }
+    @TypeConverter
+    fun serialNodeToString(someObject: SerialNode?): String? {
+        return gson.toJson(someObject)
+    }
+    // list serialization node
+    @TypeConverter
+    fun stringToListSerialNode(data: String?): List<SerialNode?>? {
+        if (data==null) {
+            return Collections.emptyList()
+        }
+        val listType: Type = object : TypeToken<List<SerialNode?>?>() {}.type
+        return gson.fromJson<List<SerialNode?>>(data, listType)
+    }
+    @TypeConverter
+    fun listSerialNodeToString(someObject: List<SerialNode?>?): String? {
+        return gson.toJson(someObject)
+    }
+    // serialization
+    @TypeConverter
+    fun stringToSerialization(data: String?): Serialization? {
+        if (data==null) {
+            return null
+        }
+        val type: Type = object : TypeToken<Serialization?>() {}.type
+        return gson.fromJson<Serialization>(data, type)
+    }
+    @TypeConverter
+    fun serializationToString(someObject: Serialization?): String? {
+        return gson.toJson(someObject)
+    }
+    // list serialization
+    @TypeConverter
+    fun stringToListSerial(data: String?): List<Serialization?>? {
+        if (data==null) {
+            return Collections.emptyList()
+        }
+        val listType: Type = object : TypeToken<List<Serialization?>?>() {}.type
+        return gson.fromJson<List<Serialization?>>(data, listType)
+    }
+    @TypeConverter
+    fun listSerialToString(someObject: List<Serialization?>?): String? {
+        return gson.toJson(someObject)
+    }
+
+    // author node
+    @TypeConverter
+    fun stringToAuthorNode(data: String?): AuthorNode? {
+        if (data==null) {
+            return null
+        }
+        val type: Type = object : TypeToken<AuthorNode?>() {}.type
+        return gson.fromJson<AuthorNode>(data, type)
+    }
+    @TypeConverter
+    fun authorNodeToString(someObject: AuthorNode?): String? {
+        return gson.toJson(someObject)
+    }
+
+    // author
+    @TypeConverter
+    fun stringToAuthor(data: String?): Author? {
+        if (data==null) {
+            return null
+        }
+        val type: Type = object : TypeToken<Author?>() {}.type
+        return gson.fromJson<Author>(data, type)
+    }
+    @TypeConverter
+    fun authorToString(someObject: Author?): String? {
+        return gson.toJson(someObject)
+    }
+    // list author
+    @TypeConverter
+    fun stringToListAuthor(data: String?): List<Author?>? {
+        if (data==null) {
+            return Collections.emptyList()
+        }
+        val listType: Type = object : TypeToken<List<Author?>?>() {}.type
+        return gson.fromJson<List<Author?>>(data, listType)
+    }
+    @TypeConverter
+    fun listAuthorToString(someObject: List<Author?>?): String? {
+        return gson.toJson(someObject)
+    }
+
+    // my manga list status
+    @TypeConverter
+    fun stringToMyMangaListStatus(data: String?): MyMangaListStatus? {
+        if (data==null) {
+            return null
+        }
+        val type: Type = object : TypeToken<MyMangaListStatus?>() {}.type
+        return gson.fromJson<MyMangaListStatus>(data, type)
+    }
+    @TypeConverter
+    fun myMangaListStatusToString(someObject: MyMangaListStatus?): String? {
+        return gson.toJson(someObject)
+    }
+
+
+    // user
+
+    // user anime statistics
+    // my list status
+    @TypeConverter
+    fun stringToUserAnimeStats(data: String?): UserAnimeStatistics? {
+        if (data==null) {
+            return null
+        }
+        val type: Type = object : TypeToken<UserAnimeStatistics?>() {}.type
+        return gson.fromJson<UserAnimeStatistics>(data, type)
+    }
+    @TypeConverter
+    fun userAnimeStatsToString(someObject: UserAnimeStatistics?): String? {
         return gson.toJson(someObject)
     }
 }

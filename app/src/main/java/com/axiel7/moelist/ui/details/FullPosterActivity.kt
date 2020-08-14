@@ -1,4 +1,4 @@
-package com.axiel7.moelist.ui
+package com.axiel7.moelist.ui.details
 
 import android.os.Build
 import android.os.Bundle
@@ -6,12 +6,13 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.ContentLoadingProgressBar
 import coil.Coil
-import coil.api.load
 import coil.request.LoadRequest
 import coil.size.ViewSizeResolver
 import com.axiel7.moelist.R
-import com.igreenwood.loupe.Loupe
+import com.igreenwood.loupe.extensions.createLoupe
+import com.igreenwood.loupe.extensions.setOnViewTranslateListener
 
 class FullPosterActivity : AppCompatActivity() {
 
