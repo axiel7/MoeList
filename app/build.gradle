@@ -66,5 +66,6 @@ dependencies {
     kapt 'androidx.room:room-compiler:2.2.5'
     implementation 'com.igreenwood.loupe:loupe:1.1.0'
     implementation 'com.igreenwood.loupe:extensions:1.0.0'
+    implementation 'com.android.billingclient:billing-ktx:3.0.0'
 
 }

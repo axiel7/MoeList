@@ -9,6 +9,38 @@
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <TextView
+        android:id="@+id/share"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="0.8"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:onClick="openShare"
+        android:drawablePadding="10dp"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:text="Share App"
+        app:drawableStartCompat="@drawable/ic_round_share_24" />
+    <TextView
+        android:id="@+id/donations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="0.8"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:onClick="openDonations"
+        android:drawablePadding="10dp"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:text="Donations"
+        app:drawableStartCompat="@drawable/ic_round_monetization_on_24" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"/>
+    <TextView
         android:id="@+id/settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
