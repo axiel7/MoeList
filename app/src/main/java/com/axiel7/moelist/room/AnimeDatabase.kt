@@ -18,6 +18,8 @@ abstract class AnimeDatabase : RoomDatabase() {
     abstract fun animeDetailsDao(): AnimeDetailsDao
     abstract fun mangaDetailsDao(): MangaDetailsDao
     abstract fun userAnimeListDao(): UserAnimeListDao
+    abstract fun userMangaListDao(): UserMangaListDao
+    abstract fun userDao(): UserDao
 
     companion object {
         @Volatile
