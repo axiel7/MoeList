@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.core.widget.ContentLoadingProgressBar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.axiel7.moelist.MyApplication.Companion.animeDb
@@ -20,13 +21,12 @@ import com.axiel7.moelist.model.MyListStatus
 import com.axiel7.moelist.model.UserAnimeList
 import com.axiel7.moelist.model.UserAnimeListResponse
 import com.axiel7.moelist.rest.MalApiService
-import com.axiel7.moelist.ui.AnimeDetailsActivity
 import com.axiel7.moelist.ui.MainActivity
+import com.axiel7.moelist.ui.details.AnimeDetailsActivity
 import com.axiel7.moelist.utils.CreateOkHttpClient
 import com.axiel7.moelist.utils.RefreshToken
 import com.axiel7.moelist.utils.SharedPrefsHelpers
 import com.axiel7.moelist.utils.Urls
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import retrofit2.Call
@@ -41,6 +41,7 @@ class AnimeListFragment : Fragment() {
     private lateinit var sharedPref: SharedPrefsHelpers
     private lateinit var animeListRecycler: RecyclerView
     private lateinit var filtersFab: FloatingActionButton
+    private lateinit var loadingBar: ContentLoadingProgressBar
     private lateinit var animeListAdapter: MyAnimeListAdapter
     private var animeListResponse: UserAnimeListResponse? = null
     private lateinit var animeList: MutableList<UserAnimeList>
@@ -83,6 +84,12 @@ class AnimeListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        loadingBar = view.findViewById(R.id.loading_animelist)
+        loadingBar.hide()
+        if (animeList.isEmpty()) {
+            loadingBar.show()
+        }
+
         animeListRecycler = view.findViewById(R.id.animelist_recycler)
         animeListAdapter =
                 MyAnimeListAdapter(
@@ -124,15 +131,10 @@ class AnimeListFragment : Fragment() {
         val dialogView = layoutInflater.inflate(R.layout.bottom_sheet_filters, null)
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         bottomSheetDialog.setContentView(dialogView)
-        val bottomSheetBehavior = bottomSheetDialog.behavior
-        filtersFab.setOnClickListener {
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            bottomSheetBehavior.peekHeight = 1000
-            bottomSheetDialog.show()
-        }
+        filtersFab.setOnClickListener { bottomSheetDialog.show() }
 
         val radioGroup = dialogView.findViewById<RadioGroup>(R.id.status_radio_group)
-        val defaultCheck = sharedPref.getInt("checkedStatusButton", R.id.watching_button)
+        val defaultCheck = defaultStatus!!
         radioGroup.check(defaultCheck)
         changeStatusFilter(defaultCheck)
         radioGroup.setOnCheckedChangeListener{ _, i ->
@@ -199,7 +201,7 @@ class AnimeListFragment : Fragment() {
                             animeList.clear()
                         }
                         animeList.addAll(animeList2)
-
+                        loadingBar.hide()
                         animeDb?.userAnimeListDao()?.insertUserAnimeList(animeList)
                         animeListAdapter.notifyDataSetChanged()
                     }
@@ -223,7 +225,7 @@ class AnimeListFragment : Fragment() {
         })
     }
     private fun addOneEpisode(animeId: Int, watchedEpisodes: Int?) {
-
+        loadingBar.show()
         val shouldNotUpdate = watchedEpisodes==null
         if (!shouldNotUpdate) {
             val updateListCall = malApiService
@@ -246,6 +248,7 @@ class AnimeListFragment : Fragment() {
                 }
             })
         } else {
+            loadingBar.hide()
             Toast.makeText(context, "No changes", Toast.LENGTH_SHORT).show()
         }
     }

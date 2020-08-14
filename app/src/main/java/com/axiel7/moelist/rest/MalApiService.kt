@@ -41,7 +41,7 @@ interface MalApiService {
     fun getAnimeDetails(@Url url: String, @Query("fields") fields: String): Call<AnimeDetails>
 
 
-    //TODO (implement: is_rewatching, priotity, num_times_rewatched, rewatch_value, tags, comments)
+    //TODO (implement: is_rewatching, priority, num_times_rewatched, rewatch_value, tags, comments)
     @FormUrlEncoded
     @PATCH
     fun updateAnimeList(@Url url: String,

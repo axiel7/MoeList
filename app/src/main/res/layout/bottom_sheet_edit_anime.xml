@@ -5,11 +5,11 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="50dp"
+    android:paddingBottom="35dp"
     android:animateLayoutChanges="true"
     android:fitsSystemWindows="false"
     app:behavior_hideable="true"
-    app:behavior_peekHeight="90dp"
+    app:behavior_peekHeight="80dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <androidx.constraintlayout.widget.ConstraintLayout

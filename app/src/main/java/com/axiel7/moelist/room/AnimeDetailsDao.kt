@@ -2,7 +2,6 @@ package com.axiel7.moelist.room
 
 import androidx.room.*
 import com.axiel7.moelist.model.AnimeDetails
-import com.axiel7.moelist.model.AnimeList
 
 @Dao
 interface AnimeDetailsDao {
@@ -14,8 +13,8 @@ interface AnimeDetailsDao {
     fun insertAnimeDetails(anime_details: AnimeDetails)
 
     @Delete
-    fun deleteAnimeDetails(anime_list: AnimeList)
+    fun deleteAnimeDetails(anime_details: AnimeDetails)
 
     @Delete
-    fun deleteAllAnimesDetails(anime_list: MutableList<AnimeList>)
+    fun deleteAllAnimesDetails(anime_details: MutableList<AnimeDetails>)
 }

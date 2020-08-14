@@ -68,8 +68,8 @@
 
         </activity>
         <activity
-            android:name=".ui.FullPosterActivity"
-            android:parentActivityName=".ui.AnimeDetailsActivity"
+            android:name=".ui.details.FullPosterActivity"
+            android:parentActivityName=".ui.details.AnimeDetailsActivity"
             android:label="Image"
             android:hardwareAccelerated="true"
             android:configChanges="keyboard|orientation|screenSize">

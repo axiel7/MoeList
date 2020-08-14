@@ -107,7 +107,6 @@ class SearchActivity : AppCompatActivity() {
         searchView.queryHint = "Search"
         searchView.setIconifiedByDefault(false)
         searchView.requestFocus()
-
         searchView.setOnQueryTextListener(object :SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrEmpty()) {
@@ -120,11 +119,9 @@ class SearchActivity : AppCompatActivity() {
                 }
                 return true
             }
-
             override fun onQueryTextChange(newText: String?): Boolean {
                 return true
             }
-
         })
 
         buttonType = findViewById(R.id.search_type_button)

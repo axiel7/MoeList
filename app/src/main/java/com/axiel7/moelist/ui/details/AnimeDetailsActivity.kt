@@ -1,4 +1,4 @@
-package com.axiel7.moelist.ui
+package com.axiel7.moelist.ui.details
 
 import android.app.Activity
 import android.content.Intent
@@ -17,6 +17,7 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.model.AnimeDetails
 import com.axiel7.moelist.model.MyListStatus
 import com.axiel7.moelist.rest.MalApiService
+import com.axiel7.moelist.ui.MainActivity
 import com.axiel7.moelist.utils.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -114,7 +115,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
         initCalls()
     }
     private fun createRetrofitAndApiService() {
-        retrofit = if (MainActivity.httpClient!=null) {
+        retrofit = if (MainActivity.httpClient !=null) {
             Retrofit.Builder()
                 .baseUrl(Urls.apiBaseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -266,15 +267,6 @@ class AnimeDetailsActivity : AppCompatActivity() {
             }
         }
 
-        /*val scrollView: NestedScrollView? = bottomSheetDialog.findViewById(R.id.details_scroll)
-        scrollView?.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
-            if (scrollY > oldScrollY) {
-                editFab.shrink()
-            } else {
-                editFab.extend()
-            }
-        }*/
-
         val applyButton = bottomSheetDialog.findViewById<Button>(R.id.apply_button)
         applyButton?.setOnClickListener {
 
@@ -334,7 +326,11 @@ class AnimeDetailsActivity : AppCompatActivity() {
         changeFabAction()
 
         //poster and main title
-        animePosterView.load(animeDetails.main_picture?.medium)
+        animePosterView.load(animeDetails.main_picture?.medium) {
+            crossfade(true)
+            crossfade(300)
+            error(R.drawable.ic_launcher_foreground)
+        }
         animePosterView.setOnClickListener { openFullPoster() }
         animeTitleView.text = animeDetails.title
 

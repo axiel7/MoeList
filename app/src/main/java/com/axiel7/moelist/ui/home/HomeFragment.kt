@@ -16,8 +16,8 @@ import com.axiel7.moelist.adapter.EndListReachedListener
 import com.axiel7.moelist.adapter.RecommendationsAdapter
 import com.axiel7.moelist.model.*
 import com.axiel7.moelist.rest.MalApiService
-import com.axiel7.moelist.ui.AnimeDetailsActivity
 import com.axiel7.moelist.ui.MainActivity
+import com.axiel7.moelist.ui.details.AnimeDetailsActivity
 import com.axiel7.moelist.utils.*
 import retrofit2.Call
 import retrofit2.Callback

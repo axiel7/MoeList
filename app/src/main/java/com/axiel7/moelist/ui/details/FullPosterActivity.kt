@@ -29,6 +29,8 @@ class FullPosterActivity : AppCompatActivity() {
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
         }
+        val loadingBar = findViewById<ContentLoadingProgressBar>(R.id.loading_poster)
+        loadingBar.show()
         val imageUrl = intent.extras?.getString("posterUrl", "")
         val container = findViewById<RelativeLayout>(R.id.poster_container)
         val poster = findViewById<ImageView>(R.id.anime_poster)

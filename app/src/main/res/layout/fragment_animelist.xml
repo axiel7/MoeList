@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".ui.animelist.AnimeListFragment">
 
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/loading_animelist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="180dp"
+        android:elevation="10dp"
+        style="?android:attr/progressBarStyleLarge"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/animelist_recycler"
         android:layout_width="match_parent"

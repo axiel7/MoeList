@@ -2,7 +2,16 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/loading_poster"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="180dp"
+        android:elevation="10dp"
+        style="?android:attr/progressBarStyleLarge"/>
 
     <RelativeLayout
         android:id="@+id/poster_container"
