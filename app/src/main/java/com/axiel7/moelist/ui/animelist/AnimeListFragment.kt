@@ -60,6 +60,9 @@ class AnimeListFragment : Fragment() {
         refreshToken = sharedPref.getString("refreshToken", "").toString()
 
         defaultStatus = sharedPref.getInt("checkedStatusButton", R.id.watching_button)
+        if (defaultStatus==null) {
+            defaultStatus = R.id.watching_button
+        }
         changeStatusFilter(defaultStatus!!)
 
         if (animeDb?.userAnimeListDao()?.getUserAnimeListByStatus(listStatus)!=null) {

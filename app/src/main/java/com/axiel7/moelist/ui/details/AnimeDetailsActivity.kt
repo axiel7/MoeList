@@ -371,7 +371,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
         //stats
         val topRank = animeDetails.rank
         val rankText = "#$topRank"
-        rankView.text = rankText
+        rankView.text = if (topRank==null) { "N/A" } else { rankText }
 
         val membersRank = animeDetails.num_scoring_users
         numScoresView.text = NumberFormat.getInstance().format(membersRank)
@@ -384,20 +384,28 @@ class AnimeDetailsActivity : AppCompatActivity() {
 
         //more info
         val synonyms = animeDetails.alternative_titles?.synonyms
-        val synonymsText = synonyms?.joinToString(separator = "\n")
-        synonymsView.text = synonymsText
+        val synonymsText = synonyms?.joinToString(separator = ",\n")
+        synonymsView.text = if (!synonymsText.isNullOrEmpty()) { synonymsText }
+        else { "─" }
 
         jpTitleView.text = animeDetails.alternative_titles?.ja
-        startDateView.text = animeDetails.start_date
+        jpTitleView.text = if (!animeDetails.alternative_titles?.ja.isNullOrEmpty()) {
+            animeDetails.alternative_titles?.ja }
+        else { "─" }
+
+        startDateView.text = if (!animeDetails.start_date.isNullOrEmpty()) { animeDetails.start_date }
+        else { "Unknown" }
+
         val year = animeDetails.start_season?.year
         var season = animeDetails.start_season?.season
         season = season?.let { StringFormat.formatSeason(it) }
         val seasonText = "$season $year"
-        seasonView.text = seasonText
+        seasonView.text = if (animeDetails.start_season!=null) { seasonText }
+        else { "Unknown" }
 
         val duration = animeDetails.average_episode_duration?.div(60)
         val durationText = "$duration min."
-        durationView.text = durationText
+        durationView.text = if (duration==0) { "Unknown" } else { durationText }
 
         var sourceText =  animeDetails.source
         sourceText = sourceText?.let { StringFormat.formatSource(it) }
@@ -410,7 +418,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
                 studiosNames.add(studio.name)
             }
         }
-        val studiosText = studiosNames.joinToString(separator = "\n")
+        val studiosText = studiosNames.joinToString(separator = ",\n")
         studiosView.text = studiosText
 
         //bottom sheet edit

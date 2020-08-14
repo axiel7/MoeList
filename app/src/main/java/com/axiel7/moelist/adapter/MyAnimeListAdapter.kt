@@ -66,7 +66,8 @@ class MyAnimeListAdapter(private val animes: MutableList<UserAnimeList>,
         holder.animeScore.text = animeScore.toString()
         holder.progressText.text = progressText
         holder.mediaStatus.text = mediaStatus
-        if (totalEpisodes != null && watchedEpisodes != null) {
+        if (totalEpisodes != null && watchedEpisodes != null
+            && totalEpisodes != 0) {
             holder.progressBar.max = totalEpisodes
             holder.progressBar.progress = watchedEpisodes
         }
