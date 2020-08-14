@@ -42,43 +42,16 @@ class FullPosterActivity : AppCompatActivity() {
             .crossfade(300)
             .error(R.drawable.ic_launcher_foreground)
             .size(ViewSizeResolver(poster))
-            .target(
-                onStart = {
-                    // Handle the placeholder drawable.
-                },
-                onSuccess = { result ->
-                    // Handle the successful result.
-                    poster.load(result)
-
-                },
-                onError = { error ->
-                    // Handle the error drawable.
-                    poster.load(error)
-                }
-            )
-            .build()
-        imageLoader.execute(request)
-
-        val loupe = Loupe.create(poster, container) {
-            onViewTranslateListener = object : Loupe.OnViewTranslateListener {
-
-                override fun onStart(view: ImageView) {
-                    // called when the view starts moving
-                }
-
-                override fun onViewTranslate(view: ImageView, amount: Float) {
-                    // called whenever the view position changed
-                }
-
-                override fun onRestore(view: ImageView) {
-                    // called when the view drag gesture ended
-                }
-
-                override fun onDismiss(view: ImageView) {
-                    // called when the view drag gesture ended
-                    finish()
+            .target { result ->
+                poster.setImageDrawable(result)
+                loadingBar.hide()
+                val loupe = createLoupe(poster, container) {
+                    setOnViewTranslateListener(
+                        onDismiss = { finish() }
+                    )
                 }
             }
-        }
+            .build()
+        imageLoader.execute(request)
     }
 }

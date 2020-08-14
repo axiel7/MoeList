@@ -65,5 +65,6 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.2.5'
     kapt 'androidx.room:room-compiler:2.2.5'
     implementation 'com.igreenwood.loupe:loupe:1.1.0'
+    implementation 'com.igreenwood.loupe:extensions:1.0.0'
 
 }
