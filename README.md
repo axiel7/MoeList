@@ -1,5 +1,5 @@
 # ![app-icon](https://github.com/axiel7/MoeList/blob/master/app/src/main/res/mipmap-mdpi/ic_launcher_round.png)MoeList
-Another unofficial MAL client
+Another unofficial Android MAL client
 
 [Download](https://github.com/axiel7/MoeList/releases/latest)
 
@@ -29,6 +29,7 @@ Follow the development on the official Discord server:
 **Special thanks:**
 * [damndaniel21](https://github.com/damndaniel21) (Logo design)
 * [Jeluchu](https://github.com/Jeluchu)
+* [Glodanif](https://github.com/glodanif)
 
 **Disclaimer:** I'm still learning so the code may not be perfect, however I decided to open source this project so everyone can see how the MAL API works and take a reference.
 
