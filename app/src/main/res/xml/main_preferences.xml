@@ -1,0 +1,75 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="Display">
+
+        <ListPreference
+            app:key="theme"
+            app:title="Theme"
+            app:summary="%s"
+            app:icon="@drawable/ic_round_color_lens_24"
+            app:entries="@array/theme_options"
+            app:entryValues="@array/theme_options_values"
+            app:defaultValue="follow_system" />
+        <SwitchPreferenceCompat
+            app:icon="@drawable/ic_round_block_24"
+            app:key="nsfw"
+            app:defaultValue="false"
+            app:summary="I confirm that I'm over 18."
+            app:title="Show NSFW content" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Startup">
+
+        <ListPreference
+            app:key="default_section"
+            app:title="Default section"
+            app:summary="%s"
+            app:icon="@drawable/ic_round_sort_24"
+            app:entries="@array/section_options"
+            app:entryValues="@array/section_options_values"
+            app:defaultValue="home"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Account">
+
+        <Preference
+            app:key="logout"
+            app:icon="@drawable/ic_round_power_settings_new_24"
+            app:title="Log Out"
+            app:summary="Log out only from MoeList, not MAL."/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Other">
+
+        <Preference
+            app:key="version"
+            app:title="Version"
+            app:summary="1.0"
+            app:icon="@drawable/ic_moelist_logo_white"/>
+        <Preference
+            app:key="discord"
+            app:icon="@drawable/ic_discord"
+            app:title="Discord"
+            app:summary="Join the official server!" />
+        <Preference
+            app:key="github"
+            app:icon="@drawable/ic_github"
+            app:title="GitHub"
+            app:summary="Star the repository!" />
+        <Preference
+            app:key="credits"
+            app:title="Credits"
+            app:summary="People who helped me"
+            app:icon="@drawable/ic_round_group_24"
+            app:fragment="com.axiel7.moelist.ui.SettingsActivity$CreditsFragment"/>
+        <Preference
+            app:key="feedback"
+            app:title="Send Feedback"
+            app:icon="@drawable/ic_round_feedback_24"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.ContentLoadingProgressBar
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.SearchAnimeAdapter
@@ -69,6 +70,8 @@ class SearchActivity : AppCompatActivity() {
         sharedPref = SharedPrefsHelpers.instance!!
         accessToken = sharedPref.getString("accessToken", "").toString()
         refreshToken = sharedPref.getString("refreshToken", "").toString()
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        showNsfw = sharedPreferences.getBoolean("nsfw", false)
 
         val toolbar = findViewById<Toolbar>(R.id.search_toolbar)
         setSupportActionBar(toolbar)

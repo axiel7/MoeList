@@ -75,6 +75,20 @@
             android:configChanges="keyboard|orientation|screenSize">
 
         </activity>
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:label="Settings"
+            android:hardwareAccelerated="true"
+            android:configChanges="keyboard|orientation|screenSize">
+
+        </activity>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_moelist_logo_white" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
     </application>
 
 </manifest>

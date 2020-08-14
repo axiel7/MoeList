@@ -15,6 +15,7 @@
         android:alpha="0.8"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
+        android:onClick="openSettings"
         android:drawablePadding="10dp"
         android:focusable="true"
         android:gravity="center_vertical"

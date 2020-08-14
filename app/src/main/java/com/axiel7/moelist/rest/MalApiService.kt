@@ -12,6 +12,7 @@ interface MalApiService {
     fun getAnimeList(@Query("q") search: String,
                      @Query("limit") limit: Int?,
                      @Query("offset") offset: Int?,
+                     @Query("nsfw") nsfw: Boolean,
                      @Query("fields") fields: String?): Call<AnimeListResponse>
 
     @GET

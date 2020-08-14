@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="section_options">
+        <item>Home</item>
+        <item>Anime</item>
+        <item>Manga</item>
+    </string-array>
+    <string-array name="section_options_values">
+        <item>home</item>
+        <item>anime</item>
+        <item>manga</item>
+    </string-array>
+
+    <string-array name="theme_options">
+        <item>Light</item>
+        <item>Dark</item>
+        <item>Follow system</item>
+    </string-array>
+    <string-array name="theme_options_values">
+        <item>light</item>
+        <item>dark</item>
+        <item>follow_system</item>
+    </string-array>
+
+</resources>
