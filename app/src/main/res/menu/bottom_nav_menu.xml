@@ -16,4 +16,9 @@
         android:icon="@drawable/ic_round_book_24"
         android:title="@string/title_manga_list" />
 
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/ic_round_person_24"
+        android:title="Profile" />
+
 </menu>

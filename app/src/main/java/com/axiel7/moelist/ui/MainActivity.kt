@@ -17,6 +17,7 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.ui.animelist.AnimeListFragment
 import com.axiel7.moelist.ui.home.HomeFragment
 import com.axiel7.moelist.ui.mangalist.MangaListFragment
+import com.axiel7.moelist.ui.profile.ProfileFragment
 import com.axiel7.moelist.utils.CreateOkHttpClient
 import com.axiel7.moelist.utils.SharedPrefsHelpers
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     private val homeFragment = HomeFragment()
     private val animeListFragment = AnimeListFragment()
     private val mangaListFragment = MangaListFragment()
+    private val profileFragment = ProfileFragment()
     private lateinit var bottomSheetDialog: BottomSheetDialog
 
     companion object {
@@ -117,6 +119,7 @@ class MainActivity : AppCompatActivity() {
             "home" -> homeFragment
             "anime" -> animeListFragment
             "manga" -> mangaListFragment
+            "profile" -> profileFragment
             else -> homeFragment
         }
         fragmentManager.beginTransaction()
@@ -126,6 +129,7 @@ class MainActivity : AppCompatActivity() {
             "home" -> R.id.navigation_home
             "anime" -> R.id.navigation_anime_list
             "manga" -> R.id.navigation_manga_list
+            "profile" -> R.id.navigation_profile
             else -> R.id.navigation_home
         }
         navigationView.setOnNavigationItemSelectedListener { item ->
@@ -134,6 +138,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_home -> selectedFragment = homeFragment
                 R.id.navigation_anime_list -> selectedFragment = animeListFragment
                 R.id.navigation_manga_list -> selectedFragment = mangaListFragment
+                R.id.navigation_profile -> selectedFragment = profileFragment
             }
             val fade = MaterialFadeThrough()
             selectedFragment.enterTransition = fade
@@ -157,6 +162,9 @@ class MainActivity : AppCompatActivity() {
 
         mangaListFragment.enterTransition = fade
         mangaListFragment.exitTransition = fade
+
+        profileFragment.enterTransition = fade
+        profileFragment.exitTransition = fade
     }
 
     fun openSearch(view: View) {

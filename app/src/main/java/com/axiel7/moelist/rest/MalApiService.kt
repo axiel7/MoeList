@@ -86,6 +86,6 @@ interface MalApiService {
                         @Field("num_volumes_read") readVolumes: Int?): Call<MyMangaListStatus>
 
     // user
-    @GET("/users/@me")
+    @GET("/v2/users/@me")
     fun getUserInfo(@Query("fields") fields: String?): Call<User>
 }

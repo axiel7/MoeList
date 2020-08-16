@@ -26,6 +26,7 @@ android {
         }
     }
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -67,5 +68,6 @@ dependencies {
     implementation 'com.igreenwood.loupe:loupe:1.1.0'
     implementation 'com.igreenwood.loupe:extensions:1.0.0'
     implementation 'com.android.billingclient:billing-ktx:3.0.0'
-
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
+    implementation 'app.futured.donut:library:2.0.0'
 }

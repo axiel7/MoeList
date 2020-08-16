@@ -10,7 +10,7 @@ import com.axiel7.moelist.model.*
 @TypeConverters(value = [com.axiel7.moelist.room.TypeConverters::class])
 @Database(entities = [AnimeRanking::class, AnimeList::class, AnimeDetails::class, MangaDetails::class,
     UserAnimeList::class, UserMangaList::class, User::class]
-    , version = 16)
+    , version = 19)
 abstract class AnimeDatabase : RoomDatabase() {
 
     abstract fun rankingAnimeDao(): RankingAnimeDao

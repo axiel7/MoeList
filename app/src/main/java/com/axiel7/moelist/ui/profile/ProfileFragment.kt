@@ -1,0 +1,259 @@
+package com.axiel7.moelist.ui.profile
+
+import android.content.Intent
+import android.graphics.Color
+import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import app.futured.donut.DonutProgressView
+import app.futured.donut.DonutSection
+import coil.api.load
+import coil.transform.CircleCropTransformation
+import com.axiel7.moelist.MyApplication
+import com.axiel7.moelist.R
+import com.axiel7.moelist.model.User
+import com.axiel7.moelist.model.UserAnimeStatistics
+import com.axiel7.moelist.rest.MalApiService
+import com.axiel7.moelist.ui.MainActivity
+import com.axiel7.moelist.ui.details.FullPosterActivity
+import com.axiel7.moelist.utils.CreateOkHttpClient
+import com.axiel7.moelist.utils.RefreshToken
+import com.axiel7.moelist.utils.SharedPrefsHelpers
+import com.axiel7.moelist.utils.Urls
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.text.NumberFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+
+class ProfileFragment : Fragment() {
+
+    private lateinit var sharedPref: SharedPrefsHelpers
+    private lateinit var malApiService: MalApiService
+    private lateinit var accessToken: String
+    private lateinit var refreshToken: String
+    private lateinit var userAnimeStatistics: UserAnimeStatistics
+    private lateinit var profilePicture: ImageView
+    private lateinit var usernameView: TextView
+    private lateinit var locationView: TextView
+    private lateinit var birthdayView: TextView
+    private lateinit var joinedView: TextView
+    private lateinit var animeChart: DonutProgressView
+    private lateinit var watchingText: TextView
+    private lateinit var completedText: TextView
+    private lateinit var onHoldText: TextView
+    private lateinit var droppedText: TextView
+    private lateinit var ptwText: TextView
+    private lateinit var totalText: TextView
+    private lateinit var daysText: TextView
+    private lateinit var episodesText: TextView
+    private lateinit var scoreText: TextView
+    private lateinit var rewatchText: TextView
+    private var user: User? = null
+    private var userId = -1
+    private var retrofit: Retrofit? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        SharedPrefsHelpers.init(context)
+        sharedPref = SharedPrefsHelpers.instance!!
+        accessToken = sharedPref.getString("accessToken", "").toString()
+        refreshToken = sharedPref.getString("refreshToken", "").toString()
+
+        userId = sharedPref.getInt("userId", -1)
+        if (MyApplication.animeDb?.userDao()?.getUserById(userId)!=null) {
+            user = MyApplication.animeDb?.userDao()?.getUserById(userId)!!
+            userAnimeStatistics = user?.anime_statistics!!
+        }
+
+        createRetrofitAndApiService()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?): View? {
+
+        return inflater.inflate(R.layout.fragment_profile, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        profilePicture = view.findViewById(R.id.profile_picture)
+        usernameView = view.findViewById(R.id.username)
+        locationView = view.findViewById(R.id.location)
+        birthdayView = view.findViewById(R.id.birthday)
+        joinedView = view.findViewById(R.id.joined_at)
+        animeChart = view.findViewById(R.id.anime_chart)
+        watchingText = view.findViewById(R.id.watching_text)
+        completedText = view.findViewById(R.id.completed_text)
+        onHoldText = view.findViewById(R.id.onhold_text)
+        droppedText = view.findViewById(R.id.dropped_text)
+        ptwText = view.findViewById(R.id.ptw_text)
+        totalText = view.findViewById(R.id.total_entries)
+        daysText = view.findViewById(R.id.days_wasted)
+        episodesText = view.findViewById(R.id.total_episodes)
+        scoreText = view.findViewById(R.id.mean_score)
+        rewatchText = view.findViewById(R.id.rewatched)
+        if (user!=null) {
+            setDataToViews()
+        }
+
+        getUser()
+    }
+    private fun createRetrofitAndApiService() {
+        retrofit = if (MainActivity.httpClient!=null) {
+            Retrofit.Builder()
+                .baseUrl(Urls.apiBaseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(MainActivity.httpClient!!)
+                .build()
+        } else {
+            Retrofit.Builder()
+                .baseUrl(Urls.apiBaseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(CreateOkHttpClient.createOkHttpClient(requireContext(), true))
+                .build()
+        }
+
+        malApiService = retrofit?.create(MalApiService::class.java)!!
+    }
+    private fun getUser() {
+        val call = malApiService.getUserInfo("id,name,gender,location,joined_at,anime_statistics")
+        call.enqueue(object : Callback<User> {
+            override fun onResponse(call: Call<User>, response: Response<User>) {
+                if (response.isSuccessful) {
+                    val user2 = response.body()!!
+                    if (user==null || user!=user2) {
+                        user = user2
+                        userAnimeStatistics = user!!.anime_statistics
+                        userId = user!!.id
+                        MyApplication.animeDb?.userDao()?.insertUser(user!!)
+                        sharedPref.saveInt("userId", userId)
+                        setDataToViews()
+                    }
+                }
+                //TODO(not tested)
+                else if (response.code()==401) {
+                    val tokenResponse = RefreshToken.getNewToken(refreshToken)
+                    accessToken = tokenResponse?.access_token.toString()
+                    refreshToken = tokenResponse?.refresh_token.toString()
+                    sharedPref.saveString("accessToken", accessToken)
+                    sharedPref.saveString("refreshToken", refreshToken)
+
+                    call.clone()
+                }
+            }
+            override fun onFailure(call: Call<User>, t: Throwable) {
+                Log.e("MoeLog", t.toString())
+            }
+        })
+    }
+    private fun setDataToViews() {
+
+        profilePicture
+            .load(user?.picture) {
+                crossfade(true)
+                crossfade(500)
+                transformations(CircleCropTransformation())
+                error(R.drawable.ic_round_account_circle_24)
+            }
+        profilePicture.setOnClickListener {
+            val intent = Intent(context, FullPosterActivity::class.java)
+            intent.putExtra("posterUrl", user?.picture)
+            startActivity(intent)
+        }
+
+        usernameView.text = user?.name
+
+        val location = user?.location
+        if (location.isNullOrEmpty()) {
+            locationView.visibility = View.GONE
+        } else {
+            locationView.visibility = View.VISIBLE
+            locationView.text = location
+        }
+
+        val birthday = user?.birthday
+        if (birthday.isNullOrEmpty()) {
+            birthdayView.visibility = View.GONE
+        } else {
+            birthdayView.visibility = View.VISIBLE
+            birthdayView.text = LocalDate.parse(birthday).toString()
+        }
+        joinedView.text = LocalDate.parse(user?.joined_at, DateTimeFormatter.ISO_DATE_TIME).toString()
+
+        val watching = userAnimeStatistics.num_items_watching!!
+        val completed = userAnimeStatistics.num_items_completed!!
+        val onHold = userAnimeStatistics.num_items_on_hold!!
+        val dropped = userAnimeStatistics.num_items_dropped!!
+        val ptw = userAnimeStatistics.num_items_plan_to_watch!!
+        val totalEntries = userAnimeStatistics.num_items!!
+
+        val watchingKey = "Watching ($watching)"
+        watchingText.text = watchingKey
+        val completedKey = "Completed ($completed)"
+        completedText.text = completedKey
+        val onHoldKey = "On Hold ($onHold)"
+        onHoldText.text = onHoldKey
+        val droppedKey = "Dropped ($dropped)"
+        droppedText.text = droppedKey
+        val ptwKey = "Plan to Watch ($ptw)"
+        ptwText.text = ptwKey
+        val totalKey = "Total: $totalEntries"
+        totalText.text = totalKey
+
+        val watchingSection = DonutSection(
+            name = "Watching",
+            color = Color.parseColor("#00c853"),
+            amount = watching.toFloat()
+        )
+        val completedSection = DonutSection(
+            name = "Completed",
+            color = Color.parseColor("#5c6bc0"),
+            amount = completed.toFloat()
+        )
+        val onHoldSection = DonutSection(
+            name = "On Hold",
+            color = Color.parseColor("#ffd600"),
+            amount = onHold.toFloat()
+        )
+        val droppedSection = DonutSection(
+            name = "Dropped",
+            color = Color.parseColor("#d50000"),
+            amount = dropped.toFloat()
+        )
+        val ptwSection = DonutSection(
+            name = "Plan to Watch",
+            color = Color.parseColor("#9e9e9e"),
+            amount = ptw.toFloat()
+        )
+        animeChart.cap = 0f
+        animeChart.submitData(listOf(ptwSection, droppedSection, onHoldSection, completedSection, watchingSection))
+
+        val days = userAnimeStatistics.num_days!!
+        val episodes = NumberFormat.getInstance().format(userAnimeStatistics.num_episodes)!!
+        val score = userAnimeStatistics.mean_score!!
+        val rewatch = NumberFormat.getInstance().format(userAnimeStatistics.num_times_rewatched)!!
+
+        val daysValue = "$days\nDays"
+        val episodesValue = "$episodes\nEpisodes"
+        val scoreValue = "$score\nMean Score"
+        val rewatchValue = "$rewatch\nRewatched"
+
+        daysText.text = daysValue
+        episodesText.text = episodesValue
+        scoreText.text = scoreValue
+        rewatchText.text = rewatchValue
+    }
+}
