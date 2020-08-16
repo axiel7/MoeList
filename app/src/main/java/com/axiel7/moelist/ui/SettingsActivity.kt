@@ -116,7 +116,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
             val dany = findPreference<Preference>("dany")
             dany?.setOnPreferenceClickListener {
                 val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse("https://github.com/axiel7/MoeList")
+                intent.data = Uri.parse("https://instagram.com/danielvd_art")
                 startActivity(intent)
                 true
             }

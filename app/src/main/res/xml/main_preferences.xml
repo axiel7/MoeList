@@ -38,6 +38,7 @@
             app:key="logout"
             app:icon="@drawable/ic_round_power_settings_new_24"
             app:title="Log Out"
+            app:enabled="false"
             app:summary="Log out only from MoeList, not MAL."/>
 
     </PreferenceCategory>

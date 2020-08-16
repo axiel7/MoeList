@@ -5,17 +5,17 @@
 
         <Preference
             app:key="dany"
-            app:title="damndaniel"
+            app:title="\@danielvd_art"
             app:summary="Logo design"/>
 
         <Preference
             app:key="jelu"
-            app:title="Jeluchu"
+            app:title="\@Jeluchu"
             app:summary="github.com/Jeluchu"/>
 
         <Preference
             app:key="glodanif"
-            app:title="Glodanif"
+            app:title="\@Glodanif"
             app:summary="MyAnimeList API help"/>
 
     </PreferenceCategory>
