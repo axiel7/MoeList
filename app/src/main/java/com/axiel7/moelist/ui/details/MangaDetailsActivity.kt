@@ -300,6 +300,10 @@ class MangaDetailsActivity : AppCompatActivity() {
             if (volumesCurrent!=volumesOrigin) {
                 volumes = volumesCurrent
             }
+            if (status=="completed") {
+                chapters = mangaDetails.num_chapters
+                volumes = mangaDetails.num_volumes
+            }
             initUpdateCall(status, score, chapters, volumes, false)
         }
         val cancelButton = bottomSheetDialog.findViewById<Button>(R.id.cancel_button)

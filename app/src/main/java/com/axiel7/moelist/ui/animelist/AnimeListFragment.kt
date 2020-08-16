@@ -115,10 +115,10 @@ class AnimeListFragment : Fragment() {
                 val totalEpisodes = animeListAdapter.getTotalEpisodes(position)
                 if (totalEpisodes!=null) {
                     if (watchedEpisodes==totalEpisodes.minus(1)) {
-                        TODO("Move to completed")
+                        addOneEpisode(animeId, watchedEpisodes.plus(1), "completed")
                     }
                     else {
-                        addOneEpisode(animeId, watchedEpisodes?.plus(1))
+                        addOneEpisode(animeId, watchedEpisodes?.plus(1), null)
                     }
                 }
             }
@@ -224,12 +224,12 @@ class AnimeListFragment : Fragment() {
 
         })
     }
-    private fun addOneEpisode(animeId: Int, watchedEpisodes: Int?) {
+    private fun addOneEpisode(animeId: Int, watchedEpisodes: Int?, status: String?) {
         loadingBar.show()
         val shouldNotUpdate = watchedEpisodes==null
         if (!shouldNotUpdate) {
             val updateListCall = malApiService
-                .updateAnimeList(Urls.apiBaseUrl + "anime/$animeId/my_list_status", null, null, watchedEpisodes)
+                .updateAnimeList(Urls.apiBaseUrl + "anime/$animeId/my_list_status", status, null, watchedEpisodes)
             updateListCall.enqueue(object :Callback<MyListStatus> {
                 override fun onResponse(call: Call<MyListStatus>, response: Response<MyListStatus>) {
                     if (response.isSuccessful) {

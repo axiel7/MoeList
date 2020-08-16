@@ -290,6 +290,9 @@ class AnimeDetailsActivity : AppCompatActivity() {
             if (episodesCurrent!=episodesOrigin) {
                 episodes = episodesCurrent
             }
+            if (status=="completed") {
+                episodes = animeDetails.num_episodes
+            }
             initUpdateCall(status, score, episodes, false)
         }
         val cancelButton = bottomSheetDialog.findViewById<Button>(R.id.cancel_button)
