@@ -194,7 +194,7 @@ class MangaListFragment : Fragment() {
                     val animeList2 = mangaListResponse!!.data
                     if (animeList2!=mangaList) {
                         for (anime in animeList2) {
-                            anime.status = listStatus
+                            anime.status = anime.list_status?.status
                         }
                         if (shouldClear) {
                             mangaList.clear()
