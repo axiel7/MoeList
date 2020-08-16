@@ -43,3 +43,4 @@ Follow the development on the official Discord server:
 * [OkHttp](https://github.com/square/okhttp)
 * [Coil](https://github.com/coil-kt/coil)
 * [Loupe](https://github.com/igreenwood/loupe)
+* [Donut](https://github.com/futuredapp/donut)
