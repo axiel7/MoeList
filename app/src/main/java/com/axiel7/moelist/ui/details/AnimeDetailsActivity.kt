@@ -69,7 +69,9 @@ class AnimeDetailsActivity : AppCompatActivity() {
     private lateinit var synonymsView: TextView
     private lateinit var jpTitleView: TextView
     private lateinit var startDateView: TextView
+    private lateinit var endDateView: TextView
     private lateinit var seasonView: TextView
+    private lateinit var broadcastView: TextView
     private lateinit var durationView: TextView
     private lateinit var sourceView: TextView
     private lateinit var studiosView: TextView
@@ -262,7 +264,9 @@ class AnimeDetailsActivity : AppCompatActivity() {
         synonymsView = findViewById(R.id.synonyms_text)
         jpTitleView = findViewById(R.id.jp_title)
         startDateView = findViewById(R.id.start_date_text)
+        endDateView = findViewById(R.id.end_date_text)
         seasonView = findViewById(R.id.season_text)
+        broadcastView = findViewById(R.id.broadcast_text)
         durationView = findViewById(R.id.duration_text)
         sourceView = findViewById(R.id.source_text)
         studiosView = findViewById(R.id.studios_text)
@@ -407,12 +411,19 @@ class AnimeDetailsActivity : AppCompatActivity() {
 
         startDateView.text = if (!animeDetails.start_date.isNullOrEmpty()) { animeDetails.start_date }
         else { "Unknown" }
+        endDateView.text = if (!animeDetails.end_date.isNullOrEmpty()) { animeDetails.end_date }
+        else { "Unknown" }
 
         val year = animeDetails.start_season?.year
         var season = animeDetails.start_season?.season
         season = season?.let { StringFormat.formatSeason(it) }
         val seasonText = "$season $year"
         seasonView.text = if (animeDetails.start_season!=null) { seasonText }
+        else { "Unknown" }
+
+        val weekDay = StringFormat.formatWeekday(animeDetails.broadcast?.day_of_the_week)
+        val startTime = animeDetails.broadcast?.start_time
+        broadcastView.text = if (animeDetails.broadcast!=null) { "$weekDay $startTime (JST)" }
         else { "Unknown" }
 
         val duration = animeDetails.average_episode_duration?.div(60)

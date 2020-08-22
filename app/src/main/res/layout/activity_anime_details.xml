@@ -351,12 +351,35 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/season_layout"
+                android:id="@+id/end_date_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="54dp"
                 android:layout_marginBottom="10dp"
                 android:layout_below="@id/start_date_layout">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/text_margin"
+                    android:text="End Date" />
+                <TextView
+                    android:id="@+id/end_date_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Sep 7, 2006"
+                    android:textColor="?attr/colorControlNormal"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/season_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="54dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@id/end_date_layout">
 
                 <TextView
                     android:layout_width="0dp"
@@ -374,12 +397,35 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/duration_layout"
+                android:id="@+id/broadcast_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="54dp"
                 android:layout_marginBottom="10dp"
                 android:layout_below="@id/season_layout">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/text_margin"
+                    android:text="Broadcast" />
+                <TextView
+                    android:id="@+id/broadcast_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Fridays 00:00"
+                    android:textColor="?attr/colorControlNormal"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/duration_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="54dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@id/broadcast_layout">
 
                 <TextView
                     android:layout_width="0dp"
