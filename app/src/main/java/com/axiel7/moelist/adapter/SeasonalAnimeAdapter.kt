@@ -8,12 +8,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.axiel7.moelist.R
-import com.axiel7.moelist.model.AnimeList
+import com.axiel7.moelist.model.AnimeRanking
 
-class RecommendationsAdapter(private val animes: MutableList<AnimeList>,
-                             private val rowLayout: Int,
-                             private val onClickListener: (View, AnimeList) -> Unit) :
-    RecyclerView.Adapter<RecommendationsAdapter.AnimeViewHolder>() {
+class SeasonalAnimeAdapter(private val animes: MutableList<AnimeRanking>,
+                           private val rowLayout: Int,
+                           private val onClickListener: (View, AnimeRanking) -> Unit) :
+    RecyclerView.Adapter<SeasonalAnimeAdapter.AnimeViewHolder>() {
     private var endListReachedListener: EndListReachedListener? = null
 
     class AnimeViewHolder internal constructor(v: View) : RecyclerView.ViewHolder(v) {
@@ -32,17 +32,18 @@ class RecommendationsAdapter(private val animes: MutableList<AnimeList>,
 
     override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
         val posterUrl = animes[position].node.main_picture.medium
-        val animeTitle = animes[position].node.title
+        val mangaTitle = animes[position].node.title
         holder.animePoster.load(posterUrl) {
             crossfade(true)
             crossfade(500)
             error(R.drawable.ic_launcher_foreground)
             allowHardware(false)
         }
-        holder.animeTitle.text = animeTitle
-        val anime = animes[position]
+
+        holder.animeTitle.text = mangaTitle
+        val manga = animes[position]
         holder.itemView.setOnClickListener { view ->
-            onClickListener(view, anime)
+            onClickListener(view, manga)
         }
         if (position == animes.size - 2) run {
             endListReachedListener?.onBottomReached(position)

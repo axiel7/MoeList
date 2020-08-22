@@ -191,19 +191,27 @@ class MangaListFragment : Fragment() {
                 //Log.d("MoeLog", call.request().toString())
 
                 if (response.isSuccessful) {
-                    mangaListResponse = response.body()!!
-                    val animeList2 = mangaListResponse!!.data
-                    if (animeList2!=mangaList) {
-                        for (anime in animeList2) {
-                            anime.status = anime.list_status?.status
+                    val responseOld = ResponseConverter
+                        .stringToUserMangaListResponse(sharedPref.getString("mangaListResponse$listStatus", ""))
+                    if (responseOld!=response.body() || mangaList.isEmpty()) {
+                        mangaListResponse = response.body()
+
+                        val mangaList2 = mangaListResponse!!.data
+                        for (manga in mangaList2) {
+                            manga.status = manga.list_status?.status
                         }
                         if (shouldClear) {
+                            sharedPref.saveString("mangaListResponse$listStatus",
+                                ResponseConverter.userMangaListResponseToString(mangaListResponse))
                             mangaList.clear()
                         }
-                        mangaList.addAll(animeList2)
+                        mangaList.addAll(mangaList2)
                         loadingBar.hide()
                         MyApplication.animeDb?.userMangaListDao()?.insertUserMangaList(mangaList)
                         mangaListAdapter.notifyDataSetChanged()
+                    }
+                    else {
+                        mangaListResponse = responseOld
                     }
                 }
                 //TODO(not tested)

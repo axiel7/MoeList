@@ -15,6 +15,7 @@ object StringFormat {
             "one_shot" -> result = "One Shot"
             "manhwa" -> result = "Manhwa"
             "novel" -> result = "Novel"
+            "doujinshi" -> result = "Doujinshi"
         }
         return result
     }
@@ -31,7 +32,7 @@ object StringFormat {
         return result
     }
     fun formatListStatus(status: String?): String {
-        var result = status!!
+        var result = status ?: ""
         when (status) {
             "watching" -> result = "Watching"
             "reading" -> result = "Reading"
@@ -44,7 +45,7 @@ object StringFormat {
         return result
     }
     fun formatListStatusInverted(status: String?): String {
-        var result = status!!
+        var result = status ?: ""
         when (status) {
             "Watching" -> result = "watching"
             "Reading" -> result = "reading"
@@ -90,6 +91,19 @@ object StringFormat {
             8 -> result = "8 Very Good"
             9 -> result = "9 Great"
             10 -> result = "10 Masterpiece"
+        }
+        return result
+    }
+    fun formatWeekday(day: String?): String {
+        var result = day ?: ""
+        when (day) {
+            "monday" -> result = "Monday"
+            "tuesday" -> result = "tuesday"
+            "wednesday" -> result = "Wednesday"
+            "thursday" -> result = "Thursday"
+            "friday" -> result = "Friday"
+            "saturday" -> result = "Saturday"
+            "sunday" -> result = "Sunday"
         }
         return result
     }

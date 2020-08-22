@@ -152,7 +152,7 @@ class MangaDetailsActivity : AppCompatActivity() {
     private fun initDetailsCall(call: Call<MangaDetails>?) {
         call?.enqueue(object : Callback<MangaDetails> {
             override fun onResponse(call: Call<MangaDetails>, response: Response<MangaDetails>) {
-                Log.d("MoeLog", call.request().toString())
+                //Log.d("MoeLog", call.request().toString())
 
                 if (response.isSuccessful) {
                     mangaDetails = response.body()!!

@@ -134,9 +134,13 @@ class ProfileFragment : Fragment() {
         call.enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 if (response.isSuccessful) {
-                    val user2 = response.body()!!
-                    if (user==null || user!=user2) {
-                        user = user2
+                    val responseOld = ResponseConverter
+                        .stringToUserResponse(sharedPref.getString("userResponse", ""))
+
+                    if (responseOld!=response.body() || user==null) {
+                        user = response.body()
+                        sharedPref.saveString("userResponse",
+                            ResponseConverter.userResponseToString(user))
                         userAnimeStatistics = user!!.anime_statistics
                         userId = user!!.id
                         MyApplication.animeDb?.userDao()?.insertUser(user!!)

@@ -192,19 +192,28 @@ class AnimeListFragment : Fragment() {
                 //Log.d("MoeLog", call.request().toString())
 
                 if (response.isSuccessful) {
-                    animeListResponse = response.body()!!
-                    val animeList2 = animeListResponse!!.data
-                    if (animeList2!=animeList) {
+                    //sharedPref.deleteValue("animeListResponse$listStatus")
+                    val responseOld = ResponseConverter
+                        .stringToUserAnimeListResponse(sharedPref.getString("animeListResponse$listStatus", ""))
+                    if (responseOld!=response.body() || animeList.isEmpty()) {
+                        animeListResponse = response.body()
+
+                        val animeList2 = animeListResponse!!.data
                         for (anime in animeList2) {
                             anime.status = anime.list_status?.status
                         }
                         if (shouldClear) {
+                            sharedPref.saveString("animeListResponse$listStatus",
+                                ResponseConverter.userAnimeListResponseToString(animeListResponse))
                             animeList.clear()
                         }
                         animeList.addAll(animeList2)
                         loadingBar.hide()
                         animeDb?.userAnimeListDao()?.insertUserAnimeList(animeList)
                         animeListAdapter.notifyDataSetChanged()
+                    }
+                    else {
+                        animeListResponse = responseOld
                     }
                 }
                 //TODO(not tested)

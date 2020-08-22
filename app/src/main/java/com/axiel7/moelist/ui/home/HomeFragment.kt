@@ -74,7 +74,13 @@ class HomeFragment : Fragment() {
         currentSeason = StartSeason(SeasonCalendar.getCurrentYear(), SeasonCalendar.getCurrentSeason())
         jpDayWeek = SeasonCalendar.getCurrentJapanWeekday()
 
-        animeListSeasonal = animeDb?.rankingAnimeDao()?.getRankingAnimes()!!
+        animeListSeasonal = mutableListOf()
+        val rankingAiring = animeDb?.rankingAnimeDao()?.getRankingAnimes("airing")!!
+        for (anime in rankingAiring) {
+            if (anime.node.start_season==currentSeason) {
+                animeListSeasonal.add(anime)
+            }
+        }
         animeListRecommend = animeDb?.listAnimeDao()?.getListAnimes()!!
 
         todayList = mutableListOf()
@@ -112,12 +118,17 @@ class HomeFragment : Fragment() {
 
         seasonRecycler = view.findViewById(R.id.season_recycler)
         seasonLoading = view.findViewById(R.id.loading_season)
-        seasonLoading.show()
-        animeRankingAdapter = AnimeRankingAdapter(
+        if (animeListSeasonal.isEmpty()) {
+            seasonLoading.show()
+        } else { seasonLoading.hide() }
+        animeRankingAdapter = SeasonalAnimeAdapter(
             animeListSeasonal,
             R.layout.list_item_anime_seasonal,
-            onClickListener = { _, animeRanking ->  openDetails(animeRanking.node.id)})
+            onClickListener = { itemView, animeRanking ->  openDetails(animeRanking.node.id, itemView)})
         seasonRecycler.adapter = animeRankingAdapter
+        val seasonTitle = view.findViewById<TextView>(R.id.season_title)
+        val seasonValue = "${StringFormat.formatSeason(currentSeason.season)} ${currentSeason.year}"
+        seasonTitle.text = seasonValue
 
         recommendRecycler = view.findViewById(R.id.recommend_recycler)
         recommendLoading = view.findViewById(R.id.loading_recommend)
@@ -136,8 +147,8 @@ class HomeFragment : Fragment() {
                 if (animesRankingResponse!=null && animeListSeasonal.size <= 25) {
                     val nextPage: String? = animesRankingResponse!!.paging.next
                     if (nextPage?.isNotEmpty()!! || nextPage.isNotBlank()) {
-                        val getMoreCall = malApiService.getNextRankingPage(nextPage)
-                        initRankingCall(getMoreCall)
+                        val getMoreCall = malApiService.getNextAnimeRankingPage(nextPage)
+                        initRankingCall(getMoreCall, false)
                     }
                 }
             }
@@ -200,25 +211,41 @@ class HomeFragment : Fragment() {
         }
         malApiService = retrofit?.create(MalApiService::class.java)!!
     }
-    private fun initRankingCall(call: Call<AnimeRankingResponse>?) {
+    private fun initRankingCall(call: Call<AnimeRankingResponse>?, shouldClear: Boolean) {
         call?.enqueue(object : Callback<AnimeRankingResponse> {
-            override fun onResponse(call: Call<AnimeRankingResponse>, response: Response<AnimeRankingResponse>) {
+            override fun onResponse(call: Call<AnimeRankingResponse>, response: Response<AnimeRankingResponse>, ) {
                 //Log.d("MoeLog", call.request().toString())
 
                 if (response.isSuccessful) {
-                    animesRankingResponse = response.body()!!
-                    val animeList2 = animesRankingResponse!!.data
-                    if (animeListSeasonal!=animeList2) {
+                    val responseOld = ResponseConverter
+                        .stringToAnimeRankResponse(sharedPref.getString("animeRankingResponse", ""))
+
+                    if (responseOld!=response.body() || animeListSeasonal.isEmpty()) {
+                        animesRankingResponse = response.body()
+
+                        val animeList2 = animesRankingResponse!!.data
+                        if (shouldClear) {
+                            sharedPref.saveString("animeRankingResponse",
+                                ResponseConverter.animeRankResponseToString(animesRankingResponse))
+                            animeDb?.rankingAnimeDao()?.deleteAllRankingAnimes(animeListSeasonal)
+                            animeListSeasonal.clear()
+                        }
                         for (anime in animeList2) {
-                            if (!animeListSeasonal.contains(anime) &&
-                                anime.node.start_season==currentSeason) {
+                            anime.ranking_type = "airing"
+                            if (anime.node.start_season==currentSeason) {
                                 animeListSeasonal.add(anime)
                             }
                         }
-                        animeDb?.rankingAnimeDao()?.insertAllRankingAnimes(animeListSeasonal)
+                        //animeListSeasonal.addAll(animeList2)
+                        animeDb?.rankingAnimeDao()?.insertAllRankingAnimes(animeList2)
+                        seasonLoading.hide()
+                        animeRankingAdapter.notifyDataSetChanged()
                     }
-                    seasonLoading.hide()
-                    animeRankingAdapter.notifyDataSetChanged()
+                    else {
+                        seasonLoading.hide()
+                        animesRankingResponse = responseOld
+                    }
+
                 }
                 //TODO (not tested)
                 else if (response.code()==401) {
@@ -230,6 +257,9 @@ class HomeFragment : Fragment() {
 
                     call.clone()
                 }
+
+                val recommendCall = malApiService.getAnimeRecommend(30)
+                initRecommendCall(recommendCall, true)
             }
 
             override fun onFailure(call: Call<AnimeRankingResponse>, t: Throwable) {
@@ -248,15 +278,30 @@ class HomeFragment : Fragment() {
                 //Log.d("MoeLog", call.request().toString())
 
                 if (response.isSuccessful) {
-                    animesRecommendResponse = response.body()!!
-                    val animeList2 = animesRecommendResponse!!.data
-                    if (animeListRecommend!=animeList2) {
+
+                    val responseOld = ResponseConverter
+                        .stringToAnimeListResponse(sharedPref.getString("animeRecommendResponse", ""))
+
+                    if (responseOld!=response.body() || animeListRecommend.isEmpty()) {
+                        animesRecommendResponse = response.body()
+
+                        val animeList2 = animesRecommendResponse!!.data
                         if (shouldClear) {
+                            sharedPref.saveString("animeRecommendResponse",
+                                ResponseConverter.animeListResponseToString(animesRecommendResponse))
+                            animeDb?.listAnimeDao()?.deleteAllListAnimes(animeListRecommend)
                             animeListRecommend.clear()
                         }
                         animeListRecommend.addAll(animeList2)
-                        animeDb?.listAnimeDao()?.insertAllListAnimes(animeListRecommend)
+                        animeDb?.listAnimeDao()?.insertAllListAnimes(animeList2)
+                        recommendLoading.hide()
+                        animeRecommendAdapter.notifyDataSetChanged()
                     }
+                    else {
+                        recommendLoading.hide()
+                        animesRecommendResponse = responseOld
+                    }
+
                     animeRecommendAdapter.setEndListReachedListener(object :EndListReachedListener {
                         override fun onBottomReached(position: Int) {
                             if (animesRecommendResponse!=null && animeListRecommend.size <= 25) {
@@ -267,7 +312,6 @@ class HomeFragment : Fragment() {
                     })
 
                     recommendLoading.hide()
-                    animeRecommendAdapter.notifyDataSetChanged()
                 }
                 //TODO (not tested)
                 else if (response.code()==401) {

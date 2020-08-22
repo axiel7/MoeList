@@ -113,7 +113,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
         animeId = intent.getIntExtra("animeId", 1)
         fields = "id,title,main_picture,alternative_titles,start_date,synopsis,mean,rank,popularity," +
                 "num_list_users,num_scoring_users,media_type,status,genres,my_list_status,num_episodes,start_season," +
-                "source,average_episode_duration,studios"
+                "broadcast,source,average_episode_duration,studios"
 
         snackBarView = findViewById(R.id.details_layout)
         initViews()
@@ -150,7 +150,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
     private fun initDetailsCall(call: Call<AnimeDetails>?) {
         call?.enqueue(object : Callback<AnimeDetails> {
             override fun onResponse(call: Call<AnimeDetails>, response: Response<AnimeDetails>) {
-                Log.d("MoeLog", call.request().toString())
+                //Log.d("MoeLog", call.request().toString())
 
                 if (response.isSuccessful) {
                     animeDetails = response.body()!!
