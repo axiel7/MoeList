@@ -84,12 +84,31 @@
             android:configChanges="keyboard|orientation|screenSize">
 
         </activity>
+        <activity
+            android:name=".ui.DonationActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:label="Donations"
+            android:hardwareAccelerated="true"
+            android:configChanges="keyboard|orientation|screenSize">
+
+        </activity>
+        <activity
+            android:name=".ui.charts.RankingActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:label="Ranking"
+            android:hardwareAccelerated="true"
+            android:configChanges="keyboard|orientation|screenSize">
+
+        </activity>
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_moelist_logo_white" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3318264479359938~1996029873"/>
     </application>
 
 </manifest>
