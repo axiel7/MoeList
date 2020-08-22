@@ -19,6 +19,8 @@ Follow the development on the official Discord server:
 
 **Coming soon:**
 * Anime/Manga top charts
+* Related Anime/Manga
+* Manage rewatching and tags
 * Push notifications for new episode aired
 * Pictures download
 * Share Anime/Manga link
@@ -33,7 +35,7 @@ Follow the development on the official Discord server:
 * [Jeluchu](https://github.com/Jeluchu)
 * [Glodanif](https://github.com/glodanif)
 
-**Disclaimer:** I'm still learning so the code may not be perfect, however I decided to open source this project so everyone can see how the MAL API works and take a reference.
+**Disclaimer:** I'm still learning so the code may not be perfect and clean, however I decided to open source this project so everyone can see how the MAL API works and take a reference.
 
 **Libraries used:**
 * [Material Components](https://github.com/material-components/material-components-android)
