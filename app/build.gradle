@@ -71,4 +71,6 @@ dependencies {
     implementation 'com.android.billingclient:billing-ktx:3.0.0'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
     implementation 'app.futured.donut:library:2.0.0'
+    implementation 'com.google.android.gms:play-services-ads:19.3.0'
+    implementation 'com.google.android.ump:user-messaging-platform:1.0.0'
 }
