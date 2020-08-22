@@ -93,12 +93,12 @@ class SearchActivity : AppCompatActivity() {
         searchAnimeAdapter = SearchAnimeAdapter(
             searchItemsAnime,
             R.layout.list_item_search_result,
-            onClickListener = { _, animeList ->  openAnimeDetails(animeList.node.id)}
+            onClickListener = { itemView, animeList ->  openAnimeDetails(animeList.node.id, itemView)}
         )
         searchMangaAdapter = SearchMangaAdapter(
             searchItemsManga,
             R.layout.list_item_search_result,
-            onClickListener = { _, mangaList -> openMangaDetails(mangaList.node.id) }
+            onClickListener = { itemView, mangaList -> openMangaDetails(mangaList.node.id, itemView) }
         )
         recyclerSearch.adapter = searchAnimeAdapter
 
@@ -230,14 +230,18 @@ class SearchActivity : AppCompatActivity() {
         })
     }
 
-    private fun openAnimeDetails(animeId: Int?) {
+    private fun openAnimeDetails(animeId: Int?, view: View) {
+        val poster = view.findViewById<ImageView>(R.id.anime_poster)
+        val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(this, poster, poster.transitionName)
         val intent = Intent(this, AnimeDetailsActivity::class.java)
         intent.putExtra("animeId", animeId)
-        startActivity(intent)
+        startActivity(intent, bundle.toBundle())
     }
-    private fun openMangaDetails(mangaId: Int?) {
+    private fun openMangaDetails(mangaId: Int?, view: View) {
+        val poster = view.findViewById<ImageView>(R.id.anime_poster)
+        val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(this, poster, poster.transitionName)
         val intent = Intent(this, MangaDetailsActivity::class.java)
         intent.putExtra("mangaId", mangaId)
-        startActivity(intent)
+        startActivity(intent, bundle.toBundle())
     }
 }

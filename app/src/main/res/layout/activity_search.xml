@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:background="@color/colorToolbar"
+        android:transitionName="toolSearch"
         android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
         app:layout_constraintTop_toTopOf="parent">
         <androidx.appcompat.widget.Toolbar

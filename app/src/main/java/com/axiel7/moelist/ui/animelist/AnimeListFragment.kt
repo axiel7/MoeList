@@ -96,7 +96,7 @@ class AnimeListFragment : Fragment() {
                 MyAnimeListAdapter(
                     animeList,
                     R.layout.list_item_animelist,
-                    onClickListener = { _, userAnimeList -> openDetails(userAnimeList.node.id) }
+                    onClickListener = { itemView, userAnimeList -> openDetails(userAnimeList.node.id, itemView) }
                 )
         animeListAdapter.setEndListReachedListener(object :EndListReachedListener {
             override fun onBottomReached(position: Int) {
@@ -272,10 +272,19 @@ class AnimeListFragment : Fragment() {
             else -> "watching"
         }
     }
-    private fun openDetails(animeId: Int?) {
-        val intent = Intent(context, AnimeDetailsActivity::class.java)
-        intent.putExtra("animeId", animeId)
-        startActivityForResult(intent, 17)
+    private fun openDetails(animeId: Int?, view: View?) {
+        if (view!=null) {
+            val poster = view.findViewById<FrameLayout>(R.id.poster_container)
+            val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), poster, poster.transitionName)
+            val intent = Intent(context, AnimeDetailsActivity::class.java)
+            intent.putExtra("animeId", animeId)
+            startActivityForResult(intent, 17, bundle.toBundle())
+        }
+        else {
+            val intent = Intent(context, AnimeDetailsActivity::class.java)
+            intent.putExtra("animeId", animeId)
+            startActivityForResult(intent, 17)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

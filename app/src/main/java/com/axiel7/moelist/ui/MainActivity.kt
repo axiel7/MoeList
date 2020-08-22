@@ -8,6 +8,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -21,7 +22,8 @@ import com.axiel7.moelist.utils.CreateOkHttpClient
 import com.axiel7.moelist.utils.SharedPrefsHelpers
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.transition.MaterialFadeThrough
+import com.google.android.material.transition.platform.MaterialFadeThrough
+import com.google.android.material.transition.platform.MaterialSharedAxis
 import okhttp3.OkHttpClient
 
 class MainActivity : AppCompatActivity() {
@@ -32,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     private val mangaListFragment = MangaListFragment()
     private val profileFragment = ProfileFragment()
     private lateinit var bottomSheetDialog: BottomSheetDialog
+    private lateinit var toolbar: Toolbar
 
     companion object {
         var httpClient: OkHttpClient? = null
@@ -59,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         //toolbar
-        val toolbar = findViewById<Toolbar>(R.id.main_toolbar)
+        toolbar = findViewById(R.id.main_toolbar)
         setSupportActionBar(toolbar)
         val supportActionBar = supportActionBar
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -167,7 +170,9 @@ class MainActivity : AppCompatActivity() {
 
     fun openSearch(view: View) {
         val intent = Intent(this, SearchActivity::class.java)
-        startActivity(intent)
+        val bundle = ActivityOptionsCompat
+            .makeSceneTransitionAnimation(this, toolbar, toolbar.transitionName).toBundle()
+        startActivity(intent, bundle)
     }
     fun openSettings(view: View) {
         val intent = Intent(this, SettingsActivity::class.java)
@@ -175,7 +180,8 @@ class MainActivity : AppCompatActivity() {
         bottomSheetDialog.dismiss()
     }
     fun openDonations(view: View) {
-        Toast.makeText(this, "( /^ω^)/♪♪", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, DonationActivity::class.java)
+        startActivity(intent)
         bottomSheetDialog.dismiss()
     }
     fun openShare(view: View) {

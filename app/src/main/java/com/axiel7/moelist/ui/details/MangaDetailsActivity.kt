@@ -86,8 +86,11 @@ class MangaDetailsActivity : AppCompatActivity() {
     private var mangaId = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme)
+        setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
+        window.sharedElementsUseOverlay = false
+        overridePendingTransition(0, 0)
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manga_details)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -521,15 +524,20 @@ class MangaDetailsActivity : AppCompatActivity() {
 
     private fun openFullPoster() {
         val intent = Intent(this, FullPosterActivity::class.java)
+        val options = ActivityOptions.makeSceneTransitionAnimation(
+            this,
+            mangaPosterView,
+            "shared_poster_container"
+        )
         val largePicture = mangaDetails.main_picture?.large
         val mediumPicture = mangaDetails.main_picture?.medium
         if (!largePicture.isNullOrEmpty()) {
             intent.putExtra("posterUrl", largePicture)
-            startActivity(intent)
+            startActivity(intent, options.toBundle())
         }
         else if (!mediumPicture.isNullOrEmpty()) {
             intent.putExtra("posterUrl", mediumPicture)
-            startActivity(intent)
+            startActivity(intent, options.toBundle())
         }
     }
 

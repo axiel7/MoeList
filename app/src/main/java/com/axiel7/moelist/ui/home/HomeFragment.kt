@@ -124,7 +124,7 @@ class HomeFragment : Fragment() {
                 RecommendationsAdapter(
                     animeListRecommend,
                     R.layout.list_item_anime_seasonal,
-                    onClickListener = { _, animeList -> openDetails(animeList.node.id) }
+                    onClickListener = { itemView, animeList -> openDetails(animeList.node.id, itemView) }
                 )
         animeRankingAdapter.setEndListReachedListener(object :EndListReachedListener {
             override fun onBottomReached(position: Int) {
@@ -353,9 +353,24 @@ class HomeFragment : Fragment() {
         })
     }
 
-    private fun openDetails(animeId: Int?) {
-        val intent = Intent(context, AnimeDetailsActivity::class.java)
-        intent.putExtra("animeId", animeId)
-        startActivity(intent)
+    private fun openDetails(animeId: Int?, view: View?) {
+        if (view!=null) {
+            val poster = view.findViewById<ShapeableImageView>(R.id.anime_poster)
+            val intent = Intent(context, AnimeDetailsActivity::class.java)
+            val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), poster, poster.transitionName)
+            intent.putExtra("animeId", animeId)
+            startActivity(intent, bundle.toBundle())
+        }
+        else {
+            val intent = Intent(context, AnimeDetailsActivity::class.java)
+            intent.putExtra("animeId", animeId)
+            startActivity(intent)
+        }
+    }
+    private fun openRanking(type: String, view: View) {
+        val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), view, view.transitionName)
+        val intent = Intent(context, RankingActivity::class.java)
+        intent.putExtra("mediaType", type)
+        startActivity(intent, bundle.toBundle())
     }
 }

@@ -11,14 +11,27 @@ import coil.Coil
 import coil.request.LoadRequest
 import coil.size.ViewSizeResolver
 import com.axiel7.moelist.R
+import com.google.android.material.transition.platform.MaterialContainerTransform
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import com.igreenwood.loupe.extensions.createLoupe
 import com.igreenwood.loupe.extensions.setOnViewTranslateListener
 
 class FullPosterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme)
+        findViewById<View>(android.R.id.content).transitionName = "shared_poster_container"
+        setEnterSharedElementCallback(MaterialContainerTransformSharedElementCallback())
+        window.sharedElementEnterTransition = MaterialContainerTransform().apply {
+            addTarget(android.R.id.content)
+            duration = 300L
+        }
+        window.sharedElementReturnTransition = MaterialContainerTransform().apply {
+            addTarget(android.R.id.content)
+            duration = 250L
+        }
+        overridePendingTransition(0, 0)
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_full_poster)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {

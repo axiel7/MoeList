@@ -57,6 +57,7 @@
                 android:background="@color/colorPlaceHolder"
                 android:elevation="10dp"
                 android:scaleType="centerCrop"
+                android:transitionName="shared_poster_container"
                 app:shapeAppearanceOverlay="@style/circleImageView"/>
 
             <TextView

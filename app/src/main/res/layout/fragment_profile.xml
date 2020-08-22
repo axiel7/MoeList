@@ -26,7 +26,8 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_round_account_circle_24"/>
+                android:src="@drawable/ic_round_account_circle_24"
+                android:transitionName="shared_poster_container"/>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"

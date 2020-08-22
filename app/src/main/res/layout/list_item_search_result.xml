@@ -31,7 +31,8 @@
             android:layout_height="130dp"
             android:layout_gravity="start"
             android:background="@color/colorPlaceHolder"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:transitionName="shared_poster_container"/>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"

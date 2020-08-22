@@ -40,6 +40,7 @@ class MangaListFragment : Fragment() {
     private lateinit var mangaListRecycler: RecyclerView
     private lateinit var filtersFab: FloatingActionButton
     private lateinit var loadingBar: ContentLoadingProgressBar
+    private lateinit var snackBarView: View
     private lateinit var mangaListAdapter: MyMangaListAdapter
     private var mangaListResponse: UserMangaListResponse? = null
     private lateinit var mangaList: MutableList<UserMangaList>
@@ -82,6 +83,7 @@ class MangaListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        snackBarView = view
         loadingBar = view.findViewById(R.id.loading_mangalist)
         loadingBar.hide()
         if (mangaList.isEmpty()) {
@@ -93,7 +95,7 @@ class MangaListFragment : Fragment() {
             MyMangaListAdapter(
                 mangaList,
                 R.layout.list_item_mangalist,
-                onClickListener = { _, userMangaList -> openDetails(userMangaList.node.id) }
+                onClickListener = { itemView, userMangaList -> openDetails(userMangaList.node.id, itemView) }
             )
         mangaListAdapter.setEndListReachedListener(object : EndListReachedListener {
             override fun onBottomReached(position: Int) {
@@ -218,6 +220,9 @@ class MangaListFragment : Fragment() {
 
             override fun onFailure(call: Call<UserMangaListResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
+                if (isAdded) {
+                    Snackbar.make(snackBarView, "Error connecting to server", Snackbar.LENGTH_SHORT).show()
+                }
             }
 
         })
@@ -233,21 +238,27 @@ class MangaListFragment : Fragment() {
                     if (response.isSuccessful) {
                         //val myListStatus = response.body()!!
                         initCalls()
-                        Toast.makeText(context, "Updated", Toast.LENGTH_SHORT).show()
+                        if (isAdded) {
+                            Snackbar.make(snackBarView, "Updated", Snackbar.LENGTH_SHORT).show()
+                        }
                     }
-                    else {
-                        Toast.makeText(context, "Error updating list", Toast.LENGTH_SHORT).show()
+                    else if (isAdded) {
+                        Snackbar.make(snackBarView, "Error updating list", Snackbar.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<MyMangaListStatus>, t: Throwable) {
                     Log.d("MoeLog", t.toString())
-                    Toast.makeText(context, "Error updating list", Toast.LENGTH_SHORT).show()
+                    if (isAdded) {
+                        Snackbar.make(snackBarView, "Error updating list", Snackbar.LENGTH_SHORT).show()
+                    }
                 }
             })
         } else {
             loadingBar.hide()
-            Toast.makeText(context, "No changes", Toast.LENGTH_SHORT).show()
+            if (isAdded) {
+                Snackbar.make(snackBarView, "No changes", Snackbar.LENGTH_SHORT).show()
+            }
         }
     }
     private fun changeStatusFilter(radioButton: Int) {
@@ -260,10 +271,19 @@ class MangaListFragment : Fragment() {
             else -> "reading"
         }
     }
-    private fun openDetails(animeId: Int?) {
-        val intent = Intent(context, MangaDetailsActivity::class.java)
-        intent.putExtra("mangaId", animeId)
-        startActivityForResult(intent, 17)
+    private fun openDetails(mangaId: Int?, view: View?) {
+        if (view!=null) {
+            val poster = view.findViewById<FrameLayout>(R.id.poster_container)
+            val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), poster, poster.transitionName)
+            val intent = Intent(context, MangaDetailsActivity::class.java)
+            intent.putExtra("mangaId", mangaId)
+            startActivityForResult(intent, 17, bundle.toBundle())
+        }
+        else {
+            val intent = Intent(context, MangaDetailsActivity::class.java)
+            intent.putExtra("mangaId", mangaId)
+            startActivityForResult(intent, 17)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

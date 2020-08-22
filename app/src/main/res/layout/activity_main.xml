@@ -23,6 +23,8 @@
             android:background="@drawable/toolbar_background"
             android:onClick="openSearch"
             android:elevation="10dp"
+            android:transitionName="toolSearch"
+            app:layout_scrollFlags="scroll|enterAlways"
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"
             app:contentInsetStartWithNavigation="0dp">

@@ -26,8 +26,10 @@
         android:backgroundTint="@color/colorToolbar">
 
         <FrameLayout
+            android:id="@+id/poster_container"
             android:layout_width="110dp"
-            android:layout_height="150dp">
+            android:layout_height="150dp"
+            android:transitionName="shared_poster_container">
 
             <ImageView
                 android:id="@+id/manga_poster"

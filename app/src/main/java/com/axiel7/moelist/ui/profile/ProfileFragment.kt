@@ -174,8 +174,13 @@ class ProfileFragment : Fragment() {
             }
         profilePicture.setOnClickListener {
             val intent = Intent(context, FullPosterActivity::class.java)
+            val options = ActivityOptions.makeSceneTransitionAnimation(
+                requireActivity(),
+                profilePicture,
+                "shared_poster_container"
+            )
             intent.putExtra("posterUrl", user?.picture)
-            startActivity(intent)
+            startActivity(intent, options.toBundle())
         }
 
         usernameView.text = user?.name
