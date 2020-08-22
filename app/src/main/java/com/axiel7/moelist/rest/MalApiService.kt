@@ -16,11 +16,15 @@ interface MalApiService {
                      @Query("fields") fields: String?): Call<AnimeListResponse>
 
     @GET
-    fun getSeasonalAnime(@Url url: String, @Query("sort") sort: String): Call<SeasonalAnimeResponse>
+    fun getSeasonalAnime(@Url url: String,
+                         @Query("sort") sort: String,
+                         @Query("fields") fields: String?,
+                         @Query("limit") limit: Int?): Call<SeasonalAnimeResponse>
 
     @GET("/v2/anime/ranking")
     fun getAnimeRanking(@Query("ranking_type") rankingType: String,
-                        @Query("fields") fields: String?): Call<AnimeRankingResponse>
+                        @Query("fields") fields: String?,
+                        @Query("nsfw") nsfw: Boolean): Call<AnimeRankingResponse>
 
     @GET("/v2/anime/suggestions")
     fun getAnimeRecommend(@Query("limit") limit: Int?): Call<AnimeListResponse>
@@ -31,7 +35,9 @@ interface MalApiService {
                          @Query("sort") sort: String): Call<UserAnimeListResponse>
 
     @GET
-    fun getNextRankingPage(@Url url: String): Call<AnimeRankingResponse>
+    fun getNextSeasonalPage(@Url url: String): Call<SeasonalAnimeResponse>
+    @GET
+    fun getNextAnimeRankingPage(@Url url: String): Call<AnimeRankingResponse>
     @GET
     fun getNextRecommendPage(@Url url: String): Call<AnimeListResponse>
     @GET

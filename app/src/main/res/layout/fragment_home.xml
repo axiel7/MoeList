@@ -1,78 +1,260 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ui.home.HomeFragment">
 
-    <TextView
-        android:id="@+id/season_title"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/text_margin"
-        android:text="This Season"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:drawableEnd="@drawable/ic_round_arrow_forward_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent">
 
-    <androidx.core.widget.ContentLoadingProgressBar
-        android:id="@+id/loading_season"
-        android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:padding="80dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/season_title"
-        style="?android:attr/progressBarStyleLarge"/>
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/charts_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/season_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/season_title"
-        tools:listitem="@layout/list_item_anime_seasonal"/>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/anime_rank"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:transitionName="shared_container"
+                app:contentPadding="3dp"
+                app:cardCornerRadius="5dp"
+                app:cardBackgroundColor="@color/colorCard">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:drawablePadding="10dp"
+                    android:layout_gravity="start"
+                    android:gravity="center_vertical"
+                    android:text="Anime Ranking"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorText"
+                    app:drawableStartCompat="@drawable/ic_round_movie_24" />
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/manga_rank"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_column="0"
+                android:layout_marginEnd="15dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:transitionName="shared_container"
+                app:contentPadding="3dp"
+                app:cardCornerRadius="5dp"
+                app:cardBackgroundColor="@color/colorCard">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:drawablePadding="10dp"
+                    android:layout_gravity="start"
+                    android:gravity="center_vertical"
+                    android:text="Manga Ranking"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorText"
+                    app:drawableStartCompat="@drawable/ic_round_menu_book_24" />
+            </com.google.android.material.card.MaterialCardView>
 
-    <TextView
-        android:id="@+id/recommend_title"
-        android:layout_width="418dp"
-        android:layout_height="59dp"
-        android:drawableEnd="@drawable/ic_round_arrow_forward_24"
-        android:padding="@dimen/text_margin"
-        android:text="Recommendations"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/season_recycler" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/charts_layout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/charts_layout">
 
-    <androidx.core.widget.ContentLoadingProgressBar
-        android:id="@+id/loading_recommend"
-        android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:padding="80dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recommend_title"
-        style="?android:attr/progressBarStyleLarge"/>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/seasonal_chart"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:contentPadding="3dp"
+                app:cardCornerRadius="5dp"
+                app:cardBackgroundColor="@color/colorCard">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:drawablePadding="10dp"
+                    android:layout_gravity="start"
+                    android:gravity="center_vertical"
+                    android:text="Seasonal Chart"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorText"
+                    app:drawableStartCompat="@drawable/ic_round_event_24" />
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/random"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_column="1"
+                android:layout_marginEnd="15dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:contentPadding="3dp"
+                app:cardCornerRadius="5dp"
+                app:cardBackgroundColor="@color/colorCard">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:drawablePadding="10dp"
+                    android:layout_gravity="start"
+                    android:gravity="center_vertical"
+                    android:text="Random"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorText"
+                    app:drawableStartCompat="@drawable/ic_round_casino_24" />
+            </com.google.android.material.card.MaterialCardView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recommend_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recommend_title"
-        tools:listitem="@layout/list_item_anime_seasonal"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/today_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/text_margin"
+            android:text="Today"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/charts_layout2"
+            app:drawableEndCompat="@drawable/ic_round_arrow_forward_24" />
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/loading_today"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:padding="60dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/today_title"
+            style="?android:attr/progressBarStyleLarge"/>
+
+        <TextView
+            android:id="@+id/empty_today"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:visibility="invisible"
+            android:text="Nothing today\n( ≧Д≦)"
+            android:gravity="center"
+            android:textSize="23sp"
+            android:textColor="@color/colorText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/today_title"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/today_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/today_title"
+            tools:listitem="@layout/list_item_anime_today"/>
+
+        <TextView
+            android:id="@+id/season_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/text_margin"
+            android:text="This Season"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/today_recycler"
+            app:drawableEndCompat="@drawable/ic_round_arrow_forward_24" />
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/loading_season"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:padding="80dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/season_title"
+            style="?android:attr/progressBarStyleLarge"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/season_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/season_title"
+            tools:listitem="@layout/list_item_anime_seasonal"/>
+
+        <TextView
+            android:id="@+id/recommend_title"
+            android:layout_width="418dp"
+            android:layout_height="59dp"
+            android:padding="@dimen/text_margin"
+            android:text="Recommendations"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/season_recycler"
+            app:drawableEndCompat="@drawable/ic_round_arrow_forward_24" />
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/loading_recommend"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:padding="80dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recommend_title"
+            style="?android:attr/progressBarStyleLarge"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recommend_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recommend_title"
+            tools:listitem="@layout/list_item_anime_seasonal"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

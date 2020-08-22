@@ -20,6 +20,18 @@ class TypeConverters {
         return gson.fromJson<Node>(data, type)
     }
     @TypeConverter
+    fun nodeSeasonalToString(someObject: NodeSeasonal?): String? {
+        return gson.toJson(someObject)
+    }
+    @TypeConverter
+    fun stringToNodeSeasonal(data: String?): NodeSeasonal? {
+        if (data==null) {
+            return null
+        }
+        val type: Type = object : TypeToken<NodeSeasonal?>() {}.type
+        return gson.fromJson<NodeSeasonal>(data, type)
+    }
+    @TypeConverter
     fun nodeToString(someObject: Node?): String? {
         return gson.toJson(someObject)
     }

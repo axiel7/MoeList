@@ -8,13 +8,14 @@ import androidx.room.TypeConverters
 import com.axiel7.moelist.model.*
 
 @TypeConverters(value = [com.axiel7.moelist.room.TypeConverters::class])
-@Database(entities = [AnimeRanking::class, AnimeList::class, AnimeDetails::class, MangaDetails::class,
-    UserAnimeList::class, UserMangaList::class, User::class]
-    , version = 19)
+@Database(entities = [AnimeRanking::class, AnimeList::class, SeasonalList::class, AnimeDetails::class,
+    MangaRanking::class, MangaDetails::class, UserAnimeList::class, UserMangaList::class, User::class]
+    , version = 37)
 abstract class AnimeDatabase : RoomDatabase() {
 
     abstract fun rankingAnimeDao(): RankingAnimeDao
     abstract fun listAnimeDao(): ListAnimeDao
+    abstract fun seasonalListDao(): SeasonalListDao
     abstract fun animeDetailsDao(): AnimeDetailsDao
     abstract fun mangaDetailsDao(): MangaDetailsDao
     abstract fun userAnimeListDao(): UserAnimeListDao
