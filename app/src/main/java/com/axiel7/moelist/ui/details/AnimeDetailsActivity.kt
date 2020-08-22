@@ -113,7 +113,10 @@ class AnimeDetailsActivity : AppCompatActivity() {
         refreshToken = sharedPref.getString("refreshToken", "").toString()
 
         animeId = intent.getIntExtra("animeId", 1)
-        fields = "id,title,main_picture,alternative_titles,start_date,synopsis,mean,rank,popularity," +
+        if (animeId==-1) {
+            animeId = Random(System.nanoTime()).nextInt(0, 5000)
+        }
+        fields = "id,title,main_picture,alternative_titles,start_date,end_date,synopsis,mean,rank,popularity," +
                 "num_list_users,num_scoring_users,media_type,status,genres,my_list_status,num_episodes,start_season," +
                 "broadcast,source,average_episode_duration,studios"
 
@@ -158,6 +161,12 @@ class AnimeDetailsActivity : AppCompatActivity() {
                     animeDetails = response.body()!!
                     setDataToViews()
                     animeDb?.animeDetailsDao()?.insertAnimeDetails(animeDetails)
+                }
+                else if (response.code()==404) {
+                    animeId = Random(System.nanoTime()).nextInt(0, 5000)
+                    call.cancel()
+                    val detailsCall = malApiService.getAnimeDetails(Urls.apiBaseUrl + "anime/$animeId", fields)
+                    initDetailsCall(detailsCall)
                 }
                 //TODO (not tested)
                 else if (response.code()==401) {

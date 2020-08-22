@@ -116,6 +116,10 @@ class HomeFragment : Fragment() {
         mangaRankingButton.setOnClickListener { openRanking("manga", mangaRankingButton) }
         seasonalChartButton = view.findViewById(R.id.seasonal_chart)
 
+        randomButton = view.findViewById(R.id.random)
+        randomButton.setOnClickListener { openDetails(-1, null) }
+
+        snackBarView = view
         seasonRecycler = view.findViewById(R.id.season_recycler)
         seasonLoading = view.findViewById(R.id.loading_season)
         if (animeListSeasonal.isEmpty()) {
