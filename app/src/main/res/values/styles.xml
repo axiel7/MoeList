@@ -45,4 +45,19 @@
         <item name="cornerSize">5dp</item>
     </style>
 
+    <!-- tab layout style -->
+    <style name="Theme.Widget.Tabs" parent="Widget.MaterialComponents.TabLayout.Colored">
+        <item name="tabGravity">start</item>
+        <item name="tabIndicator">@drawable/tab_indicator</item>
+        <item name="tabIndicatorFullWidth">false</item>
+        <item name="tabIndicatorHeight">3dp</item>
+        <item name="tabInlineLabel">true</item>
+        <item name="tabMinWidth">75dp</item>
+        <item name="tabMode">auto</item>
+        <item name="tabIndicatorColor">?attr/colorAccent</item>
+        <item name="tabSelectedTextColor">?attr/colorAccent</item>
+        <item name="tabTextColor">?attr/colorControlNormal</item>
+        <item name="tabRippleColor">@null</item>
+    </style>
+
 </resources>

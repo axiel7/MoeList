@@ -9,4 +9,5 @@
     <color name="colorToolbar">#FFFFFF</color>
     <color name="colorPlaceHolder">#dedede</color>
     <color name="colorError">#B00020</color>
+    <color name="colorCard">#fafafa</color>
 </resources>

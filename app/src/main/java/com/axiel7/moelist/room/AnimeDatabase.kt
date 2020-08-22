@@ -17,6 +17,7 @@ abstract class AnimeDatabase : RoomDatabase() {
     abstract fun listAnimeDao(): ListAnimeDao
     abstract fun seasonalListDao(): SeasonalListDao
     abstract fun animeDetailsDao(): AnimeDetailsDao
+    abstract fun rankingMangaDao(): RankingMangaDao
     abstract fun mangaDetailsDao(): MangaDetailsDao
     abstract fun userAnimeListDao(): UserAnimeListDao
     abstract fun userMangaListDao(): UserMangaListDao

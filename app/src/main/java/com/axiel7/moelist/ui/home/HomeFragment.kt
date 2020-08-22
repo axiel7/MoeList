@@ -104,6 +104,11 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        animeRankingButton = view.findViewById(R.id.anime_rank)
+        animeRankingButton.setOnClickListener { openRanking("anime", animeRankingButton) }
+        mangaRankingButton = view.findViewById(R.id.manga_rank)
+        mangaRankingButton.setOnClickListener { openRanking("manga", mangaRankingButton) }
+        seasonalChartButton = view.findViewById(R.id.seasonal_chart)
 
         seasonRecycler = view.findViewById(R.id.season_recycler)
         seasonLoading = view.findViewById(R.id.loading_season)
@@ -137,7 +142,6 @@ class HomeFragment : Fragment() {
                 }
             }
         })
-
         recommendRecycler.adapter = animeRecommendAdapter
 
         todayRecycler = view.findViewById(R.id.today_recycler)

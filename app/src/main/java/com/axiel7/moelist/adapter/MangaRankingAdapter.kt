@@ -8,14 +8,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.axiel7.moelist.R
-import com.axiel7.moelist.model.AnimeRanking
+import com.axiel7.moelist.model.MangaRanking
 import com.axiel7.moelist.utils.StringFormat
 import java.text.NumberFormat
 
-class AnimeRankingAdapter(private val animes: MutableList<AnimeRanking>,
+class MangaRankingAdapter(private val mangas: MutableList<MangaRanking>,
                           private val rowLayout: Int,
-                          private val onClickListener: (View, AnimeRanking) -> Unit) :
-    RecyclerView.Adapter<AnimeRankingAdapter.AnimeViewHolder>() {
+                          private val onClickListener: (View, MangaRanking) -> Unit) :
+    RecyclerView.Adapter<MangaRankingAdapter.AnimeViewHolder>() {
     private var endListReachedListener: EndListReachedListener? = null
 
     class AnimeViewHolder internal constructor(v: View) : RecyclerView.ViewHolder(v) {
@@ -37,13 +37,13 @@ class AnimeRankingAdapter(private val animes: MutableList<AnimeRanking>,
     }
 
     override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
-        val posterUrl = animes[position].node.main_picture.medium
-        val animeTitle = animes[position].node.title
-        val ranking = animes[position].ranking?.rank
-        val mediaType = animes[position].node.media_type?.let { StringFormat.formatMediaType(it) }
-        val episodes = animes[position].node.num_episodes
-        val score = animes[position].node.mean
-        val members = NumberFormat.getInstance().format(animes[position].node.num_list_users)
+        val posterUrl = mangas[position].node.main_picture.medium
+        val animeTitle = mangas[position].node.title
+        val ranking = mangas[position].ranking?.rank
+        val mediaType = mangas[position].node.media_type?.let { StringFormat.formatMediaType(it) }
+        val episodes = mangas[position].node.num_chapters
+        val score = mangas[position].node.mean
+        val members = NumberFormat.getInstance().format(mangas[position].node.num_list_users)
         holder.animePoster.load(posterUrl) {
             crossfade(true)
             crossfade(500)
@@ -56,8 +56,8 @@ class AnimeRankingAdapter(private val animes: MutableList<AnimeRanking>,
         val rankValue = "#$ranking"
         holder.rankingText.text = rankValue
 
-        val mediaStatusValue = if (episodes==0) { "$mediaType (?? Episodes)" }
-        else { "$mediaType ($episodes Episodes)" }
+        val mediaStatusValue = if (episodes==0) { "$mediaType (?? Chapters)" }
+        else { "$mediaType ($episodes Chapters)" }
         holder.mediaStatusText.text = mediaStatusValue
 
         val scoreValue = "Score: $score"
@@ -66,17 +66,17 @@ class AnimeRankingAdapter(private val animes: MutableList<AnimeRanking>,
         val membersValue = "$members Members"
         holder.membersText.text = membersValue
 
-        val anime = animes[position]
+        val anime = mangas[position]
         holder.itemView.setOnClickListener { view ->
             onClickListener(view, anime)
         }
-        if (position == animes.size - 2) run {
+        if (position == mangas.size - 2) run {
             endListReachedListener?.onBottomReached(position)
         }
     }
 
     override fun getItemCount(): Int {
-        return animes.size
+        return mangas.size
     }
 
     fun setEndListReachedListener(endListReachedListener: EndListReachedListener?) {

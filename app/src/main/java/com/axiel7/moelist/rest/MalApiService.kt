@@ -73,7 +73,8 @@ interface MalApiService {
 
     @GET("/v2/manga/ranking")
     fun getMangaRanking(@Query("ranking_type") rankingType: String,
-                        @Query("fields") fields: String?): Call<MangaRankingResponse>
+                        @Query("fields") fields: String?,
+                        @Query("nsfw") nsfw: Boolean,): Call<MangaRankingResponse>
 
     @GET("/v2/users/@me/mangalist")
     fun getUserMangaList(@Query("status") status: String,
@@ -81,6 +82,8 @@ interface MalApiService {
                          @Query("sort") sort: String): Call<UserMangaListResponse>
     @GET
     fun getNextMangaListPage(@Url url: String): Call<UserMangaListResponse>
+    @GET
+    fun getNextMangaRankingPage(@Url url: String): Call<MangaRankingResponse>
 
     //TODO (implement: is_rereading, priority, num_times_reread, reread_value, tags, comments)
     @FormUrlEncoded

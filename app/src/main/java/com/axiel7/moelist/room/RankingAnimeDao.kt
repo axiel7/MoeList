@@ -6,8 +6,8 @@ import com.axiel7.moelist.model.AnimeRanking
 @Dao
 interface RankingAnimeDao {
 
-    @Query("SELECT * FROM anime_ranking")
-    fun getRankingAnimes(): MutableList<AnimeRanking>
+    @Query("SELECT * FROM anime_ranking WHERE ranking_type LIKE :rankingType ORDER BY rank ASC")
+    fun getRankingAnimes(rankingType: String): MutableList<AnimeRanking>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllRankingAnimes(anime_ranking: MutableList<AnimeRanking>)

@@ -11,6 +11,7 @@ data class NodeManga(
     val media_type: String?,
     val num_volumes: Int?,
     val num_chapters: Int?,
+    val num_list_users: Int?,
     val status: String?,
     val start_date: String?
 )

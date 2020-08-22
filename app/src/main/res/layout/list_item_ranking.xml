@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:id="@+id/anime_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="15dp"
+    android:layout_marginEnd="15dp"
+    android:layout_marginTop="15dp"
+    android:elevation="8dp"
+    android:gravity="center_horizontal"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    android:backgroundTint="@color/colorToolbar"
+    android:minHeight="72dp"
+    app:cardCornerRadius="5dp">
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:backgroundTint="@color/colorToolbar">
+
+        <FrameLayout
+            android:id="@+id/poster_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:transitionName="shared_poster_container">
+            <ImageView
+                android:id="@+id/anime_poster"
+                android:layout_width="93dp"
+                android:layout_height="130dp"
+                android:layout_gravity="start"
+                android:background="@color/colorPlaceHolder"
+                android:scaleType="centerCrop" />
+            <TextView
+                android:id="@+id/ranking_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:layout_gravity="start|bottom"
+                android:gravity="center"
+                android:background="@drawable/score_background"
+                android:text="#1"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                tools:ignore="HardcodedText" />
+
+        </FrameLayout>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/anime_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginEnd="@dimen/text_margin"
+                android:layout_marginTop="8dp"
+                android:text="Boku no Pico"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textSize="16sp"
+                tools:ignore="HardcodedText" />
+            <TextView
+                android:id="@+id/media_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginTop="8dp"
+                android:text="TV (25 Episodes)"
+                android:textColor="?attr/colorControlNormal"/>
+            <TextView
+                android:id="@+id/score_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginTop="8dp"
+                android:text="Score: 8.74"
+                android:textColor="?attr/colorControlNormal"/>
+            <TextView
+                android:id="@+id/members_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginTop="8dp"
+                android:text="1,563,735 Members"
+                android:textColor="?attr/colorControlNormal"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.cardview.widget.CardView>

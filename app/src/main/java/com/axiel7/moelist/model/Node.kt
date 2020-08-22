@@ -9,6 +9,7 @@ data class Node(
     val main_picture: MainPicture,
     val start_season: StartSeason?,
     val num_episodes: Int?,
+    val num_list_users: Int?,
     val media_type: String?,
     val status: String?,
     val mean: Float?

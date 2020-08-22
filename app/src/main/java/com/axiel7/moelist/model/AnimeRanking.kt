@@ -1,5 +1,6 @@
 package com.axiel7.moelist.model
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Index
 
@@ -7,6 +8,7 @@ import androidx.room.Index
     indices = [Index(value = ["node"], unique = true)])
 data class AnimeRanking(
     val node: Node,
-    val ranking: Ranking?
+    @Embedded val ranking: Ranking?,
+    var ranking_type: String?
 )
 
