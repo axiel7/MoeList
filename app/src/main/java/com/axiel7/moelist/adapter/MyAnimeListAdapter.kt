@@ -63,7 +63,13 @@ class MyAnimeListAdapter(private val animes: MutableList<UserAnimeList>,
             allowHardware(false)
         }
         holder.animeTitle.text = animeTitle
-        holder.animeScore.text = animeScore.toString()
+
+        if (animeScore==0) {
+            holder.animeScore.text = "─"
+        } else {
+            holder.animeScore.text = animeScore.toString()
+        }
+
         holder.progressText.text = progressText
         holder.mediaStatus.text = mediaStatus
         if (totalEpisodes != null && watchedEpisodes != null

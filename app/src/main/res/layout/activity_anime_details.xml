@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/details_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true">
@@ -68,7 +69,7 @@
                 android:layout_marginTop="@dimen/text_margin"
                 android:maxLines="2"
                 android:ellipsize="end"
-                android:text="Boku no Pico"
+                android:text="Loading…"
                 android:textColor="@color/colorText"
                 android:textSize="22sp"
                 android:textStyle="bold"

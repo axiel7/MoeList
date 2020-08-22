@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
@@ -20,6 +19,7 @@ import com.axiel7.moelist.rest.ServiceGenerator
 import com.axiel7.moelist.utils.PkceGenerator
 import com.axiel7.moelist.utils.SharedPrefsHelpers
 import com.axiel7.moelist.utils.Urls
+import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,6 +29,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var codeVerifier: String
     private lateinit var codeChallenge: String
     private lateinit var loadingBar: ProgressBar
+    private lateinit var snackBarView: View
 
     companion object {
         const val clientId = ClientId.clientId
@@ -53,6 +54,7 @@ class LoginActivity : AppCompatActivity() {
         codeVerifier = PkceGenerator.generateVerifier(128)
         codeChallenge = codeVerifier
 
+        snackBarView = findViewById(R.id.login_layout)
         loadingBar = findViewById(R.id.loading_bar)
 
         val loginButton = findViewById<Button>(R.id.login)
@@ -99,17 +101,21 @@ class LoginActivity : AppCompatActivity() {
                             val openMainActivity = Intent(this@LoginActivity, MainActivity::class.java)
                             startActivity(openMainActivity)
                         }
-                        else { Log.d("MoeLog", "token was null") }
+                        else {
+                            Log.d("MoeLog", "token was null")
+                            Snackbar.make(snackBarView, "Token was null", Snackbar.LENGTH_SHORT).show()
+                        }
                     }
 
                     override fun onFailure(call: Call<AccessToken>, t: Throwable) {
                         Log.d("MoeLog", t.toString())
+                        Snackbar.make(snackBarView, "Error connecting to server", Snackbar.LENGTH_SHORT).show()
                     }
                 })
             }
             else if (uri.getQueryParameter("error")!=null) {
                 loadingBar.visibility = View.INVISIBLE
-                Toast.makeText(this, "Login error", Toast.LENGTH_SHORT).show()
+                Snackbar.make(snackBarView, "Login error", Snackbar.LENGTH_SHORT).show()
             }
         }
     }

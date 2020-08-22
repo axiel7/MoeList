@@ -39,9 +39,8 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
             window.setDecorFitsSystemWindows(false)
         }
         else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
-            window.decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
+            window.decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
         }
 
         val toolbar = findViewById<Toolbar>(R.id.setting_toolbar)

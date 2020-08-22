@@ -7,8 +7,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.RadioGroup
-import android.widget.Toast
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -23,12 +24,10 @@ import com.axiel7.moelist.model.UserMangaListResponse
 import com.axiel7.moelist.rest.MalApiService
 import com.axiel7.moelist.ui.MainActivity
 import com.axiel7.moelist.ui.details.MangaDetailsActivity
-import com.axiel7.moelist.utils.CreateOkHttpClient
-import com.axiel7.moelist.utils.RefreshToken
-import com.axiel7.moelist.utils.SharedPrefsHelpers
-import com.axiel7.moelist.utils.Urls
+import com.axiel7.moelist.utils.*
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

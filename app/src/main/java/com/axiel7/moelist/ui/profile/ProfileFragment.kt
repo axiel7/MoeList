@@ -1,5 +1,6 @@
 package com.axiel7.moelist.ui.profile
 
+import android.app.ActivityOptions
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -21,10 +22,8 @@ import com.axiel7.moelist.model.UserAnimeStatistics
 import com.axiel7.moelist.rest.MalApiService
 import com.axiel7.moelist.ui.MainActivity
 import com.axiel7.moelist.ui.details.FullPosterActivity
-import com.axiel7.moelist.utils.CreateOkHttpClient
-import com.axiel7.moelist.utils.RefreshToken
-import com.axiel7.moelist.utils.SharedPrefsHelpers
-import com.axiel7.moelist.utils.Urls
+import com.axiel7.moelist.utils.*
+import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -57,6 +56,7 @@ class ProfileFragment : Fragment() {
     private lateinit var episodesText: TextView
     private lateinit var scoreText: TextView
     private lateinit var rewatchText: TextView
+    private lateinit var snackBarView: View
     private var user: User? = null
     private var userId = -1
     private var retrofit: Retrofit? = null
@@ -89,6 +89,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        snackBarView = view
         profilePicture = view.findViewById(R.id.profile_picture)
         usernameView = view.findViewById(R.id.username)
         locationView = view.findViewById(R.id.location)
@@ -156,6 +157,9 @@ class ProfileFragment : Fragment() {
             }
             override fun onFailure(call: Call<User>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
+                if (isAdded) {
+                    Snackbar.make(snackBarView, "Error connecting to server", Snackbar.LENGTH_SHORT).show()
+                }
             }
         })
     }

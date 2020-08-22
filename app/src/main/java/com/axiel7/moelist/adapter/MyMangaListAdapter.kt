@@ -63,7 +63,13 @@ class MyMangaListAdapter(private val mangas: MutableList<UserMangaList>,
             allowHardware(false)
         }
         holder.mangaTitle.text = mangaTitle
-        holder.mangaScore.text = mangaScore.toString()
+
+        if (mangaScore==0) {
+            holder.mangaScore.text = "─"
+        } else {
+            holder.mangaScore.text = mangaScore.toString()
+        }
+
         holder.progressText.text = progressText
         holder.mediaStatus.text = mediaStatus
         if (totalChapters != null && chaptersRead != null

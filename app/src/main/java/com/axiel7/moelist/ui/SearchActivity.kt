@@ -8,10 +8,10 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,6 +29,7 @@ import com.axiel7.moelist.utils.CreateOkHttpClient
 import com.axiel7.moelist.utils.RefreshToken
 import com.axiel7.moelist.utils.SharedPrefsHelpers
 import com.axiel7.moelist.utils.Urls
+import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -49,21 +50,21 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var searchMangaAdapter: SearchMangaAdapter
     private lateinit var buttonType: Button
     private lateinit var searchType: String
+    private lateinit var snackBarView: View
     private var showNsfw = false
     private var retrofit: Retrofit? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme)
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.setDecorFitsSystemWindows(false)
+             window.setDecorFitsSystemWindows(false)
         }
         else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
-            window.decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
+            window.decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
         }
 
         SharedPrefsHelpers.init(this)
@@ -81,6 +82,7 @@ class SearchActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         toolbar.setNavigationOnClickListener { onBackPressed() }
 
+        snackBarView = findViewById(R.id.search_layout)
         loadingBar = findViewById(R.id.search_loading)
         loadingBar.hide()
         noResultsText = findViewById(R.id.no_result_text)
@@ -190,7 +192,7 @@ class SearchActivity : AppCompatActivity() {
             override fun onFailure(call: Call<AnimeListResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
                 loadingBar.hide()
-                Toast.makeText(this@SearchActivity, "Error connecting to server", Toast.LENGTH_SHORT).show()
+                Snackbar.make(snackBarView, "Error connecting to server", Snackbar.LENGTH_SHORT).show()
             }
         })
     }
@@ -223,7 +225,7 @@ class SearchActivity : AppCompatActivity() {
             override fun onFailure(call: Call<MangaListResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
                 loadingBar.hide()
-                Toast.makeText(this@SearchActivity, "Error connecting to server", Toast.LENGTH_SHORT).show()
+                Snackbar.make(snackBarView, "Error connecting to server", Snackbar.LENGTH_SHORT).show()
             }
         })
     }

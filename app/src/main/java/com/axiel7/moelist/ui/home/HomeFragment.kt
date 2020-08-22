@@ -230,6 +230,11 @@ class HomeFragment : Fragment() {
 
             override fun onFailure(call: Call<AnimeRankingResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
+                if (animeListSeasonal.isNotEmpty()) { seasonLoading.hide() }
+                if (isAdded) {
+                    //Toast.makeText(context, "Error connecting to server", Toast.LENGTH_SHORT).show()
+                    Snackbar.make(snackBarView, "Error connecting to server", Snackbar.LENGTH_SHORT).show()
+                }
             }
         })
     }

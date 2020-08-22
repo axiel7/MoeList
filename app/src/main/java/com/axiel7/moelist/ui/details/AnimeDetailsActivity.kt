@@ -1,11 +1,13 @@
 package com.axiel7.moelist.ui.details
 
 import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -19,6 +21,8 @@ import com.axiel7.moelist.model.MyListStatus
 import com.axiel7.moelist.rest.MalApiService
 import com.axiel7.moelist.ui.MainActivity
 import com.axiel7.moelist.utils.*
+import com.axiel7.moelist.utils.InsetsHelper.addSystemWindowInsetToMargin
+import com.axiel7.moelist.utils.InsetsHelper.getViewBottomHeight
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.Chip
@@ -26,14 +30,17 @@ import com.google.android.material.chip.ChipGroup
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.slider.Slider
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.text.NumberFormat
+import kotlin.random.Random
 
 class AnimeDetailsActivity : AppCompatActivity() {
 
@@ -46,6 +53,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
     private lateinit var loadingView: FrameLayout
     private lateinit var editFab: ExtendedFloatingActionButton
     private lateinit var bottomSheetDialog: BottomSheetDialog
+    private lateinit var dialogView: View
     private lateinit var animePosterView: ShapeableImageView
     private lateinit var animeTitleView: TextView
     private lateinit var mediaTypeView: TextView
@@ -70,6 +78,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
     private lateinit var statusLayout: TextInputLayout
     private lateinit var statusField: AutoCompleteTextView
     private lateinit var scoreSlider: Slider
+    private lateinit var snackBarView: View
     private var entryUpdated: Boolean = false
     private var retrofit: Retrofit? = null
     private var animeId = 1
@@ -83,8 +92,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
             window.setDecorFitsSystemWindows(false)
         }
         else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
-            window.decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+            window.decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
         }
         val toolbar = findViewById<Toolbar>(R.id.details_toolbar)
@@ -104,6 +112,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
                 "num_list_users,num_scoring_users,media_type,status,genres,my_list_status,num_episodes,start_season," +
                 "source,average_episode_duration,studios"
 
+        snackBarView = findViewById(R.id.details_layout)
         initViews()
         setupBottomSheet()
         if (animeDb?.animeDetailsDao()?.getAnimeDetailsById(animeId)!=null) {
@@ -159,8 +168,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<AnimeDetails>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
-                Toast.makeText(this@AnimeDetailsActivity, "Error connecting to server", Toast.LENGTH_SHORT).show()
-                onBackPressed()
+                Snackbar.make(snackBarView, "Error connecting to server", Snackbar.LENGTH_SHORT).show()
             }
         })
     }
@@ -171,7 +179,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
                 .updateAnimeList(Urls.apiBaseUrl + "anime/$animeId/my_list_status", status, score, watchedEpisodes)
             patchCall(updateListCall, newEntry)
         } else {
-            Toast.makeText(this@AnimeDetailsActivity, "No changes", Toast.LENGTH_SHORT).show()
+            Snackbar.make(snackBarView, "No changes", Snackbar.LENGTH_SHORT).show()
         }
     }
     private fun patchCall(call: Call<MyListStatus>, newEntry: Boolean) {
@@ -186,16 +194,16 @@ class AnimeDetailsActivity : AppCompatActivity() {
                     if (newEntry) {
                         toastText = "Added to Plan to Watch"
                     }
-                    Toast.makeText(this@AnimeDetailsActivity, toastText, Toast.LENGTH_SHORT).show()
+                    Snackbar.make(snackBarView, toastText, Snackbar.LENGTH_SHORT).show()
                 }
                 else {
-                    Toast.makeText(this@AnimeDetailsActivity, "Error updating list", Toast.LENGTH_SHORT).show()
+                    Snackbar.make(snackBarView, "Error updating list", Snackbar.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<MyListStatus>, t: Throwable) {
                 Log.d("MoeLog", t.toString())
-                Toast.makeText(this@AnimeDetailsActivity, "Error updating list", Toast.LENGTH_SHORT).show()
+                Snackbar.make(snackBarView, "Error connecting to server", Snackbar.LENGTH_SHORT).show()
             }
         })
     }
@@ -207,16 +215,16 @@ class AnimeDetailsActivity : AppCompatActivity() {
                     animeDetails.my_list_status = null
                     changeFabAction()
                     bottomSheetDialog.dismiss()
-                    Toast.makeText(this@AnimeDetailsActivity, "Deleted", Toast.LENGTH_SHORT).show()
+                    Snackbar.make(snackBarView, "Deleted", Snackbar.LENGTH_SHORT).show()
                 }
                 else {
-                    Toast.makeText(this@AnimeDetailsActivity, "Error deleting from list", Toast.LENGTH_SHORT).show()
+                    Snackbar.make(snackBarView, "Error deleting entry", Snackbar.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 Log.d("MoeLog", t.toString())
-                Toast.makeText(this@AnimeDetailsActivity, "Error deleting from list", Toast.LENGTH_SHORT).show()
+                Snackbar.make(snackBarView, "Error connecting to server", Snackbar.LENGTH_SHORT).show()
             }
 
         })
@@ -258,7 +266,8 @@ class AnimeDetailsActivity : AppCompatActivity() {
     }
     private fun setupBottomSheet() {
         editFab = findViewById(R.id.edit_fab)
-        val dialogView = layoutInflater.inflate(R.layout.bottom_sheet_edit_anime, null)
+        editFab.addSystemWindowInsetToMargin(bottom = true)
+        dialogView = layoutInflater.inflate(R.layout.bottom_sheet_edit_anime, null)
         bottomSheetDialog = BottomSheetDialog(this)
         bottomSheetDialog.setContentView(dialogView)
         bottomSheetDialog.setOnDismissListener {
@@ -294,6 +303,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
                 episodes = animeDetails.num_episodes
             }
             initUpdateCall(status, score, episodes, false)
+            bottomSheetDialog.hide()
         }
         val cancelButton = bottomSheetDialog.findViewById<Button>(R.id.cancel_button)
         cancelButton?.setOnClickListener {
@@ -447,7 +457,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
                 val bottomSheetBehavior = bottomSheetDialog.behavior
                 editFab.setOnClickListener {
                     bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                    bottomSheetBehavior.peekHeight = 900
+                    getViewBottomHeight(dialogView as ViewGroup, R.id.divider, bottomSheetBehavior)
                     bottomSheetDialog.show()
                 }
             }
@@ -457,7 +467,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
             val bottomSheetBehavior = bottomSheetDialog.behavior
             editFab.setOnClickListener {
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                bottomSheetBehavior.peekHeight = 900
+                getViewBottomHeight(dialogView as ViewGroup, R.id.divider, bottomSheetBehavior)
                 bottomSheetDialog.show()
             }
         }

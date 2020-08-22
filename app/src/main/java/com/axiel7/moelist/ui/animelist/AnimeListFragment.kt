@@ -7,8 +7,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.RadioGroup
-import android.widget.Toast
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -23,12 +24,10 @@ import com.axiel7.moelist.model.UserAnimeListResponse
 import com.axiel7.moelist.rest.MalApiService
 import com.axiel7.moelist.ui.MainActivity
 import com.axiel7.moelist.ui.details.AnimeDetailsActivity
-import com.axiel7.moelist.utils.CreateOkHttpClient
-import com.axiel7.moelist.utils.RefreshToken
-import com.axiel7.moelist.utils.SharedPrefsHelpers
-import com.axiel7.moelist.utils.Urls
+import com.axiel7.moelist.utils.*
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -42,6 +41,7 @@ class AnimeListFragment : Fragment() {
     private lateinit var animeListRecycler: RecyclerView
     private lateinit var filtersFab: FloatingActionButton
     private lateinit var loadingBar: ContentLoadingProgressBar
+    private lateinit var snackBarView: View
     private lateinit var animeListAdapter: MyAnimeListAdapter
     private var animeListResponse: UserAnimeListResponse? = null
     private lateinit var animeList: MutableList<UserAnimeList>
@@ -61,7 +61,7 @@ class AnimeListFragment : Fragment() {
         refreshToken = sharedPref.getString("refreshToken", "").toString()
 
         defaultStatus = sharedPref.getInt("checkedStatusButton", R.id.watching_button)
-        if (defaultStatus==null) {
+        if (defaultStatus==null || defaultStatus==0) {
             defaultStatus = R.id.watching_button
         }
         changeStatusFilter(defaultStatus!!)
@@ -84,6 +84,7 @@ class AnimeListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        snackBarView = view
         loadingBar = view.findViewById(R.id.loading_animelist)
         loadingBar.hide()
         if (animeList.isEmpty()) {
@@ -220,6 +221,9 @@ class AnimeListFragment : Fragment() {
 
             override fun onFailure(call: Call<UserAnimeListResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
+                if (isAdded) {
+                    Snackbar.make(snackBarView, "Error connecting to server", Snackbar.LENGTH_SHORT).show()
+                }
             }
 
         })
@@ -235,21 +239,27 @@ class AnimeListFragment : Fragment() {
                     if (response.isSuccessful) {
                         //val myListStatus = response.body()!!
                         initCalls()
-                        Toast.makeText(context, "Updated", Toast.LENGTH_SHORT).show()
+                        if (isAdded) {
+                            Snackbar.make(snackBarView, "Updated", Snackbar.LENGTH_SHORT).show()
+                        }
                     }
-                    else {
-                        Toast.makeText(context, "Error updating list", Toast.LENGTH_SHORT).show()
+                    else if (isAdded) {
+                        Snackbar.make(snackBarView, "Error updating list", Snackbar.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<MyListStatus>, t: Throwable) {
                     Log.d("MoeLog", t.toString())
-                    Toast.makeText(context, "Error updating list", Toast.LENGTH_SHORT).show()
+                    if (isAdded) {
+                        Snackbar.make(snackBarView, "Error updating list", Snackbar.LENGTH_SHORT).show()
+                    }
                 }
             })
         } else {
             loadingBar.hide()
-            Toast.makeText(context, "No changes", Toast.LENGTH_SHORT).show()
+            if (isAdded) {
+                Snackbar.make(snackBarView, "No changes", Snackbar.LENGTH_SHORT).show()
+            }
         }
     }
     private fun changeStatusFilter(radioButton: Int) {
