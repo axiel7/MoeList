@@ -18,13 +18,14 @@ Follow the development on the official Discord server:
 * Light/Dark theme
 * NSFW toggle
 
-**Coming soon:**
-* Related Anime/Manga
-* Manage rewatching and tags
-* Push notifications for new episode aired
-* Pictures download
-* Share Anime/Manga link
-* View details on MAL button
+**Coming soon (priority order)**
+1. Related Anime/Manga
+1. Manage rewatching and tags
+1. Sort list options
+1. Share Anime/Manga link
+1. View details on MAL button
+1. Pictures download
+1. Push notifications for new episode aired
 
 # Screenshots
 ![screenshots](https://user-images.githubusercontent.com/12379835/89934175-7b090e80-dc10-11ea-8ca7-de79a46cebd7.png)
