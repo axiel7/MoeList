@@ -28,7 +28,7 @@ Follow the development on the official Discord server:
 1. Push notifications for new episode aired
 
 # Screenshots
-![screenshots](https://user-images.githubusercontent.com/12379835/89934175-7b090e80-dc10-11ea-8ca7-de79a46cebd7.png)
+![screenshots](https://user-images.githubusercontent.com/12379835/91041684-be03b280-e610-11ea-8c42-e08c29788f0a.png)
 
 # Other
 **Special thanks:**
