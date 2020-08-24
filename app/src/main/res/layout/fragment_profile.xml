@@ -2,6 +2,7 @@
 <androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -27,7 +28,8 @@
                 android:layout_marginEnd="24dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_round_account_circle_24"
-                android:transitionName="shared_poster_container"/>
+                android:transitionName="shared_poster_container"
+                android:contentDescription="@string/profile_picture" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
@@ -40,7 +42,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="3dp"
-                    android:text="Username"
+                    android:text="@string/username"
                     android:textStyle="bold"
                     android:textSize="24sp"/>
                 <TextView
@@ -51,7 +53,8 @@
                     android:text="Spain"
                     android:gravity="center_vertical"
                     android:drawablePadding="4dp"
-                    app:drawableStartCompat="@drawable/ic_round_location_on_24" />
+                    app:drawableStartCompat="@drawable/ic_round_location_on_24"
+                    tools:ignore="HardcodedText" />
                 <TextView
                     android:id="@+id/birthday"
                     android:layout_width="wrap_content"
@@ -60,7 +63,8 @@
                     android:text="Mar 20, 2000"
                     android:gravity="bottom"
                     android:drawablePadding="4dp"
-                    app:drawableStartCompat="@drawable/ic_round_cake_24" />
+                    app:drawableStartCompat="@drawable/ic_round_cake_24"
+                    tools:ignore="HardcodedText" />
                 <TextView
                     android:id="@+id/joined_at"
                     android:layout_width="wrap_content"
@@ -69,7 +73,8 @@
                     android:text="Apr 11, 2016"
                     android:gravity="center_vertical"
                     android:drawablePadding="4dp"
-                    app:drawableStartCompat="@drawable/ic_round_access_time_24" />
+                    app:drawableStartCompat="@drawable/ic_round_access_time_24"
+                    tools:ignore="HardcodedText" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -114,7 +119,8 @@
                     android:text="Anime\nStats"
                     android:gravity="center"
                     android:textStyle="bold"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    tools:ignore="HardcodedText" />
 
             </RelativeLayout>
 
@@ -132,7 +138,7 @@
                     android:layout_marginEnd="@dimen/text_margin"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:text="Watching"
+                    android:text="@string/watching"
                     android:gravity="center_vertical"
                     android:drawablePadding="5dp"
                     app:drawableTint="#00c853"
@@ -144,7 +150,7 @@
                     android:layout_marginStart="@dimen/text_margin"
                     android:layout_marginEnd="@dimen/text_margin"
                     android:layout_marginBottom="10dp"
-                    android:text="Completed"
+                    android:text="@string/completed"
                     android:gravity="center_vertical"
                     android:drawablePadding="5dp"
                     app:drawableTint="#5c6bc0"
@@ -156,7 +162,7 @@
                     android:layout_marginStart="@dimen/text_margin"
                     android:layout_marginEnd="@dimen/text_margin"
                     android:layout_marginBottom="10dp"
-                    android:text="On Hold"
+                    android:text="@string/on_hold"
                     android:gravity="center_vertical"
                     android:drawablePadding="5dp"
                     app:drawableTint="#ffd600"
@@ -168,7 +174,7 @@
                     android:layout_marginStart="@dimen/text_margin"
                     android:layout_marginEnd="@dimen/text_margin"
                     android:layout_marginBottom="10dp"
-                    android:text="Dropped"
+                    android:text="@string/dropped"
                     android:gravity="center_vertical"
                     android:drawablePadding="5dp"
                     app:drawableTint="#d50000"
@@ -180,7 +186,7 @@
                     android:layout_marginStart="@dimen/text_margin"
                     android:layout_marginEnd="@dimen/text_margin"
                     android:layout_marginBottom="10dp"
-                    android:text="Plan to Watch"
+                    android:text="@string/ptw"
                     android:gravity="center_vertical"
                     android:drawablePadding="5dp"
                     app:drawableTint="#9e9e9e"
@@ -193,7 +199,8 @@
                     android:layout_marginEnd="@dimen/text_margin"
                     android:layout_marginBottom="10dp"
                     android:text="Total: 450"
-                    android:gravity="center_vertical" />
+                    android:gravity="center_vertical"
+                    tools:ignore="HardcodedText" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -215,28 +222,32 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="84.43\nDays"/>
+                android:text="84.43\nDays"
+                tools:ignore="HardcodedText" />
             <TextView
                 android:id="@+id/total_episodes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="4,632\nEpisodes"/>
+                android:text="4,632\nEpisodes"
+                tools:ignore="HardcodedText" />
             <TextView
                 android:id="@+id/mean_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="7.93\nMean Score"/>
+                android:text="7.93\nMean Score"
+                tools:ignore="HardcodedText" />
             <TextView
                 android:id="@+id/rewatched"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="23\nRewatched"/>
+                android:text="23\nRewatched"
+                tools:ignore="HardcodedText" />
 
 
 

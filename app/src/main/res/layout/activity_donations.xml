@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
         android:gravity="center"
-        android:text="Thank you for considering support me!\n( /^ω^)/♪♪"
+        android:text="@string/donations_thanks"
         android:textSize="22sp"
         android:textStyle="bold"/>
 
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_margin="@dimen/text_margin"
-            android:text="Buy me a tea 🍵"
+            android:text="@string/buy_tea"
             android:textSize="20sp"/>
         <Button
             android:id="@+id/coffee_button"
@@ -47,7 +47,7 @@
             android:layout_marginEnd="@dimen/text_margin"
             android:layout_marginStart="@dimen/text_margin"
             android:layout_gravity="center_vertical"
-            android:text="Buy"/>
+            android:text="@string/buy"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_margin="@dimen/text_margin"
-            android:text="Buy me a burger 🍔"
+            android:text="@string/buy_burger"
             android:textSize="20sp"/>
         <Button
             android:id="@+id/burger_button"
@@ -72,7 +72,7 @@
             android:layout_marginEnd="@dimen/text_margin"
             android:layout_marginStart="@dimen/text_margin"
             android:layout_gravity="center_vertical"
-            android:text="Buy"/>
+            android:text="@string/buy"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_margin="@dimen/text_margin"
-            android:text="Watch an ad"
+            android:text="@string/watch_ad"
             android:textSize="20sp"/>
         <Button
             android:id="@+id/ad_button"
@@ -96,7 +96,7 @@
             android:layout_marginEnd="@dimen/text_margin"
             android:layout_marginStart="@dimen/text_margin"
             android:layout_gravity="center_vertical"
-            android:text="Watch"/>
+            android:text="@string/watch"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -111,6 +111,7 @@
         android:paddingEnd="2dp"
         android:paddingStart="2dp"
         android:background="?attr/selectableItemBackground"
-        android:src="@drawable/ic_supportme_blue"/>
+        android:src="@drawable/ic_supportme_blue"
+        android:contentDescription="@string/kofi_button" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

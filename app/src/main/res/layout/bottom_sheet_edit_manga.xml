@@ -2,6 +2,7 @@
 <androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -28,14 +29,15 @@
             app:tint="?attr/colorOnBackground"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/drag_pill" />
 
         <Button
             android:id="@+id/cancel_button"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancel"
+            android:text="@string/cancel"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -45,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Apply"
+            android:text="@string/apply"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -60,7 +62,8 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:layout_gravity="center"
-        android:hint="Status"
+        android:hint="@string/status"
+        android:labelFor="@id/status_field"
         app:errorEnabled="true"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
@@ -88,7 +91,7 @@
             android:layout_marginEnd="20dp"
             android:layout_marginStart="20dp"
             android:layout_gravity="center"
-            android:hint="Chapters"
+            android:hint="@string/chapters"
             app:suffixText="/24"
             app:errorEnabled="true"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -108,7 +111,7 @@
             android:layout_weight="1"
             android:layout_marginEnd="20dp"
             android:layout_gravity="center"
-            android:hint="Volumes"
+            android:hint="@string/volumes"
             app:suffixText="/24"
             app:errorEnabled="true"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -131,7 +134,8 @@
         android:layout_marginEnd="30dp"
         android:text="Score: ─"
         android:textStyle="bold"
-        android:textSize="17sp"/>
+        android:textSize="17sp"
+        tools:ignore="HardcodedText" />
 
     <com.google.android.material.slider.Slider
         android:id="@+id/score_slider"
@@ -158,5 +162,5 @@
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
         android:backgroundTint="@color/colorError"
-        android:text="Delete"/>
+        android:text="@string/delete"/>
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -44,7 +44,8 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="anime"/>
+                    android:text="anime"
+                    tools:ignore="HardcodedText" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -63,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|center_horizontal"
-        android:text="No results"
+        android:text="@string/no_results"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -58,16 +58,16 @@ class RankingActivity : AppCompatActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
         toolbar.setNavigationOnClickListener { onBackPressed() }
         when(mediaType) {
-            "anime" -> toolbar.title = "Anime Ranking"
-            "manga" -> toolbar.title = "Manga Ranking"
+            "anime" -> toolbar.title = getString(R.string.anime_ranking)
+            "manga" -> toolbar.title = getString(R.string.manga)
         }
 
     }
     private fun setupViewPager(viewPager: ViewPager) {
 
         val adapter = RankingPagerAdapter(supportFragmentManager)
-        adapter.addFragment(rankingAllFragment, "All")
-        adapter.addFragment(rankingPopFragment, "Popular")
+        adapter.addFragment(rankingAllFragment, getString(R.string.all))
+        adapter.addFragment(rankingPopFragment, getString(R.string.popular))
         viewPager.adapter = adapter
     }
 

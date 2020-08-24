@@ -19,6 +19,6 @@
     <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/selector_profile"
-        android:title="Profile" />
+        android:title="@string/title_profile" />
 
 </menu>

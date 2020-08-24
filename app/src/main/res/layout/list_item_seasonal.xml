@@ -32,7 +32,8 @@
             android:layout_gravity="start"
             android:background="@color/colorPlaceHolder"
             android:scaleType="centerCrop"
-            android:transitionName="shared_poster_container"/>
+            android:transitionName="shared_poster_container"
+            android:contentDescription="@string/poster" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -58,7 +59,8 @@
                 android:layout_marginStart="@dimen/text_margin"
                 android:layout_marginTop="8dp"
                 android:text="TV (25 Episodes)"
-                android:textColor="?attr/colorControlNormal"/>
+                android:textColor="?attr/colorControlNormal"
+                tools:ignore="HardcodedText" />
             <TextView
                 android:id="@+id/score_text"
                 android:layout_width="wrap_content"
@@ -69,7 +71,8 @@
                 android:text="8.74"
                 android:textColor="?attr/colorControlNormal"
                 android:drawablePadding="2dp"
-                app:drawableStartCompat="@drawable/ic_round_details_star_24" />
+                app:drawableStartCompat="@drawable/ic_round_details_star_24"
+                tools:ignore="HardcodedText" />
             <TextView
                 android:id="@+id/broadcast_text"
                 android:layout_width="wrap_content"
@@ -80,7 +83,8 @@
                 android:text="Wednesday 20:30"
                 android:textColor="?attr/colorControlNormal"
                 android:drawablePadding="3dp"
-                app:drawableStartCompat="@drawable/ic_round_event_24" />
+                app:drawableStartCompat="@drawable/ic_round_event_24"
+                tools:ignore="HardcodedText" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

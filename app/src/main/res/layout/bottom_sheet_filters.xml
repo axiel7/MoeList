@@ -15,27 +15,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="Watching" />
+            android:text="@string/watching" />
         <RadioButton
             android:id="@+id/completed_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Completed" />
+            android:text="@string/completed" />
         <RadioButton
             android:id="@+id/onhold_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="On Hold" />
+            android:text="@string/on_hold" />
         <RadioButton
             android:id="@+id/dropped_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Dropped" />
+            android:text="@string/dropped" />
         <RadioButton
             android:id="@+id/ptw_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Plan to Watch" />
+            android:text="@string/ptw" />
 
     </RadioGroup>
 

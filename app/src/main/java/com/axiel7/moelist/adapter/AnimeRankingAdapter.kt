@@ -1,5 +1,6 @@
 package com.axiel7.moelist.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import java.text.NumberFormat
 
 class AnimeRankingAdapter(private val animes: MutableList<AnimeRanking>,
                           private val rowLayout: Int,
+                          private val context: Context,
                           private val onClickListener: (View, AnimeRanking) -> Unit) :
     RecyclerView.Adapter<AnimeRankingAdapter.AnimeViewHolder>() {
     private var endListReachedListener: EndListReachedListener? = null
@@ -40,7 +42,7 @@ class AnimeRankingAdapter(private val animes: MutableList<AnimeRanking>,
         val posterUrl = animes[position].node.main_picture.medium
         val animeTitle = animes[position].node.title
         val ranking = animes[position].ranking?.rank
-        val mediaType = animes[position].node.media_type?.let { StringFormat.formatMediaType(it) }
+        val mediaType = animes[position].node.media_type?.let { StringFormat.formatMediaType(it, context) }
         val episodes = animes[position].node.num_episodes
         val score = animes[position].node.mean
         val members = NumberFormat.getInstance().format(animes[position].node.num_list_users)
@@ -56,8 +58,8 @@ class AnimeRankingAdapter(private val animes: MutableList<AnimeRanking>,
         val rankValue = "#$ranking"
         holder.rankingText.text = rankValue
 
-        val mediaStatusValue = if (episodes==0) { "$mediaType (?? Episodes)" }
-        else { "$mediaType ($episodes Episodes)" }
+        val mediaStatusValue = if (episodes==0) { "$mediaType (?? ${context.getString(R.string.episodes)})" }
+        else { "$mediaType ($episodes ${context.getString(R.string.episodes)})" }
         holder.mediaStatusText.text = mediaStatusValue
 
         holder.scoreText.text = score.toString()

@@ -1,5 +1,6 @@
 package com.axiel7.moelist.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import java.text.NumberFormat
 
 class MangaRankingAdapter(private val mangas: MutableList<MangaRanking>,
                           private val rowLayout: Int,
+                          private val context: Context,
                           private val onClickListener: (View, MangaRanking) -> Unit) :
     RecyclerView.Adapter<MangaRankingAdapter.AnimeViewHolder>() {
     private var endListReachedListener: EndListReachedListener? = null
@@ -40,7 +42,7 @@ class MangaRankingAdapter(private val mangas: MutableList<MangaRanking>,
         val posterUrl = mangas[position].node.main_picture.medium
         val animeTitle = mangas[position].node.title
         val ranking = mangas[position].ranking?.rank
-        val mediaType = mangas[position].node.media_type?.let { StringFormat.formatMediaType(it) }
+        val mediaType = mangas[position].node.media_type?.let { StringFormat.formatMediaType(it, context) }
         val episodes = mangas[position].node.num_chapters
         val score = mangas[position].node.mean
         val members = NumberFormat.getInstance().format(mangas[position].node.num_list_users)
@@ -56,15 +58,14 @@ class MangaRankingAdapter(private val mangas: MutableList<MangaRanking>,
         val rankValue = "#$ranking"
         holder.rankingText.text = rankValue
 
-        val mediaStatusValue = if (episodes==0) { "$mediaType (?? Chapters)" }
-        else { "$mediaType ($episodes Chapters)" }
+        val mediaStatusValue = if (episodes==0) { "$mediaType (?? ${context.getString(R.string.chapters)})" }
+        else { "$mediaType ($episodes ${context.getString(R.string.chapters)})" }
         holder.mediaStatusText.text = mediaStatusValue
 
-        val scoreValue = "Score: $score"
+        val scoreValue = "${context.getString(R.string.score_value)} $score"
         holder.scoreText.text = scoreValue
 
-        val membersValue = "$members Members"
-        holder.membersText.text = membersValue
+        holder.membersText.text = members
 
         val anime = mangas[position]
         holder.itemView.setOnClickListener { view ->

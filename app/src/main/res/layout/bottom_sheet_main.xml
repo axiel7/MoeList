@@ -20,7 +20,7 @@
         android:focusable="true"
         android:gravity="center_vertical"
         android:padding="16dp"
-        android:text="Share App"
+        android:text="@string/share_app"
         app:drawableStartCompat="@drawable/ic_round_share_24" />
     <TextView
         android:id="@+id/donations"
@@ -34,7 +34,7 @@
         android:focusable="true"
         android:gravity="center_vertical"
         android:padding="16dp"
-        android:text="Donations"
+        android:text="@string/donations"
         app:drawableStartCompat="@drawable/ic_round_monetization_on_24" />
     <View
         android:layout_width="match_parent"
@@ -52,7 +52,7 @@
         android:focusable="true"
         android:gravity="center_vertical"
         android:padding="16dp"
-        android:text="Settings"
+        android:text="@string/settings"
         app:drawableStartCompat="@drawable/ic_round_settings_24" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

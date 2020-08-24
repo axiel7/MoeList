@@ -162,7 +162,7 @@ class ProfileFragment : Fragment() {
             override fun onFailure(call: Call<User>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
                 if (isAdded) {
-                    Snackbar.make(snackBarView, "Error connecting to server", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
             }
         })
@@ -213,17 +213,17 @@ class ProfileFragment : Fragment() {
         val ptw = userAnimeStatistics.num_items_plan_to_watch!!
         val totalEntries = userAnimeStatistics.num_items!!
 
-        val watchingKey = "Watching ($watching)"
+        val watchingKey = "${getString(R.string.watching)} ($watching)"
         watchingText.text = watchingKey
-        val completedKey = "Completed ($completed)"
+        val completedKey = "${getString(R.string.completed)} ($completed)"
         completedText.text = completedKey
-        val onHoldKey = "On Hold ($onHold)"
+        val onHoldKey = "${getString(R.string.on_hold)} ($onHold)"
         onHoldText.text = onHoldKey
-        val droppedKey = "Dropped ($dropped)"
+        val droppedKey = "${getString(R.string.dropped)} ($dropped)"
         droppedText.text = droppedKey
-        val ptwKey = "Plan to Watch ($ptw)"
+        val ptwKey = "${getString(R.string.ptw)} ($ptw)"
         ptwText.text = ptwKey
-        val totalKey = "Total: $totalEntries"
+        val totalKey = "${getString(R.string.total_entries)} $totalEntries"
         totalText.text = totalKey
 
         val watchingSection = DonutSection(
@@ -259,10 +259,10 @@ class ProfileFragment : Fragment() {
         val score = userAnimeStatistics.mean_score!!
         val rewatch = NumberFormat.getInstance().format(userAnimeStatistics.num_times_rewatched)!!
 
-        val daysValue = "$days\nDays"
-        val episodesValue = "$episodes\nEpisodes"
-        val scoreValue = "$score\nMean Score"
-        val rewatchValue = "$rewatch\nRewatched"
+        val daysValue = "$days\n${getString(R.string.days)}"
+        val episodesValue = "$episodes\n${getString(R.string.episodes)}"
+        val scoreValue = "$score\n${getString(R.string.mean_score)}"
+        val rewatchValue = "$rewatch\n${getString(R.string.rewatched)}"
 
         daysText.text = daysValue
         episodesText.text = episodesValue

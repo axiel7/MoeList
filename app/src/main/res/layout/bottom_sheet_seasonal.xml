@@ -28,14 +28,15 @@
             app:tint="?attr/colorOnBackground"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/drag_pill" />
 
         <Button
             android:id="@+id/cancel_button"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancel"
+            android:text="@string/cancel"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -45,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Apply"
+            android:text="@string/apply"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -66,7 +67,8 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:layout_gravity="center"
-            android:hint="Season"
+            android:hint="@string/season"
+            android:labelFor="@id/season_field"
             app:errorEnabled="true"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
@@ -89,7 +91,8 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:layout_gravity="center"
-            android:hint="Year"
+            android:hint="@string/year"
+            android:labelFor="@id/year_field"
             app:errorEnabled="true"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 

@@ -27,7 +27,8 @@
             android:layout_gravity="center"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:scaleType="centerInside"/>
+            android:scaleType="centerInside"
+            android:contentDescription="@string/poster" />
     </RelativeLayout>
 
 </RelativeLayout>

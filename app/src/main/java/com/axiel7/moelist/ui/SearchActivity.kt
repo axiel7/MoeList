@@ -93,11 +93,13 @@ class SearchActivity : AppCompatActivity() {
         searchAnimeAdapter = SearchAnimeAdapter(
             searchItemsAnime,
             R.layout.list_item_search_result,
+            this,
             onClickListener = { itemView, animeList ->  openAnimeDetails(animeList.node.id, itemView)}
         )
         searchMangaAdapter = SearchMangaAdapter(
             searchItemsManga,
             R.layout.list_item_search_result,
+            this,
             onClickListener = { itemView, mangaList -> openMangaDetails(mangaList.node.id, itemView) }
         )
         recyclerSearch.adapter = searchAnimeAdapter
@@ -106,7 +108,7 @@ class SearchActivity : AppCompatActivity() {
         val searchViewIcon = searchView.findViewById<ImageView>(androidx.appcompat.R.id.search_mag_icon)
         searchViewIcon.visibility = View.GONE
         searchViewIcon.setImageDrawable(null)
-        searchView.queryHint = "Search"
+        searchView.queryHint = getString(R.string.search)
         searchView.setIconifiedByDefault(false)
         searchView.requestFocus()
         searchView.setOnQueryTextListener(object :SearchView.OnQueryTextListener {
@@ -132,12 +134,12 @@ class SearchActivity : AppCompatActivity() {
             searchView.setQuery("", false)
             searchView.requestFocus()
             if (searchType == "anime") {
-                buttonType.text = "manga"
+                buttonType.text = getString(R.string.manga)
                 searchType = "manga"
                 recyclerSearch.adapter = searchMangaAdapter
             }
             else {
-                buttonType.text = "anime"
+                buttonType.text = getString(R.string.anime)
                 searchType = "anime"
                 recyclerSearch.adapter = searchAnimeAdapter
             }
@@ -192,7 +194,7 @@ class SearchActivity : AppCompatActivity() {
             override fun onFailure(call: Call<AnimeListResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
                 loadingBar.hide()
-                Snackbar.make(snackBarView, "Error connecting to server", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
             }
         })
     }
@@ -225,7 +227,7 @@ class SearchActivity : AppCompatActivity() {
             override fun onFailure(call: Call<MangaListResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
                 loadingBar.hide()
-                Snackbar.make(snackBarView, "Error connecting to server", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
             }
         })
     }

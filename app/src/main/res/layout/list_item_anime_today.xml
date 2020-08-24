@@ -61,7 +61,8 @@
                 android:layout_marginBottom="5dp"
                 android:text="Airing in 5h"
                 android:textSize="16sp"
-                android:textColor="?attr/colorControlNormal"/>
+                android:textColor="?attr/colorControlNormal"
+                tools:ignore="HardcodedText" />
             <TextView
                 android:id="@+id/score_text"
                 android:layout_width="match_parent"
@@ -69,7 +70,8 @@
                 android:layout_marginStart="@dimen/text_margin"
                 android:text="Score: 8.74"
                 android:textSize="16sp"
-                android:textColor="?attr/colorControlNormal"/>
+                android:textColor="?attr/colorControlNormal"
+                tools:ignore="HardcodedText" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

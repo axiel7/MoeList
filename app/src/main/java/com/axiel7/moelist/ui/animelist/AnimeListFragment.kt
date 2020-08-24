@@ -96,6 +96,7 @@ class AnimeListFragment : Fragment() {
                 MyAnimeListAdapter(
                     animeList,
                     R.layout.list_item_animelist,
+                    requireContext(),
                     onClickListener = { itemView, userAnimeList -> openDetails(userAnimeList.node.id, itemView) }
                 )
         animeListAdapter.setEndListReachedListener(object :EndListReachedListener {
@@ -231,7 +232,7 @@ class AnimeListFragment : Fragment() {
             override fun onFailure(call: Call<UserAnimeListResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
                 if (isAdded) {
-                    Snackbar.make(snackBarView, "Error connecting to server", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
             }
 
@@ -249,25 +250,25 @@ class AnimeListFragment : Fragment() {
                         //val myListStatus = response.body()!!
                         initCalls()
                         if (isAdded) {
-                            Snackbar.make(snackBarView, "Updated", Snackbar.LENGTH_SHORT).show()
+                            Snackbar.make(snackBarView, getString(R.string.updated), Snackbar.LENGTH_SHORT).show()
                         }
                     }
                     else if (isAdded) {
-                        Snackbar.make(snackBarView, "Error updating list", Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(snackBarView, getString(R.string.error_updating_list), Snackbar.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<MyListStatus>, t: Throwable) {
                     Log.d("MoeLog", t.toString())
                     if (isAdded) {
-                        Snackbar.make(snackBarView, "Error updating list", Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                     }
                 }
             })
         } else {
             loadingBar.hide()
             if (isAdded) {
-                Snackbar.make(snackBarView, "No changes", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(snackBarView, getString(R.string.no_changes), Snackbar.LENGTH_SHORT).show()
             }
         }
     }

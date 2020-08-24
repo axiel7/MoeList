@@ -109,13 +109,13 @@ class LoginActivity : AppCompatActivity() {
 
                     override fun onFailure(call: Call<AccessToken>, t: Throwable) {
                         Log.d("MoeLog", t.toString())
-                        Snackbar.make(snackBarView, "Error connecting to server", Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                     }
                 })
             }
             else if (uri.getQueryParameter("error")!=null) {
                 loadingBar.visibility = View.INVISIBLE
-                Snackbar.make(snackBarView, "Login error", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(snackBarView, getString(R.string.login_error), Snackbar.LENGTH_SHORT).show()
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.axiel7.moelist.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import com.axiel7.moelist.utils.StringFormat
 
 class SearchAnimeAdapter(private val animes: MutableList<AnimeList>,
                          private val rowLayout: Int,
+                         private val context: Context,
                          private val onClickListener: (View, AnimeList) -> Unit) :
     RecyclerView.Adapter<SearchAnimeAdapter.AnimeViewHolder>() {
     private var endListReachedListener: EndListReachedListener? = null
@@ -37,7 +39,7 @@ class SearchAnimeAdapter(private val animes: MutableList<AnimeList>,
     override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
         val posterUrl = animes[position].node.main_picture.medium
         val animeTitle = animes[position].node.title
-        val mediaType = animes[position].node.media_type?.let { StringFormat.formatMediaType(it) }
+        val mediaType = animes[position].node.media_type?.let { StringFormat.formatMediaType(it, context) }
         val episodes = animes[position].node.num_episodes
         val year = animes[position].node.start_season?.year
         val score = animes[position].node.mean
@@ -51,12 +53,12 @@ class SearchAnimeAdapter(private val animes: MutableList<AnimeList>,
 
         holder.animeTitleView.text = animeTitle
 
-        val mediaStatus = if (episodes==0) { "$mediaType (?? Episodes)" }
-        else { "$mediaType ($episodes Episodes)" }
+        val mediaStatus = if (episodes==0) { "$mediaType (?? ${context.getString(R.string.episodes)})" }
+        else { "$mediaType ($episodes ${context.getString(R.string.episodes)})" }
         holder.mediaStatusView.text = mediaStatus
 
         if (year == null) {
-            holder.yearView.text = "Unknown"
+            holder.yearView.text = context.getString(R.string.unknown)
         }
         else {
             holder.yearView.text = year.toString()

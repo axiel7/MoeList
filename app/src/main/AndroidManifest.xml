@@ -27,7 +27,7 @@
 
         <activity
             android:name=".ui.LoginActivity"
-            android:label="Login"
+            android:label="@string/title_login"
             android:configChanges="keyboard|orientation|screenSize"
             android:launchMode="singleTop">
             <intent-filter>
@@ -47,56 +47,56 @@
         <activity
             android:name=".ui.details.AnimeDetailsActivity"
             android:parentActivityName=".ui.MainActivity"
-            android:label="Details"
+            android:label="@string/title_details"
             android:hardwareAccelerated="true"
             android:configChanges="keyboard|orientation|screenSize">
         </activity>
         <activity
             android:name=".ui.details.MangaDetailsActivity"
             android:parentActivityName=".ui.MainActivity"
-            android:label="Details"
+            android:label="@string/title_details"
             android:hardwareAccelerated="true"
             android:configChanges="keyboard|orientation|screenSize">
         </activity>
         <activity
             android:name=".ui.SearchActivity"
             android:parentActivityName=".ui.MainActivity"
-            android:label="Search"
+            android:label="@string/title_search"
             android:hardwareAccelerated="true"
             android:configChanges="keyboard|orientation|screenSize">
         </activity>
         <activity
             android:name=".ui.details.FullPosterActivity"
             android:parentActivityName=".ui.details.AnimeDetailsActivity"
-            android:label="Image"
+            android:label="@string/title_poster"
             android:hardwareAccelerated="true"
             android:configChanges="keyboard|orientation|screenSize">
         </activity>
         <activity
             android:name=".ui.SettingsActivity"
             android:parentActivityName=".ui.MainActivity"
-            android:label="Settings"
+            android:label="@string/title_settings"
             android:hardwareAccelerated="true"
             android:configChanges="keyboard|orientation|screenSize">
         </activity>
         <activity
             android:name=".ui.DonationActivity"
             android:parentActivityName=".ui.MainActivity"
-            android:label="Donations"
+            android:label="@string/title_donations"
             android:hardwareAccelerated="true"
             android:configChanges="keyboard|orientation|screenSize">
         </activity>
         <activity
             android:name=".ui.charts.RankingActivity"
             android:parentActivityName=".ui.MainActivity"
-            android:label="Ranking"
+            android:label="@string/title_ranking"
             android:hardwareAccelerated="true"
             android:configChanges="keyboard|orientation|screenSize">
         </activity>
         <activity
             android:name=".ui.charts.SeasonalActivity"
             android:parentActivityName=".ui.MainActivity"
-            android:label="Seasonal"
+            android:label="@string/title_seasonal"
             android:hardwareAccelerated="true"
             android:configChanges="keyboard|orientation|screenSize">
         </activity>

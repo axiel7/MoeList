@@ -173,7 +173,8 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?attr/selectableItemBackground"
-                android:src="@drawable/ic_round_keyboard_arrow_down_24"/>
+                android:src="@drawable/ic_round_keyboard_arrow_down_24"
+                android:contentDescription="@string/synopsis_icon" />
 
             <TextView
                 android:id="@+id/stats"
@@ -183,7 +184,7 @@
                 android:layout_marginStart="@dimen/text_margin"
                 android:layout_marginEnd="@dimen/text_margin"
                 android:layout_marginTop="@dimen/text_margin"
-                android:text="Stats"
+                android:text="@string/stats"
                 android:textSize="16sp"
                 android:textStyle="bold" />
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -209,7 +210,6 @@
                     android:gravity="center"
                     android:text="# 24"
                     android:textColor="?attr/colorControlNormal"
-                    android:tooltipText="Top ranked"
                     tools:ignore="HardcodedText"
                     app:drawableTopCompat="@drawable/ic_round_bar_chart_24" />
                 <androidx.appcompat.widget.AppCompatTextView
@@ -223,7 +223,6 @@
                     android:gravity="center"
                     android:text="116,329"
                     android:textColor="?attr/colorControlNormal"
-                    android:tooltipText="Users scores"
                     tools:ignore="HardcodedText"
                     app:drawableTopCompat="@drawable/ic_round_thumbs_up_down_24" />
                 <androidx.appcompat.widget.AppCompatTextView
@@ -237,7 +236,6 @@
                     android:gravity="center"
                     android:text="116,329"
                     android:textColor="?attr/colorControlNormal"
-                    android:tooltipText="Members"
                     tools:ignore="HardcodedText"
                     app:drawableTopCompat="@drawable/ic_round_group_24" />
                 <androidx.appcompat.widget.AppCompatTextView
@@ -251,7 +249,6 @@
                     android:gravity="center"
                     android:text="# 1096"
                     android:textColor="?attr/colorControlNormal"
-                    android:tooltipText="Popularity"
                     tools:ignore="HardcodedText"
                     app:drawableTopCompat="@drawable/ic_round_trending_up_24" />
 
@@ -265,7 +262,7 @@
                 android:layout_marginStart="@dimen/text_margin"
                 android:layout_marginEnd="@dimen/text_margin"
                 android:layout_marginTop="@dimen/text_margin"
-                android:text="More Info"
+                android:text="@string/more_info"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -282,7 +279,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="@dimen/text_margin"
-                    android:text="Authors" />
+                    android:text="@string/authors" />
                 <TextView
                     android:id="@+id/authors_text"
                     android:layout_width="0dp"
@@ -290,7 +287,8 @@
                     android:layout_weight="1"
                     android:textIsSelectable="true"
                     android:text="Inio Asano"
-                    android:textColor="?attr/colorControlNormal"/>
+                    android:textColor="?attr/colorControlNormal"
+                    tools:ignore="HardcodedText" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -308,14 +306,15 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="@dimen/text_margin"
-                    android:text="Volumes" />
+                    android:text="@string/volumes" />
                 <TextView
                     android:id="@+id/volumes_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="13"
-                    android:textColor="?attr/colorControlNormal"/>
+                    android:textColor="?attr/colorControlNormal"
+                    tools:ignore="HardcodedText" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -339,7 +338,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="@dimen/text_margin"
-                    android:text="Synonyms" />
+                    android:text="@string/synonyms" />
                 <TextView
                     android:id="@+id/synonyms_text"
                     android:layout_width="0dp"
@@ -347,7 +346,8 @@
                     android:layout_weight="1"
                     android:text="My Pico\nBoku no Pico OVA 1"
                     android:textIsSelectable="true"
-                    android:textColor="?attr/colorControlNormal"/>
+                    android:textColor="?attr/colorControlNormal"
+                    tools:ignore="HardcodedText" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -364,7 +364,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="@dimen/text_margin"
-                    android:text="Japanese" />
+                    android:text="@string/jp_title" />
                 <TextView
                     android:id="@+id/jp_title"
                     android:layout_width="0dp"
@@ -372,7 +372,8 @@
                     android:layout_weight="1"
                     android:text="ぼくのぴこ"
                     android:textIsSelectable="true"
-                    android:textColor="?attr/colorControlNormal"/>
+                    android:textColor="?attr/colorControlNormal"
+                    tools:ignore="HardcodedText" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -397,14 +398,15 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="@dimen/text_margin"
-                    android:text="Start Date" />
+                    android:text="@string/start_date" />
                 <TextView
                     android:id="@+id/start_date_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Sep 7, 2006"
-                    android:textColor="?attr/colorControlNormal"/>
+                    android:textColor="?attr/colorControlNormal"
+                    tools:ignore="HardcodedText" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -420,14 +422,15 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="@dimen/text_margin"
-                    android:text="End date" />
+                    android:text="@string/end_date" />
                 <TextView
                     android:id="@+id/end_date_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Feb 4, 2007"
-                    android:textColor="?attr/colorControlNormal"/>
+                    android:textColor="?attr/colorControlNormal"
+                    tools:ignore="HardcodedText" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -443,14 +446,15 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="@dimen/text_margin"
-                    android:text="Source" />
+                    android:text="@string/source" />
                 <TextView
                     android:id="@+id/source_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Original"
-                    android:textColor="?attr/colorControlNormal"/>
+                    android:textColor="?attr/colorControlNormal"
+                    tools:ignore="HardcodedText" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -475,14 +479,15 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="@dimen/text_margin"
-                    android:text="Serialization" />
+                    android:text="@string/serialization" />
                 <TextView
                     android:id="@+id/serial_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Shonen Jump"
-                    android:textColor="?attr/colorControlNormal"/>
+                    android:textColor="?attr/colorControlNormal"
+                    tools:ignore="HardcodedText" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -497,7 +502,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:text="Edit"
+        android:text="@string/edit"
         android:textColor="@color/colorTextInverted"
         app:iconTint="@color/colorTextInverted"
         app:icon="@drawable/ic_round_edit_24"

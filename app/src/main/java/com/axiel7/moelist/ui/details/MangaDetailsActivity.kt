@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import coil.api.load
@@ -175,7 +176,7 @@ class MangaDetailsActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<MangaDetails>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
-                Snackbar.make(snackBarView, "Error connecting to server", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
             }
         })
     }
@@ -186,7 +187,7 @@ class MangaDetailsActivity : AppCompatActivity() {
                 .updateMangaList(Urls.apiBaseUrl + "manga/$mangaId/my_list_status", status, score, chaptersRead, volumesRead)
             patchCall(updateListCall, newEntry)
         } else {
-            Snackbar.make(snackBarView, "No changes", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(snackBarView, getString(R.string.no_changes), Snackbar.LENGTH_SHORT).show()
         }
     }
     private fun patchCall(call: Call<MyMangaListStatus>, newEntry: Boolean) {
@@ -197,20 +198,20 @@ class MangaDetailsActivity : AppCompatActivity() {
                     syncListStatus(myListStatus)
                     mangaDetails.my_list_status = myListStatus
                     entryUpdated = true
-                    var toastText = "Updated"
+                    var toastText = getString(R.string.updated)
                     if (newEntry) {
-                        toastText = "Added to Plan to Read"
+                        toastText = getString(R.string.added_ptr)
                     }
                     Snackbar.make(snackBarView, toastText, Snackbar.LENGTH_SHORT).show()
                 }
                 else {
-                    Snackbar.make(snackBarView, "Error updating list", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(snackBarView, getString(R.string.error_updating_list), Snackbar.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<MyMangaListStatus>, t: Throwable) {
                 Log.d("MoeLog", t.toString())
-                Snackbar.make(snackBarView, "Error connecting to server", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
             }
         })
     }
@@ -222,16 +223,16 @@ class MangaDetailsActivity : AppCompatActivity() {
                     mangaDetails.my_list_status = null
                     changeFabAction()
                     bottomSheetDialog.dismiss()
-                    Snackbar.make(snackBarView, "Deleted", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(snackBarView, getString(R.string.deleted), Snackbar.LENGTH_SHORT).show()
                 }
                 else {
-                    Snackbar.make(snackBarView, "Error deleting entry", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(snackBarView, getString(R.string.error_delete_entry), Snackbar.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 Log.d("MoeLog", t.toString())
-                Snackbar.make(snackBarView, "Error connecting to server", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
             }
 
         })
@@ -261,9 +262,13 @@ class MangaDetailsActivity : AppCompatActivity() {
         }
 
         rankView = findViewById(R.id.rank_text)
+        TooltipCompat.setTooltipText(rankView, getString(R.string.top_ranked))
         membersView = findViewById(R.id.members_text)
+        TooltipCompat.setTooltipText(membersView, getString(R.string.members))
         numScoresView = findViewById(R.id.num_scores_text)
+        TooltipCompat.setTooltipText(numScoresView, getString(R.string.users_scores))
         popularityView = findViewById(R.id.popularity_text)
+        TooltipCompat.setTooltipText(popularityView, getString(R.string.popularity))
         synonymsView = findViewById(R.id.synonyms_text)
         jpTitleView = findViewById(R.id.jp_title)
         startDateView = findViewById(R.id.start_date_text)
@@ -288,7 +293,7 @@ class MangaDetailsActivity : AppCompatActivity() {
         applyButton?.setOnClickListener {
 
             var status :String? = null
-            val statusCurrent = StringFormat.formatListStatusInverted(statusField.text.toString())
+            val statusCurrent = StringFormat.formatListStatusInverted(statusField.text.toString(), this)
             val statusOrigin = mangaDetails.my_list_status?.status
 
             var score :Int? = null
@@ -328,7 +333,8 @@ class MangaDetailsActivity : AppCompatActivity() {
 
         statusLayout = bottomSheetDialog.findViewById(R.id.status_layout)!!
         statusField = bottomSheetDialog.findViewById(R.id.status_field)!!
-        val statusItems = listOf("Reading", "Completed", "On Hold", "Dropped", "Plan to Read")
+        val statusItems = listOf(getString(R.string.reading), getString(R.string.completed),
+            getString(R.string.on_hold), getString(R.string.dropped), getString(R.string.ptr))
         val adapter = ArrayAdapter(this, R.layout.list_status_item, statusItems)
         (statusLayout.editText as? AutoCompleteTextView)?.setAdapter(adapter)
 
@@ -340,10 +346,12 @@ class MangaDetailsActivity : AppCompatActivity() {
         val scoreText = bottomSheetDialog.findViewById<TextView>(R.id.score_text)
         scoreSlider = bottomSheetDialog.findViewById(R.id.score_slider)!!
         scoreSlider.addOnChangeListener { _, value, _ ->
-            val scoreTextValue = "Score: " + value.toInt().let { StringFormat.formatScore(it) }
+            val scoreTextValue = "${getString(R.string.score_value)} " +
+                    value.toInt().let { StringFormat.formatScore(it, this) }
             scoreText?.text = scoreTextValue
         }
-        val scoreTextValue = "Score: " + scoreSlider.value.toInt().let { StringFormat.formatScore(it) }
+        val scoreTextValue = "${getString(R.string.score_value)} " +
+                scoreSlider.value.toInt().let { StringFormat.formatScore(it, this) }
         scoreText?.text = scoreTextValue
 
         val deleteButton = bottomSheetDialog.findViewById<Button>(R.id.delete_button)
@@ -365,26 +373,26 @@ class MangaDetailsActivity : AppCompatActivity() {
         mangaTitleView.text = mangaDetails.title
 
         //media type
-        val mediaTypeText = mangaDetails.media_type?.let { StringFormat.formatMediaType(it) }
+        val mediaTypeText = mangaDetails.media_type?.let { StringFormat.formatMediaType(it, this) }
         mediaTypeView.text = mediaTypeText
 
         //total episodes
         val numChapters = mangaDetails.num_chapters
-        var episodesText = "$numChapters Chapters"
+        var episodesText = "$numChapters ${getString(R.string.chapters)}"
         if (numChapters==0) {
-            episodesText = "?? Chapters"
+            episodesText = "?? ${getString(R.string.chapters)}"
         }
         totalChaptersView.text = episodesText
         // total volumes
         val numVolumes = mangaDetails.num_volumes
-        var volumesText = "$numVolumes Volumes"
+        var volumesText = "$numVolumes ${getString(R.string.volumes)}"
         if (numVolumes==0) {
-            volumesText = "?? Volumes"
+            volumesText = "?? ${getString(R.string.volumes)}"
         }
         totalVolumesView.text = volumesText
 
         //media status
-        val statusText = mangaDetails.status?.let { StringFormat.formatStatus(it) }
+        val statusText = mangaDetails.status?.let { StringFormat.formatStatus(it, this) }
         statusView.text = statusText
 
         //score and synopsis
@@ -426,9 +434,9 @@ class MangaDetailsActivity : AppCompatActivity() {
         else { "─" }
 
         startDateView.text = if (!mangaDetails.start_date.isNullOrEmpty()) { mangaDetails.start_date }
-        else { "Unknown" }
+        else { getString(R.string.unknown) }
         endDateView.text = if (!mangaDetails.end_date.isNullOrEmpty()) { mangaDetails.end_date }
-        else { "Unknown" }
+        else { getString(R.string.unknown) }
 
         // authors
         val authors = mangaDetails.authors
@@ -472,7 +480,7 @@ class MangaDetailsActivity : AppCompatActivity() {
             chaptersLayout.editText?.doOnTextChanged { text, _, _, _ ->
                 if (!text.isNullOrEmpty() && text.isNotBlank()
                     && text.toString().toInt() > numChapters!!) {
-                    chaptersLayout.error = "Invalid number"
+                    chaptersLayout.error = getString(R.string.invalid_number)
                 } else { chaptersLayout.error = null }
             }
         }
@@ -480,7 +488,7 @@ class MangaDetailsActivity : AppCompatActivity() {
             volumesLayout.editText?.doOnTextChanged { text, _, _, _ ->
                 if (!text.isNullOrEmpty() && text.isNotBlank()
                     && text.toString().toInt() > numVolumes!!) {
-                    volumesLayout.error = "Invalid number"
+                    volumesLayout.error = getString(R.string.invalid_number)
                 } else { volumesLayout.error = null }
             }
         }
@@ -488,11 +496,11 @@ class MangaDetailsActivity : AppCompatActivity() {
     private fun changeFabAction() {
         //change fab behavior if not added
         if (mangaDetails.my_list_status==null) {
-            editFab.text = "Add"
+            editFab.text = getString(R.string.add)
             editFab.setIconResource(R.drawable.ic_round_add_24)
             editFab.setOnClickListener {
                 initUpdateCall("plan_to_read", null, null, null, true)
-                editFab.text = "Edit"
+                editFab.text = getString(R.string.edit)
                 editFab.setIconResource(R.drawable.ic_round_edit_24)
                 val bottomSheetBehavior = bottomSheetDialog.behavior
                 editFab.setOnClickListener {
@@ -502,7 +510,7 @@ class MangaDetailsActivity : AppCompatActivity() {
                 }
             }
         } else {
-            editFab.text = "Edit"
+            editFab.text = getString(R.string.edit)
             editFab.setIconResource(R.drawable.ic_round_edit_24)
             val bottomSheetBehavior = bottomSheetDialog.behavior
             editFab.setOnClickListener {
@@ -518,7 +526,7 @@ class MangaDetailsActivity : AppCompatActivity() {
         val volumesRead = myListStatus.num_volumes_read
         volumesField.setText(volumesRead.toString())
 
-        val statusValue = StringFormat.formatListStatus(myListStatus.status)
+        val statusValue = StringFormat.formatListStatus(myListStatus.status, this)
         statusField.setText(statusValue, false)
 
         scoreSlider.value = myListStatus.score.toFloat()

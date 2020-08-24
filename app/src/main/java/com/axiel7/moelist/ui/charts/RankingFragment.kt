@@ -92,6 +92,7 @@ class RankingFragment : Fragment() {
                 animeRankingAdapter = AnimeRankingAdapter(
                     rankingAnime,
                     R.layout.list_item_ranking,
+                    requireContext(),
                     onClickListener = {itemView, animeRanking -> openDetails(animeRanking.node.id, itemView)})
                 animeRankingAdapter.setEndListReachedListener(object :EndListReachedListener {
                     override fun onBottomReached(position: Int) {
@@ -111,6 +112,7 @@ class RankingFragment : Fragment() {
                 mangaRankingAdapter = MangaRankingAdapter(
                     rankingManga,
                     R.layout.list_item_ranking,
+                    requireContext(),
                     onClickListener = {itemView, mangaRanking -> openDetails(mangaRanking.node.id, itemView)})
                 mangaRankingAdapter.setEndListReachedListener(object :EndListReachedListener {
                     override fun onBottomReached(position: Int) {
@@ -206,7 +208,7 @@ class RankingFragment : Fragment() {
             override fun onFailure(call: Call<AnimeRankingResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
                 loadingBar.hide()
-                Snackbar.make(snackBarView, "Error connecting to server", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
             }
         })
     }
@@ -254,7 +256,7 @@ class RankingFragment : Fragment() {
             override fun onFailure(call: Call<MangaRankingResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
                 loadingBar.hide()
-                Snackbar.make(snackBarView, "Error connecting to server", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
             }
         })
     }

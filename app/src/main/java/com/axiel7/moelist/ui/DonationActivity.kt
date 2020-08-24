@@ -164,7 +164,7 @@ class DonationActivity : AppCompatActivity(), PurchasesUpdatedListener {
             }
         } else if (billingResult.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
             // Handle an error caused by a user cancelling the purchase flow.
-
+            Toast.makeText(this, getString(R.string.purchase_cancelled), Toast.LENGTH_SHORT).show()
         }
     }
     private fun acknowledgePurchase(purchaseToken: String) {
@@ -175,7 +175,7 @@ class DonationActivity : AppCompatActivity(), PurchasesUpdatedListener {
         billingClient.acknowledgePurchase(params) {
             //val responseCode = billingResult.responseCode
             //val debugMessage = billingResult.debugMessage
-            Toast.makeText(this, "Thank you!\n(◔‿◔)", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.donation_thanked), Toast.LENGTH_SHORT).show()
         }
         billingClient.consumeAsync(purchase) { _, _ ->  }
     }

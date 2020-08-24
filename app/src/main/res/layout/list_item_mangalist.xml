@@ -37,7 +37,8 @@
                 android:layout_height="150dp"
                 android:layout_gravity="start"
                 android:background="@color/colorPlaceHolder"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/poster" />
             <TextView
                 android:id="@+id/score_text"
                 android:layout_width="wrap_content"
@@ -78,7 +79,8 @@
                 android:layout_marginStart="@dimen/text_margin"
                 android:layout_marginTop="8dp"
                 android:text="Manga • Finished"
-                android:textColor="?attr/colorControlNormal"/>
+                android:textColor="?attr/colorControlNormal"
+                tools:ignore="HardcodedText" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -94,7 +96,8 @@
                     android:layout_marginStart="8dp"
                     android:text="5/24"
                     android:textColor="?attr/colorControlNormal"
-                    android:layout_alignParentBottom="true"/>
+                    android:layout_alignParentBottom="true"
+                    tools:ignore="HardcodedText" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/add_one_button"
@@ -105,7 +108,7 @@
                     android:layout_margin="10dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:text="+1 CH"
+                    android:text="@string/plus_one_chapter"
                     style="?attr/materialButtonOutlinedStyle"/>
 
                 <ProgressBar

@@ -1,5 +1,6 @@
 package com.axiel7.moelist.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import com.axiel7.moelist.utils.StringFormat
 
 class SearchMangaAdapter(private val animes: MutableList<MangaList>,
                          private val rowLayout: Int,
+                         private val context: Context,
                          private val onClickListener: (View, MangaList) -> Unit) :
     RecyclerView.Adapter<SearchMangaAdapter.AnimeViewHolder>() {
     private var endListReachedListener: EndListReachedListener? = null
@@ -37,7 +39,7 @@ class SearchMangaAdapter(private val animes: MutableList<MangaList>,
     override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
         val posterUrl = animes[position].node.main_picture.medium
         val animeTitle = animes[position].node.title
-        val mediaType = animes[position].node.media_type?.let { StringFormat.formatMediaType(it) }
+        val mediaType = animes[position].node.media_type?.let { StringFormat.formatMediaType(it, context) }
         val episodes = animes[position].node.num_chapters
         val startDate = animes[position].node.start_date
         val score = animes[position].node.mean
@@ -51,16 +53,16 @@ class SearchMangaAdapter(private val animes: MutableList<MangaList>,
 
         holder.animeTitleView.text = animeTitle
 
-        val mediaStatus = "$mediaType ($episodes Chapters)"
+        val mediaStatus = "$mediaType ($episodes ${context.getString(R.string.chapters)})"
         holder.mediaStatusView.text = mediaStatus
 
         holder.yearView.text = startDate
 
         val scoreText: String
         scoreText = if (score == null) {
-            "Score: ??"
+            "${context.getString(R.string.score_value)} ??"
         } else {
-            "Score: $score"
+            "${context.getString(R.string.score_value)} $score"
         }
         holder.scoreView.text = scoreText
 

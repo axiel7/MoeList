@@ -1,5 +1,7 @@
 package com.axiel7.moelist.adapter
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +18,7 @@ import kotlin.math.absoluteValue
 
 class AiringAnimeAdapter(private val animes: MutableList<SeasonalList>,
                          private val rowLayout: Int,
+                         private val context: Context,
                          private val onClickListener: (View, SeasonalList) -> Unit) :
     RecyclerView.Adapter<AiringAnimeAdapter.AnimeViewHolder>() {
     private var endListReachedListener: EndListReachedListener? = null
@@ -49,7 +52,7 @@ class AiringAnimeAdapter(private val animes: MutableList<SeasonalList>,
             allowHardware(false)
         }
         holder.animeTitle.text = animeTitle
-        val scoreValue = "Score: $score"
+        val scoreValue = "${context.getString(R.string.score_value)} $score"
         holder.scoreText.text = scoreValue
 
         if (startTime!=null && weekDay!=null) {
@@ -57,10 +60,17 @@ class AiringAnimeAdapter(private val animes: MutableList<SeasonalList>,
             val startHour = LocalTime.parse(startTime, DateTimeFormatter.ISO_TIME).hour
             val currentWeekDay = SeasonCalendar.getCurrentJapanWeekday()
             val remaining = startHour - jpTime
-            val airingValue = if (currentWeekDay==weekDay && remaining > 0) { "Airing in ${remaining}h" }
-            else { "Aired ${remaining.absoluteValue}h ago" }
+            val airingValue = if (currentWeekDay==weekDay && remaining > 0) {
+                "${context.getString(R.string.airing_in)} ${remaining}h"
+            }
+            else {
+                "${context.getString(R.string.aired)} ${remaining.absoluteValue}h ${context.getString(R.string.ago)}"
+            }
             holder.airingText.text = airingValue
-        } else { holder.airingText.text = "Airing in ??" }
+        } else {
+            val airingValue = "${context.getString(R.string.airing_in)} ??"
+            holder.airingText.text = airingValue
+        }
 
         val anime = animes[position]
         holder.itemView.setOnClickListener { view ->

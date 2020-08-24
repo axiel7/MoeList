@@ -1,5 +1,6 @@
 package com.axiel7.moelist.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import com.axiel7.moelist.utils.StringFormat
 
 class MyMangaListAdapter(private val mangas: MutableList<UserMangaList>,
                          private val rowLayout: Int,
+                         private val context: Context,
                          private val onClickListener: (View, UserMangaList) -> Unit) :
     RecyclerView.Adapter<MyMangaListAdapter.AnimeViewHolder>() {
     private var endListReachedListener: EndListReachedListener? = null
@@ -50,8 +52,8 @@ class MyMangaListAdapter(private val mangas: MutableList<UserMangaList>,
         val totalChapters = mangas[position].node.num_chapters
         var mediaType = mangas[position].node.media_type
         var status = mangas[position].node.status
-        status = status?.let { StringFormat.formatStatus(it) }
-        mediaType = mediaType?.let { StringFormat.formatMediaType(it) }
+        status = status?.let { StringFormat.formatStatus(it, context) }
+        mediaType = mediaType?.let { StringFormat.formatMediaType(it, context) }
 
         val progressText = "$chaptersRead/$totalChapters"
         val mediaStatus = "$mediaType • $status"

@@ -85,7 +85,7 @@ class SeasonalActivity : AppCompatActivity() {
 
         season = SeasonCalendar.getCurrentSeason()
         year = SeasonCalendar.getCurrentYear()
-        toolbar.title = "${StringFormat.formatSeason(season)} $year"
+        toolbar.title = "${StringFormat.formatSeason(season, this)} $year"
 
         val savedResponse = animeDb?.seasonalResponseDao()?.getSeasonalResponse(season, year)
         if (savedResponse!=null) {
@@ -97,6 +97,7 @@ class SeasonalActivity : AppCompatActivity() {
         seasonalAdapter = SeasonalAnimeAdapter(
             seasonalList,
             R.layout.list_item_seasonal,
+            this,
             onClickListener = {itemView, animeList -> openDetails(animeList.node.id, itemView)})
         seasonalRecycler.adapter = seasonalAdapter
 
@@ -160,7 +161,7 @@ class SeasonalActivity : AppCompatActivity() {
             override fun onFailure(call: Call<SeasonalAnimeResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
                 loadingBar.hide()
-                Snackbar.make(snackBarView, "Error connecting to server", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
             }
         })
     }
@@ -172,10 +173,10 @@ class SeasonalActivity : AppCompatActivity() {
 
         val applyButton = bottomSheetDialog.findViewById<Button>(R.id.apply_button)
         applyButton?.setOnClickListener {
-            season = StringFormat.formatSeasonInverted(seasonLayout.editText?.text.toString())
+            season = StringFormat.formatSeasonInverted(seasonLayout.editText?.text.toString(), this)
             year = yearLayout.editText?.text.toString().toInt()
             initCalls(true)
-            toolbar.title = "${StringFormat.formatSeason(season)} $year"
+            toolbar.title = "${StringFormat.formatSeason(season, this)} $year"
             bottomSheetDialog.hide()
         }
         val cancelButton = bottomSheetDialog.findViewById<Button>(R.id.cancel_button)
@@ -186,11 +187,12 @@ class SeasonalActivity : AppCompatActivity() {
         }
 
         seasonLayout = bottomSheetDialog.findViewById(R.id.season_layout)!!
-        val seasons = listOf("Winter", "Spring", "Summer", "Fall")
+        val seasons = listOf(getString(R.string.winter), getString(R.string.spring),
+            getString(R.string.summer), getString(R.string.fall))
         val seasonAdapter = ArrayAdapter(this, R.layout.list_status_item, seasons)
         (seasonLayout.editText as? AutoCompleteTextView)?.setAdapter(seasonAdapter)
         (seasonLayout.editText as? AutoCompleteTextView)
-            ?.setText(StringFormat.formatSeason(season), false)
+            ?.setText(StringFormat.formatSeason(season, this), false)
 
         yearLayout = bottomSheetDialog.findViewById(R.id.year_layout)!!
         val years = mutableListOf<Int>()

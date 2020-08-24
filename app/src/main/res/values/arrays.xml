@@ -2,9 +2,9 @@
 <resources>
 
     <string-array name="section_options">
-        <item>Home</item>
-        <item>Anime</item>
-        <item>Manga</item>
+        <item>@string/title_home</item>
+        <item>@string/title_anime_list</item>
+        <item>@string/title_manga_list</item>
     </string-array>
     <string-array name="section_options_values">
         <item>home</item>
@@ -13,9 +13,9 @@
     </string-array>
 
     <string-array name="theme_options">
-        <item>Light</item>
-        <item>Dark</item>
-        <item>Follow system</item>
+        <item>@string/theme_light</item>
+        <item>@string/theme_dark</item>
+        <item>@string/theme_system</item>
     </string-array>
     <string-array name="theme_options_values">
         <item>light</item>

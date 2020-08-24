@@ -36,7 +36,8 @@
                 android:layout_height="130dp"
                 android:layout_gravity="start"
                 android:background="@color/colorPlaceHolder"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/poster" />
             <TextView
                 android:id="@+id/ranking_text"
                 android:layout_width="wrap_content"
@@ -76,7 +77,8 @@
                 android:layout_marginStart="@dimen/text_margin"
                 android:layout_marginTop="8dp"
                 android:text="TV (25 Episodes)"
-                android:textColor="?attr/colorControlNormal"/>
+                android:textColor="?attr/colorControlNormal"
+                tools:ignore="HardcodedText" />
             <TextView
                 android:id="@+id/score_text"
                 android:layout_width="wrap_content"
@@ -87,7 +89,8 @@
                 android:text="8.74"
                 android:textColor="?attr/colorControlNormal"
                 android:drawablePadding="2dp"
-                app:drawableStartCompat="@drawable/ic_round_details_star_24" />
+                app:drawableStartCompat="@drawable/ic_round_details_star_24"
+                tools:ignore="HardcodedText" />
             <TextView
                 android:id="@+id/members_text"
                 android:layout_width="wrap_content"
@@ -98,7 +101,8 @@
                 android:text="1,563,735"
                 android:textColor="?attr/colorControlNormal"
                 android:drawablePadding="2dp"
-                app:drawableStartCompat="@drawable/ic_round_group_24" />
+                app:drawableStartCompat="@drawable/ic_round_group_24"
+                tools:ignore="HardcodedText" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

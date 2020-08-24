@@ -133,7 +133,7 @@ class HomeFragment : Fragment() {
             onClickListener = { itemView, animeRanking ->  openDetails(animeRanking.node.id, itemView)})
         seasonRecycler.adapter = animeRankingAdapter
         val seasonTitle = view.findViewById<TextView>(R.id.season_title)
-        val seasonValue = "${StringFormat.formatSeason(currentSeason.season)} ${currentSeason.year}"
+        val seasonValue = "${StringFormat.formatSeason(currentSeason.season, requireContext())} ${currentSeason.year}"
         seasonTitle.text = seasonValue
 
         recommendRecycler = view.findViewById(R.id.recommend_recycler)
@@ -170,6 +170,7 @@ class HomeFragment : Fragment() {
             AiringAnimeAdapter(
                 todayList,
                 R.layout.list_item_anime_today,
+                requireContext(),
                 onClickListener = { itemView, animeList -> openDetails(animeList.node.id, itemView) }
             )
         todayAdapter.setEndListReachedListener(object: EndListReachedListener {
@@ -272,8 +273,7 @@ class HomeFragment : Fragment() {
                 Log.e("MoeLog", t.toString())
                 if (animeListSeasonal.isNotEmpty()) { seasonLoading.hide() }
                 if (isAdded) {
-                    //Toast.makeText(context, "Error connecting to server", Toast.LENGTH_SHORT).show()
-                    Snackbar.make(snackBarView, "Error connecting to server", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
             }
         })
@@ -335,8 +335,7 @@ class HomeFragment : Fragment() {
                 Log.e("MoeLog", t.toString())
                 if (animeListRecommend.isNotEmpty()) { recommendLoading.hide() }
                 if (isAdded) {
-                    //Toast.makeText(context, "Error connecting to server", Toast.LENGTH_SHORT).show()
-                    Snackbar.make(snackBarView, "Error connecting to server", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
             }
         })
@@ -401,7 +400,7 @@ class HomeFragment : Fragment() {
                 Log.e("MoeLog", t.toString())
                 if (todayList.isNotEmpty()) { todayLoading.hide() }
                 if (isAdded) {
-                    Snackbar.make(snackBarView, "Error connecting to server", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
             }
         })
