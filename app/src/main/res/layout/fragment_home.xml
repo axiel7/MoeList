@@ -219,7 +219,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/season_title"
-            tools:listitem="@layout/list_item_anime_seasonal"/>
+            tools:listitem="@layout/list_item_anime"/>
 
         <TextView
             android:id="@+id/recommend_title"
@@ -253,7 +253,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/recommend_title"
-            tools:listitem="@layout/list_item_anime_seasonal"/>
+            tools:listitem="@layout/list_item_anime"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

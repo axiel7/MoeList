@@ -50,7 +50,6 @@
             android:label="Details"
             android:hardwareAccelerated="true"
             android:configChanges="keyboard|orientation|screenSize">
-
         </activity>
         <activity
             android:name=".ui.details.MangaDetailsActivity"
@@ -58,7 +57,6 @@
             android:label="Details"
             android:hardwareAccelerated="true"
             android:configChanges="keyboard|orientation|screenSize">
-
         </activity>
         <activity
             android:name=".ui.SearchActivity"
@@ -66,7 +64,6 @@
             android:label="Search"
             android:hardwareAccelerated="true"
             android:configChanges="keyboard|orientation|screenSize">
-
         </activity>
         <activity
             android:name=".ui.details.FullPosterActivity"
@@ -74,7 +71,6 @@
             android:label="Image"
             android:hardwareAccelerated="true"
             android:configChanges="keyboard|orientation|screenSize">
-
         </activity>
         <activity
             android:name=".ui.SettingsActivity"
@@ -82,7 +78,6 @@
             android:label="Settings"
             android:hardwareAccelerated="true"
             android:configChanges="keyboard|orientation|screenSize">
-
         </activity>
         <activity
             android:name=".ui.DonationActivity"
@@ -90,7 +85,6 @@
             android:label="Donations"
             android:hardwareAccelerated="true"
             android:configChanges="keyboard|orientation|screenSize">
-
         </activity>
         <activity
             android:name=".ui.charts.RankingActivity"
@@ -98,8 +92,15 @@
             android:label="Ranking"
             android:hardwareAccelerated="true"
             android:configChanges="keyboard|orientation|screenSize">
-
         </activity>
+        <activity
+            android:name=".ui.charts.SeasonalActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:label="Seasonal"
+            android:hardwareAccelerated="true"
+            android:configChanges="keyboard|orientation|screenSize">
+        </activity>
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_moelist_logo_white" />

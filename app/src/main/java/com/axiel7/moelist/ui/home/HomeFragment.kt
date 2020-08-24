@@ -14,13 +14,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.axiel7.moelist.MyApplication.Companion.animeDb
 import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.AiringAnimeAdapter
+import com.axiel7.moelist.adapter.CurrentSeasonalAdapter
 import com.axiel7.moelist.adapter.EndListReachedListener
 import com.axiel7.moelist.adapter.RecommendationsAdapter
-import com.axiel7.moelist.adapter.SeasonalAnimeAdapter
 import com.axiel7.moelist.model.*
 import com.axiel7.moelist.rest.MalApiService
 import com.axiel7.moelist.ui.MainActivity
 import com.axiel7.moelist.ui.charts.RankingActivity
+import com.axiel7.moelist.ui.charts.SeasonalActivity
 import com.axiel7.moelist.ui.details.AnimeDetailsActivity
 import com.axiel7.moelist.utils.*
 import com.google.android.material.card.MaterialCardView
@@ -47,7 +48,7 @@ class HomeFragment : Fragment() {
     private lateinit var seasonalChartButton: MaterialCardView
     private lateinit var randomButton: MaterialCardView
     private lateinit var snackBarView: View
-    private lateinit var animeRankingAdapter: SeasonalAnimeAdapter
+    private lateinit var animeRankingAdapter: CurrentSeasonalAdapter
     private lateinit var animeRecommendAdapter: RecommendationsAdapter
     private lateinit var todayAdapter: AiringAnimeAdapter
     private lateinit var animeListSeasonal: MutableList<AnimeRanking>
@@ -115,9 +116,10 @@ class HomeFragment : Fragment() {
         mangaRankingButton = view.findViewById(R.id.manga_rank)
         mangaRankingButton.setOnClickListener { openRanking("manga", mangaRankingButton) }
         seasonalChartButton = view.findViewById(R.id.seasonal_chart)
+        seasonalChartButton.setOnClickListener { openSeasonChart(seasonalChartButton) }
 
         randomButton = view.findViewById(R.id.random)
-        randomButton.setOnClickListener { openDetails(-1, null) }
+        randomButton.setOnClickListener { openDetails(-1, randomButton) }
 
         snackBarView = view
         seasonRecycler = view.findViewById(R.id.season_recycler)
@@ -125,9 +127,9 @@ class HomeFragment : Fragment() {
         if (animeListSeasonal.isEmpty()) {
             seasonLoading.show()
         } else { seasonLoading.hide() }
-        animeRankingAdapter = SeasonalAnimeAdapter(
+        animeRankingAdapter = CurrentSeasonalAdapter(
             animeListSeasonal,
-            R.layout.list_item_anime_seasonal,
+            R.layout.list_item_anime,
             onClickListener = { itemView, animeRanking ->  openDetails(animeRanking.node.id, itemView)})
         seasonRecycler.adapter = animeRankingAdapter
         val seasonTitle = view.findViewById<TextView>(R.id.season_title)
@@ -143,7 +145,7 @@ class HomeFragment : Fragment() {
         animeRecommendAdapter =
                 RecommendationsAdapter(
                     animeListRecommend,
-                    R.layout.list_item_anime_seasonal,
+                    R.layout.list_item_anime,
                     onClickListener = { itemView, animeList -> openDetails(animeList.node.id, itemView) }
                 )
         animeRankingAdapter.setEndListReachedListener(object :EndListReachedListener {
@@ -173,7 +175,7 @@ class HomeFragment : Fragment() {
         todayAdapter.setEndListReachedListener(object: EndListReachedListener {
             override fun onBottomReached(position: Int) {
                 if (todayResponse!=null) {
-                    val nextPage: String? = todayResponse!!.paging.next
+                    val nextPage: String? = todayResponse!!.paging?.next
                     if (!nextPage.isNullOrEmpty()) {
                         val getMoreCall = malApiService.getNextSeasonalPage(nextPage)
                         initTodayCall(getMoreCall, false)
@@ -362,7 +364,7 @@ class HomeFragment : Fragment() {
                     }
                     if (todayList.isEmpty()) {
                         call.cancel()
-                        val nextPage: String? = todayResponse!!.paging.next
+                        val nextPage: String? = todayResponse!!.paging?.next
                         if (!nextPage.isNullOrEmpty()) {
                             val getMoreCall = malApiService.getNextSeasonalPage(nextPage)
                             initTodayCall(getMoreCall, false)
@@ -409,7 +411,11 @@ class HomeFragment : Fragment() {
         if (view!=null) {
             val poster = view.findViewById<ShapeableImageView>(R.id.anime_poster)
             val intent = Intent(context, AnimeDetailsActivity::class.java)
-            val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), poster, poster.transitionName)
+            val bundle = if (poster!=null) {
+                ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), poster, poster.transitionName)
+            } else {
+                ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), view, view.transitionName)
+            }
             intent.putExtra("animeId", animeId)
             startActivity(intent, bundle.toBundle())
         }
@@ -423,6 +429,11 @@ class HomeFragment : Fragment() {
         val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), view, view.transitionName)
         val intent = Intent(context, RankingActivity::class.java)
         intent.putExtra("mediaType", type)
+        startActivity(intent, bundle.toBundle())
+    }
+    private fun openSeasonChart(view: View) {
+        val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), view, view.transitionName)
+        val intent = Intent(context, SeasonalActivity::class.java)
         startActivity(intent, bundle.toBundle())
     }
 }

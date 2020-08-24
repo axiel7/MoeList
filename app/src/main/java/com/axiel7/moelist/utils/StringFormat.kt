@@ -67,6 +67,16 @@ object StringFormat {
         }
         return result
     }
+    fun formatSeasonInverted(season: String): String {
+        var result = season
+        when (season) {
+            "Winter" -> result = "winter"
+            "Spring" -> result = "spring"
+            "Summer" -> result = "summer"
+            "Fall" -> result = "fall"
+        }
+        return result
+    }
     fun formatSource(source: String): String {
         var result = source
         when (source) {

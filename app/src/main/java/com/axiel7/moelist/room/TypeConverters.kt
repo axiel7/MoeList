@@ -36,6 +36,20 @@ class TypeConverters {
         return gson.toJson(someObject)
     }
 
+    // seasonal list
+    @TypeConverter
+    fun stringToSeasonalList(data: String?): MutableList<SeasonalList?>? {
+        if (data==null) {
+            return Collections.emptyList()
+        }
+        val listType: Type = object : TypeToken<MutableList<SeasonalList?>?>() {}.type
+        return gson.fromJson<MutableList<SeasonalList?>>(data, listType)
+    }
+    @TypeConverter
+    fun seasonalListToString(someObject: MutableList<SeasonalList?>?): String? {
+        return gson.toJson(someObject)
+    }
+
     // ranking
     @TypeConverter
     fun stringToRanking(data: String?): Ranking? {
