@@ -13,12 +13,12 @@ Follow the development on the official Discord server:
 * Search Anime/Manga
 * Seasonal Anime
 * Anime recommendations
+* Anime/Manga top charts
 * View your profile and anime stats
 * Light/Dark theme
 * NSFW toggle
 
 **Coming soon:**
-* Anime/Manga top charts
 * Related Anime/Manga
 * Manage rewatching and tags
 * Push notifications for new episode aired
