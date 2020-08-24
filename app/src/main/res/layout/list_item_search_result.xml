@@ -73,8 +73,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/text_margin"
                 android:layout_marginTop="8dp"
-                android:text="Score: 8.74"
-                android:textColor="?attr/colorControlNormal"/>
+                android:gravity="center"
+                android:text="8.74"
+                android:textColor="?attr/colorControlNormal"
+                android:drawablePadding="2dp"
+                app:drawableStartCompat="@drawable/ic_round_details_star_24" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

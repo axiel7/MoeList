@@ -60,11 +60,9 @@ class AnimeRankingAdapter(private val animes: MutableList<AnimeRanking>,
         else { "$mediaType ($episodes Episodes)" }
         holder.mediaStatusText.text = mediaStatusValue
 
-        val scoreValue = "Score: $score"
-        holder.scoreText.text = scoreValue
+        holder.scoreText.text = score.toString()
 
-        val membersValue = "$members Members"
-        holder.membersText.text = membersValue
+        holder.membersText.text = members
 
         val anime = animes[position]
         holder.itemView.setOnClickListener { view ->

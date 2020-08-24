@@ -5,9 +5,13 @@
     <color name="colorPrimaryLight">#8e99f3</color>
     <color name="colorAccent">#5c6bc0</color>
     <color name="colorText">#000000</color>
-    <color name="colorBackground">#FFFFFF</color>
-    <color name="colorToolbar">#FFFFFF</color>
+    <color name="colorTextInverted">#ffffff</color>
+    <color name="colorBackground">#ffffff</color>
+    <color name="colorBackgroundAlpha">#ddffffff</color>
+    <color name="colorToolbar">#ffffff</color>
     <color name="colorPlaceHolder">#dedede</color>
-    <color name="colorError">#B00020</color>
-    <color name="colorCard">#fafafa</color>
+    <color name="colorError">#b00020</color>
+    <color name="colorCard">#ffffff</color>
+    <color name="colorDivider">#1fffffff</color>
+    <color name="colorProgressBackground">#c0c0c0</color>
 </resources>

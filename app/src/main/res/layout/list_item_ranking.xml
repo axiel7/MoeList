@@ -83,16 +83,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/text_margin"
                 android:layout_marginTop="8dp"
-                android:text="Score: 8.74"
-                android:textColor="?attr/colorControlNormal"/>
+                android:gravity="center"
+                android:text="8.74"
+                android:textColor="?attr/colorControlNormal"
+                android:drawablePadding="2dp"
+                app:drawableStartCompat="@drawable/ic_round_details_star_24" />
             <TextView
                 android:id="@+id/members_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/text_margin"
                 android:layout_marginTop="8dp"
-                android:text="1,563,735 Members"
-                android:textColor="?attr/colorControlNormal"/>
+                android:gravity="center"
+                android:text="1,563,735"
+                android:textColor="?attr/colorControlNormal"
+                android:drawablePadding="2dp"
+                app:drawableStartCompat="@drawable/ic_round_group_24" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

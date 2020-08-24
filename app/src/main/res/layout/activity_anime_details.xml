@@ -511,6 +511,8 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:text="Edit"
+        android:textColor="@color/colorTextInverted"
+        app:iconTint="@color/colorTextInverted"
         app:icon="@drawable/ic_round_edit_24"
         app:layout_anchor="@id/details_scroll"
         app:layout_anchorGravity="bottom|end" />

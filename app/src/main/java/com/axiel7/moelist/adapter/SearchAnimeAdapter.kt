@@ -51,7 +51,8 @@ class SearchAnimeAdapter(private val animes: MutableList<AnimeList>,
 
         holder.animeTitleView.text = animeTitle
 
-        val mediaStatus = "$mediaType ($episodes Episodes)"
+        val mediaStatus = if (episodes==0) { "$mediaType (?? Episodes)" }
+        else { "$mediaType ($episodes Episodes)" }
         holder.mediaStatusView.text = mediaStatus
 
         if (year == null) {
@@ -61,12 +62,7 @@ class SearchAnimeAdapter(private val animes: MutableList<AnimeList>,
             holder.yearView.text = year.toString()
         }
 
-        val scoreText: String
-        scoreText = if (score == null) {
-            "Score: ??"
-        } else {
-            "Score: $score"
-        }
+        val scoreText = score?.toString() ?: "??"
         holder.scoreView.text = scoreText
 
         val anime = animes[position]

@@ -108,7 +108,7 @@ object StringFormat {
         var result = day ?: ""
         when (day) {
             "monday" -> result = "Monday"
-            "tuesday" -> result = "tuesday"
+            "tuesday" -> result = "Tuesday"
             "wednesday" -> result = "Wednesday"
             "thursday" -> result = "Thursday"
             "friday" -> result = "Friday"

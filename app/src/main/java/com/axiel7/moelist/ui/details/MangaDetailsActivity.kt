@@ -100,6 +100,8 @@ class MangaDetailsActivity : AppCompatActivity() {
             window.decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
         }
+        window.statusBarColor = ContextCompat.getColor(this, R.color.colorBackgroundAlpha)
+
         val toolbar = findViewById<Toolbar>(R.id.details_toolbar)
         setSupportActionBar(toolbar)
         val supportActionBar = supportActionBar
