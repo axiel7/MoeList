@@ -29,6 +29,7 @@ import com.axiel7.moelist.utils.*
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.review.ReviewManagerFactory
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -123,6 +124,15 @@ class AnimeListFragment : Fragment() {
                     }
                     else {
                         addOneEpisode(animeId, watchedEpisodes?.plus(1), null)
+                    }
+                }
+                val manager = ReviewManagerFactory.create(requireContext())
+                val request = manager.requestReviewFlow()
+                request.addOnCompleteListener { requestReview ->
+                    if (requestReview.isSuccessful) {
+                        // We got the ReviewInfo object
+                        val reviewInfo = requestReview.result
+                        val flow = manager.launchReviewFlow(requireActivity(), reviewInfo)
                     }
                 }
             }
