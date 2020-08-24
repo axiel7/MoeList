@@ -19,7 +19,7 @@ class SearchMangaAdapter(private val animes: MutableList<MangaList>,
     RecyclerView.Adapter<SearchMangaAdapter.AnimeViewHolder>() {
     private var endListReachedListener: EndListReachedListener? = null
 
-    inner class AnimeViewHolder internal constructor(v: View) : RecyclerView.ViewHolder(v) {
+    class AnimeViewHolder internal constructor(v: View) : RecyclerView.ViewHolder(v) {
         val animeTitleView: TextView = v.findViewById(R.id.anime_title)
         val animePosterView: ImageView = v.findViewById(R.id.anime_poster)
         val mediaStatusView: TextView = v.findViewById(R.id.media_status)

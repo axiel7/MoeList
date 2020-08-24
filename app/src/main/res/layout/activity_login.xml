@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/moeList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="270dp"
+        android:layout_height="75dp"
         android:layout_centerInParent="true"
         android:padding="40dp"
         android:src="@drawable/moelist_banner"

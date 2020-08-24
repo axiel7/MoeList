@@ -17,7 +17,7 @@ import com.axiel7.moelist.BuildConfig
 import com.axiel7.moelist.R
 import com.axiel7.moelist.utils.SharedPrefsHelpers
 
-
+@Suppress("unused")
 class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var sharedPreferences: SharedPreferences
@@ -39,7 +39,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
             window.setDecorFitsSystemWindows(false)
         }
         else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
-            window.decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
         }
 
@@ -91,11 +91,6 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
                 startActivity(intent)
                 true
             }
-
-            /*val credits = findPreference<Preference>("credits")
-            credits?.setOnPreferenceClickListener {
-                true
-            }*/
 
             val feedback = findPreference<Preference>("feedback")
             feedback?.setOnPreferenceClickListener {

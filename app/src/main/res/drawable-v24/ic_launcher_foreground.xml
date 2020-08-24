@@ -1,5 +1,6 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:aapt="http://schemas.android.com/aapt"
+    xmlns:tools="http://schemas.android.com/tools"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
@@ -33,6 +34,7 @@
         android:strokeWidth="0"
         android:fillColor="#ffffff"
         android:fillType="nonZero"
-        android:strokeLineCap="butt"/>
+        android:strokeLineCap="butt"
+        tools:ignore="VectorPath"/>
   </group>
 </vector>

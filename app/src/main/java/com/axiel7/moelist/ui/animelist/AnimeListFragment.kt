@@ -1,5 +1,6 @@
 package com.axiel7.moelist.ui.animelist
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -81,6 +82,7 @@ class AnimeListFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_animelist, container, false)
     }
 
+    @SuppressLint("InflateParams")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

@@ -8,7 +8,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 
-
+@Suppress("unused")
 class SharedPrefsHelpers {
     fun saveInt(key: String?, value: Int) {
         val editor = mSharedPreferences!!.edit()
@@ -162,8 +162,6 @@ class SharedPrefsHelpers {
             if (mSharedPreferences == null) throw SharedPrefsExceptions("SharedPreferencesHelpers must be initialized inside your application class by calling SharedPreferencesHelpers.init(getApplicationContext)")
         }
 
-        class SharedPrefsExceptions(s: String) : Throwable() {
-
-        }
+        class SharedPrefsExceptions(s: String) : Throwable()
     }
 }

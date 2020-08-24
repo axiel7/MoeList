@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection", "SpellCheckingInspection")
+
 package com.axiel7.moelist.adapter
 
 import android.annotation.SuppressLint
@@ -39,6 +41,7 @@ class AiringAnimeAdapter(private val animes: MutableList<SeasonalList>,
         return AnimeViewHolder(view)
     }
 
+    @SuppressLint("NewApi")
     override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
         val posterUrl = animes[position].node.main_picture.medium
         val animeTitle = animes[position].node.title

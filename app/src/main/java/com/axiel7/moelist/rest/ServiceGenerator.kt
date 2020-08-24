@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package com.axiel7.moelist.rest
 
 import okhttp3.Credentials
@@ -7,6 +9,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+@Suppress("unused")
 object ServiceGenerator {
     private const val API_BASE_URL = "https://myanimelist.net"
     private val httpClient = OkHttpClient.Builder()

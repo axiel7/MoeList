@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 import java.util.*
 
+@Suppress("unused")
 class TypeConverters {
     private val gson = Gson()
 

@@ -2,6 +2,7 @@ package com.axiel7.moelist.utils
 
 import java.util.*
 
+@Suppress("unused")
 object SeasonCalendar {
     private val calendar: Calendar = Calendar.getInstance(Locale.ENGLISH)
     private val jpCalendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"), Locale.ENGLISH)

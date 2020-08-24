@@ -1,5 +1,6 @@
 package com.axiel7.moelist.ui.profile
 
+import android.annotation.SuppressLint
 import android.app.ActivityOptions
 import android.content.Intent
 import android.graphics.Color
@@ -167,6 +168,7 @@ class ProfileFragment : Fragment() {
             }
         })
     }
+    @SuppressLint("NewApi")
     private fun setDataToViews() {
 
         profilePicture

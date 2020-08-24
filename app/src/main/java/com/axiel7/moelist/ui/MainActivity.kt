@@ -23,7 +23,6 @@ import com.axiel7.moelist.utils.SharedPrefsHelpers
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.transition.platform.MaterialFadeThrough
-import com.google.android.material.transition.platform.MaterialSharedAxis
 import okhttp3.OkHttpClient
 
 class MainActivity : AppCompatActivity() {
@@ -75,14 +74,13 @@ class MainActivity : AppCompatActivity() {
             window.setDecorFitsSystemWindows(false)
         }
         else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
-            window.decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
         }
 
         // bottom sheet
-        val dialogView = layoutInflater.inflate(R.layout.bottom_sheet_main, null)
         bottomSheetDialog = BottomSheetDialog(this)
-        bottomSheetDialog.setContentView(dialogView)
+        bottomSheetDialog.setContentView(R.layout.bottom_sheet_main)
         toolbar.setNavigationOnClickListener { bottomSheetDialog.show() }
 
         //launch login

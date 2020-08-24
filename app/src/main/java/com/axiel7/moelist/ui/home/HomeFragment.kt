@@ -220,7 +220,10 @@ class HomeFragment : Fragment() {
     }
     private fun initRankingCall(call: Call<AnimeRankingResponse>?, shouldClear: Boolean) {
         call?.enqueue(object : Callback<AnimeRankingResponse> {
-            override fun onResponse(call: Call<AnimeRankingResponse>, response: Response<AnimeRankingResponse>, ) {
+            override fun onResponse(
+                call: Call<AnimeRankingResponse>,
+                response: Response<AnimeRankingResponse>,
+            ) {
                 //Log.d("MoeLog", call.request().toString())
 
                 if (response.isSuccessful) {

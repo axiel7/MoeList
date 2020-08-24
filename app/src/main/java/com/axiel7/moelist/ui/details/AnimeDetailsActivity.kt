@@ -1,5 +1,6 @@
 package com.axiel7.moelist.ui.details
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
@@ -98,7 +99,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
             window.setDecorFitsSystemWindows(false)
         }
         else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
-            window.decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
         }
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorBackgroundAlpha)
@@ -160,26 +161,28 @@ class AnimeDetailsActivity : AppCompatActivity() {
             override fun onResponse(call: Call<AnimeDetails>, response: Response<AnimeDetails>) {
                 //Log.d("MoeLog", call.request().toString())
 
-                if (response.isSuccessful) {
-                    animeDetails = response.body()!!
-                    setDataToViews()
-                    animeDb?.animeDetailsDao()?.insertAnimeDetails(animeDetails)
-                }
-                else if (response.code()==404) {
-                    animeId = Random(System.nanoTime()).nextInt(0, 5000)
-                    call.cancel()
-                    val detailsCall = malApiService.getAnimeDetails(Urls.apiBaseUrl + "anime/$animeId", fields)
-                    initDetailsCall(detailsCall)
-                }
-                //TODO (not tested)
-                else if (response.code()==401) {
-                    val tokenResponse = RefreshToken.getNewToken(refreshToken)
-                    accessToken = tokenResponse?.access_token.toString()
-                    refreshToken = tokenResponse?.refresh_token.toString()
-                    sharedPref.saveString("accessToken", accessToken)
-                    sharedPref.saveString("refreshToken", refreshToken)
+                when {
+                    response.isSuccessful -> {
+                        animeDetails = response.body()!!
+                        setDataToViews()
+                        animeDb?.animeDetailsDao()?.insertAnimeDetails(animeDetails)
+                    }
+                    response.code()==404 -> {
+                        animeId = Random(System.nanoTime()).nextInt(0, 5000)
+                        call.cancel()
+                        val detailsCall = malApiService.getAnimeDetails(Urls.apiBaseUrl + "anime/$animeId", fields)
+                        initDetailsCall(detailsCall)
+                    }
+                    //TODO (not tested)
+                    response.code()==401 -> {
+                        val tokenResponse = RefreshToken.getNewToken(refreshToken)
+                        accessToken = tokenResponse?.access_token.toString()
+                        refreshToken = tokenResponse?.refresh_token.toString()
+                        sharedPref.saveString("accessToken", accessToken)
+                        sharedPref.saveString("refreshToken", refreshToken)
 
-                    call.clone()
+                        call.clone()
+                    }
                 }
             }
 
@@ -287,6 +290,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
         sourceView = findViewById(R.id.source_text)
         studiosView = findViewById(R.id.studios_text)
     }
+    @SuppressLint("InflateParams")
     private fun setupBottomSheet() {
         editFab = findViewById(R.id.edit_fab)
         editFab.addSystemWindowInsetToMargin(bottom = true)
@@ -530,6 +534,13 @@ class AnimeDetailsActivity : AppCompatActivity() {
         else if (!mediumPicture.isNullOrEmpty()) {
             intent.putExtra("posterUrl", mediumPicture)
             startActivity(intent, options.toBundle())
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (this::animeDetails.isInitialized) {
+            loadingView.visibility = View.GONE
         }
     }
 
