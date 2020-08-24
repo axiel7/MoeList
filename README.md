@@ -13,11 +13,15 @@ Follow the development on the official Discord server:
 * Search Anime/Manga
 * Seasonal Anime
 * Anime recommendations
+* Anime/Manga top charts
+* View your profile and anime stats
+* Light/Dark theme
+* NSFW toggle
 
 **Coming soon:**
-* View your profile
-* NSFW toggle
-* App theme settings
+* Related Anime/Manga
+* Manage rewatching and tags
+* Push notifications for new episode aired
 * Pictures download
 * Share Anime/Manga link
 * View details on MAL button
@@ -31,7 +35,7 @@ Follow the development on the official Discord server:
 * [Jeluchu](https://github.com/Jeluchu)
 * [Glodanif](https://github.com/glodanif)
 
-**Disclaimer:** I'm still learning so the code may not be perfect, however I decided to open source this project so everyone can see how the MAL API works and take a reference.
+**Disclaimer:** I'm still learning so the code may not be perfect and clean, however I decided to open source this project so everyone can see how the MAL API works and take a reference.
 
 **Libraries used:**
 * [Material Components](https://github.com/material-components/material-components-android)
@@ -41,3 +45,4 @@ Follow the development on the official Discord server:
 * [OkHttp](https://github.com/square/okhttp)
 * [Coil](https://github.com/coil-kt/coil)
 * [Loupe](https://github.com/igreenwood/loupe)
+* [Donut](https://github.com/futuredapp/donut)
