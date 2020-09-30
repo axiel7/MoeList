@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
@@ -72,8 +73,31 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.main_preferences, rootKey)
 
+            val logout = findPreference<Preference>("logout")
+            logout?.setOnPreferenceClickListener {
+                val intent = Intent(requireActivity(), LoginActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                SharedPrefsHelpers.init(context)
+                val sharedPref = SharedPrefsHelpers.instance
+                sharedPref?.saveBoolean("isUserLogged", false)
+                sharedPref?.deleteValue("accessToken")
+                sharedPref?.deleteValue("refreshToken")
+                requireActivity().startActivity(intent)
+                requireActivity().finish()
+                true
+            }
+
             val version = findPreference<Preference>("version")
             version?.summary = BuildConfig.VERSION_NAME
+            var clicks = 0
+            version?.setOnPreferenceClickListener {
+                if (clicks==7) {
+                    Toast.makeText(context, "✧◝(⁰▿⁰)◜✧", Toast.LENGTH_LONG).show()
+                    clicks = 0
+                } else { clicks++ }
+                true
+            }
 
             val discord = findPreference<Preference>("discord")
             discord?.onPreferenceClickListener =
