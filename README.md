@@ -10,6 +10,7 @@ Follow the development on the official Discord server:
 # Features
 * Manage your Anime/Manga list
 * View Anime/Manga details
+* Related Anime/Manga
 * Search Anime/Manga
 * Seasonal Anime
 * Anime recommendations
@@ -19,7 +20,6 @@ Follow the development on the official Discord server:
 * NSFW toggle
 
 **Coming soon (priority order)**
-1. Related Anime/Manga
 1. Manage rewatching and tags
 1. Sort list options
 1. Share Anime/Manga link
