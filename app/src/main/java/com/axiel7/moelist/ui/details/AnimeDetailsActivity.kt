@@ -15,11 +15,14 @@ import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
+import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.axiel7.moelist.MyApplication.Companion.animeDb
 import com.axiel7.moelist.R
+import com.axiel7.moelist.adapter.RelatedsAdapter
 import com.axiel7.moelist.model.AnimeDetails
 import com.axiel7.moelist.model.MyListStatus
+import com.axiel7.moelist.model.Related
 import com.axiel7.moelist.rest.MalApiService
 import com.axiel7.moelist.ui.MainActivity
 import com.axiel7.moelist.utils.*
@@ -77,12 +80,15 @@ class AnimeDetailsActivity : AppCompatActivity() {
     private lateinit var durationView: TextView
     private lateinit var sourceView: TextView
     private lateinit var studiosView: TextView
+    private lateinit var relatedRecycler: RecyclerView
+    private lateinit var relatedsAdapter: RelatedsAdapter
     private lateinit var episodesLayout: TextInputLayout
     private lateinit var episodesField: TextInputEditText
     private lateinit var statusLayout: TextInputLayout
     private lateinit var statusField: AutoCompleteTextView
     private lateinit var scoreSlider: Slider
     private lateinit var snackBarView: View
+    private val relateds: MutableList<Related> = mutableListOf()
     private var entryUpdated: Boolean = false
     private var retrofit: Retrofit? = null
     private var animeId = 1
@@ -91,7 +97,10 @@ class AnimeDetailsActivity : AppCompatActivity() {
         setTheme(R.style.AppTheme)
         setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
         window.sharedElementsUseOverlay = false
-        overridePendingTransition(0, 0)
+        val mIntent = intent
+        if (!mIntent.getBooleanExtra("defaultTransition", false)) {
+            overridePendingTransition(0, 0)
+        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_anime_details)
 
@@ -116,13 +125,13 @@ class AnimeDetailsActivity : AppCompatActivity() {
         accessToken = sharedPref.getString("accessToken", "").toString()
         refreshToken = sharedPref.getString("refreshToken", "").toString()
 
-        animeId = intent.getIntExtra("animeId", 1)
+        animeId = mIntent.getIntExtra("animeId", 1)
         if (animeId==-1) {
             animeId = Random(System.nanoTime()).nextInt(0, 5000)
         }
         fields = "id,title,main_picture,alternative_titles,start_date,end_date,synopsis,mean,rank,popularity," +
                 "num_list_users,num_scoring_users,media_type,status,genres,my_list_status,num_episodes,start_season," +
-                "broadcast,source,average_episode_duration,studios"
+                "broadcast,source,average_episode_duration,studios,related_anime{media_type},related_manga{media_type}"
 
         snackBarView = findViewById(R.id.details_layout)
         initViews()
@@ -289,6 +298,13 @@ class AnimeDetailsActivity : AppCompatActivity() {
         durationView = findViewById(R.id.duration_text)
         sourceView = findViewById(R.id.source_text)
         studiosView = findViewById(R.id.studios_text)
+
+        relatedRecycler = findViewById(R.id.relateds_recycler)
+        relatedsAdapter = RelatedsAdapter(
+            relateds,
+            R.layout.list_item_anime_related,
+            onClickListener = { _, related -> openDetails(related.node.id, related.node.media_type)} )
+        relatedRecycler.adapter = relatedsAdapter
     }
     @SuppressLint("InflateParams")
     private fun setupBottomSheet() {
@@ -464,7 +480,19 @@ class AnimeDetailsActivity : AppCompatActivity() {
             }
         }
         val studiosText = studiosNames.joinToString(separator = ",\n")
-        studiosView.text = studiosText
+        studiosView.text = if (studiosText.isNotEmpty()) { studiosText }
+        else { unknown }
+
+        //relateds
+        val relatedAnimes = animeDetails.related_anime
+        val relatedMangas = animeDetails.related_manga
+        if (relatedAnimes != null && !relateds.containsAll(relatedAnimes)) {
+            relateds.addAll(relatedAnimes)
+        }
+        if (relatedMangas != null && !relateds.containsAll(relatedMangas)) {
+            relateds.addAll(relatedMangas)
+        }
+        relatedsAdapter.notifyDataSetChanged()
 
         //bottom sheet edit
         episodesLayout.suffixText = "/$numEpisodes"
@@ -539,6 +567,23 @@ class AnimeDetailsActivity : AppCompatActivity() {
         else if (!mediumPicture.isNullOrEmpty()) {
             intent.putExtra("posterUrl", mediumPicture)
             startActivity(intent, options.toBundle())
+        }
+    }
+    private fun openDetails(id: Int, mediaType: String?) {
+        if (!mediaType.isNullOrEmpty()) {
+            if (mediaType=="manga" || mediaType=="one_shot" || mediaType=="manhwa"
+                || mediaType=="novel" || mediaType=="doujinshi") {
+                val intent = Intent(this, MangaDetailsActivity::class.java)
+                intent.putExtra("mangaId", id)
+                intent.putExtra("defaultTransition", true)
+                startActivity(intent)
+            }
+            else {
+                val intent = Intent(this, AnimeDetailsActivity::class.java)
+                intent.putExtra("animeId", id)
+                intent.putExtra("defaultTransition", true)
+                startActivity(intent)
+            }
         }
     }
 

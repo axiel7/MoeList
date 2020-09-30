@@ -161,4 +161,6 @@
     <string name="profile_picture">Foto de perfil</string>
     <string name="poster">Póster</string>
     <string name="purchase_cancelled">Compra cancelada</string>
+    <string name="error_not_found">No encontrado</string>
+    <string name="relateds">Relacionados</string>
 </resources>

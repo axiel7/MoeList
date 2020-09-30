@@ -165,4 +165,6 @@
     <string name="drag_pill">Drag pill</string>
     <string name="profile_picture">Profile picture</string>
     <string name="purchase_cancelled">Purchase cancelled</string>
+    <string name="error_not_found">Not found</string>
+    <string name="relateds">Relateds</string>
 </resources>

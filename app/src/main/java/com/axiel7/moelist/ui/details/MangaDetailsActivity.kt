@@ -15,11 +15,14 @@ import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
+import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.axiel7.moelist.MyApplication.Companion.animeDb
 import com.axiel7.moelist.R
+import com.axiel7.moelist.adapter.RelatedsAdapter
 import com.axiel7.moelist.model.MangaDetails
 import com.axiel7.moelist.model.MyMangaListStatus
+import com.axiel7.moelist.model.Related
 import com.axiel7.moelist.rest.MalApiService
 import com.axiel7.moelist.ui.MainActivity
 import com.axiel7.moelist.utils.*
@@ -75,6 +78,8 @@ class MangaDetailsActivity : AppCompatActivity() {
     private lateinit var sourceView: TextView
     private lateinit var serialView: TextView
     private lateinit var authorsView: TextView
+    private lateinit var relatedRecycler: RecyclerView
+    private lateinit var relatedsAdapter: RelatedsAdapter
     private lateinit var chaptersLayout: TextInputLayout
     private lateinit var chaptersField: TextInputEditText
     private lateinit var volumesLayout: TextInputLayout
@@ -83,6 +88,7 @@ class MangaDetailsActivity : AppCompatActivity() {
     private lateinit var statusField: AutoCompleteTextView
     private lateinit var scoreSlider: Slider
     private lateinit var snackBarView: View
+    private val relateds: MutableList<Related> = mutableListOf()
     private var entryUpdated: Boolean = false
     private var retrofit: Retrofit? = null
     private var mangaId = 1
@@ -91,7 +97,10 @@ class MangaDetailsActivity : AppCompatActivity() {
         setTheme(R.style.AppTheme)
         setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
         window.sharedElementsUseOverlay = false
-        overridePendingTransition(0, 0)
+        val mIntent = intent
+        if (!mIntent.getBooleanExtra("defaultTransition", false)) {
+            overridePendingTransition(0, 0)
+        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manga_details)
 
@@ -116,10 +125,10 @@ class MangaDetailsActivity : AppCompatActivity() {
         accessToken = sharedPref.getString("accessToken", "").toString()
         refreshToken = sharedPref.getString("refreshToken", "").toString()
 
-        mangaId = intent.getIntExtra("mangaId", 1)
+        mangaId = mIntent.getIntExtra("mangaId", 1)
         fields = "id,title,main_picture,alternative_titles,start_date,end_date,synopsis,mean,rank,popularity," +
                 "num_list_users,num_scoring_users,media_type,status,genres,my_list_status,num_chapters,num_volumes," +
-                "source,authors{first_name,last_name},serialization"
+                "source,authors{first_name,last_name},serialization,related_anime{media_type},related_manga{media_type}"
 
         snackBarView = findViewById(R.id.details_layout)
         initViews()
@@ -277,6 +286,13 @@ class MangaDetailsActivity : AppCompatActivity() {
         sourceView = findViewById(R.id.source_text)
         serialView = findViewById(R.id.serial_text)
         authorsView = findViewById(R.id.authors_text)
+
+        relatedRecycler = findViewById(R.id.relateds_recycler)
+        relatedsAdapter = RelatedsAdapter(
+            relateds,
+            R.layout.list_item_anime_related,
+            onClickListener = { _, related -> openDetails(related.node.id, related.node.media_type)} )
+        relatedRecycler.adapter = relatedsAdapter
     }
     @SuppressLint("InflateParams")
     private fun setupBottomSheet() {
@@ -471,7 +487,19 @@ class MangaDetailsActivity : AppCompatActivity() {
             }
         }
         val serialText = serialNames.joinToString(separator = ",\n")
-        serialView.text = serialText
+        serialView.text = if (serialText.isNotEmpty()) { serialText }
+        else { unknown }
+
+        //relateds
+        val relatedAnimes = mangaDetails.related_anime
+        val relatedMangas = mangaDetails.related_manga
+        if (relatedAnimes != null && !relateds.containsAll(relatedAnimes)) {
+            relateds.addAll(relatedAnimes)
+        }
+        if (relatedMangas != null && !relateds.containsAll(relatedMangas)) {
+            relateds.addAll(relatedMangas)
+        }
+        relatedsAdapter.notifyDataSetChanged()
 
         //bottom sheet edit
         chaptersLayout.suffixText = "/$numChapters"
@@ -562,6 +590,23 @@ class MangaDetailsActivity : AppCompatActivity() {
         else if (!mediumPicture.isNullOrEmpty()) {
             intent.putExtra("posterUrl", mediumPicture)
             startActivity(intent, options.toBundle())
+        }
+    }
+    private fun openDetails(id: Int, mediaType: String?) {
+        if (!mediaType.isNullOrEmpty()) {
+            if (mediaType=="manga" || mediaType=="one_shot" || mediaType=="manhwa"
+                || mediaType=="novel" || mediaType=="doujinshi") {
+                val intent = Intent(this, MangaDetailsActivity::class.java)
+                intent.putExtra("mangaId", id)
+                intent.putExtra("defaultTransition", true)
+                startActivity(intent)
+            }
+            else {
+                val intent = Intent(this, AnimeDetailsActivity::class.java)
+                intent.putExtra("animeId", id)
+                intent.putExtra("defaultTransition", true)
+                startActivity(intent)
+            }
         }
     }
 

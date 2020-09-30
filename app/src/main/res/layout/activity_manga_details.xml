@@ -471,7 +471,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="54dp"
                 android:layout_marginTop="10dp"
-                android:paddingBottom="100dp"
                 android:layout_below="@id/divider2">
 
                 <TextView
@@ -490,6 +489,28 @@
                     tools:ignore="HardcodedText" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <TextView
+                android:id="@+id/relateds"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/serial_layout"
+                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginEnd="@dimen/text_margin"
+                android:layout_marginTop="@dimen/text_margin"
+                android:text="@string/relateds"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/relateds_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relateds"
+                android:layout_marginTop="10dp"
+                android:paddingBottom="100dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/list_item_anime_related"/>
 
         </RelativeLayout>
 
