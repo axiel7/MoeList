@@ -31,7 +31,7 @@ class RecommendationsAdapter(private val animes: MutableList<AnimeList>,
     }
 
     override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
-        val posterUrl = animes[position].node.main_picture.medium
+        val posterUrl = animes[position].node.main_picture?.medium
         val animeTitle = animes[position].node.title
         holder.animePoster.load(posterUrl) {
             crossfade(true)

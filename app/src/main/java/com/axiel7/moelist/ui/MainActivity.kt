@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     private val profileFragment = ProfileFragment()
     private lateinit var bottomSheetDialog: BottomSheetDialog
     private lateinit var toolbar: Toolbar
+    private var isUserLogged: Boolean = false
 
     companion object {
         var httpClient: OkHttpClient? = null
@@ -46,10 +47,10 @@ class MainActivity : AppCompatActivity() {
 
         //shared preferences
         SharedPrefsHelpers.init(this)
-        val sharedPref = SharedPrefsHelpers.instance
+        val sharedPref = SharedPrefsHelpers.instance!!
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-        val isUserLogged = sharedPref?.getBoolean("isUserLogged", false)
-        val accessToken = sharedPref?.getString("accessToken", "null")
+        isUserLogged = sharedPref.getBoolean("isUserLogged", false)
+        val accessToken = sharedPref.getString("accessToken", "null")
         val isTokenNull = accessToken.equals("null")
         val defaultSection = sharedPreferences.getString("default_section", "home")!!
 
@@ -84,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         toolbar.setNavigationOnClickListener { bottomSheetDialog.show() }
 
         //launch login
-        if (!isUserLogged!! || isTokenNull) {
+        if (!isUserLogged || isTokenNull) {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
@@ -198,6 +199,9 @@ class MainActivity : AppCompatActivity() {
             if (themeChanged) {
                 this@MainActivity.recreate()
             }
+        }
+        else if (requestCode==2 && resultCode==Activity.RESULT_OK) {
+            isUserLogged = true
         }
     }
 }

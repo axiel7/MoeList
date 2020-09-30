@@ -143,8 +143,8 @@ class MangaListFragment : Fragment() {
         radioGroup.setOnCheckedChangeListener{ _, i ->
             changeStatusFilter(i)
             sharedPref.saveInt("checkedStatusButton", i)
+            mangaList.clear()
             if (MyApplication.animeDb?.userMangaListDao()?.getUserMangaListByStatus(listStatus)!=null) {
-                mangaList.clear()
                 val mangaList2 = MyApplication.animeDb?.userMangaListDao()?.getUserMangaListByStatus(listStatus)!!
                 mangaList.addAll(mangaList2)
                 mangaListAdapter.notifyDataSetChanged()

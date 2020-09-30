@@ -4,9 +4,10 @@ data class NodeSeasonal(
     val id: Int,
     val title: String,
     val broadcast: Broadcast?,
-    val main_picture: MainPicture,
+    val main_picture: MainPicture?,
     val num_episodes: Int?,
     val media_type: String?,
     val start_season: StartSeason?,
+    val status: String?,
     val mean: Float?
 )

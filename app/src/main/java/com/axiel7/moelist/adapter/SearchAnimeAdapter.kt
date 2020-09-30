@@ -37,7 +37,7 @@ class SearchAnimeAdapter(private val animes: MutableList<AnimeList>,
     }
 
     override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
-        val posterUrl = animes[position].node.main_picture.medium
+        val posterUrl = animes[position].node.main_picture?.medium
         val animeTitle = animes[position].node.title
         val mediaType = animes[position].node.media_type?.let { StringFormat.formatMediaType(it, context) }
         val episodes = animes[position].node.num_episodes

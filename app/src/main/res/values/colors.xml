@@ -12,6 +12,6 @@
     <color name="colorPlaceHolder">#dedede</color>
     <color name="colorError">#b00020</color>
     <color name="colorCard">#ffffff</color>
-    <color name="colorDivider">#1fffffff</color>
+    <color name="colorDivider" tools:keep="@color/colorDivider">#1fffffff</color>
     <color name="colorProgressBackground">#c0c0c0</color>
 </resources>

@@ -90,7 +90,8 @@ class HomeFragment : Fragment() {
             if (anime.node.broadcast!=null) {
                 if (!todayList.contains(anime)
                     && anime.node.broadcast.day_of_the_week==jpDayWeek
-                    && anime.node.start_season==currentSeason) {
+                    && anime.node.start_season==currentSeason
+                    && anime.node.status=="currently_airing") {
                     todayList.add(anime)
                 }
             }
@@ -191,7 +192,7 @@ class HomeFragment : Fragment() {
     private fun initCalls() {
         val todayCall = malApiService.getSeasonalAnime(Urls.apiBaseUrl +
                 "anime/season/${SeasonCalendar.getCurrentYear()}/${SeasonCalendar.getCurrentSeason()}",
-            "anime_score", "broadcast,mean,start_season", 500)
+            "anime_score", "broadcast,mean,start_season,status", 500)
         val rankingCall = malApiService.getAnimeRanking("airing","start_season", false)
         if (todayList.isNotEmpty()) {
             todayLoading.hide()

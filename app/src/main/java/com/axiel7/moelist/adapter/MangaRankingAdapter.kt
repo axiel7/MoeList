@@ -39,7 +39,7 @@ class MangaRankingAdapter(private val mangas: MutableList<MangaRanking>,
     }
 
     override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
-        val posterUrl = mangas[position].node.main_picture.medium
+        val posterUrl = mangas[position].node.main_picture?.medium
         val animeTitle = mangas[position].node.title
         val ranking = mangas[position].ranking?.rank
         val mediaType = mangas[position].node.media_type?.let { StringFormat.formatMediaType(it, context) }

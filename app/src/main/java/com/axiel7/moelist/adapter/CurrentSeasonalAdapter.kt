@@ -31,7 +31,7 @@ class CurrentSeasonalAdapter(private val animes: MutableList<AnimeRanking>,
     }
 
     override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
-        val posterUrl = animes[position].node.main_picture.medium
+        val posterUrl = animes[position].node.main_picture?.medium
         val animeTitle = animes[position].node.title
         holder.animePoster.load(posterUrl) {
             crossfade(true)

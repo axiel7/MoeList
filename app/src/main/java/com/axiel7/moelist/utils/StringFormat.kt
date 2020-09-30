@@ -89,6 +89,7 @@ object StringFormat {
             "visual_novel" -> result = context.getString(R.string.visual_novel)
             "game" -> result = context.getString(R.string.game)
             "web_manga" -> result = context.getString(R.string.web_manga)
+            "music" -> result = context.getString(R.string.music)
         }
         return result
     }

@@ -154,8 +154,8 @@ class AnimeListFragment : Fragment() {
         radioGroup.setOnCheckedChangeListener{ _, i ->
             changeStatusFilter(i)
             sharedPref.saveInt("checkedStatusButton", i)
+            animeList.clear()
             if (animeDb?.userAnimeListDao()?.getUserAnimeListByStatus(listStatus)!=null) {
-                animeList.clear()
                 val animeList2 = animeDb?.userAnimeListDao()?.getUserAnimeListByStatus(listStatus)!!
                 animeList.addAll(animeList2)
                 animeListAdapter.notifyDataSetChanged()

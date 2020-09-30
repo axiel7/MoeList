@@ -6,7 +6,7 @@ import androidx.room.Entity
 data class NodeManga(
     val id: Int,
     val title: String,
-    val main_picture: MainPicture,
+    val main_picture: MainPicture?,
     val mean: Float?,
     val media_type: String?,
     val num_volumes: Int?,

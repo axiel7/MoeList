@@ -30,6 +30,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var codeChallenge: String
     private lateinit var loadingBar: ProgressBar
     private lateinit var snackBarView: View
+    private lateinit var accessToken: AccessToken
 
     companion object {
         const val clientId = ClientId.clientId
@@ -56,6 +57,7 @@ class LoginActivity : AppCompatActivity() {
 
         snackBarView = findViewById(R.id.login_layout)
         loadingBar = findViewById(R.id.loading_bar)
+        loadingBar.visibility = View.INVISIBLE
 
         val loginButton = findViewById<Button>(R.id.login)
         loginButton.setOnClickListener {
@@ -81,25 +83,20 @@ class LoginActivity : AppCompatActivity() {
             if (code!=null && receivedState== state) {
                 val loginService = ServiceGenerator.createService(LoginService::class.java)
                 val call :Call<AccessToken> = loginService.getAccessToken(clientId, code, codeVerifier,"authorization_code")
-                var accessToken: AccessToken?
-                accessToken = null
                 call.enqueue(object :Callback<AccessToken>{
 
                     override fun onResponse(call: Call<AccessToken>, response: Response<AccessToken>) {
 
-                        accessToken = response.body()
-                        val token = accessToken?.access_token
-                        if (token != null) {
-                            Log.d("MoeLog", "AccessToken=$token")
-
+                        if (response.isSuccessful && response.body() != null) {
+                            accessToken = response.body()!!
                             SharedPrefsHelpers.init(this@LoginActivity)
                             val sharedPref = SharedPrefsHelpers.instance
-                            sharedPref?.saveString("accessToken", accessToken?.access_token)
-                            sharedPref?.saveString("refreshToken", accessToken?.refresh_token)
+                            sharedPref?.saveString("accessToken", accessToken.access_token)
+                            sharedPref?.saveString("refreshToken", accessToken.refresh_token)
                             sharedPref?.saveBoolean("isUserLogged", true)
 
                             val openMainActivity = Intent(this@LoginActivity, MainActivity::class.java)
-                            startActivity(openMainActivity)
+                            startActivityForResult(openMainActivity, 2)
                         }
                         else {
                             Log.d("MoeLog", "token was null")

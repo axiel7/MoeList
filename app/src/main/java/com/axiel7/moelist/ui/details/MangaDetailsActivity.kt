@@ -360,6 +360,7 @@ class MangaDetailsActivity : AppCompatActivity() {
         deleteButton?.setOnClickListener { deleteEntry() }
     }
     private fun setDataToViews() {
+        val unknown = getString(R.string.unknown)
         //quit loading bar
         loadingView.visibility = View.GONE
 
@@ -436,9 +437,9 @@ class MangaDetailsActivity : AppCompatActivity() {
         else { "─" }
 
         startDateView.text = if (!mangaDetails.start_date.isNullOrEmpty()) { mangaDetails.start_date }
-        else { getString(R.string.unknown) }
+        else { unknown }
         endDateView.text = if (!mangaDetails.end_date.isNullOrEmpty()) { mangaDetails.end_date }
-        else { getString(R.string.unknown) }
+        else { unknown }
 
         // authors
         val authors = mangaDetails.authors
@@ -458,7 +459,8 @@ class MangaDetailsActivity : AppCompatActivity() {
         }
 
         val authorsTextFormatted = authorsText.joinToString(separator = ",\n")
-        authorsView.text = authorsTextFormatted
+        authorsView.text = if (authorsTextFormatted.isNotEmpty()) { authorsTextFormatted }
+        else { unknown }
 
         // serialization
         val serialization = mangaDetails.serialization
@@ -478,18 +480,28 @@ class MangaDetailsActivity : AppCompatActivity() {
             syncListStatus(mangaDetails.my_list_status!!)
         }
         // chapters/volumes input logic
-        if (numChapters!=0) {
-            chaptersLayout.editText?.doOnTextChanged { text, _, _, _ ->
-                if (!text.isNullOrEmpty() && text.isNotBlank()
-                    && text.toString().toInt() > numChapters!!) {
+        chaptersLayout.editText?.doOnTextChanged { text, _, _, _ ->
+            if (numChapters!=0) {
+                if (text.isNullOrEmpty() || text.isBlank()
+                    || text.toString().toInt() > numChapters!!) {
+                    chaptersLayout.error = getString(R.string.invalid_number)
+                } else { chaptersLayout.error = null }
+            }
+            else {
+                if (text.isNullOrEmpty() || text.isBlank()) {
                     chaptersLayout.error = getString(R.string.invalid_number)
                 } else { chaptersLayout.error = null }
             }
         }
-        if (numVolumes!=0) {
-            volumesLayout.editText?.doOnTextChanged { text, _, _, _ ->
-                if (!text.isNullOrEmpty() && text.isNotBlank()
-                    && text.toString().toInt() > numVolumes!!) {
+        volumesLayout.editText?.doOnTextChanged { text, _, _, _ ->
+            if (numVolumes!=0) {
+                if (text.isNullOrEmpty() || text.isBlank()
+                    || text.toString().toInt() > numVolumes!!) {
+                    volumesLayout.error = getString(R.string.invalid_number)
+                } else { volumesLayout.error = null }
+            }
+            else {
+                if (text.isNullOrEmpty() || text.isBlank()) {
                     volumesLayout.error = getString(R.string.invalid_number)
                 } else { volumesLayout.error = null }
             }

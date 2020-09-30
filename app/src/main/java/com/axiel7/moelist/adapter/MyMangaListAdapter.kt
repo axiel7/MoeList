@@ -45,7 +45,7 @@ class MyMangaListAdapter(private val mangas: MutableList<UserMangaList>,
     }
 
     override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
-        val posterUrl = mangas[position].node.main_picture.medium
+        val posterUrl = mangas[position].node.main_picture?.medium
         val mangaTitle = mangas[position].node.title
         val mangaScore = mangas[position].list_status?.score
         val chaptersRead = mangas[position].list_status?.num_chapters_read

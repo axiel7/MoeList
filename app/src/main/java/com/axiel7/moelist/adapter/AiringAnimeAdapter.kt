@@ -43,7 +43,7 @@ class AiringAnimeAdapter(private val animes: MutableList<SeasonalList>,
 
     @SuppressLint("NewApi")
     override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
-        val posterUrl = animes[position].node.main_picture.medium
+        val posterUrl = animes[position].node.main_picture?.medium
         val animeTitle = animes[position].node.title
         val score = animes[position].node.mean
         val startTime = animes[position].node.broadcast?.start_time

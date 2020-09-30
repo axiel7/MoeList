@@ -37,7 +37,7 @@ class SeasonalAnimeAdapter(private val animes: MutableList<SeasonalList>,
     }
 
     override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
-        val posterUrl = animes[position].node.main_picture.medium
+        val posterUrl = animes[position].node.main_picture?.medium
         val mangaTitle = animes[position].node.title
         val mediaType = animes[position].node.media_type?.let { StringFormat.formatMediaType(it, context) }
         val episodes = animes[position].node.num_episodes

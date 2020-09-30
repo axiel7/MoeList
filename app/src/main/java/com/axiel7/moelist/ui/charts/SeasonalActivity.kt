@@ -91,6 +91,7 @@ class SeasonalActivity : AppCompatActivity() {
         if (savedResponse!=null) {
             animeResponse = savedResponse
             seasonalList = animeResponse!!.data
+            seasonalList.sortByDescending { it.node.mean }
         }
         else { seasonalList = mutableListOf() }
         seasonalRecycler = findViewById(R.id.seasonal_recycler)
@@ -144,7 +145,6 @@ class SeasonalActivity : AppCompatActivity() {
                     seasonalList.addAll(animeList)
                     animeDb?.seasonalResponseDao()?.insertSeasonalResponse(animeResponse!!)
                     seasonalAdapter.notifyDataSetChanged()
-                    loadingBar.hide()
                 }
                 //TODO (not tested)
                 else if (response.code()==401) {
@@ -156,6 +156,10 @@ class SeasonalActivity : AppCompatActivity() {
 
                     call.clone()
                 }
+                else if (response.code()==404) {
+                    Snackbar.make(snackBarView, getString(R.string.error_not_found), Snackbar.LENGTH_SHORT).show()
+                }
+                loadingBar.hide()
             }
 
             override fun onFailure(call: Call<SeasonalAnimeResponse>, t: Throwable) {

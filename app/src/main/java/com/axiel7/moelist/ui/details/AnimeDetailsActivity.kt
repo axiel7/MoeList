@@ -446,7 +446,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
         val weekDay = StringFormat.formatWeekday(animeDetails.broadcast?.day_of_the_week, this)
         val startTime = animeDetails.broadcast?.start_time
         broadcastView.text = if (animeDetails.broadcast!=null) { "$weekDay $startTime (JST)" }
-        else { getString(R.string.unknown) }
+        else { unknown }
 
         val duration = animeDetails.average_episode_duration?.div(60)
         val durationText = "$duration min."
@@ -472,10 +472,15 @@ class AnimeDetailsActivity : AppCompatActivity() {
             syncListStatus(animeDetails.my_list_status!!)
         }
         //episodes input logic
-        if (numEpisodes!=0) {
-            episodesLayout.editText?.doOnTextChanged { text, _, _, _ ->
-                if (!text.isNullOrEmpty() && text.isNotBlank()
-                    && text.toString().toInt() > numEpisodes!!) {
+        episodesLayout.editText?.doOnTextChanged { text, _, _, _ ->
+            if (numEpisodes!=0) {
+                if (text.isNullOrEmpty() || text.isBlank()
+                    || text.toString().toInt() > numEpisodes!!) {
+                    episodesLayout.error = getString(R.string.invalid_number)
+                } else { episodesLayout.error = null }
+            }
+            else {
+                if (text.isNullOrEmpty() || text.isBlank()) {
                     episodesLayout.error = getString(R.string.invalid_number)
                 } else { episodesLayout.error = null }
             }
