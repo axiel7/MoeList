@@ -16,14 +16,14 @@ Follow the development on the official Discord server:
 * Anime recommendations
 * Anime/Manga top charts
 * View your profile and anime stats
+* Share Anime/Manga link
+* View details on MAL button
 * Light/Dark theme
 * NSFW toggle
 
 **Coming soon (priority order)**
 1. Manage rewatching and tags
 1. Sort list options
-1. Share Anime/Manga link
-1. View details on MAL button
 1. Pictures download
 1. Push notifications for new episode aired
 
