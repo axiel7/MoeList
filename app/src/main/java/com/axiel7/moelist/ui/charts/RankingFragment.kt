@@ -153,7 +153,7 @@ class RankingFragment : Fragment() {
     private fun initCall() {
         when(mediaType) {
             "anime" -> {
-                val animeCall = malApiService.getAnimeRanking(rankType, "mean,media_type,num_episodes,num_list_users", showNsfw)
+                val animeCall = malApiService.getAnimeRanking(rankType, "mean,media_type,num_episodes,num_list_users", 100, showNsfw)
                 enqueueAnimeCall(animeCall, true)
             }
             "manga" -> {

@@ -24,6 +24,7 @@ interface MalApiService {
     @GET("/v2/anime/ranking")
     fun getAnimeRanking(@Query("ranking_type") rankingType: String,
                         @Query("fields") fields: String?,
+                        @Query("limit") limit: Int?,
                         @Query("nsfw") nsfw: Boolean): Call<AnimeRankingResponse>
 
     @GET("/v2/anime/suggestions")

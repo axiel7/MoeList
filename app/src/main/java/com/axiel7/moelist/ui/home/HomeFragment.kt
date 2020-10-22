@@ -193,7 +193,7 @@ class HomeFragment : Fragment() {
         val todayCall = malApiService.getSeasonalAnime(Urls.apiBaseUrl +
                 "anime/season/${SeasonCalendar.getCurrentYear()}/${SeasonCalendar.getCurrentSeason()}",
             "anime_score", "broadcast,mean,start_season,status", 500)
-        val rankingCall = malApiService.getAnimeRanking("airing","start_season", false)
+        val rankingCall = malApiService.getAnimeRanking("airing","start_season", 200, false)
         if (todayList.isNotEmpty()) {
             todayLoading.hide()
             initRankingCall(rankingCall, true)
@@ -396,7 +396,7 @@ class HomeFragment : Fragment() {
                     call.clone()
                 }
 
-                val rankingCall = malApiService.getAnimeRanking("airing","start_season", false)
+                val rankingCall = malApiService.getAnimeRanking("airing","start_season", 200,false)
                 initRankingCall(rankingCall, true)
             }
 
