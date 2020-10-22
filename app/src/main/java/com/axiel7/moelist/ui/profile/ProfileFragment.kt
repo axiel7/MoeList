@@ -14,7 +14,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import app.futured.donut.DonutProgressView
 import app.futured.donut.DonutSection
-import coil.api.load
+import coil.load
 import coil.transform.CircleCropTransformation
 import com.axiel7.moelist.MyApplication
 import com.axiel7.moelist.R

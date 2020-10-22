@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import coil.api.load
+import coil.load
 import com.axiel7.moelist.R
 import com.axiel7.moelist.model.UserMangaList
 import com.axiel7.moelist.utils.StringFormat

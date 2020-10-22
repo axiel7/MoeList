@@ -16,7 +16,7 @@ import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
-import coil.api.load
+import coil.load
 import com.axiel7.moelist.MyApplication.Companion.animeDb
 import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.RelatedsAdapter

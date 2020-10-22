@@ -8,7 +8,7 @@ import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.ContentLoadingProgressBar
 import coil.Coil
-import coil.request.LoadRequest
+import coil.request.ImageRequest
 import coil.size.ViewSizeResolver
 import com.axiel7.moelist.R
 import com.google.android.material.transition.platform.MaterialContainerTransform
@@ -48,7 +48,8 @@ class FullPosterActivity : AppCompatActivity() {
         val poster = findViewById<ImageView>(R.id.anime_poster)
 
         val imageLoader = Coil.imageLoader(this)
-        val request = LoadRequest.Builder(this)
+
+        val request = ImageRequest.Builder(this)
             .data(imageUrl)
             .crossfade(true)
             .crossfade(300)
@@ -64,6 +65,6 @@ class FullPosterActivity : AppCompatActivity() {
                 }
             }
             .build()
-        imageLoader.execute(request)
+        imageLoader.enqueue(request)
     }
 }
