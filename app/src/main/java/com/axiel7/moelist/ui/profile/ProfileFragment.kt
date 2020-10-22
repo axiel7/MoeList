@@ -4,11 +4,13 @@ import android.annotation.SuppressLint
 import android.app.ActivityOptions
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -57,6 +59,7 @@ class ProfileFragment : Fragment() {
     private lateinit var episodesText: TextView
     private lateinit var scoreText: TextView
     private lateinit var rewatchText: TextView
+    private lateinit var viewOnMAL: Button
     private lateinit var snackBarView: View
     private var user: User? = null
     private var userId = -1
@@ -107,6 +110,7 @@ class ProfileFragment : Fragment() {
         episodesText = view.findViewById(R.id.total_episodes)
         scoreText = view.findViewById(R.id.mean_score)
         rewatchText = view.findViewById(R.id.rewatched)
+        viewOnMAL = view.findViewById(R.id.view_on_mal)
         if (user!=null) {
             setDataToViews()
         }
@@ -189,7 +193,8 @@ class ProfileFragment : Fragment() {
             startActivity(intent, options.toBundle())
         }
 
-        usernameView.text = user?.name
+        val username = user?.name
+        usernameView.text = username
 
         val location = user?.location
         if (location.isNullOrEmpty()) {
@@ -270,5 +275,11 @@ class ProfileFragment : Fragment() {
         episodesText.text = episodesValue
         scoreText.text = scoreValue
         rewatchText.text = rewatchValue
+
+        viewOnMAL.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW,
+                Uri.parse("https://myanimelist.net/profile/$username"))
+            startActivity(intent)
+        }
     }
 }

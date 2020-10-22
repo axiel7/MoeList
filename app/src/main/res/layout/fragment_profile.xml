@@ -260,6 +260,16 @@
             android:layout_below="@id/other_stats"
             android:background="?android:attr/listDivider" />
 
+        <Button
+            android:id="@+id/view_on_mal"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/divider1"
+            android:text="@string/view_profile_mal" />
+
     </RelativeLayout>
 
 </androidx.core.widget.NestedScrollView>

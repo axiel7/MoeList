@@ -4,15 +4,19 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.widget.TooltipCompat
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
@@ -622,5 +626,30 @@ class MangaDetailsActivity : AppCompatActivity() {
         returnIntent.putExtra("entryUpdated", entryUpdated)
         setResult(Activity.RESULT_OK, returnIntent)
         super.finish()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.details_menu, menu)
+
+        val viewOnMal = menu?.findItem(R.id.view_on_mal)
+        viewOnMal?.setOnMenuItemClickListener { _ ->
+            val builder = CustomTabsIntent.Builder()
+            builder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+            val chromeIntent = builder.build()
+            chromeIntent.launchUrl(this,
+                Uri.parse("https://myanimelist.net/manga/$mangaId"))
+            return@setOnMenuItemClickListener true
+        }
+
+        val share = menu?.findItem(R.id.share)
+        share?.setOnMenuItemClickListener { _ ->
+            ShareCompat.IntentBuilder.from(this)
+                .setType("text/plain")
+                .setChooserTitle(mangaTitleView.text)
+                .setText("https://myanimelist.net/manga/$mangaId")
+                .startChooser()
+            return@setOnMenuItemClickListener true
+        }
+        return super.onCreateOptionsMenu(menu)
     }
 }
