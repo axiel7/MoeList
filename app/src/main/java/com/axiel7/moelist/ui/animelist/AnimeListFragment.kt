@@ -218,6 +218,7 @@ class AnimeListFragment : Fragment() {
                         if (shouldClear) {
                             sharedPref.saveString("animeListResponse$listStatus",
                                 ResponseConverter.userAnimeListResponseToString(animeListResponse))
+                            animeDb?.userAnimeListDao()?.deleteUserAnimeList(animeList)
                             animeList.clear()
                         }
                         animeList.addAll(animeList2)

@@ -207,8 +207,10 @@ class RankingFragment : Fragment() {
 
             override fun onFailure(call: Call<AnimeRankingResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
-                loadingBar.hide()
-                Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                if (isAdded) {
+                    loadingBar.hide()
+                    Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                }
             }
         })
     }

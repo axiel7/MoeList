@@ -323,10 +323,10 @@ class MangaDetailsActivity : AppCompatActivity() {
             val scoreOrigin = mangaDetails.my_list_status?.score
 
             var chapters: Int? = null
-            val chaptersCurrent = chaptersField.text.toString().toInt()
+            val chaptersCurrent = chaptersField.text.toString().toIntOrNull()
             val chaptersOrigin = mangaDetails.my_list_status?.num_chapters_read
             var volumes: Int? = null
-            val volumesCurrent = volumesField.text.toString().toInt()
+            val volumesCurrent = volumesField.text.toString().toIntOrNull()
             val volumesOrigin = mangaDetails.my_list_status?.num_volumes_read
             if (statusCurrent!=statusOrigin) {
                 status = statusCurrent
@@ -513,9 +513,10 @@ class MangaDetailsActivity : AppCompatActivity() {
         }
         // chapters/volumes input logic
         chaptersLayout.editText?.doOnTextChanged { text, _, _, _ ->
+            val inputChapters = text.toString().toIntOrNull()
             if (numChapters!=0) {
-                if (text.isNullOrEmpty() || text.isBlank()
-                    || text.toString().toInt() > numChapters!!) {
+                if (text.isNullOrEmpty() || text.isBlank() || inputChapters==null
+                    || inputChapters > numChapters!!) {
                     chaptersLayout.error = getString(R.string.invalid_number)
                 } else { chaptersLayout.error = null }
             }
@@ -526,9 +527,10 @@ class MangaDetailsActivity : AppCompatActivity() {
             }
         }
         volumesLayout.editText?.doOnTextChanged { text, _, _, _ ->
+            val inputVolumes = text.toString().toIntOrNull()
             if (numVolumes!=0) {
-                if (text.isNullOrEmpty() || text.isBlank()
-                    || text.toString().toInt() > numVolumes!!) {
+                if (text.isNullOrEmpty() || text.isBlank() || inputVolumes==null
+                    || inputVolumes > numVolumes!!) {
                     volumesLayout.error = getString(R.string.invalid_number)
                 } else { volumesLayout.error = null }
             }

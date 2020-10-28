@@ -206,6 +206,7 @@ class MangaListFragment : Fragment() {
                         if (shouldClear) {
                             sharedPref.saveString("mangaListResponse$listStatus",
                                 ResponseConverter.userMangaListResponseToString(mangaListResponse))
+                            MyApplication.animeDb?.userMangaListDao()?.deleteUserMangaList(mangaList)
                             mangaList.clear()
                         }
                         mangaList.addAll(mangaList2)

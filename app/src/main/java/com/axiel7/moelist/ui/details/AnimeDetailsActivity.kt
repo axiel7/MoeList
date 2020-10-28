@@ -335,7 +335,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
             val scoreOrigin = animeDetails.my_list_status?.score
 
             var episodes: Int? = null
-            val episodesCurrent = episodesField.text.toString().toInt()
+            val episodesCurrent = episodesField.text.toString().toIntOrNull()
             val episodesOrigin = animeDetails.my_list_status?.num_episodes_watched
             if (statusCurrent!=statusOrigin) {
                 status = statusCurrent
@@ -505,9 +505,10 @@ class AnimeDetailsActivity : AppCompatActivity() {
         }
         //episodes input logic
         episodesLayout.editText?.doOnTextChanged { text, _, _, _ ->
+            val inputEpisodes = text.toString().toIntOrNull()
             if (numEpisodes!=0) {
-                if (text.isNullOrEmpty() || text.isBlank()
-                    || text.toString().toInt() > numEpisodes!!) {
+                if (text.isNullOrEmpty() || text.isBlank() || inputEpisodes==null
+                    || inputEpisodes > numEpisodes!!) {
                     episodesLayout.error = getString(R.string.invalid_number)
                 } else { episodesLayout.error = null }
             }
