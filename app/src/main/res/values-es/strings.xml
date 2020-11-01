@@ -156,10 +156,10 @@
     <string name="title_seasonal">Temporadas</string>
     <string name="synopsis_icon">Expandir sinopsis</string>
     <string name="kofi_button">Botón de Ko-Fi</string>
+    <string name="poster">Póster</string>
     <string name="moelist_banner">MoeList banner</string>
     <string name="drag_pill">Píldora para arrastrar</string>
     <string name="profile_picture">Foto de perfil</string>
-    <string name="poster">Póster</string>
     <string name="purchase_cancelled">Compra cancelada</string>
     <string name="error_not_found">No encontrado</string>
     <string name="relateds">Relacionados</string>
