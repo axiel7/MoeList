@@ -18,7 +18,7 @@
     <string name="authors">Autores</string>
     <string name="volumes">Volumes</string>
     <string name="serialization">Serialização</string>
-    <string name="donations_thanks">Obrigado por considerar me apoiar!\\n( /^ω^)/♪♪</string>
+    <string name="donations_thanks">Obrigado por considerar me apoiar!\n( /^ω^)/♪♪</string>
     <string name="buy_tea">Compre um chá para mim 🍵</string>
     <string name="buy">Comprar</string>
     <string name="buy_burger">Compre um hambúrguer para mim 🍔</string>
@@ -124,7 +124,7 @@
     <string name="popular">Populares</string>
     <string name="added_ptr">Adicionado aos Mangás que estou Planejando Ler</string>
     <string name="days">Dias</string>
-    <string name="donation_thanked">Obrigado!\\n(◔‿◔)</string>
+    <string name="donation_thanked">Obrigado!\n(◔‿◔)</string>
     <string name="login_error">Falha ao entrar</string>
     <string name="search">Buscar</string>
     <string name="theme">Tema</string>
