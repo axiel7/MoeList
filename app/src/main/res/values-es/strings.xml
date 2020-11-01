@@ -5,7 +5,7 @@
     <string name="title_manga_list">Manga</string>
     <string name="stats">Estadísticas</string>
     <string name="more_info">Más info</string>
-    <string name="synonyms">Sinonimos</string>
+    <string name="synonyms">Sinónimos</string>
     <string name="jp_title">Japonés</string>
     <string name="start_date">Fecha Inicio</string>
     <string name="end_date">Fecha Fin</string>
@@ -140,7 +140,7 @@
     <string name="version">Versión</string>
     <string name="credits">Créditos</string>
     <string name="discord_summary">¡Únete al servidor oficial!</string>
-    <string name="github_summary">Repositorio</string>
+    <string name="github_summary">¡Apoya el repositorio!</string>
     <string name="credits_summary">Gente que me ha ayudado</string>
     <string name="feedback">Enviar comentarios</string>
     <string name="theme_light">Claro</string>
@@ -156,10 +156,10 @@
     <string name="title_seasonal">Temporadas</string>
     <string name="synopsis_icon">Expandir sinopsis</string>
     <string name="kofi_button">Botón de Ko-Fi</string>
+    <string name="poster">Póster</string>
     <string name="moelist_banner">MoeList banner</string>
     <string name="drag_pill">Píldora para arrastrar</string>
     <string name="profile_picture">Foto de perfil</string>
-    <string name="poster">Póster</string>
     <string name="purchase_cancelled">Compra cancelada</string>
     <string name="error_not_found">No encontrado</string>
     <string name="relateds">Relacionados</string>
