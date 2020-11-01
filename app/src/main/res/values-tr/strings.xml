@@ -31,7 +31,7 @@
     <string name="cancel">İptal</string>
     <string name="apply">Uygula</string>
     <string name="status">Durum</string>
-    <string name="episodes">Bölümler</string>
+    <string name="episodes">Bölüm</string>
     <string name="delete">Sil</string>
     <string name="chapters">Bölümler</string>
     <string name="watching">İzleniyor</string>
@@ -56,7 +56,7 @@
     <string name="username">Kullanıcı Adı</string>
     <string name="total_entries">Toplam:</string>
     <string name="mean_score">Ortalama Puan</string>
-    <string name="rewatched">Yeniden İzlendi</string>
+    <string name="rewatched">Tekrar İzleme</string>
     <string name="view_profile_mal">Profili Mal \'de görüntüle</string>
     <string name="airing_in">Yayınlanıyor</string>
     <string name="score_value">Puan:</string>
@@ -123,7 +123,7 @@
     <string name="all">Tümü</string>
     <string name="popular">Popüler</string>
     <string name="added_ptr">Okumak İstenenlere Eklendi</string>
-    <string name="days">Günler</string>
+    <string name="days">Gün</string>
     <string name="donation_thanked">Teşekkürler!\\n(◔‿◔)</string>
     <string name="login_error">Oturum açma hatası</string>
     <string name="search">Ara</string>
