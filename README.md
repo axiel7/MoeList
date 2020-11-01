@@ -7,6 +7,10 @@ Follow the development on the official Discord server:
 
 ![Discord Banner 3](https://discordapp.com/api/guilds/741059285122940928/widget.png?style=banner3)
 
+You can help translate the app!
+
+[![Crowdin](https://badges.crowdin.net/moelist/localized.svg)](https://crowdin.com/project/moelist)
+
 # Features
 * Manage your Anime/Manga list
 * View Anime/Manga details
