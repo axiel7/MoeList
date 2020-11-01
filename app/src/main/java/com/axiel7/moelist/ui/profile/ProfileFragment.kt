@@ -150,7 +150,7 @@ class ProfileFragment : Fragment() {
                         userId = user!!.id
                         MyApplication.animeDb?.userDao()?.insertUser(user!!)
                         sharedPref.saveInt("userId", userId)
-                        setDataToViews()
+                        if (isAdded) { setDataToViews() }
                     }
                 }
                 //TODO(not tested)
