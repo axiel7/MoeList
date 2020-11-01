@@ -18,7 +18,7 @@
     <string name="authors">Yaratıcılar</string>
     <string name="volumes">Cilt</string>
     <string name="serialization">Serileştirme</string>
-    <string name="donations_thanks">Bana destek olmayı düşündüğünüz için teşekkür ederim!\\n( /^ω^)/♪♪</string>
+    <string name="donations_thanks">Bana destek olmayı düşündüğünüz için teşekkür ederim!\n( /^ω^)/♪♪</string>
     <string name="buy_tea">Bir çay ısmarla 🍵</string>
     <string name="buy">Satın al</string>
     <string name="buy_burger">Bir hamburger ısmarla 🍔</string>
@@ -124,7 +124,7 @@
     <string name="popular">Popüler</string>
     <string name="added_ptr">Okumak İstenenlere Eklendi</string>
     <string name="days">Gün</string>
-    <string name="donation_thanked">Teşekkürler!\\n(◔‿◔)</string>
+    <string name="donation_thanked">Teşekkürler!\n(◔‿◔)</string>
     <string name="login_error">Oturum açma hatası</string>
     <string name="search">Ara</string>
     <string name="theme">Tema</string>
