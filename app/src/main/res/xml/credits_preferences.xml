@@ -18,6 +18,16 @@
             app:title="\@Glodanif"
             app:summary="MyAnimeList API help"/>
 
+        <Preference
+            app:key="turkish_translation"
+            app:title="\@hsinankirdar"
+            app:summary="Turkish translation"/>
+
+        <Preference
+            app:key="brazilian_translation"
+            app:title="\@RickyM7"
+            app:summary="Brazilian translation"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -146,6 +146,22 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
                 startActivity(intent)
                 true
             }
+
+            val turkish = findPreference<Preference>("turkish_translation")
+            turkish?.setOnPreferenceClickListener {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse("https://github.com/hsinankirdar")
+                startActivity(intent)
+                true
+            }
+
+            val brazilian = findPreference<Preference>("brazilian_translation")
+            brazilian?.setOnPreferenceClickListener {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse("https://github.com/RickyM7")
+                startActivity(intent)
+                true
+            }
         }
     }
 
