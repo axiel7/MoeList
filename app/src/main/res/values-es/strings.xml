@@ -18,7 +18,7 @@
     <string name="authors">Autores</string>
     <string name="volumes">Volúmenes</string>
     <string name="serialization">Serialización</string>
-    <string name="donations_thanks">Gracias por considerar ayudarme!\\n( /^ω^)/♪♪</string>
+    <string name="donations_thanks">Gracias por considerar ayudarme!\n( /^ω^)/♪♪</string>
     <string name="buy_tea">Cómprame un té 🍵</string>
     <string name="buy">Comprar</string>
     <string name="buy_burger">Cómprame una hamburguesa 🍔</string>
@@ -124,7 +124,7 @@
     <string name="popular">Popular</string>
     <string name="added_ptr">Añadido a Pendiente por leer</string>
     <string name="days">Días</string>
-    <string name="donation_thanked">¡Gracias!\\n(◔‿◔)</string>
+    <string name="donation_thanked">¡Gracias!\n(◔‿◔)</string>
     <string name="login_error">Error al iniciar sesión</string>
     <string name="search">Buscar</string>
     <string name="theme">Tema</string>
