@@ -84,8 +84,8 @@
     <string name="movie">Movie</string>
     <string name="special">Special</string>
     <string name="music">Music</string>
-    <string name="manga">Manga</string>
-    <string name="anime">Anime</string>
+    <string name="manga">マンガ</string>
+    <string name="anime">アニメ</string>
     <string name="one_shot">One Shot</string>
     <string name="manhwa">Manhwa</string>
     <string name="novel">Novel</string>
