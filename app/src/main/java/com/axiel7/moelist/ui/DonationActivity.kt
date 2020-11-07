@@ -17,13 +17,7 @@ import com.facebook.ads.Ad
 import com.facebook.ads.AdError
 import com.facebook.ads.AudienceNetworkAds
 import com.facebook.ads.InterstitialAdListener
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.InterstitialAd
 import com.google.android.material.transition.platform.MaterialFadeThrough
-import com.google.android.ump.ConsentForm
-import com.google.android.ump.ConsentInformation
-import com.google.android.ump.ConsentRequestParameters
-import com.google.android.ump.UserMessagingPlatform
 
 
 class DonationActivity : AppCompatActivity(), PurchasesUpdatedListener {
@@ -33,10 +27,10 @@ class DonationActivity : AppCompatActivity(), PurchasesUpdatedListener {
     private lateinit var burgerButton: Button
     private lateinit var adButton: Button
     private lateinit var kofiButton: ImageView
-    private lateinit var mInterstitialAd: InterstitialAd
+    //private lateinit var mInterstitialAd: InterstitialAd
     private lateinit var mInterstitialAdF: com.facebook.ads.InterstitialAd
-    private lateinit var consentInformation: ConsentInformation
-    private lateinit var consentForm: ConsentForm
+    //private lateinit var consentInformation: ConsentInformation
+    //private lateinit var consentForm: ConsentForm
     private val skuList = listOf("coffee", "burger")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,14 +65,14 @@ class DonationActivity : AppCompatActivity(), PurchasesUpdatedListener {
             startActivity(intent)
         }
 
-        val params = ConsentRequestParameters.Builder().build()
+        /*val params = ConsentRequestParameters.Builder().build()
 
         consentInformation = UserMessagingPlatform.getConsentInformation(this)
 
         val adRequest = AdRequest.Builder().build()
         mInterstitialAd = InterstitialAd(this)
         mInterstitialAd.adUnitId = "ca-app-pub-3318264479359938/7726212160"
-        mInterstitialAd.loadAd(adRequest)
+        mInterstitialAd.loadAd(adRequest)*/
 
         AudienceNetworkAds.initialize(this)
         mInterstitialAdF = com.facebook.ads.InterstitialAd(
@@ -87,7 +81,7 @@ class DonationActivity : AppCompatActivity(), PurchasesUpdatedListener {
         )
 
         adButton.setOnClickListener {
-            consentInformation.requestConsentInfoUpdate(this, params,
+            /*consentInformation.requestConsentInfoUpdate(this, params,
                 {
                     // The consent information state was updated.
                     // You are now ready to check if a form is available.
@@ -96,13 +90,13 @@ class DonationActivity : AppCompatActivity(), PurchasesUpdatedListener {
                     }
                 },
                 { // Handle the error.
-                })
+                })*/
             //mInterstitialAd.loadAd(AdRequest.Builder().build())
-            if (mInterstitialAd.isLoaded) {
-                //mInterstitialAd.show()
+            /*if (mInterstitialAd.isLoaded) {
+                mInterstitialAd.show()
             } else {
                 Log.d("MoeLog", "The interstitial wasn't loaded yet.")
-            }
+            }*/
             mInterstitialAdF.loadAd(
                 mInterstitialAdF.buildLoadAdConfig()
                     .withAdListener(listener(mInterstitialAdF))
@@ -194,7 +188,7 @@ class DonationActivity : AppCompatActivity(), PurchasesUpdatedListener {
         }
         billingClient.consumeAsync(purchase) { _, _ ->  }
     }
-    private fun loadForm() {
+    /*private fun loadForm() {
         UserMessagingPlatform.loadConsentForm(this, { consentForm ->
             this@DonationActivity.consentForm = consentForm
             if (consentInformation.consentStatus == ConsentInformation.ConsentStatus.REQUIRED) {
@@ -206,7 +200,7 @@ class DonationActivity : AppCompatActivity(), PurchasesUpdatedListener {
         }) {
             // Handle the error
         }
-    }
+    }*/
     private fun listener(interstitialAd: com.facebook.ads.InterstitialAd) : InterstitialAdListener {
         val TAG = "MoeLog"
         return object : InterstitialAdListener {
