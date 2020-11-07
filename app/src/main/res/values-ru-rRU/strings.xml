@@ -51,7 +51,7 @@
     <string name="random">Случайное</string>
     <string name="today">Сегодня</string>
     <string name="nothing_today">Сегодня ничего нет\n( ≧Д≦)</string>
-    <string name="this_season" comment="this_season&#10;&#10;This is a placeholder text in case the app doesn't detect the current season (Ex: Fall 2020)">Текущий сезон</string>
+    <string name="this_season">Текущий сезон</string>
     <string name="recommendations">Рекомендации</string>
     <string name="username">Имя пользователя</string>
     <string name="total_entries">Всего:</string>
@@ -153,16 +153,19 @@
     <string name="title_settings">Настройки</string>
     <string name="title_donations">Пожертвования</string>
     <string name="title_ranking">Топ</string>
-    <string name="title_seasonal" comment="title_seasonal&#10;&#10;This is the &quot;Seasonal Chart&quot; activity title.&#10;Usually appears on the Android multitasking UI">Сезоны</string>
+    <string name="title_seasonal">Сезоны</string>
     <string name="synopsis_icon">Развернуть описание</string>
     <string name="kofi_button">Кнопка Ko-Fi</string>
     <string name="poster">Плакат</string>
     <string name="moelist_banner">Баннер MoeList</string>
-    <string name="drag_pill" comment="drag_pill&#10;&#10;This is for accessibility purposes, it refers to a image content description.">Потяните ярлык</string>
+    <string name="drag_pill">Потяните ярлык</string>
     <string name="profile_picture">Изображение профиля</string>
     <string name="purchase_cancelled">Операция прервана</string>
     <string name="error_not_found">Не найдено</string>
     <string name="relateds">Связанные</string>
     <string name="view_on_mal">Посмотреть на MAL</string>
     <string name="share">Поделиться</string>
+    <string name="sort_title">Title</string>
+    <string name="sort_score">Score</string>
+    <string name="sort_last_updated">Last updated</string>
 </resources>
