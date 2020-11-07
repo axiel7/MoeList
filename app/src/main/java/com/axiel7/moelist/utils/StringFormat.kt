@@ -123,4 +123,14 @@ object StringFormat {
         }
         return result
     }
+    fun formatSortOption(sort: String, context: Context): String {
+        var result = sort
+        when (sort) {
+            "anime_title" -> result = context.getString(R.string.sort_title)
+            "manga_title" -> result = context.getString(R.string.sort_title)
+            "list_score" -> result = context.getString(R.string.sort_score)
+            "list_updated_at" -> result = context.getString(R.string.sort_last_updated)
+        }
+        return result
+    }
 }

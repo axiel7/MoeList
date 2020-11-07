@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.RadioGroup
+import android.widget.TextView
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.fragment.app.Fragment
@@ -27,6 +29,7 @@ import com.axiel7.moelist.ui.MainActivity
 import com.axiel7.moelist.ui.details.MangaDetailsActivity
 import com.axiel7.moelist.utils.*
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
@@ -49,7 +52,9 @@ class MangaListFragment : Fragment() {
     private lateinit var accessToken: String
     private lateinit var refreshToken: String
     private lateinit var listStatus: String
+    private lateinit var sortMode: String
     private var defaultStatus: Int? = null
+    private var defaultSort: Int = 0
     private var retrofit: Retrofit? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,6 +70,8 @@ class MangaListFragment : Fragment() {
             defaultStatus = R.id.reading_button
         }
         changeStatusFilter(defaultStatus!!)
+        defaultSort = sharedPref.getInt("sortManga", 0)
+        changeSortFilter(defaultSort)
 
         if (MyApplication.animeDb?.userMangaListDao()?.getUserMangaListByStatus(listStatus)!=null) {
             mangaList = MyApplication.animeDb?.userMangaListDao()?.getUserMangaListByStatus(listStatus)!!
@@ -152,6 +159,33 @@ class MangaListFragment : Fragment() {
             initCalls()
         }
 
+        val sortView = dialogView.findViewById<LinearLayoutCompat>(R.id.sort)
+        val sortSummary = sortView.findViewById<TextView>(R.id.sort_mode)
+        sortSummary.text = StringFormat.formatSortOption(sortMode, requireContext())
+        sortView?.setOnClickListener {
+            val items = arrayOf(requireContext().getString(R.string.sort_title),
+                requireContext().getString(R.string.sort_score),
+                requireContext().getString(R.string.sort_last_updated))
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Sort")
+                .setNeutralButton(resources.getString(R.string.cancel)) { _, _ ->
+                    // Respond to neutral button press
+                }
+                .setPositiveButton("OK") { _, _ ->
+                    // Respond to positive button press
+                    sharedPref.saveInt("sortManga", defaultSort)
+                    sortSummary.text = StringFormat.formatSortOption(sortMode, requireContext())
+                    initCalls()
+                }
+                // Single-choice items (initialized with checked item)
+                .setSingleChoiceItems(items, defaultSort) { _, which ->
+                    // Respond to item chosen
+                    defaultSort = which
+                    changeSortFilter(which)
+                }
+                .show()
+        }
+
         mangaListRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -185,7 +219,8 @@ class MangaListFragment : Fragment() {
         malApiService = retrofit?.create(MalApiService::class.java)!!
     }
     private fun initCalls() {
-        val mangaListCall = malApiService.getUserMangaList(listStatus, "list_status,num_chapters,media_type,status", "manga_title")
+        val mangaListCall = malApiService.getUserMangaList(listStatus, "list_status,num_chapters,media_type,status", sortMode)
+        loadingBar.show()
         initMangaListCall(mangaListCall, true)
     }
     private fun initMangaListCall(call: Call<UserMangaListResponse>, shouldClear: Boolean) {
@@ -281,6 +316,14 @@ class MangaListFragment : Fragment() {
             R.id.dropped_button -> "dropped"
             R.id.ptr_button -> "plan_to_read"
             else -> "reading"
+        }
+    }
+    private fun changeSortFilter(radioButton: Int) {
+        sortMode = when(radioButton) {
+            0 -> "manga_title"
+            1 -> "list_score"
+            2 -> "list_updated_at"
+            else -> "manga_title"
         }
     }
     private fun openDetails(mangaId: Int?, view: View?) {

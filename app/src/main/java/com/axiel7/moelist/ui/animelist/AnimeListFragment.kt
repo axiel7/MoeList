@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.RadioGroup
+import android.widget.TextView
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.fragment.app.Fragment
@@ -27,6 +29,7 @@ import com.axiel7.moelist.ui.MainActivity
 import com.axiel7.moelist.ui.details.AnimeDetailsActivity
 import com.axiel7.moelist.utils.*
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.review.ReviewManagerFactory
@@ -51,7 +54,9 @@ class AnimeListFragment : Fragment() {
     private lateinit var accessToken: String
     private lateinit var refreshToken: String
     private lateinit var listStatus: String
+    private lateinit var sortMode: String
     private var defaultStatus: Int? = null
+    private var defaultSort: Int = 0
     private var retrofit: Retrofit? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,6 +72,8 @@ class AnimeListFragment : Fragment() {
             defaultStatus = R.id.watching_button
         }
         changeStatusFilter(defaultStatus!!)
+        defaultSort = sharedPref.getInt("sortAnime", 0)
+        changeSortFilter(defaultSort)
 
         if (animeDb?.userAnimeListDao()?.getUserAnimeListByStatus(listStatus)!=null) {
             animeList = animeDb?.userAnimeListDao()?.getUserAnimeListByStatus(listStatus)!!
@@ -140,7 +147,7 @@ class AnimeListFragment : Fragment() {
 
         animeListRecycler.adapter = animeListAdapter
 
-
+        // filters dialog
         filtersFab = view.findViewById(R.id.filters_fab)
         val dialogView = layoutInflater.inflate(R.layout.bottom_sheet_filters, null)
         val bottomSheetDialog = BottomSheetDialog(requireContext())
@@ -161,6 +168,33 @@ class AnimeListFragment : Fragment() {
                 animeListAdapter.notifyDataSetChanged()
             }
             initCalls()
+        }
+
+        val sortView = dialogView.findViewById<LinearLayoutCompat>(R.id.sort)
+        val sortSummary = sortView.findViewById<TextView>(R.id.sort_mode)
+        sortSummary.text = StringFormat.formatSortOption(sortMode, requireContext())
+        sortView?.setOnClickListener {
+            val items = arrayOf(requireContext().getString(R.string.sort_title),
+                requireContext().getString(R.string.sort_score),
+                requireContext().getString(R.string.sort_last_updated))
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Sort")
+                .setNeutralButton(resources.getString(R.string.cancel)) { _, _ ->
+                    // Respond to neutral button press
+                }
+                .setPositiveButton("OK") { _, _ ->
+                    // Respond to positive button press
+                    sharedPref.saveInt("sortAnime", defaultSort)
+                    sortSummary.text = StringFormat.formatSortOption(sortMode, requireContext())
+                    initCalls()
+                }
+                // Single-choice items (initialized with checked item)
+                .setSingleChoiceItems(items, defaultSort) { _, which ->
+                    // Respond to item chosen
+                    defaultSort = which
+                    changeSortFilter(which)
+                }
+                .show()
         }
 
         animeListRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -196,7 +230,8 @@ class AnimeListFragment : Fragment() {
         malApiService = retrofit?.create(MalApiService::class.java)!!
     }
     private fun initCalls() {
-        val animeListCall = malApiService.getUserAnimeList(listStatus, "list_status,num_episodes,media_type,status", "anime_title")
+        val animeListCall = malApiService.getUserAnimeList(listStatus, "list_status,num_episodes,media_type,status", sortMode)
+        loadingBar.show()
         initAnimeListCall(animeListCall, true)
     }
     private fun initAnimeListCall(call: Call<UserAnimeListResponse>, shouldClear: Boolean) {
@@ -293,6 +328,14 @@ class AnimeListFragment : Fragment() {
             R.id.dropped_button -> "dropped"
             R.id.ptw_button -> "plan_to_watch"
             else -> "watching"
+        }
+    }
+    private fun changeSortFilter(radioButton: Int) {
+        sortMode = when(radioButton) {
+            0 -> "anime_title"
+            1 -> "list_score"
+            2 -> "list_updated_at"
+            else -> "anime_title"
         }
     }
     private fun openDetails(animeId: Int?, view: View?) {

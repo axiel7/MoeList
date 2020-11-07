@@ -3,12 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp">
+    android:paddingTop="5dp"
+    android:orientation="vertical">
+
+    <include android:id="@+id/sort"
+        layout="@layout/sort_preference" />
 
     <RadioGroup
         android:id="@+id/status_radio_group"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="10dp">
 
         <RadioButton
             android:id="@+id/watching_button"
