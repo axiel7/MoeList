@@ -238,8 +238,8 @@
 
         <TextView
             android:id="@+id/recommend_title"
-            android:layout_width="418dp"
-            android:layout_height="59dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:padding="@dimen/text_margin"
             android:text="@string/recommendations"
             android:textSize="20sp"
