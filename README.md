@@ -38,7 +38,7 @@ You can help translate the app!
 * Manga stats
 * Reviews
 * Favorites Anime/manga
-* Friends list
+* View/add friends
 * View others userlists
 * MyAnimeList notifications/messages
 
