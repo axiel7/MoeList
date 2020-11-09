@@ -165,7 +165,7 @@
     <string name="relateds">Связанные</string>
     <string name="view_on_mal">Посмотреть на MAL</string>
     <string name="share">Поделиться</string>
-    <string name="sort_title">Title</string>
-    <string name="sort_score">Score</string>
-    <string name="sort_last_updated">Last updated</string>
+    <string name="sort_title">Название</string>
+    <string name="sort_score">Оценка</string>
+    <string name="sort_last_updated">Последнее обновление</string>
 </resources>
