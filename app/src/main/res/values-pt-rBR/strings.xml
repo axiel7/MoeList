@@ -67,10 +67,10 @@
     <string name="add">Adicionar</string>
     <string name="invalid_number">Número inválido</string>
     <string name="unknown">Desconhecido</string>
-    <string name="top_ranked">Posição no Ranking</string>
+    <string name="top_ranked">Posição no Ranking Geral</string>
     <string name="members">Membros</string>
     <string name="users_scores">Usuários que deram nota</string>
-    <string name="popularity">Ranking de Popularidade</string>
+    <string name="popularity">Posição no Ranking de Popularidade</string>
     <string name="deleted">Excluído</string>
     <string name="error_server">Falha ao conectar ao servidor</string>
     <string name="error_delete_entry">Falha ao excluir entrada</string>
