@@ -11,6 +11,9 @@ You can help translate the app!
 
 [![Crowdin](https://badges.crowdin.net/moelist/localized.svg)](https://crowdin.com/project/moelist)
 
+# Screenshots
+![screenshots](https://user-images.githubusercontent.com/12379835/91041684-be03b280-e610-11ea-8c42-e08c29788f0a.png)
+
 # Features
 * Manage your Anime/Manga list
 * View Anime/Manga details
@@ -31,8 +34,13 @@ You can help translate the app!
 1. Pictures download
 1. Push notifications for new episode aired
 
-# Screenshots
-![screenshots](https://user-images.githubusercontent.com/12379835/91041684-be03b280-e610-11ea-8c42-e08c29788f0a.png)
+**Not possible due to API limitations:**
+* Manga stats
+* Reviews
+* Favorites Anime/manga
+* View/add friends
+* View others userlists
+* MyAnimeList notifications/messages
 
 # Other
 **Special thanks:**
