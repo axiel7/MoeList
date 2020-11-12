@@ -115,7 +115,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupBottomBar(navigationView: BottomNavigationView, defaultSection: String) {
-        val fragment = when(defaultSection) {
+        // check if the app is being opened by a home screen shortcut
+        val intentAction = intent.action
+        val section = if (!intentAction.isNullOrEmpty() && intentAction != "android.intent.action.MAIN") {
+            intentAction
+        } else { // if the action is MAIN then use the saved pref
+            defaultSection
+        }
+        val fragment = when(section) {
             "home" -> homeFragment
             "anime" -> animeListFragment
             "manga" -> mangaListFragment
@@ -125,7 +132,7 @@ class MainActivity : AppCompatActivity() {
         fragmentManager.beginTransaction()
             .replace(R.id.nav_host_fragment, fragment)
             .commit()
-        navigationView.selectedItemId = when(defaultSection) {
+        navigationView.selectedItemId = when(section) {
             "home" -> R.id.navigation_home
             "anime" -> R.id.navigation_anime_list
             "manga" -> R.id.navigation_manga_list

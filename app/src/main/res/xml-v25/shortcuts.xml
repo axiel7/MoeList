@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/shortcut_home"
+        android:shortcutId="home_shortcut"
+        android:shortcutShortLabel="@string/title_home">
+        <intent
+            android:action="home"
+            android:targetClass="com.axiel7.moelist.ui.MainActivity"
+            android:targetPackage="com.axiel7.moelist" />
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/shortcut_anime"
+        android:shortcutId="anime_shortcut"
+        android:shortcutShortLabel="@string/title_anime_list">
+        <intent
+            android:action="anime"
+            android:targetClass="com.axiel7.moelist.ui.MainActivity"
+            android:targetPackage="com.axiel7.moelist" />
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/shortcut_manga"
+        android:shortcutId="manga_shortcut"
+        android:shortcutShortLabel="@string/title_manga_list">
+        <intent
+            android:action="manga"
+            android:targetClass="com.axiel7.moelist.ui.MainActivity"
+            android:targetPackage="com.axiel7.moelist" />
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/shortcut_profile"
+        android:shortcutId="profile_shortcut"
+        android:shortcutShortLabel="@string/title_profile">
+        <intent
+            android:action="profile"
+            android:targetClass="com.axiel7.moelist.ui.MainActivity"
+            android:targetPackage="com.axiel7.moelist" />
+    </shortcut>
+</shortcuts>
