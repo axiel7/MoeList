@@ -424,7 +424,7 @@ class MangaDetailsActivity : AppCompatActivity() {
 
         //genres chips
         val genres = mangaDetails.genres
-        if (genres != null) {
+        if (genres != null && genresView.childCount==0) {
             for (genre in genres) {
                 val chip = Chip(genresView.context)
                 chip.text = genre.name
