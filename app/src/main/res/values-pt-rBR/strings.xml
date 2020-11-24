@@ -19,9 +19,9 @@
     <string name="volumes">Volumes</string>
     <string name="serialization">Serialização</string>
     <string name="donations_thanks">Obrigado por considerar me apoiar!\n( /^ω^)/♪♪</string>
-    <string name="buy_tea">Compre um chá para mim 🍵</string>
+    <string name="buy_tea">Me pague um chá 🍵</string>
     <string name="buy">Comprar</string>
-    <string name="buy_burger">Compre um hambúrguer para mim 🍔</string>
+    <string name="buy_burger">Me pague um hambúrguer 🍔</string>
     <string name="watch_ad">Assistir um anúncio</string>
     <string name="watch">Assistir</string>
     <string name="login">Entrar</string>
@@ -39,8 +39,8 @@
     <string name="completed">Concluído</string>
     <string name="on_hold">Em Espera</string>
     <string name="dropped">Dropado</string>
-    <string name="ptw">Planejando Assistir</string>
-    <string name="ptr">Planejando Ler</string>
+    <string name="ptw">Planejo Assistir</string>
+    <string name="ptr">Planejo Ler</string>
     <string name="share_app">Compartilhar Aplicativo</string>
     <string name="donations">Doações</string>
     <string name="settings">Configurações</string>
@@ -55,7 +55,7 @@
     <string name="recommendations">Recomendações</string>
     <string name="username">Nome de Usuário</string>
     <string name="total_entries">Total:</string>
-    <string name="mean_score">Pontuação Média</string>
+    <string name="mean_score">Nota Média</string>
     <string name="rewatched">Reassistido</string>
     <string name="view_profile_mal">Ver perfil no MAL</string>
     <string name="airing_in">Exibição em</string>
@@ -67,16 +67,16 @@
     <string name="add">Adicionar</string>
     <string name="invalid_number">Número inválido</string>
     <string name="unknown">Desconhecido</string>
-    <string name="top_ranked">Rank Mais Alto</string>
+    <string name="top_ranked">Posição no Ranking Geral</string>
     <string name="members">Membros</string>
-    <string name="users_scores">Pontuações dos usuários</string>
-    <string name="popularity">Popularidade</string>
+    <string name="users_scores">Usuários que deram nota</string>
+    <string name="popularity">Posição no Ranking de Popularidade</string>
     <string name="deleted">Excluído</string>
     <string name="error_server">Falha ao conectar ao servidor</string>
     <string name="error_delete_entry">Falha ao excluir entrada</string>
     <string name="updated">Atualizado</string>
     <string name="error_updating_list">Falha ao atualizar lista</string>
-    <string name="added_ptw">Adicionado aos Animes que estou Planejando Assistir</string>
+    <string name="added_ptw">Adicionado em Planejo Assistir</string>
     <string name="no_changes">Nenhuma mudança</string>
     <string name="tv">TV</string>
     <string name="ova">OVA</string>
@@ -118,11 +118,11 @@
     <string name="friday">Sexta-Feira</string>
     <string name="saturday">Sábado</string>
     <string name="sunday">Domingo</string>
-    <string name="not_yet_aired">Ainda não foi Exibido</string>
+    <string name="not_yet_aired">Ainda Não Exibido</string>
     <string name="publishing">Em Publicação</string>
     <string name="all">Todos</string>
-    <string name="popular">Populares</string>
-    <string name="added_ptr">Adicionado aos Mangás que estou Planejando Ler</string>
+    <string name="popular">Popular</string>
+    <string name="added_ptr">Adicionado em Planejo Ler</string>
     <string name="days">Dias</string>
     <string name="donation_thanked">Obrigado!\n(◔‿◔)</string>
     <string name="login_error">Falha ao entrar</string>
@@ -165,4 +165,7 @@
     <string name="relateds">Relacionados</string>
     <string name="view_on_mal">Ver no MAL</string>
     <string name="share">Compartilhar</string>
+    <string name="sort_title">Título</string>
+    <string name="sort_score">Nota</string>
+    <string name="sort_last_updated">Última atualização</string>
 </resources>

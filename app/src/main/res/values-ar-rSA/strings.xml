@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_home">الصفحة الرئيسية</string>
+    <string name="title_anime_list">الأنيمي</string>
+    <string name="title_manga_list">المانغا</string>
+    <string name="stats">الإحصائيات</string>
+    <string name="more_info">المزيد من المعلومات</string>
+    <string name="synonyms">يسمى أيضًا</string>
+    <string name="jp_title">باليابانية</string>
+    <string name="start_date">تاريخ البث</string>
+    <string name="end_date">تاريخ الانتهاء</string>
+    <string name="season">موسم</string>
+    <string name="broadcast">يبث في التوقيت</string>
+    <string name="duration">المدة الزمنية</string>
+    <string name="source">المصدر</string>
+    <string name="studios">الأستوديو</string>
+    <string name="edit">تعديل</string>
+    <string name="authors">المؤلفون</string>
+    <string name="volumes">المجلدات</string>
+    <string name="serialization">شركة الأصدار</string>
+    <string name="donations_thanks">شكرًا لك لأنك قررت تقديم الدعم لي!\n♪♪/(^^/)</string>
+    <string name="buy_tea">قدّم لي بعض الشاي من فضلك 🍵</string>
+    <string name="buy">أشترِ</string>
+    <string name="buy_burger">قدّم لي قطعة من البرغر من فضلك 🍔</string>
+    <string name="watch_ad">شاهد إعلانًا</string>
+    <string name="watch">مشاهدة</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="search_in_mal">البحث في MAL</string>
+    <string name="no_results">لا توجد نتائج</string>
+    <string name="title_profile">الملفّ الشخصي</string>
+    <string name="cancel">إلغاء</string>
+    <string name="apply">طبّق</string>
+    <string name="status">الحالة</string>
+    <string name="episodes">الحلقات</string>
+    <string name="delete">حذف</string>
+    <string name="chapters">الفصول</string>
+    <string name="watching">أشاهده</string>
+    <string name="reading">أقرءوه</string>
+    <string name="completed">أكملته</string>
+    <string name="on_hold">مؤجّل</string>
+    <string name="dropped">سئمت منه</string>
+    <string name="ptw">أخطط للمشاهدة</string>
+    <string name="ptr">أخطط للقراءة</string>
+    <string name="share_app">مشاركة التطبيق</string>
+    <string name="donations">المساهمة</string>
+    <string name="settings">الإعدادات</string>
+    <string name="year">السنة</string>
+    <string name="anime_ranking">الأنيمي المصنّف</string>
+    <string name="manga_ranking">المانغا المصنّفة</string>
+    <string name="seasonal_chart">أستعراض المواسم</string>
+    <string name="random">عشوائي</string>
+    <string name="today">اليوم</string>
+    <string name="nothing_today">لا شيء اليوم\\n( ≧Д≦)</string>
+    <string name="this_season">هذا الموسم</string>
+    <string name="recommendations">التوصيات</string>
+    <string name="username">اسم المستخدم</string>
+    <string name="total_entries">الإجمالي:</string>
+    <string name="mean_score">متوسط التقييم</string>
+    <string name="rewatched">أعدت مشاهدته</string>
+    <string name="view_profile_mal">عرض الملفّ الشخصي على MAL</string>
+    <string name="airing_in">يبث في</string>
+    <string name="score_value">التقييم:</string>
+    <string name="plus_one">1+</string>
+    <string name="plus_one_chapter">1+ فصل</string>
+    <string name="aired">تم بثه</string>
+    <string name="ago">منذ</string>
+    <string name="add">إضافة</string>
+    <string name="invalid_number">الرقم غير صالح</string>
+    <string name="unknown">غير معروف</string>
+    <string name="top_ranked">المراتب الأولى</string>
+    <string name="members">الأعضاء</string>
+    <string name="users_scores">تقييمات المستخدمين</string>
+    <string name="popularity">الشعبية</string>
+    <string name="deleted">محذوف</string>
+    <string name="error_server">حدث خطأ أثناء الاتصال بالخادم</string>
+    <string name="error_delete_entry">حدث خطأ أثناء حذف الإدخال</string>
+    <string name="updated">محدّث</string>
+    <string name="error_updating_list">حدث خطأ أثناء تحديث القائمة</string>
+    <string name="added_ptw">إضافة إلى القائمة أخطط مشاهدتة</string>
+    <string name="no_changes">لا يوجد تغييرات</string>
+    <string name="tv">تلفزيوني</string>
+    <string name="ova">أوفا</string>
+    <string name="ona">أونا</string>
+    <string name="movie">فيلم</string>
+    <string name="special">حلقة خاصة</string>
+    <string name="music">موسيقى</string>
+    <string name="manga">مانغا</string>
+    <string name="anime">أنيمي</string>
+    <string name="one_shot">ون شوت</string>
+    <string name="manhwa">مانهوا</string>
+    <string name="novel">رواية</string>
+    <string name="airing">يبث</string>
+    <string name="finished">منتهي</string>
+    <string name="on_hiatus">متوقف</string>
+    <string name="winter">الشتاء</string>
+    <string name="spring">الربيع</string>
+    <string name="summer">الصيف</string>
+    <string name="fall">الخريف</string>
+    <string name="original">أصلي</string>
+    <string name="light_novel">رواية خفيفة</string>
+    <string name="visual_novel">رواية تفاعلية</string>
+    <string name="game">لعبة</string>
+    <string name="web_manga">مانغا على النت</string>
+    <string name="score_apalling">1 مروع</string>
+    <string name="score_horrible">2 فظيع</string>
+    <string name="score_very_bad">3 سيء جدًا</string>
+    <string name="score_bad">4 سيء</string>
+    <string name="score_average">5 متوسط</string>
+    <string name="score_fine">6 حسن</string>
+    <string name="score_good">7 جيد</string>
+    <string name="score_very_good">8 جيد جدًا</string>
+    <string name="score_great">9 رائع</string>
+    <string name="score_masterpiece">10 تحفة فنية</string>
+    <string name="monday">الأثنين</string>
+    <string name="tuesday">الثلاثاء</string>
+    <string name="wednesday">الأربعاء</string>
+    <string name="thursday">الخميس</string>
+    <string name="friday">الجمعة</string>
+    <string name="saturday">السبت</string>
+    <string name="sunday">الأحد</string>
+    <string name="not_yet_aired">لم يبث بعد</string>
+    <string name="publishing">لا زالت تنشر</string>
+    <string name="all">الكل</string>
+    <string name="popular">الأكثر شعبية</string>
+    <string name="added_ptr">إضافة إلى قائمة أخطط قرائتة</string>
+    <string name="days">الأيام</string>
+    <string name="donation_thanked">شكرًا لك!\\n(◔‿◔)</string>
+    <string name="login_error">خطأ في تسجيل الدخول</string>
+    <string name="search">البحث</string>
+    <string name="theme">السِمة</string>
+    <string name="show_nsfw">العرض دون حجب المحتوى الجنسي</string>
+    <string name="nsfw_summary">أؤكد على تحمّلي المسؤولية الكاملة في عرض هذا المحتوى.</string>
+    <string name="default_section">القسم الإفتراضي</string>
+    <string name="display">العرض</string>
+    <string name="startup">بدء التشغيل</string>
+    <string name="account">الحساب</string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="logout_summary">تسجيل الخروج فقط من MoeList وليس MAL.</string>
+    <string name="other">أخرى</string>
+    <string name="version">الإصدار</string>
+    <string name="credits">شكر وتقدير</string>
+    <string name="discord_summary">انضم إلى الخادم الرسمي!</string>
+    <string name="github_summary">نجم المستودع!</string>
+    <string name="credits_summary">الأشخاص الذين ساعدوني</string>
+    <string name="feedback">أرسل ملاحظاتك</string>
+    <string name="theme_light">فاتح</string>
+    <string name="theme_dark">غامق</string>
+    <string name="theme_system">حسب النظام لديك</string>
+    <string name="title_login">دخول</string>
+    <string name="title_details">التفاصيل</string>
+    <string name="title_search">البحث</string>
+    <string name="title_poster">الصورة</string>
+    <string name="title_settings">الإعدادات</string>
+    <string name="title_donations">المساهمة</string>
+    <string name="title_ranking">المراتب</string>
+    <string name="title_seasonal">المواسم</string>
+    <string name="synopsis_icon">توسيع الملخص</string>
+    <string name="kofi_button">زر Ko-Fi</string>
+    <string name="poster">ملصق</string>
+    <string name="moelist_banner">لافتة MoeList</string>
+    <string name="drag_pill">شريط السحب</string>
+    <string name="profile_picture">صورة الملفّ الشخصي</string>
+    <string name="purchase_cancelled">تم إلغاء الشراء</string>
+    <string name="error_not_found">غير موجود</string>
+    <string name="relateds">ذات صلة</string>
+    <string name="view_on_mal">عرض على MAL</string>
+    <string name="share">مشاركة</string>
+    <string name="sort_title">العنوان</string>
+    <string name="sort_score">التقييم</string>
+    <string name="sort_last_updated">آخر تحديث</string>
+</resources>
