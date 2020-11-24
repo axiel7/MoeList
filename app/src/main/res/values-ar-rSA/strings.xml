@@ -18,14 +18,14 @@
     <string name="authors">المؤلفون</string>
     <string name="volumes">المجلدات</string>
     <string name="serialization">شركة الأصدار</string>
-    <string name="donations_thanks">شكرًا لك لأنك قررت تقديم الدعم لي!\n( /^ω^)/♪♪</string>
+    <string name="donations_thanks">شكرًا لك لأنك قررت تقديم الدعم لي!\n♪♪/(^^/)</string>
     <string name="buy_tea">قدّم لي بعض الشاي من فضلك 🍵</string>
     <string name="buy">أشترِ</string>
     <string name="buy_burger">قدّم لي قطعة من البرغر من فضلك 🍔</string>
     <string name="watch_ad">شاهد إعلانًا</string>
     <string name="watch">مشاهدة</string>
     <string name="login">تسجيل الدخول</string>
-    <string name="search_in_mal">أبحث</string>
+    <string name="search_in_mal">البحث في MAL</string>
     <string name="no_results">لا توجد نتائج</string>
     <string name="title_profile">الملفّ الشخصي</string>
     <string name="cancel">إلغاء</string>
@@ -45,19 +45,19 @@
     <string name="donations">المساهمة</string>
     <string name="settings">الإعدادات</string>
     <string name="year">السنة</string>
-    <string name="anime_ranking">تقييمات الأنيمي</string>
-    <string name="manga_ranking">تقييمات المانغا</string>
+    <string name="anime_ranking">الأنيمي المصنّف</string>
+    <string name="manga_ranking">المانغا المصنّفة</string>
     <string name="seasonal_chart">أستعراض المواسم</string>
     <string name="random">عشوائي</string>
     <string name="today">اليوم</string>
     <string name="nothing_today">لا شيء اليوم\\n( ≧Д≦)</string>
     <string name="this_season">هذا الموسم</string>
-    <string name="recommendations">الأقترحات</string>
+    <string name="recommendations">التوصيات</string>
     <string name="username">اسم المستخدم</string>
     <string name="total_entries">الإجمالي:</string>
     <string name="mean_score">متوسط التقييم</string>
     <string name="rewatched">أعدت مشاهدته</string>
-    <string name="view_profile_mal">عرض الملفّ الشخصي في المتصفح</string>
+    <string name="view_profile_mal">عرض الملفّ الشخصي على MAL</string>
     <string name="airing_in">يبث في</string>
     <string name="score_value">التقييم:</string>
     <string name="plus_one">1+</string>
@@ -163,7 +163,7 @@
     <string name="purchase_cancelled">تم إلغاء الشراء</string>
     <string name="error_not_found">غير موجود</string>
     <string name="relateds">ذات صلة</string>
-    <string name="view_on_mal">عرض في المتصفح</string>
+    <string name="view_on_mal">عرض على MAL</string>
     <string name="share">مشاركة</string>
     <string name="sort_title">العنوان</string>
     <string name="sort_score">التقييم</string>
