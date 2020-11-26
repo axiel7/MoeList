@@ -23,14 +23,11 @@ You can help translate the app!
 * Anime recommendations
 * Anime/Manga top charts
 * View your profile and anime stats
-* Share Anime/Manga link
-* View details on MAL button
 * Light/Dark theme
 * NSFW toggle
 
 **Coming soon (priority order)**
 1. Manage rewatching and tags
-1. Sort list options
 1. Pictures download
 1. Push notifications for new episode aired
 
