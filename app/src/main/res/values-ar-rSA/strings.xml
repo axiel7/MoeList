@@ -76,7 +76,7 @@
     <string name="error_delete_entry">حدث خطأ أثناء حذف الإدخال</string>
     <string name="updated">محدّث</string>
     <string name="error_updating_list">حدث خطأ أثناء تحديث القائمة</string>
-    <string name="added_ptw">إضافة إلى القائمة أخطط مشاهدتة</string>
+    <string name="added_ptw">إضافة إلى قائمة أخطط مشاهدتة</string>
     <string name="no_changes">لا يوجد تغييرات</string>
     <string name="tv">تلفزيوني</string>
     <string name="ova">أوفا</string>
