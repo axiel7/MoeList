@@ -69,7 +69,7 @@
     <string name="unknown">Desconhecido</string>
     <string name="top_ranked">Ranking Geral</string>
     <string name="members">Membros</string>
-    <string name="users_scores">Usuários que deram nota</string>
+    <string name="users_scores">Usuários Que Deram Alguma Nota</string>
     <string name="popularity">Ranking de Popularidade</string>
     <string name="deleted">Excluído</string>
     <string name="error_server">Falha ao conectar ao servidor</string>
