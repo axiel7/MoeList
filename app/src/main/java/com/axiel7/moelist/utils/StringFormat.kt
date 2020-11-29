@@ -5,133 +5,123 @@ import com.axiel7.moelist.R
 
 object StringFormat {
     fun formatMediaType(mediaType: String, context: Context): String {
-        var result = mediaType
-        when (mediaType) {
-            "tv" -> result = context.getString(R.string.tv)
-            "ova" -> result = context.getString(R.string.ova)
-            "ona" -> result = context.getString(R.string.ona)
-            "movie" -> result = context.getString(R.string.movie)
-            "special" -> result = context.getString(R.string.special)
-            "music" -> result = context.getString(R.string.music)
-            "unknown" -> result = context.getString(R.string.unknown)
-            "manga" -> result = context.getString(R.string.manga)
-            "one_shot" -> result = context.getString(R.string.one_shot)
-            "manhwa" -> result = context.getString(R.string.manhwa)
-            "novel" -> result = context.getString(R.string.novel)
-            "doujinshi" -> result = context.getString(R.string.doujinshi)
+        return when (mediaType) {
+            "tv" -> context.getString(R.string.tv)
+            "ova" -> context.getString(R.string.ova)
+            "ona" -> context.getString(R.string.ona)
+            "movie" -> context.getString(R.string.movie)
+            "special" -> context.getString(R.string.special)
+            "music" -> context.getString(R.string.music)
+            "unknown" -> context.getString(R.string.unknown)
+            "manga" -> context.getString(R.string.manga)
+            "one_shot" -> context.getString(R.string.one_shot)
+            "manhwa" -> context.getString(R.string.manhwa)
+            "novel" -> context.getString(R.string.novel)
+            "doujinshi" -> context.getString(R.string.doujinshi)
+            else -> mediaType
         }
-        return result
     }
     fun formatStatus(status: String, context: Context): String {
-        var result = status
-        when (status) {
-            "currently_airing" -> result = context.getString(R.string.airing)
-            "finished_airing" -> result = context.getString(R.string.finished)
-            "not_yet_aired" -> result = context.getString(R.string.not_yet_aired)
-            "currently_publishing" -> result = context.getString(R.string.publishing)
-            "finished" -> result = context.getString(R.string.finished)
-            "on_hiatus" -> result = context.getString(R.string.on_hiatus)
+        return when (status) {
+            "currently_airing" -> context.getString(R.string.airing)
+            "finished_airing" -> context.getString(R.string.finished)
+            "not_yet_aired" -> context.getString(R.string.not_yet_aired)
+            "currently_publishing" -> context.getString(R.string.publishing)
+            "finished" -> context.getString(R.string.finished)
+            "on_hiatus" -> context.getString(R.string.on_hiatus)
+            else -> status
         }
-        return result
     }
     fun formatListStatus(status: String?, context: Context): String {
-        var result = status ?: ""
-        when (status) {
-            "watching" -> result = context.getString(R.string.watching)
-            "reading" -> result = context.getString(R.string.reading)
-            "completed" -> result = context.getString(R.string.completed)
-            "on_hold" -> result = context.getString(R.string.on_hold)
-            "dropped" -> result = context.getString(R.string.dropped)
-            "plan_to_watch" -> result = context.getString(R.string.ptw)
-            "plan_to_read" -> result = context.getString(R.string.ptr)
+        return when (status) {
+            "watching" -> context.getString(R.string.watching)
+            "reading" -> context.getString(R.string.reading)
+            "completed" -> context.getString(R.string.completed)
+            "on_hold" -> context.getString(R.string.on_hold)
+            "dropped" -> context.getString(R.string.dropped)
+            "plan_to_watch" -> context.getString(R.string.ptw)
+            "plan_to_read" -> context.getString(R.string.ptr)
+            else -> status ?: ""
         }
-        return result
     }
     fun formatListStatusInverted(status: String?, context: Context): String {
-        var result = status ?: ""
-        when (status) {
-            context.getString(R.string.watching) -> result = "watching"
-            context.getString(R.string.reading) -> result = "reading"
-            context.getString(R.string.completed) -> result = "completed"
-            context.getString(R.string.on_hold) -> result = "on_hold"
-            context.getString(R.string.dropped) -> result = "dropped"
-            context.getString(R.string.ptw) -> result = "plan_to_watch"
-            context.getString(R.string.ptr) -> result = "plan_to_read"
+        return when (status) {
+            context.getString(R.string.watching) -> "watching"
+            context.getString(R.string.reading) -> "reading"
+            context.getString(R.string.completed) -> "completed"
+            context.getString(R.string.on_hold) -> "on_hold"
+            context.getString(R.string.dropped) -> "dropped"
+            context.getString(R.string.ptw) -> "plan_to_watch"
+            context.getString(R.string.ptr) -> "plan_to_read"
+            else -> status ?: ""
         }
-        return result
     }
     fun formatSeason(season: String, context: Context): String {
-        var result = season
-        when (season) {
-            "winter" -> result = context.getString(R.string.winter)
-            "spring" -> result = context.getString(R.string.spring)
-            "summer" -> result = context.getString(R.string.summer)
-            "fall" -> result = context.getString(R.string.fall)
+        return when (season) {
+            "winter" -> context.getString(R.string.winter)
+            "spring" -> context.getString(R.string.spring)
+            "summer" -> context.getString(R.string.summer)
+            "fall" -> context.getString(R.string.fall)
+            else -> season
         }
-        return result
     }
     fun formatSeasonInverted(season: String, context: Context): String {
-        var result = season
-        when (season) {
-            context.getString(R.string.winter) -> result = "winter"
-            context.getString(R.string.spring) -> result = "spring"
-            context.getString(R.string.summer) -> result = "summer"
-            context.getString(R.string.fall) -> result = "fall"
+        return when (season) {
+            context.getString(R.string.winter) -> "winter"
+            context.getString(R.string.spring) -> "spring"
+            context.getString(R.string.summer) -> "summer"
+            context.getString(R.string.fall) -> "fall"
+            else -> "winter"
         }
-        return result
     }
     fun formatSource(source: String, context: Context): String {
-        var result = source
-        when (source) {
-            "original" -> result = context.getString(R.string.original)
-            "manga" -> result = context.getString(R.string.manga)
-            "light_novel" -> result = context.getString(R.string.light_novel)
-            "visual_novel" -> result = context.getString(R.string.visual_novel)
-            "game" -> result = context.getString(R.string.game)
-            "web_manga" -> result = context.getString(R.string.web_manga)
-            "music" -> result = context.getString(R.string.music)
+        return when (source) {
+            "original" -> context.getString(R.string.original)
+            "manga" -> context.getString(R.string.manga)
+            "light_novel" -> context.getString(R.string.light_novel)
+            "visual_novel" -> context.getString(R.string.visual_novel)
+            "game" -> context.getString(R.string.game)
+            "web_manga" -> context.getString(R.string.web_manga)
+            "music" -> context.getString(R.string.music)
+            else -> source
         }
-        return result
     }
     fun formatScore(score: Int, context: Context): String {
-        var result = ""
-        when (score) {
-            0 -> result = "─"
-            1 -> result = context.getString(R.string.score_apalling)
-            2 -> result = context.getString(R.string.score_horrible)
-            3 -> result = context.getString(R.string.score_very_bad)
-            4 -> result = context.getString(R.string.score_bad)
-            5 -> result = context.getString(R.string.score_average)
-            6 -> result = context.getString(R.string.score_fine)
-            7 -> result = context.getString(R.string.score_good)
-            8 -> result = context.getString(R.string.score_very_good)
-            9 -> result = context.getString(R.string.score_great)
-            10 -> result = context.getString(R.string.score_masterpiece)
+        return when (score) {
+            0 -> "─"
+            1 -> context.getString(R.string.score_apalling)
+            2 -> context.getString(R.string.score_horrible)
+            3 -> context.getString(R.string.score_very_bad)
+            4 -> context.getString(R.string.score_bad)
+            5 -> context.getString(R.string.score_average)
+            6 -> context.getString(R.string.score_fine)
+            7 -> context.getString(R.string.score_good)
+            8 -> context.getString(R.string.score_very_good)
+            9 -> context.getString(R.string.score_great)
+            10 -> context.getString(R.string.score_masterpiece)
+            else -> "─"
         }
-        return result
     }
     fun formatWeekday(day: String?, context: Context): String {
-        var result = day ?: ""
-        when (day) {
-            "monday" -> result = context.getString(R.string.monday)
-            "tuesday" -> result = context.getString(R.string.tuesday)
-            "wednesday" -> result = context.getString(R.string.wednesday)
-            "thursday" -> result = context.getString(R.string.thursday)
-            "friday" -> result = context.getString(R.string.friday)
-            "saturday" -> result = context.getString(R.string.saturday)
-            "sunday" -> result = context.getString(R.string.sunday)
+        return when (day) {
+            "monday" -> context.getString(R.string.monday)
+            "tuesday" -> context.getString(R.string.tuesday)
+            "wednesday" -> context.getString(R.string.wednesday)
+            "thursday" -> context.getString(R.string.thursday)
+            "friday" -> context.getString(R.string.friday)
+            "saturday" -> context.getString(R.string.saturday)
+            "sunday" -> context.getString(R.string.sunday)
+            else -> day ?: ""
         }
-        return result
     }
     fun formatSortOption(sort: String, context: Context): String {
-        var result = sort
-        when (sort) {
-            "anime_title" -> result = context.getString(R.string.sort_title)
-            "manga_title" -> result = context.getString(R.string.sort_title)
-            "list_score" -> result = context.getString(R.string.sort_score)
-            "list_updated_at" -> result = context.getString(R.string.sort_last_updated)
+        return when (sort) {
+            "anime_title" -> context.getString(R.string.sort_title)
+            "manga_title" -> context.getString(R.string.sort_title)
+            "list_score" -> context.getString(R.string.sort_score)
+            "list_updated_at" -> context.getString(R.string.sort_last_updated)
+            else -> sort
         }
-        return result
     }
 
     fun formatGenre(genre: String?, context: Context): String {

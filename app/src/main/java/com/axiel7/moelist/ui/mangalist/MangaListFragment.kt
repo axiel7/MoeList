@@ -110,7 +110,7 @@ class MangaListFragment : Fragment() {
         mangaListAdapter.setEndListReachedListener(object : EndListReachedListener {
             override fun onBottomReached(position: Int) {
                 if (mangaListResponse!=null) {
-                    val nextPage: String? = mangaListResponse!!.paging.next
+                    val nextPage: String? = mangaListResponse?.paging?.next
                     if (nextPage!=null) {
                         val getMoreCall = malApiService.getNextMangaListPage(nextPage)
                         initMangaListCall(getMoreCall, false)

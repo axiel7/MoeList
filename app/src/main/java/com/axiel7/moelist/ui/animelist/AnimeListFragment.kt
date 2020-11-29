@@ -112,7 +112,7 @@ class AnimeListFragment : Fragment() {
         animeListAdapter.setEndListReachedListener(object :EndListReachedListener {
             override fun onBottomReached(position: Int) {
                 if (animeListResponse!=null) {
-                    val nextPage: String? = animeListResponse!!.paging.next
+                    val nextPage: String? = animeListResponse?.paging?.next
                     if (nextPage!=null) {
                         val getMoreCall = malApiService.getNextAnimeListPage(nextPage)
                         initAnimeListCall(getMoreCall, false)
@@ -133,6 +133,8 @@ class AnimeListFragment : Fragment() {
                         addOneEpisode(animeId, watchedEpisodes?.plus(1), null)
                     }
                 }
+
+                //Google Play review prompt
                 val manager = ReviewManagerFactory.create(requireContext())
                 val request = manager.requestReviewFlow()
                 request.addOnCompleteListener { requestReview ->
