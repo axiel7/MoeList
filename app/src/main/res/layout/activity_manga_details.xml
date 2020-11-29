@@ -40,7 +40,7 @@
                 android:background="@color/colorBackground"
                 android:layout_alignParentTop="true"
                 app:menu="@menu/details_menu"
-                app:title="Details"/>
+                app:title="@string/title_details"/>
             <View
                 android:id="@+id/toolbar_divider"
                 android:layout_width="match_parent"

@@ -1,5 +1,6 @@
 package com.axiel7.moelist.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.axiel7.moelist.R
 import com.axiel7.moelist.model.Related
+import com.axiel7.moelist.utils.StringFormat
 
 class RelatedsAdapter(private val animes: MutableList<Related>,
                       private val rowLayout: Int,
+                      private val context: Context,
                       private val onClickListener: (View, Related) -> Unit) :
     RecyclerView.Adapter<RelatedsAdapter.AnimeViewHolder>() {
     private var endListReachedListener: EndListReachedListener? = null
@@ -42,7 +45,7 @@ class RelatedsAdapter(private val animes: MutableList<Related>,
             allowHardware(false)
         }
         holder.animeTitle.text = animeTitle
-        holder.relationText.text = relation
+        holder.relationText.text = StringFormat.formatRelation(relation, context)
 
         val anime = animes[position]
         holder.itemView.setOnClickListener { view ->

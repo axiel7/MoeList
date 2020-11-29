@@ -295,6 +295,7 @@ class MangaDetailsActivity : AppCompatActivity() {
         relatedsAdapter = RelatedsAdapter(
             relateds,
             R.layout.list_item_anime_related,
+            applicationContext,
             onClickListener = { _, related -> openDetails(related.node.id, related.node.media_type)} )
         relatedRecycler.adapter = relatedsAdapter
     }
@@ -427,7 +428,7 @@ class MangaDetailsActivity : AppCompatActivity() {
         if (genres != null && genresView.childCount==0) {
             for (genre in genres) {
                 val chip = Chip(genresView.context)
-                chip.text = genre.name
+                chip.text = StringFormat.formatGenre(genre.name, applicationContext)
                 genresView.addView(chip)
             }
         }

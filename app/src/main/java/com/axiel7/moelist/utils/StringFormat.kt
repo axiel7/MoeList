@@ -133,4 +133,66 @@ object StringFormat {
         }
         return result
     }
+
+    fun formatGenre(genre: String?, context: Context): String {
+        return when (genre) {
+            "Action" -> context.getString(R.string.genre_action)
+            "Adventure" -> context.getString(R.string.genre_adventure)
+            "Cars" -> context.getString(R.string.genre_cars)
+            "Comedy" -> context.getString(R.string.genre_comedy)
+            "Dementia" -> context.getString(R.string.genre_dementia)
+            "Demons" -> context.getString(R.string.genre_demons)
+            "Drama" -> context.getString(R.string.genre_drama)
+            "Ecchi" -> context.getString(R.string.genre_drama)
+            "Fantasy" -> context.getString(R.string.genre_fantasy)
+            "Game" -> context.getString(R.string.genre_game)
+            "Harem" -> context.getString(R.string.genre_harem)
+            "Hentai" -> context.getString(R.string.genre_hentai)
+            "Historical" -> context.getString(R.string.genre_historical)
+            "Horror" -> context.getString(R.string.genre_horror)
+            "Josei" -> context.getString(R.string.genre_josei)
+            "Kids" -> context.getString(R.string.genre_kids)
+            "Magic" -> context.getString(R.string.genre_magic)
+            "Martial Arts" -> context.getString(R.string.genre_martial_arts)
+            "Mecha" -> context.getString(R.string.genre_mecha)
+            "Military" -> context.getString(R.string.genre_military)
+            "Music" -> context.getString(R.string.genre_music)
+            "Mystery" -> context.getString(R.string.genre_mystery)
+            "Parody" -> context.getString(R.string.genre_parody)
+            "Police" -> context.getString(R.string.genre_police)
+            "Psychological" -> context.getString(R.string.genre_psychological)
+            "Romance" -> context.getString(R.string.genre_romance)
+            "Samurai" -> context.getString(R.string.genre_samurai)
+            "School" -> context.getString(R.string.genre_school)
+            "Sci-Fi" -> context.getString(R.string.genre_sci_fi)
+            "Seinen" -> context.getString(R.string.genre_seinen)
+            "Shoujo" -> context.getString(R.string.genre_shoujo)
+            "Shoujo Ai" -> context.getString(R.string.genre_shoujo_ai)
+            "Shounen" -> context.getString(R.string.genre_shounen)
+            "Shounen Ai" -> context.getString(R.string.genre_shounen_ai)
+            "Slice of Life" -> context.getString(R.string.genre_slice_of_life)
+            "Space" -> context.getString(R.string.genre_space)
+            "Sports" -> context.getString(R.string.genre_sports)
+            "Super Power" -> context.getString(R.string.genre_superpower)
+            "Supernatural" -> context.getString(R.string.genre_supernatural)
+            "Thriller" -> context.getString(R.string.genre_thriller)
+            "Vampire" -> context.getString(R.string.genre_vampire)
+            "Yaoi" -> context.getString(R.string.genre_yaoi)
+            "Yuri" -> context.getString(R.string.genre_yuri)
+            else -> genre ?: ""
+        }
+    }
+
+    fun formatRelation(relation: String, context: Context): String {
+        return when (relation) {
+            "Prequel" -> context.getString(R.string.relation_prequel)
+            "Sequel" -> context.getString(R.string.relation_sequel)
+            "Summary" -> context.getString(R.string.relation_summary)
+            "Alternative version" -> context.getString(R.string.relation_alternative_version)
+            "Alternative setting" -> context.getString(R.string.relation_alternative_setting)
+            "Spin-off" -> context.getString(R.string.relation_spin_off)
+            "Side story" -> context.getString(R.string.relation_side_story)
+            else -> relation
+        }
+    }
 }

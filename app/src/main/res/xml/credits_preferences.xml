@@ -1,32 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="Credits">
+    <PreferenceCategory app:title="@string/support">
 
         <Preference
             app:key="dany"
-            app:title="\@danielvd_art"
-            app:summary="Logo design"/>
+            app:summary="\@danielvd_art"
+            app:title="@string/logo_design"/>
 
         <Preference
             app:key="jelu"
-            app:title="\@Jeluchu"
-            app:summary="github.com/Jeluchu"/>
+            app:summary="\@Jeluchu"
+            app:title="@string/general_help"/>
 
         <Preference
             app:key="glodanif"
-            app:title="\@Glodanif"
-            app:summary="MyAnimeList API help"/>
+            app:summary="\@Glodanif"
+            app:title="@string/api_help"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/translations">
 
         <Preference
             app:key="turkish_translation"
-            app:title="\@hsinankirdar"
-            app:summary="Turkish translation"/>
+            app:summary="\@hsinankirdar"
+            app:title="@string/turkish"/>
 
         <Preference
             app:key="brazilian_translation"
-            app:title="\@RickyM7"
-            app:summary="Brazilian translation"/>
+            app:summary="\@RickyM7, \@SamOak"
+            app:title="@string/brazilian"/>
+
+        <Preference
+            app:key="russian_translation"
+            app:summary="\@grin3671"
+            app:title="@string/russian"/>
+
+        <Preference
+            app:key="arabic_translation"
+            app:summary="\@sakugaky, \@GooseTheDuck6678"
+            app:title="@string/arabic"/>
+
+        <Preference
+            app:key="spanish_translation"
+            app:summary="\@axiel7"
+            app:title="@string/spanish" />
 
     </PreferenceCategory>
 

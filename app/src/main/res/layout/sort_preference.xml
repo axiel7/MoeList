@@ -14,7 +14,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/ic_round_sort_24"/>
+        android:src="@drawable/ic_round_sort_24"
+        android:contentDescription="@string/sort" />
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,7 +28,7 @@
             android:id="@+id/sort_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sort by"
+            android:text="@string/sort_by"
             android:textSize="16sp"
             android:singleLine="true"
             android:ellipsize="marquee"
@@ -38,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/sort_title"
             android:layout_alignStart="@id/sort_title"
-            android:text="Title"
+            android:text="@string/sort_title"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="?android:attr/textColorSecondary"
             android:maxLines="2" />

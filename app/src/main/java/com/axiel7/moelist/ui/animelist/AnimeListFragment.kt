@@ -178,11 +178,11 @@ class AnimeListFragment : Fragment() {
                 requireContext().getString(R.string.sort_score),
                 requireContext().getString(R.string.sort_last_updated))
             MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Sort")
+                .setTitle(resources.getString(R.string.sort))
                 .setNeutralButton(resources.getString(R.string.cancel)) { _, _ ->
                     // Respond to neutral button press
                 }
-                .setPositiveButton("OK") { _, _ ->
+                .setPositiveButton(resources.getString(R.string.ok)) { _, _ ->
                     // Respond to positive button press
                     sharedPref.saveInt("sortAnime", defaultSort)
                     sortSummary.text = StringFormat.formatSortOption(sortMode, requireContext())
