@@ -48,100 +48,106 @@
                 android:layout_below="@id/details_toolbar"
                 android:background="?android:attr/listDivider" />
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/manga_poster"
-                android:layout_width="150dp"
-                android:layout_height="213dp"
-                android:layout_margin="@dimen/text_margin"
-                android:layout_alignParentStart="true"
-                android:layout_alignTop="@id/toolbar_divider"
-                android:background="@color/colorPlaceHolder"
-                android:elevation="10dp"
-                android:scaleType="centerCrop"
-                android:transitionName="shared_poster_container"
-                app:shapeAppearanceOverlay="@style/circleImageView"/>
+            <RelativeLayout
+                android:id="@+id/main_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_alignTop="@id/toolbar_divider">
 
-            <TextView
-                android:id="@+id/main_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/manga_poster"
-                android:layout_alignTop="@id/toolbar_divider"
-                android:layout_marginEnd="@dimen/text_margin"
-                android:layout_marginTop="@dimen/text_margin"
-                android:maxLines="2"
-                android:ellipsize="end"
-                android:text="Loading…"
-                android:textColor="@color/colorText"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:textIsSelectable="true"
-                tools:ignore="HardcodedText" />
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/media_type_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/main_title"
-                android:layout_toEndOf="@id/manga_poster"
-                android:layout_marginEnd="@dimen/text_margin"
-                android:layout_marginTop="10dp"
-                android:text="Manga"
-                android:textColor="?attr/colorControlNormal"
-                android:textSize="16sp"
-                android:drawablePadding="6dp"
-                tools:ignore="HardcodedText"
-                app:drawableStartCompat="@drawable/ic_round_menu_book_24" />
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/episodes_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/media_type_text"
-                android:layout_toEndOf="@id/manga_poster"
-                android:layout_marginEnd="@dimen/text_margin"
-                android:layout_marginTop="10dp"
-                android:text="12 Chapters"
-                android:textColor="?attr/colorControlNormal"
-                android:textSize="16sp"
-                android:drawablePadding="6dp"
-                tools:ignore="HardcodedText"
-                app:drawableStartCompat="@drawable/ic_round_timer_24" />
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/status_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/episodes_text"
-                android:layout_toEndOf="@id/manga_poster"
-                android:layout_marginEnd="@dimen/text_margin"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
-                android:text="Publishing"
-                android:textColor="?attr/colorControlNormal"
-                android:textSize="16sp"
-                android:drawablePadding="5dp"
-                tools:ignore="HardcodedText"
-                app:drawableStartCompat="@drawable/ic_round_rss_feed_24" />
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/score_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/status_text"
-                android:layout_toEndOf="@id/manga_poster"
-                android:layout_marginEnd="@dimen/text_margin"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
-                android:text="4.52"
-                android:textColor="?attr/colorControlNormal"
-                android:textSize="16sp"
-                android:drawablePadding="6dp"
-                tools:ignore="HardcodedText"
-                app:drawableStartCompat="@drawable/ic_round_details_star_24" />
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/manga_poster"
+                    android:layout_width="150dp"
+                    android:layout_height="213dp"
+                    android:layout_margin="@dimen/text_margin"
+                    android:layout_alignParentStart="true"
+                    android:background="@color/colorPlaceHolder"
+                    android:elevation="10dp"
+                    android:scaleType="centerCrop"
+                    android:transitionName="shared_poster_container"
+                    app:shapeAppearanceOverlay="@style/circleImageView"/>
+
+                <TextView
+                    android:id="@+id/main_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/manga_poster"
+                    android:layout_marginEnd="@dimen/text_margin"
+                    android:layout_marginTop="@dimen/text_margin"
+                    android:ellipsize="end"
+                    android:text="Loading…"
+                    android:textColor="@color/colorText"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textIsSelectable="true"
+                    tools:ignore="HardcodedText" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/media_type_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/main_title"
+                    android:layout_toEndOf="@id/manga_poster"
+                    android:layout_marginEnd="@dimen/text_margin"
+                    android:layout_marginTop="10dp"
+                    android:text="Manga"
+                    android:textColor="?attr/colorControlNormal"
+                    android:textSize="16sp"
+                    android:drawablePadding="6dp"
+                    tools:ignore="HardcodedText"
+                    app:drawableStartCompat="@drawable/ic_round_menu_book_24" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/episodes_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/media_type_text"
+                    android:layout_toEndOf="@id/manga_poster"
+                    android:layout_marginEnd="@dimen/text_margin"
+                    android:layout_marginTop="10dp"
+                    android:text="12 Chapters"
+                    android:textColor="?attr/colorControlNormal"
+                    android:textSize="16sp"
+                    android:drawablePadding="6dp"
+                    tools:ignore="HardcodedText"
+                    app:drawableStartCompat="@drawable/ic_round_timer_24" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/status_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/episodes_text"
+                    android:layout_toEndOf="@id/manga_poster"
+                    android:layout_marginEnd="@dimen/text_margin"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:text="Publishing"
+                    android:textColor="?attr/colorControlNormal"
+                    android:textSize="16sp"
+                    android:drawablePadding="5dp"
+                    tools:ignore="HardcodedText"
+                    app:drawableStartCompat="@drawable/ic_round_rss_feed_24" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/score_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/status_text"
+                    android:layout_toEndOf="@id/manga_poster"
+                    android:layout_marginEnd="@dimen/text_margin"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:text="4.52"
+                    android:textColor="?attr/colorControlNormal"
+                    android:textSize="16sp"
+                    android:drawablePadding="6dp"
+                    tools:ignore="HardcodedText"
+                    app:drawableStartCompat="@drawable/ic_round_details_star_24" />
+
+            </RelativeLayout>
 
             <HorizontalScrollView
                 android:id="@+id/genres_scroll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scrollbars="none"
-                android:layout_below="@id/manga_poster">
+                android:layout_below="@id/main_info">
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chip_group_genres"
