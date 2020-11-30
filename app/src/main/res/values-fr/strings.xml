@@ -3,7 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_anime_list">Anime</string>
     <string name="title_manga_list">Manga</string>
-    <string name="stats">Stats</string>
+    <string name="stats">Statistiques</string>
     <string name="more_info">More Info</string>
     <string name="synonyms">Synonyms</string>
     <string name="jp_title">Japanese</string>
@@ -232,4 +232,6 @@
     <string name="relation_side_story">Side story</string>
     <string name="relation_alternative_setting">Alternative setting</string>
     <string name="relation_spin_off">Spin-off</string>
+    <string name="translate">Translate</string>
+    <string name="translate_original">Show original</string>
 </resources>
