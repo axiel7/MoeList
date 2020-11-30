@@ -18,6 +18,7 @@ import androidx.appcompat.widget.TooltipCompat
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
+import androidx.core.widget.ContentLoadingProgressBar
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -43,12 +44,18 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
+import com.google.mlkit.common.model.DownloadConditions
+import com.google.mlkit.nl.translate.TranslateLanguage
+import com.google.mlkit.nl.translate.Translation.getClient
+import com.google.mlkit.nl.translate.Translator
+import com.google.mlkit.nl.translate.TranslatorOptions
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.text.NumberFormat
+import java.util.*
 import kotlin.random.Random
 
 class AnimeDetailsActivity : AppCompatActivity() {
@@ -70,6 +77,8 @@ class AnimeDetailsActivity : AppCompatActivity() {
     private lateinit var statusView: TextView
     private lateinit var scoreView: TextView
     private lateinit var genresView: ChipGroup
+    private lateinit var translateButton: TextView
+    private lateinit var loadingTranslate: ContentLoadingProgressBar
     private lateinit var synopsisView: TextView
     private lateinit var rankView: TextView
     private lateinit var membersView: TextView
@@ -271,6 +280,31 @@ class AnimeDetailsActivity : AppCompatActivity() {
         statusView = findViewById(R.id.status_text)
         scoreView = findViewById(R.id.score_text)
         genresView = findViewById(R.id.chip_group_genres)
+
+        translateButton = findViewById(R.id.translate_button)
+        loadingTranslate = findViewById(R.id.loading_translate)
+        loadingTranslate.hide()
+        if (Locale.getDefault().language == "en") {
+            translateButton.visibility = View.GONE
+        }
+        else {
+            val options = TranslatorOptions.Builder()
+                .setSourceLanguage(TranslateLanguage.ENGLISH)
+                .setTargetLanguage(TranslateLanguage.fromLanguageTag(Locale.getDefault().language)!!)
+                .build()
+            val translator = getClient(options)
+            lifecycle.addObserver(translator)
+            translateButton.setOnClickListener {
+                if (synopsisView.text == animeDetails.synopsis) {
+                    loadingTranslate.show()
+                    translateSynopsis(translator)
+                }
+                else {
+                    translateButton.text = resources.getString(R.string.translate)
+                    synopsisView.text = animeDetails.synopsis
+                }
+            }
+        }
 
         synopsisView = findViewById(R.id.synopsis)
         val synopsisIcon = findViewById<ImageView>(R.id.synopsis_icon)
@@ -591,6 +625,27 @@ class AnimeDetailsActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+    }
+
+    private fun translateSynopsis(translator: Translator) {
+        val conditions = DownloadConditions.Builder()
+            .requireWifi()
+            .build()
+        translator.downloadModelIfNeeded(conditions)
+            .addOnSuccessListener {
+                translator.translate(synopsisView.text as String)
+                    .addOnSuccessListener { translatedText ->
+                        loadingTranslate.hide()
+                        translateButton.text = resources.getString(R.string.translate_original)
+                        synopsisView.text = translatedText
+                    }
+                    .addOnFailureListener { exception ->
+                        Toast.makeText(this, exception.localizedMessage, Toast.LENGTH_SHORT).show()
+                    }
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(this, exception.localizedMessage, Toast.LENGTH_SHORT).show()
+            }
     }
 
     override fun onResume() {

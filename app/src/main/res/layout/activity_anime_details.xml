@@ -160,16 +160,42 @@
             </HorizontalScrollView>
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/translate_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/genres_scroll"
+                android:text="@string/translate"
+                android:textColor="@color/colorAccent"
+                android:gravity="center_vertical"
+                android:drawableStart="@drawable/ic_outline_translate_24"
+                android:drawablePadding="5dp"
+                android:paddingStart="@dimen/text_margin"
+                android:paddingEnd="@dimen/text_margin"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground"
+                app:drawableTint="@color/colorAccent" />
+            <androidx.core.widget.ContentLoadingProgressBar
+                android:id="@+id/loading_translate"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:layout_toEndOf="@id/translate_button"
+                android:layout_below="@id/genres_scroll"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/synopsis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/genres_scroll"
+                android:layout_below="@id/translate_button"
                 android:text="@string/lorem_ipsun"
                 android:ellipsize="end"
                 android:maxLines="5"
                 android:paddingStart="@dimen/text_margin"
-                android:paddingEnd="@dimen/text_margin"
-                android:paddingTop="@dimen/text_margin" />
+                android:paddingEnd="@dimen/text_margin" />
             <ImageView
                 android:id="@+id/synopsis_icon"
                 android:layout_width="match_parent"

@@ -83,4 +83,5 @@ dependencies {
     implementation 'com.google.android.play:core:1.8.3'
     implementation 'com.google.android.play:core-ktx:1.8.1'
     implementation 'com.facebook.android:audience-network-sdk:6.1.0'
+    implementation 'com.google.mlkit:translate:16.1.1'
 }

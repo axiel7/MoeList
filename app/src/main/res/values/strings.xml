@@ -236,4 +236,6 @@
     <string name="relation_side_story">Side story</string>
     <string name="relation_alternative_setting">Alternative setting</string>
     <string name="relation_spin_off">Spin-off</string>
+    <string name="translate">Translate</string>
+    <string name="translate_original">Show original</string>
 </resources>
