@@ -26,10 +26,8 @@ You can help translate the app!
 * Light/Dark theme
 * NSFW toggle
 
-**Coming soon (priority order)**
-1. Manage rewatching and tags
-1. Pictures download
-1. Push notifications for new episode aired
+**Coming soon**
+* [See project](https://github.com/axiel7/MoeList/projects/1)
 
 **Not possible due to API limitations:**
 * Manga stats
