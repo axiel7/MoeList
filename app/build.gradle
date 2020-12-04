@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.android.gms.oss-licenses-plugin'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
@@ -84,4 +85,6 @@ dependencies {
     implementation 'com.google.android.play:core-ktx:1.8.1'
     implementation 'com.facebook.android:audience-network-sdk:6.1.0'
     implementation 'com.google.mlkit:translate:16.1.1'
+    implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
+
 }

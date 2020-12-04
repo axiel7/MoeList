@@ -17,6 +17,8 @@ import androidx.preference.PreferenceManager
 import com.axiel7.moelist.BuildConfig
 import com.axiel7.moelist.R
 import com.axiel7.moelist.utils.SharedPrefsHelpers
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
+
 
 @Suppress("unused")
 class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -124,6 +126,12 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
                     startActivity(intent)
                     true
                 }
+
+            val licenses = findPreference<Preference>("licenses")
+            licenses?.setOnPreferenceClickListener {
+                startActivity(Intent(requireContext(), OssLicensesMenuActivity::class.java))
+                true
+            }
         }
     }
 
