@@ -24,7 +24,7 @@
     <string name="buy_burger">Me pague um hambúrguer 🍔</string>
     <string name="watch_ad">Assistir um anúncio</string>
     <string name="watch">Assistir</string>
-    <string name="login">Entrar</string>
+    <string name="login">Fazer login</string>
     <string name="search_in_mal">Buscar no MAL</string>
     <string name="no_results">Nenhum resultado</string>
     <string name="title_profile">Perfil</string>
@@ -125,7 +125,7 @@
     <string name="added_ptr">Adicionado em Planejo Ler</string>
     <string name="days">Dias</string>
     <string name="donation_thanked">Obrigado!\n(◔‿◔)</string>
-    <string name="login_error">Falha ao entrar</string>
+    <string name="login_error">Falha ao fazer login</string>
     <string name="search">Buscar</string>
     <string name="theme">Tema</string>
     <string name="show_nsfw">Mostrar conteúdo NSFW</string>
@@ -146,7 +146,7 @@
     <string name="theme_light">Claro</string>
     <string name="theme_dark">Escuro</string>
     <string name="theme_system">Seguir o sistema</string>
-    <string name="title_login">Entrar</string>
+    <string name="title_login">Fazer login</string>
     <string name="title_details">Detalhes</string>
     <string name="title_search">Buscar</string>
     <string name="title_poster">Imagem</string>
@@ -234,4 +234,6 @@
     <string name="relation_spin_off">Spin-off</string>
     <string name="translate">Traduzir</string>
     <string name="translate_original">Mostrar original</string>
+    <string name="adaptation">Adaptação</string>
+    <string name="open_source_licenses">Licenças de Código Aberto</string>
 </resources>
