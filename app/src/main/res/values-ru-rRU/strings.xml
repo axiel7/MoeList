@@ -234,4 +234,6 @@
     <string name="relation_spin_off">Ответвление от оригинала</string>
     <string name="translate">Перевести</string>
     <string name="translate_original">Показать оригинал</string>
+    <string name="adaptation">Адаптация</string>
+    <string name="open_source_licenses">Лицензии открытого ПО</string>
 </resources>
