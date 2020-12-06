@@ -234,6 +234,6 @@
     <string name="relation_spin_off">Spin-off</string>
     <string name="translate">Traducir</string>
     <string name="translate_original">Mostrar original</string>
-    <string name="adaptation">Adaptation</string>
-    <string name="open_source_licenses">Open Source licenses</string>
+    <string name="adaptation">Adaptación</string>
+    <string name="open_source_licenses">Licencias de código abierto</string>
 </resources>
