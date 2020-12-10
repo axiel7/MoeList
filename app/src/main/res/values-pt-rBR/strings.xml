@@ -53,7 +53,7 @@
     <string name="nothing_today">Nada hoje\\n( ≧Д≦)</string>
     <string name="this_season">Esta Temporada</string>
     <string name="recommendations">Recomendações</string>
-    <string name="username">Nome de Usuário</string>
+    <string name="username">Nome de usuário</string>
     <string name="total_entries">Total:</string>
     <string name="mean_score">Nota Média</string>
     <string name="rewatched">Reassistido</string>
@@ -196,7 +196,7 @@
     <string name="genre_historical">Histórico</string>
     <string name="genre_horror">Terror</string>
     <string name="genre_josei">Josei</string>
-    <string name="genre_kids">Crianças</string>
+    <string name="genre_kids">Infantil</string>
     <string name="genre_magic">Magia</string>
     <string name="genre_martial_arts">Artes Marciais</string>
     <string name="genre_mecha">Mecha</string>
@@ -229,7 +229,7 @@
     <string name="relation_summary">Resumo</string>
     <string name="relation_alternative_version">Versão alternativa</string>
     <string name="relation_other">Outro</string>
-    <string name="relation_side_story">História secundária</string>
+    <string name="relation_side_story">História paralela</string>
     <string name="relation_alternative_setting">Cenário alternativo</string>
     <string name="relation_spin_off">Spin-off</string>
     <string name="translate">Traduzir</string>
