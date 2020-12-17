@@ -78,6 +78,7 @@ class MainActivity : AppCompatActivity() {
             window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
         }
+        window.statusBarColor = ContextCompat.getColor(this, R.color.colorBackground)
 
         // bottom sheet
         bottomSheetDialog = BottomSheetDialog(this)

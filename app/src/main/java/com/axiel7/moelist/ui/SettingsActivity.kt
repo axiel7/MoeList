@@ -78,15 +78,14 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
             val logout = findPreference<Preference>("logout")
             logout?.setOnPreferenceClickListener {
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 SharedPrefsHelpers.init(context)
                 val sharedPref = SharedPrefsHelpers.instance
                 sharedPref?.saveBoolean("isUserLogged", false)
                 sharedPref?.deleteValue("accessToken")
                 sharedPref?.deleteValue("refreshToken")
                 requireActivity().startActivity(intent)
-                requireActivity().finish()
                 true
             }
 
