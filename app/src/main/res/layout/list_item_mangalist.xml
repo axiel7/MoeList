@@ -38,6 +38,7 @@
                 android:layout_gravity="start"
                 android:background="@color/colorPlaceHolder"
                 android:scaleType="centerCrop"
+                android:transitionName="shared_poster_container"
                 android:contentDescription="@string/poster" />
             <TextView
                 android:id="@+id/score_text"

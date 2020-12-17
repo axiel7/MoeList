@@ -43,6 +43,7 @@ import com.google.android.material.slider.Slider
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.translate.TranslateLanguage
@@ -108,11 +109,15 @@ class MangaDetailsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
-        setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
+        setEnterSharedElementCallback(MaterialContainerTransformSharedElementCallback())
         window.sharedElementsUseOverlay = false
-        val mIntent = intent
-        if (!mIntent.getBooleanExtra("defaultTransition", false)) {
-            overridePendingTransition(0, 0)
+        window.sharedElementEnterTransition = MaterialContainerTransform().apply {
+            addTarget(R.id.manga_poster)
+            duration = 300L
+        }
+        window.sharedElementReturnTransition = MaterialContainerTransform().apply {
+            addTarget(R.id.manga_poster)
+            duration = 250L
         }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manga_details)
@@ -138,7 +143,7 @@ class MangaDetailsActivity : AppCompatActivity() {
         accessToken = sharedPref.getString("accessToken", "").toString()
         refreshToken = sharedPref.getString("refreshToken", "").toString()
 
-        mangaId = mIntent.getIntExtra("mangaId", 1)
+        mangaId = intent.getIntExtra("mangaId", 1)
         fields = "id,title,main_picture,alternative_titles,start_date,end_date,synopsis,mean,rank,popularity," +
                 "num_list_users,num_scoring_users,media_type,status,genres,my_list_status,num_chapters,num_volumes," +
                 "source,authors{first_name,last_name},serialization,related_anime{media_type},related_manga{media_type}"

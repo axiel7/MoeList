@@ -43,6 +43,7 @@ import com.google.android.material.slider.Slider
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.translate.TranslateLanguage
@@ -108,11 +109,14 @@ class AnimeDetailsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
-        setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
-        window.sharedElementsUseOverlay = false
-        val mIntent = intent
-        if (!mIntent.getBooleanExtra("defaultTransition", false)) {
-            overridePendingTransition(0, 0)
+        setEnterSharedElementCallback(MaterialContainerTransformSharedElementCallback())
+        window.sharedElementEnterTransition = MaterialContainerTransform().apply {
+            addTarget(R.id.anime_poster)
+            duration = 300L
+        }
+        window.sharedElementReturnTransition = MaterialContainerTransform().apply {
+            addTarget(R.id.anime_poster)
+            duration = 250L
         }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_anime_details)
@@ -138,7 +142,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
         accessToken = sharedPref.getString("accessToken", "").toString()
         refreshToken = sharedPref.getString("refreshToken", "").toString()
 
-        animeId = mIntent.getIntExtra("animeId", 1)
+        animeId = intent.getIntExtra("animeId", 1)
         if (animeId==-1) {
             animeId = Random(System.nanoTime()).nextInt(0, 5000)
         }
