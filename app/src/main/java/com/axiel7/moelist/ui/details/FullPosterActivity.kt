@@ -37,10 +37,7 @@ class FullPosterActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.setDecorFitsSystemWindows(false)
         }
-        else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
-            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
-        }
+
         val loadingBar = findViewById<ContentLoadingProgressBar>(R.id.loading_poster)
         loadingBar.show()
         val imageUrl = intent.extras?.getString("posterUrl", "")

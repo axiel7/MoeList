@@ -47,10 +47,6 @@ class LoginActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.setDecorFitsSystemWindows(false)
         }
-        else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
-            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
-        }
 
         codeVerifier = PkceGenerator.generateVerifier(128)
         codeChallenge = codeVerifier
@@ -61,14 +57,17 @@ class LoginActivity : AppCompatActivity() {
 
         val loginButton = findViewById<Button>(R.id.login)
         loginButton.setOnClickListener {
-            val builder = CustomTabsIntent.Builder()
-            builder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
-            val chromeIntent = builder.build()
-            chromeIntent.intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
-            chromeIntent.intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            chromeIntent.launchUrl(this, Uri.parse(Urls.oauthBaseUrl + "authorize" + "?response_type=code"
-                    + "&client_id=" + clientId + "&code_challenge=" + codeVerifier + "&state=" + state
-            ))
+
+            val openMainActivity = Intent(this@LoginActivity, MainActivity::class.java)
+            startActivity(openMainActivity)
+//            val builder = CustomTabsIntent.Builder()
+//            builder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+//            val chromeIntent = builder.build()
+//            chromeIntent.intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+//            chromeIntent.intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//            chromeIntent.launchUrl(this, Uri.parse(Urls.oauthBaseUrl + "authorize" + "?response_type=code"
+//                    + "&client_id=" + clientId + "&code_challenge=" + codeVerifier + "&state=" + state
+//            ))
         }
     }
 
