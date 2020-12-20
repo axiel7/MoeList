@@ -19,6 +19,7 @@ class FullPosterActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         findViewById<View>(android.R.id.content).transitionName = "shared_poster_container"
+        setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
         setEnterSharedElementCallback(MaterialContainerTransformSharedElementCallback())
         window.sharedElementEnterTransition = MaterialContainerTransform().apply {
             addTarget(android.R.id.content)
@@ -28,7 +29,6 @@ class FullPosterActivity : BaseActivity() {
             addTarget(android.R.id.content)
             duration = 250L
         }
-        overridePendingTransition(0, 0)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_full_poster)
 

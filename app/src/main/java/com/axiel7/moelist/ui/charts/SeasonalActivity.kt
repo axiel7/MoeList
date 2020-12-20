@@ -57,8 +57,7 @@ class SeasonalActivity : BaseActivity() {
     private var retrofit: Retrofit? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppTheme)
-        overridePendingTransition(0, 0)
+        setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_seasonal)
 

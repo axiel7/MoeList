@@ -591,7 +591,7 @@ class AnimeDetailsActivity : BaseActivity() {
         val options = ActivityOptions.makeSceneTransitionAnimation(
             this,
             animePosterView,
-            "shared_poster_container"
+            animePosterView.transitionName
         )
         val largePicture = animeDetails.main_picture?.large
         val mediumPicture = animeDetails.main_picture?.medium

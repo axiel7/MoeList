@@ -20,8 +20,7 @@ class RankingActivity : BaseActivity() {
     private val popBundle = Bundle()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppTheme)
-        overridePendingTransition(0, 0)
+        setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ranking)
 
