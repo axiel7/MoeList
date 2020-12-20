@@ -4,11 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.preference.Preference
@@ -21,14 +18,13 @@ import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 
 
 @Suppress("unused")
-class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
+class SettingsActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var sharedPref: SharedPrefsHelpers
     private var themeChanged = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         val settingsFragment = SettingsFragment()
@@ -36,15 +32,6 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
             .beginTransaction()
             .replace(R.id.settings_container, settingsFragment)
             .commit()
-
-        //edge to edge
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.setDecorFitsSystemWindows(false)
-        }
-        else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
-            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
-        }
 
         val toolbar = findViewById<Toolbar>(R.id.setting_toolbar)
         setSupportActionBar(toolbar)

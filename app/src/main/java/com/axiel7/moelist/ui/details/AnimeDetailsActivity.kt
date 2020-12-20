@@ -5,14 +5,12 @@ import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.widget.TooltipCompat
 import androidx.browser.customtabs.CustomTabsIntent
@@ -29,6 +27,7 @@ import com.axiel7.moelist.model.AnimeDetails
 import com.axiel7.moelist.model.MyListStatus
 import com.axiel7.moelist.model.Related
 import com.axiel7.moelist.rest.MalApiService
+import com.axiel7.moelist.ui.BaseActivity
 import com.axiel7.moelist.ui.MainActivity
 import com.axiel7.moelist.utils.*
 import com.axiel7.moelist.utils.InsetsHelper.addSystemWindowInsetToMargin
@@ -59,7 +58,7 @@ import java.text.NumberFormat
 import java.util.*
 import kotlin.random.Random
 
-class AnimeDetailsActivity : AppCompatActivity() {
+class AnimeDetailsActivity : BaseActivity() {
 
     private lateinit var sharedPref: SharedPrefsHelpers
     private lateinit var accessToken: String
@@ -108,7 +107,6 @@ class AnimeDetailsActivity : AppCompatActivity() {
     private var animeId = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppTheme)
         setEnterSharedElementCallback(MaterialContainerTransformSharedElementCallback())
         window.sharedElementEnterTransition = MaterialContainerTransform().apply {
             addTarget(R.id.anime_poster)
@@ -121,13 +119,6 @@ class AnimeDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_anime_details)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.setDecorFitsSystemWindows(false)
-        }
-        else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
-            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
-        }
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorBackgroundAlpha)
 
         val toolbar = findViewById<Toolbar>(R.id.details_toolbar)

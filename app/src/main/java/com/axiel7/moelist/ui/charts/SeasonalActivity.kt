@@ -1,7 +1,6 @@
 package com.axiel7.moelist.ui.charts
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -9,7 +8,6 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
@@ -21,6 +19,7 @@ import com.axiel7.moelist.adapter.SeasonalAnimeAdapter
 import com.axiel7.moelist.model.SeasonalAnimeResponse
 import com.axiel7.moelist.model.SeasonalList
 import com.axiel7.moelist.rest.MalApiService
+import com.axiel7.moelist.ui.BaseActivity
 import com.axiel7.moelist.ui.MainActivity
 import com.axiel7.moelist.ui.details.AnimeDetailsActivity
 import com.axiel7.moelist.utils.*
@@ -29,6 +28,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,7 +36,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.properties.Delegates
 
-class SeasonalActivity : AppCompatActivity() {
+class SeasonalActivity : BaseActivity() {
 
     private lateinit var sharedPref: SharedPrefsHelpers
     private lateinit var accessToken: String
@@ -62,13 +62,6 @@ class SeasonalActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_seasonal)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.setDecorFitsSystemWindows(false)
-        }
-        else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
-            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
-        }
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorCard)
 
         toolbar = findViewById(R.id.seasonal_toolbar)

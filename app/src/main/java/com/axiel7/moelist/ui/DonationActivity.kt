@@ -2,14 +2,11 @@ package com.axiel7.moelist.ui
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.android.billingclient.api.*
 import com.axiel7.moelist.R
@@ -20,7 +17,7 @@ import com.facebook.ads.InterstitialAdListener
 import com.google.android.material.transition.platform.MaterialFadeThrough
 
 
-class DonationActivity : AppCompatActivity(), PurchasesUpdatedListener {
+class DonationActivity : BaseActivity(), PurchasesUpdatedListener {
 
     private lateinit var billingClient: BillingClient
     private lateinit var coffeeButton: Button
@@ -34,19 +31,10 @@ class DonationActivity : AppCompatActivity(), PurchasesUpdatedListener {
     private val skuList = listOf("coffee", "burger")
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppTheme)
         window.enterTransition = MaterialFadeThrough()
         window.allowEnterTransitionOverlap = true
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_donations)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.setDecorFitsSystemWindows(false)
-        }
-        else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
-            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
-        }
 
         val toolbar = findViewById<Toolbar>(R.id.donations_toolbar)
         setSupportActionBar(toolbar)

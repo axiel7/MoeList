@@ -1,9 +1,6 @@
 package com.axiel7.moelist.ui.charts
 
-import android.os.Build
 import android.os.Bundle
-import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -11,9 +8,11 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.axiel7.moelist.R
+import com.axiel7.moelist.ui.BaseActivity
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 
-class RankingActivity : AppCompatActivity() {
+class RankingActivity : BaseActivity() {
 
     private val rankingAllFragment = RankingFragment()
     private val rankingPopFragment = RankingFragment()
@@ -26,13 +25,6 @@ class RankingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ranking)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.setDecorFitsSystemWindows(false)
-        }
-        else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
-            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
-        }
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorCard)
 
         val mediaType = intent.extras?.getString("mediaType", "anime").toString()
