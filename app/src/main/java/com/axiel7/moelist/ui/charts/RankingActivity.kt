@@ -78,7 +78,7 @@ class RankingActivity : BaseActivity() {
             return fragmentList[position]
         }
 
-        override fun getPageTitle(position: Int): CharSequence? {
+        override fun getPageTitle(position: Int): CharSequence {
             return fragmentTitles[position]
         }
 

@@ -204,7 +204,7 @@ class DonationActivity : BaseActivity(), PurchasesUpdatedListener {
 
             override fun onError(ad: Ad?, adError: AdError) {
                 // Ad error callback
-                Log.e(TAG, "Interstitial ad failed to load: " + adError.getErrorMessage())
+                Log.e(TAG, "Interstitial ad failed to load: " + adError.errorMessage)
             }
 
             override fun onAdLoaded(ad: Ad) {

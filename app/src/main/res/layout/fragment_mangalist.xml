@@ -32,5 +32,6 @@
         android:src="@drawable/ic_round_filter_list_24"
         app:tint="@color/colorTextInverted"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/filters" />
 </androidx.constraintlayout.widget.ConstraintLayout>

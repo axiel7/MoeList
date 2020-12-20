@@ -152,7 +152,7 @@ class HomeFragment : Fragment() {
         animeRankingAdapter.setEndListReachedListener(object :EndListReachedListener {
             override fun onBottomReached(position: Int) {
                 if (animesRankingResponse!=null && animeListSeasonal.size <= 25) {
-                    val nextPage: String? = animesRankingResponse!!.paging.next
+                    val nextPage: String? = animesRankingResponse?.paging?.next
                     if (nextPage?.isNotEmpty()!! || nextPage.isNotBlank()) {
                         val getMoreCall = malApiService.getNextAnimeRankingPage(nextPage)
                         initRankingCall(getMoreCall, false)
