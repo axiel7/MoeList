@@ -236,5 +236,5 @@
     <string name="translate_original" tools:ignore="MissingTranslation">Показать оригинал</string>
     <string name="adaptation" tools:ignore="MissingTranslation">Адаптация</string>
     <string name="open_source_licenses" tools:ignore="MissingTranslation">Лицензии открытого ПО</string>
-    <string name="filters" tools:ignore="MissingTranslation">Filters</string>
+    <string name="filters" tools:ignore="MissingTranslation">Фильтры</string>
 </resources>
