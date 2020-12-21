@@ -236,5 +236,5 @@
     <string name="translate_original" tools:ignore="MissingTranslation">Mostrar original</string>
     <string name="adaptation" tools:ignore="MissingTranslation">Adaptación</string>
     <string name="open_source_licenses" tools:ignore="MissingTranslation">Licencias de código abierto</string>
-    <string name="filters" tools:ignore="MissingTranslation">Filters</string>
+    <string name="filters" tools:ignore="MissingTranslation">Filtros</string>
 </resources>
