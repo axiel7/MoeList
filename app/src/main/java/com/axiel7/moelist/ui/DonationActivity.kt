@@ -10,11 +10,13 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import com.android.billingclient.api.*
 import com.axiel7.moelist.R
-import com.facebook.ads.Ad
-import com.facebook.ads.AdError
-import com.facebook.ads.AudienceNetworkAds
-import com.facebook.ads.InterstitialAdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
 import com.google.android.material.transition.platform.MaterialFadeThrough
+import com.google.android.ump.ConsentForm
+import com.google.android.ump.ConsentInformation
+import com.google.android.ump.ConsentRequestParameters
+import com.google.android.ump.UserMessagingPlatform
 
 
 class DonationActivity : BaseActivity(), PurchasesUpdatedListener {
@@ -24,10 +26,9 @@ class DonationActivity : BaseActivity(), PurchasesUpdatedListener {
     private lateinit var burgerButton: Button
     private lateinit var adButton: Button
     private lateinit var kofiButton: ImageView
-    //private lateinit var mInterstitialAd: InterstitialAd
-    private lateinit var mInterstitialAdF: com.facebook.ads.InterstitialAd
-    //private lateinit var consentInformation: ConsentInformation
-    //private lateinit var consentForm: ConsentForm
+    private lateinit var mInterstitialAd: InterstitialAd
+    private lateinit var consentInformation: ConsentInformation
+    private lateinit var consentForm: ConsentForm
     private val skuList = listOf("coffee", "burger")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,23 +54,16 @@ class DonationActivity : BaseActivity(), PurchasesUpdatedListener {
             startActivity(intent)
         }
 
-        /*val params = ConsentRequestParameters.Builder().build()
+        val params = ConsentRequestParameters.Builder().build()
 
         consentInformation = UserMessagingPlatform.getConsentInformation(this)
 
-        val adRequest = AdRequest.Builder().build()
         mInterstitialAd = InterstitialAd(this)
-        mInterstitialAd.adUnitId = "ca-app-pub-3318264479359938/7726212160"
-        mInterstitialAd.loadAd(adRequest)*/
-
-        AudienceNetworkAds.initialize(this)
-        mInterstitialAdF = com.facebook.ads.InterstitialAd(
-            this,
-            "3357616380981293_3357625817647016"
-        )
+        mInterstitialAd.adUnitId = "ca-app-pub-3940256099942544/1033173712"
+        mInterstitialAd.loadAd(AdRequest.Builder().build())
 
         adButton.setOnClickListener {
-            /*consentInformation.requestConsentInfoUpdate(this, params,
+            consentInformation.requestConsentInfoUpdate(this, params,
                 {
                     // The consent information state was updated.
                     // You are now ready to check if a form is available.
@@ -78,18 +72,7 @@ class DonationActivity : BaseActivity(), PurchasesUpdatedListener {
                     }
                 },
                 { // Handle the error.
-                })*/
-            //mInterstitialAd.loadAd(AdRequest.Builder().build())
-            /*if (mInterstitialAd.isLoaded) {
-                mInterstitialAd.show()
-            } else {
-                Log.d("MoeLog", "The interstitial wasn't loaded yet.")
-            }*/
-            mInterstitialAdF.loadAd(
-                mInterstitialAdF.buildLoadAdConfig()
-                    .withAdListener(listener(mInterstitialAdF))
-                    .build()
-            )
+                })
         }
         setupBillingClient()
     }
@@ -176,7 +159,7 @@ class DonationActivity : BaseActivity(), PurchasesUpdatedListener {
         }
         billingClient.consumeAsync(purchase) { _, _ ->  }
     }
-    /*private fun loadForm() {
+    private fun loadForm() {
         UserMessagingPlatform.loadConsentForm(this, { consentForm ->
             this@DonationActivity.consentForm = consentForm
             if (consentInformation.consentStatus == ConsentInformation.ConsentStatus.REQUIRED) {
@@ -185,49 +168,15 @@ class DonationActivity : BaseActivity(), PurchasesUpdatedListener {
                     loadForm()
                 }
             }
+            else {
+                if (mInterstitialAd.isLoaded) {
+                    mInterstitialAd.show()
+                } else {
+                    Log.d("MoeLog", "The interstitial ad wasn't loaded yet.")
+                }
+            }
         }) {
             // Handle the error
         }
-    }*/
-    private fun listener(interstitialAd: com.facebook.ads.InterstitialAd) : InterstitialAdListener {
-        val TAG = "MoeLog"
-        return object : InterstitialAdListener {
-            override fun onInterstitialDisplayed(ad: Ad) {
-                // Interstitial ad displayed callback
-                Log.e(TAG, "Interstitial ad displayed.")
-            }
-
-            override fun onInterstitialDismissed(ad: Ad) {
-                // Interstitial dismissed callback
-                Log.e(TAG, "Interstitial ad dismissed.")
-            }
-
-            override fun onError(ad: Ad?, adError: AdError) {
-                // Ad error callback
-                Log.e(TAG, "Interstitial ad failed to load: " + adError.errorMessage)
-            }
-
-            override fun onAdLoaded(ad: Ad) {
-                // Interstitial ad is loaded and ready to be displayed
-                Log.d(TAG, "Interstitial ad is loaded and ready to be displayed!")
-                // Show the ad
-                interstitialAd.show()
-            }
-
-            override fun onAdClicked(ad: Ad) {
-                // Ad clicked callback
-                Log.d(TAG, "Interstitial ad clicked!")
-            }
-
-            override fun onLoggingImpression(ad: Ad) {
-                // Ad impression logged callback
-                Log.d(TAG, "Interstitial ad impression logged!")
-            }
-        }
-    }
-
-    override fun onDestroy() {
-        mInterstitialAdF.destroy()
-        super.onDestroy()
     }
 }
