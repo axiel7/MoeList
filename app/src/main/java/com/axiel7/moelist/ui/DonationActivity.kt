@@ -59,7 +59,7 @@ class DonationActivity : BaseActivity(), PurchasesUpdatedListener {
         consentInformation = UserMessagingPlatform.getConsentInformation(this)
 
         mInterstitialAd = InterstitialAd(this)
-        mInterstitialAd.adUnitId = "ca-app-pub-3940256099942544/1033173712"
+        mInterstitialAd.adUnitId = "ca-app-pub-3318264479359938/7726212160"
         mInterstitialAd.loadAd(AdRequest.Builder().build())
 
         adButton.setOnClickListener {
