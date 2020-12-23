@@ -186,7 +186,7 @@
     <string name="genre_cars" tools:ignore="MissingTranslation">Arabalar</string>
     <string name="genre_comedy" tools:ignore="MissingTranslation">Komedi</string>
     <string name="genre_dementia" tools:ignore="MissingTranslation">Beyin Yakıcı</string>
-    <string name="genre_demons" tools:ignore="MissingTranslation">Şeytani</string>
+    <string name="genre_demons" tools:ignore="MissingTranslation">Şeytanlar</string>
     <string name="genre_drama" tools:ignore="MissingTranslation">Drama</string>
     <string name="genre_ecchi" tools:ignore="MissingTranslation">Ecchi</string>
     <string name="genre_fantasy" tools:ignore="MissingTranslation">Fantastik</string>
@@ -233,7 +233,7 @@
     <string name="relation_alternative_setting" tools:ignore="MissingTranslation">Alternatif yönlendirme</string>
     <string name="relation_spin_off" tools:ignore="MissingTranslation">Uyarlama</string>
     <string name="translate" tools:ignore="MissingTranslation">Tercüme et</string>
-    <string name="translate_original" tools:ignore="MissingTranslation">Orijinali göster</string>
+    <string name="translate_original" tools:ignore="MissingTranslation">Orjinali göster</string>
     <string name="adaptation" tools:ignore="MissingTranslation">Uyarlama</string>
     <string name="open_source_licenses" tools:ignore="MissingTranslation">Açık Kaynak Lisanslar</string>
     <string name="filters" tools:ignore="MissingTranslation">Filtreler</string>
