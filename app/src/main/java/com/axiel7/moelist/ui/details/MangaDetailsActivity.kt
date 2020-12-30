@@ -134,7 +134,12 @@ class MangaDetailsActivity : BaseActivity() {
         accessToken = sharedPref.getString("accessToken", "").toString()
         refreshToken = sharedPref.getString("refreshToken", "").toString()
 
-        mangaId = intent.getIntExtra("mangaId", 1)
+        val data = intent?.dataString
+        mangaId = if (data?.startsWith("https://myanimelist.net") == true) {
+            data.split("/")[4].toInt()
+        } else {
+            intent.getIntExtra("animeId", 1)
+        }
         fields = "id,title,main_picture,alternative_titles,start_date,end_date,synopsis,mean,rank,popularity," +
                 "num_list_users,num_scoring_users,media_type,status,genres,my_list_status,num_chapters,num_volumes," +
                 "source,authors{first_name,last_name},serialization,related_anime{media_type},related_manga{media_type}"

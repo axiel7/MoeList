@@ -133,7 +133,12 @@ class AnimeDetailsActivity : BaseActivity() {
         accessToken = sharedPref.getString("accessToken", "").toString()
         refreshToken = sharedPref.getString("refreshToken", "").toString()
 
-        animeId = intent.getIntExtra("animeId", 1)
+        val data = intent?.dataString
+        animeId = if (data?.startsWith("https://myanimelist.net") == true) {
+            data.split("/")[4].toInt()
+        } else {
+            intent.getIntExtra("animeId", 1)
+        }
         if (animeId==-1) {
             animeId = Random(System.nanoTime()).nextInt(0, 5000)
         }

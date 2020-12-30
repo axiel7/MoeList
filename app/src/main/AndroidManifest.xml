@@ -54,6 +54,19 @@
             android:label="@string/title_details"
             android:hardwareAccelerated="true"
             android:configChanges="keyboard|orientation|screenSize">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="myanimelist.net"
+                    android:pathPattern="/anime"
+                    android:pathPrefix="/anime"/>
+
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.details.MangaDetailsActivity"
@@ -61,6 +74,19 @@
             android:label="@string/title_details"
             android:hardwareAccelerated="true"
             android:configChanges="keyboard|orientation|screenSize">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="myanimelist.net"
+                    android:pathPattern="/manga"
+                    android:pathPrefix="/manga"/>
+
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.SearchActivity"
