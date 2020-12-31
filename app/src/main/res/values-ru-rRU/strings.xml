@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="title_home">Главная</string>
     <string name="title_anime_list">Аниме</string>
     <string name="title_manga_list">Манга</string>
@@ -168,4 +168,73 @@
     <string name="sort_title">Название</string>
     <string name="sort_score">Оценка</string>
     <string name="sort_last_updated">Последнее обновление</string>
+    <string name="sort" tools:ignore="MissingTranslation">Сортировка</string>
+    <string name="sort_by" tools:ignore="MissingTranslation">Сортировка</string>
+    <string name="ok" tools:ignore="MissingTranslation">Применить</string>
+    <string name="support" tools:ignore="MissingTranslation">Помощь</string>
+    <string name="logo_design" tools:ignore="MissingTranslation">Дизайн логотипа</string>
+    <string name="general_help" tools:ignore="MissingTranslation">Общая поддержка</string>
+    <string name="api_help" tools:ignore="MissingTranslation">Помощь с MyAnimeList API</string>
+    <string name="translations" tools:ignore="MissingTranslation">Переводы</string>
+    <string name="turkish" tools:ignore="MissingTranslation">Турецкий</string>
+    <string name="brazilian" tools:ignore="MissingTranslation">Бразильский</string>
+    <string name="russian" tools:ignore="MissingTranslation">Русский</string>
+    <string name="arabic" tools:ignore="MissingTranslation">Арабский</string>
+    <string name="spanish" tools:ignore="MissingTranslation">Испанский</string>
+    <string name="genre_action" tools:ignore="MissingTranslation">Экшен</string>
+    <string name="genre_adventure" tools:ignore="MissingTranslation">Приключения</string>
+    <string name="genre_cars" tools:ignore="MissingTranslation">Машины</string>
+    <string name="genre_comedy" tools:ignore="MissingTranslation">Комедия</string>
+    <string name="genre_dementia" tools:ignore="MissingTranslation">Безумие</string>
+    <string name="genre_demons" tools:ignore="MissingTranslation">Демоны</string>
+    <string name="genre_drama" tools:ignore="MissingTranslation">Драма</string>
+    <string name="genre_ecchi" tools:ignore="MissingTranslation">Этти</string>
+    <string name="genre_fantasy" tools:ignore="MissingTranslation">Фэнтези</string>
+    <string name="genre_game" tools:ignore="MissingTranslation">Игры</string>
+    <string name="genre_harem" tools:ignore="MissingTranslation">Гарем</string>
+    <string name="genre_hentai" tools:ignore="MissingTranslation">Хэнтай</string>
+    <string name="genre_historical" tools:ignore="MissingTranslation">Историческое</string>
+    <string name="genre_horror" tools:ignore="MissingTranslation">Ужасы</string>
+    <string name="genre_josei" tools:ignore="MissingTranslation">Дзёсэй</string>
+    <string name="genre_kids" tools:ignore="MissingTranslation">Детское</string>
+    <string name="genre_magic" tools:ignore="MissingTranslation">Магия</string>
+    <string name="genre_martial_arts" tools:ignore="MissingTranslation">Боевые искусства</string>
+    <string name="genre_mecha" tools:ignore="MissingTranslation">Меха</string>
+    <string name="genre_military" tools:ignore="MissingTranslation">Военное</string>
+    <string name="genre_music" tools:ignore="MissingTranslation">Музыка</string>
+    <string name="genre_mystery" tools:ignore="MissingTranslation">Детектив</string>
+    <string name="genre_parody" tools:ignore="MissingTranslation">Пародия</string>
+    <string name="genre_police" tools:ignore="MissingTranslation">Полиция</string>
+    <string name="genre_psychological" tools:ignore="MissingTranslation">Психологическое</string>
+    <string name="genre_romance" tools:ignore="MissingTranslation">Романтика</string>
+    <string name="genre_samurai" tools:ignore="MissingTranslation">Самураи</string>
+    <string name="genre_school" tools:ignore="MissingTranslation">Школа</string>
+    <string name="genre_sci_fi" tools:ignore="MissingTranslation">Фантастика</string>
+    <string name="genre_seinen" tools:ignore="MissingTranslation">Сэйнэн</string>
+    <string name="genre_shoujo" tools:ignore="MissingTranslation">Сёдзё</string>
+    <string name="genre_shoujo_ai" tools:ignore="MissingTranslation">Сёдзё-ай</string>
+    <string name="genre_shounen" tools:ignore="MissingTranslation">Сёнэн</string>
+    <string name="genre_shounen_ai" tools:ignore="MissingTranslation">Сёнэн-ай</string>
+    <string name="genre_slice_of_life" tools:ignore="MissingTranslation">Повседневность</string>
+    <string name="genre_space" tools:ignore="MissingTranslation">Космос</string>
+    <string name="genre_sports" tools:ignore="MissingTranslation">Спорт</string>
+    <string name="genre_superpower" tools:ignore="MissingTranslation">Суперсила</string>
+    <string name="genre_supernatural" tools:ignore="MissingTranslation">Сверхъестественное</string>
+    <string name="genre_thriller" tools:ignore="MissingTranslation">Триллер</string>
+    <string name="genre_vampire" tools:ignore="MissingTranslation">Вампиры</string>
+    <string name="genre_yaoi" tools:ignore="MissingTranslation">Яой</string>
+    <string name="genre_yuri" tools:ignore="MissingTranslation">Юри</string>
+    <string name="relation_prequel" tools:ignore="MissingTranslation">Предыстория</string>
+    <string name="relation_sequel" tools:ignore="MissingTranslation">Продолжение</string>
+    <string name="relation_summary" tools:ignore="MissingTranslation">Обобщение</string>
+    <string name="relation_alternative_version" tools:ignore="MissingTranslation">Альтернативная версия</string>
+    <string name="relation_other" tools:ignore="MissingTranslation">Прочее</string>
+    <string name="relation_side_story" tools:ignore="MissingTranslation">Другая история</string>
+    <string name="relation_alternative_setting" tools:ignore="MissingTranslation">Альтернативная вселенная</string>
+    <string name="relation_spin_off" tools:ignore="MissingTranslation">Ответвление от оригинала</string>
+    <string name="translate" tools:ignore="MissingTranslation">Перевести</string>
+    <string name="translate_original" tools:ignore="MissingTranslation">Показать оригинал</string>
+    <string name="adaptation" tools:ignore="MissingTranslation">Адаптация</string>
+    <string name="open_source_licenses" tools:ignore="MissingTranslation">Лицензии открытого ПО</string>
+    <string name="filters" tools:ignore="MissingTranslation">Фильтры</string>
 </resources>

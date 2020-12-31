@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="title_home">Ana Sayfa</string>
     <string name="title_anime_list">Anime</string>
     <string name="title_manga_list">Manga</string>
@@ -168,4 +168,73 @@
     <string name="sort_title">Başlık</string>
     <string name="sort_score">Puan</string>
     <string name="sort_last_updated">Son güncelleme</string>
+    <string name="sort" tools:ignore="MissingTranslation">Sırala</string>
+    <string name="sort_by" tools:ignore="MissingTranslation">Sıralama ölçütü</string>
+    <string name="ok" tools:ignore="MissingTranslation">TAMAM</string>
+    <string name="support" tools:ignore="MissingTranslation">Destek</string>
+    <string name="logo_design" tools:ignore="MissingTranslation">Logo tasarımı</string>
+    <string name="general_help" tools:ignore="MissingTranslation">Genel yardım</string>
+    <string name="api_help" tools:ignore="MissingTranslation">MyAnimeList API yardımı</string>
+    <string name="translations" tools:ignore="MissingTranslation">Çeviriler</string>
+    <string name="turkish" tools:ignore="MissingTranslation">Türkçe</string>
+    <string name="brazilian" tools:ignore="MissingTranslation">Portekizce</string>
+    <string name="russian" tools:ignore="MissingTranslation">Rusça</string>
+    <string name="arabic" tools:ignore="MissingTranslation">Arapça</string>
+    <string name="spanish" tools:ignore="MissingTranslation">İspanyolca</string>
+    <string name="genre_action" tools:ignore="MissingTranslation">Aksiyon</string>
+    <string name="genre_adventure" tools:ignore="MissingTranslation">Macera</string>
+    <string name="genre_cars" tools:ignore="MissingTranslation">Arabalar</string>
+    <string name="genre_comedy" tools:ignore="MissingTranslation">Komedi</string>
+    <string name="genre_dementia" tools:ignore="MissingTranslation">Beyin Yakıcı</string>
+    <string name="genre_demons" tools:ignore="MissingTranslation">Şeytanlar</string>
+    <string name="genre_drama" tools:ignore="MissingTranslation">Drama</string>
+    <string name="genre_ecchi" tools:ignore="MissingTranslation">Ecchi</string>
+    <string name="genre_fantasy" tools:ignore="MissingTranslation">Fantastik</string>
+    <string name="genre_game" tools:ignore="MissingTranslation">Oyun</string>
+    <string name="genre_harem" tools:ignore="MissingTranslation">Harem</string>
+    <string name="genre_hentai" tools:ignore="MissingTranslation">Hentai</string>
+    <string name="genre_historical" tools:ignore="MissingTranslation">Tarihsel</string>
+    <string name="genre_horror" tools:ignore="MissingTranslation">Korku</string>
+    <string name="genre_josei" tools:ignore="MissingTranslation">Josei</string>
+    <string name="genre_kids" tools:ignore="MissingTranslation">Çocuk</string>
+    <string name="genre_magic" tools:ignore="MissingTranslation">Büyü</string>
+    <string name="genre_martial_arts" tools:ignore="MissingTranslation">Dövüş Sanatları</string>
+    <string name="genre_mecha" tools:ignore="MissingTranslation">Mecha</string>
+    <string name="genre_military" tools:ignore="MissingTranslation">Askeri</string>
+    <string name="genre_music" tools:ignore="MissingTranslation">Müzik</string>
+    <string name="genre_mystery" tools:ignore="MissingTranslation">Gizem</string>
+    <string name="genre_parody" tools:ignore="MissingTranslation">Parodi</string>
+    <string name="genre_police" tools:ignore="MissingTranslation">Polisiye</string>
+    <string name="genre_psychological" tools:ignore="MissingTranslation">Psikolojik</string>
+    <string name="genre_romance" tools:ignore="MissingTranslation">Romantizm</string>
+    <string name="genre_samurai" tools:ignore="MissingTranslation">Samuray</string>
+    <string name="genre_school" tools:ignore="MissingTranslation">Okul</string>
+    <string name="genre_sci_fi" tools:ignore="MissingTranslation">Bilim Kurgu</string>
+    <string name="genre_seinen" tools:ignore="MissingTranslation">Seinen</string>
+    <string name="genre_shoujo" tools:ignore="MissingTranslation">Shoujo</string>
+    <string name="genre_shoujo_ai" tools:ignore="MissingTranslation">Shoujo Ai</string>
+    <string name="genre_shounen" tools:ignore="MissingTranslation">Shounen</string>
+    <string name="genre_shounen_ai" tools:ignore="MissingTranslation">Shounen Ai</string>
+    <string name="genre_slice_of_life" tools:ignore="MissingTranslation">Gündelik Hayat</string>
+    <string name="genre_space" tools:ignore="MissingTranslation">Uzay</string>
+    <string name="genre_sports" tools:ignore="MissingTranslation">Spor</string>
+    <string name="genre_superpower" tools:ignore="MissingTranslation">Süper Güç</string>
+    <string name="genre_supernatural" tools:ignore="MissingTranslation">Doğaüstü</string>
+    <string name="genre_thriller" tools:ignore="MissingTranslation">Gerilim</string>
+    <string name="genre_vampire" tools:ignore="MissingTranslation">Vampir</string>
+    <string name="genre_yaoi" tools:ignore="MissingTranslation">Yaoi</string>
+    <string name="genre_yuri" tools:ignore="MissingTranslation">Yuri</string>
+    <string name="relation_prequel" tools:ignore="MissingTranslation">Prequel</string>
+    <string name="relation_sequel" tools:ignore="MissingTranslation">Sequel</string>
+    <string name="relation_summary" tools:ignore="MissingTranslation">Özet</string>
+    <string name="relation_alternative_version" tools:ignore="MissingTranslation">Alternatif versiyon</string>
+    <string name="relation_other" tools:ignore="MissingTranslation">Diğer</string>
+    <string name="relation_side_story" tools:ignore="MissingTranslation">Yan hikaye</string>
+    <string name="relation_alternative_setting" tools:ignore="MissingTranslation">Alternatif yönlendirme</string>
+    <string name="relation_spin_off" tools:ignore="MissingTranslation">Uyarlama</string>
+    <string name="translate" tools:ignore="MissingTranslation">Tercüme et</string>
+    <string name="translate_original" tools:ignore="MissingTranslation">Orjinali göster</string>
+    <string name="adaptation" tools:ignore="MissingTranslation">Uyarlama</string>
+    <string name="open_source_licenses" tools:ignore="MissingTranslation">Açık Kaynak Lisanslar</string>
+    <string name="filters" tools:ignore="MissingTranslation">Filtreler</string>
 </resources>
