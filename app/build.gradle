@@ -13,8 +13,8 @@ android {
         applicationId "com.axiel7.moelist"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 20
-        versionName "1.4.7"
+        versionCode 21
+        versionName "1.4.8"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
