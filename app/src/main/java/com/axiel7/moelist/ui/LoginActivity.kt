@@ -7,8 +7,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
-import androidx.browser.customtabs.CustomTabsIntent
-import androidx.core.content.ContextCompat
 import com.axiel7.moelist.R
 import com.axiel7.moelist.model.AccessToken
 import com.axiel7.moelist.private.ClientId
@@ -47,24 +45,37 @@ class LoginActivity : BaseActivity() {
         loadingBar = findViewById(R.id.loading_bar)
         loadingBar.visibility = View.INVISIBLE
 
+        val loginUrl = Uri.parse(Urls.oauthBaseUrl + "authorize" + "?response_type=code"
+                + "&client_id=" + clientId + "&code_challenge=" + codeVerifier + "&state=" + state)
         val loginButton = findViewById<Button>(R.id.login)
         loginButton.setOnClickListener {
-            val builder = CustomTabsIntent.Builder()
-            builder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+            /*val builder = CustomTabsIntent.Builder()
+            val colorParams = CustomTabColorSchemeParams.Builder()
+                .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                .build()
+            builder.setDefaultColorSchemeParams(colorParams)
             val chromeIntent = builder.build()
             chromeIntent.intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
             chromeIntent.intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             chromeIntent.launchUrl(this, Uri.parse(Urls.oauthBaseUrl + "authorize" + "?response_type=code"
                     + "&client_id=" + clientId + "&code_challenge=" + codeVerifier + "&state=" + state
-            ))
+            ))*/
+            val intent = Intent(Intent.ACTION_VIEW, loginUrl)
+            startActivity(intent)
         }
+
+        val uri = intent?.data
+        if (uri!=null && uri.toString().startsWith(redirectUri)) { getLoginData(uri) }
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-
         val uri = intent?.data
-        if (uri!=null && uri.toString().startsWith(redirectUri)) {
+        if (uri!=null && uri.toString().startsWith(redirectUri)) { getLoginData(uri) }
+    }
+
+    private fun getLoginData(uri: Uri) {
+        if (uri.toString().startsWith(redirectUri)) {
             loadingBar.visibility = View.VISIBLE
             val code = uri.getQueryParameter("code")
             val receivedState = uri.getQueryParameter("state")
