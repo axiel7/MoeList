@@ -20,10 +20,10 @@ object InsetsHelper {
 
         ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
             view.updatePadding(
-                left = initialLeft + (if (left) insets.systemWindowInsetLeft else 0),
-                top = initialTop + (if (top) insets.systemWindowInsetTop else 0),
-                right = initialRight + (if (right) insets.systemWindowInsetRight else 0),
-                bottom = initialBottom + (if (bottom) insets.systemWindowInsetBottom else 0)
+                left = initialLeft + (if (left) insets.getInsets(WindowInsetsCompat.Type.systemBars()).left else 0),
+                top = initialTop + (if (top) insets.getInsets(WindowInsetsCompat.Type.systemBars()).top else 0),
+                right = initialRight + (if (right) insets.getInsets(WindowInsetsCompat.Type.systemBars()).right else 0),
+                bottom = initialBottom + (if (bottom) insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom else 0)
             )
 
             insets
@@ -43,10 +43,10 @@ object InsetsHelper {
             view.updateLayoutParams {
                 (this as? ViewGroup.MarginLayoutParams)?.let {
                     updateMargins(
-                        left = initialLeft + (if (left) insets.systemWindowInsetLeft else 0),
-                        top = initialTop + (if (top) insets.systemWindowInsetTop else 0),
-                        right = initialRight + (if (right) insets.systemWindowInsetRight else 0),
-                        bottom = initialBottom + (if (bottom) insets.systemWindowInsetBottom else 0)
+                        left = initialLeft + (if (left) insets.getInsets(WindowInsetsCompat.Type.systemBars()).left else 0),
+                        top = initialTop + (if (top) insets.getInsets(WindowInsetsCompat.Type.systemBars()).top else 0),
+                        right = initialRight + (if (right) insets.getInsets(WindowInsetsCompat.Type.systemBars()).right else 0),
+                        bottom = initialBottom + (if (bottom) insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom else 0)
                     )
                 }
             }
