@@ -91,7 +91,7 @@ class SettingsActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceCha
             discord?.onPreferenceClickListener =
                 Preference.OnPreferenceClickListener {
                     val intent = Intent(Intent.ACTION_VIEW)
-                    intent.data = Uri.parse("https://discord.gg/kEpRRjt")
+                    intent.data = Uri.parse("https://discord.gg/CTv3WdfxHh")
                     startActivity(intent)
                     true
                 }
