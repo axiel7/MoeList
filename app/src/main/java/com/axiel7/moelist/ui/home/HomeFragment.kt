@@ -153,7 +153,7 @@ class HomeFragment : Fragment() {
             override fun onBottomReached(position: Int) {
                 if (animesRankingResponse!=null && animeListSeasonal.size <= 25) {
                     val nextPage: String? = animesRankingResponse?.paging?.next
-                    if (nextPage?.isNotEmpty()!! || nextPage.isNotBlank()) {
+                    if (!nextPage.isNullOrEmpty()) {
                         val getMoreCall = malApiService.getNextAnimeRankingPage(nextPage)
                         initRankingCall(getMoreCall, false)
                     }
@@ -177,7 +177,7 @@ class HomeFragment : Fragment() {
         todayAdapter.setEndListReachedListener(object: EndListReachedListener {
             override fun onBottomReached(position: Int) {
                 if (todayResponse!=null) {
-                    val nextPage: String? = todayResponse!!.paging?.next
+                    val nextPage: String? = todayResponse?.paging?.next
                     if (!nextPage.isNullOrEmpty()) {
                         val getMoreCall = malApiService.getNextSeasonalPage(nextPage)
                         initTodayCall(getMoreCall, false)
@@ -280,6 +280,8 @@ class HomeFragment : Fragment() {
                 if (isAdded) {
                     Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
+                val recommendCall = malApiService.getAnimeRecommend(30)
+                initRecommendCall(recommendCall, true)
             }
         })
     }
@@ -361,7 +363,8 @@ class HomeFragment : Fragment() {
                         if (anime.node.broadcast!=null) {
                             if (!todayList.contains(anime)
                                 && anime.node.broadcast.day_of_the_week==jpDayWeek
-                                && anime.node.start_season==currentSeason) {
+                                && anime.node.start_season==currentSeason
+                                && anime.node.status == "currently_airing") {
                                 todayList.add(anime)
                             }
                         }
@@ -371,7 +374,7 @@ class HomeFragment : Fragment() {
                         val nextPage: String? = todayResponse!!.paging?.next
                         if (!nextPage.isNullOrEmpty()) {
                             val getMoreCall = malApiService.getNextSeasonalPage(nextPage)
-                            initTodayCall(getMoreCall, false)
+                            //initTodayCall(getMoreCall, false)
                         }
                         else {
                             todayRecycler.visibility = View.INVISIBLE
@@ -403,10 +406,13 @@ class HomeFragment : Fragment() {
 
             override fun onFailure(call: Call<SeasonalAnimeResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
-                if (todayList.isNotEmpty()) { todayLoading.hide() }
+                todayLoading.hide()
+                if (todayList.isEmpty()) { emptyToday.visibility = View.VISIBLE }
                 if (isAdded) {
                     Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
+                val rankingCall = malApiService.getAnimeRanking("airing","start_season", 200,false)
+                initRankingCall(rankingCall, true)
             }
         })
     }
