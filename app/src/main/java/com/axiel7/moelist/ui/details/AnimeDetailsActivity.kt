@@ -134,8 +134,8 @@ class AnimeDetailsActivity : BaseActivity() {
         refreshToken = sharedPref.getString("refreshToken", "").toString()
 
         val data = intent?.dataString
-        animeId = if (data?.startsWith("https://myanimelist.net") == true) {
-            data.split("/")[4].toInt()
+        animeId = if (data?.startsWith("https://myanimelist.net/anime") == true) {
+            data.split("/")[4].toIntOrNull() ?: 1
         } else {
             intent.getIntExtra("animeId", 1)
         }

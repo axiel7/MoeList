@@ -135,8 +135,8 @@ class MangaDetailsActivity : BaseActivity() {
         refreshToken = sharedPref.getString("refreshToken", "").toString()
 
         val data = intent?.dataString
-        mangaId = if (data?.startsWith("https://myanimelist.net") == true) {
-            data.split("/")[4].toInt()
+        mangaId = if (data?.startsWith("https://myanimelist.net/manga") == true) {
+            data.split("/")[4].toIntOrNull() ?: 1
         } else {
             intent.getIntExtra("mangaId", 1)
         }
