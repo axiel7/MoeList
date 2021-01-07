@@ -53,6 +53,7 @@
         android:layout_margin="@dimen/fab_margin"
         android:layout_gravity="bottom|end"
         android:src="@drawable/ic_round_filter_list_24"
+        android:contentDescription="@string/filters"
         app:tint="@color/colorTextInverted" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

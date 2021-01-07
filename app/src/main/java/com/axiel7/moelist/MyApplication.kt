@@ -42,7 +42,7 @@ class MyApplication : Application(), ImageLoaderFactory {
         }
 
         var animeDb: AnimeDatabase? = null
-        lateinit var retrofit: Retrofit
+        private lateinit var retrofit: Retrofit
         lateinit var malApiService: MalApiService
     }
 }
