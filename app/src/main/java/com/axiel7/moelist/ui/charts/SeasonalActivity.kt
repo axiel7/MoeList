@@ -19,6 +19,7 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.SeasonalAnimeAdapter
 import com.axiel7.moelist.model.SeasonalAnimeResponse
 import com.axiel7.moelist.model.SeasonalList
+import com.axiel7.moelist.model.StartSeason
 import com.axiel7.moelist.ui.BaseActivity
 import com.axiel7.moelist.ui.details.AnimeDetailsActivity
 import com.axiel7.moelist.utils.*
@@ -48,6 +49,7 @@ class SeasonalActivity : BaseActivity() {
     private lateinit var seasonLayout: TextInputLayout
     private lateinit var yearLayout: TextInputLayout
     private lateinit var season: String
+    private lateinit var currentSeason: StartSeason
     private var year by Delegates.notNull<Int>()
     private var animeResponse: SeasonalAnimeResponse? = null
 
@@ -72,15 +74,21 @@ class SeasonalActivity : BaseActivity() {
 
         season = SeasonCalendar.getCurrentSeason()
         year = SeasonCalendar.getCurrentYear()
+        currentSeason = StartSeason(year, season)
         toolbar.title = "${StringFormat.formatSeason(season, this)} $year"
 
+        seasonalList = mutableListOf()
         val savedResponse = animeDb?.seasonalResponseDao()?.getSeasonalResponse(season, year)
         if (savedResponse!=null) {
             animeResponse = savedResponse
-            seasonalList = animeResponse!!.data
+            val savedList = animeResponse!!.data
+            for (anime in savedList) {
+                if (anime.node.start_season==currentSeason) {
+                    seasonalList.add(anime)
+                }
+            }
             seasonalList.sortByDescending { it.node.mean }
         }
-        else { seasonalList = mutableListOf() }
         seasonalRecycler = findViewById(R.id.seasonal_recycler)
         seasonalAdapter = SeasonalAnimeAdapter(
             seasonalList,
@@ -100,7 +108,7 @@ class SeasonalActivity : BaseActivity() {
     private fun initCalls(shouldClear: Boolean) {
         loadingBar.show()
         val seasonCall = malApiService.getSeasonalAnime(Urls.apiBaseUrl + "anime/season/$year/$season",
-            "anime_score", "broadcast,num_episodes,media_type,mean", 300)
+            "anime_score", "start_season,broadcast,num_episodes,media_type,mean", 300)
         seasonCall.enqueue(object :Callback<SeasonalAnimeResponse> {
             override fun onResponse(
                 call: Call<SeasonalAnimeResponse>,
@@ -112,7 +120,11 @@ class SeasonalActivity : BaseActivity() {
                     if (shouldClear) {
                         seasonalList.clear()
                     }
-                    seasonalList.addAll(animeList)
+                    for (anime in animeList) {
+                        if (anime.node.start_season==currentSeason) {
+                            seasonalList.add(anime)
+                        }
+                    }
                     animeDb?.seasonalResponseDao()?.insertSeasonalResponse(animeResponse!!)
                     seasonalAdapter.notifyDataSetChanged()
                 }
