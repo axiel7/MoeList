@@ -13,6 +13,7 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
+import com.axiel7.moelist.MyApplication.Companion.malApiService
 import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.SearchAnimeAdapter
 import com.axiel7.moelist.adapter.SearchMangaAdapter
@@ -20,27 +21,21 @@ import com.axiel7.moelist.model.AnimeList
 import com.axiel7.moelist.model.AnimeListResponse
 import com.axiel7.moelist.model.MangaList
 import com.axiel7.moelist.model.MangaListResponse
-import com.axiel7.moelist.rest.MalApiService
 import com.axiel7.moelist.ui.details.AnimeDetailsActivity
 import com.axiel7.moelist.ui.details.MangaDetailsActivity
-import com.axiel7.moelist.utils.CreateOkHttpClient
 import com.axiel7.moelist.utils.RefreshToken
 import com.axiel7.moelist.utils.SharedPrefsHelpers
-import com.axiel7.moelist.utils.Urls
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchActivity : BaseActivity() {
 
     private lateinit var sharedPref: SharedPrefsHelpers
     private lateinit var accessToken: String
     private lateinit var refreshToken: String
-    private lateinit var malApiService: MalApiService
     private lateinit var loadingBar: ContentLoadingProgressBar
     private lateinit var noResultsText: TextView
     private lateinit var searchItemsAnime: MutableList<AnimeList>
@@ -51,7 +46,6 @@ class SearchActivity : BaseActivity() {
     private lateinit var searchType: String
     private lateinit var snackBarView: View
     private var showNsfw = false
-    private var retrofit: Retrofit? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
@@ -135,26 +129,6 @@ class SearchActivity : BaseActivity() {
                 recyclerSearch.adapter = searchAnimeAdapter
             }
         }
-
-        createRetrofitAndApiService()
-    }
-    private fun createRetrofitAndApiService() {
-        if (retrofit==null) {
-            retrofit = if (MainActivity.httpClient!=null) {
-                Retrofit.Builder()
-                    .baseUrl(Urls.apiBaseUrl)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .client(MainActivity.httpClient!!)
-                    .build()
-            } else {
-                Retrofit.Builder()
-                    .baseUrl(Urls.apiBaseUrl)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .client(CreateOkHttpClient.createOkHttpClient(this, true))
-                    .build()
-            }
-        }
-        malApiService = retrofit?.create(MalApiService::class.java)!!
     }
     private fun initAnimeSearch(search: String) {
         loadingBar.show()

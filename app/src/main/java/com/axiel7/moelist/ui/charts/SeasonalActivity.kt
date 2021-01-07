@@ -14,13 +14,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.recyclerview.widget.RecyclerView
 import com.axiel7.moelist.MyApplication.Companion.animeDb
+import com.axiel7.moelist.MyApplication.Companion.malApiService
 import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.SeasonalAnimeAdapter
 import com.axiel7.moelist.model.SeasonalAnimeResponse
 import com.axiel7.moelist.model.SeasonalList
-import com.axiel7.moelist.rest.MalApiService
 import com.axiel7.moelist.ui.BaseActivity
-import com.axiel7.moelist.ui.MainActivity
 import com.axiel7.moelist.ui.details.AnimeDetailsActivity
 import com.axiel7.moelist.utils.*
 import com.axiel7.moelist.utils.InsetsHelper.addSystemWindowInsetToMargin
@@ -32,8 +31,6 @@ import com.google.android.material.transition.platform.MaterialContainerTransfor
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.properties.Delegates
 
 class SeasonalActivity : BaseActivity() {
@@ -41,7 +38,6 @@ class SeasonalActivity : BaseActivity() {
     private lateinit var sharedPref: SharedPrefsHelpers
     private lateinit var accessToken: String
     private lateinit var refreshToken: String
-    private lateinit var malApiService: MalApiService
     private lateinit var toolbar: Toolbar
     private lateinit var seasonalRecycler: RecyclerView
     private lateinit var seasonalAdapter: SeasonalAnimeAdapter
@@ -54,7 +50,6 @@ class SeasonalActivity : BaseActivity() {
     private lateinit var season: String
     private var year by Delegates.notNull<Int>()
     private var animeResponse: SeasonalAnimeResponse? = null
-    private var retrofit: Retrofit? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
@@ -100,24 +95,7 @@ class SeasonalActivity : BaseActivity() {
         snackBarView = findViewById(R.id.seasonal_layout)
         loadingBar = findViewById(R.id.seasonal_loading)
 
-        createRetrofitAndApiService()
         initCalls(false)
-    }
-    private fun createRetrofitAndApiService() {
-        retrofit = if (MainActivity.httpClient!=null) {
-            Retrofit.Builder()
-                .baseUrl(Urls.apiBaseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(MainActivity.httpClient!!)
-                .build()
-        } else {
-            Retrofit.Builder()
-                .baseUrl(Urls.apiBaseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(CreateOkHttpClient.createOkHttpClient(this, true))
-                .build()
-        }
-        malApiService = retrofit?.create(MalApiService::class.java)!!
     }
     private fun initCalls(shouldClear: Boolean) {
         loadingBar.show()

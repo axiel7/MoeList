@@ -12,14 +12,13 @@ import androidx.core.widget.ContentLoadingProgressBar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.axiel7.moelist.MyApplication.Companion.animeDb
+import com.axiel7.moelist.MyApplication.Companion.malApiService
 import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.AiringAnimeAdapter
 import com.axiel7.moelist.adapter.CurrentSeasonalAdapter
 import com.axiel7.moelist.adapter.EndListReachedListener
 import com.axiel7.moelist.adapter.RecommendationsAdapter
 import com.axiel7.moelist.model.*
-import com.axiel7.moelist.rest.MalApiService
-import com.axiel7.moelist.ui.MainActivity
 import com.axiel7.moelist.ui.charts.RankingActivity
 import com.axiel7.moelist.ui.charts.SeasonalActivity
 import com.axiel7.moelist.ui.details.AnimeDetailsActivity
@@ -30,8 +29,6 @@ import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class HomeFragment : Fragment() {
 
@@ -54,7 +51,6 @@ class HomeFragment : Fragment() {
     private lateinit var animeListSeasonal: MutableList<AnimeRanking>
     private lateinit var animeListRecommend: MutableList<AnimeList>
     private lateinit var todayList: MutableList<SeasonalList>
-    private lateinit var malApiService: MalApiService
     private lateinit var currentSeason: StartSeason
     private lateinit var jpDayWeek: String
     private lateinit var accessToken: String
@@ -62,7 +58,6 @@ class HomeFragment : Fragment() {
     private var animesRankingResponse: AnimeRankingResponse? = null
     private var animesRecommendResponse: AnimeListResponse? = null
     private var todayResponse: SeasonalAnimeResponse? = null
-    private var retrofit: Retrofit? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,7 +93,6 @@ class HomeFragment : Fragment() {
         }
         todayList.sortByDescending { it.node.mean }
 
-        createRetrofitAndApiService()
     }
 
     override fun onCreateView(
@@ -202,23 +196,6 @@ class HomeFragment : Fragment() {
         else {
             initTodayCall(todayCall, true)
         }*/
-    }
-
-    private fun createRetrofitAndApiService() {
-        retrofit = if (MainActivity.httpClient!=null) {
-            Retrofit.Builder()
-                .baseUrl(Urls.apiBaseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(MainActivity.httpClient!!)
-                .build()
-        } else {
-            Retrofit.Builder()
-                .baseUrl(Urls.apiBaseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(CreateOkHttpClient.createOkHttpClient(requireContext(), true))
-                .build()
-        }
-        malApiService = retrofit?.create(MalApiService::class.java)!!
     }
     private fun initRankingCall(call: Call<AnimeRankingResponse>?, shouldClear: Boolean) {
         call?.enqueue(object : Callback<AnimeRankingResponse> {
@@ -373,7 +350,7 @@ class HomeFragment : Fragment() {
                         call.cancel()
                         val nextPage: String? = todayResponse!!.paging?.next
                         if (!nextPage.isNullOrEmpty()) {
-                            val getMoreCall = malApiService.getNextSeasonalPage(nextPage)
+                            //val getMoreCall = malApiService.getNextSeasonalPage(nextPage)
                             //initTodayCall(getMoreCall, false)
                         }
                         else {

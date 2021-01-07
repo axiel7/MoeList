@@ -17,6 +17,7 @@ import androidx.core.widget.ContentLoadingProgressBar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.axiel7.moelist.MyApplication
+import com.axiel7.moelist.MyApplication.Companion.malApiService
 import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.EndListReachedListener
 import com.axiel7.moelist.adapter.MyMangaListAdapter
@@ -24,8 +25,6 @@ import com.axiel7.moelist.adapter.PlusButtonTouchedListener
 import com.axiel7.moelist.model.MyMangaListStatus
 import com.axiel7.moelist.model.UserMangaList
 import com.axiel7.moelist.model.UserMangaListResponse
-import com.axiel7.moelist.rest.MalApiService
-import com.axiel7.moelist.ui.MainActivity
 import com.axiel7.moelist.ui.details.MangaDetailsActivity
 import com.axiel7.moelist.utils.*
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -35,8 +34,6 @@ import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class MangaListFragment : Fragment() {
 
@@ -48,14 +45,12 @@ class MangaListFragment : Fragment() {
     private lateinit var mangaListAdapter: MyMangaListAdapter
     private var mangaListResponse: UserMangaListResponse? = null
     private lateinit var mangaList: MutableList<UserMangaList>
-    private lateinit var malApiService: MalApiService
     private lateinit var accessToken: String
     private lateinit var refreshToken: String
     private lateinit var listStatus: String
     private lateinit var sortMode: String
     private var defaultStatus: Int? = null
     private var defaultSort: Int = 0
-    private var retrofit: Retrofit? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,8 +71,6 @@ class MangaListFragment : Fragment() {
         if (MyApplication.animeDb?.userMangaListDao()?.getUserMangaListByStatus(listStatus)!=null) {
             mangaList = MyApplication.animeDb?.userMangaListDao()?.getUserMangaListByStatus(listStatus)!!
         }
-
-        createRetrofitAndApiService()
     }
 
     override fun onCreateView(
@@ -200,23 +193,6 @@ class MangaListFragment : Fragment() {
         })
 
         initCalls()
-    }
-    private fun createRetrofitAndApiService() {
-        retrofit = if (MainActivity.httpClient!=null) {
-            Retrofit.Builder()
-                .baseUrl(Urls.apiBaseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(MainActivity.httpClient!!)
-                .build()
-        } else {
-            Retrofit.Builder()
-                .baseUrl(Urls.apiBaseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(CreateOkHttpClient.createOkHttpClient(requireContext(), true))
-                .build()
-        }
-
-        malApiService = retrofit?.create(MalApiService::class.java)!!
     }
     private fun initCalls() {
         val mangaListCall = malApiService.getUserMangaList(listStatus, "list_status,num_chapters,media_type,status", sortMode)

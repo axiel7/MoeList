@@ -17,6 +17,7 @@ import androidx.core.widget.ContentLoadingProgressBar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.axiel7.moelist.MyApplication.Companion.animeDb
+import com.axiel7.moelist.MyApplication.Companion.malApiService
 import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.EndListReachedListener
 import com.axiel7.moelist.adapter.MyAnimeListAdapter
@@ -24,8 +25,6 @@ import com.axiel7.moelist.adapter.PlusButtonTouchedListener
 import com.axiel7.moelist.model.MyListStatus
 import com.axiel7.moelist.model.UserAnimeList
 import com.axiel7.moelist.model.UserAnimeListResponse
-import com.axiel7.moelist.rest.MalApiService
-import com.axiel7.moelist.ui.MainActivity
 import com.axiel7.moelist.ui.details.AnimeDetailsActivity
 import com.axiel7.moelist.utils.*
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -36,8 +35,6 @@ import com.google.android.play.core.review.ReviewManagerFactory
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 class AnimeListFragment : Fragment() {
@@ -50,14 +47,12 @@ class AnimeListFragment : Fragment() {
     private lateinit var animeListAdapter: MyAnimeListAdapter
     private var animeListResponse: UserAnimeListResponse? = null
     private lateinit var animeList: MutableList<UserAnimeList>
-    private lateinit var malApiService: MalApiService
     private lateinit var accessToken: String
     private lateinit var refreshToken: String
     private lateinit var listStatus: String
     private lateinit var sortMode: String
     private var defaultStatus: Int? = null
     private var defaultSort: Int = 0
-    private var retrofit: Retrofit? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,8 +73,6 @@ class AnimeListFragment : Fragment() {
         if (animeDb?.userAnimeListDao()?.getUserAnimeListByStatus(listStatus)!=null) {
             animeList = animeDb?.userAnimeListDao()?.getUserAnimeListByStatus(listStatus)!!
         }
-
-        createRetrofitAndApiService()
     }
 
     override fun onCreateView(
@@ -213,23 +206,6 @@ class AnimeListFragment : Fragment() {
         })
 
         initCalls()
-    }
-    private fun createRetrofitAndApiService() {
-        retrofit = if (MainActivity.httpClient!=null) {
-            Retrofit.Builder()
-                .baseUrl(Urls.apiBaseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(MainActivity.httpClient!!)
-                .build()
-        } else {
-            Retrofit.Builder()
-                .baseUrl(Urls.apiBaseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(CreateOkHttpClient.createOkHttpClient(requireContext(), true))
-                .build()
-        }
-
-        malApiService = retrofit?.create(MalApiService::class.java)!!
     }
     private fun initCalls() {
         val animeListCall = malApiService.getUserAnimeList(listStatus, "list_status,num_episodes,media_type,status", sortMode)

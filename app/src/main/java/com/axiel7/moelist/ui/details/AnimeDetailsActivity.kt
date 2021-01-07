@@ -21,14 +21,13 @@ import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.axiel7.moelist.MyApplication.Companion.animeDb
+import com.axiel7.moelist.MyApplication.Companion.malApiService
 import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.RelatedsAdapter
 import com.axiel7.moelist.model.AnimeDetails
 import com.axiel7.moelist.model.MyListStatus
 import com.axiel7.moelist.model.Related
-import com.axiel7.moelist.rest.MalApiService
 import com.axiel7.moelist.ui.BaseActivity
-import com.axiel7.moelist.ui.MainActivity
 import com.axiel7.moelist.utils.*
 import com.axiel7.moelist.utils.InsetsHelper.addSystemWindowInsetToMargin
 import com.axiel7.moelist.utils.InsetsHelper.getViewBottomHeight
@@ -52,8 +51,6 @@ import com.google.mlkit.nl.translate.TranslatorOptions
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.text.NumberFormat
 import java.util.*
 import kotlin.random.Random
@@ -63,7 +60,6 @@ class AnimeDetailsActivity : BaseActivity() {
     private lateinit var sharedPref: SharedPrefsHelpers
     private lateinit var accessToken: String
     private lateinit var refreshToken: String
-    private lateinit var malApiService: MalApiService
     private lateinit var fields: String
     private lateinit var animeDetails: AnimeDetails
     private lateinit var loadingView: FrameLayout
@@ -103,7 +99,6 @@ class AnimeDetailsActivity : BaseActivity() {
     private lateinit var snackBarView: View
     private val relateds: MutableList<Related> = mutableListOf()
     private var entryUpdated: Boolean = false
-    private var retrofit: Retrofit? = null
     private var animeId = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -154,25 +149,7 @@ class AnimeDetailsActivity : BaseActivity() {
             setDataToViews()
         }
 
-        createRetrofitAndApiService()
         initCalls()
-    }
-    private fun createRetrofitAndApiService() {
-        retrofit = if (MainActivity.httpClient !=null) {
-            Retrofit.Builder()
-                .baseUrl(Urls.apiBaseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(MainActivity.httpClient!!)
-                .build()
-        } else {
-            Retrofit.Builder()
-                .baseUrl(Urls.apiBaseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(CreateOkHttpClient.createOkHttpClient(this, true))
-                .build()
-        }
-
-        malApiService = retrofit?.create(MalApiService::class.java)!!
     }
     private fun initCalls() {
         val detailsCall = malApiService.getAnimeDetails(Urls.apiBaseUrl + "anime/$animeId", fields)

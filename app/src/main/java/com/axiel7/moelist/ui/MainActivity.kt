@@ -11,18 +11,17 @@ import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
+import com.axiel7.moelist.MyApplication
 import com.axiel7.moelist.R
 import com.axiel7.moelist.ui.animelist.AnimeListFragment
 import com.axiel7.moelist.ui.home.HomeFragment
 import com.axiel7.moelist.ui.mangalist.MangaListFragment
 import com.axiel7.moelist.ui.profile.ProfileFragment
-import com.axiel7.moelist.utils.CreateOkHttpClient
 import com.axiel7.moelist.utils.SharedPrefsHelpers
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import com.google.android.material.transition.platform.MaterialFadeThrough
-import okhttp3.OkHttpClient
 
 class MainActivity : BaseActivity() {
 
@@ -34,10 +33,6 @@ class MainActivity : BaseActivity() {
     private lateinit var bottomSheetDialog: BottomSheetDialog
     private lateinit var toolbar: Toolbar
     private var isUserLogged: Boolean = false
-
-    companion object {
-        var httpClient: OkHttpClient? = null
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
@@ -83,7 +78,7 @@ class MainActivity : BaseActivity() {
             finish()
         }
         else {
-            httpClient = CreateOkHttpClient.createOkHttpClient(applicationContext, true)
+            MyApplication.createRetrofit(applicationContext)
             //bottom nav and fragments
             val navView: BottomNavigationView = findViewById(R.id.nav_view)
             setupTransitions()
