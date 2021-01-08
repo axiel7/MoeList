@@ -50,7 +50,7 @@
     <string name="seasonal_chart">Sezon Tablosu</string>
     <string name="random">Rastgele</string>
     <string name="today">Bugün</string>
-    <string name="nothing_today">Bugün bir şey yok\n( ≧Д≦)</string>
+    <string name="nothing_today">Nothing today\n( ≧Д≦)</string>
     <string name="this_season">Bu Sezon</string>
     <string name="recommendations">Tavsiyeler</string>
     <string name="username">Kullanıcı Adı</string>
@@ -188,7 +188,7 @@
     <string name="genre_dementia" tools:ignore="MissingTranslation">Beyin Yakıcı</string>
     <string name="genre_demons" tools:ignore="MissingTranslation">Şeytanlar</string>
     <string name="genre_drama" tools:ignore="MissingTranslation">Drama</string>
-    <string name="genre_ecchi" tools:ignore="MissingTranslation">Ecchi</string>
+    <string name="genre_ecchi" tools:ignore="MissingTranslation" tools:keep="@string/genre_ecchi">Ecchi</string>
     <string name="genre_fantasy" tools:ignore="MissingTranslation">Fantastik</string>
     <string name="genre_game" tools:ignore="MissingTranslation">Oyun</string>
     <string name="genre_harem" tools:ignore="MissingTranslation">Harem</string>
@@ -228,13 +228,14 @@
     <string name="relation_sequel" tools:ignore="MissingTranslation">Sequel</string>
     <string name="relation_summary" tools:ignore="MissingTranslation">Özet</string>
     <string name="relation_alternative_version" tools:ignore="MissingTranslation">Alternatif versiyon</string>
-    <string name="relation_other" tools:ignore="MissingTranslation">Diğer</string>
+    <string name="relation_other" tools:ignore="MissingTranslation" tools:keep="@string/relation_other">Diğer</string>
     <string name="relation_side_story" tools:ignore="MissingTranslation">Yan hikaye</string>
     <string name="relation_alternative_setting" tools:ignore="MissingTranslation">Alternatif yönlendirme</string>
     <string name="relation_spin_off" tools:ignore="MissingTranslation">Uyarlama</string>
     <string name="translate" tools:ignore="MissingTranslation">Tercüme et</string>
     <string name="translate_original" tools:ignore="MissingTranslation">Orjinali göster</string>
-    <string name="adaptation" tools:ignore="MissingTranslation">Uyarlama</string>
+    <string name="adaptation" tools:ignore="MissingTranslation" tools:keep="@string/adaptation">Uyarlama</string>
     <string name="open_source_licenses" tools:ignore="MissingTranslation">Açık Kaynak Lisanslar</string>
     <string name="filters" tools:ignore="MissingTranslation">Filtreler</string>
+    <string name="date_format" tools:ignore="MissingTranslation">Date format</string>
 </resources>
