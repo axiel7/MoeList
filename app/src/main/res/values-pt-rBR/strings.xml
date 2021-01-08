@@ -188,7 +188,7 @@
     <string name="genre_dementia" tools:ignore="MissingTranslation">Demência</string>
     <string name="genre_demons" tools:ignore="MissingTranslation">Demônios</string>
     <string name="genre_drama" tools:ignore="MissingTranslation">Drama</string>
-    <string name="genre_ecchi" tools:ignore="MissingTranslation">Ecchi</string>
+    <string name="genre_ecchi" tools:ignore="MissingTranslation" tools:keep="@string/genre_ecchi">Ecchi</string>
     <string name="genre_fantasy" tools:ignore="MissingTranslation">Fantasia</string>
     <string name="genre_game" tools:ignore="MissingTranslation">Jogos</string>
     <string name="genre_harem" tools:ignore="MissingTranslation">Harém</string>
@@ -228,13 +228,14 @@
     <string name="relation_sequel" tools:ignore="MissingTranslation">Sequência</string>
     <string name="relation_summary" tools:ignore="MissingTranslation">Resumo</string>
     <string name="relation_alternative_version" tools:ignore="MissingTranslation">Versão alternativa</string>
-    <string name="relation_other" tools:ignore="MissingTranslation">Outro</string>
+    <string name="relation_other" tools:ignore="MissingTranslation" tools:keep="@string/relation_other">Outro</string>
     <string name="relation_side_story" tools:ignore="MissingTranslation">História paralela</string>
     <string name="relation_alternative_setting" tools:ignore="MissingTranslation">Cenário alternativo</string>
     <string name="relation_spin_off" tools:ignore="MissingTranslation">Spin-off</string>
     <string name="translate" tools:ignore="MissingTranslation">Traduzir</string>
     <string name="translate_original" tools:ignore="MissingTranslation">Mostrar original</string>
-    <string name="adaptation" tools:ignore="MissingTranslation">Adaptação</string>
+    <string name="adaptation" tools:ignore="MissingTranslation" tools:keep="@string/adaptation">Adaptação</string>
     <string name="open_source_licenses" tools:ignore="MissingTranslation">Licenças de Código Aberto</string>
     <string name="filters" tools:ignore="MissingTranslation">Filtros</string>
+    <string name="date_format" tools:ignore="MissingTranslation">Formato da data</string>
 </resources>
