@@ -7,9 +7,7 @@ assignees: ''
 
 ---
 
-Note: sections marked with * are required, otherwise the issue is invalid
-
-**Describe the bug***
+**Describe the bug (required)**
 A clear and concise description of what the bug is.
 
 **To Reproduce**
@@ -25,7 +23,7 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Smartphone***
+**Smartphone (required)**
  - Device: [e.g. Samsung A71]
  - Android: [e.g. 10]
  - App version [e.g. 1.4.8]

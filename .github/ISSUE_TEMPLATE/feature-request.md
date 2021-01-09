@@ -7,9 +7,7 @@ assignees: ''
 
 ---
 
-Note: sections marked with * are required, otherwise the issue is invalid
-
-**Request***
+**Request (required)**
 Describe the feature you want to be implemented.
 
 **Additional context**
