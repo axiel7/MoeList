@@ -50,7 +50,7 @@
     <string name="seasonal_chart">Sezon Tablosu</string>
     <string name="random">Rastgele</string>
     <string name="today">Bugün</string>
-    <string name="nothing_today">Nothing today\n( ≧Д≦)</string>
+    <string name="nothing_today">Bugün bir şey yok\n( ≧Д≦)</string>
     <string name="this_season">Bu Sezon</string>
     <string name="recommendations">Tavsiyeler</string>
     <string name="username">Kullanıcı Adı</string>
@@ -237,5 +237,5 @@
     <string name="adaptation" tools:ignore="MissingTranslation" tools:keep="@string/adaptation">Uyarlama</string>
     <string name="open_source_licenses" tools:ignore="MissingTranslation">Açık Kaynak Lisanslar</string>
     <string name="filters" tools:ignore="MissingTranslation">Filtreler</string>
-    <string name="date_format" tools:ignore="MissingTranslation">Date format</string>
+    <string name="date_format" tools:ignore="MissingTranslation" comment="date_format&#10;&#10;Not used right now ">Tarih formatı</string>
 </resources>
