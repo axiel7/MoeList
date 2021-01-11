@@ -50,7 +50,7 @@
     <string name="seasonal_chart">Temporadas</string>
     <string name="random">Aleatorio</string>
     <string name="today">Hoy</string>
-    <string name="nothing_today">Nothing today\n( ≧Д≦)</string>
+    <string name="nothing_today">Nada para hoy\n( ≧Д≦)</string>
     <string name="this_season">Esta Temporada</string>
     <string name="recommendations">Recomendaciones</string>
     <string name="username">Usuario</string>
@@ -237,5 +237,5 @@
     <string name="adaptation" tools:ignore="MissingTranslation" tools:keep="@string/adaptation">Adaptación</string>
     <string name="open_source_licenses" tools:ignore="MissingTranslation">Licencias de código abierto</string>
     <string name="filters" tools:ignore="MissingTranslation">Filtros</string>
-    <string name="date_format" tools:ignore="MissingTranslation">Date format</string>
+    <string name="date_format" tools:ignore="MissingTranslation" comment="date_format&#10;&#10;Not used right now ">Formato de fecha</string>
 </resources>
