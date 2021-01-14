@@ -56,9 +56,7 @@ import java.util.*
 
 class MangaDetailsActivity : BaseActivity() {
 
-    private lateinit var sharedPref: SharedPrefsHelpers
-    private lateinit var accessToken: String
-    private lateinit var refreshToken: String
+    //private lateinit var sharedPref: SharedPrefsHelpers
     private lateinit var fields: String
     private lateinit var mangaDetails: MangaDetails
     private lateinit var loadingView: FrameLayout
@@ -124,10 +122,8 @@ class MangaDetailsActivity : BaseActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
         toolbar.setNavigationOnClickListener { onBackPressed() }
 
-        SharedPrefsHelpers.init(this)
-        sharedPref = SharedPrefsHelpers.instance!!
-        accessToken = sharedPref.getString("accessToken", "").toString()
-        refreshToken = sharedPref.getString("refreshToken", "").toString()
+        //SharedPrefsHelpers.init(this)
+        //sharedPref = SharedPrefsHelpers.instance!!
 
         val data = intent?.dataString
         mangaId = if (data?.startsWith("https://myanimelist.net/manga") == true) {
@@ -163,15 +159,8 @@ class MangaDetailsActivity : BaseActivity() {
                     setDataToViews()
                     animeDb?.mangaDetailsDao()?.insertMangaDetails(mangaDetails)
                 }
-                //TODO (not tested)
                 else if (response.code()==401) {
-                    val tokenResponse = RefreshToken.getNewToken(refreshToken)
-                    accessToken = tokenResponse?.access_token.toString()
-                    refreshToken = tokenResponse?.refresh_token.toString()
-                    sharedPref.saveString("accessToken", accessToken)
-                    sharedPref.saveString("refreshToken", refreshToken)
-
-                    call.clone()
+                    Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
             }
 

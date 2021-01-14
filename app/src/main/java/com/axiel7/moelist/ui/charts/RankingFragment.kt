@@ -24,7 +24,6 @@ import com.axiel7.moelist.model.MangaRanking
 import com.axiel7.moelist.model.MangaRankingResponse
 import com.axiel7.moelist.ui.details.AnimeDetailsActivity
 import com.axiel7.moelist.ui.details.MangaDetailsActivity
-import com.axiel7.moelist.utils.RefreshToken
 import com.axiel7.moelist.utils.ResponseConverter
 import com.axiel7.moelist.utils.SharedPrefsHelpers
 import com.google.android.material.snackbar.Snackbar
@@ -35,8 +34,6 @@ import retrofit2.Response
 class RankingFragment : Fragment() {
 
     private lateinit var sharedPref: SharedPrefsHelpers
-    private lateinit var accessToken: String
-    private lateinit var refreshToken: String
     private lateinit var recyclerRank: RecyclerView
     private lateinit var rankingAnime: MutableList<AnimeRanking>
     private lateinit var rankingManga: MutableList<MangaRanking>
@@ -53,10 +50,8 @@ class RankingFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        SharedPrefsHelpers.init(context)
+        //SharedPrefsHelpers.init(context)
         sharedPref = SharedPrefsHelpers.instance!!
-        accessToken = sharedPref.getString("accessToken", "").toString()
-        refreshToken = sharedPref.getString("refreshToken", "").toString()
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
         showNsfw = sharedPreferences.getBoolean("nsfw", false)
         mediaType = arguments?.getString("mediaType", "anime")!!
@@ -172,13 +167,9 @@ class RankingFragment : Fragment() {
                     }
                 }
                 else if (response.code()==401) {
-                    val tokenResponse = RefreshToken.getNewToken(refreshToken)
-                    accessToken = tokenResponse?.access_token.toString()
-                    refreshToken = tokenResponse?.refresh_token.toString()
-                    sharedPref.saveString("accessToken", accessToken)
-                    sharedPref.saveString("refreshToken", refreshToken)
-
-                    call.clone()
+                    if (isAdded) {
+                        Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    }
                 }
                 loadingBar.hide()
             }
@@ -223,13 +214,9 @@ class RankingFragment : Fragment() {
                     }
                 }
                 else if (response.code()==401) {
-                    val tokenResponse = RefreshToken.getNewToken(refreshToken)
-                    accessToken = tokenResponse?.access_token.toString()
-                    refreshToken = tokenResponse?.refresh_token.toString()
-                    sharedPref.saveString("accessToken", accessToken)
-                    sharedPref.saveString("refreshToken", refreshToken)
-
-                    call.clone()
+                    if (isAdded) {
+                        Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    }
                 }
                 loadingBar.hide()
             }

@@ -17,7 +17,6 @@ import com.axiel7.moelist.ui.animelist.AnimeListFragment
 import com.axiel7.moelist.ui.home.HomeFragment
 import com.axiel7.moelist.ui.mangalist.MangaListFragment
 import com.axiel7.moelist.ui.profile.ProfileFragment
-import com.axiel7.moelist.utils.SharedPrefsHelpers
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
@@ -32,7 +31,6 @@ class MainActivity : BaseActivity() {
     private val profileFragment = ProfileFragment()
     private lateinit var bottomSheetDialog: BottomSheetDialog
     private lateinit var toolbar: Toolbar
-    private var isUserLogged: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
@@ -40,12 +38,8 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
 
         //shared preferences
-        SharedPrefsHelpers.init(this)
-        val sharedPref = SharedPrefsHelpers.instance!!
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-        isUserLogged = sharedPref.getBoolean("isUserLogged", false)
-        val accessToken = sharedPref.getString("accessToken", "null")
-        val isTokenNull = accessToken.equals("null")
+        val isTokenNull = MyApplication.accessToken == "null"
         val defaultSection = sharedPreferences.getString("default_section", "home")!!
 
         when(sharedPreferences.getString("theme", "follow_system")) {
@@ -72,13 +66,13 @@ class MainActivity : BaseActivity() {
         toolbar.setNavigationOnClickListener { bottomSheetDialog.show() }
 
         //launch login
-        if (!isUserLogged || isTokenNull) {
+        if (!MyApplication.isUserLogged || isTokenNull) {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }
         else {
-            MyApplication.createRetrofit(applicationContext)
+            //MyApplication.createRetrofit(applicationContext)
             //bottom nav and fragments
             val navView: BottomNavigationView = findViewById(R.id.nav_view)
             setupTransitions()
@@ -195,7 +189,7 @@ class MainActivity : BaseActivity() {
             }
         }
         else if (requestCode==2 && resultCode==Activity.RESULT_OK) {
-            isUserLogged = true
+            MyApplication.isUserLogged = true
         }
     }
 }

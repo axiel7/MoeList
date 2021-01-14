@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
+import com.axiel7.moelist.MyApplication
 import com.axiel7.moelist.R
 import com.axiel7.moelist.model.AccessToken
 import com.axiel7.moelist.private.ClientId
@@ -94,6 +95,8 @@ class LoginActivity : BaseActivity() {
                             sharedPref?.saveString("refreshToken", accessToken.refresh_token)
                             sharedPref?.saveBoolean("isUserLogged", true)
 
+                            MyApplication.loadSavedPrefs()
+                            MyApplication.createRetrofit(applicationContext)
                             val openMainActivity = Intent(this@LoginActivity, MainActivity::class.java)
                             startActivityForResult(openMainActivity, 2)
                         }

@@ -8,6 +8,7 @@ import coil.util.CoilUtils
 import com.axiel7.moelist.rest.MalApiService
 import com.axiel7.moelist.room.AnimeDatabase
 import com.axiel7.moelist.utils.CreateOkHttpClient
+import com.axiel7.moelist.utils.SharedPrefsHelpers
 import com.axiel7.moelist.utils.Urls
 import com.google.android.gms.ads.MobileAds
 import okhttp3.OkHttpClient
@@ -17,6 +18,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MyApplication : Application(), ImageLoaderFactory {
     override fun onCreate() {
         super.onCreate()
+
+        SharedPrefsHelpers.init(applicationContext)
+        loadSavedPrefs()
+        if (isUserLogged) {
+            createRetrofit(applicationContext)
+        }
+
         animeDb = AnimeDatabase.getAnimeDatabase(applicationContext)
         MobileAds.initialize(applicationContext)
     }
@@ -41,8 +49,18 @@ class MyApplication : Application(), ImageLoaderFactory {
             malApiService = retrofit.create(MalApiService::class.java)
         }
 
+        fun loadSavedPrefs() {
+            val sharedPref = SharedPrefsHelpers.instance!!
+            isUserLogged = sharedPref.getBoolean("isUserLogged", false)
+            accessToken = sharedPref.getString("accessToken", "null") ?: "null"
+            refreshToken = sharedPref.getString("refreshToken", "null") ?: "null"
+        }
+
         var animeDb: AnimeDatabase? = null
+        var isUserLogged: Boolean = false
         private lateinit var retrofit: Retrofit
         lateinit var malApiService: MalApiService
+        lateinit var accessToken: String
+        lateinit var refreshToken: String
     }
 }

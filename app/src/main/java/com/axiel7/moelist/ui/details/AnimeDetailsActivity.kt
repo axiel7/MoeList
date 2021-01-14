@@ -57,9 +57,7 @@ import kotlin.random.Random
 
 class AnimeDetailsActivity : BaseActivity() {
 
-    private lateinit var sharedPref: SharedPrefsHelpers
-    private lateinit var accessToken: String
-    private lateinit var refreshToken: String
+    //private lateinit var sharedPref: SharedPrefsHelpers
     private lateinit var fields: String
     private lateinit var animeDetails: AnimeDetails
     private lateinit var loadingView: FrameLayout
@@ -123,10 +121,8 @@ class AnimeDetailsActivity : BaseActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
         toolbar.setNavigationOnClickListener { onBackPressed() }
 
-        SharedPrefsHelpers.init(this)
-        sharedPref = SharedPrefsHelpers.instance!!
-        accessToken = sharedPref.getString("accessToken", "").toString()
-        refreshToken = sharedPref.getString("refreshToken", "").toString()
+        //SharedPrefsHelpers.init(this)
+        //sharedPref = SharedPrefsHelpers.instance!!
 
         val data = intent?.dataString
         animeId = if (data?.startsWith("https://myanimelist.net/anime") == true) {
@@ -172,15 +168,8 @@ class AnimeDetailsActivity : BaseActivity() {
                         val detailsCall = malApiService.getAnimeDetails(Urls.apiBaseUrl + "anime/$animeId", fields)
                         initDetailsCall(detailsCall)
                     }
-                    //TODO (not tested)
                     response.code()==401 -> {
-                        val tokenResponse = RefreshToken.getNewToken(refreshToken)
-                        accessToken = tokenResponse?.access_token.toString()
-                        refreshToken = tokenResponse?.refresh_token.toString()
-                        sharedPref.saveString("accessToken", accessToken)
-                        sharedPref.saveString("refreshToken", refreshToken)
-
-                        call.clone()
+                        Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                     }
                 }
             }

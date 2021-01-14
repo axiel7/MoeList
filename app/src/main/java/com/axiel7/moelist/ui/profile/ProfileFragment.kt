@@ -24,7 +24,6 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.model.User
 import com.axiel7.moelist.model.UserAnimeStatistics
 import com.axiel7.moelist.ui.details.FullPosterActivity
-import com.axiel7.moelist.utils.RefreshToken
 import com.axiel7.moelist.utils.ResponseConverter
 import com.axiel7.moelist.utils.SharedPrefsHelpers
 import com.google.android.material.snackbar.Snackbar
@@ -38,8 +37,6 @@ import java.time.format.DateTimeFormatter
 class ProfileFragment : Fragment() {
 
     private lateinit var sharedPref: SharedPrefsHelpers
-    private lateinit var accessToken: String
-    private lateinit var refreshToken: String
     private lateinit var userAnimeStatistics: UserAnimeStatistics
     private lateinit var profilePicture: ImageView
     private lateinit var usernameView: TextView
@@ -65,10 +62,8 @@ class ProfileFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        SharedPrefsHelpers.init(context)
+        //SharedPrefsHelpers.init(context)
         sharedPref = SharedPrefsHelpers.instance!!
-        accessToken = sharedPref.getString("accessToken", "").toString()
-        refreshToken = sharedPref.getString("refreshToken", "").toString()
 
         userId = sharedPref.getInt("userId", -1)
         if (MyApplication.animeDb?.userDao()?.getUserById(userId)!=null) {
@@ -131,15 +126,10 @@ class ProfileFragment : Fragment() {
                         if (isAdded) { setDataToViews() }
                     }
                 }
-                //TODO(not tested)
                 else if (response.code()==401) {
-                    val tokenResponse = RefreshToken.getNewToken(refreshToken)
-                    accessToken = tokenResponse?.access_token.toString()
-                    refreshToken = tokenResponse?.refresh_token.toString()
-                    sharedPref.saveString("accessToken", accessToken)
-                    sharedPref.saveString("refreshToken", refreshToken)
-
-                    call.clone()
+                    if (isAdded) {
+                        Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    }
                 }
             }
             override fun onFailure(call: Call<User>, t: Throwable) {

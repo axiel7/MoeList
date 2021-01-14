@@ -53,8 +53,6 @@ class HomeFragment : Fragment() {
     private lateinit var todayList: MutableList<SeasonalList>
     private lateinit var currentSeason: StartSeason
     private lateinit var jpDayWeek: String
-    private lateinit var accessToken: String
-    private lateinit var refreshToken: String
     private var animesRankingResponse: AnimeRankingResponse? = null
     private var animesRecommendResponse: AnimeListResponse? = null
     private var todayResponse: SeasonalAnimeResponse? = null
@@ -62,10 +60,8 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        SharedPrefsHelpers.init(context)
+        //SharedPrefsHelpers.init(context)
         sharedPref = SharedPrefsHelpers.instance!!
-        accessToken = sharedPref.getString("accessToken", "").toString()
-        refreshToken = sharedPref.getString("refreshToken", "").toString()
 
         currentSeason = StartSeason(SeasonCalendar.getCurrentYear(), SeasonCalendar.getCurrentSeason())
         jpDayWeek = SeasonCalendar.getCurrentJapanWeekday()
@@ -236,15 +232,10 @@ class HomeFragment : Fragment() {
                     }
 
                 }
-                //TODO (not tested)
                 else if (response.code()==401) {
-                    val tokenResponse = RefreshToken.getNewToken(refreshToken)
-                    accessToken = tokenResponse?.access_token.toString()
-                    refreshToken = tokenResponse?.refresh_token.toString()
-                    sharedPref.saveString("accessToken", accessToken)
-                    sharedPref.saveString("refreshToken", refreshToken)
-
-                    call.clone()
+                    if (isAdded) {
+                        Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    }
                 }
 
                 val recommendCall = malApiService.getAnimeRecommend(30)
@@ -303,15 +294,10 @@ class HomeFragment : Fragment() {
 
                     recommendLoading.hide()
                 }
-                //TODO (not tested)
                 else if (response.code()==401) {
-                    val tokenResponse = RefreshToken.getNewToken(refreshToken)
-                    accessToken = tokenResponse?.access_token.toString()
-                    refreshToken = tokenResponse?.refresh_token.toString()
-                    sharedPref.saveString("accessToken", accessToken)
-                    sharedPref.saveString("refreshToken", refreshToken)
-
-                    call.clone()
+                    if (isAdded) {
+                        Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    }
                 }
             }
 
@@ -366,15 +352,10 @@ class HomeFragment : Fragment() {
                         todayAdapter.notifyDataSetChanged()
                     }
                 }
-                //TODO (not tested)
                 else if (response.code()==401) {
-                    val tokenResponse = RefreshToken.getNewToken(refreshToken)
-                    accessToken = tokenResponse?.access_token.toString()
-                    refreshToken = tokenResponse?.refresh_token.toString()
-                    sharedPref.saveString("accessToken", accessToken)
-                    sharedPref.saveString("refreshToken", refreshToken)
-
-                    call.clone()
+                    if (isAdded) {
+                        Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    }
                 }
 
                 val rankingCall = malApiService.getAnimeRanking("airing","start_season", 200,false)

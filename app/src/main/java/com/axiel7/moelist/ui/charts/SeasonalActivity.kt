@@ -36,9 +36,7 @@ import kotlin.properties.Delegates
 
 class SeasonalActivity : BaseActivity() {
 
-    private lateinit var sharedPref: SharedPrefsHelpers
-    private lateinit var accessToken: String
-    private lateinit var refreshToken: String
+    //private lateinit var sharedPref: SharedPrefsHelpers
     private lateinit var toolbar: Toolbar
     private lateinit var seasonalRecycler: RecyclerView
     private lateinit var seasonalAdapter: SeasonalAnimeAdapter
@@ -67,10 +65,8 @@ class SeasonalActivity : BaseActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
         toolbar.setNavigationOnClickListener { onBackPressed() }
 
-        SharedPrefsHelpers.init(this)
-        sharedPref = SharedPrefsHelpers.instance!!
-        accessToken = sharedPref.getString("accessToken", "").toString()
-        refreshToken = sharedPref.getString("refreshToken", "").toString()
+        //SharedPrefsHelpers.init(this)
+        //sharedPref = SharedPrefsHelpers.instance!!
 
         season = SeasonCalendar.getCurrentSeason()
         year = SeasonCalendar.getCurrentYear()
@@ -128,15 +124,8 @@ class SeasonalActivity : BaseActivity() {
                     animeDb?.seasonalResponseDao()?.insertSeasonalResponse(animeResponse!!)
                     seasonalAdapter.notifyDataSetChanged()
                 }
-                //TODO (not tested)
                 else if (response.code()==401) {
-                    val tokenResponse = RefreshToken.getNewToken(refreshToken)
-                    accessToken = tokenResponse?.access_token.toString()
-                    refreshToken = tokenResponse?.refresh_token.toString()
-                    sharedPref.saveString("accessToken", accessToken)
-                    sharedPref.saveString("refreshToken", refreshToken)
-
-                    call.clone()
+                    Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
                 else if (response.code()==404) {
                     Snackbar.make(snackBarView, getString(R.string.error_not_found), Snackbar.LENGTH_SHORT).show()

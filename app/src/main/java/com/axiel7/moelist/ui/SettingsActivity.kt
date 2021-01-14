@@ -21,7 +21,6 @@ import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 class SettingsActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var sharedPref: SharedPrefsHelpers
     private var themeChanged = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,8 +39,6 @@ class SettingsActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceCha
         supportActionBar?.setDisplayShowHomeEnabled(true)
         toolbar.setNavigationOnClickListener { onBackPressed() }
 
-        SharedPrefsHelpers.init(this)
-        sharedPref = SharedPrefsHelpers.instance!!
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         when(sharedPreferences.getString("theme", "follow_system")) {
             "light" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -67,7 +64,7 @@ class SettingsActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceCha
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                SharedPrefsHelpers.init(context)
+                //SharedPrefsHelpers.init(context)
                 val sharedPref = SharedPrefsHelpers.instance
                 sharedPref?.saveBoolean("isUserLogged", false)
                 sharedPref?.deleteValue("accessToken")

@@ -26,7 +26,10 @@ import com.axiel7.moelist.model.MyMangaListStatus
 import com.axiel7.moelist.model.UserMangaList
 import com.axiel7.moelist.model.UserMangaListResponse
 import com.axiel7.moelist.ui.details.MangaDetailsActivity
-import com.axiel7.moelist.utils.*
+import com.axiel7.moelist.utils.ResponseConverter
+import com.axiel7.moelist.utils.SharedPrefsHelpers
+import com.axiel7.moelist.utils.StringFormat
+import com.axiel7.moelist.utils.Urls
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -45,8 +48,6 @@ class MangaListFragment : Fragment() {
     private lateinit var mangaListAdapter: MyMangaListAdapter
     private var mangaListResponse: UserMangaListResponse? = null
     private lateinit var mangaList: MutableList<UserMangaList>
-    private lateinit var accessToken: String
-    private lateinit var refreshToken: String
     private lateinit var listStatus: String
     private lateinit var sortMode: String
     private var defaultStatus: Int? = null
@@ -55,10 +56,8 @@ class MangaListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        SharedPrefsHelpers.init(context)
+        //SharedPrefsHelpers.init(context)
         sharedPref = SharedPrefsHelpers.instance!!
-        accessToken = sharedPref.getString("accessToken", "").toString()
-        refreshToken = sharedPref.getString("refreshToken", "").toString()
 
         defaultStatus = sharedPref.getInt("checkedStatusButtonManga", R.id.reading_button)
         if (defaultStatus==null || defaultStatus==0) {
@@ -229,15 +228,10 @@ class MangaListFragment : Fragment() {
                         mangaListResponse = responseOld
                     }
                 }
-                //TODO(not tested)
                 else if (response.code()==401) {
-                    val tokenResponse = RefreshToken.getNewToken(refreshToken)
-                    accessToken = tokenResponse?.access_token.toString()
-                    refreshToken = tokenResponse?.refresh_token.toString()
-                    sharedPref.saveString("accessToken", accessToken)
-                    sharedPref.saveString("refreshToken", refreshToken)
-
-                    call.clone()
+                    if (isAdded) {
+                        Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    }
                 }
             }
 

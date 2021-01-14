@@ -1,6 +1,7 @@
 package com.axiel7.moelist.utils
 
 import android.content.Context
+import com.axiel7.moelist.MyApplication
 import com.axiel7.moelist.rest.AuthenticationInterceptor
 import com.axiel7.moelist.rest.CacheControl
 import okhttp3.Cache
@@ -10,9 +11,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 
 object CreateOkHttpClient {
     fun createOkHttpClient(context: Context, isLogging: Boolean): OkHttpClient {
-        SharedPrefsHelpers.init(context)
-        val sharedPrefs = SharedPrefsHelpers.instance
-        val accessToken = sharedPrefs?.getString("accessToken", "").toString()
+        val accessToken = MyApplication.accessToken
         val authInterceptor =
             AuthenticationInterceptor("Bearer $accessToken")
         val cacheInterceptor = CacheControl(context)
