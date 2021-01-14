@@ -16,14 +16,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.axiel7.moelist.MyApplication.Companion.animeDb
 import com.axiel7.moelist.MyApplication.Companion.malApiService
 import com.axiel7.moelist.R
+import com.axiel7.moelist.adapter.EndListReachedListener
 import com.axiel7.moelist.adapter.SeasonalAnimeAdapter
 import com.axiel7.moelist.model.SeasonalAnimeResponse
 import com.axiel7.moelist.model.SeasonalList
 import com.axiel7.moelist.model.StartSeason
 import com.axiel7.moelist.ui.BaseActivity
 import com.axiel7.moelist.ui.details.AnimeDetailsActivity
-import com.axiel7.moelist.utils.*
 import com.axiel7.moelist.utils.InsetsHelper.addSystemWindowInsetToMargin
+import com.axiel7.moelist.utils.SeasonCalendar
+import com.axiel7.moelist.utils.StringFormat
+import com.axiel7.moelist.utils.Urls
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -91,6 +94,17 @@ class SeasonalActivity : BaseActivity() {
             R.layout.list_item_seasonal,
             this,
             onClickListener = {itemView, animeList -> openDetails(animeList.node.id, itemView)})
+        seasonalAdapter.setEndListReachedListener(object :EndListReachedListener {
+            override fun onBottomReached(position: Int) {
+                if (animeResponse!=null) {
+                    val nextPage = animeResponse?.paging?.next
+                    if (nextPage!=null && nextPage.isNotEmpty()) {
+                        val getMoreCall = malApiService.getNextSeasonalPage(nextPage)
+                        initCalls(false, getMoreCall)
+                    }
+                }
+            }
+        })
         seasonalRecycler.adapter = seasonalAdapter
 
         filterFab = findViewById(R.id.filter_fab)
@@ -99,13 +113,13 @@ class SeasonalActivity : BaseActivity() {
         snackBarView = findViewById(R.id.seasonal_layout)
         loadingBar = findViewById(R.id.seasonal_loading)
 
-        initCalls(false)
-    }
-    private fun initCalls(shouldClear: Boolean) {
-        loadingBar.show()
         val seasonCall = malApiService.getSeasonalAnime(Urls.apiBaseUrl + "anime/season/$year/$season",
             "anime_score", "start_season,broadcast,num_episodes,media_type,mean", 300)
-        seasonCall.enqueue(object :Callback<SeasonalAnimeResponse> {
+        initCalls(true, seasonCall)
+    }
+    private fun initCalls(shouldClear: Boolean, call: Call<SeasonalAnimeResponse>) {
+        loadingBar.show()
+        call.enqueue(object :Callback<SeasonalAnimeResponse> {
             override fun onResponse(
                 call: Call<SeasonalAnimeResponse>,
                 response: Response<SeasonalAnimeResponse>) {
@@ -150,7 +164,9 @@ class SeasonalActivity : BaseActivity() {
         applyButton?.setOnClickListener {
             season = StringFormat.formatSeasonInverted(seasonLayout.editText?.text.toString(), this)
             year = yearLayout.editText?.text.toString().toInt()
-            initCalls(true)
+            val seasonCall = malApiService.getSeasonalAnime(Urls.apiBaseUrl + "anime/season/$year/$season",
+                "anime_score", "start_season,broadcast,num_episodes,media_type,mean", 300)
+            initCalls(true, seasonCall)
             toolbar.title = "${StringFormat.formatSeason(season, this)} $year"
             bottomSheetDialog.hide()
         }
