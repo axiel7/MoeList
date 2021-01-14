@@ -578,7 +578,8 @@ class AnimeDetailsActivity : BaseActivity() {
     private fun openDetails(id: Int, mediaType: String?) {
         if (!mediaType.isNullOrEmpty()) {
             if (mediaType=="manga" || mediaType=="one_shot" || mediaType=="manhwa"
-                || mediaType=="novel" || mediaType=="doujinshi") {
+                || mediaType=="novel" || mediaType=="doujinshi" || mediaType=="light_novel"
+                || mediaType=="manhua") {
                 val intent = Intent(this, MangaDetailsActivity::class.java)
                 intent.putExtra("mangaId", id)
                 intent.putExtra("defaultTransition", true)

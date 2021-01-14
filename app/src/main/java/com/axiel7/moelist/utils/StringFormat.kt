@@ -16,6 +16,7 @@ object StringFormat {
             "manga" -> context.getString(R.string.manga)
             "one_shot" -> context.getString(R.string.one_shot)
             "manhwa" -> context.getString(R.string.manhwa)
+            "manhua" -> context.getString(R.string.manhua)
             "novel" -> context.getString(R.string.novel)
             "doujinshi" -> context.getString(R.string.doujinshi)
             else -> mediaType
@@ -29,6 +30,7 @@ object StringFormat {
             "currently_publishing" -> context.getString(R.string.publishing)
             "finished" -> context.getString(R.string.finished)
             "on_hiatus" -> context.getString(R.string.on_hiatus)
+            "discontinued" -> context.getString(R.string.discontinued)
             else -> status
         }
     }
