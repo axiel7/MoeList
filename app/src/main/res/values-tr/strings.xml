@@ -237,5 +237,7 @@
     <string name="adaptation" tools:ignore="MissingTranslation" tools:keep="@string/adaptation">Uyarlama</string>
     <string name="open_source_licenses" tools:ignore="MissingTranslation">Açık Kaynak Lisanslar</string>
     <string name="filters" tools:ignore="MissingTranslation">Filtreler</string>
-    <string name="date_format" tools:ignore="MissingTranslation" comment="date_format&#10;&#10;Not used right now ">Tarih formatı</string>
+    <string name="date_format" tools:ignore="MissingTranslation">Tarih formatı</string>
+    <string name="manhua">Manhua</string>
+    <string name="discontinued">Discontinued</string>
 </resources>
