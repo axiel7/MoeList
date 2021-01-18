@@ -87,6 +87,7 @@ class DonationActivity : BaseActivity(), PurchasesUpdatedListener {
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                     // The BillingClient is setup successfully
                     loadAllSKUs()
+                    billingClient.queryPurchases(BillingClient.SkuType.INAPP)
                 }
             }
 
@@ -139,25 +140,26 @@ class DonationActivity : BaseActivity(), PurchasesUpdatedListener {
     override fun onPurchasesUpdated(billingResult: BillingResult, purchases: MutableList<Purchase>?) {
         if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
             for (purchase in purchases) {
-                acknowledgePurchase(purchase.purchaseToken)
-
+                handlePurchase(purchase)
             }
         } else if (billingResult.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
             // Handle an error caused by a user cancelling the purchase flow.
             Toast.makeText(this, getString(R.string.purchase_cancelled), Toast.LENGTH_SHORT).show()
         }
     }
-    private fun acknowledgePurchase(purchaseToken: String) {
-        val params = AcknowledgePurchaseParams.newBuilder()
-            .setPurchaseToken(purchaseToken)
-            .build()
-        val purchase = ConsumeParams.newBuilder().setPurchaseToken(purchaseToken).build()
-        billingClient.acknowledgePurchase(params) {
-            //val responseCode = billingResult.responseCode
-            //val debugMessage = billingResult.debugMessage
-            Toast.makeText(this, getString(R.string.donation_thanked), Toast.LENGTH_SHORT).show()
+    private fun handlePurchase(purchase: Purchase) {
+
+        val consumeParams =
+            ConsumeParams.newBuilder()
+                .setPurchaseToken(purchase.purchaseToken)
+                .build()
+
+        billingClient.consumeAsync(consumeParams) { billingResult, _ ->
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                // Handle the success of the consume operation.
+                Toast.makeText(this, getString(R.string.donation_thanked), Toast.LENGTH_SHORT).show()
+            }
         }
-        billingClient.consumeAsync(purchase) { _, _ ->  }
     }
     private fun loadForm() {
         UserMessagingPlatform.loadConsentForm(this, { consentForm ->
