@@ -238,4 +238,6 @@
     <string name="open_source_licenses" tools:ignore="MissingTranslation">Open Source licenses</string>
     <string name="filters" tools:ignore="MissingTranslation">Filters</string>
     <string name="date_format" tools:ignore="MissingTranslation">Date format</string>
+    <string name="manhua">Manhua</string>
+    <string name="discontinued">Discontinued</string>
 </resources>
