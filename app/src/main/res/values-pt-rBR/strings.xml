@@ -239,5 +239,5 @@
     <string name="filters" tools:ignore="MissingTranslation">Filtros</string>
     <string name="date_format" tools:ignore="MissingTranslation">Formato de data</string>
     <string name="manhua">Manhua</string>
-    <string name="discontinued">Discontinued</string>
+    <string name="discontinued">Descontinuado</string>
 </resources>
