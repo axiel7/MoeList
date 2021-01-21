@@ -56,7 +56,6 @@ import java.util.*
 
 class MangaDetailsActivity : BaseActivity() {
 
-    //private lateinit var sharedPref: SharedPrefsHelpers
     private lateinit var fields: String
     private lateinit var mangaDetails: MangaDetails
     private lateinit var loadingView: FrameLayout
@@ -122,9 +121,6 @@ class MangaDetailsActivity : BaseActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
         toolbar.setNavigationOnClickListener { onBackPressed() }
 
-        //SharedPrefsHelpers.init(this)
-        //sharedPref = SharedPrefsHelpers.instance!!
-
         val data = intent?.dataString
         mangaId = if (data?.startsWith("https://myanimelist.net/manga") == true) {
             data.split("/")[4].toIntOrNull() ?: 1
@@ -152,8 +148,6 @@ class MangaDetailsActivity : BaseActivity() {
     private fun initDetailsCall(call: Call<MangaDetails>?) {
         call?.enqueue(object : Callback<MangaDetails> {
             override fun onResponse(call: Call<MangaDetails>, response: Response<MangaDetails>) {
-                //Log.d("MoeLog", call.request().toString())
-
                 if (response.isSuccessful) {
                     mangaDetails = response.body()!!
                     setDataToViews()

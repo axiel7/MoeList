@@ -58,7 +58,6 @@ class AnimeListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //SharedPrefsHelpers.init(context)
         sharedPref = SharedPrefsHelpers.instance!!
 
         defaultStatus = sharedPref.getInt("checkedStatusButton", R.id.watching_button)
@@ -214,10 +213,8 @@ class AnimeListFragment : Fragment() {
     private fun initAnimeListCall(call: Call<UserAnimeListResponse>, shouldClear: Boolean) {
         call.enqueue(object: Callback<UserAnimeListResponse> {
             override fun onResponse(call: Call<UserAnimeListResponse>, response: Response<UserAnimeListResponse>) {
-                //Log.d("MoeLog", call.request().toString())
 
                 if (response.isSuccessful) {
-                    //sharedPref.deleteValue("animeListResponse$listStatus")
                     val responseOld = ResponseConverter
                         .stringToUserAnimeListResponse(sharedPref.getString("animeListResponse$listStatus", ""))
                     if (responseOld!=response.body() || animeList.isEmpty()) {
@@ -267,12 +264,9 @@ class AnimeListFragment : Fragment() {
                 .updateAnimeList(Urls.apiBaseUrl + "anime/$animeId/my_list_status", status, null, watchedEpisodes)
             updateListCall.enqueue(object :Callback<MyListStatus> {
                 override fun onResponse(call: Call<MyListStatus>, response: Response<MyListStatus>) {
-                    if (response.isSuccessful) {
-                        //val myListStatus = response.body()!!
+                    if (response.isSuccessful && isAdded) {
                         initCalls()
-                        if (isAdded) {
-                            Snackbar.make(snackBarView, getString(R.string.updated), Snackbar.LENGTH_SHORT).show()
-                        }
+                        Snackbar.make(snackBarView, getString(R.string.updated), Snackbar.LENGTH_SHORT).show()
                     }
                     else if (isAdded) {
                         Snackbar.make(snackBarView, getString(R.string.error_updating_list), Snackbar.LENGTH_SHORT).show()

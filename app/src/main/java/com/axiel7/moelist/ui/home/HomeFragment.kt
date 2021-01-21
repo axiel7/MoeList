@@ -60,7 +60,6 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //SharedPrefsHelpers.init(context)
         sharedPref = SharedPrefsHelpers.instance!!
 
         currentSeason = StartSeason(SeasonCalendar.getCurrentYear(), SeasonCalendar.getCurrentSeason())
@@ -197,10 +196,7 @@ class HomeFragment : Fragment() {
         call?.enqueue(object : Callback<AnimeRankingResponse> {
             override fun onResponse(
                 call: Call<AnimeRankingResponse>,
-                response: Response<AnimeRankingResponse>,
-            ) {
-                //Log.d("MoeLog", call.request().toString())
-
+                response: Response<AnimeRankingResponse>, ) {
                 if (response.isSuccessful) {
                     val responseOld = ResponseConverter
                         .stringToAnimeRankResponse(sharedPref.getString("animeRankingResponse", ""))
@@ -221,7 +217,6 @@ class HomeFragment : Fragment() {
                                 animeListSeasonal.add(anime)
                             }
                         }
-                        //animeListSeasonal.addAll(animeList2)
                         animeDb?.rankingAnimeDao()?.insertAllRankingAnimes(animeList2)
                         seasonLoading.hide()
                         animeRankingAdapter.notifyDataSetChanged()
@@ -230,7 +225,6 @@ class HomeFragment : Fragment() {
                         seasonLoading.hide()
                         animesRankingResponse = responseOld
                     }
-
                 }
                 else if (response.code()==401) {
                     if (isAdded) {
@@ -256,10 +250,7 @@ class HomeFragment : Fragment() {
     private fun initRecommendCall(call: Call<AnimeListResponse>?, shouldClear: Boolean) {
         call?.enqueue(object : Callback<AnimeListResponse> {
             override fun onResponse(call: Call<AnimeListResponse>, response: Response<AnimeListResponse>) {
-                //Log.d("MoeLog", call.request().toString())
-
                 if (response.isSuccessful) {
-
                     val responseOld = ResponseConverter
                         .stringToAnimeListResponse(sharedPref.getString("animeRecommendResponse", ""))
 
@@ -291,7 +282,6 @@ class HomeFragment : Fragment() {
                             }
                         }
                     })
-
                     recommendLoading.hide()
                 }
                 else if (response.code()==401) {
@@ -335,11 +325,7 @@ class HomeFragment : Fragment() {
                     if (todayList.isEmpty()) {
                         call.cancel()
                         val nextPage: String? = todayResponse!!.paging?.next
-                        if (!nextPage.isNullOrEmpty()) {
-                            //val getMoreCall = malApiService.getNextSeasonalPage(nextPage)
-                            //initTodayCall(getMoreCall, false)
-                        }
-                        else {
+                        if (nextPage.isNullOrEmpty()) {
                             todayRecycler.visibility = View.INVISIBLE
                             todayLoading.visibility = View.INVISIBLE
                             emptyToday.visibility = View.VISIBLE

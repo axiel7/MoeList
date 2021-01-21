@@ -56,7 +56,6 @@ class MangaListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //SharedPrefsHelpers.init(context)
         sharedPref = SharedPrefsHelpers.instance!!
 
         defaultStatus = sharedPref.getInt("checkedStatusButtonManga", R.id.reading_button)
@@ -201,7 +200,6 @@ class MangaListFragment : Fragment() {
     private fun initMangaListCall(call: Call<UserMangaListResponse>, shouldClear: Boolean) {
         call.enqueue(object: Callback<UserMangaListResponse> {
             override fun onResponse(call: Call<UserMangaListResponse>, response: Response<UserMangaListResponse>) {
-                //Log.d("MoeLog", call.request().toString())
 
                 if (response.isSuccessful) {
                     val responseOld = ResponseConverter
@@ -253,7 +251,6 @@ class MangaListFragment : Fragment() {
             updateListCall.enqueue(object : Callback<MyMangaListStatus> {
                 override fun onResponse(call: Call<MyMangaListStatus>, response: Response<MyMangaListStatus>) {
                     if (response.isSuccessful) {
-                        //val myListStatus = response.body()!!
                         initCalls()
                         if (isAdded) {
                             Snackbar.make(snackBarView, getString(R.string.updated), Snackbar.LENGTH_SHORT).show()

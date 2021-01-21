@@ -57,7 +57,6 @@ import kotlin.random.Random
 
 class AnimeDetailsActivity : BaseActivity() {
 
-    //private lateinit var sharedPref: SharedPrefsHelpers
     private lateinit var fields: String
     private lateinit var animeDetails: AnimeDetails
     private lateinit var loadingView: FrameLayout
@@ -121,9 +120,6 @@ class AnimeDetailsActivity : BaseActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
         toolbar.setNavigationOnClickListener { onBackPressed() }
 
-        //SharedPrefsHelpers.init(this)
-        //sharedPref = SharedPrefsHelpers.instance!!
-
         val data = intent?.dataString
         animeId = if (data?.startsWith("https://myanimelist.net/anime") == true) {
             data.split("/")[4].toIntOrNull() ?: 1
@@ -154,8 +150,6 @@ class AnimeDetailsActivity : BaseActivity() {
     private fun initDetailsCall(call: Call<AnimeDetails>?) {
         call?.enqueue(object : Callback<AnimeDetails> {
             override fun onResponse(call: Call<AnimeDetails>, response: Response<AnimeDetails>) {
-                //Log.d("MoeLog", call.request().toString())
-
                 when {
                     response.isSuccessful -> {
                         animeDetails = response.body()!!

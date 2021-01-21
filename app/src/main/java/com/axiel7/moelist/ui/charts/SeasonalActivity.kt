@@ -39,7 +39,6 @@ import kotlin.properties.Delegates
 
 class SeasonalActivity : BaseActivity() {
 
-    //private lateinit var sharedPref: SharedPrefsHelpers
     private lateinit var toolbar: Toolbar
     private lateinit var seasonalRecycler: RecyclerView
     private lateinit var seasonalAdapter: SeasonalAnimeAdapter
@@ -67,9 +66,6 @@ class SeasonalActivity : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
         toolbar.setNavigationOnClickListener { onBackPressed() }
-
-        //SharedPrefsHelpers.init(this)
-        //sharedPref = SharedPrefsHelpers.instance!!
 
         season = SeasonCalendar.getCurrentSeason()
         year = SeasonCalendar.getCurrentYear()

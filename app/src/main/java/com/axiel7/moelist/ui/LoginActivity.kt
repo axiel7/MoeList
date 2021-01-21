@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
+import android.widget.Toast
 import com.axiel7.moelist.MyApplication
 import com.axiel7.moelist.R
 import com.axiel7.moelist.model.AccessToken
@@ -50,17 +51,6 @@ class LoginActivity : BaseActivity() {
                 + "&client_id=" + clientId + "&code_challenge=" + codeVerifier + "&state=" + state)
         val loginButton = findViewById<Button>(R.id.login)
         loginButton.setOnClickListener {
-            /*val builder = CustomTabsIntent.Builder()
-            val colorParams = CustomTabColorSchemeParams.Builder()
-                .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
-                .build()
-            builder.setDefaultColorSchemeParams(colorParams)
-            val chromeIntent = builder.build()
-            chromeIntent.intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
-            chromeIntent.intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            chromeIntent.launchUrl(this, Uri.parse(Urls.oauthBaseUrl + "authorize" + "?response_type=code"
-                    + "&client_id=" + clientId + "&code_challenge=" + codeVerifier + "&state=" + state
-            ))*/
             val intent = Intent(Intent.ACTION_VIEW, loginUrl)
             startActivity(intent)
         }
@@ -71,6 +61,7 @@ class LoginActivity : BaseActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+        Toast.makeText(this, "Try with another browser if you can't login.", Toast.LENGTH_LONG).show()
         val uri = intent?.data
         if (uri!=null && uri.toString().startsWith(redirectUri)) { getLoginData(uri) }
     }

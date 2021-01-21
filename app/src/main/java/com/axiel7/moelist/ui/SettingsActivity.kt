@@ -64,7 +64,6 @@ class SettingsActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceCha
                 val intent = Intent(requireActivity(), LoginActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                //SharedPrefsHelpers.init(context)
                 val sharedPref = SharedPrefsHelpers.instance
                 sharedPref?.saveBoolean("isUserLogged", false)
                 sharedPref?.deleteValue("accessToken")

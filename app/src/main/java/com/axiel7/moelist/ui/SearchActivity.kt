@@ -31,7 +31,6 @@ import retrofit2.Response
 
 class SearchActivity : BaseActivity() {
 
-    //private lateinit var sharedPref: SharedPrefsHelpers
     private lateinit var loadingBar: ContentLoadingProgressBar
     private lateinit var noResultsText: TextView
     private lateinit var searchItemsAnime: MutableList<AnimeList>
@@ -48,8 +47,6 @@ class SearchActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        //SharedPrefsHelpers.init(this)
-        //sharedPref = SharedPrefsHelpers.instance!!
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         showNsfw = sharedPreferences.getBoolean("nsfw", false)
 

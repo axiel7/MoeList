@@ -50,7 +50,6 @@ class RankingFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //SharedPrefsHelpers.init(context)
         sharedPref = SharedPrefsHelpers.instance!!
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
         showNsfw = sharedPreferences.getBoolean("nsfw", false)
@@ -74,7 +73,6 @@ class RankingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         snackBarView = view.findViewById(R.id.ranking_layout)
-        //(snackBarView as ViewGroup).layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         loadingBar = view.findViewById(R.id.ranking_loading)
 
         recyclerRank = view.findViewById(R.id.recycler_ranking)

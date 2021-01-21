@@ -62,7 +62,6 @@ class ProfileFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //SharedPrefsHelpers.init(context)
         sharedPref = SharedPrefsHelpers.instance!!
 
         userId = sharedPref.getInt("userId", -1)
