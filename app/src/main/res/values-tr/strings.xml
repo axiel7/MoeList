@@ -239,5 +239,5 @@
     <string name="filters" tools:ignore="MissingTranslation">Filtreler</string>
     <string name="date_format" tools:ignore="MissingTranslation">Tarih formatı</string>
     <string name="manhua">Manhua</string>
-    <string name="discontinued">Discontinued</string>
+    <string name="discontinued">Durduruldu</string>
 </resources>
