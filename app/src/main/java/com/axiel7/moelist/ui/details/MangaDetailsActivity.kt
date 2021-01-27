@@ -16,6 +16,7 @@ import androidx.appcompat.widget.TooltipCompat
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
@@ -29,7 +30,6 @@ import com.axiel7.moelist.model.MyMangaListStatus
 import com.axiel7.moelist.model.Related
 import com.axiel7.moelist.ui.BaseActivity
 import com.axiel7.moelist.utils.*
-import com.axiel7.moelist.utils.InsetsHelper.addSystemWindowInsetToMargin
 import com.axiel7.moelist.utils.InsetsHelper.getViewBottomHeight
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -112,6 +112,7 @@ class MangaDetailsActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manga_details)
 
+        WindowCompat.setDecorFitsSystemWindows(window, true)
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorBackgroundAlpha)
 
         val toolbar = findViewById<Toolbar>(R.id.details_toolbar)
@@ -297,7 +298,7 @@ class MangaDetailsActivity : BaseActivity() {
     @SuppressLint("InflateParams")
     private fun setupBottomSheet() {
         editFab = findViewById(R.id.edit_fab)
-        editFab.addSystemWindowInsetToMargin(bottom = true)
+        //editFab.addSystemWindowInsetToMargin(bottom = true)
         dialogView = layoutInflater.inflate(R.layout.bottom_sheet_edit_manga, null)
         bottomSheetDialog = BottomSheetDialog(this)
         bottomSheetDialog.setContentView(dialogView)
