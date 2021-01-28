@@ -31,7 +31,7 @@ interface MalApiService {
     fun getAnimeRecommend(@Query("limit") limit: Int?): Call<AnimeListResponse>
 
     @GET("/v2/users/@me/animelist")
-    fun getUserAnimeList(@Query("status") status: String,
+    fun getUserAnimeList(@Query("status") status: String?,
                          @Query("fields") fields: String?,
                          @Query("sort") sort: String): Call<UserAnimeListResponse>
 
@@ -78,7 +78,7 @@ interface MalApiService {
                         @Query("nsfw") nsfw: Boolean,): Call<MangaRankingResponse>
 
     @GET("/v2/users/@me/mangalist")
-    fun getUserMangaList(@Query("status") status: String,
+    fun getUserMangaList(@Query("status") status: String?,
                          @Query("fields") fields: String?,
                          @Query("sort") sort: String): Call<UserMangaListResponse>
     @GET

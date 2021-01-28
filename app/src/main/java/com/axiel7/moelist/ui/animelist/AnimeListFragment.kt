@@ -206,7 +206,12 @@ class AnimeListFragment : Fragment() {
         initCalls()
     }
     private fun initCalls() {
-        val animeListCall = malApiService.getUserAnimeList(listStatus, "list_status,num_episodes,media_type,status", sortMode)
+        val animeListCall = if (listStatus == "all") {
+            // To return all anime, don't specify status field.
+            malApiService.getUserAnimeList(null, "list_status,num_episodes,media_type,status", sortMode)
+        } else {
+            malApiService.getUserAnimeList(listStatus, "list_status,num_episodes,media_type,status", sortMode)
+        }
         loadingBar.show()
         initAnimeListCall(animeListCall, true)
     }
@@ -289,6 +294,7 @@ class AnimeListFragment : Fragment() {
     }
     private fun changeStatusFilter(radioButton: Int) {
         listStatus = when(radioButton) {
+            R.id.all_button -> "all"
             R.id.watching_button -> "watching"
             R.id.completed_button -> "completed"
             R.id.onhold_button -> "on_hold"

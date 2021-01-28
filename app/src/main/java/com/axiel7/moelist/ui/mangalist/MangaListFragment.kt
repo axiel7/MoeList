@@ -193,7 +193,12 @@ class MangaListFragment : Fragment() {
         initCalls()
     }
     private fun initCalls() {
-        val mangaListCall = malApiService.getUserMangaList(listStatus, "list_status,num_chapters,media_type,status", sortMode)
+        val mangaListCall = if (listStatus == "all") {
+            // To return all manga, don't specify status field.
+            malApiService.getUserMangaList(null, "list_status,num_chapters,media_type,status", sortMode)
+        } else {
+            malApiService.getUserMangaList(listStatus, "list_status,num_chapters,media_type,status", sortMode)
+        }
         loadingBar.show()
         initMangaListCall(mangaListCall, true)
     }
@@ -277,6 +282,7 @@ class MangaListFragment : Fragment() {
     }
     private fun changeStatusFilter(radioButton: Int) {
         listStatus = when(radioButton) {
+            R.id.all_button -> "all"
             R.id.reading_button -> "reading"
             R.id.completed_button -> "completed"
             R.id.onhold_button -> "on_hold"
