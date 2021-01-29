@@ -39,7 +39,7 @@ You can help translate the app!
 
 # Other
 **Special thanks:**
-* [damndaniel21](https://github.com/damndaniel21) (Logo design)
+* [danielvd_art](https://instagram.com/danielvd_art) (Logo design)
 * [Jeluchu](https://github.com/Jeluchu)
 * [Glodanif](https://github.com/glodanif)
 
