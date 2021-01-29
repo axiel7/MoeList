@@ -19,7 +19,7 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:background="@color/colorBackground">
+        android:background="@android:color/black">
         <ImageView
             android:id="@+id/anime_poster"
             android:layout_width="match_parent"

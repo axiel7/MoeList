@@ -41,8 +41,6 @@ import com.google.android.material.slider.Slider
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import com.google.android.material.transition.platform.MaterialContainerTransform
-import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
@@ -99,21 +97,10 @@ class MangaDetailsActivity : BaseActivity() {
     private var mangaId = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setEnterSharedElementCallback(MaterialContainerTransformSharedElementCallback())
-        window.sharedElementsUseOverlay = false
-        window.sharedElementEnterTransition = MaterialContainerTransform().apply {
-            addTarget(R.id.manga_poster)
-            duration = 300L
-        }
-        window.sharedElementReturnTransition = MaterialContainerTransform().apply {
-            addTarget(R.id.manga_poster)
-            duration = 250L
-        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manga_details)
 
         WindowCompat.setDecorFitsSystemWindows(window, true)
-        //window.statusBarColor = ContextCompat.getColor(this, R.color.colorBackgroundAlpha)
 
         val toolbar = findViewById<Toolbar>(R.id.details_toolbar)
         setSupportActionBar(toolbar)

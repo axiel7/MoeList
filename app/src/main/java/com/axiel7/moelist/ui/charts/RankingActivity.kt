@@ -9,7 +9,6 @@ import androidx.viewpager.widget.ViewPager
 import com.axiel7.moelist.R
 import com.axiel7.moelist.ui.BaseActivity
 import com.google.android.material.tabs.TabLayout
-import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 
 class RankingActivity : BaseActivity() {
 
@@ -19,7 +18,6 @@ class RankingActivity : BaseActivity() {
     private val popBundle = Bundle()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ranking)
 
