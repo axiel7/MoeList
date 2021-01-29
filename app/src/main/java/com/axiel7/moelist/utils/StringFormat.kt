@@ -85,6 +85,7 @@ object StringFormat {
             "game" -> context.getString(R.string.game)
             "web_manga" -> context.getString(R.string.web_manga)
             "music" -> context.getString(R.string.music)
+            "4_koma_manga" -> "4-Koma manga"
             else -> source
         }
     }
