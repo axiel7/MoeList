@@ -64,9 +64,7 @@
                 <data
                     android:scheme="https"
                     android:host="myanimelist.net"
-                    android:pathPattern="/anime"
-                    android:pathPrefix="/anime"/>
-
+                    android:pathPrefix="/anime/" />
             </intent-filter>
         </activity>
         <activity
@@ -85,9 +83,7 @@
                 <data
                     android:scheme="https"
                     android:host="myanimelist.net"
-                    android:pathPattern="/manga"
-                    android:pathPrefix="/manga"/>
-
+                    android:pathPrefix="/manga/" />
             </intent-filter>
         </activity>
         <activity
