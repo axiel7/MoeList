@@ -30,6 +30,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.transition.platform.MaterialSharedAxis
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -52,6 +53,10 @@ class SeasonalActivity : BaseActivity() {
     private var animeResponse: SeasonalAnimeResponse? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        window.enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+        window.returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+        window.allowEnterTransitionOverlap = true
+        window.allowReturnTransitionOverlap = true
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_seasonal)
 

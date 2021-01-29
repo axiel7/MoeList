@@ -19,7 +19,6 @@ import com.axiel7.moelist.ui.mangalist.MangaListFragment
 import com.axiel7.moelist.ui.profile.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import com.google.android.material.transition.platform.MaterialFadeThrough
 
 class MainActivity : BaseActivity() {
@@ -33,7 +32,6 @@ class MainActivity : BaseActivity() {
     private lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 

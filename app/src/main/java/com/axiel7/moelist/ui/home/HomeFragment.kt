@@ -125,6 +125,7 @@ class HomeFragment : Fragment() {
         val seasonTitle = view.findViewById<TextView>(R.id.season_title)
         val seasonValue = "${StringFormat.formatSeason(currentSeason.season, requireContext())} ${currentSeason.year}"
         seasonTitle.text = seasonValue
+        seasonTitle.setOnClickListener { openSeasonChart(seasonTitle) }
 
         recommendRecycler = view.findViewById(R.id.recommend_recycler)
         recommendLoading = view.findViewById(R.id.loading_recommend)
@@ -368,7 +369,7 @@ class HomeFragment : Fragment() {
             val bundle = if (poster!=null) {
                 ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), poster, poster.transitionName)
             } else {
-                ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), view, view.transitionName)
+                ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity())
             }
             intent.putExtra("animeId", animeId)
             startActivity(intent, bundle.toBundle())
@@ -380,13 +381,13 @@ class HomeFragment : Fragment() {
         }
     }
     private fun openRanking(type: String, view: View) {
-        val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), view, view.transitionName)
+        val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity())
         val intent = Intent(context, RankingActivity::class.java)
         intent.putExtra("mediaType", type)
         startActivity(intent, bundle.toBundle())
     }
     private fun openSeasonChart(view: View) {
-        val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), view, view.transitionName)
+        val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity())
         val intent = Intent(context, SeasonalActivity::class.java)
         startActivity(intent, bundle.toBundle())
     }
