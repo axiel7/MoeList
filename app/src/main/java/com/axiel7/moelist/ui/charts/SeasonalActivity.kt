@@ -10,7 +10,6 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityOptionsCompat
-import androidx.core.content.ContextCompat
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.recyclerview.widget.RecyclerView
 import com.axiel7.moelist.MyApplication.Companion.animeDb
@@ -58,7 +57,7 @@ class SeasonalActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_seasonal)
 
-        window.statusBarColor = ContextCompat.getColor(this, R.color.colorCard)
+        window.statusBarColor = getColorFromAttr(R.attr.colorToolbar)
 
         toolbar = findViewById(R.id.seasonal_toolbar)
         setSupportActionBar(toolbar)

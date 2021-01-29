@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
@@ -14,7 +14,7 @@
     android:clickable="true"
     android:focusable="true"
     android:background="?attr/selectableItemBackgroundBorderless"
-    android:backgroundTint="@color/colorToolbar"
+    app:cardBackgroundColor="?attr/colorCard"
     android:minHeight="72dp"
     app:cardCornerRadius="5dp">
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -22,8 +22,7 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:gravity="center_horizontal"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:backgroundTint="@color/colorToolbar">
+        android:background="?attr/selectableItemBackgroundBorderless">
 
         <ImageView
             android:id="@+id/anime_poster"
@@ -90,4 +89,4 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

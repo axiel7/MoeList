@@ -50,6 +50,8 @@ class SearchActivity : BaseActivity() {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         showNsfw = sharedPreferences.getBoolean("nsfw", false)
 
+        window.statusBarColor = getColorFromAttr(R.attr.colorToolbar)
+
         val toolbar = findViewById<Toolbar>(R.id.search_toolbar)
         setSupportActionBar(toolbar)
         val supportActionBar = supportActionBar

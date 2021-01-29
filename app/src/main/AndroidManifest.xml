@@ -53,7 +53,8 @@
             android:parentActivityName=".ui.MainActivity"
             android:label="@string/title_details"
             android:hardwareAccelerated="true"
-            android:configChanges="keyboard|orientation|screenSize">
+            android:configChanges="keyboard|orientation|screenSize"
+            android:theme="@style/AppTheme">
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -73,7 +74,8 @@
             android:parentActivityName=".ui.MainActivity"
             android:label="@string/title_details"
             android:hardwareAccelerated="true"
-            android:configChanges="keyboard|orientation|screenSize">
+            android:configChanges="keyboard|orientation|screenSize"
+            android:theme="@style/AppTheme">
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -93,42 +95,48 @@
             android:parentActivityName=".ui.MainActivity"
             android:label="@string/title_search"
             android:hardwareAccelerated="true"
-            android:configChanges="keyboard|orientation|screenSize">
+            android:configChanges="keyboard|orientation|screenSize"
+            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name=".ui.details.FullPosterActivity"
             android:parentActivityName=".ui.details.AnimeDetailsActivity"
             android:label="@string/title_poster"
             android:hardwareAccelerated="true"
-            android:configChanges="keyboard|orientation|screenSize">
+            android:configChanges="keyboard|orientation|screenSize"
+            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name=".ui.SettingsActivity"
             android:parentActivityName=".ui.MainActivity"
             android:label="@string/title_settings"
             android:hardwareAccelerated="true"
-            android:configChanges="keyboard|orientation|screenSize">
+            android:configChanges="keyboard|orientation|screenSize"
+            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name=".ui.DonationActivity"
             android:parentActivityName=".ui.MainActivity"
             android:label="@string/title_donations"
             android:hardwareAccelerated="true"
-            android:configChanges="keyboard|orientation|screenSize">
+            android:configChanges="keyboard|orientation|screenSize"
+            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name=".ui.charts.RankingActivity"
             android:parentActivityName=".ui.MainActivity"
             android:label="@string/title_ranking"
             android:hardwareAccelerated="true"
-            android:configChanges="keyboard|orientation|screenSize">
+            android:configChanges="keyboard|orientation|screenSize"
+            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name=".ui.charts.SeasonalActivity"
             android:parentActivityName=".ui.MainActivity"
             android:label="@string/title_seasonal"
             android:hardwareAccelerated="true"
-            android:configChanges="keyboard|orientation|screenSize">
+            android:configChanges="keyboard|orientation|screenSize"
+            android:theme="@style/AppTheme">
         </activity>
 
         <meta-data

@@ -37,7 +37,7 @@
                 android:id="@+id/details_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorBackground"
+                android:background="@android:color/transparent"
                 android:layout_alignParentTop="true"
                 app:menu="@menu/details_menu"
                 app:title="@string/title_details"/>

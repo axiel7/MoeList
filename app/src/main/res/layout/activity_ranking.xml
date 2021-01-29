@@ -11,13 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        android:background="@color/colorCard">
+        android:background="?attr/colorToolbar">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/ranking_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:transitionName="shared_container"
+            android:background="?attr/colorToolbar"
             app:title="Ranking"
             app:layout_scrollFlags="scroll|enterAlways"/>
 
@@ -26,7 +27,7 @@
             style="@style/Theme.Widget.Tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorCard"
+            android:background="?attr/colorToolbar"
             android:elevation="0dp" />
 
         <View

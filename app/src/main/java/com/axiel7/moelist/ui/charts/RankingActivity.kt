@@ -2,7 +2,6 @@ package com.axiel7.moelist.ui.charts
 
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
@@ -24,7 +23,7 @@ class RankingActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ranking)
 
-        window.statusBarColor = ContextCompat.getColor(this, R.color.colorCard)
+        window.statusBarColor = getColorFromAttr(R.attr.colorToolbar)
 
         val mediaType = intent.extras?.getString("mediaType", "anime").toString()
         allBundle.putString("mediaType", mediaType)

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
@@ -9,21 +9,19 @@
     android:layout_marginStart="15dp"
     android:layout_marginEnd="15dp"
     android:layout_marginTop="15dp"
-    android:elevation="8dp"
     android:gravity="center_horizontal"
     android:clickable="true"
     android:focusable="true"
     android:background="?attr/selectableItemBackgroundBorderless"
-    android:backgroundTint="@color/colorToolbar"
     android:minHeight="72dp"
+    app:cardBackgroundColor="?attr/colorCard"
     app:cardCornerRadius="5dp">
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:gravity="center_horizontal"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:backgroundTint="@color/colorToolbar">
+        android:background="?attr/selectableItemBackgroundBorderless">
 
         <FrameLayout
             android:id="@+id/poster_container"
@@ -129,4 +127,4 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

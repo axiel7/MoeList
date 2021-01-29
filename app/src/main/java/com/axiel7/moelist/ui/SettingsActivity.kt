@@ -44,13 +44,13 @@ class SettingsActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceCha
             "light" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             "dark" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             "follow_system" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            "amoled" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (key=="theme") {
-            themeChanged = true
             this.recreate()
         }
     }
@@ -150,7 +150,6 @@ class SettingsActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceCha
     }
     override fun finish() {
         val returnIntent = Intent()
-        returnIntent.putExtra("themeChanged", themeChanged)
         setResult(Activity.RESULT_OK, returnIntent)
         super.finish()
     }

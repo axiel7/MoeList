@@ -113,7 +113,7 @@ class MangaDetailsActivity : BaseActivity() {
         setContentView(R.layout.activity_manga_details)
 
         WindowCompat.setDecorFitsSystemWindows(window, true)
-        window.statusBarColor = ContextCompat.getColor(this, R.color.colorBackgroundAlpha)
+        //window.statusBarColor = ContextCompat.getColor(this, R.color.colorBackgroundAlpha)
 
         val toolbar = findViewById<Toolbar>(R.id.details_toolbar)
         setSupportActionBar(toolbar)

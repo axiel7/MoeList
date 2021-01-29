@@ -58,7 +58,7 @@ class MainActivity : BaseActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         toolbar.navigationIcon = ContextCompat.getDrawable(this, R.drawable.ic_round_menu_24)
 
-        window.statusBarColor = ContextCompat.getColor(this, R.color.colorBackground)
+        //window.statusBarColor = ContextCompat.getColor(this, R.color.colorBackground)
 
         // bottom sheet
         bottomSheetDialog = BottomSheetDialog(this)
@@ -167,10 +167,7 @@ class MainActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode==77 && resultCode== Activity.RESULT_OK) {
-            val themeChanged :Boolean = data?.extras?.get("themeChanged") as Boolean
-            if (themeChanged) {
-                this@MainActivity.recreate()
-            }
+            this@MainActivity.recreate()
         }
         else if (requestCode==2 && resultCode==Activity.RESULT_OK) {
             MyApplication.isUserLogged = true
