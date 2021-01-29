@@ -133,7 +133,7 @@
             android:resource="@color/colorAccent" />
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3318264479359938~1996029873"/>
+            android:value="ca-app-pub-3318264479359938~1996029873" />
     </application>
 
 </manifest>

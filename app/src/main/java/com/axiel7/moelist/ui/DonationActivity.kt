@@ -10,8 +10,9 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import com.android.billingclient.api.*
 import com.axiel7.moelist.R
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.InterstitialAd
+import com.google.android.gms.ads.*
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.material.transition.platform.MaterialFadeThrough
 import com.google.android.ump.ConsentForm
 import com.google.android.ump.ConsentInformation
@@ -26,9 +27,9 @@ class DonationActivity : BaseActivity(), PurchasesUpdatedListener {
     private lateinit var burgerButton: Button
     private lateinit var adButton: Button
     private lateinit var kofiButton: ImageView
-    private lateinit var mInterstitialAd: InterstitialAd
     private lateinit var consentInformation: ConsentInformation
     private lateinit var consentForm: ConsentForm
+    private var mInterstitialAd: InterstitialAd? = null
     private val skuList = listOf("coffee", "burger")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,12 +56,7 @@ class DonationActivity : BaseActivity(), PurchasesUpdatedListener {
         }
 
         val params = ConsentRequestParameters.Builder().build()
-
         consentInformation = UserMessagingPlatform.getConsentInformation(this)
-
-        mInterstitialAd = InterstitialAd(this)
-        mInterstitialAd.adUnitId = "ca-app-pub-3318264479359938/7726212160"
-        mInterstitialAd.loadAd(AdRequest.Builder().build())
 
         adButton.setOnClickListener {
             consentInformation.requestConsentInfoUpdate(this, params,
@@ -161,6 +157,7 @@ class DonationActivity : BaseActivity(), PurchasesUpdatedListener {
             }
         }
     }
+
     private fun loadForm() {
         UserMessagingPlatform.loadConsentForm(this, { consentForm ->
             this@DonationActivity.consentForm = consentForm
@@ -171,14 +168,46 @@ class DonationActivity : BaseActivity(), PurchasesUpdatedListener {
                 }
             }
             else {
-                if (mInterstitialAd.isLoaded) {
-                    mInterstitialAd.show()
-                } else {
-                    Log.d("MoeLog", "The interstitial ad wasn't loaded yet.")
-                }
+                Toast.makeText(this, "Loading ad...", Toast.LENGTH_SHORT).show()
+                loadInterstitialAd()
             }
         }) {
             // Handle the error
         }
+    }
+
+    private fun loadInterstitialAd() {
+        val adRequest = AdRequest.Builder().build()
+        InterstitialAd.load(this, "ca-app-pub-3318264479359938/7726212160",
+            adRequest, object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    Log.d("MoeLog", adError.message)
+                    mInterstitialAd = null
+                }
+
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    Log.d("MoeLog", "Ad was loaded.")
+                    mInterstitialAd = interstitialAd
+                    mInterstitialAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
+                        override fun onAdDismissedFullScreenContent() {
+                            Log.d("MoeLog", "Ad was dismissed.")
+                        }
+
+                        override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
+                            Log.d("MoeLog", "Ad failed to show.")
+                        }
+
+                        override fun onAdShowedFullScreenContent() {
+                            Log.d("MoeLog", "Ad showed fullscreen content.")
+                            mInterstitialAd = null;
+                        }
+                    }
+                    if (mInterstitialAd != null) {
+                        mInterstitialAd?.show(this@DonationActivity)
+                    } else {
+                        Log.d("MoeLog", "The interstitial ad wasn't loaded yet.")
+                    }
+                }
+            })
     }
 }
