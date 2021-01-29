@@ -163,6 +163,9 @@
             android:text="@string/today"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/charts_layout2"
@@ -210,6 +213,9 @@
             android:text="@string/this_season"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/today_recycler"
@@ -246,8 +252,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/season_recycler"
-            app:drawableEndCompat="@drawable/ic_round_arrow_forward_24" />
+            app:layout_constraintTop_toBottomOf="@id/season_recycler" />
 
         <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/loading_recommend"

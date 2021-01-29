@@ -124,6 +124,12 @@
             android:label="@string/title_seasonal"
             android:hardwareAccelerated="true"
             android:configChanges="keyboard|orientation|screenSize" />
+        <activity
+            android:name=".ui.home.TodayActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:label="@string/today"
+            android:hardwareAccelerated="true"
+            android:configChanges="keyboard|orientation|screenSize" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"

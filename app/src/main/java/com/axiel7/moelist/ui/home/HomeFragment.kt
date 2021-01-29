@@ -176,6 +176,8 @@ class HomeFragment : Fragment() {
             }
         })
         todayRecycler.adapter = todayAdapter
+        val todayTitle = view.findViewById<TextView>(R.id.today_title)
+        todayTitle.setOnClickListener { openToday() }
 
         initCalls()
     }
@@ -389,6 +391,11 @@ class HomeFragment : Fragment() {
     private fun openSeasonChart(view: View) {
         val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity())
         val intent = Intent(context, SeasonalActivity::class.java)
+        startActivity(intent, bundle.toBundle())
+    }
+    private fun openToday() {
+        val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity())
+        val intent = Intent(context, TodayActivity::class.java)
         startActivity(intent, bundle.toBundle())
     }
 }
