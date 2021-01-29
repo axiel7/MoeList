@@ -14,8 +14,9 @@
     android:clickable="true"
     android:focusable="true"
     android:background="?attr/selectableItemBackgroundBorderless"
-    app:cardBackgroundColor="?attr/colorCard"
     android:minHeight="72dp"
+    app:cardBackgroundColor="?attr/colorCard"
+    app:cardElevation="5dp"
     app:cardCornerRadius="5dp">
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"

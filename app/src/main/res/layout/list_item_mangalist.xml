@@ -15,6 +15,7 @@
     android:focusable="true"
     android:background="?attr/selectableItemBackgroundBorderless"
     android:minHeight="72dp"
+    app:cardElevation="5dp"
     app:cardBackgroundColor="?attr/colorCard"
     app:cardCornerRadius="5dp">
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -119,6 +120,7 @@
                     android:layout_alignParentBottom="true"
                     android:progress="50"
                     android:progressDrawable="@drawable/progress_bar"
+                    android:progressBackgroundTint="@color/colorProgressBackground"
                     style="?android:attr/progressBarStyleHorizontal"/>
 
             </RelativeLayout>

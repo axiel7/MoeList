@@ -37,6 +37,7 @@
                 android:focusable="true"
                 android:transitionName="shared_container"
                 app:cardBackgroundColor="?attr/colorCard"
+                app:cardElevation="5dp"
                 app:contentPadding="3dp"
                 app:cardCornerRadius="5dp">
                 <TextView
@@ -66,6 +67,7 @@
                 android:focusable="true"
                 android:transitionName="shared_container"
                 app:cardBackgroundColor="?attr/colorCard"
+                app:cardElevation="5dp"
                 app:contentPadding="3dp"
                 app:cardCornerRadius="5dp">
                 <TextView
@@ -106,6 +108,7 @@
                 android:focusable="true"
                 android:transitionName="shared_container"
                 app:cardBackgroundColor="?attr/colorCard"
+                app:cardElevation="5dp"
                 app:contentPadding="3dp"
                 app:cardCornerRadius="5dp">
                 <TextView
@@ -134,6 +137,7 @@
                 android:focusable="true"
                 android:transitionName="shared_poster_container"
                 app:cardBackgroundColor="?attr/colorCard"
+                app:cardElevation="5dp"
                 app:contentPadding="3dp"
                 app:cardCornerRadius="5dp">
                 <TextView
