@@ -84,6 +84,8 @@ class AnimeDetailsActivity : BaseActivity() {
     private lateinit var durationView: TextView
     private lateinit var sourceView: TextView
     private lateinit var studiosView: TextView
+    private lateinit var openingView: TextView
+    private lateinit var endingView: TextView
     private lateinit var relatedRecycler: RecyclerView
     private lateinit var relatedsAdapter: RelatedsAdapter
     private lateinit var episodesLayout: TextInputLayout
@@ -120,7 +122,7 @@ class AnimeDetailsActivity : BaseActivity() {
         }
         fields = "id,title,main_picture,alternative_titles,start_date,end_date,synopsis,mean,rank,popularity," +
                 "num_list_users,num_scoring_users,media_type,status,genres,my_list_status,num_episodes,start_season," +
-                "broadcast,source,average_episode_duration,studios,related_anime{media_type},related_manga{media_type}"
+                "broadcast,source,average_episode_duration,studios,opening_themes,ending_themes,related_anime{media_type},related_manga{media_type}"
 
         snackBarView = findViewById(R.id.details_layout)
         initViews()
@@ -285,6 +287,8 @@ class AnimeDetailsActivity : BaseActivity() {
         durationView = findViewById(R.id.duration_text)
         sourceView = findViewById(R.id.source_text)
         studiosView = findViewById(R.id.studios_text)
+        openingView = findViewById(R.id.opening_text)
+        endingView = findViewById(R.id.ending_text)
 
         relatedRecycler = findViewById(R.id.relateds_recycler)
         relatedsAdapter = RelatedsAdapter(
@@ -469,6 +473,28 @@ class AnimeDetailsActivity : BaseActivity() {
         }
         val studiosText = studiosNames.joinToString(separator = ",\n")
         studiosView.text = if (studiosText.isNotEmpty()) { studiosText }
+        else { unknown }
+
+        val openings = animeDetails.opening_themes
+        val openingsNames = mutableListOf<String>()
+        if (openings != null) {
+            for (op in openings) {
+                openingsNames.add(op.text)
+            }
+        }
+        val openingText = openingsNames.joinToString(separator = ",\n")
+        openingView.text = if (openingText.isNotEmpty()) { openingText }
+        else { unknown }
+
+        val endings = animeDetails.ending_themes
+        val endingsNames = mutableListOf<String>()
+        if (endings != null) {
+            for (ed in endings) {
+                endingsNames.add(ed.text)
+            }
+        }
+        val endingText = endingsNames.joinToString(separator = ",\n")
+        endingView.text = if (endingText.isNotEmpty()) { endingText }
         else { unknown }
 
         //relateds

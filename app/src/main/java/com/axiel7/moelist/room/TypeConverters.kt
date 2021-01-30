@@ -204,6 +204,20 @@ class TypeConverters {
         return gson.toJson(someObject)
     }
 
+    // list themes
+    @TypeConverter
+    fun stringToListThemes(data: String?): List<Theme?>? {
+        if (data==null) {
+            return Collections.emptyList()
+        }
+        val listType: Type = object : TypeToken<List<Theme?>?>() {}.type
+        return gson.fromJson<List<Theme?>>(data, listType)
+    }
+    @TypeConverter
+    fun listThemesToString(someObject: List<Theme?>?): String? {
+        return gson.toJson(someObject)
+    }
+
     // statistics
     @TypeConverter
     fun stringToStatistics(data: String?): Statistics? {

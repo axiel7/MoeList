@@ -37,5 +37,7 @@ data class AnimeDetails(
     val related_manga: List<Related>?,
     val recommendations: List<Recommendations>?,
     val studios: List<Studio>?,
+    val opening_themes: List<Theme>?,
+    val ending_themes: List<Theme>?,
     val statistics: Statistics?
 )

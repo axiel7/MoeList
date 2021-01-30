@@ -11,7 +11,7 @@ import com.axiel7.moelist.model.*
 @Database(entities = [SeasonalAnimeResponse::class ,AnimeRanking::class, AnimeList::class,
     SeasonalList::class, AnimeDetails::class, MangaRanking::class, MangaDetails::class,
     UserAnimeList::class, UserMangaList::class, User::class],
-    version = 41)
+    version = 42)
 abstract class AnimeDatabase : RoomDatabase() {
 
     abstract fun rankingAnimeDao(): RankingAnimeDao
