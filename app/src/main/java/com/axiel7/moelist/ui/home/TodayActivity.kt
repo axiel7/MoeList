@@ -96,16 +96,18 @@ class TodayActivity : BaseActivity() {
 
         snackBarView = findViewById(R.id.seasonal_layout)
         todayLoading = findViewById(R.id.seasonal_loading)
+        todayLoading.hide()
         val filterFab = findViewById<FloatingActionButton>(R.id.filter_fab)
         filterFab.visibility = View.GONE
 
         val todayCall = MyApplication.malApiService.getSeasonalAnime(Urls.apiBaseUrl +
                 "anime/season/${SeasonCalendar.getCurrentYear()}/${SeasonCalendar.getCurrentSeason()}",
             "anime_score", "broadcast,mean,start_season,status", 500)
-        initCall(todayCall, true)
+        if (todayList.isEmpty()) { initCall(todayCall, true) }
     }
 
     private fun initCall(call: Call<SeasonalAnimeResponse>?, shouldClear: Boolean) {
+        todayLoading.show()
         call?.enqueue(object: Callback<SeasonalAnimeResponse> {
             override fun onResponse(
                 call: Call<SeasonalAnimeResponse>,
