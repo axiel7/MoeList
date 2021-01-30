@@ -240,4 +240,7 @@
     <string name="date_format" tools:ignore="MissingTranslation">Формат записи дат</string>
     <string name="manhua">Маньхуа</string>
     <string name="discontinued">Прекращено</string>
+    <string name="opening">Opening Themes</string>
+    <string name="ending">Ending Themes</string>
+    <string name="german">German</string>
 </resources>
