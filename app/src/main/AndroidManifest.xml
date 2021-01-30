@@ -15,6 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Launcher"
+        android:hardwareAccelerated="true"
         tools:ignore="AllowBackup">
         <activity
             android:name=".ui.MainActivity"

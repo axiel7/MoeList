@@ -2,10 +2,10 @@
 <resources>
     <!-- Amoled theme -->
     <style name="AppTheme.Amoled" parent="AppTheme">
-        <item name="colorToolbar">#000000</item>
-        <item name="colorCard">#000000</item>
-        <item name="android:windowBackground">#000000</item>
-        <item name="android:textColor">#ffffff</item>
+        <item name="colorToolbar">@android:color/black</item>
+        <item name="colorCard">@android:color/black</item>
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="android:textColor">@android:color/white</item>
         <item name="materialCardViewStyle">@style/CardView.Amoled</item>
         <item name="mainToolbarStyle">@style/Toolbar.Amoled</item>
         <item name="bottomSheetDialogTheme">@style/BottomSheetDialog.Amoled</item>
@@ -41,5 +41,13 @@
     <!-- Bottom sheet dialog -->
     <style name="BottomSheetDialog.Amoled" parent="Theme.MaterialComponents.BottomSheetDialog">
         <item name="android:backgroundTint">#000</item>
+    </style>
+
+    <style name="BottomSheetDialog" parent="Theme.MaterialComponents.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:navigationBarColor">@color/colorCard</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="cornerFamilyTopLeft">rounded</item>
+        <item name="cornerFamilyTopRight">rounded</item>
     </style>
 </resources>
