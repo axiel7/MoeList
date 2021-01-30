@@ -176,7 +176,7 @@ class ProfileFragment : Fragment() {
             birthdayView.visibility = View.GONE
         } else {
             birthdayView.visibility = View.VISIBLE
-            //birthdayView.text = LocalDate.parse(birthday).toString()
+            birthdayView.text = birthday
         }
         joinedView.text = LocalDate.parse(user?.joined_at, DateTimeFormatter.ISO_DATE_TIME).toString()
 
