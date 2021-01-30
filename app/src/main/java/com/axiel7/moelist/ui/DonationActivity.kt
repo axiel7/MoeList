@@ -199,7 +199,7 @@ class DonationActivity : BaseActivity(), PurchasesUpdatedListener {
 
                         override fun onAdShowedFullScreenContent() {
                             Log.d("MoeLog", "Ad showed fullscreen content.")
-                            mInterstitialAd = null;
+                            mInterstitialAd = null
                         }
                     }
                     if (mInterstitialAd != null) {
