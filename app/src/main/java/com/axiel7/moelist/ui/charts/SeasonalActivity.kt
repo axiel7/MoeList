@@ -1,5 +1,6 @@
 package com.axiel7.moelist.ui.charts
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -153,9 +154,11 @@ class SeasonalActivity : BaseActivity() {
         })
     }
 
+    @SuppressLint("InflateParams")
     private fun setupBottomSheet() {
         val bottomSheetDialog = BottomSheetDialog(this)
-        bottomSheetDialog.setContentView(R.layout.bottom_sheet_seasonal)
+        val dialogView = layoutInflater.inflate(R.layout.bottom_sheet_seasonal, null)
+        bottomSheetDialog.setContentView(dialogView)
         filterFab.setOnClickListener { bottomSheetDialog.show() }
 
         val applyButton = bottomSheetDialog.findViewById<Button>(R.id.apply_button)

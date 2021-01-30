@@ -4,8 +4,6 @@
     <style name="AppTheme.Amoled" parent="AppTheme">
         <item name="colorToolbar">#000000</item>
         <item name="colorCard">#000000</item>
-        <item name="colorOnPrimary">#000000</item>
-        <item name="colorOnSecondary">#000000</item>
         <item name="android:windowBackground">#000000</item>
         <item name="android:textColor">#ffffff</item>
         <item name="materialCardViewStyle">@style/CardView.Amoled</item>
@@ -15,8 +13,8 @@
 
     <!-- CardView -->
     <style name="CardView.Amoled" parent="Widget.MaterialComponents.CardView">
-        <item name="cardStrokeWidth">1dp</item>
-        <item name="strokeWidth">1dp</item>
+        <item name="cardStrokeWidth">2dp</item>
+        <item name="strokeWidth">2dp</item>
         <item name="cardElevation">0dp</item>
         <item name="strokeColor">@drawable/stroke_color</item>
         <item name="cardBackgroundColor">#000</item>
