@@ -240,4 +240,7 @@
     <string name="date_format" tools:ignore="MissingTranslation">Formato de fecha</string>
     <string name="manhua">Manhua</string>
     <string name="discontinued">Descontinuado</string>
+    <string name="opening">Opening Themes</string>
+    <string name="ending">Ending Themes</string>
+    <string name="german">German</string>
 </resources>
