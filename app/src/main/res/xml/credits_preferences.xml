@@ -43,6 +43,11 @@
             app:title="@string/arabic"/>
 
         <Preference
+            app:key="german_translation"
+            app:summary="\@Secresa"
+            app:title="@string/german"/>
+
+        <Preference
             app:key="spanish_translation"
             app:summary="\@axiel7"
             app:title="@string/spanish" />

@@ -244,4 +244,7 @@
     <string name="date_format" tools:ignore="MissingTranslation">Date format</string>
     <string name="manhua">Manhua</string>
     <string name="discontinued">Discontinued</string>
+    <string name="opening">Opening Themes</string>
+    <string name="ending">Ending Themes</string>
+    <string name="german">German</string>
 </resources>
