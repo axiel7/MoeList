@@ -25,9 +25,11 @@ import com.axiel7.moelist.MyApplication.Companion.animeDb
 import com.axiel7.moelist.MyApplication.Companion.malApiService
 import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.RelatedsAdapter
+import com.axiel7.moelist.adapter.ThemesAdapter
 import com.axiel7.moelist.model.AnimeDetails
 import com.axiel7.moelist.model.MyListStatus
 import com.axiel7.moelist.model.Related
+import com.axiel7.moelist.model.Theme
 import com.axiel7.moelist.ui.BaseActivity
 import com.axiel7.moelist.utils.*
 import com.axiel7.moelist.utils.InsetsHelper.getViewBottomHeight
@@ -84,8 +86,6 @@ class AnimeDetailsActivity : BaseActivity() {
     private lateinit var durationView: TextView
     private lateinit var sourceView: TextView
     private lateinit var studiosView: TextView
-    private lateinit var openingView: TextView
-    private lateinit var endingView: TextView
     private lateinit var relatedRecycler: RecyclerView
     private lateinit var relatedsAdapter: RelatedsAdapter
     private lateinit var episodesLayout: TextInputLayout
@@ -287,8 +287,6 @@ class AnimeDetailsActivity : BaseActivity() {
         durationView = findViewById(R.id.duration_text)
         sourceView = findViewById(R.id.source_text)
         studiosView = findViewById(R.id.studios_text)
-        openingView = findViewById(R.id.opening_text)
-        endingView = findViewById(R.id.ending_text)
 
         relatedRecycler = findViewById(R.id.relateds_recycler)
         relatedsAdapter = RelatedsAdapter(
@@ -476,26 +474,14 @@ class AnimeDetailsActivity : BaseActivity() {
         else { unknown }
 
         val openings = animeDetails.opening_themes
-        val openingsNames = mutableListOf<String>()
-        if (openings != null) {
-            for (op in openings) {
-                openingsNames.add(op.text)
-            }
-        }
-        val openingText = openingsNames.joinToString(separator = ",\n")
-        openingView.text = if (openingText.isNotEmpty()) { openingText }
-        else { unknown }
+        val openingRecycler = findViewById<RecyclerView>(R.id.opening_recycler)
+        openingRecycler.adapter = ThemesAdapter(openings as MutableList<Theme>,
+            R.layout.list_item_theme, this)
 
         val endings = animeDetails.ending_themes
-        val endingsNames = mutableListOf<String>()
-        if (endings != null) {
-            for (ed in endings) {
-                endingsNames.add(ed.text)
-            }
-        }
-        val endingText = endingsNames.joinToString(separator = ",\n")
-        endingView.text = if (endingText.isNotEmpty()) { endingText }
-        else { unknown }
+        val endingRecycler = findViewById<RecyclerView>(R.id.ending_recycler)
+        endingRecycler.adapter = ThemesAdapter(endings as MutableList<Theme>,
+            R.layout.list_item_theme, this)
 
         //relateds
         val relatedAnimes = animeDetails.related_anime
