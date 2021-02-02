@@ -18,6 +18,7 @@ object StringFormat {
             "manhwa" -> context.getString(R.string.manhwa)
             "manhua" -> context.getString(R.string.manhua)
             "novel" -> context.getString(R.string.novel)
+            "light_novel" -> context.getString(R.string.light_novel)
             "doujinshi" -> context.getString(R.string.doujinshi)
             else -> mediaType
         }
