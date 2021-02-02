@@ -480,12 +480,12 @@ class AnimeDetailsActivity : BaseActivity() {
         studiosView.text = if (studiosText.isNotEmpty()) { studiosText }
         else { unknown }
 
-        val openings = animeDetails.opening_themes
+        val openings = animeDetails.opening_themes ?: mutableListOf()
         val openingRecycler = findViewById<RecyclerView>(R.id.opening_recycler)
         openingRecycler.adapter = ThemesAdapter(openings as MutableList<Theme>,
             R.layout.list_item_theme, this)
 
-        val endings = animeDetails.ending_themes
+        val endings = animeDetails.ending_themes ?: mutableListOf()
         val endingRecycler = findViewById<RecyclerView>(R.id.ending_recycler)
         endingRecycler.adapter = ThemesAdapter(endings as MutableList<Theme>,
             R.layout.list_item_theme, this)
