@@ -39,7 +39,7 @@
 
         <Preference
             app:key="arabic_translation"
-            app:summary="\@sakugaky, \@GooseTheDuck6678"
+            app:summary="\@sakugaky, \@GooseTheDuck6678, \@Comikazie"
             app:title="@string/arabic"/>
 
         <Preference
