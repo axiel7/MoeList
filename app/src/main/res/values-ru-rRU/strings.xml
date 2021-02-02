@@ -188,7 +188,7 @@
     <string name="genre_dementia" tools:ignore="MissingTranslation">Безумие</string>
     <string name="genre_demons" tools:ignore="MissingTranslation">Демоны</string>
     <string name="genre_drama" tools:ignore="MissingTranslation">Драма</string>
-    <string name="genre_ecchi" tools:ignore="MissingTranslation">Этти</string>
+    <string name="genre_ecchi" tools:ignore="MissingTranslation" tools:keep="@string/genre_ecchi">Этти</string>
     <string name="genre_fantasy" tools:ignore="MissingTranslation">Фэнтези</string>
     <string name="genre_game" tools:ignore="MissingTranslation">Игры</string>
     <string name="genre_harem" tools:ignore="MissingTranslation">Гарем</string>
@@ -228,13 +228,19 @@
     <string name="relation_sequel" tools:ignore="MissingTranslation">Продолжение</string>
     <string name="relation_summary" tools:ignore="MissingTranslation">Обобщение</string>
     <string name="relation_alternative_version" tools:ignore="MissingTranslation">Альтернативная версия</string>
-    <string name="relation_other" tools:ignore="MissingTranslation">Прочее</string>
+    <string name="relation_other" tools:ignore="MissingTranslation" tools:keep="@string/relation_other">Прочее</string>
     <string name="relation_side_story" tools:ignore="MissingTranslation">Другая история</string>
     <string name="relation_alternative_setting" tools:ignore="MissingTranslation">Альтернативная вселенная</string>
     <string name="relation_spin_off" tools:ignore="MissingTranslation">Ответвление от оригинала</string>
     <string name="translate" tools:ignore="MissingTranslation">Перевести</string>
     <string name="translate_original" tools:ignore="MissingTranslation">Показать оригинал</string>
-    <string name="adaptation" tools:ignore="MissingTranslation">Адаптация</string>
+    <string name="adaptation" tools:ignore="MissingTranslation" tools:keep="@string/adaptation">Адаптация</string>
     <string name="open_source_licenses" tools:ignore="MissingTranslation">Лицензии открытого ПО</string>
     <string name="filters" tools:ignore="MissingTranslation">Фильтры</string>
+    <string name="date_format" tools:ignore="MissingTranslation">Формат записи дат</string>
+    <string name="manhua">Маньхуа</string>
+    <string name="discontinued">Прекращено</string>
+    <string name="opening">Открывающие темы</string>
+    <string name="ending">Закрывающие темы</string>
+    <string name="german">Немецкий</string>
 </resources>

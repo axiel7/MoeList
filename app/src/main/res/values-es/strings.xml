@@ -50,7 +50,7 @@
     <string name="seasonal_chart">Temporadas</string>
     <string name="random">Aleatorio</string>
     <string name="today">Hoy</string>
-    <string name="nothing_today">Nada para hoy\\n( ≧Д≦)</string>
+    <string name="nothing_today">Nada para hoy\n( ≧Д≦)</string>
     <string name="this_season">Esta Temporada</string>
     <string name="recommendations">Recomendaciones</string>
     <string name="username">Usuario</string>
@@ -188,7 +188,7 @@
     <string name="genre_dementia" tools:ignore="MissingTranslation">Demencia</string>
     <string name="genre_demons" tools:ignore="MissingTranslation">Demonios</string>
     <string name="genre_drama" tools:ignore="MissingTranslation">Drama</string>
-    <string name="genre_ecchi" tools:ignore="MissingTranslation">Ecchi</string>
+    <string name="genre_ecchi" tools:ignore="MissingTranslation" tools:keep="@string/genre_ecchi">Ecchi</string>
     <string name="genre_fantasy" tools:ignore="MissingTranslation">Fantasía</string>
     <string name="genre_game" tools:ignore="MissingTranslation">Videojuegos</string>
     <string name="genre_harem" tools:ignore="MissingTranslation">Harem</string>
@@ -228,13 +228,19 @@
     <string name="relation_sequel" tools:ignore="MissingTranslation">Secuela</string>
     <string name="relation_summary" tools:ignore="MissingTranslation">Resumen</string>
     <string name="relation_alternative_version" tools:ignore="MissingTranslation">Versión alternativa</string>
-    <string name="relation_other" tools:ignore="MissingTranslation">Otro</string>
+    <string name="relation_other" tools:ignore="MissingTranslation" tools:keep="@string/relation_other">Otro</string>
     <string name="relation_side_story" tools:ignore="MissingTranslation">Historia paralela</string>
     <string name="relation_alternative_setting" tools:ignore="MissingTranslation">Marco alternativo</string>
     <string name="relation_spin_off" tools:ignore="MissingTranslation">Spin-off</string>
     <string name="translate" tools:ignore="MissingTranslation">Traducir</string>
     <string name="translate_original" tools:ignore="MissingTranslation">Mostrar original</string>
-    <string name="adaptation" tools:ignore="MissingTranslation">Adaptación</string>
+    <string name="adaptation" tools:ignore="MissingTranslation" tools:keep="@string/adaptation">Adaptación</string>
     <string name="open_source_licenses" tools:ignore="MissingTranslation">Licencias de código abierto</string>
     <string name="filters" tools:ignore="MissingTranslation">Filtros</string>
+    <string name="date_format" tools:ignore="MissingTranslation">Formato de fecha</string>
+    <string name="manhua">Manhua</string>
+    <string name="discontinued">Descontinuado</string>
+    <string name="opening">Openings</string>
+    <string name="ending">Endings</string>
+    <string name="german">Alemán</string>
 </resources>
