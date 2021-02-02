@@ -1,5 +1,7 @@
 package com.axiel7.moelist.adapter
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -7,13 +9,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.axiel7.moelist.R
 import com.axiel7.moelist.model.Theme
 
-class ThemesAdapter(private val themes: MutableList<Theme>,
-                    private val rowLayout: Int,
-                    private val context: Context) :
+
+class ThemesAdapter(
+    private val themes: MutableList<Theme>,
+    private val rowLayout: Int,
+    private val context: Context
+) :
     RecyclerView.Adapter<ThemesAdapter.AnimeViewHolder>() {
     private var endListReachedListener: EndListReachedListener? = null
 
@@ -31,7 +37,10 @@ class ThemesAdapter(private val themes: MutableList<Theme>,
 
         holder.themeView.text = themeText
 
-        val query = themeText.replace(" ", "+", true)
+        var query = themeText.replace(" ", "+", true)
+        if (query.startsWith("#")) {
+            query = query.replaceFirst("#", "")
+        }
         holder.itemView.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse("https://www.youtube.com/results?search_query=$query")
