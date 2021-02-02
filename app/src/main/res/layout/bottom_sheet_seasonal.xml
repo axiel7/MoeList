@@ -19,18 +19,6 @@
         android:paddingStart="?attr/listPreferredItemPaddingStart"
         android:paddingEnd="?attr/listPreferredItemPaddingEnd">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="24dp"
-            android:scaleType="fitCenter"
-            android:alpha="0.5"
-            android:src="@drawable/ic_drag_pill_24dp"
-            app:tint="?attr/colorOnBackground"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/drag_pill" />
-
         <Button
             android:id="@+id/cancel_button"
             style="@style/Widget.MaterialComponents.Button.TextButton"

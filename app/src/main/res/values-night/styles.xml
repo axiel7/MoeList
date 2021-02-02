@@ -16,6 +16,7 @@
         <item name="android:textColor">@color/colorText</item>
         <item name="materialCardViewStyle">@style/CardView</item>
         <item name="toolbarStyle">@style/Toolbar</item>
+        <item name="alertDialogTheme">@style/AlertDialog</item>
         <item name="bottomSheetDialogTheme">@style/BottomSheetDialog</item>
         <item name="shapeAppearanceSmallComponent">@style/AppShapeAppearance.SmallComponent</item>
         <item name="shapeAppearanceMediumComponent">@style/AppShapeAppearance.MediumComponent</item>

@@ -71,7 +71,7 @@
                 android:text="Boku no Pico"
                 android:maxLines="2"
                 android:ellipsize="end"
-                android:textSize="16sp"
+                android:textSize="17sp"
                 tools:ignore="HardcodedText" />
             <TextView
                 android:id="@+id/media_status"
@@ -97,6 +97,7 @@
                     android:layout_marginStart="8dp"
                     android:text="5/24"
                     android:textColor="?attr/colorControlNormal"
+                    android:textSize="15sp"
                     android:layout_alignParentBottom="true"
                     tools:ignore="HardcodedText" />
 

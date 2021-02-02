@@ -7,6 +7,8 @@
         <item name="android:windowBackground">@android:color/black</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="materialCardViewStyle">@style/CardView.Amoled</item>
+        <item name="alertDialogTheme">@style/AlertDialog.Amoled</item>
+        <item name="materialAlertDialogTheme">@style/AlertDialog.Amoled</item>
         <item name="mainToolbarStyle">@style/Toolbar.Amoled</item>
         <item name="bottomSheetDialogTheme">@style/BottomSheetDialog.Amoled</item>
     </style>
@@ -49,5 +51,15 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="cornerFamilyTopLeft">rounded</item>
         <item name="cornerFamilyTopRight">rounded</item>
+    </style>
+
+    <!-- Alert dialog -->
+    <style name="AlertDialog" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="colorSurface">@color/colorCard</item>
+        <item name="shapeAppearance">@style/AppShapeAppearance.MediumComponent</item>
+    </style>
+    <style name="AlertDialog.Amoled" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="colorSurface">@android:color/black</item>
+        <item name="shapeAppearance">@style/AppShapeAppearance.MediumComponent</item>
     </style>
 </resources>
