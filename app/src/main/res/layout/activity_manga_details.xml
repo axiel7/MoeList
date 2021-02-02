@@ -79,7 +79,7 @@
                     android:textColor="@color/colorText"
                     android:textSize="22sp"
                     android:textStyle="bold"
-                    android:textIsSelectable="true"
+                    android:longClickable="true"
                     tools:ignore="HardcodedText" />
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/media_type_text"

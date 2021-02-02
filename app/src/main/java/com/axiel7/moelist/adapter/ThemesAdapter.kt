@@ -46,6 +46,13 @@ class ThemesAdapter(
             intent.data = Uri.parse("https://www.youtube.com/results?search_query=$query")
             context.startActivity(intent)
         }
+        holder.itemView.setOnLongClickListener {
+            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("theme", themeText)
+            clipboard.setPrimaryClip(clip)
+            Toast.makeText(context, "Copied!", Toast.LENGTH_SHORT).show()
+            true
+        }
         if (position == themes.size - 2) run {
             endListReachedListener?.onBottomReached(position)
         }

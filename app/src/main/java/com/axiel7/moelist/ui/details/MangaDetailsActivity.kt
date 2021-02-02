@@ -3,6 +3,9 @@ package com.axiel7.moelist.ui.details
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityOptions
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -213,6 +216,10 @@ class MangaDetailsActivity : BaseActivity() {
         loadingView = findViewById(R.id.loading_layout)
         mangaPosterView = findViewById(R.id.manga_poster)
         mangaTitleView = findViewById(R.id.main_title)
+        mangaTitleView.setOnLongClickListener {
+            copyToClipboard(mangaTitleView.text.toString())
+            true
+        }
         mediaTypeView = findViewById(R.id.media_type_text)
         totalChaptersView = findViewById(R.id.episodes_text)
         totalVolumesView = findViewById(R.id.volumes_text)
@@ -620,6 +627,13 @@ class MangaDetailsActivity : BaseActivity() {
             .addOnFailureListener { exception ->
                 Toast.makeText(this, exception.localizedMessage, Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun copyToClipboard(text: String) {
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("title", text)
+        clipboard.setPrimaryClip(clip)
+        Toast.makeText(this, "Copied!", Toast.LENGTH_SHORT).show()
     }
 
     override fun onResume() {
