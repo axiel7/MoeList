@@ -243,4 +243,6 @@
     <string name="opening">اغنية المقدمة</string>
     <string name="ending">اغنية الخاتمة</string>
     <string name="german">الألمانية</string>
+    <string name="copied">Copied!</string>
+    <string name="login_browser_warning">Try with another browser if you can\'t login.</string>
 </resources>
