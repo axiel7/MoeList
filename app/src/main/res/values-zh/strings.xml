@@ -243,4 +243,6 @@
     <string name="opening">Opening Themes</string>
     <string name="ending">Ending Themes</string>
     <string name="german">German</string>
+    <string name="copied">Copied!</string>
+    <string name="login_browser_warning">Try with another browser if you can\'t login.</string>
 </resources>
