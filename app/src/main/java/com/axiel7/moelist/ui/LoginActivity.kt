@@ -61,7 +61,7 @@ class LoginActivity : BaseActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        Toast.makeText(this, "Try with another browser if you can't login.", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, getString(R.string.login_browser_warning), Toast.LENGTH_LONG).show()
         val uri = intent?.data
         if (uri!=null && uri.toString().startsWith(redirectUri)) { getLoginData(uri) }
     }

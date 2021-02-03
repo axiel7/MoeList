@@ -621,7 +621,7 @@ class AnimeDetailsActivity : BaseActivity() {
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("title", text)
         clipboard.setPrimaryClip(clip)
-        Toast.makeText(this, "Copied!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.copied), Toast.LENGTH_SHORT).show()
     }
 
     override fun onResume() {
