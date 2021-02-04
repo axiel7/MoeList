@@ -103,12 +103,12 @@
     <string name="web_manga">Web Mangá</string>
     <string name="score_apalling">1 Abominável</string>
     <string name="score_horrible">2 Horrível</string>
-    <string name="score_very_bad">3 Péssimo</string>
+    <string name="score_very_bad">3 Muito Ruim</string>
     <string name="score_bad">4 Ruim</string>
     <string name="score_average">5 Razoável</string>
-    <string name="score_fine">6 Bom</string>
-    <string name="score_good">7 Ótimo</string>
-    <string name="score_very_good">8 Incrível</string>
+    <string name="score_fine">6 Aceitável</string>
+    <string name="score_good">7 Bom</string>
+    <string name="score_very_good">8 Muito Bom</string>
     <string name="score_great">9 Excelente</string>
     <string name="score_masterpiece">10 Obra-prima</string>
     <string name="monday">Segunda-Feira</string>
@@ -243,6 +243,6 @@
     <string name="opening">Aberturas</string>
     <string name="ending">Encerramentos</string>
     <string name="german">Alemão</string>
-    <string name="copied">Copied!</string>
-    <string name="login_browser_warning">Try with another browser if you can\'t login.</string>
+    <string name="copied">Copiado!</string>
+    <string name="login_browser_warning">Tente com outro navegador se você não conseguir fazer login.</string>
 </resources>
