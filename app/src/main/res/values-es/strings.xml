@@ -243,6 +243,6 @@
     <string name="opening">Openings</string>
     <string name="ending">Endings</string>
     <string name="german">Alemán</string>
-    <string name="copied">Copied!</string>
-    <string name="login_browser_warning">Try with another browser if you can\'t login.</string>
+    <string name="copied">¡Copiado!</string>
+    <string name="login_browser_warning">Prueba con otro navegador si no puedes iniciar sesión.</string>
 </resources>
