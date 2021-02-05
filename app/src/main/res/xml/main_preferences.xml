@@ -72,6 +72,11 @@
         <Preference
             app:key="licenses"
             app:title="@string/open_source_licenses"/>
+        <SwitchPreferenceCompat
+            app:key="send_analytics"
+            app:title="@string/send_analytics"
+            app:summary="@string/analytics_summary"
+            app:defaultValue="true"/>
 
     </PreferenceCategory>
 

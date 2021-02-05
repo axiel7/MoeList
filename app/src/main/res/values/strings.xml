@@ -248,4 +248,7 @@
     <string name="german">German</string>
     <string name="copied">Copied!</string>
     <string name="login_browser_warning">Try with another browser if you can\'t login.</string>
+    <string name="send_analytics">Send analytics</string>
+    <string name="analytics_summary">This helps improve the app</string>
+    <string name="github_sponsor">Sponsor the project 💰</string>
 </resources>

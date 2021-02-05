@@ -10,7 +10,7 @@ import com.axiel7.moelist.room.AnimeDatabase
 import com.axiel7.moelist.utils.CreateOkHttpClient
 import com.axiel7.moelist.utils.SharedPrefsHelpers
 import com.axiel7.moelist.utils.Urls
-import com.google.android.gms.ads.MobileAds
+import com.google.firebase.analytics.FirebaseAnalytics
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -23,6 +23,13 @@ class MyApplication : Application(), ImageLoaderFactory {
         loadSavedPrefs()
         if (isUserLogged) {
             createRetrofit(applicationContext)
+        }
+
+        val firebaseAnalytics = FirebaseAnalytics.getInstance(applicationContext)
+        if (!sendAnalytics) {
+            firebaseAnalytics.setAnalyticsCollectionEnabled(false)
+        } else {
+            firebaseAnalytics.setAnalyticsCollectionEnabled(true)
         }
 
         animeDb = AnimeDatabase.getAnimeDatabase(applicationContext)
@@ -53,10 +60,12 @@ class MyApplication : Application(), ImageLoaderFactory {
             isUserLogged = sharedPref.getBoolean("isUserLogged", false)
             accessToken = sharedPref.getString("accessToken", "null") ?: "null"
             refreshToken = sharedPref.getString("refreshToken", "null") ?: "null"
+            sendAnalytics = sharedPref.getBoolean("send_analytics", true)
         }
 
         var animeDb: AnimeDatabase? = null
         var isUserLogged: Boolean = false
+        var sendAnalytics: Boolean = true
         private lateinit var retrofit: Retrofit
         lateinit var malApiService: MalApiService
         lateinit var accessToken: String
