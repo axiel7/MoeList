@@ -76,6 +76,7 @@
             android:text="@string/buy"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -88,16 +89,16 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_margin="@dimen/text_margin"
-            android:text="@string/watch_ad"
+            android:text="@string/github_sponsor"
             android:textSize="20sp"/>
         <Button
-            android:id="@+id/ad_button"
+            android:id="@+id/github_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/text_margin"
             android:layout_marginStart="@dimen/text_margin"
             android:layout_gravity="center_vertical"
-            android:text="@string/watch"/>
+            android:text="@string/github"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
