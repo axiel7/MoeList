@@ -614,15 +614,20 @@ class MangaDetailsActivity : BaseActivity() {
             .build()
         translator.downloadModelIfNeeded(conditions)
             .addOnSuccessListener {
-                translator.translate(synopsisView.text as String)
-                    .addOnSuccessListener { translatedText ->
-                        loadingTranslate.hide()
-                        translateButton.text = resources.getString(R.string.translate_original)
-                        synopsisView.text = translatedText
-                    }
-                    .addOnFailureListener { exception ->
-                        Toast.makeText(this, exception.localizedMessage, Toast.LENGTH_SHORT).show()
-                    }
+                try {
+                    translator.translate(synopsisView.text as String)
+                        .addOnSuccessListener { translatedText ->
+                            loadingTranslate.hide()
+                            translateButton.text = resources.getString(R.string.translate_original)
+                            synopsisView.text = translatedText
+                        }
+                        .addOnFailureListener { exception ->
+                            Toast.makeText(this, exception.localizedMessage, Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                } catch (e: IllegalStateException) {
+                    Log.d("MoeLog", e.message?:"")
+                }
             }
             .addOnFailureListener { exception ->
                 Toast.makeText(this, exception.localizedMessage, Toast.LENGTH_SHORT).show()
