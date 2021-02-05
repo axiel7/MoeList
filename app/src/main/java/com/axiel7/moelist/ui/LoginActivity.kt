@@ -1,5 +1,6 @@
 package com.axiel7.moelist.ui
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -52,7 +53,12 @@ class LoginActivity : BaseActivity() {
         val loginButton = findViewById<Button>(R.id.login)
         loginButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, loginUrl)
-            startActivity(intent)
+            try {
+                startActivity(intent)
+            } catch (e: ActivityNotFoundException) {
+                Log.d("MoeLog", e.message?:"")
+                Toast.makeText(this, getString(R.string.login_browser_warning), Toast.LENGTH_LONG).show()
+            }
         }
 
         val uri = intent?.data
