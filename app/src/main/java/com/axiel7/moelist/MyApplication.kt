@@ -26,7 +26,6 @@ class MyApplication : Application(), ImageLoaderFactory {
         }
 
         animeDb = AnimeDatabase.getAnimeDatabase(applicationContext)
-        MobileAds.initialize(applicationContext)
     }
     override fun newImageLoader(): ImageLoader {
         return ImageLoader.Builder(applicationContext)

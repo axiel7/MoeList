@@ -101,18 +101,4 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <ImageView
-        android:id="@+id/kofi_button"
-        android:layout_width="300dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="25dp"
-        android:layout_gravity="center"
-        android:clickable="true"
-        android:focusable="true"
-        android:paddingEnd="2dp"
-        android:paddingStart="2dp"
-        android:background="?attr/selectableItemBackground"
-        android:src="@drawable/ic_supportme_blue"
-        android:contentDescription="@string/kofi_button" />
-
 </androidx.appcompat.widget.LinearLayoutCompat>
