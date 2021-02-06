@@ -95,7 +95,7 @@
     <string name="spring">Весна</string>
     <string name="summer">Лето</string>
     <string name="fall">Осень</string>
-    <string name="original">Первоисточник</string>
+    <string name="original" comment="Source: Original">Первоисточник</string>
     <string name="light_novel">Легкая новелла</string>
     <string name="visual_novel">Визуальная новелла</string>
     <string name="game">Игра</string>
@@ -153,7 +153,7 @@
     <string name="title_donations">Пожертвования</string>
     <string name="title_ranking">Топ</string>
     <string name="title_seasonal">Сезоны</string>
-    <string name="synopsis_icon">Развернуть описание</string>
+    <string name="synopsis_icon" comment="synopsis_icon&#10;&#10;Icon description for accessibility">Развернуть описание</string>
     <string name="kofi_button">Кнопка Ko-Fi</string>
     <string name="poster">Плакат</string>
     <string name="moelist_banner">Баннер MoeList</string>
@@ -242,4 +242,9 @@
     <string name="opening">Открывающие темы</string>
     <string name="ending">Закрывающие темы</string>
     <string name="german">Немецкий</string>
+    <string name="copied">Скопировано!</string>
+    <string name="login_browser_warning">Попробуйте использовать другой браузер, если вы не можете войти.</string>
+    <string name="send_analytics">Отправлять аналитику</string>
+    <string name="analytics_summary">Это помогает улучшать приложение</string>
+    <string name="github_sponsor">Спонсировать проект 💰</string>
 </resources>

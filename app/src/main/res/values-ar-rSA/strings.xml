@@ -95,7 +95,7 @@
     <string name="spring">الربيع</string>
     <string name="summer">الصيف</string>
     <string name="fall">الخريف</string>
-    <string name="original">أصلي</string>
+    <string name="original" comment="Source: Original">أصلي</string>
     <string name="light_novel">رواية خفيفة</string>
     <string name="visual_novel">رواية تفاعلية</string>
     <string name="game">لعبة</string>
@@ -153,7 +153,7 @@
     <string name="title_donations">المساهمة</string>
     <string name="title_ranking">المراتب</string>
     <string name="title_seasonal">المواسم</string>
-    <string name="synopsis_icon">توسيع الملخص</string>
+    <string name="synopsis_icon" comment="synopsis_icon&#10;&#10;Icon description for accessibility">توسيع الملخص</string>
     <string name="kofi_button">زر Ko-Fi</string>
     <string name="poster">ملصق</string>
     <string name="moelist_banner">لافتة MoeList</string>
@@ -242,4 +242,9 @@
     <string name="opening">اغنية المقدمة</string>
     <string name="ending">اغنية الخاتمة</string>
     <string name="german">الألمانية</string>
+    <string name="copied">Copied!</string>
+    <string name="login_browser_warning">Try with another browser if you can\'t login.</string>
+    <string name="send_analytics">Send analytics</string>
+    <string name="analytics_summary">This helps improve the app</string>
+    <string name="github_sponsor">Sponsor the project 💰</string>
 </resources>

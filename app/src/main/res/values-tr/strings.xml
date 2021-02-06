@@ -57,7 +57,7 @@
     <string name="mean_score">Ortalama Puan</string>
     <string name="rewatched">Tekrar İzleme</string>
     <string name="view_profile_mal">Profili Mal \'de görüntüle</string>
-    <string name="airing_in">Yayınlanıyor</string>
+    <string name="airing_in">Yayınlanacak</string>
     <string name="score_value">Puan:</string>
     <string name="plus_one">+1</string>
     <string name="plus_one_chapter">+1 CH</string>
@@ -95,7 +95,7 @@
     <string name="spring">Bahar</string>
     <string name="summer">Yaz</string>
     <string name="fall">Sonbahar</string>
-    <string name="original">Orijinal</string>
+    <string name="original" comment="Source: Original">Orijinal</string>
     <string name="light_novel">Light Novel</string>
     <string name="visual_novel">Visual Novel</string>
     <string name="game">Oyun</string>
@@ -153,7 +153,7 @@
     <string name="title_donations">Bağışlar</string>
     <string name="title_ranking">Sıralama</string>
     <string name="title_seasonal">Sezonluk</string>
-    <string name="synopsis_icon">Özeti genişlet</string>
+    <string name="synopsis_icon" comment="synopsis_icon&#10;&#10;Icon description for accessibility">Özeti genişlet</string>
     <string name="kofi_button">Ko-Fi butonu</string>
     <string name="poster">Poster</string>
     <string name="moelist_banner">MoeList başlığı</string>
@@ -239,7 +239,12 @@
     <string name="date_format" tools:ignore="MissingTranslation">Tarih formatı</string>
     <string name="manhua">Manhua</string>
     <string name="discontinued">Durduruldu</string>
-    <string name="opening">Opening Themes</string>
-    <string name="ending">Ending Themes</string>
-    <string name="german">German</string>
+    <string name="opening">Açılış Müzikleri</string>
+    <string name="ending">Jenerik Müzikleri</string>
+    <string name="german">Almanca</string>
+    <string name="copied">Kopyalandı!</string>
+    <string name="login_browser_warning">Eğer giriş yapamıyorsanız, farklı bir tarayıcı ile deneyin.</string>
+    <string name="send_analytics">Send analytics</string>
+    <string name="analytics_summary">This helps improve the app</string>
+    <string name="github_sponsor">Sponsor the project 💰</string>
 </resources>

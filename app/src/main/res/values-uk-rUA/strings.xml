@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="title_home">Головна</string>
+    <string name="title_anime_list">Аніме</string>
+    <string name="title_manga_list">Манґа</string>
+    <string name="stats">Статистика</string>
+    <string name="more_info">Детальніше</string>
+    <string name="synonyms">Інші назви</string>
+    <string name="jp_title">Японська</string>
+    <string name="start_date">Дата початку</string>
+    <string name="end_date">Дата закінчення</string>
+    <string name="season">Сезон</string>
+    <string name="broadcast">Трансляція</string>
+    <string name="duration">Тривалість</string>
+    <string name="source">Першоджерело</string>
+    <string name="studios">Студії</string>
+    <string name="edit">Змінити</string>
+    <string name="authors">Автори</string>
+    <string name="volumes">Томи</string>
+    <string name="serialization">Публікація</string>
+    <string name="donations_thanks">Спасибі, що вирішити підтримати мене!\n( /^ω ^)/♪♪</string>
+    <string name="buy_tea">Купіть мені чаю 🍵</string>
+    <string name="buy">Купити</string>
+    <string name="buy_burger">Купіть мені бургер 🍔</string>
+    <string name="watch">Дивитися</string>
+    <string name="login">Увійти</string>
+    <string name="search_in_mal">Пошук на MAL</string>
+    <string name="no_results">Нічого не знайдено</string>
+    <string name="title_profile">Профіль</string>
+    <string name="cancel">Скасувати</string>
+    <string name="apply">Застосувати</string>
+    <string name="status">Статус</string>
+    <string name="episodes">Епізоди</string>
+    <string name="delete">Видалити</string>
+    <string name="chapters">Розділи</string>
+    <string name="watching">Дивлюся</string>
+    <string name="reading">Читаю</string>
+    <string name="completed">Завершено</string>
+    <string name="on_hold">Відкладено</string>
+    <string name="dropped">Кинуто</string>
+    <string name="ptw">Заплановано</string>
+    <string name="ptr">Заплановано</string>
+    <string name="share_app">Поділитися додатком</string>
+    <string name="donations">Пожертви</string>
+    <string name="settings">Налаштування</string>
+    <string name="year">Рік</string>
+    <string name="anime_ranking">Топ аніме</string>
+    <string name="manga_ranking">Топ манґи</string>
+    <string name="seasonal_chart">Топ сезону</string>
+    <string name="random">Випадкове</string>
+    <string name="today">Сьогодні</string>
+    <string name="nothing_today">Сьогодні нічого немає\n( ≧Д≦)</string>
+    <string name="this_season">Цей сезон</string>
+    <string name="recommendations">Рекомендації</string>
+    <string name="username">Ім\'я користувача</string>
+    <string name="total_entries">Усього:</string>
+    <string name="mean_score">Середній бал</string>
+    <string name="rewatched">Переглянуто знову</string>
+    <string name="view_profile_mal">Переглянути профіль на MAL</string>
+    <string name="airing_in">Вийде через</string>
+    <string name="score_value">Оцінка:</string>
+    <string name="plus_one">+1</string>
+    <string name="plus_one_chapter">+1 РОЗ</string>
+    <string name="aired">Вийшло</string>
+    <string name="ago">тому</string>
+    <string name="add">Додати</string>
+    <string name="invalid_number">Невірне число</string>
+    <string name="unknown">Невідомо</string>
+    <string name="top_ranked">Місце в топі</string>
+    <string name="members">В списках</string>
+    <string name="users_scores">Оцінка користувачів</string>
+    <string name="popularity">Популярність</string>
+    <string name="deleted">Видалено</string>
+    <string name="error_server">Помилка підключення до сервера</string>
+    <string name="error_delete_entry">Помилка видалення запису</string>
+    <string name="updated">Оновлено</string>
+    <string name="error_updating_list">Помилка оновлення списку</string>
+    <string name="added_ptw">Додано до запланованих</string>
+    <string name="no_changes">Без змін</string>
+    <string name="tv">TV</string>
+    <string name="ova">OVA</string>
+    <string name="ona">ONA</string>
+    <string name="movie">Фільм</string>
+    <string name="special">Спешл</string>
+    <string name="music">Музика</string>
+    <string name="manga">Манґа</string>
+    <string name="anime">Аніме</string>
+    <string name="one_shot">Ваншот</string>
+    <string name="manhwa">Манхва</string>
+    <string name="novel">Новела</string>
+    <string name="airing">Виходить</string>
+    <string name="finished">Завершено</string>
+    <string name="on_hiatus">Призупинено</string>
+    <string name="winter">Зима</string>
+    <string name="spring">Весна</string>
+    <string name="summer">Літо</string>
+    <string name="fall">Осінь</string>
+    <string name="original" comment="Source: Original">Оригінальне</string>
+    <string name="light_novel">Легка новела</string>
+    <string name="visual_novel">Візуальна новела</string>
+    <string name="game">Гра</string>
+    <string name="web_manga">Веб-манґа</string>
+    <string name="score_apalling">1 Страхіття</string>
+    <string name="score_horrible">2 Жах</string>
+    <string name="score_very_bad">3 Дуже погано</string>
+    <string name="score_bad">4 Погано</string>
+    <string name="score_average">5 Посередньо</string>
+    <string name="score_fine">6 Задовільно</string>
+    <string name="score_good">7 Добре</string>
+    <string name="score_very_good">8 Дуже добре</string>
+    <string name="score_great">9 Чудово</string>
+    <string name="score_masterpiece">10 Шедевр</string>
+    <string name="monday">Понеділок</string>
+    <string name="tuesday">Вівторок</string>
+    <string name="wednesday">Середа</string>
+    <string name="thursday">Четвер</string>
+    <string name="friday">П’ятниця</string>
+    <string name="saturday">Субота</string>
+    <string name="sunday">Неділя</string>
+    <string name="not_yet_aired">Ще не вийшло</string>
+    <string name="publishing">Публікується</string>
+    <string name="all">Усі</string>
+    <string name="popular">Популярні</string>
+    <string name="added_ptr">Додано до запланованих</string>
+    <string name="days">Днів</string>
+    <string name="donation_thanked">Дякую!\n(◔‿◔)</string>
+    <string name="login_error">Помилка входу</string>
+    <string name="search">Пошук</string>
+    <string name="theme">Тема</string>
+    <string name="show_nsfw">Показати NSFW-вміст</string>
+    <string name="nsfw_summary">Я підтверджую що мені більше 18 років.</string>
+    <string name="default_section">Розділ за замовчуванням</string>
+    <string name="display">Дисплей</string>
+    <string name="startup">Запуск</string>
+    <string name="account">Обліковий запис</string>
+    <string name="logout">Вийти</string>
+    <string name="logout_summary">Вийти лише з MoeList, а не з MAL.</string>
+    <string name="other">Інше</string>
+    <string name="version">Версія</string>
+    <string name="credits">Розробники</string>
+    <string name="discord_summary">Приєднуйтесь до офіційного сервера!</string>
+    <string name="github_summary">Позначте репозиторій!</string>
+    <string name="credits_summary">Люди, які допомогли мені</string>
+    <string name="feedback">Залишити відгук</string>
+    <string name="theme_light">Світла</string>
+    <string name="theme_dark">Темна</string>
+    <string name="theme_system">Як в системі</string>
+    <string name="title_login">Увійти</string>
+    <string name="title_details">Деталі</string>
+    <string name="title_search">Пошук</string>
+    <string name="title_poster">Зображення</string>
+    <string name="title_settings">Налаштування</string>
+    <string name="title_donations">Пожертви</string>
+    <string name="title_ranking">Топ</string>
+    <string name="title_seasonal">Сезони</string>
+    <string name="synopsis_icon" comment="synopsis_icon&#10;&#10;Icon description for accessibility">Розгорнути синопсис</string>
+    <string name="kofi_button">Кнопка Ko-Fi</string>
+    <string name="poster">Плакат</string>
+    <string name="moelist_banner">Банер MoeList</string>
+    <string name="drag_pill">Потягніть шторку</string>
+    <string name="profile_picture">Аватар</string>
+    <string name="purchase_cancelled">Покупку скасовано</string>
+    <string name="error_not_found">Не знайдено</string>
+    <string name="relateds">Зв\'язані</string>
+    <string name="view_on_mal">Переглянути на MAL</string>
+    <string name="share">Поділитися</string>
+    <string name="sort_title">Назва</string>
+    <string name="sort_score">Оцінка</string>
+    <string name="sort_last_updated">Востаннє оновлено</string>
+    <string name="sort" tools:ignore="MissingTranslation">Сортування</string>
+    <string name="sort_by" tools:ignore="MissingTranslation">Сортувати за</string>
+    <string name="ok" tools:ignore="MissingTranslation">ОК</string>
+    <string name="support" tools:ignore="MissingTranslation">Допомога</string>
+    <string name="logo_design" tools:ignore="MissingTranslation">Дизайн логотипу</string>
+    <string name="general_help" tools:ignore="MissingTranslation">Загальна допомога</string>
+    <string name="api_help" tools:ignore="MissingTranslation">Допомога з MyAnimeList API</string>
+    <string name="translations" tools:ignore="MissingTranslation">Перекладачі</string>
+    <string name="turkish" tools:ignore="MissingTranslation">Турецькою</string>
+    <string name="brazilian" tools:ignore="MissingTranslation">Бразильською</string>
+    <string name="russian" tools:ignore="MissingTranslation">Російською</string>
+    <string name="arabic" tools:ignore="MissingTranslation">Арабською</string>
+    <string name="spanish" tools:ignore="MissingTranslation">Іспанською</string>
+    <string name="genre_action" tools:ignore="MissingTranslation">Екшн</string>
+    <string name="genre_adventure" tools:ignore="MissingTranslation">Пригоди</string>
+    <string name="genre_cars" tools:ignore="MissingTranslation">Автомобілі</string>
+    <string name="genre_comedy" tools:ignore="MissingTranslation">Комедія</string>
+    <string name="genre_dementia" tools:ignore="MissingTranslation">Божевілля</string>
+    <string name="genre_demons" tools:ignore="MissingTranslation">Демони</string>
+    <string name="genre_drama" tools:ignore="MissingTranslation">Драма</string>
+    <string name="genre_ecchi" tools:ignore="MissingTranslation" tools:keep="@string/genre_ecchi">Еччі</string>
+    <string name="genre_fantasy" tools:ignore="MissingTranslation">Фентезі</string>
+    <string name="genre_game" tools:ignore="MissingTranslation">Ігри</string>
+    <string name="genre_harem" tools:ignore="MissingTranslation">Гарем</string>
+    <string name="genre_hentai" tools:ignore="MissingTranslation">Хентай</string>
+    <string name="genre_historical" tools:ignore="MissingTranslation">Історичне</string>
+    <string name="genre_horror" tools:ignore="MissingTranslation">Жахи</string>
+    <string name="genre_josei" tools:ignore="MissingTranslation">Джьосей</string>
+    <string name="genre_kids" tools:ignore="MissingTranslation">Дитяче</string>
+    <string name="genre_magic" tools:ignore="MissingTranslation">Магія</string>
+    <string name="genre_martial_arts" tools:ignore="MissingTranslation">Бойові мистецтва</string>
+    <string name="genre_mecha" tools:ignore="MissingTranslation">Меха</string>
+    <string name="genre_military" tools:ignore="MissingTranslation">Військове</string>
+    <string name="genre_music" tools:ignore="MissingTranslation">Музичне</string>
+    <string name="genre_mystery" tools:ignore="MissingTranslation">Детектив</string>
+    <string name="genre_parody" tools:ignore="MissingTranslation">Пародія</string>
+    <string name="genre_police" tools:ignore="MissingTranslation">Поліція</string>
+    <string name="genre_psychological" tools:ignore="MissingTranslation">Психологічне</string>
+    <string name="genre_romance" tools:ignore="MissingTranslation">Романтика</string>
+    <string name="genre_samurai" tools:ignore="MissingTranslation">Самураї</string>
+    <string name="genre_school" tools:ignore="MissingTranslation">Школа</string>
+    <string name="genre_sci_fi" tools:ignore="MissingTranslation">Наукова фантастика</string>
+    <string name="genre_seinen" tools:ignore="MissingTranslation">Сейнен</string>
+    <string name="genre_shoujo" tools:ignore="MissingTranslation">Шьоджьо</string>
+    <string name="genre_shoujo_ai" tools:ignore="MissingTranslation">Шьоджьо-ай</string>
+    <string name="genre_shounen" tools:ignore="MissingTranslation">Шьонен</string>
+    <string name="genre_shounen_ai" tools:ignore="MissingTranslation">Шьонен-ай</string>
+    <string name="genre_slice_of_life" tools:ignore="MissingTranslation">Буденність</string>
+    <string name="genre_space" tools:ignore="MissingTranslation">Космос</string>
+    <string name="genre_sports" tools:ignore="MissingTranslation">Спорт</string>
+    <string name="genre_superpower" tools:ignore="MissingTranslation">Суперсила</string>
+    <string name="genre_supernatural" tools:ignore="MissingTranslation">Надприродне</string>
+    <string name="genre_thriller" tools:ignore="MissingTranslation">Трилер</string>
+    <string name="genre_vampire" tools:ignore="MissingTranslation">Вампіри</string>
+    <string name="genre_yaoi" tools:ignore="MissingTranslation">Яой</string>
+    <string name="genre_yuri" tools:ignore="MissingTranslation">Юрі</string>
+    <string name="relation_prequel" tools:ignore="MissingTranslation">Передісторія</string>
+    <string name="relation_sequel" tools:ignore="MissingTranslation">Продовження</string>
+    <string name="relation_summary" tools:ignore="MissingTranslation">Узагальнення</string>
+    <string name="relation_alternative_version" tools:ignore="MissingTranslation">Альтернативна версія</string>
+    <string name="relation_other" tools:ignore="MissingTranslation" tools:keep="@string/relation_other">Інше</string>
+    <string name="relation_side_story" tools:ignore="MissingTranslation">Побічна історія</string>
+    <string name="relation_alternative_setting" tools:ignore="MissingTranslation">Альтернативний всесвіт</string>
+    <string name="relation_spin_off" tools:ignore="MissingTranslation">Спін-оф</string>
+    <string name="translate" tools:ignore="MissingTranslation">Перекласти</string>
+    <string name="translate_original" tools:ignore="MissingTranslation">Показати оригінал</string>
+    <string name="adaptation" tools:ignore="MissingTranslation" tools:keep="@string/adaptation">Адаптація</string>
+    <string name="open_source_licenses" tools:ignore="MissingTranslation">Ліцензія з відкритим кодом</string>
+    <string name="filters" tools:ignore="MissingTranslation">Фільтри</string>
+    <string name="date_format" tools:ignore="MissingTranslation">Формат дати</string>
+    <string name="manhua">Манхуа</string>
+    <string name="discontinued">Припинено</string>
+    <string name="opening">Відкриваючі теми</string>
+    <string name="ending">Закриваючі теми</string>
+    <string name="german">Німецькою</string>
+    <string name="copied">Скопійовано!</string>
+    <string name="login_browser_warning">Якщо ви не можете увійти спробуйте інший браузер.</string>
+    <string name="send_analytics">Надіслати аналітику</string>
+    <string name="analytics_summary">Це допомагає покращити додаток</string>
+    <string name="github_sponsor">Спонсорувати проект 💰</string>
+</resources>
