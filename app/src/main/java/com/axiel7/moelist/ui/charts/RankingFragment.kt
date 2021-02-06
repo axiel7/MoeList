@@ -10,7 +10,6 @@ import android.widget.FrameLayout
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.fragment.app.Fragment
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.axiel7.moelist.MyApplication.Companion.animeDb
 import com.axiel7.moelist.MyApplication.Companion.malApiService
@@ -43,7 +42,7 @@ class RankingFragment : Fragment() {
     private lateinit var snackBarView: View
     private lateinit var mediaType: String
     private var rankType: String = "all"
-    private var showNsfw = false
+    private var showNsfw = 0
     private var animeResponse: AnimeRankingResponse? = null
     private var mangaResponse: MangaRankingResponse? = null
 
@@ -51,8 +50,7 @@ class RankingFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         sharedPref = SharedPrefsHelpers.instance!!
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-        showNsfw = sharedPreferences.getBoolean("nsfw", false)
+        showNsfw = if (sharedPref.getBoolean("nsfw", false)) { 1 } else { 0 }
         mediaType = arguments?.getString("mediaType", "anime")!!
         rankType = arguments?.getString("rankType", "all")!!
 

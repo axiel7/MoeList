@@ -12,20 +12,21 @@ interface MalApiService {
     fun getAnimeList(@Query("q") search: String,
                      @Query("limit") limit: Int?,
                      @Query("offset") offset: Int?,
-                     @Query("nsfw") nsfw: Boolean,
+                     @Query("nsfw") nsfw: Int?,
                      @Query("fields") fields: String?): Call<AnimeListResponse>
 
     @GET
     fun getSeasonalAnime(@Url url: String,
                          @Query("sort") sort: String,
                          @Query("fields") fields: String?,
-                         @Query("limit") limit: Int?): Call<SeasonalAnimeResponse>
+                         @Query("limit") limit: Int?,
+                         @Query("nsfw") nsfw: Int?): Call<SeasonalAnimeResponse>
 
     @GET("/v2/anime/ranking")
     fun getAnimeRanking(@Query("ranking_type") rankingType: String,
                         @Query("fields") fields: String?,
                         @Query("limit") limit: Int?,
-                        @Query("nsfw") nsfw: Boolean): Call<AnimeRankingResponse>
+                        @Query("nsfw") nsfw: Int?): Call<AnimeRankingResponse>
 
     @GET("/v2/anime/suggestions")
     fun getAnimeRecommend(@Query("limit") limit: Int?): Call<AnimeListResponse>
@@ -33,7 +34,8 @@ interface MalApiService {
     @GET("/v2/users/@me/animelist")
     fun getUserAnimeList(@Query("status") status: String?,
                          @Query("fields") fields: String?,
-                         @Query("sort") sort: String): Call<UserAnimeListResponse>
+                         @Query("sort") sort: String,
+                         @Query("nsfw") nsfw: Int?): Call<UserAnimeListResponse>
 
     @GET
     fun getNextSeasonalPage(@Url url: String): Call<SeasonalAnimeResponse>
@@ -66,7 +68,7 @@ interface MalApiService {
     fun getMangaList(@Query("q") search: String,
                      @Query("limit") limit: Int?,
                      @Query("offset") offset: Int?,
-                     @Query("nsfw") nsfw: Boolean,
+                     @Query("nsfw") nsfw: Int?,
                      @Query("fields") fields: String?): Call<MangaListResponse>
 
     @GET
@@ -75,12 +77,13 @@ interface MalApiService {
     @GET("/v2/manga/ranking")
     fun getMangaRanking(@Query("ranking_type") rankingType: String,
                         @Query("fields") fields: String?,
-                        @Query("nsfw") nsfw: Boolean,): Call<MangaRankingResponse>
+                        @Query("nsfw") nsfw: Int?): Call<MangaRankingResponse>
 
     @GET("/v2/users/@me/mangalist")
     fun getUserMangaList(@Query("status") status: String?,
                          @Query("fields") fields: String?,
-                         @Query("sort") sort: String): Call<UserMangaListResponse>
+                         @Query("sort") sort: String,
+                         @Query("nsfw") nsfw: Int?): Call<UserMangaListResponse>
     @GET
     fun getNextMangaListPage(@Url url: String): Call<UserMangaListResponse>
     @GET

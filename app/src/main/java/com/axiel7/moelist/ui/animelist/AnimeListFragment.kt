@@ -54,12 +54,14 @@ class AnimeListFragment : Fragment() {
     private lateinit var sortMode: String
     private var defaultStatus: Int? = null
     private var defaultSort: Int = 0
+    private var showNsfw = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         sharedPref = SharedPrefsHelpers.instance!!
 
+        showNsfw = if (sharedPref.getBoolean("nsfw", false)) { 1 } else { 0 }
         defaultStatus = sharedPref.getInt("checkedStatusButton", R.id.watching_button)
         if (defaultStatus==null || defaultStatus==0) {
             defaultStatus = R.id.watching_button
@@ -208,9 +210,9 @@ class AnimeListFragment : Fragment() {
     private fun initCalls() {
         val animeListCall = if (listStatus == "all") {
             // To return all anime, don't specify status field.
-            malApiService.getUserAnimeList(null, "list_status,num_episodes,media_type,status", sortMode)
+            malApiService.getUserAnimeList(null, "list_status,num_episodes,media_type,status", sortMode, showNsfw)
         } else {
-            malApiService.getUserAnimeList(listStatus, "list_status,num_episodes,media_type,status", sortMode)
+            malApiService.getUserAnimeList(listStatus, "list_status,num_episodes,media_type,status", sortMode, showNsfw)
         }
         loadingBar.show()
         initAnimeListCall(animeListCall, true)

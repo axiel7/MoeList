@@ -25,6 +25,7 @@ import com.axiel7.moelist.ui.BaseActivity
 import com.axiel7.moelist.ui.details.AnimeDetailsActivity
 import com.axiel7.moelist.utils.InsetsHelper.addSystemWindowInsetToMargin
 import com.axiel7.moelist.utils.SeasonCalendar
+import com.axiel7.moelist.utils.SharedPrefsHelpers
 import com.axiel7.moelist.utils.StringFormat
 import com.axiel7.moelist.utils.Urls
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -52,6 +53,7 @@ class SeasonalActivity : BaseActivity() {
     private lateinit var currentSeason: StartSeason
     private var year by Delegates.notNull<Int>()
     private var animeResponse: SeasonalAnimeResponse? = null
+    private var showNsfw = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         window.enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
@@ -69,6 +71,8 @@ class SeasonalActivity : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
         toolbar.setNavigationOnClickListener { onBackPressed() }
+
+        showNsfw = if (SharedPrefsHelpers.instance!!.getBoolean("nsfw", false)) { 1 } else { 0 }
 
         season = SeasonCalendar.getCurrentSeason()
         year = SeasonCalendar.getCurrentYear()
@@ -113,7 +117,7 @@ class SeasonalActivity : BaseActivity() {
         loadingBar = findViewById(R.id.seasonal_loading)
 
         val seasonCall = malApiService.getSeasonalAnime(Urls.apiBaseUrl + "anime/season/$year/$season",
-            "anime_score", "start_season,broadcast,num_episodes,media_type,mean", 300)
+            "anime_score", "start_season,broadcast,num_episodes,media_type,mean", 300, showNsfw)
         initCalls(true, seasonCall)
     }
     private fun initCalls(shouldClear: Boolean, call: Call<SeasonalAnimeResponse>) {
@@ -166,7 +170,7 @@ class SeasonalActivity : BaseActivity() {
             season = StringFormat.formatSeasonInverted(seasonLayout.editText?.text.toString(), this)
             year = yearLayout.editText?.text.toString().toInt()
             val seasonCall = malApiService.getSeasonalAnime(Urls.apiBaseUrl + "anime/season/$year/$season",
-                "anime_score", "start_season,broadcast,num_episodes,media_type,mean", 300)
+                "anime_score", "start_season,broadcast,num_episodes,media_type,mean", 300, showNsfw)
             initCalls(true, seasonCall)
             toolbar.title = "${StringFormat.formatSeason(season, this)} $year"
             bottomSheetDialog.hide()

@@ -56,11 +56,13 @@ class HomeFragment : Fragment() {
     private var animesRankingResponse: AnimeRankingResponse? = null
     private var animesRecommendResponse: AnimeListResponse? = null
     private var todayResponse: SeasonalAnimeResponse? = null
+    private var showNsfw = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         sharedPref = SharedPrefsHelpers.instance!!
+        showNsfw = if (sharedPref.getBoolean("nsfw", false)) { 1 } else { 0 }
 
         currentSeason = StartSeason(SeasonCalendar.getCurrentYear(), SeasonCalendar.getCurrentSeason())
         jpDayWeek = SeasonCalendar.getCurrentJapanWeekday()
@@ -184,7 +186,7 @@ class HomeFragment : Fragment() {
     private fun initCalls() {
         val todayCall = malApiService.getSeasonalAnime(Urls.apiBaseUrl +
                 "anime/season/${SeasonCalendar.getCurrentYear()}/${SeasonCalendar.getCurrentSeason()}",
-            "anime_score", "broadcast,mean,start_season,status", 500)
+            "anime_score", "broadcast,mean,start_season,status", 500, showNsfw)
         //val rankingCall = malApiService.getAnimeRanking("airing","start_season", 200, false)
         initTodayCall(todayCall, true)
         /*if (todayList.isNotEmpty()) {
@@ -347,7 +349,7 @@ class HomeFragment : Fragment() {
                     }
                 }
 
-                val rankingCall = malApiService.getAnimeRanking("airing","start_season", 200,false)
+                val rankingCall = malApiService.getAnimeRanking("airing","start_season", 200, showNsfw)
                 initRankingCall(rankingCall, true)
             }
 
@@ -358,7 +360,7 @@ class HomeFragment : Fragment() {
                 if (isAdded) {
                     Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
-                val rankingCall = malApiService.getAnimeRanking("airing","start_season", 200,false)
+                val rankingCall = malApiService.getAnimeRanking("airing","start_season", 200, showNsfw)
                 initRankingCall(rankingCall, true)
             }
         })

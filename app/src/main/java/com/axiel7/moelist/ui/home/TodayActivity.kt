@@ -20,6 +20,7 @@ import com.axiel7.moelist.model.StartSeason
 import com.axiel7.moelist.ui.BaseActivity
 import com.axiel7.moelist.ui.details.AnimeDetailsActivity
 import com.axiel7.moelist.utils.SeasonCalendar
+import com.axiel7.moelist.utils.SharedPrefsHelpers
 import com.axiel7.moelist.utils.Urls
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -39,6 +40,7 @@ class TodayActivity : BaseActivity() {
     private lateinit var jpDayWeek: String
     private lateinit var currentSeason: StartSeason
     private var todayResponse: SeasonalAnimeResponse? = null
+    private var showNsfw = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         window.enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
@@ -57,6 +59,8 @@ class TodayActivity : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
         toolbar.setNavigationOnClickListener { onBackPressed() }
+
+        showNsfw = if (SharedPrefsHelpers.instance!!.getBoolean("nsfw", false)) { 1 } else { 0 }
 
         currentSeason = StartSeason(SeasonCalendar.getCurrentYear(), SeasonCalendar.getCurrentSeason())
         jpDayWeek = SeasonCalendar.getCurrentJapanWeekday()
@@ -102,7 +106,7 @@ class TodayActivity : BaseActivity() {
 
         val todayCall = MyApplication.malApiService.getSeasonalAnime(Urls.apiBaseUrl +
                 "anime/season/${SeasonCalendar.getCurrentYear()}/${SeasonCalendar.getCurrentSeason()}",
-            "anime_score", "broadcast,mean,start_season,status", 500)
+            "anime_score", "broadcast,mean,start_season,status", 500, showNsfw)
         if (todayList.isEmpty()) { initCall(todayCall, true) }
     }
 

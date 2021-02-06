@@ -52,11 +52,14 @@ class MangaListFragment : Fragment() {
     private lateinit var sortMode: String
     private var defaultStatus: Int? = null
     private var defaultSort: Int = 0
+    private var showNsfw = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         sharedPref = SharedPrefsHelpers.instance!!
+
+        showNsfw = if (sharedPref.getBoolean("nsfw", false)) { 1 } else { 0 }
 
         defaultStatus = sharedPref.getInt("checkedStatusButtonManga", R.id.reading_button)
         if (defaultStatus==null || defaultStatus==0) {
@@ -195,9 +198,9 @@ class MangaListFragment : Fragment() {
     private fun initCalls() {
         val mangaListCall = if (listStatus == "all") {
             // To return all manga, don't specify status field.
-            malApiService.getUserMangaList(null, "list_status,num_chapters,media_type,status", sortMode)
+            malApiService.getUserMangaList(null, "list_status,num_chapters,media_type,status", sortMode, showNsfw)
         } else {
-            malApiService.getUserMangaList(listStatus, "list_status,num_chapters,media_type,status", sortMode)
+            malApiService.getUserMangaList(listStatus, "list_status,num_chapters,media_type,status", sortMode, showNsfw)
         }
         loadingBar.show()
         initMangaListCall(mangaListCall, true)

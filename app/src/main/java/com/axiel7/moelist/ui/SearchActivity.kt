@@ -39,14 +39,14 @@ class SearchActivity : BaseActivity() {
     private lateinit var buttonType: Button
     private lateinit var searchType: String
     private lateinit var snackBarView: View
-    private var showNsfw = false
+    private var showNsfw = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-        showNsfw = sharedPreferences.getBoolean("nsfw", false)
+        showNsfw = if (sharedPreferences.getBoolean("nsfw", false)) { 1 } else { 0 }
 
         window.statusBarColor = getColorFromAttr(R.attr.colorToolbar)
 
