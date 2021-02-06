@@ -24,6 +24,7 @@ import androidx.core.widget.ContentLoadingProgressBar
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.axiel7.moelist.MyApplication
 import com.axiel7.moelist.MyApplication.Companion.animeDb
 import com.axiel7.moelist.MyApplication.Companion.malApiService
 import com.axiel7.moelist.R
@@ -32,6 +33,7 @@ import com.axiel7.moelist.model.MangaDetails
 import com.axiel7.moelist.model.MyMangaListStatus
 import com.axiel7.moelist.model.Related
 import com.axiel7.moelist.ui.BaseActivity
+import com.axiel7.moelist.ui.LoginActivity
 import com.axiel7.moelist.utils.*
 import com.axiel7.moelist.utils.InsetsHelper.getViewBottomHeight
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -111,6 +113,12 @@ class MangaDetailsActivity : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
         toolbar.setNavigationOnClickListener { onBackPressed() }
+
+        if (!MyApplication.isUserLogged) {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
 
         val data = intent?.dataString
         mangaId = if (data?.startsWith("https://myanimelist.net/manga") == true) {
