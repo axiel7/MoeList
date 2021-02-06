@@ -470,7 +470,8 @@ class AnimeDetailsActivity : BaseActivity() {
         else { unknown }
 
         val duration = animeDetails.average_episode_duration?.div(60)
-        val durationText = "$duration min."
+        val min = getString(R.string.minutes_abbreviation)
+        val durationText = "$duration $min."
         durationView.text = if (duration==0) { unknown } else { durationText }
 
         var sourceText =  animeDetails.source

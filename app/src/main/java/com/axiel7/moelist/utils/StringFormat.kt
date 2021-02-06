@@ -186,6 +186,8 @@ object StringFormat {
             "Alternative setting" -> context.getString(R.string.relation_alternative_setting)
             "Spin-off" -> context.getString(R.string.relation_spin_off)
             "Side story" -> context.getString(R.string.relation_side_story)
+            "Parent story" -> context.getString(R.string.parent_story)
+            "Other" -> context.getString(R.string.relation_other)
             else -> relation
         }
     }
