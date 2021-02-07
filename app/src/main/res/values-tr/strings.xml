@@ -244,10 +244,10 @@
     <string name="german">Almanca</string>
     <string name="copied">Kopyalandı!</string>
     <string name="login_browser_warning">Eğer giriş yapamıyorsanız, farklı bir tarayıcı ile deneyin.</string>
-    <string name="send_analytics">Send analytics</string>
-    <string name="analytics_summary">This helps improve the app</string>
-    <string name="github_sponsor">Sponsor the project 💰</string>
-    <string name="parent_story" comment="parent_story&#10;&#10;Relation type">Parent story</string>
-    <string name="hour_abbreviation">h</string>
-    <string name="minutes_abbreviation" comment="minutes_abbreviation&#10;&#10;For episodes duration">min</string>
+    <string name="send_analytics">Kullanım verilerini gönder</string>
+    <string name="analytics_summary">Bu, uygulamanın geliştirilmesine yardımcı olur</string>
+    <string name="github_sponsor">Projeye sponsor olun 💰</string>
+    <string name="parent_story" comment="parent_story&#10;&#10;Relation type">Ana hikaye</string>
+    <string name="hour_abbreviation">saat</string>
+    <string name="minutes_abbreviation" comment="minutes_abbreviation&#10;&#10;For episodes duration">dakika</string>
 </resources>
