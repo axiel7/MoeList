@@ -95,7 +95,7 @@
     <string name="spring">Frühling</string>
     <string name="summer">Sommer</string>
     <string name="fall">Herbst</string>
-    <string name="original" comment="Source: Original">Original</string>
+    <string name="original">Original</string>
     <string name="light_novel">Light Novel</string>
     <string name="visual_novel">Visual Novel</string>
     <string name="game">Spiel</string>
@@ -153,7 +153,7 @@
     <string name="title_donations">Spenden</string>
     <string name="title_ranking">Ranking</string>
     <string name="title_seasonal">Saisonal</string>
-    <string name="synopsis_icon" comment="synopsis_icon&#10;&#10;Icon description for accessibility">Synopse erweitern</string>
+    <string name="synopsis_icon">Synopse erweitern</string>
     <string name="kofi_button">Ko-Fi Taste</string>
     <string name="poster">Poster</string>
     <string name="moelist_banner">MoeList banner</string>
@@ -247,4 +247,7 @@
     <string name="send_analytics">Send analytics</string>
     <string name="analytics_summary">This helps improve the app</string>
     <string name="github_sponsor">Sponsor the project 💰</string>
+    <string name="parent_story" comment="parent_story&#10;&#10;Relation type">Parent story</string>
+    <string name="hour_abbreviation">h</string>
+    <string name="minutes_abbreviation" comment="minutes_abbreviation&#10;&#10;For episodes duration">min</string>
 </resources>
