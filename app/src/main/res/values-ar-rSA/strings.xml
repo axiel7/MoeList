@@ -233,7 +233,7 @@
     <string name="relation_spin_off" tools:ignore="MissingTranslation">منتج جانبي</string>
     <string name="translate" tools:ignore="MissingTranslation">ترجم</string>
     <string name="translate_original" tools:ignore="MissingTranslation">إظهار النص الأصلي</string>
-    <string name="adaptation" tools:ignore="MissingTranslation" tools:keep="@string/adaptation">Adaptation</string>
+    <string name="adaptation" tools:ignore="MissingTranslation" tools:keep="@string/adaptation">نسخة الأنيمي/المانجا</string>
     <string name="open_source_licenses" tools:ignore="MissingTranslation">تراخيص التطبيق (مفتوحة المصدر)</string>
     <string name="filters" tools:ignore="MissingTranslation">تصفيه</string>
     <string name="date_format" tools:ignore="MissingTranslation">صيغة التاريخ</string>
@@ -247,7 +247,7 @@
     <string name="send_analytics">إرسال تحليلات الاستخدام</string>
     <string name="analytics_summary">هذا سيساعد في تحسين التطبيق</string>
     <string name="github_sponsor">راعي المشروع 💰</string>
-    <string name="parent_story" comment="parent_story&#10;&#10;Relation type">Parent story</string>
-    <string name="hour_abbreviation">h</string>
-    <string name="minutes_abbreviation" comment="minutes_abbreviation&#10;&#10;For episodes duration">min</string>
+    <string name="parent_story" comment="parent_story&#10;&#10;Relation type">القصة الأم</string>
+    <string name="hour_abbreviation">س</string>
+    <string name="minutes_abbreviation" comment="minutes_abbreviation&#10;&#10;For episodes duration">دقيقة</string>
 </resources>
