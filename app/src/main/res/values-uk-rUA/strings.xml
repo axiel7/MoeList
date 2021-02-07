@@ -4,7 +4,7 @@
     <string name="title_anime_list">Аніме</string>
     <string name="title_manga_list">Манґа</string>
     <string name="stats">Статистика</string>
-    <string name="more_info">Детальніше</string>
+    <string name="more_info">Інформація</string>
     <string name="synonyms">Інші назви</string>
     <string name="jp_title">Японська</string>
     <string name="start_date">Дата початку</string>
@@ -95,7 +95,7 @@
     <string name="spring">Весна</string>
     <string name="summer">Літо</string>
     <string name="fall">Осінь</string>
-    <string name="original" comment="Source: Original">Оригінальне</string>
+    <string name="original">Оригінальне</string>
     <string name="light_novel">Легка новела</string>
     <string name="visual_novel">Візуальна новела</string>
     <string name="game">Гра</string>
@@ -139,7 +139,7 @@
     <string name="version">Версія</string>
     <string name="credits">Розробники</string>
     <string name="discord_summary">Приєднуйтесь до офіційного сервера!</string>
-    <string name="github_summary">Позначте репозиторій!</string>
+    <string name="github_summary">Відзначте репозиторій!</string>
     <string name="credits_summary">Люди, які допомогли мені</string>
     <string name="feedback">Залишити відгук</string>
     <string name="theme_light">Світла</string>
@@ -153,7 +153,7 @@
     <string name="title_donations">Пожертви</string>
     <string name="title_ranking">Топ</string>
     <string name="title_seasonal">Сезони</string>
-    <string name="synopsis_icon" comment="synopsis_icon&#10;&#10;Icon description for accessibility">Розгорнути синопсис</string>
+    <string name="synopsis_icon">Розгорнути синопсис</string>
     <string name="kofi_button">Кнопка Ko-Fi</string>
     <string name="poster">Плакат</string>
     <string name="moelist_banner">Банер MoeList</string>
@@ -161,7 +161,7 @@
     <string name="profile_picture">Аватар</string>
     <string name="purchase_cancelled">Покупку скасовано</string>
     <string name="error_not_found">Не знайдено</string>
-    <string name="relateds">Зв\'язані</string>
+    <string name="relateds">Пов\'язані</string>
     <string name="view_on_mal">Переглянути на MAL</string>
     <string name="share">Поділитися</string>
     <string name="sort_title">Назва</string>
@@ -225,7 +225,7 @@
     <string name="genre_yuri" tools:ignore="MissingTranslation">Юрі</string>
     <string name="relation_prequel" tools:ignore="MissingTranslation">Передісторія</string>
     <string name="relation_sequel" tools:ignore="MissingTranslation">Продовження</string>
-    <string name="relation_summary" tools:ignore="MissingTranslation">Узагальнення</string>
+    <string name="relation_summary" tools:ignore="MissingTranslation">Зведення</string>
     <string name="relation_alternative_version" tools:ignore="MissingTranslation">Альтернативна версія</string>
     <string name="relation_other" tools:ignore="MissingTranslation" tools:keep="@string/relation_other">Інше</string>
     <string name="relation_side_story" tools:ignore="MissingTranslation">Побічна історія</string>
@@ -244,7 +244,10 @@
     <string name="german">Німецькою</string>
     <string name="copied">Скопійовано!</string>
     <string name="login_browser_warning">Якщо ви не можете увійти спробуйте інший браузер.</string>
-    <string name="send_analytics">Надіслати аналітику</string>
+    <string name="send_analytics">Надсилати аналітику</string>
     <string name="analytics_summary">Це допомагає покращити додаток</string>
     <string name="github_sponsor">Спонсорувати проект 💰</string>
+    <string name="parent_story" comment="parent_story&#10;&#10;Relation type">Головна історія</string>
+    <string name="hour_abbreviation">г</string>
+    <string name="minutes_abbreviation" comment="minutes_abbreviation&#10;&#10;For episodes duration">хв</string>
 </resources>
