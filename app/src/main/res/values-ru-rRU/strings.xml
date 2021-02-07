@@ -247,7 +247,7 @@
     <string name="send_analytics">Отправлять аналитику</string>
     <string name="analytics_summary">Это помогает улучшать приложение</string>
     <string name="github_sponsor">Спонсировать проект 💰</string>
-    <string name="parent_story" comment="parent_story&#10;&#10;Relation type">Parent story</string>
-    <string name="hour_abbreviation">h</string>
-    <string name="minutes_abbreviation" comment="minutes_abbreviation&#10;&#10;For episodes duration">min</string>
+    <string name="parent_story" comment="parent_story&#10;&#10;Relation type">Основная история</string>
+    <string name="hour_abbreviation">ч</string>
+    <string name="minutes_abbreviation" comment="minutes_abbreviation&#10;&#10;For episodes duration">мин</string>
 </resources>
