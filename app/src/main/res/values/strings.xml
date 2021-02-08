@@ -58,7 +58,7 @@
     <string name="mean_score">Mean Score</string>
     <string name="rewatched">Rewatched</string>
     <string name="view_profile_mal">View profile on MAL</string>
-    <string name="airing_in">Airing in</string>
+    <string name="airing_in">Airing in %sh</string>
     <string name="score_value">Score:</string>
     <string name="plus_one">+1</string>
     <string name="plus_one_chapter">+1 CH</string>
@@ -255,4 +255,6 @@
     <string name="hour_abbreviation">h</string>
     <string name="minutes_abbreviation">min</string>
     <string name="full_story">Full story</string>
+    <string name="theme_black">Black</string>
+    <string name="aired_ago">Aired %sh ago</string>
 </resources>

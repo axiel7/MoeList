@@ -65,10 +65,10 @@ class AiringAnimeAdapter(private val animes: MutableList<SeasonalList>,
             val remaining = startHour - jpTime
             val h = context.getString(R.string.hour_abbreviation)
             val airingValue = if (currentWeekDay==weekDay && remaining > 0) {
-                "${context.getString(R.string.airing_in)} ${remaining}$h"
+                context.getString(R.string.airing_in).format(remaining)
             }
             else {
-                "${context.getString(R.string.aired)} ${remaining.absoluteValue}$h ${context.getString(R.string.ago)}"
+                context.getString(R.string.aired_ago).format(remaining.absoluteValue)
             }
             holder.airingText.text = airingValue
         } else {
