@@ -28,13 +28,13 @@
     <string name="no_results">لا توجد نتائج</string>
     <string name="title_profile">الملفّ الشخصي</string>
     <string name="cancel">إلغاء</string>
-    <string name="apply">طبّق</string>
+    <string name="apply">تطبيق</string>
     <string name="status">الحالة</string>
     <string name="episodes">الحلقات</string>
     <string name="delete">حذف</string>
     <string name="chapters">الفصول</string>
     <string name="watching">أشاهده</string>
-    <string name="reading">أقرءوه</string>
+    <string name="reading">أقرؤوه</string>
     <string name="completed">أكملته</string>
     <string name="on_hold">مؤجّل</string>
     <string name="dropped">سئمت منه</string>
@@ -57,7 +57,7 @@
     <string name="mean_score">متوسط التقييم</string>
     <string name="rewatched">أعدت مشاهدته</string>
     <string name="view_profile_mal">عرض الملفّ الشخصي على MAL</string>
-    <string name="airing_in">يبث في</string>
+    <string name="airing_in">Airing in %sh</string>
     <string name="score_value">التقييم:</string>
     <string name="plus_one">1+</string>
     <string name="plus_one_chapter">1+ فصل</string>
@@ -127,7 +127,7 @@
     <string name="login_error">خطأ في تسجيل الدخول</string>
     <string name="search">البحث</string>
     <string name="theme">السِمة</string>
-    <string name="show_nsfw">العرض دون حجب المحتوى الجنسي</string>
+    <string name="show_nsfw">إظهار المحتوى 18+</string>
     <string name="nsfw_summary">أؤكد على تحمّلي المسؤولية الكاملة في عرض هذا المحتوى.</string>
     <string name="default_section">القسم الإفتراضي</string>
     <string name="display">العرض</string>
@@ -233,7 +233,7 @@
     <string name="relation_spin_off" tools:ignore="MissingTranslation">منتج جانبي</string>
     <string name="translate" tools:ignore="MissingTranslation">ترجم</string>
     <string name="translate_original" tools:ignore="MissingTranslation">إظهار النص الأصلي</string>
-    <string name="adaptation" tools:ignore="MissingTranslation" tools:keep="@string/adaptation">نسخة الأنيمي/المانجا</string>
+    <string name="adaptation" tools:ignore="MissingTranslation" tools:keep="@string/adaptation">نسخة الأنيمي/المانغا</string>
     <string name="open_source_licenses" tools:ignore="MissingTranslation">تراخيص التطبيق (مفتوحة المصدر)</string>
     <string name="filters" tools:ignore="MissingTranslation">تصفيه</string>
     <string name="date_format" tools:ignore="MissingTranslation">صيغة التاريخ</string>
@@ -247,7 +247,10 @@
     <string name="send_analytics">إرسال تحليلات الاستخدام</string>
     <string name="analytics_summary">هذا سيساعد في تحسين التطبيق</string>
     <string name="github_sponsor">راعي المشروع 💰</string>
-    <string name="parent_story" comment="parent_story&#10;&#10;Relation type">القصة الأم</string>
-    <string name="hour_abbreviation">س</string>
-    <string name="minutes_abbreviation" comment="minutes_abbreviation&#10;&#10;For episodes duration">دقيقة</string>
+    <string name="parent_story">القصة الأم</string>
+    <string name="hour_abbreviation"> س</string>
+    <string name="minutes_abbreviation">دقيقة</string>
+    <string name="full_story">Full story</string>
+    <string name="theme_black">Black</string>
+    <string name="aired_ago">Aired %sh ago</string>
 </resources>
