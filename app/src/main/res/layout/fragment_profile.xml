@@ -116,7 +116,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_centerInParent="true"
-                    android:text="Anime\nStats"
+                    android:text="@string/anime_stats"
                     android:gravity="center"
                     android:textStyle="bold"
                     android:textSize="20sp"
