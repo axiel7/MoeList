@@ -22,7 +22,6 @@
     <string name="buy_tea">Купите мне чай 🍵</string>
     <string name="buy">Купить</string>
     <string name="buy_burger">Купите мне бургер 🍔</string>
-    <string name="watch">Смотреть</string>
     <string name="login">Вход</string>
     <string name="search_in_mal">Поиск на MAL</string>
     <string name="no_results">Нет результатов</string>
@@ -61,8 +60,6 @@
     <string name="score_value">Оценка:</string>
     <string name="plus_one">+1</string>
     <string name="plus_one_chapter">+1 ГЛ</string>
-    <string name="aired">Вышло</string>
-    <string name="ago">назад</string>
     <string name="add">Добавить</string>
     <string name="invalid_number">Неправильное число</string>
     <string name="unknown">Неизвестно</string>
@@ -154,7 +151,6 @@
     <string name="title_ranking">Топ</string>
     <string name="title_seasonal">Сезоны</string>
     <string name="synopsis_icon">Развернуть описание</string>
-    <string name="kofi_button">Кнопка Ko-Fi</string>
     <string name="poster">Плакат</string>
     <string name="moelist_banner">Баннер MoeList</string>
     <string name="drag_pill">Потяните ярлык</string>
