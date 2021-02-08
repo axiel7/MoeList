@@ -22,7 +22,6 @@
     <string name="buy_tea">قدّم لي بعض الشاي من فضلك 🍵</string>
     <string name="buy">أشترِ</string>
     <string name="buy_burger">قدّم لي قطعة من البرغر من فضلك 🍔</string>
-    <string name="watch">مشاهدة</string>
     <string name="login">تسجيل الدخول</string>
     <string name="search_in_mal">البحث في MAL</string>
     <string name="no_results">لا توجد نتائج</string>
@@ -61,8 +60,6 @@
     <string name="score_value">التقييم:</string>
     <string name="plus_one">1+</string>
     <string name="plus_one_chapter">1+ فصل</string>
-    <string name="aired">تم بثه</string>
-    <string name="ago">منذ</string>
     <string name="add">إضافة</string>
     <string name="invalid_number">الرقم غير صالح</string>
     <string name="unknown">غير معروف</string>
@@ -154,7 +151,6 @@
     <string name="title_ranking">المراتب</string>
     <string name="title_seasonal">المواسم</string>
     <string name="synopsis_icon">توسيع الملخص</string>
-    <string name="kofi_button">زر Ko-Fi</string>
     <string name="poster">ملصق</string>
     <string name="moelist_banner">لافتة MoeList</string>
     <string name="drag_pill">شريط السحب</string>

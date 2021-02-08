@@ -22,7 +22,6 @@
     <string name="buy_tea">Купіть мені чаю 🍵</string>
     <string name="buy">Купити</string>
     <string name="buy_burger">Купіть мені бургер 🍔</string>
-    <string name="watch">Дивитися</string>
     <string name="login">Увійти</string>
     <string name="search_in_mal">Пошук на MAL</string>
     <string name="no_results">Нічого не знайдено</string>
@@ -61,8 +60,6 @@
     <string name="score_value">Оцінка:</string>
     <string name="plus_one">+1</string>
     <string name="plus_one_chapter">+1 РОЗ</string>
-    <string name="aired">Вийшло</string>
-    <string name="ago">тому</string>
     <string name="add">Додати</string>
     <string name="invalid_number">Невірне число</string>
     <string name="unknown">Невідомо</string>
@@ -154,7 +151,6 @@
     <string name="title_ranking">Топ</string>
     <string name="title_seasonal">Сезони</string>
     <string name="synopsis_icon">Розгорнути синопсис</string>
-    <string name="kofi_button">Кнопка Ko-Fi</string>
     <string name="poster">Плакат</string>
     <string name="moelist_banner">Банер MoeList</string>
     <string name="drag_pill">Потягніть шторку</string>

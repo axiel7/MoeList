@@ -22,7 +22,6 @@
     <string name="buy_tea">Buy me a tea 🍵</string>
     <string name="buy">Buy</string>
     <string name="buy_burger">Buy me a burger 🍔</string>
-    <string name="watch">Watch</string>
     <string name="login">Login</string>
     <string name="search_in_mal">Search in MAL</string>
     <string name="no_results">No results</string>
@@ -57,12 +56,10 @@
     <string name="mean_score">Mean Score</string>
     <string name="rewatched">Rewatched</string>
     <string name="view_profile_mal">View profile on MAL</string>
-    <string name="airing_in">Airing in</string>
+    <string name="airing_in">Airing in %sh</string>
     <string name="score_value">Score:</string>
     <string name="plus_one">+1</string>
     <string name="plus_one_chapter">+1 CH</string>
-    <string name="aired">Aired</string>
-    <string name="ago">ago</string>
     <string name="add">Add</string>
     <string name="invalid_number">Invalid number</string>
     <string name="unknown">Unknown</string>
@@ -154,7 +151,6 @@
     <string name="title_ranking">Ranking</string>
     <string name="title_seasonal">Seasonal</string>
     <string name="synopsis_icon">Expand synopsis</string>
-    <string name="kofi_button">Ko-Fi button</string>
     <string name="poster">Poster</string>
     <string name="moelist_banner">MoeList banner</string>
     <string name="drag_pill">Drag pill</string>
