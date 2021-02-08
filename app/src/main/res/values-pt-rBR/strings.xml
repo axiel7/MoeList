@@ -22,7 +22,6 @@
     <string name="buy_tea">Me pague um chá 🍵</string>
     <string name="buy">Comprar</string>
     <string name="buy_burger">Me pague um hambúrguer 🍔</string>
-    <string name="watch">Assistir</string>
     <string name="login">Fazer login</string>
     <string name="search_in_mal">Buscar no MAL</string>
     <string name="no_results">Nenhum resultado</string>
@@ -61,8 +60,6 @@
     <string name="score_value">Nota:</string>
     <string name="plus_one">+1</string>
     <string name="plus_one_chapter">+1 CAP</string>
-    <string name="aired">Exibido</string>
-    <string name="ago">atrás</string>
     <string name="add">Adicionar</string>
     <string name="invalid_number">Número inválido</string>
     <string name="unknown">Desconhecido</string>
@@ -154,7 +151,6 @@
     <string name="title_ranking">Ranking</string>
     <string name="title_seasonal">Temporadas</string>
     <string name="synopsis_icon">Expandir sinopse</string>
-    <string name="kofi_button">Botão Ko-Fi</string>
     <string name="poster">Capa</string>
     <string name="moelist_banner">Banner MoeList</string>
     <string name="drag_pill">Barra de arraste</string>
