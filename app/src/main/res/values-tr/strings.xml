@@ -57,7 +57,7 @@
     <string name="mean_score">Ortalama Puan</string>
     <string name="rewatched">Tekrar İzleme</string>
     <string name="view_profile_mal">Profili Mal \'de görüntüle</string>
-    <string name="airing_in">Yayınlanacak</string>
+    <string name="airing_in">Airing in %sh</string>
     <string name="score_value">Puan:</string>
     <string name="plus_one">+1</string>
     <string name="plus_one_chapter">+1 CH</string>
@@ -247,7 +247,10 @@
     <string name="send_analytics">Kullanım verilerini gönder</string>
     <string name="analytics_summary">Bu, uygulamanın geliştirilmesine yardımcı olur</string>
     <string name="github_sponsor">Projeye sponsor olun 💰</string>
-    <string name="parent_story" comment="parent_story&#10;&#10;Relation type">Ana hikaye</string>
-    <string name="hour_abbreviation">saat</string>
-    <string name="minutes_abbreviation" comment="minutes_abbreviation&#10;&#10;For episodes duration">dakika</string>
+    <string name="parent_story">Ana hikaye</string>
+    <string name="hour_abbreviation"> Saat</string>
+    <string name="minutes_abbreviation">dakika</string>
+    <string name="full_story">Full story</string>
+    <string name="theme_black">Black</string>
+    <string name="aired_ago">Aired %sh ago</string>
 </resources>
