@@ -58,8 +58,7 @@ class SearchMangaAdapter(private val animes: MutableList<MangaList>,
 
         holder.yearView.text = startDate
 
-        val scoreText: String
-        scoreText = if (score == null) {
+        val scoreText: String = if (score == null) {
             "${context.getString(R.string.score_value)} ??"
         } else {
             "${context.getString(R.string.score_value)} $score"
