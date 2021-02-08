@@ -57,7 +57,7 @@
     <string name="mean_score">Середній бал</string>
     <string name="rewatched">Переглянуто знову</string>
     <string name="view_profile_mal">Переглянути профіль на MAL</string>
-    <string name="airing_in">Вийде через</string>
+    <string name="airing_in">Airing in %sh</string>
     <string name="score_value">Оцінка:</string>
     <string name="plus_one">+1</string>
     <string name="plus_one_chapter">+1 РОЗ</string>
@@ -247,7 +247,10 @@
     <string name="send_analytics">Надсилати аналітику</string>
     <string name="analytics_summary">Це допомагає покращити додаток</string>
     <string name="github_sponsor">Спонсорувати проект 💰</string>
-    <string name="parent_story" comment="parent_story&#10;&#10;Relation type">Головна історія</string>
+    <string name="parent_story">Головна історія</string>
     <string name="hour_abbreviation">г</string>
-    <string name="minutes_abbreviation" comment="minutes_abbreviation&#10;&#10;For episodes duration">хв</string>
+    <string name="minutes_abbreviation">хв</string>
+    <string name="full_story">Full story</string>
+    <string name="theme_black">Black</string>
+    <string name="aired_ago">Aired %sh ago</string>
 </resources>
