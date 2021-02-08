@@ -22,7 +22,6 @@
     <string name="buy_tea">Bir çay ısmarla 🍵</string>
     <string name="buy">Satın al</string>
     <string name="buy_burger">Bir hamburger ısmarla 🍔</string>
-    <string name="watch">İzle</string>
     <string name="login">Giriş</string>
     <string name="search_in_mal">MAL \'de ara</string>
     <string name="no_results">Sonuç bulunamadı</string>
@@ -61,8 +60,6 @@
     <string name="score_value">Puan:</string>
     <string name="plus_one">+1</string>
     <string name="plus_one_chapter">+1 CH</string>
-    <string name="aired">Yayınlandı</string>
-    <string name="ago">önce</string>
     <string name="add">Ekle</string>
     <string name="invalid_number">Geçersiz sayı</string>
     <string name="unknown">Bilinmiyor</string>
@@ -154,7 +151,6 @@
     <string name="title_ranking">Sıralama</string>
     <string name="title_seasonal">Sezonluk</string>
     <string name="synopsis_icon">Özeti genişlet</string>
-    <string name="kofi_button">Ko-Fi butonu</string>
     <string name="poster">Poster</string>
     <string name="moelist_banner">MoeList başlığı</string>
     <string name="drag_pill">Sürükle</string>
