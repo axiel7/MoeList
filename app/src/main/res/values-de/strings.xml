@@ -57,7 +57,7 @@
     <string name="mean_score">Durchschnitt</string>
     <string name="rewatched">Wiederholt</string>
     <string name="view_profile_mal">Profil auf MAL ansehen</string>
-    <string name="airing_in">Ausstrahlung in</string>
+    <string name="airing_in">Airing in %sh</string>
     <string name="score_value">Bewertung:</string>
     <string name="plus_one">+1</string>
     <string name="plus_one_chapter">+1 KP</string>
@@ -247,7 +247,10 @@
     <string name="send_analytics">Send analytics</string>
     <string name="analytics_summary">This helps improve the app</string>
     <string name="github_sponsor">Sponsor the project 💰</string>
-    <string name="parent_story" comment="parent_story&#10;&#10;Relation type">Parent story</string>
+    <string name="parent_story">Parent story</string>
     <string name="hour_abbreviation">h</string>
-    <string name="minutes_abbreviation" comment="minutes_abbreviation&#10;&#10;For episodes duration">min</string>
+    <string name="minutes_abbreviation">min</string>
+    <string name="full_story">Full story</string>
+    <string name="theme_black">Black</string>
+    <string name="aired_ago">Aired %sh ago</string>
 </resources>
