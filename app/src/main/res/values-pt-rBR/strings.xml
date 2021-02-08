@@ -57,7 +57,7 @@
     <string name="mean_score">Nota Média</string>
     <string name="rewatched">Reassistido</string>
     <string name="view_profile_mal">Ver perfil no MAL</string>
-    <string name="airing_in">Exibição em</string>
+    <string name="airing_in">Airing in %sh</string>
     <string name="score_value">Nota:</string>
     <string name="plus_one">+1</string>
     <string name="plus_one_chapter">+1 CAP</string>
@@ -247,7 +247,10 @@
     <string name="send_analytics">Enviar estatísticas de uso</string>
     <string name="analytics_summary">Isso ajuda a melhorar o aplicativo</string>
     <string name="github_sponsor">Patrocine o projeto 💰</string>
-    <string name="parent_story" comment="parent_story&#10;&#10;Relation type">História principal</string>
+    <string name="parent_story">História principal</string>
     <string name="hour_abbreviation">h</string>
-    <string name="minutes_abbreviation" comment="minutes_abbreviation&#10;&#10;For episodes duration">min</string>
+    <string name="minutes_abbreviation">min</string>
+    <string name="full_story">Full story</string>
+    <string name="theme_black">Black</string>
+    <string name="aired_ago">Aired %sh ago</string>
 </resources>
