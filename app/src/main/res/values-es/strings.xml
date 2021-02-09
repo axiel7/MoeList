@@ -244,9 +244,8 @@
     <string name="analytics_summary">Esto ayuda a mejorar la aplicación</string>
     <string name="github_sponsor">Patrocina el proyecto 💰</string>
     <string name="parent_story">Historia principal</string>
-    <string name="hour_abbreviation">h</string>
-    <string name="minutes_abbreviation">min</string>
     <string name="full_story">Historia completa</string>
     <string name="theme_black">Negro</string>
     <string name="aired_ago">Emitido hace %sh</string>
+    <string name="anime_stats" comment="anime_stats" maxLength="25">Estadísticas de\nAnime</string>
 </resources>
