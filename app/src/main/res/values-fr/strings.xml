@@ -244,9 +244,8 @@
     <string name="analytics_summary">This helps improve the app</string>
     <string name="github_sponsor">Sponsor the project 💰</string>
     <string name="parent_story">Parent story</string>
-    <string name="hour_abbreviation">h</string>
-    <string name="minutes_abbreviation">min</string>
     <string name="full_story">Full story</string>
     <string name="theme_black">Black</string>
     <string name="aired_ago">Aired %sh ago</string>
+    <string name="anime_stats" comment="anime_stats" maxLength="25">Anime\nStats</string>
 </resources>
