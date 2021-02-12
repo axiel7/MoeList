@@ -247,5 +247,5 @@
     <string name="full_story">Полная история</string>
     <string name="theme_black">Чёрная</string>
     <string name="aired_ago">Вышло %s ч. назад</string>
-    <string name="anime_stats" comment="anime_stats" maxLength="25">Anime\nStats</string>
+    <string name="anime_stats" comment="anime_stats" maxLength="25">Аниме\nСтатистика</string>
 </resources>
