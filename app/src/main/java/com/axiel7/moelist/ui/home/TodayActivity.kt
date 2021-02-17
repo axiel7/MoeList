@@ -5,11 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityOptionsCompat
-import androidx.core.widget.ContentLoadingProgressBar
-import androidx.recyclerview.widget.RecyclerView
 import com.axiel7.moelist.MyApplication
 import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.AiringAnimeAdapter
@@ -25,16 +21,13 @@ import com.axiel7.moelist.utils.Urls
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.platform.MaterialSharedAxis
+import kotlinx.android.synthetic.main.activity_seasonal.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class TodayActivity : BaseActivity() {
 
-    private lateinit var todayRecycler: RecyclerView
-    private lateinit var todayLoading: ContentLoadingProgressBar
-    private lateinit var emptyToday: TextView
-    private lateinit var snackBarView: View
     private lateinit var todayAdapter: AiringAnimeAdapter
     private lateinit var todayList: MutableList<SeasonalList>
     private lateinit var jpDayWeek: String
@@ -52,13 +45,11 @@ class TodayActivity : BaseActivity() {
 
         window.statusBarColor = getColorFromAttr(R.attr.colorToolbar)
 
-        val toolbar = findViewById<Toolbar>(R.id.seasonal_toolbar)
-        toolbar.title = getString(R.string.today)
-        setSupportActionBar(toolbar)
-        val supportActionBar = supportActionBar
+        seasonal_toolbar.title = getString(R.string.today)
+        setSupportActionBar(seasonal_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
-        toolbar.setNavigationOnClickListener { onBackPressed() }
+        seasonal_toolbar.setNavigationOnClickListener { onBackPressed() }
 
         showNsfw = if (SharedPrefsHelpers.instance!!.getBoolean("nsfw", false)) { 1 } else { 0 }
 
@@ -79,7 +70,6 @@ class TodayActivity : BaseActivity() {
         }
         todayList.sortByDescending { it.node.mean }
 
-        todayRecycler = findViewById(R.id.seasonal_recycler)
         todayAdapter = AiringAnimeAdapter(
             todayList,
             R.layout.list_item_anime_today_extended,
@@ -96,11 +86,9 @@ class TodayActivity : BaseActivity() {
                 }
             }
         })
-        todayRecycler.adapter = todayAdapter
+        seasonal_recycler.adapter = todayAdapter
 
-        snackBarView = findViewById(R.id.seasonal_layout)
-        todayLoading = findViewById(R.id.seasonal_loading)
-        todayLoading.hide()
+        seasonal_loading.hide()
         val filterFab = findViewById<FloatingActionButton>(R.id.filter_fab)
         filterFab.visibility = View.GONE
 
@@ -111,7 +99,7 @@ class TodayActivity : BaseActivity() {
     }
 
     private fun initCall(call: Call<SeasonalAnimeResponse>?, shouldClear: Boolean) {
-        todayLoading.show()
+        seasonal_loading.show()
         call?.enqueue(object: Callback<SeasonalAnimeResponse> {
             override fun onResponse(
                 call: Call<SeasonalAnimeResponse>,
@@ -138,28 +126,26 @@ class TodayActivity : BaseActivity() {
                         call.cancel()
                         val nextPage: String? = todayResponse!!.paging?.next
                         if (nextPage.isNullOrEmpty()) {
-                            todayRecycler.visibility = View.INVISIBLE
-                            todayLoading.visibility = View.INVISIBLE
-                            emptyToday.visibility = View.VISIBLE
+                            seasonal_recycler.visibility = View.INVISIBLE
+                            seasonal_loading.visibility = View.INVISIBLE
                         }
                     }
                     else {
                         MyApplication.animeDb?.seasonalListDao()?.insertAllSeasonalAnimes(todayList)
                         todayList.sortByDescending { it.node.mean }
-                        todayLoading.hide()
+                        seasonal_loading.hide()
                         todayAdapter.notifyDataSetChanged()
                     }
                 }
                 else if (response.code()==401) {
-                    Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(seasonal_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<SeasonalAnimeResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
-                todayLoading.hide()
-                if (todayList.isEmpty()) { emptyToday.visibility = View.VISIBLE }
-                Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                seasonal_loading.hide()
+                Snackbar.make(seasonal_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
             }
         })
     }

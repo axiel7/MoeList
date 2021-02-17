@@ -3,20 +3,16 @@ package com.axiel7.moelist.ui
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Button
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
 import com.android.billingclient.api.*
 import com.axiel7.moelist.R
 import com.google.android.material.transition.platform.MaterialFadeThrough
+import kotlinx.android.synthetic.main.activity_donations.*
 
 
 class DonationActivity : BaseActivity(), PurchasesUpdatedListener {
 
     private lateinit var billingClient: BillingClient
-    private lateinit var coffeeButton: Button
-    private lateinit var burgerButton: Button
-    private lateinit var githubButton: Button
     private val skuList = listOf("coffee", "burger")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,17 +21,12 @@ class DonationActivity : BaseActivity(), PurchasesUpdatedListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_donations)
 
-        val toolbar = findViewById<Toolbar>(R.id.donations_toolbar)
-        setSupportActionBar(toolbar)
-        val supportActionBar = supportActionBar
+        setSupportActionBar(donations_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
-        toolbar.setNavigationOnClickListener { onBackPressed() }
+        donations_toolbar.setNavigationOnClickListener { onBackPressed() }
 
-        coffeeButton = findViewById(R.id.coffee_button)
-        burgerButton = findViewById(R.id.burger_button)
-        githubButton = findViewById(R.id.github_button)
-        githubButton.setOnClickListener {
+        github_button.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse("https://github.com/axiel7/MoeList")
             startActivity(intent)
@@ -78,7 +69,7 @@ class DonationActivity : BaseActivity(), PurchasesUpdatedListener {
                     for (skuDetails in skuDetailsList) {
                         //this will return both the SKUs from Google Play Console
                         if (skuDetails.sku == "coffee") {
-                            coffeeButton.setOnClickListener {
+                            coffee_button.setOnClickListener {
                                 val billingFlowParams = BillingFlowParams
                                     .newBuilder()
                                     .setSkuDetails(skuDetails)
@@ -87,7 +78,7 @@ class DonationActivity : BaseActivity(), PurchasesUpdatedListener {
                             }
                         }
                         if (skuDetails.sku == "burger") {
-                            burgerButton.setOnClickListener {
+                            burger_button.setOnClickListener {
                                 val billingFlowParams = BillingFlowParams
                                     .newBuilder()
                                     .setSkuDetails(skuDetails)

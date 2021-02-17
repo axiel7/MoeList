@@ -13,7 +13,6 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.app.ActivityOptionsCompat
-import androidx.core.widget.ContentLoadingProgressBar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.axiel7.moelist.MyApplication.Companion.animeDb
@@ -32,9 +31,9 @@ import com.axiel7.moelist.utils.StringFormat
 import com.axiel7.moelist.utils.Urls
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.review.ReviewManagerFactory
+import kotlinx.android.synthetic.main.fragment_animelist.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -43,10 +42,6 @@ import retrofit2.Response
 class AnimeListFragment : Fragment() {
 
     private lateinit var sharedPref: SharedPrefsHelpers
-    private lateinit var animeListRecycler: RecyclerView
-    private lateinit var filtersFab: FloatingActionButton
-    private lateinit var loadingBar: ContentLoadingProgressBar
-    private lateinit var snackBarView: View
     private lateinit var animeListAdapter: MyAnimeListAdapter
     private var animeListResponse: UserAnimeListResponse? = null
     private lateinit var animeList: MutableList<UserAnimeList>
@@ -87,14 +82,11 @@ class AnimeListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        snackBarView = view
-        loadingBar = view.findViewById(R.id.loading_animelist)
-        loadingBar.hide()
+        loading_animelist.hide()
         if (animeList.isEmpty()) {
-            loadingBar.show()
+            loading_animelist.show()
         }
 
-        animeListRecycler = view.findViewById(R.id.animelist_recycler)
         animeListAdapter =
                 MyAnimeListAdapter(
                     animeList,
@@ -140,14 +132,13 @@ class AnimeListFragment : Fragment() {
             }
         })
 
-        animeListRecycler.adapter = animeListAdapter
+        animelist_recycler.adapter = animeListAdapter
 
         // filters dialog
-        filtersFab = view.findViewById(R.id.filters_fab)
         val dialogView = layoutInflater.inflate(R.layout.bottom_sheet_filters, null)
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         bottomSheetDialog.setContentView(dialogView)
-        filtersFab.setOnClickListener { bottomSheetDialog.show() }
+        filters_fab.setOnClickListener { bottomSheetDialog.show() }
 
         val radioGroup = dialogView.findViewById<RadioGroup>(R.id.status_radio_group)
         val defaultCheck = defaultStatus!!
@@ -192,15 +183,15 @@ class AnimeListFragment : Fragment() {
                 .show()
         }
 
-        animeListRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        animelist_recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     //scroll down
-                    filtersFab.hide()
+                    filters_fab.hide()
                 } else if (dy < 0) {
                     //scroll up
-                    filtersFab.show()
+                    filters_fab.show()
                 }
             }
         })
@@ -214,7 +205,7 @@ class AnimeListFragment : Fragment() {
         } else {
             malApiService.getUserAnimeList(listStatus, "list_status,num_episodes,media_type,status", sortMode, showNsfw)
         }
-        loadingBar.show()
+        loading_animelist.show()
         initAnimeListCall(animeListCall, true)
     }
     private fun initAnimeListCall(call: Call<UserAnimeListResponse>, shouldClear: Boolean) {
@@ -238,7 +229,7 @@ class AnimeListFragment : Fragment() {
                             animeList.clear()
                         }
                         animeList.addAll(animeList2)
-                        loadingBar.hide()
+                        loading_animelist.hide()
                         animeDb?.userAnimeListDao()?.insertUserAnimeList(animeList)
                         animeListAdapter.notifyDataSetChanged()
                     }
@@ -249,7 +240,7 @@ class AnimeListFragment : Fragment() {
 
                 else if (response.code()==401) {
                     if (isAdded) {
-                        Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(animelist_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -257,14 +248,14 @@ class AnimeListFragment : Fragment() {
             override fun onFailure(call: Call<UserAnimeListResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
                 if (isAdded) {
-                    Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(animelist_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
             }
 
         })
     }
     private fun addOneEpisode(animeId: Int, watchedEpisodes: Int?, status: String?) {
-        loadingBar.show()
+        loading_animelist.show()
         val shouldNotUpdate = watchedEpisodes==null
         if (!shouldNotUpdate) {
             val updateListCall = malApiService
@@ -273,24 +264,24 @@ class AnimeListFragment : Fragment() {
                 override fun onResponse(call: Call<MyListStatus>, response: Response<MyListStatus>) {
                     if (response.isSuccessful && isAdded) {
                         initCalls()
-                        Snackbar.make(snackBarView, getString(R.string.updated), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(animelist_layout, getString(R.string.updated), Snackbar.LENGTH_SHORT).show()
                     }
                     else if (isAdded) {
-                        Snackbar.make(snackBarView, getString(R.string.error_updating_list), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(animelist_layout, getString(R.string.error_updating_list), Snackbar.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<MyListStatus>, t: Throwable) {
                     Log.d("MoeLog", t.toString())
                     if (isAdded) {
-                        Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(animelist_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                     }
                 }
             })
         } else {
-            loadingBar.hide()
+            loading_animelist.hide()
             if (isAdded) {
-                Snackbar.make(snackBarView, getString(R.string.no_changes), Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(animelist_layout, getString(R.string.no_changes), Snackbar.LENGTH_SHORT).show()
             }
         }
     }

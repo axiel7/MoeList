@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.widget.Toolbar
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
@@ -15,6 +14,7 @@ import com.axiel7.moelist.BuildConfig
 import com.axiel7.moelist.R
 import com.axiel7.moelist.utils.SharedPrefsHelpers
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
+import kotlinx.android.synthetic.main.activity_settings.*
 
 
 @Suppress("unused")
@@ -32,12 +32,10 @@ class SettingsActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceCha
             .replace(R.id.settings_container, settingsFragment)
             .commit()
 
-        val toolbar = findViewById<Toolbar>(R.id.setting_toolbar)
-        setSupportActionBar(toolbar)
-        val supportActionBar = supportActionBar
+        setSupportActionBar(setting_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-        toolbar.setNavigationOnClickListener { onBackPressed() }
+        setting_toolbar.setNavigationOnClickListener { onBackPressed() }
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         when(sharedPreferences.getString("theme", "follow_system")) {

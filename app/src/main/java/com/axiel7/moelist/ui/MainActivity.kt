@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
@@ -20,6 +19,7 @@ import com.axiel7.moelist.ui.profile.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.transition.platform.MaterialFadeThrough
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
 
@@ -29,7 +29,6 @@ class MainActivity : BaseActivity() {
     private val mangaListFragment = MangaListFragment()
     private val profileFragment = ProfileFragment()
     private lateinit var bottomSheetDialog: BottomSheetDialog
-    private lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,20 +48,18 @@ class MainActivity : BaseActivity() {
         }
 
         //toolbar
-        toolbar = findViewById(R.id.main_toolbar)
-        setSupportActionBar(toolbar)
-        val supportActionBar = supportActionBar
+        setSupportActionBar(main_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        toolbar.navigationIcon = ContextCompat.getDrawable(this, R.drawable.ic_round_menu_24)
+        main_toolbar.navigationIcon = ContextCompat.getDrawable(this, R.drawable.ic_round_menu_24)
 
         //window.statusBarColor = ContextCompat.getColor(this, R.color.colorBackground)
 
         // bottom sheet
         bottomSheetDialog = BottomSheetDialog(this)
         bottomSheetDialog.setContentView(R.layout.bottom_sheet_main)
-        toolbar.setNavigationOnClickListener { bottomSheetDialog.show() }
+        main_toolbar.setNavigationOnClickListener { bottomSheetDialog.show() }
 
         //launch login
         if (!MyApplication.isUserLogged || isTokenNull) {
@@ -72,9 +69,8 @@ class MainActivity : BaseActivity() {
         }
         else {
             //bottom nav and fragments
-            val navView: BottomNavigationView = findViewById(R.id.nav_view)
             setupTransitions()
-            setupBottomBar(navView, defaultSection)
+            setupBottomBar(nav_view, defaultSection)
         }
     }
 
@@ -141,7 +137,7 @@ class MainActivity : BaseActivity() {
     fun openSearch(view: View) {
         val intent = Intent(this, SearchActivity::class.java)
         val bundle = ActivityOptionsCompat
-            .makeSceneTransitionAnimation(this, toolbar, toolbar.transitionName).toBundle()
+            .makeSceneTransitionAnimation(this, main_toolbar, main_toolbar.transitionName).toBundle()
         startActivity(intent, bundle)
     }
     fun openSettings(view: View) {

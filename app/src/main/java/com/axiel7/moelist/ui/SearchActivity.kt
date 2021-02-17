@@ -4,13 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityOptionsCompat
-import androidx.core.widget.ContentLoadingProgressBar
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.axiel7.moelist.MyApplication.Companion.malApiService
@@ -24,21 +20,18 @@ import com.axiel7.moelist.model.MangaListResponse
 import com.axiel7.moelist.ui.details.AnimeDetailsActivity
 import com.axiel7.moelist.ui.details.MangaDetailsActivity
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_search.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class SearchActivity : BaseActivity() {
 
-    private lateinit var loadingBar: ContentLoadingProgressBar
-    private lateinit var noResultsText: TextView
     private lateinit var searchItemsAnime: MutableList<AnimeList>
     private lateinit var searchItemsManga: MutableList<MangaList>
     private lateinit var searchAnimeAdapter: SearchAnimeAdapter
     private lateinit var searchMangaAdapter: SearchMangaAdapter
-    private lateinit var buttonType: Button
     private lateinit var searchType: String
-    private lateinit var snackBarView: View
     private var showNsfw = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,18 +43,13 @@ class SearchActivity : BaseActivity() {
 
         window.statusBarColor = getColorFromAttr(R.attr.colorToolbar)
 
-        val toolbar = findViewById<Toolbar>(R.id.search_toolbar)
-        setSupportActionBar(toolbar)
-        val supportActionBar = supportActionBar
+        setSupportActionBar(search_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        toolbar.setNavigationOnClickListener { onBackPressed() }
+        search_toolbar.setNavigationOnClickListener { onBackPressed() }
 
-        snackBarView = findViewById(R.id.search_layout)
-        loadingBar = findViewById(R.id.search_loading)
-        loadingBar.hide()
-        noResultsText = findViewById(R.id.no_result_text)
+        search_loading.hide()
 
         val recyclerSearch = findViewById<RecyclerView>(R.id.recycler_search)
         searchItemsAnime = mutableListOf()
@@ -80,7 +68,7 @@ class SearchActivity : BaseActivity() {
         )
         recyclerSearch.adapter = searchAnimeAdapter
 
-        val searchView: SearchView = toolbar.findViewById(R.id.search_view)
+        val searchView: SearchView = search_toolbar.findViewById(R.id.search_view)
         val searchViewIcon = searchView.findViewById<ImageView>(androidx.appcompat.R.id.search_mag_icon)
         searchViewIcon.visibility = View.GONE
         searchViewIcon.setImageDrawable(null)
@@ -104,72 +92,71 @@ class SearchActivity : BaseActivity() {
             }
         })
 
-        buttonType = findViewById(R.id.search_type_button)
-        searchType = buttonType.text.toString()
-        buttonType.setOnClickListener {
+        searchType = search_type_button.text.toString()
+        search_type_button.setOnClickListener {
             searchView.setQuery("", false)
             searchView.requestFocus()
             if (searchType == "anime") {
-                buttonType.text = getString(R.string.manga)
+                search_type_button.text = getString(R.string.manga)
                 searchType = "manga"
                 recyclerSearch.adapter = searchMangaAdapter
             }
             else {
-                buttonType.text = getString(R.string.anime)
+                search_type_button.text = getString(R.string.anime)
                 searchType = "anime"
                 recyclerSearch.adapter = searchAnimeAdapter
             }
         }
     }
     private fun initAnimeSearch(search: String) {
-        loadingBar.show()
+        search_loading.show()
         val fields = "id,title,main_picture,mean,media_type,num_episodes,start_season"
         val call = malApiService.getAnimeList(search,null,null, showNsfw, fields)
         call.enqueue(object :Callback<AnimeListResponse> {
             override fun onResponse(call: Call<AnimeListResponse>, response: Response<AnimeListResponse>) {
                 if (response.isSuccessful) {
                     val animeResponse = response.body()
-                    loadingBar.hide()
+                    search_loading.hide()
                     val results = animeResponse?.data!!
                     searchItemsAnime.clear()
                     searchItemsAnime.addAll(results)
                     searchAnimeAdapter.notifyDataSetChanged()
                 }
                 else if (response.code()==401) {
-                    Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(search_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<AnimeListResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
-                loadingBar.hide()
-                Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                search_loading.hide()
+                Snackbar.make(search_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
             }
         })
     }
     private fun initMangaSearch(search: String) {
-        loadingBar.show()
+        search_loading.show()
         val fields = "id,title,main_picture,mean,media_type,num_chapters,start_date"
         val call = malApiService.getMangaList(search,null,null, showNsfw, fields)
         call.enqueue(object :Callback<MangaListResponse> {
             override fun onResponse(call: Call<MangaListResponse>, response: Response<MangaListResponse>) {
                 if (response.isSuccessful) {
                     val mangaResponse = response.body()
-                    loadingBar.hide()
+                    search_loading.hide()
                     val results = mangaResponse?.data!!
                     searchItemsManga.clear()
                     searchItemsManga.addAll(results)
                     searchMangaAdapter.notifyDataSetChanged()
                 }
                 else if (response.code()==401) {
-                    Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(search_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<MangaListResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
-                loadingBar.hide()
-                Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                search_loading.hide()
+                Snackbar.make(search_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
             }
         })
     }

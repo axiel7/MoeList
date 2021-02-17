@@ -1,15 +1,14 @@
 package com.axiel7.moelist.ui.charts
 
 import android.os.Bundle
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.axiel7.moelist.R
 import com.axiel7.moelist.ui.BaseActivity
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.transition.platform.MaterialSharedAxis
+import kotlinx.android.synthetic.main.activity_ranking.*
 
 class RankingActivity : BaseActivity() {
 
@@ -36,21 +35,17 @@ class RankingActivity : BaseActivity() {
         rankingAllFragment.arguments = allBundle
         rankingPopFragment.arguments = popBundle
 
-        val viewPager = findViewById<ViewPager>(R.id.ranking_viewpager)
-        viewPager.offscreenPageLimit = 0
-        setupViewPager(viewPager)
-        val tabLayout = findViewById<TabLayout>(R.id.ranking_tab_layout)
-        tabLayout.setupWithViewPager(viewPager)
+        ranking_viewpager.offscreenPageLimit = 0
+        setupViewPager(ranking_viewpager)
+        ranking_tab_layout.setupWithViewPager(ranking_viewpager)
 
-        val toolbar = findViewById<Toolbar>(R.id.ranking_toolbar)
-        setSupportActionBar(toolbar)
-        val supportActionBar = supportActionBar
+        setSupportActionBar(ranking_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
-        toolbar.setNavigationOnClickListener { onBackPressed() }
+        ranking_toolbar.setNavigationOnClickListener { onBackPressed() }
         when(mediaType) {
-            "anime" -> toolbar.title = getString(R.string.anime_ranking)
-            "manga" -> toolbar.title = getString(R.string.manga)
+            "anime" -> ranking_toolbar.title = getString(R.string.anime_ranking)
+            "manga" -> ranking_toolbar.title = getString(R.string.manga)
         }
 
     }

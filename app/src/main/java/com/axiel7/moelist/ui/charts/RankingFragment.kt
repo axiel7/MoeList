@@ -8,9 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.core.app.ActivityOptionsCompat
-import androidx.core.widget.ContentLoadingProgressBar
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
 import com.axiel7.moelist.MyApplication.Companion.animeDb
 import com.axiel7.moelist.MyApplication.Companion.malApiService
 import com.axiel7.moelist.R
@@ -26,6 +24,7 @@ import com.axiel7.moelist.ui.details.MangaDetailsActivity
 import com.axiel7.moelist.utils.ResponseConverter
 import com.axiel7.moelist.utils.SharedPrefsHelpers
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_ranking.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,13 +32,10 @@ import retrofit2.Response
 class RankingFragment : Fragment() {
 
     private lateinit var sharedPref: SharedPrefsHelpers
-    private lateinit var recyclerRank: RecyclerView
     private lateinit var rankingAnime: MutableList<AnimeRanking>
     private lateinit var rankingManga: MutableList<MangaRanking>
     private lateinit var animeRankingAdapter: AnimeRankingAdapter
     private lateinit var mangaRankingAdapter: MangaRankingAdapter
-    private lateinit var loadingBar: ContentLoadingProgressBar
-    private lateinit var snackBarView: View
     private lateinit var mediaType: String
     private var rankType: String = "all"
     private var showNsfw = 0
@@ -70,13 +66,10 @@ class RankingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        snackBarView = view.findViewById(R.id.ranking_layout)
-        loadingBar = view.findViewById(R.id.ranking_loading)
 
-        recyclerRank = view.findViewById(R.id.recycler_ranking)
         when(mediaType) {
             "anime" -> {
-                if (rankingAnime.isEmpty()) { loadingBar.show() }
+                if (rankingAnime.isEmpty()) { ranking_loading.show() }
                 animeRankingAdapter = AnimeRankingAdapter(
                     rankingAnime,
                     R.layout.list_item_ranking,
@@ -93,10 +86,10 @@ class RankingFragment : Fragment() {
                         }
                     }
                 })
-                recyclerRank.adapter = animeRankingAdapter
+                recycler_ranking.adapter = animeRankingAdapter
             }
             "manga" -> {
-                if (rankingManga.isEmpty()) { loadingBar.show() }
+                if (rankingManga.isEmpty()) { ranking_loading.show() }
                 mangaRankingAdapter = MangaRankingAdapter(
                     rankingManga,
                     R.layout.list_item_ranking,
@@ -113,7 +106,7 @@ class RankingFragment : Fragment() {
                         }
                     }
                 })
-                recyclerRank.adapter = mangaRankingAdapter
+                recycler_ranking.adapter = mangaRankingAdapter
             }
         }
 
@@ -164,17 +157,17 @@ class RankingFragment : Fragment() {
                 }
                 else if (response.code()==401) {
                     if (isAdded) {
-                        Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(ranking_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                     }
                 }
-                loadingBar.hide()
+                ranking_loading.hide()
             }
 
             override fun onFailure(call: Call<AnimeRankingResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
                 if (isAdded) {
-                    loadingBar.hide()
-                    Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    ranking_loading.hide()
+                    Snackbar.make(ranking_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
             }
         })
@@ -211,15 +204,15 @@ class RankingFragment : Fragment() {
                 }
                 else if (response.code()==401) {
                     if (isAdded) {
-                        Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(ranking_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                     }
                 }
-                loadingBar.hide()
+                ranking_loading.hide()
             }
             override fun onFailure(call: Call<MangaRankingResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
-                loadingBar.hide()
-                Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                ranking_loading.hide()
+                Snackbar.make(ranking_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
             }
         })
     }

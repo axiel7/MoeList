@@ -6,8 +6,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.ProgressBar
 import android.widget.Toast
 import com.axiel7.moelist.MyApplication
 import com.axiel7.moelist.R
@@ -19,6 +17,7 @@ import com.axiel7.moelist.utils.PkceGenerator
 import com.axiel7.moelist.utils.SharedPrefsHelpers
 import com.axiel7.moelist.utils.Urls
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -27,8 +26,6 @@ class LoginActivity : BaseActivity() {
 
     private lateinit var codeVerifier: String
     private lateinit var codeChallenge: String
-    private lateinit var loadingBar: ProgressBar
-    private lateinit var snackBarView: View
     private lateinit var accessToken: AccessToken
 
     companion object {
@@ -44,14 +41,11 @@ class LoginActivity : BaseActivity() {
         codeVerifier = PkceGenerator.generateVerifier(128)
         codeChallenge = codeVerifier
 
-        snackBarView = findViewById(R.id.login_layout)
-        loadingBar = findViewById(R.id.loading_bar)
-        loadingBar.visibility = View.INVISIBLE
+        loading_bar.visibility = View.INVISIBLE
 
         val loginUrl = Uri.parse(Urls.oauthBaseUrl + "authorize" + "?response_type=code"
                 + "&client_id=" + clientId + "&code_challenge=" + codeVerifier + "&state=" + state)
-        val loginButton = findViewById<Button>(R.id.login)
-        loginButton.setOnClickListener {
+        login.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, loginUrl)
             try {
                 startActivity(intent)
@@ -74,7 +68,7 @@ class LoginActivity : BaseActivity() {
 
     private fun getLoginData(uri: Uri) {
         if (uri.toString().startsWith(redirectUri)) {
-            loadingBar.visibility = View.VISIBLE
+            loading_bar.visibility = View.VISIBLE
             val code = uri.getQueryParameter("code")
             val receivedState = uri.getQueryParameter("state")
             if (code!=null && receivedState== state) {
@@ -99,19 +93,19 @@ class LoginActivity : BaseActivity() {
                         }
                         else {
                             Log.d("MoeLog", "token was null")
-                            Snackbar.make(snackBarView, "Token was null", Snackbar.LENGTH_SHORT).show()
+                            Snackbar.make(login_layout, "Token was null", Snackbar.LENGTH_SHORT).show()
                         }
                     }
 
                     override fun onFailure(call: Call<AccessToken>, t: Throwable) {
                         Log.d("MoeLog", t.toString())
-                        Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(login_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                     }
                 })
             }
             else if (uri.getQueryParameter("error")!=null) {
-                loadingBar.visibility = View.INVISIBLE
-                Snackbar.make(snackBarView, getString(R.string.login_error), Snackbar.LENGTH_SHORT).show()
+                loading_bar.visibility = View.INVISIBLE
+                Snackbar.make(login_layout, getString(R.string.login_error), Snackbar.LENGTH_SHORT).show()
             }
         }
     }

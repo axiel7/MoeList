@@ -14,13 +14,12 @@ import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.widget.TooltipCompat
+import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
-import androidx.core.widget.ContentLoadingProgressBar
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -41,9 +40,6 @@ import com.axiel7.moelist.utils.InsetsHelper.getViewBottomHeight
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.slider.Slider
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -53,6 +49,7 @@ import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation.getClient
 import com.google.mlkit.nl.translate.Translator
 import com.google.mlkit.nl.translate.TranslatorOptions
+import kotlinx.android.synthetic.main.activity_anime_details.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -64,41 +61,14 @@ class AnimeDetailsActivity : BaseActivity() {
 
     private lateinit var fields: String
     private lateinit var animeDetails: AnimeDetails
-    private lateinit var loadingView: FrameLayout
-    private lateinit var editFab: ExtendedFloatingActionButton
     private lateinit var bottomSheetDialog: BottomSheetDialog
     private lateinit var dialogView: View
-    private lateinit var animePosterView: ShapeableImageView
-    private lateinit var animeTitleView: TextView
-    private lateinit var mediaTypeView: TextView
-    private lateinit var totalEpisodesView: TextView
-    private lateinit var statusView: TextView
-    private lateinit var scoreView: TextView
-    private lateinit var genresView: ChipGroup
-    private lateinit var translateButton: TextView
-    private lateinit var loadingTranslate: ContentLoadingProgressBar
-    private lateinit var synopsisView: TextView
-    private lateinit var rankView: TextView
-    private lateinit var membersView: TextView
-    private lateinit var numScoresView: TextView
-    private lateinit var popularityView: TextView
-    private lateinit var synonymsView: TextView
-    private lateinit var jpTitleView: TextView
-    private lateinit var startDateView: TextView
-    private lateinit var endDateView: TextView
-    private lateinit var seasonView: TextView
-    private lateinit var broadcastView: TextView
-    private lateinit var durationView: TextView
-    private lateinit var sourceView: TextView
-    private lateinit var studiosView: TextView
-    private lateinit var relatedRecycler: RecyclerView
     private lateinit var relatedsAdapter: RelatedsAdapter
     private lateinit var episodesLayout: TextInputLayout
     private lateinit var episodesField: TextInputEditText
     private lateinit var statusLayout: TextInputLayout
     private lateinit var statusField: AutoCompleteTextView
     private lateinit var scoreSlider: Slider
-    private lateinit var snackBarView: View
     private val relateds: MutableList<Related> = mutableListOf()
     private var entryUpdated: Boolean = false
     private var animeId = 1
@@ -109,12 +79,10 @@ class AnimeDetailsActivity : BaseActivity() {
 
         WindowCompat.setDecorFitsSystemWindows(window, true)
 
-        val toolbar = findViewById<Toolbar>(R.id.details_toolbar)
-        setSupportActionBar(toolbar)
-        val supportActionBar = supportActionBar
+        setSupportActionBar(details_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
-        toolbar.setNavigationOnClickListener { onBackPressed() }
+        details_toolbar.setNavigationOnClickListener { onBackPressed() }
 
         if (!MyApplication.isUserLogged) {
             val intent = Intent(this, LoginActivity::class.java)
@@ -135,7 +103,6 @@ class AnimeDetailsActivity : BaseActivity() {
                 "num_list_users,num_scoring_users,media_type,status,genres,my_list_status,num_episodes,start_season," +
                 "broadcast,source,average_episode_duration,studios,opening_themes,ending_themes,related_anime{media_type},related_manga{media_type}"
 
-        snackBarView = findViewById(R.id.details_layout)
         initViews()
         setupBottomSheet()
         if (animeDb?.animeDetailsDao()?.getAnimeDetailsById(animeId)!=null) {
@@ -165,14 +132,14 @@ class AnimeDetailsActivity : BaseActivity() {
                         initDetailsCall(detailsCall)
                     }
                     response.code()==401 -> {
-                        Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(details_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                     }
                 }
             }
 
             override fun onFailure(call: Call<AnimeDetails>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
-                Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(details_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
             }
         })
     }
@@ -183,7 +150,7 @@ class AnimeDetailsActivity : BaseActivity() {
                 .updateAnimeList(Urls.apiBaseUrl + "anime/$animeId/my_list_status", status, score, watchedEpisodes)
             patchCall(updateListCall, newEntry)
         } else {
-            Snackbar.make(snackBarView, getString(R.string.no_changes), Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(details_layout, getString(R.string.no_changes), Snackbar.LENGTH_SHORT).show()
         }
     }
     private fun patchCall(call: Call<MyListStatus>, newEntry: Boolean) {
@@ -198,16 +165,16 @@ class AnimeDetailsActivity : BaseActivity() {
                     if (newEntry) {
                         toastText = getString(R.string.added_ptw)
                     }
-                    Snackbar.make(snackBarView, toastText, Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(details_layout, toastText, Snackbar.LENGTH_SHORT).show()
                 }
                 else {
-                    Snackbar.make(snackBarView, getString(R.string.error_updating_list), Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(details_layout, getString(R.string.error_updating_list), Snackbar.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<MyListStatus>, t: Throwable) {
                 Log.d("MoeLog", t.toString())
-                Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(details_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
             }
         })
     }
@@ -219,39 +186,29 @@ class AnimeDetailsActivity : BaseActivity() {
                     animeDetails.my_list_status = null
                     changeFabAction()
                     bottomSheetDialog.dismiss()
-                    Snackbar.make(snackBarView, getString(R.string.deleted), Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(details_layout, getString(R.string.deleted), Snackbar.LENGTH_SHORT).show()
                 }
                 else {
-                    Snackbar.make(snackBarView, getString(R.string.error_delete_entry), Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(details_layout, getString(R.string.error_delete_entry), Snackbar.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 Log.d("MoeLog", t.toString())
-                Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(details_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
             }
 
         })
     }
     private fun initViews() {
-        loadingView = findViewById(R.id.loading_layout)
-        animePosterView = findViewById(R.id.anime_poster)
-        animeTitleView = findViewById(R.id.main_title)
-        animeTitleView.setOnLongClickListener {
-            copyToClipboard(animeTitleView.text.toString())
+        main_title.setOnLongClickListener {
+            copyToClipboard(main_title.text.toString())
             true
         }
-        mediaTypeView = findViewById(R.id.media_type_text)
-        totalEpisodesView = findViewById(R.id.episodes_text)
-        statusView = findViewById(R.id.status_text)
-        scoreView = findViewById(R.id.score_text)
-        genresView = findViewById(R.id.chip_group_genres)
 
-        translateButton = findViewById(R.id.translate_button)
-        loadingTranslate = findViewById(R.id.loading_translate)
-        loadingTranslate.hide()
+        loading_translate.hide()
         if (Locale.getDefault().language == "en") {
-            translateButton.visibility = View.GONE
+            translate_button.visibility = View.GONE
         }
         else {
             val options = TranslatorOptions.Builder()
@@ -260,61 +217,44 @@ class AnimeDetailsActivity : BaseActivity() {
                 .build()
             val translator = getClient(options)
             lifecycle.addObserver(translator)
-            translateButton.setOnClickListener {
-                if (synopsisView.text == animeDetails.synopsis) {
-                    loadingTranslate.show()
+            translate_button.setOnClickListener {
+                if (synopsis.text == animeDetails.synopsis) {
+                    loading_translate.show()
                     translateSynopsis(translator)
                 }
                 else {
-                    translateButton.text = resources.getString(R.string.translate)
-                    synopsisView.text = animeDetails.synopsis
+                    translate_button.text = resources.getString(R.string.translate)
+                    synopsis.text = animeDetails.synopsis
                 }
             }
         }
 
-        synopsisView = findViewById(R.id.synopsis)
         val synopsisIcon = findViewById<ImageView>(R.id.synopsis_icon)
         synopsisIcon.setOnClickListener {
-            if (synopsisView.maxLines==5) {
-                synopsisView.maxLines = Int.MAX_VALUE
+            if (synopsis.maxLines==5) {
+                synopsis.maxLines = Int.MAX_VALUE
                 synopsisIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_round_keyboard_arrow_up_24))
             }
             else {
-                synopsisView.maxLines = 5
+                synopsis.maxLines = 5
                 synopsisIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_round_keyboard_arrow_down_24))
             }
         }
 
-        rankView = findViewById(R.id.rank_text)
-        TooltipCompat.setTooltipText(rankView, getString(R.string.top_ranked))
-        membersView = findViewById(R.id.members_text)
-        TooltipCompat.setTooltipText(membersView, getString(R.string.members))
-        numScoresView = findViewById(R.id.num_scores_text)
-        TooltipCompat.setTooltipText(numScoresView, getString(R.string.users_scores))
-        popularityView = findViewById(R.id.popularity_text)
-        TooltipCompat.setTooltipText(popularityView, getString(R.string.popularity))
-        synonymsView = findViewById(R.id.synonyms_text)
-        jpTitleView = findViewById(R.id.jp_title)
-        startDateView = findViewById(R.id.start_date_text)
-        endDateView = findViewById(R.id.end_date_text)
-        seasonView = findViewById(R.id.season_text)
-        broadcastView = findViewById(R.id.broadcast_text)
-        durationView = findViewById(R.id.duration_text)
-        sourceView = findViewById(R.id.source_text)
-        studiosView = findViewById(R.id.studios_text)
+        TooltipCompat.setTooltipText(rank_text, getString(R.string.top_ranked))
+        TooltipCompat.setTooltipText(members_text, getString(R.string.members))
+        TooltipCompat.setTooltipText(num_scores_text, getString(R.string.users_scores))
+        TooltipCompat.setTooltipText(popularity_text, getString(R.string.popularity))
 
-        relatedRecycler = findViewById(R.id.relateds_recycler)
         relatedsAdapter = RelatedsAdapter(
             relateds,
             R.layout.list_item_anime_related,
             applicationContext,
             onClickListener = { _, related -> openDetails(related.node.id, related.node.media_type)} )
-        relatedRecycler.adapter = relatedsAdapter
+        relateds_recycler.adapter = relatedsAdapter
     }
     @SuppressLint("InflateParams")
     private fun setupBottomSheet() {
-        editFab = findViewById(R.id.edit_fab)
-        //editFab.addSystemWindowInsetToMargin(bottom = true)
         dialogView = layoutInflater.inflate(R.layout.bottom_sheet_edit_anime, null)
         bottomSheetDialog = BottomSheetDialog(this)
         bottomSheetDialog.setContentView(dialogView)
@@ -384,22 +324,22 @@ class AnimeDetailsActivity : BaseActivity() {
     private fun setDataToViews() {
         val unknown = getString(R.string.unknown)
         //quit loading bar
-        loadingView.visibility = View.GONE
+        loading_layout.visibility = View.GONE
 
         changeFabAction()
 
         //poster and main title
-        animePosterView.load(animeDetails.main_picture?.medium) {
+        anime_poster.load(animeDetails.main_picture?.medium) {
             crossfade(true)
             crossfade(300)
             error(R.drawable.ic_launcher_foreground)
         }
-        animePosterView.setOnClickListener { openFullPoster() }
-        animeTitleView.text = animeDetails.title
+        anime_poster.setOnClickListener { openFullPoster() }
+        main_title.text = animeDetails.title
 
         //media type
         val mediaTypeText = animeDetails.media_type?.let { StringFormat.formatMediaType(it, this) }
-        mediaTypeView.text = mediaTypeText
+        media_type_text.text = mediaTypeText
 
         //total episodes
         val numEpisodes = animeDetails.num_episodes
@@ -407,76 +347,76 @@ class AnimeDetailsActivity : BaseActivity() {
         if (numEpisodes==0) {
             episodesText = "?? ${getString(R.string.episodes)}"
         }
-        totalEpisodesView.text = episodesText
+        episodes_text.text = episodesText
 
         //media status
         val statusText = animeDetails.status?.let { StringFormat.formatStatus(it, this) }
-        statusView.text = statusText
+        status_text.text = statusText
 
         //score and synopsis
-        scoreView.text = animeDetails.mean.toString()
-        synopsisView.text = animeDetails.synopsis
+        score_text.text = animeDetails.mean.toString()
+        synopsis.text = animeDetails.synopsis
 
         //genres chips
         val genres = animeDetails.genres
-        if (genres != null && genresView.childCount==0) {
+        if (genres != null && chip_group_genres.childCount==0) {
             for (genre in genres) {
-                val chip = Chip(genresView.context)
+                val chip = Chip(chip_group_genres.context)
                 chip.text = StringFormat.formatGenre(genre.name, applicationContext)
-                genresView.addView(chip)
+                chip_group_genres.addView(chip)
             }
         }
 
         //stats
         val topRank = animeDetails.rank
         val rankText = "#$topRank"
-        rankView.text = if (topRank==null) { "N/A" } else { rankText }
+        rank_text.text = if (topRank==null) { "N/A" } else { rankText }
 
         val membersRank = animeDetails.num_scoring_users
-        numScoresView.text = NumberFormat.getInstance().format(membersRank)
+        num_scores_text.text = NumberFormat.getInstance().format(membersRank)
 
-        membersView.text = NumberFormat.getInstance().format(animeDetails.num_list_users)
+        members_text.text = NumberFormat.getInstance().format(animeDetails.num_list_users)
 
         val popularity = animeDetails.popularity
         val popularityText = "#$popularity"
-        popularityView.text = popularityText
+        popularity_text.text = popularityText
 
         //more info
         val synonyms = animeDetails.alternative_titles?.synonyms
         val synonymsText = synonyms?.joinToString(separator = ",\n")
-        synonymsView.text = if (!synonymsText.isNullOrEmpty()) { synonymsText }
+        synonyms_text.text = if (!synonymsText.isNullOrEmpty()) { synonymsText }
         else { "─" }
 
-        jpTitleView.text = animeDetails.alternative_titles?.ja
-        jpTitleView.text = if (!animeDetails.alternative_titles?.ja.isNullOrEmpty()) {
+        jp_title.text = animeDetails.alternative_titles?.ja
+        jp_title.text = if (!animeDetails.alternative_titles?.ja.isNullOrEmpty()) {
             animeDetails.alternative_titles?.ja }
         else { "─" }
 
-        startDateView.text = if (!animeDetails.start_date.isNullOrEmpty()) { animeDetails.start_date }
+        start_date_text.text = if (!animeDetails.start_date.isNullOrEmpty()) { animeDetails.start_date }
         else { unknown }
-        endDateView.text = if (!animeDetails.end_date.isNullOrEmpty()) { animeDetails.end_date }
+        end_date_text.text = if (!animeDetails.end_date.isNullOrEmpty()) { animeDetails.end_date }
         else { unknown }
 
         val year = animeDetails.start_season?.year
         var season = animeDetails.start_season?.season
         season = season?.let { StringFormat.formatSeason(it, this) }
         val seasonText = "$season $year"
-        seasonView.text = if (animeDetails.start_season!=null) { seasonText }
+        season_text.text = if (animeDetails.start_season!=null) { seasonText }
         else { unknown }
 
         val weekDay = StringFormat.formatWeekday(animeDetails.broadcast?.day_of_the_week, this)
         val startTime = animeDetails.broadcast?.start_time
-        broadcastView.text = if (animeDetails.broadcast!=null) { "$weekDay $startTime (JST)" }
+        broadcast_text.text = if (animeDetails.broadcast!=null) { "$weekDay $startTime (JST)" }
         else { unknown }
 
         val duration = animeDetails.average_episode_duration?.div(60)
         val min = getString(R.string.minutes_abbreviation)
         val durationText = "$duration $min."
-        durationView.text = if (duration==0) { unknown } else { durationText }
+        duration_text.text = if (duration==0) { unknown } else { durationText }
 
         var sourceText =  animeDetails.source
         sourceText = sourceText?.let { StringFormat.formatSource(it, this) }
-        sourceView.text = sourceText
+        source_text.text = sourceText
 
         val studios = animeDetails.studios
         val studiosNames = mutableListOf<String>()
@@ -486,7 +426,7 @@ class AnimeDetailsActivity : BaseActivity() {
             }
         }
         val studiosText = studiosNames.joinToString(separator = ",\n")
-        studiosView.text = if (studiosText.isNotEmpty()) { studiosText }
+        studios_text.text = if (studiosText.isNotEmpty()) { studiosText }
         else { unknown }
 
         val openings = animeDetails.opening_themes ?: mutableListOf()
@@ -534,24 +474,24 @@ class AnimeDetailsActivity : BaseActivity() {
     private fun changeFabAction() {
         //change fab behavior if not added
         if (animeDetails.my_list_status==null) {
-            editFab.text = getString(R.string.add)
-            editFab.setIconResource(R.drawable.ic_round_add_24)
-            editFab.setOnClickListener {
+            edit_fab.text = getString(R.string.add)
+            edit_fab.setIconResource(R.drawable.ic_round_add_24)
+            edit_fab.setOnClickListener {
                 initUpdateCall("plan_to_watch", null, null, true)
-                editFab.text = getString(R.string.edit)
-                editFab.setIconResource(R.drawable.ic_round_edit_24)
+                edit_fab.text = getString(R.string.edit)
+                edit_fab.setIconResource(R.drawable.ic_round_edit_24)
                 val bottomSheetBehavior = bottomSheetDialog.behavior
-                editFab.setOnClickListener {
+                edit_fab.setOnClickListener {
                     bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                     getViewBottomHeight(dialogView as ViewGroup, R.id.divider, bottomSheetBehavior)
                     bottomSheetDialog.show()
                 }
             }
         } else {
-            editFab.text = getString(R.string.edit)
-            editFab.setIconResource(R.drawable.ic_round_edit_24)
+            edit_fab.text = getString(R.string.edit)
+            edit_fab.setIconResource(R.drawable.ic_round_edit_24)
             val bottomSheetBehavior = bottomSheetDialog.behavior
-            editFab.setOnClickListener {
+            edit_fab.setOnClickListener {
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                 getViewBottomHeight(dialogView as ViewGroup, R.id.divider, bottomSheetBehavior)
                 bottomSheetDialog.show()
@@ -572,8 +512,8 @@ class AnimeDetailsActivity : BaseActivity() {
         val intent = Intent(this, FullPosterActivity::class.java)
         val options = ActivityOptions.makeSceneTransitionAnimation(
             this,
-            animePosterView,
-            animePosterView.transitionName
+            anime_poster,
+            anime_poster.transitionName
         )
         val largePicture = animeDetails.main_picture?.large
         val mediumPicture = animeDetails.main_picture?.medium
@@ -612,11 +552,11 @@ class AnimeDetailsActivity : BaseActivity() {
         translator.downloadModelIfNeeded(conditions)
             .addOnSuccessListener {
                 try {
-                    translator.translate(synopsisView.text as String)
+                    translator.translate(synopsis.text as String)
                         .addOnSuccessListener { translatedText ->
-                            loadingTranslate.hide()
-                            translateButton.text = resources.getString(R.string.translate_original)
-                            synopsisView.text = translatedText
+                            loading_translate.hide()
+                            translate_button.text = resources.getString(R.string.translate_original)
+                            synopsis.text = translatedText
                         }
                         .addOnFailureListener { exception ->
                             Toast.makeText(this, exception.localizedMessage, Toast.LENGTH_SHORT).show()
@@ -640,7 +580,7 @@ class AnimeDetailsActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         if (this::animeDetails.isInitialized) {
-            loadingView.visibility = View.GONE
+            loading_layout.visibility = View.GONE
         }
     }
 
@@ -657,7 +597,9 @@ class AnimeDetailsActivity : BaseActivity() {
         val viewOnMal = menu?.findItem(R.id.view_on_mal)
         viewOnMal?.setOnMenuItemClickListener { _ ->
             val builder = CustomTabsIntent.Builder()
-            builder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+            builder.setDefaultColorSchemeParams(CustomTabColorSchemeParams.Builder()
+                .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                .build())
             val chromeIntent = builder.build()
             chromeIntent.launchUrl(this,
                 Uri.parse("https://myanimelist.net/anime/$animeId"))
@@ -668,7 +610,7 @@ class AnimeDetailsActivity : BaseActivity() {
         share?.setOnMenuItemClickListener { _ ->
             ShareCompat.IntentBuilder.from(this)
                 .setType("text/plain")
-                .setChooserTitle(animeTitleView.text)
+                .setChooserTitle(main_title.text)
                 .setText("https://myanimelist.net/anime/$animeId")
                 .startChooser()
             return@setOnMenuItemClickListener true

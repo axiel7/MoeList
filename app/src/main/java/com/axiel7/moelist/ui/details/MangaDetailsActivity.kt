@@ -14,15 +14,13 @@ import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.widget.TooltipCompat
+import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
-import androidx.core.widget.ContentLoadingProgressBar
 import androidx.core.widget.doOnTextChanged
-import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.axiel7.moelist.MyApplication
 import com.axiel7.moelist.MyApplication.Companion.animeDb
@@ -39,9 +37,6 @@ import com.axiel7.moelist.utils.InsetsHelper.getViewBottomHeight
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.slider.Slider
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -51,6 +46,7 @@ import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.Translator
 import com.google.mlkit.nl.translate.TranslatorOptions
+import kotlinx.android.synthetic.main.activity_manga_details.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -61,33 +57,8 @@ class MangaDetailsActivity : BaseActivity() {
 
     private lateinit var fields: String
     private lateinit var mangaDetails: MangaDetails
-    private lateinit var loadingView: FrameLayout
-    private lateinit var editFab: ExtendedFloatingActionButton
     private lateinit var bottomSheetDialog: BottomSheetDialog
     private lateinit var dialogView: View
-    private lateinit var mangaPosterView: ShapeableImageView
-    private lateinit var mangaTitleView: TextView
-    private lateinit var mediaTypeView: TextView
-    private lateinit var totalChaptersView: TextView
-    private lateinit var totalVolumesView: TextView
-    private lateinit var statusView: TextView
-    private lateinit var scoreView: TextView
-    private lateinit var genresView: ChipGroup
-    private lateinit var translateButton: TextView
-    private lateinit var loadingTranslate: ContentLoadingProgressBar
-    private lateinit var synopsisView: TextView
-    private lateinit var rankView: TextView
-    private lateinit var membersView: TextView
-    private lateinit var numScoresView: TextView
-    private lateinit var popularityView: TextView
-    private lateinit var synonymsView: TextView
-    private lateinit var jpTitleView: TextView
-    private lateinit var startDateView: TextView
-    private lateinit var endDateView: TextView
-    private lateinit var sourceView: TextView
-    private lateinit var serialView: TextView
-    private lateinit var authorsView: TextView
-    private lateinit var relatedRecycler: RecyclerView
     private lateinit var relatedsAdapter: RelatedsAdapter
     private lateinit var chaptersLayout: TextInputLayout
     private lateinit var chaptersField: TextInputEditText
@@ -96,7 +67,6 @@ class MangaDetailsActivity : BaseActivity() {
     private lateinit var statusLayout: TextInputLayout
     private lateinit var statusField: AutoCompleteTextView
     private lateinit var scoreSlider: Slider
-    private lateinit var snackBarView: View
     private val relateds: MutableList<Related> = mutableListOf()
     private var entryUpdated: Boolean = false
     private var mangaId = 1
@@ -107,12 +77,10 @@ class MangaDetailsActivity : BaseActivity() {
 
         WindowCompat.setDecorFitsSystemWindows(window, true)
 
-        val toolbar = findViewById<Toolbar>(R.id.details_toolbar)
-        setSupportActionBar(toolbar)
-        val supportActionBar = supportActionBar
+        setSupportActionBar(details_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
-        toolbar.setNavigationOnClickListener { onBackPressed() }
+        details_toolbar.setNavigationOnClickListener { onBackPressed() }
 
         if (!MyApplication.isUserLogged) {
             val intent = Intent(this, LoginActivity::class.java)
@@ -130,7 +98,6 @@ class MangaDetailsActivity : BaseActivity() {
                 "num_list_users,num_scoring_users,media_type,status,genres,my_list_status,num_chapters,num_volumes," +
                 "source,authors{first_name,last_name},serialization,related_anime{media_type},related_manga{media_type}"
 
-        snackBarView = findViewById(R.id.details_layout)
         initViews()
         setupBottomSheet()
         if (animeDb?.mangaDetailsDao()?.getMangaDetailsById(mangaId)!=null) {
@@ -153,13 +120,13 @@ class MangaDetailsActivity : BaseActivity() {
                     animeDb?.mangaDetailsDao()?.insertMangaDetails(mangaDetails)
                 }
                 else if (response.code()==401) {
-                    Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(details_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<MangaDetails>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
-                Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(details_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
             }
         })
     }
@@ -170,7 +137,7 @@ class MangaDetailsActivity : BaseActivity() {
                 .updateMangaList(Urls.apiBaseUrl + "manga/$mangaId/my_list_status", status, score, chaptersRead, volumesRead)
             patchCall(updateListCall, newEntry)
         } else {
-            Snackbar.make(snackBarView, getString(R.string.no_changes), Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(details_layout, getString(R.string.no_changes), Snackbar.LENGTH_SHORT).show()
         }
     }
     private fun patchCall(call: Call<MyMangaListStatus>, newEntry: Boolean) {
@@ -185,16 +152,16 @@ class MangaDetailsActivity : BaseActivity() {
                     if (newEntry) {
                         toastText = getString(R.string.added_ptr)
                     }
-                    Snackbar.make(snackBarView, toastText, Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(details_layout, toastText, Snackbar.LENGTH_SHORT).show()
                 }
                 else {
-                    Snackbar.make(snackBarView, getString(R.string.error_updating_list), Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(details_layout, getString(R.string.error_updating_list), Snackbar.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<MyMangaListStatus>, t: Throwable) {
                 Log.d("MoeLog", t.toString())
-                Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(details_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
             }
         })
     }
@@ -206,40 +173,29 @@ class MangaDetailsActivity : BaseActivity() {
                     mangaDetails.my_list_status = null
                     changeFabAction()
                     bottomSheetDialog.dismiss()
-                    Snackbar.make(snackBarView, getString(R.string.deleted), Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(details_layout, getString(R.string.deleted), Snackbar.LENGTH_SHORT).show()
                 }
                 else {
-                    Snackbar.make(snackBarView, getString(R.string.error_delete_entry), Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(details_layout, getString(R.string.error_delete_entry), Snackbar.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 Log.d("MoeLog", t.toString())
-                Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(details_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
             }
 
         })
     }
     private fun initViews() {
-        loadingView = findViewById(R.id.loading_layout)
-        mangaPosterView = findViewById(R.id.manga_poster)
-        mangaTitleView = findViewById(R.id.main_title)
-        mangaTitleView.setOnLongClickListener {
-            copyToClipboard(mangaTitleView.text.toString())
+        main_title.setOnLongClickListener {
+            copyToClipboard(main_title.text.toString())
             true
         }
-        mediaTypeView = findViewById(R.id.media_type_text)
-        totalChaptersView = findViewById(R.id.episodes_text)
-        totalVolumesView = findViewById(R.id.volumes_text)
-        statusView = findViewById(R.id.status_text)
-        scoreView = findViewById(R.id.score_text)
-        genresView = findViewById(R.id.chip_group_genres)
 
-        translateButton = findViewById(R.id.translate_button)
-        loadingTranslate = findViewById(R.id.loading_translate)
-        loadingTranslate.hide()
+        loading_translate.hide()
         if (Locale.getDefault().language == "en") {
-            translateButton.visibility = View.GONE
+            translate_button.visibility = View.GONE
         }
         else {
             val options = TranslatorOptions.Builder()
@@ -248,59 +204,44 @@ class MangaDetailsActivity : BaseActivity() {
                 .build()
             val translator = Translation.getClient(options)
             lifecycle.addObserver(translator)
-            translateButton.setOnClickListener {
-                if (synopsisView.text == mangaDetails.synopsis) {
-                    loadingTranslate.show()
+            translate_button.setOnClickListener {
+                if (synopsis.text == mangaDetails.synopsis) {
+                    loading_translate.show()
                     translateSynopsis(translator)
                 }
                 else {
-                    translateButton.text = resources.getString(R.string.translate)
-                    synopsisView.text = mangaDetails.synopsis
+                    translate_button.text = resources.getString(R.string.translate)
+                    synopsis.text = mangaDetails.synopsis
                 }
             }
         }
 
-        synopsisView = findViewById(R.id.synopsis)
         val synopsisIcon = findViewById<ImageView>(R.id.synopsis_icon)
         synopsisIcon.setOnClickListener {
-            if (synopsisView.maxLines==5) {
-                synopsisView.maxLines = Int.MAX_VALUE
+            if (synopsis.maxLines==5) {
+                synopsis.maxLines = Int.MAX_VALUE
                 synopsisIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_round_keyboard_arrow_up_24))
             }
             else {
-                synopsisView.maxLines = 5
+                synopsis.maxLines = 5
                 synopsisIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_round_keyboard_arrow_down_24))
             }
         }
 
-        rankView = findViewById(R.id.rank_text)
-        TooltipCompat.setTooltipText(rankView, getString(R.string.top_ranked))
-        membersView = findViewById(R.id.members_text)
-        TooltipCompat.setTooltipText(membersView, getString(R.string.members))
-        numScoresView = findViewById(R.id.num_scores_text)
-        TooltipCompat.setTooltipText(numScoresView, getString(R.string.users_scores))
-        popularityView = findViewById(R.id.popularity_text)
-        TooltipCompat.setTooltipText(popularityView, getString(R.string.popularity))
-        synonymsView = findViewById(R.id.synonyms_text)
-        jpTitleView = findViewById(R.id.jp_title)
-        startDateView = findViewById(R.id.start_date_text)
-        endDateView = findViewById(R.id.end_date_text)
-        sourceView = findViewById(R.id.source_text)
-        serialView = findViewById(R.id.serial_text)
-        authorsView = findViewById(R.id.authors_text)
+        TooltipCompat.setTooltipText(rank_text, getString(R.string.top_ranked))
+        TooltipCompat.setTooltipText(members_text, getString(R.string.members))
+        TooltipCompat.setTooltipText(num_scores_text, getString(R.string.users_scores))
+        TooltipCompat.setTooltipText(popularity_text, getString(R.string.popularity))
 
-        relatedRecycler = findViewById(R.id.relateds_recycler)
         relatedsAdapter = RelatedsAdapter(
             relateds,
             R.layout.list_item_anime_related,
             applicationContext,
             onClickListener = { _, related -> openDetails(related.node.id, related.node.media_type)} )
-        relatedRecycler.adapter = relatedsAdapter
+        relateds_recycler.adapter = relatedsAdapter
     }
     @SuppressLint("InflateParams")
     private fun setupBottomSheet() {
-        editFab = findViewById(R.id.edit_fab)
-        //editFab.addSystemWindowInsetToMargin(bottom = true)
         dialogView = layoutInflater.inflate(R.layout.bottom_sheet_edit_manga, null)
         bottomSheetDialog = BottomSheetDialog(this)
         bottomSheetDialog.setContentView(dialogView)
@@ -381,22 +322,22 @@ class MangaDetailsActivity : BaseActivity() {
     private fun setDataToViews() {
         val unknown = getString(R.string.unknown)
         //quit loading bar
-        loadingView.visibility = View.GONE
+        loading_layout.visibility = View.GONE
 
         changeFabAction()
 
         //poster and main title
-        mangaPosterView.load(mangaDetails.main_picture?.medium) {
+        manga_poster.load(mangaDetails.main_picture?.medium) {
             crossfade(true)
             crossfade(300)
             error(R.drawable.ic_launcher_foreground)
         }
-        mangaPosterView.setOnClickListener { openFullPoster() }
-        mangaTitleView.text = mangaDetails.title
+        manga_poster.setOnClickListener { openFullPoster() }
+        main_title.text = mangaDetails.title
 
         //media type
         val mediaTypeText = mangaDetails.media_type?.let { StringFormat.formatMediaType(it, this) }
-        mediaTypeView.text = mediaTypeText
+        media_type_text.text = mediaTypeText
 
         //total episodes
         val numChapters = mangaDetails.num_chapters
@@ -404,60 +345,60 @@ class MangaDetailsActivity : BaseActivity() {
         if (numChapters==0) {
             episodesText = "?? ${getString(R.string.chapters)}"
         }
-        totalChaptersView.text = episodesText
+        episodes_text.text = episodesText
         // total volumes
         val numVolumes = mangaDetails.num_volumes
         var volumesText = "$numVolumes ${getString(R.string.volumes)}"
         if (numVolumes==0) {
             volumesText = "?? ${getString(R.string.volumes)}"
         }
-        totalVolumesView.text = volumesText
+        volumes_text.text = volumesText
 
         //media status
         val statusText = mangaDetails.status?.let { StringFormat.formatStatus(it, this) }
-        statusView.text = statusText
+        status_text.text = statusText
 
         //score and synopsis
-        scoreView.text = mangaDetails.mean.toString()
-        synopsisView.text = mangaDetails.synopsis
+        score_text.text = mangaDetails.mean.toString()
+        synopsis.text = mangaDetails.synopsis
 
         //genres chips
         val genres = mangaDetails.genres
-        if (genres != null && genresView.childCount==0) {
+        if (genres != null && chip_group_genres.childCount==0) {
             for (genre in genres) {
-                val chip = Chip(genresView.context)
+                val chip = Chip(chip_group_genres.context)
                 chip.text = StringFormat.formatGenre(genre.name, applicationContext)
-                genresView.addView(chip)
+                chip_group_genres.addView(chip)
             }
         }
 
         //stats
         val topRank = mangaDetails.rank
         val rankText = "#$topRank"
-        rankView.text = if (topRank==null) { "N/A" } else { rankText }
+        rank_text.text = if (topRank==null) { "N/A" } else { rankText }
 
         val membersRank = mangaDetails.num_scoring_users
-        numScoresView.text = NumberFormat.getInstance().format(membersRank)
+        num_scores_text.text = NumberFormat.getInstance().format(membersRank)
 
-        membersView.text = NumberFormat.getInstance().format(mangaDetails.num_list_users)
+        members_text.text = NumberFormat.getInstance().format(mangaDetails.num_list_users)
 
         val popularity = mangaDetails.popularity
         val popularityText = "#$popularity"
-        popularityView.text = popularityText
+        popularity_text.text = popularityText
 
         //more info
         val synonyms = mangaDetails.alternative_titles?.synonyms
         val synonymsText = synonyms?.joinToString(separator = ",\n")
-        synonymsView.text = if (!synonymsText.isNullOrEmpty()) { synonymsText }
+        synonyms_text.text = if (!synonymsText.isNullOrEmpty()) { synonymsText }
         else { "─" }
 
-        jpTitleView.text = if (!mangaDetails.alternative_titles?.ja.isNullOrEmpty()) {
+        jp_title.text = if (!mangaDetails.alternative_titles?.ja.isNullOrEmpty()) {
             mangaDetails.alternative_titles?.ja }
         else { "─" }
 
-        startDateView.text = if (!mangaDetails.start_date.isNullOrEmpty()) { mangaDetails.start_date }
+        start_date_text.text = if (!mangaDetails.start_date.isNullOrEmpty()) { mangaDetails.start_date }
         else { unknown }
-        endDateView.text = if (!mangaDetails.end_date.isNullOrEmpty()) { mangaDetails.end_date }
+        end_date_text.text = if (!mangaDetails.end_date.isNullOrEmpty()) { mangaDetails.end_date }
         else { unknown }
 
         // authors
@@ -478,7 +419,7 @@ class MangaDetailsActivity : BaseActivity() {
         }
 
         val authorsTextFormatted = authorsText.joinToString(separator = ",\n")
-        authorsView.text = if (authorsTextFormatted.isNotEmpty()) { authorsTextFormatted }
+        authors_text.text = if (authorsTextFormatted.isNotEmpty()) { authorsTextFormatted }
         else { unknown }
 
         // serialization
@@ -490,7 +431,7 @@ class MangaDetailsActivity : BaseActivity() {
             }
         }
         val serialText = serialNames.joinToString(separator = ",\n")
-        serialView.text = if (serialText.isNotEmpty()) { serialText }
+        serial_text.text = if (serialText.isNotEmpty()) { serialText }
         else { unknown }
 
         //relateds
@@ -543,24 +484,24 @@ class MangaDetailsActivity : BaseActivity() {
     private fun changeFabAction() {
         //change fab behavior if not added
         if (mangaDetails.my_list_status==null) {
-            editFab.text = getString(R.string.add)
-            editFab.setIconResource(R.drawable.ic_round_add_24)
-            editFab.setOnClickListener {
+            edit_fab.text = getString(R.string.add)
+            edit_fab.setIconResource(R.drawable.ic_round_add_24)
+            edit_fab.setOnClickListener {
                 initUpdateCall("plan_to_read", null, null, null, true)
-                editFab.text = getString(R.string.edit)
-                editFab.setIconResource(R.drawable.ic_round_edit_24)
+                edit_fab.text = getString(R.string.edit)
+                edit_fab.setIconResource(R.drawable.ic_round_edit_24)
                 val bottomSheetBehavior = bottomSheetDialog.behavior
-                editFab.setOnClickListener {
+                edit_fab.setOnClickListener {
                     bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                     getViewBottomHeight(dialogView as ViewGroup, R.id.divider, bottomSheetBehavior)
                     bottomSheetDialog.show()
                 }
             }
         } else {
-            editFab.text = getString(R.string.edit)
-            editFab.setIconResource(R.drawable.ic_round_edit_24)
+            edit_fab.text = getString(R.string.edit)
+            edit_fab.setIconResource(R.drawable.ic_round_edit_24)
             val bottomSheetBehavior = bottomSheetDialog.behavior
-            editFab.setOnClickListener {
+            edit_fab.setOnClickListener {
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                 getViewBottomHeight(dialogView as ViewGroup, R.id.divider, bottomSheetBehavior)
                 bottomSheetDialog.show()
@@ -583,8 +524,8 @@ class MangaDetailsActivity : BaseActivity() {
         val intent = Intent(this, FullPosterActivity::class.java)
         val options = ActivityOptions.makeSceneTransitionAnimation(
             this,
-            mangaPosterView,
-            mangaPosterView.transitionName
+            manga_poster,
+            manga_poster.transitionName
         )
         val largePicture = mangaDetails.main_picture?.large
         val mediumPicture = mangaDetails.main_picture?.medium
@@ -623,11 +564,11 @@ class MangaDetailsActivity : BaseActivity() {
         translator.downloadModelIfNeeded(conditions)
             .addOnSuccessListener {
                 try {
-                    translator.translate(synopsisView.text as String)
+                    translator.translate(synopsis.text as String)
                         .addOnSuccessListener { translatedText ->
-                            loadingTranslate.hide()
-                            translateButton.text = resources.getString(R.string.translate_original)
-                            synopsisView.text = translatedText
+                            loading_translate.hide()
+                            translate_button.text = resources.getString(R.string.translate_original)
+                            synopsis.text = translatedText
                         }
                         .addOnFailureListener { exception ->
                             Toast.makeText(this, exception.localizedMessage, Toast.LENGTH_SHORT)
@@ -652,7 +593,7 @@ class MangaDetailsActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         if (this::mangaDetails.isInitialized) {
-            loadingView.visibility = View.GONE
+            loading_layout.visibility = View.GONE
         }
     }
 
@@ -669,7 +610,10 @@ class MangaDetailsActivity : BaseActivity() {
         val viewOnMal = menu?.findItem(R.id.view_on_mal)
         viewOnMal?.setOnMenuItemClickListener { _ ->
             val builder = CustomTabsIntent.Builder()
-            builder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+            builder.setDefaultColorSchemeParams(
+                CustomTabColorSchemeParams.Builder()
+                .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                .build())
             val chromeIntent = builder.build()
             chromeIntent.launchUrl(this,
                 Uri.parse("https://myanimelist.net/manga/$mangaId"))
@@ -680,7 +624,7 @@ class MangaDetailsActivity : BaseActivity() {
         share?.setOnMenuItemClickListener { _ ->
             ShareCompat.IntentBuilder.from(this)
                 .setType("text/plain")
-                .setChooserTitle(mangaTitleView.text)
+                .setChooserTitle(main_title.text)
                 .setText("https://myanimelist.net/manga/$mangaId")
                 .startChooser()
             return@setOnMenuItemClickListener true

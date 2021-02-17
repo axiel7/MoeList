@@ -1,9 +1,6 @@
 package com.axiel7.moelist.ui.details
 
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import androidx.core.widget.ContentLoadingProgressBar
 import coil.Coil
 import coil.request.ImageRequest
 import coil.size.ViewSizeResolver
@@ -11,6 +8,7 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.ui.BaseActivity
 import com.igreenwood.loupe.extensions.createLoupe
 import com.igreenwood.loupe.extensions.setOnViewTranslateListener
+import kotlinx.android.synthetic.main.activity_full_poster.*
 
 class FullPosterActivity : BaseActivity() {
 
@@ -18,11 +16,8 @@ class FullPosterActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_full_poster)
 
-        val loadingBar = findViewById<ContentLoadingProgressBar>(R.id.loading_poster)
-        loadingBar.show()
+        loading_poster.show()
         val imageUrl = intent.extras?.getString("posterUrl", "")
-        val container = findViewById<RelativeLayout>(R.id.poster_container)
-        val poster = findViewById<ImageView>(R.id.anime_poster)
 
         val imageLoader = Coil.imageLoader(this)
 
@@ -31,11 +26,11 @@ class FullPosterActivity : BaseActivity() {
             .crossfade(true)
             .crossfade(300)
             .error(R.drawable.ic_launcher_foreground)
-            .size(ViewSizeResolver(poster))
+            .size(ViewSizeResolver(anime_poster))
             .target { result ->
-                poster.setImageDrawable(result)
-                loadingBar.hide()
-                val loupe = createLoupe(poster, container) {
+                anime_poster.setImageDrawable(result)
+                loading_poster.hide()
+                val loupe = createLoupe(anime_poster, poster_container) {
                     setOnViewTranslateListener(
                         onDismiss = { finish() }
                     )

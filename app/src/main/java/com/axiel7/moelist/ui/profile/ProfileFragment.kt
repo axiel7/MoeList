@@ -10,11 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import app.futured.donut.DonutProgressView
 import app.futured.donut.DonutSection
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -27,6 +23,7 @@ import com.axiel7.moelist.ui.details.FullPosterActivity
 import com.axiel7.moelist.utils.ResponseConverter
 import com.axiel7.moelist.utils.SharedPrefsHelpers
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_profile.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -38,24 +35,6 @@ class ProfileFragment : Fragment() {
 
     private lateinit var sharedPref: SharedPrefsHelpers
     private lateinit var userAnimeStatistics: UserAnimeStatistics
-    private lateinit var profilePicture: ImageView
-    private lateinit var usernameView: TextView
-    private lateinit var locationView: TextView
-    private lateinit var birthdayView: TextView
-    private lateinit var joinedView: TextView
-    private lateinit var animeChart: DonutProgressView
-    private lateinit var watchingText: TextView
-    private lateinit var completedText: TextView
-    private lateinit var onHoldText: TextView
-    private lateinit var droppedText: TextView
-    private lateinit var ptwText: TextView
-    private lateinit var totalText: TextView
-    private lateinit var daysText: TextView
-    private lateinit var episodesText: TextView
-    private lateinit var scoreText: TextView
-    private lateinit var rewatchText: TextView
-    private lateinit var viewOnMAL: Button
-    private lateinit var snackBarView: View
     private var user: User? = null
     private var userId = -1
 
@@ -82,24 +61,6 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        snackBarView = view
-        profilePicture = view.findViewById(R.id.profile_picture)
-        usernameView = view.findViewById(R.id.username)
-        locationView = view.findViewById(R.id.location)
-        birthdayView = view.findViewById(R.id.birthday)
-        joinedView = view.findViewById(R.id.joined_at)
-        animeChart = view.findViewById(R.id.anime_chart)
-        watchingText = view.findViewById(R.id.watching_text)
-        completedText = view.findViewById(R.id.completed_text)
-        onHoldText = view.findViewById(R.id.onhold_text)
-        droppedText = view.findViewById(R.id.dropped_text)
-        ptwText = view.findViewById(R.id.ptw_text)
-        totalText = view.findViewById(R.id.total_entries)
-        daysText = view.findViewById(R.id.days_wasted)
-        episodesText = view.findViewById(R.id.total_episodes)
-        scoreText = view.findViewById(R.id.mean_score)
-        rewatchText = view.findViewById(R.id.rewatched)
-        viewOnMAL = view.findViewById(R.id.view_on_mal)
         if (user!=null) {
             setDataToViews()
         }
@@ -127,14 +88,14 @@ class ProfileFragment : Fragment() {
                 }
                 else if (response.code()==401) {
                     if (isAdded) {
-                        Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(profile_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                     }
                 }
             }
             override fun onFailure(call: Call<User>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
                 if (isAdded) {
-                    Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(profile_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
             }
         })
@@ -142,43 +103,43 @@ class ProfileFragment : Fragment() {
     @SuppressLint("NewApi")
     private fun setDataToViews() {
 
-        profilePicture
+        profile_picture
             .load(user?.picture) {
                 crossfade(true)
                 crossfade(500)
                 transformations(CircleCropTransformation())
                 error(R.drawable.ic_round_account_circle_24)
             }
-        profilePicture.setOnClickListener {
+        profile_picture.setOnClickListener {
             val intent = Intent(context, FullPosterActivity::class.java)
             val options = ActivityOptions.makeSceneTransitionAnimation(
                 requireActivity(),
-                profilePicture,
+                profile_picture,
                 "shared_poster_container"
             )
             intent.putExtra("posterUrl", user?.picture)
             startActivity(intent, options.toBundle())
         }
 
-        val username = user?.name
-        usernameView.text = username
+        val usernameText = user?.name
+        username.text = usernameText
 
-        val location = user?.location
-        if (location.isNullOrEmpty()) {
-            locationView.visibility = View.GONE
+        val locationText = user?.location
+        if (locationText.isNullOrEmpty()) {
+            location.visibility = View.GONE
         } else {
-            locationView.visibility = View.VISIBLE
-            locationView.text = location
+            location.visibility = View.VISIBLE
+            location.text = locationText
         }
 
-        val birthday = user?.birthday
-        if (birthday.isNullOrEmpty()) {
-            birthdayView.visibility = View.GONE
+        val birthdayText = user?.birthday
+        if (birthdayText.isNullOrEmpty()) {
+            birthday.visibility = View.GONE
         } else {
-            birthdayView.visibility = View.VISIBLE
-            birthdayView.text = birthday
+            birthday.visibility = View.VISIBLE
+            birthday.text = birthdayText
         }
-        joinedView.text = LocalDate.parse(user?.joined_at, DateTimeFormatter.ISO_DATE_TIME).toString()
+        joined_at.text = LocalDate.parse(user?.joined_at, DateTimeFormatter.ISO_DATE_TIME).toString()
 
         val watching = userAnimeStatistics.num_items_watching!!
         val completed = userAnimeStatistics.num_items_completed!!
@@ -188,17 +149,17 @@ class ProfileFragment : Fragment() {
         val totalEntries = userAnimeStatistics.num_items!!
 
         val watchingKey = "${getString(R.string.watching)} ($watching)"
-        watchingText.text = watchingKey
+        watching_text.text = watchingKey
         val completedKey = "${getString(R.string.completed)} ($completed)"
-        completedText.text = completedKey
+        completed_text.text = completedKey
         val onHoldKey = "${getString(R.string.on_hold)} ($onHold)"
-        onHoldText.text = onHoldKey
+        onhold_text.text = onHoldKey
         val droppedKey = "${getString(R.string.dropped)} ($dropped)"
-        droppedText.text = droppedKey
+        dropped_text.text = droppedKey
         val ptwKey = "${getString(R.string.ptw)} ($ptw)"
-        ptwText.text = ptwKey
+        ptw_text.text = ptwKey
         val totalKey = "${getString(R.string.total_entries)} $totalEntries"
-        totalText.text = totalKey
+        total_entries.text = totalKey
 
         val watchingSection = DonutSection(
             name = "Watching",
@@ -225,8 +186,8 @@ class ProfileFragment : Fragment() {
             color = Color.parseColor("#9e9e9e"),
             amount = ptw.toFloat()
         )
-        animeChart.cap = 0f
-        animeChart.submitData(listOf(ptwSection, droppedSection, onHoldSection, completedSection, watchingSection))
+        anime_chart.cap = 0f
+        anime_chart.submitData(listOf(ptwSection, droppedSection, onHoldSection, completedSection, watchingSection))
 
         val days = userAnimeStatistics.num_days!!
         val episodes = NumberFormat.getInstance().format(userAnimeStatistics.num_episodes)!!
@@ -238,12 +199,12 @@ class ProfileFragment : Fragment() {
         val scoreValue = "$score\n${getString(R.string.mean_score)}"
         val rewatchValue = "$rewatch\n${getString(R.string.rewatched)}"
 
-        daysText.text = daysValue
-        episodesText.text = episodesValue
-        scoreText.text = scoreValue
-        rewatchText.text = rewatchValue
+        days_wasted.text = daysValue
+        total_episodes.text = episodesValue
+        mean_score.text = scoreValue
+        rewatched.text = rewatchValue
 
-        viewOnMAL.setOnClickListener {
+        view_on_mal.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW,
                 Uri.parse("https://myanimelist.net/profile/$username"))
             startActivity(intent)

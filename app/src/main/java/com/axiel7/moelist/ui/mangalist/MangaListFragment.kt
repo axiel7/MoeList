@@ -13,7 +13,6 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.app.ActivityOptionsCompat
-import androidx.core.widget.ContentLoadingProgressBar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.axiel7.moelist.MyApplication
@@ -32,8 +31,10 @@ import com.axiel7.moelist.utils.StringFormat
 import com.axiel7.moelist.utils.Urls
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_animelist.*
+import kotlinx.android.synthetic.main.fragment_mangalist.*
+import kotlinx.android.synthetic.main.fragment_mangalist.filters_fab
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,10 +42,6 @@ import retrofit2.Response
 class MangaListFragment : Fragment() {
 
     private lateinit var sharedPref: SharedPrefsHelpers
-    private lateinit var mangaListRecycler: RecyclerView
-    private lateinit var filtersFab: FloatingActionButton
-    private lateinit var loadingBar: ContentLoadingProgressBar
-    private lateinit var snackBarView: View
     private lateinit var mangaListAdapter: MyMangaListAdapter
     private var mangaListResponse: UserMangaListResponse? = null
     private lateinit var mangaList: MutableList<UserMangaList>
@@ -86,14 +83,11 @@ class MangaListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        snackBarView = view
-        loadingBar = view.findViewById(R.id.loading_mangalist)
-        loadingBar.hide()
+        loading_mangalist.hide()
         if (mangaList.isEmpty()) {
-            loadingBar.show()
+            loading_mangalist.show()
         }
 
-        mangaListRecycler = view.findViewById(R.id.mangalist_recycler)
         mangaListAdapter =
             MyMangaListAdapter(
                 mangaList,
@@ -128,14 +122,12 @@ class MangaListFragment : Fragment() {
             }
         })
 
-        mangaListRecycler.adapter = mangaListAdapter
+        mangalist_recycler.adapter = mangaListAdapter
 
-
-        filtersFab = view.findViewById(R.id.filters_fab)
         val dialogView = layoutInflater.inflate(R.layout.bottom_sheet_filters_manga, null)
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         bottomSheetDialog.setContentView(dialogView)
-        filtersFab.setOnClickListener { bottomSheetDialog.show() }
+        filters_fab.setOnClickListener { bottomSheetDialog.show() }
 
         val radioGroup = dialogView.findViewById<RadioGroup>(R.id.status_radio_group)
         val defaultCheck = defaultStatus!!
@@ -180,15 +172,15 @@ class MangaListFragment : Fragment() {
                 .show()
         }
 
-        mangaListRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        mangalist_recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     //scroll down
-                    filtersFab.hide()
+                    filters_fab.hide()
                 } else if (dy < 0) {
                     //scroll up
-                    filtersFab.show()
+                    filters_fab.show()
                 }
             }
         })
@@ -202,7 +194,7 @@ class MangaListFragment : Fragment() {
         } else {
             malApiService.getUserMangaList(listStatus, "list_status,num_chapters,media_type,status", sortMode, showNsfw)
         }
-        loadingBar.show()
+        loading_mangalist.show()
         initMangaListCall(mangaListCall, true)
     }
     private fun initMangaListCall(call: Call<UserMangaListResponse>, shouldClear: Boolean) {
@@ -226,7 +218,7 @@ class MangaListFragment : Fragment() {
                             mangaList.clear()
                         }
                         mangaList.addAll(mangaList2)
-                        loadingBar.hide()
+                        loading_mangalist.hide()
                         MyApplication.animeDb?.userMangaListDao()?.insertUserMangaList(mangaList)
                         mangaListAdapter.notifyDataSetChanged()
                     }
@@ -236,7 +228,7 @@ class MangaListFragment : Fragment() {
                 }
                 else if (response.code()==401) {
                     if (isAdded) {
-                        Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(animelist_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -244,14 +236,14 @@ class MangaListFragment : Fragment() {
             override fun onFailure(call: Call<UserMangaListResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
                 if (isAdded) {
-                    Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(animelist_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
             }
 
         })
     }
     private fun addOneEpisode(mangaId: Int, chaptersRead: Int?, status: String?) {
-        loadingBar.show()
+        loading_mangalist.show()
         val shouldNotUpdate = chaptersRead==null
         if (!shouldNotUpdate) {
             val updateListCall = malApiService
@@ -261,25 +253,25 @@ class MangaListFragment : Fragment() {
                     if (response.isSuccessful) {
                         initCalls()
                         if (isAdded) {
-                            Snackbar.make(snackBarView, getString(R.string.updated), Snackbar.LENGTH_SHORT).show()
+                            Snackbar.make(animelist_layout, getString(R.string.updated), Snackbar.LENGTH_SHORT).show()
                         }
                     }
                     else if (isAdded) {
-                        Snackbar.make(snackBarView, getString(R.string.error_updating_list), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(animelist_layout, getString(R.string.error_updating_list), Snackbar.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<MyMangaListStatus>, t: Throwable) {
                     Log.d("MoeLog", t.toString())
                     if (isAdded) {
-                        Snackbar.make(snackBarView, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(animelist_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                     }
                 }
             })
         } else {
-            loadingBar.hide()
+            loading_mangalist.hide()
             if (isAdded) {
-                Snackbar.make(snackBarView, getString(R.string.no_changes), Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(animelist_layout, getString(R.string.no_changes), Snackbar.LENGTH_SHORT).show()
             }
         }
     }
