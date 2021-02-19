@@ -212,7 +212,7 @@ class AnimeListFragment : Fragment() {
         call.enqueue(object: Callback<UserAnimeListResponse> {
             override fun onResponse(call: Call<UserAnimeListResponse>, response: Response<UserAnimeListResponse>) {
 
-                if (response.isSuccessful) {
+                if (response.isSuccessful && isAdded) {
                     val responseOld = ResponseConverter
                         .stringToUserAnimeListResponse(sharedPref.getString("animeListResponse$listStatus", ""))
                     if (responseOld!=response.body() || animeList.isEmpty()) {
@@ -264,7 +264,6 @@ class AnimeListFragment : Fragment() {
                 override fun onResponse(call: Call<MyListStatus>, response: Response<MyListStatus>) {
                     if (response.isSuccessful && isAdded) {
                         initCalls()
-                        Snackbar.make(animelist_layout, getString(R.string.updated), Snackbar.LENGTH_SHORT).show()
                     }
                     else if (isAdded) {
                         Snackbar.make(animelist_layout, getString(R.string.error_updating_list), Snackbar.LENGTH_SHORT).show()
@@ -279,8 +278,8 @@ class AnimeListFragment : Fragment() {
                 }
             })
         } else {
-            loading_animelist.hide()
             if (isAdded) {
+                loading_animelist.hide()
                 Snackbar.make(animelist_layout, getString(R.string.no_changes), Snackbar.LENGTH_SHORT).show()
             }
         }

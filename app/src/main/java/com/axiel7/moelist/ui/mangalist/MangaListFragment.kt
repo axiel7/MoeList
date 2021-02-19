@@ -201,7 +201,7 @@ class MangaListFragment : Fragment() {
         call.enqueue(object: Callback<UserMangaListResponse> {
             override fun onResponse(call: Call<UserMangaListResponse>, response: Response<UserMangaListResponse>) {
 
-                if (response.isSuccessful) {
+                if (response.isSuccessful && isAdded) {
                     val responseOld = ResponseConverter
                         .stringToUserMangaListResponse(sharedPref.getString("mangaListResponse$listStatus", ""))
                     if (responseOld!=response.body() || mangaList.isEmpty()) {
@@ -250,11 +250,8 @@ class MangaListFragment : Fragment() {
                 .updateMangaList(Urls.apiBaseUrl + "manga/$mangaId/my_list_status", status, null, chaptersRead, null)
             updateListCall.enqueue(object : Callback<MyMangaListStatus> {
                 override fun onResponse(call: Call<MyMangaListStatus>, response: Response<MyMangaListStatus>) {
-                    if (response.isSuccessful) {
+                    if (response.isSuccessful && isAdded) {
                         initCalls()
-                        if (isAdded) {
-                            Snackbar.make(animelist_layout, getString(R.string.updated), Snackbar.LENGTH_SHORT).show()
-                        }
                     }
                     else if (isAdded) {
                         Snackbar.make(animelist_layout, getString(R.string.error_updating_list), Snackbar.LENGTH_SHORT).show()
@@ -269,8 +266,8 @@ class MangaListFragment : Fragment() {
                 }
             })
         } else {
-            loading_mangalist.hide()
             if (isAdded) {
+                loading_mangalist.hide()
                 Snackbar.make(animelist_layout, getString(R.string.no_changes), Snackbar.LENGTH_SHORT).show()
             }
         }

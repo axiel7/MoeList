@@ -175,7 +175,7 @@ class HomeFragment : Fragment() {
             override fun onResponse(
                 call: Call<AnimeRankingResponse>,
                 response: Response<AnimeRankingResponse>, ) {
-                if (response.isSuccessful) {
+                if (response.isSuccessful && isAdded) {
                     val responseOld = ResponseConverter
                         .stringToAnimeRankResponse(sharedPref.getString("animeRankingResponse", ""))
 
@@ -228,7 +228,7 @@ class HomeFragment : Fragment() {
     private fun initRecommendCall(call: Call<AnimeListResponse>?, shouldClear: Boolean) {
         call?.enqueue(object : Callback<AnimeListResponse> {
             override fun onResponse(call: Call<AnimeListResponse>, response: Response<AnimeListResponse>) {
-                if (response.isSuccessful) {
+                if (response.isSuccessful && isAdded) {
                     val responseOld = ResponseConverter
                         .stringToAnimeListResponse(sharedPref.getString("animeRecommendResponse", ""))
 
@@ -283,7 +283,7 @@ class HomeFragment : Fragment() {
             override fun onResponse(
                 call: Call<SeasonalAnimeResponse>,
                 response: Response<SeasonalAnimeResponse>) {
-                if (response.isSuccessful) {
+                if (response.isSuccessful && isAdded) {
                     todayResponse = response.body()
                     val animeList2 = todayResponse!!.data
                     if (shouldClear) {
@@ -328,13 +328,13 @@ class HomeFragment : Fragment() {
 
             override fun onFailure(call: Call<SeasonalAnimeResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
-                loading_today.hide()
-                if (todayList.isEmpty()) { empty_today.visibility = View.VISIBLE }
                 if (isAdded) {
+                    loading_today.hide()
+                    if (todayList.isEmpty()) { empty_today.visibility = View.VISIBLE }
                     Snackbar.make(home_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    val rankingCall = malApiService.getAnimeRanking("airing","start_season", 200, showNsfw)
+                    initRankingCall(rankingCall, true)
                 }
-                val rankingCall = malApiService.getAnimeRanking("airing","start_season", 200, showNsfw)
-                initRankingCall(rankingCall, true)
             }
         })
     }

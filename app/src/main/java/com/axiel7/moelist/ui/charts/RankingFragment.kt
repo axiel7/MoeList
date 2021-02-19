@@ -129,7 +129,7 @@ class RankingFragment : Fragment() {
             override fun onResponse(
                 call: Call<AnimeRankingResponse>,
                 response: Response<AnimeRankingResponse>) {
-                if (response.isSuccessful) {
+                if (response.isSuccessful && isAdded) {
                     val responseOld = ResponseConverter
                         .stringToAnimeRankResponse(sharedPref.getString("animeRankingResponse$rankType", ""))
 
@@ -177,7 +177,7 @@ class RankingFragment : Fragment() {
             override fun onResponse(
                 call: Call<MangaRankingResponse>,
                 response: Response<MangaRankingResponse>) {
-                if (response.isSuccessful) {
+                if (response.isSuccessful && isAdded) {
                     val responseOld = ResponseConverter
                         .stringToMangaRankResponse(sharedPref.getString("mangaRankingResponse$rankType", ""))
 
