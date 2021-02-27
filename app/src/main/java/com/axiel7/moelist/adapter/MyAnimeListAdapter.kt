@@ -84,7 +84,7 @@ class MyAnimeListAdapter(private val animes: MutableList<UserAnimeList>,
             holder.progressBar.progress = 50
         }
 
-        if (position == animes.size - 2) run {
+        if (position == animes.size - 3) run {
             endListReachedListener?.onBottomReached(position)
         }
 

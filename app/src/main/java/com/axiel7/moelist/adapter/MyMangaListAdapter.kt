@@ -84,7 +84,7 @@ class MyMangaListAdapter(private val mangas: MutableList<UserMangaList>,
             holder.progressBar.progress = 50
         }
 
-        if (position == mangas.size - 2) run {
+        if (position == mangas.size - 3) run {
             endListReachedListener?.onBottomReached(position)
         }
 
