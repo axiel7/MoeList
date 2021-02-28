@@ -137,7 +137,7 @@ object StringFormat {
             "Dementia" -> context.getString(R.string.genre_dementia)
             "Demons" -> context.getString(R.string.genre_demons)
             "Drama" -> context.getString(R.string.genre_drama)
-            "Ecchi" -> context.getString(R.string.genre_drama)
+            "Ecchi" -> context.getString(R.string.genre_ecchi)
             "Fantasy" -> context.getString(R.string.genre_fantasy)
             "Game" -> context.getString(R.string.genre_game)
             "Harem" -> context.getString(R.string.genre_harem)
