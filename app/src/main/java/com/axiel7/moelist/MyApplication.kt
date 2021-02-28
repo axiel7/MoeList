@@ -1,5 +1,6 @@
 package com.axiel7.moelist
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import coil.ImageLoader
@@ -16,6 +17,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MyApplication : Application(), ImageLoaderFactory {
+    @SuppressLint("MissingPermission")
     override fun onCreate() {
         super.onCreate()
 
