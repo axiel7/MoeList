@@ -142,7 +142,7 @@
     <string name="theme_light">Claro</string>
     <string name="theme_dark">Escuro</string>
     <string name="theme_system">Seguir o sistema</string>
-    <string name="title_login">Fazer login</string>
+    <string name="title_login">Login</string>
     <string name="title_details">Detalhes</string>
     <string name="title_search">Buscar</string>
     <string name="title_poster">Imagem</string>
