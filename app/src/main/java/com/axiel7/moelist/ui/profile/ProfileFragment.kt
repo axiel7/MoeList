@@ -87,6 +87,7 @@ class ProfileFragment : Fragment() {
                     }
                 }
                 else if (response.code()==401) {
+                    sharedPref.saveBoolean("isUserLogged", false)
                     if (isAdded) {
                         Snackbar.make(profile_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                     }
