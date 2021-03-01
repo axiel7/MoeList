@@ -13,6 +13,8 @@ import androidx.preference.PreferenceManager
 import com.axiel7.moelist.MyApplication
 import com.axiel7.moelist.R
 import com.axiel7.moelist.ui.animelist.AnimeListFragment
+import com.axiel7.moelist.ui.details.EditAnimeFragment
+import com.axiel7.moelist.ui.details.EditMangaFragment
 import com.axiel7.moelist.ui.home.HomeFragment
 import com.axiel7.moelist.ui.mangalist.MangaListFragment
 import com.axiel7.moelist.ui.profile.ProfileFragment
@@ -21,7 +23,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.transition.platform.MaterialFadeThrough
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), EditAnimeFragment.OnDataPass, EditMangaFragment.OnDataPass {
 
     private val fragmentManager = supportFragmentManager
     private val homeFragment = HomeFragment()
@@ -167,5 +169,17 @@ class MainActivity : BaseActivity() {
         else if (requestCode==2 && resultCode==Activity.RESULT_OK) {
             MyApplication.isUserLogged = true
         }
+    }
+
+    override fun onAnimeEntryUpdated(updated: Boolean) {
+        val intent = Intent()
+        intent.putExtra("entryUpdated", updated)
+        animeListFragment.onActivityResult(17, RESULT_OK, intent)
+    }
+
+    override fun onMangaEntryUpdated(updated: Boolean) {
+        val intent = Intent()
+        intent.putExtra("entryUpdated", updated)
+        mangaListFragment.onActivityResult(17, RESULT_OK, intent)
     }
 }

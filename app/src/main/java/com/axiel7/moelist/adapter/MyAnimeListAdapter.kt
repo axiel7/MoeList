@@ -17,7 +17,8 @@ import com.axiel7.moelist.utils.StringFormat
 class MyAnimeListAdapter(private val animes: MutableList<UserAnimeList>,
                          private val rowLayout: Int,
                          private val context: Context,
-                         private val onClickListener: (View, UserAnimeList) -> Unit) :
+                         private val onClickListener: (View, UserAnimeList) -> Unit,
+                         private val onLongClickListener: (View, UserAnimeList) -> Unit) :
     RecyclerView.Adapter<MyAnimeListAdapter.AnimeViewHolder>() {
     private var endListReachedListener: EndListReachedListener? = null
     private var plusButtonTouchedListener: PlusButtonTouchedListener? = null
@@ -91,6 +92,10 @@ class MyAnimeListAdapter(private val animes: MutableList<UserAnimeList>,
         val anime = animes[position]
         holder.itemView.setOnClickListener { view ->
             onClickListener(view, anime)
+        }
+        holder.itemView.setOnLongClickListener { view ->
+            onLongClickListener(view, anime)
+            true
         }
         val listStatus = animes[position].list_status
         if (listStatus?.status == "watching" || listStatus?.is_rewatching == true) {

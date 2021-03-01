@@ -1,6 +1,5 @@
 package com.axiel7.moelist.ui.details
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityOptions
 import android.content.ClipData
@@ -12,7 +11,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.widget.TooltipCompat
 import androidx.browser.customtabs.CustomTabColorSchemeParams
@@ -20,7 +18,6 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
-import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.axiel7.moelist.MyApplication
@@ -36,14 +33,9 @@ import com.axiel7.moelist.model.Theme
 import com.axiel7.moelist.ui.BaseActivity
 import com.axiel7.moelist.ui.LoginActivity
 import com.axiel7.moelist.utils.*
-import com.axiel7.moelist.utils.InsetsHelper.getViewBottomHeight
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
-import com.google.android.material.slider.Slider
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation.getClient
@@ -57,18 +49,11 @@ import java.text.NumberFormat
 import java.util.*
 import kotlin.random.Random
 
-class AnimeDetailsActivity : BaseActivity() {
+class AnimeDetailsActivity : BaseActivity(), EditAnimeFragment.OnDataPass {
 
-    private lateinit var fields: String
     private lateinit var animeDetails: AnimeDetails
-    private lateinit var bottomSheetDialog: BottomSheetDialog
-    private lateinit var dialogView: View
+    private lateinit var bottomSheetDialog: BottomSheetDialogFragment
     private lateinit var relatedsAdapter: RelatedsAdapter
-    private lateinit var episodesLayout: TextInputLayout
-    private lateinit var episodesField: TextInputEditText
-    private lateinit var statusLayout: TextInputLayout
-    private lateinit var statusField: AutoCompleteTextView
-    private lateinit var scoreSlider: Slider
     private val relateds: MutableList<Related> = mutableListOf()
     private var entryUpdated: Boolean = false
     private var animeId = 1
@@ -99,12 +84,8 @@ class AnimeDetailsActivity : BaseActivity() {
         if (animeId==-1) {
             animeId = Random(System.nanoTime()).nextInt(0, 5000)
         }
-        fields = "id,title,main_picture,alternative_titles,start_date,end_date,synopsis,mean,rank,popularity," +
-                "num_list_users,num_scoring_users,media_type,status,genres,my_list_status,num_episodes,start_season," +
-                "broadcast,source,average_episode_duration,studios,opening_themes,ending_themes,related_anime{media_type},related_manga{media_type}"
 
         initViews()
-        setupBottomSheet()
         if (animeDb?.animeDetailsDao()?.getAnimeDetailsById(animeId)!=null) {
             animeDetails = animeDb?.animeDetailsDao()?.getAnimeDetailsById(animeId)!!
             setDataToViews()
@@ -143,28 +124,19 @@ class AnimeDetailsActivity : BaseActivity() {
             }
         })
     }
-    private fun initUpdateCall(status: String?, score: Int?, watchedEpisodes: Int?, newEntry: Boolean) {
-        val shouldNotUpdate = status.isNullOrEmpty() && score==null && watchedEpisodes==null
-        if (!shouldNotUpdate) {
-            val updateListCall = malApiService
-                .updateAnimeList(Urls.apiBaseUrl + "anime/$animeId/my_list_status", status, score, watchedEpisodes)
-            patchCall(updateListCall, newEntry)
-        } else {
-            Snackbar.make(details_layout, getString(R.string.no_changes), Snackbar.LENGTH_SHORT).show()
-        }
+    private fun initUpdateCall() {
+        val updateListCall = malApiService
+            .updateAnimeList(Urls.apiBaseUrl + "anime/$animeId/my_list_status", "plan_to_watch", null, null)
+        patchCall(updateListCall)
     }
-    private fun patchCall(call: Call<MyListStatus>, newEntry: Boolean) {
+    private fun patchCall(call: Call<MyListStatus>) {
         call.enqueue(object :Callback<MyListStatus> {
             override fun onResponse(call: Call<MyListStatus>, response: Response<MyListStatus>) {
                 if (response.isSuccessful) {
                     val myListStatus = response.body()!!
-                    syncListStatus(myListStatus)
                     animeDetails.my_list_status = myListStatus
                     entryUpdated = true
-                    var toastText = getString(R.string.updated)
-                    if (newEntry) {
-                        toastText = getString(R.string.added_ptw)
-                    }
+                    val toastText = getString(R.string.added_ptw)
                     Snackbar.make(details_layout, toastText, Snackbar.LENGTH_SHORT).show()
                 }
                 else {
@@ -176,28 +148,6 @@ class AnimeDetailsActivity : BaseActivity() {
                 Log.d("MoeLog", t.toString())
                 Snackbar.make(details_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
             }
-        })
-    }
-    private fun deleteEntry() {
-        val deleteCall = malApiService.deleteEntry(Urls.apiBaseUrl + "anime/$animeId/my_list_status")
-        deleteCall.enqueue(object :Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                if (response.isSuccessful) {
-                    animeDetails.my_list_status = null
-                    changeFabAction()
-                    bottomSheetDialog.dismiss()
-                    Snackbar.make(details_layout, getString(R.string.deleted), Snackbar.LENGTH_SHORT).show()
-                }
-                else {
-                    Snackbar.make(details_layout, getString(R.string.error_delete_entry), Snackbar.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                Log.d("MoeLog", t.toString())
-                Snackbar.make(details_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
-            }
-
         })
     }
     private fun initViews() {
@@ -253,75 +203,9 @@ class AnimeDetailsActivity : BaseActivity() {
             onClickListener = { _, related -> openDetails(related.node.id, related.node.media_type)} )
         relateds_recycler.adapter = relatedsAdapter
     }
-    @SuppressLint("InflateParams")
-    private fun setupBottomSheet() {
-        dialogView = layoutInflater.inflate(R.layout.bottom_sheet_edit_anime, null)
-        bottomSheetDialog = BottomSheetDialog(this)
-        bottomSheetDialog.setContentView(dialogView)
-        bottomSheetDialog.setOnDismissListener {
-            if (animeDetails.my_list_status!=null) {
-                syncListStatus(animeDetails.my_list_status!!)
-            }
-        }
-
-        val applyButton = bottomSheetDialog.findViewById<Button>(R.id.apply_button)
-        applyButton?.setOnClickListener {
-
-            var status :String? = null
-            val statusCurrent = StringFormat.formatListStatusInverted(statusField.text.toString(), this)
-            val statusOrigin = animeDetails.my_list_status?.status
-
-            var score :Int? = null
-            val scoreCurrent = scoreSlider.value.toInt()
-            val scoreOrigin = animeDetails.my_list_status?.score
-
-            var episodes: Int? = null
-            val episodesCurrent = episodesField.text.toString().toIntOrNull()
-            val episodesOrigin = animeDetails.my_list_status?.num_episodes_watched
-            if (statusCurrent!=statusOrigin) {
-                status = statusCurrent
-            }
-            if (scoreCurrent!=scoreOrigin) {
-                score = scoreCurrent
-            }
-            if (episodesCurrent!=episodesOrigin) {
-                episodes = episodesCurrent
-            }
-            if (status=="completed") {
-                episodes = animeDetails.num_episodes
-            }
-            initUpdateCall(status, score, episodes, false)
-            bottomSheetDialog.hide()
-        }
-        val cancelButton = bottomSheetDialog.findViewById<Button>(R.id.cancel_button)
-        cancelButton?.setOnClickListener {
-            syncListStatus(animeDetails.my_list_status!!)
-            bottomSheetDialog.hide()
-        }
-
-        statusLayout = bottomSheetDialog.findViewById(R.id.status_layout)!!
-        statusField = bottomSheetDialog.findViewById(R.id.status_field)!!
-        val statusItems = listOf(getString(R.string.watching), getString(R.string.completed),
-            getString(R.string.on_hold), getString(R.string.dropped), getString(R.string.ptw))
-        val adapter = ArrayAdapter(this, R.layout.list_status_item, statusItems)
-        (statusLayout.editText as? AutoCompleteTextView)?.setAdapter(adapter)
-
-        episodesLayout = bottomSheetDialog.findViewById(R.id.episodes_field_layout)!!
-        episodesField = bottomSheetDialog.findViewById(R.id.episodes_field)!!
-
-        val scoreText = bottomSheetDialog.findViewById<TextView>(R.id.score_text)
-        scoreSlider = bottomSheetDialog.findViewById(R.id.score_slider)!!
-        scoreSlider.addOnChangeListener { _, value, _ ->
-            val scoreTextValue = "${getString(R.string.score_value)} " + value.toInt().let { StringFormat.formatScore(it, this) }
-            scoreText?.text = scoreTextValue
-        }
-        val scoreTextValue = "${getString(R.string.score_value)} " + scoreSlider.value.toInt().let { StringFormat.formatScore(it, this) }
-        scoreText?.text = scoreTextValue
-
-        val deleteButton = bottomSheetDialog.findViewById<Button>(R.id.delete_button)
-        deleteButton?.setOnClickListener { deleteEntry() }
-    }
     private fun setDataToViews() {
+        bottomSheetDialog =
+            EditAnimeFragment(animeDetails.my_list_status, animeId, animeDetails.num_episodes ?: 0)
         val unknown = getString(R.string.unknown)
         //quit loading bar
         loading_layout.visibility = View.GONE
@@ -449,27 +333,6 @@ class AnimeDetailsActivity : BaseActivity() {
             relateds.addAll(relatedMangas)
         }
         relatedsAdapter.notifyDataSetChanged()
-
-        //bottom sheet edit
-        episodesLayout.suffixText = "/$numEpisodes"
-        if (animeDetails.my_list_status!=null) {
-            syncListStatus(animeDetails.my_list_status!!)
-        }
-        //episodes input logic
-        episodesLayout.editText?.doOnTextChanged { text, _, _, _ ->
-            val inputEpisodes = text.toString().toIntOrNull()
-            if (numEpisodes!=0) {
-                if (text.isNullOrEmpty() || text.isBlank() || inputEpisodes==null
-                    || inputEpisodes > numEpisodes!!) {
-                    episodesLayout.error = getString(R.string.invalid_number)
-                } else { episodesLayout.error = null }
-            }
-            else {
-                if (text.isNullOrEmpty() || text.isBlank()) {
-                    episodesLayout.error = getString(R.string.invalid_number)
-                } else { episodesLayout.error = null }
-            }
-        }
     }
     private fun changeFabAction() {
         //change fab behavior if not added
@@ -477,35 +340,20 @@ class AnimeDetailsActivity : BaseActivity() {
             edit_fab.text = getString(R.string.add)
             edit_fab.setIconResource(R.drawable.ic_round_add_24)
             edit_fab.setOnClickListener {
-                initUpdateCall("plan_to_watch", null, null, true)
+                initUpdateCall()
                 edit_fab.text = getString(R.string.edit)
                 edit_fab.setIconResource(R.drawable.ic_round_edit_24)
-                val bottomSheetBehavior = bottomSheetDialog.behavior
                 edit_fab.setOnClickListener {
-                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                    getViewBottomHeight(dialogView as ViewGroup, R.id.divider, bottomSheetBehavior)
-                    bottomSheetDialog.show()
+                    bottomSheetDialog.show(supportFragmentManager, "Edit")
                 }
             }
         } else {
             edit_fab.text = getString(R.string.edit)
             edit_fab.setIconResource(R.drawable.ic_round_edit_24)
-            val bottomSheetBehavior = bottomSheetDialog.behavior
             edit_fab.setOnClickListener {
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                getViewBottomHeight(dialogView as ViewGroup, R.id.divider, bottomSheetBehavior)
-                bottomSheetDialog.show()
+                bottomSheetDialog.show(supportFragmentManager, "Edit")
             }
         }
-    }
-    private fun syncListStatus(myListStatus: MyListStatus) {
-        val watchedEpisodes = myListStatus.num_episodes_watched
-        episodesField.setText(watchedEpisodes.toString())
-
-        val statusValue = StringFormat.formatListStatus(myListStatus.status, this)
-        statusField.setText(statusValue, false)
-
-        scoreSlider.value = myListStatus.score.toFloat()
     }
 
     private fun openFullPoster() {
@@ -526,6 +374,7 @@ class AnimeDetailsActivity : BaseActivity() {
             startActivity(intent, options.toBundle())
         }
     }
+
     private fun openDetails(id: Int, mediaType: String?) {
         if (!mediaType.isNullOrEmpty()) {
             if (mediaType=="manga" || mediaType=="one_shot" || mediaType=="manhwa"
@@ -591,6 +440,12 @@ class AnimeDetailsActivity : BaseActivity() {
         super.finish()
     }
 
+    override fun onAnimeEntryUpdated(updated: Boolean) {
+        entryUpdated = updated
+        changeFabAction()
+        animeDb?.animeDetailsDao()?.insertAnimeDetails(animeDetails)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.details_menu, menu)
 
@@ -616,5 +471,11 @@ class AnimeDetailsActivity : BaseActivity() {
             return@setOnMenuItemClickListener true
         }
         return super.onCreateOptionsMenu(menu)
+    }
+
+    companion object {
+        const val fields = "id,title,main_picture,alternative_titles,start_date,end_date,synopsis,mean,rank,popularity," +
+                "num_list_users,num_scoring_users,media_type,status,genres,my_list_status,num_episodes,start_season," +
+                "broadcast,source,average_episode_duration,studios,opening_themes,ending_themes,related_anime{media_type},related_manga{media_type}"
     }
 }

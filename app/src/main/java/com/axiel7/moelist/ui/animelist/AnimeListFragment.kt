@@ -25,6 +25,7 @@ import com.axiel7.moelist.model.MyListStatus
 import com.axiel7.moelist.model.UserAnimeList
 import com.axiel7.moelist.model.UserAnimeListResponse
 import com.axiel7.moelist.ui.details.AnimeDetailsActivity
+import com.axiel7.moelist.ui.details.EditAnimeFragment
 import com.axiel7.moelist.utils.ResponseConverter
 import com.axiel7.moelist.utils.SharedPrefsHelpers
 import com.axiel7.moelist.utils.StringFormat
@@ -92,7 +93,14 @@ class AnimeListFragment : Fragment() {
                     animeList,
                     R.layout.list_item_animelist,
                     requireContext(),
-                    onClickListener = { itemView, userAnimeList -> openDetails(userAnimeList.node.id, itemView) }
+                    onClickListener = { itemView, userAnimeList -> openDetails(userAnimeList.node.id, itemView) },
+                    onLongClickListener = { _, userAnimeList ->
+                        val editSheet =
+                            EditAnimeFragment(userAnimeList.list_status,
+                                userAnimeList.node.id,
+                                userAnimeList.node.num_episodes ?: 0)
+                        editSheet.show(parentFragmentManager, "Edit")
+                    }
                 )
         animeListAdapter.setEndListReachedListener(object :EndListReachedListener {
             override fun onBottomReached(position: Int) {

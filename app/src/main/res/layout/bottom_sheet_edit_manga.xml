@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/edit_sheet"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -19,6 +20,14 @@
         android:gravity="center"
         android:paddingStart="?attr/listPreferredItemPaddingStart"
         android:paddingEnd="?attr/listPreferredItemPaddingEnd">
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="24dp"
+            android:elevation="10dp"
+            style="?android:attr/progressBarStyleLarge"/>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -147,13 +156,6 @@
         android:valueTo="10"
         android:stepSize="1"
         app:labelBehavior="gone"/>
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="20dp"
-        android:background="?android:attr/listDivider" />
 
     <Button
         android:id="@+id/delete_button"

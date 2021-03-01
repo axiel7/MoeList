@@ -24,6 +24,7 @@ import com.axiel7.moelist.adapter.PlusButtonTouchedListener
 import com.axiel7.moelist.model.MyMangaListStatus
 import com.axiel7.moelist.model.UserMangaList
 import com.axiel7.moelist.model.UserMangaListResponse
+import com.axiel7.moelist.ui.details.EditMangaFragment
 import com.axiel7.moelist.ui.details.MangaDetailsActivity
 import com.axiel7.moelist.utils.ResponseConverter
 import com.axiel7.moelist.utils.SharedPrefsHelpers
@@ -93,7 +94,15 @@ class MangaListFragment : Fragment() {
                 mangaList,
                 R.layout.list_item_mangalist,
                 requireContext(),
-                onClickListener = { itemView, userMangaList -> openDetails(userMangaList.node.id, itemView) }
+                onClickListener = { itemView, userMangaList -> openDetails(userMangaList.node.id, itemView) },
+                onLongClickListener = { _, userMangaList ->
+                    val editSheet =
+                        EditMangaFragment(userMangaList.list_status,
+                            userMangaList.node.id,
+                            userMangaList.node.num_chapters ?: 0,
+                            userMangaList.node.num_volumes ?: 0)
+                    editSheet.show(parentFragmentManager, "Edit")
+                }
             )
         mangaListAdapter.setEndListReachedListener(object : EndListReachedListener {
             override fun onBottomReached(position: Int) {
