@@ -33,9 +33,7 @@ import com.axiel7.moelist.utils.Urls
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_animelist.*
 import kotlinx.android.synthetic.main.fragment_mangalist.*
-import kotlinx.android.synthetic.main.fragment_mangalist.filters_fab
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -238,7 +236,7 @@ class MangaListFragment : Fragment() {
                 else if (response.code()==401) {
                     sharedPref.saveBoolean("isUserLogged", false)
                     if (isAdded) {
-                        Snackbar.make(animelist_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(mangalist_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -246,7 +244,7 @@ class MangaListFragment : Fragment() {
             override fun onFailure(call: Call<UserMangaListResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
                 if (isAdded) {
-                    Snackbar.make(animelist_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(mangalist_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
             }
 
@@ -264,21 +262,21 @@ class MangaListFragment : Fragment() {
                         initCalls()
                     }
                     else if (isAdded) {
-                        Snackbar.make(animelist_layout, getString(R.string.error_updating_list), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(mangalist_layout, getString(R.string.error_updating_list), Snackbar.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<MyMangaListStatus>, t: Throwable) {
                     Log.d("MoeLog", t.toString())
                     if (isAdded) {
-                        Snackbar.make(animelist_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(mangalist_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                     }
                 }
             })
         } else {
             if (isAdded) {
                 loading_mangalist.hide()
-                Snackbar.make(animelist_layout, getString(R.string.no_changes), Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(mangalist_layout, getString(R.string.no_changes), Snackbar.LENGTH_SHORT).show()
             }
         }
     }
