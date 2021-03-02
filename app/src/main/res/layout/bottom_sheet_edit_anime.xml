@@ -57,6 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/apply"
+            android:backgroundTint="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
