@@ -13,8 +13,10 @@ import androidx.core.widget.doOnTextChanged
 import com.axiel7.moelist.MyApplication
 import com.axiel7.moelist.R
 import com.axiel7.moelist.model.MyMangaListStatus
+import com.axiel7.moelist.utils.InsetsHelper
 import com.axiel7.moelist.utils.StringFormat
 import com.axiel7.moelist.utils.Urls
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -40,6 +42,13 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //Set peek height to hide delete button
+        InsetsHelper.getViewBottomHeight(
+            view as ViewGroup,
+            R.id.divider,
+            (dialog as BottomSheetDialog).behavior
+        )
+
         loading.hide()
         apply_button?.setOnClickListener {
 

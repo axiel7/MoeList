@@ -162,6 +162,13 @@
         android:stepSize="1"
         app:labelBehavior="gone"/>
 
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="24dp"
+        android:background="?android:attr/listDivider" />
+
     <Button
         android:id="@+id/delete_button"
         android:layout_width="match_parent"
@@ -169,4 +176,5 @@
         android:layout_margin="30dp"
         android:backgroundTint="@color/colorError"
         android:text="@string/delete"/>
+
 </androidx.appcompat.widget.LinearLayoutCompat>
