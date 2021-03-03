@@ -102,6 +102,19 @@ class EditAnimeFragment(private var myListStatus: MyListStatus?,
         }
 
         episodes_field_layout.suffixText = "/$numEpisodes"
+        minus_button.setOnClickListener {
+            val inputEpisodes = episodes_field.text.toString().toIntOrNull() ?: 0
+            if (inputEpisodes > 0) {
+                episodes_field.setText((inputEpisodes - 1).toString())
+            }
+        }
+        plus_button.setOnClickListener {
+            val inputEpisodes = episodes_field.text.toString().toIntOrNull() ?: 0
+            if (inputEpisodes < numEpisodes || numEpisodes == 0) {
+                episodes_field.setText((inputEpisodes + 1).toString())
+            }
+        }
+
         if (myListStatus != null) {
             syncListStatus()
         }

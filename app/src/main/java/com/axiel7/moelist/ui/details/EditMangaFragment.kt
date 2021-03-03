@@ -109,6 +109,32 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
         }
         chapters_layout.suffixText = "/$numChapters"
         volumes_layout.suffixText = "/$numVolumes"
+
+        minus_ch_button.setOnClickListener {
+            val inputChapters = chapters_field.text.toString().toIntOrNull() ?: 0
+            if (inputChapters > 0) {
+                chapters_field.setText((inputChapters - 1).toString())
+            }
+        }
+        plus_ch_button.setOnClickListener {
+            val inputChapters = chapters_field.text.toString().toIntOrNull() ?: 0
+            if (inputChapters < numChapters || numChapters == 0) {
+                chapters_field.setText((inputChapters + 1).toString())
+            }
+        }
+        minus_vol_button.setOnClickListener {
+            val inputVolumes = volumes_field.text.toString().toIntOrNull() ?: 0
+            if (inputVolumes > 0) {
+                volumes_field.setText((inputVolumes - 1).toString())
+            }
+        }
+        plus_vol_button.setOnClickListener {
+            val inputVolumes = volumes_field.text.toString().toIntOrNull() ?: 0
+            if (inputVolumes < numVolumes || numVolumes == 0) {
+                chapters_field.setText((inputVolumes + 1).toString())
+            }
+        }
+
         if (myListStatus != null) {
             syncListStatus()
         }
