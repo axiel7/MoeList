@@ -59,6 +59,7 @@
     <string name="airing_in">%s saat sonra yayınlanacak</string>
     <string name="score_value">Puan:</string>
     <string name="plus_one">+1</string>
+    <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 CH</string>
     <string name="add">Ekle</string>
     <string name="invalid_number">Geçersiz sayı</string>
@@ -244,8 +245,11 @@
     <string name="analytics_summary">Bu, uygulamanın geliştirilmesine yardımcı olur</string>
     <string name="github_sponsor">Projeye sponsor olun 💰</string>
     <string name="parent_story">Ana hikaye</string>
+    <string name="hour_abbreviation">h</string>
+    <string name="minutes_abbreviation">min</string>
     <string name="full_story">Tüm hikaye</string>
     <string name="theme_black">Siyah</string>
     <string name="aired_ago">%s saat önce yayınlandı</string>
-    <string name="anime_stats" comment="anime_stats" maxLength="25">Anime\nİstatistikleri</string>
+    <string name="anime_stats">Anime\nİstatistikleri</string>
+    <string name="delete_confirmation">Are you sure you want to delete this entry?</string>
 </resources>
