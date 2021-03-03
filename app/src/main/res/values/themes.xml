@@ -55,7 +55,7 @@
     </style>
 
     <style name="BottomSheetRounded" parent="Widget.MaterialComponents.BottomSheet">
-        <item name="shapeAppearanceOverlay">@style/AppShapeAppearance.MediumComponent</item>
+        <item name="shapeAppearanceOverlay">@style/AppShapeAppearance.BottomSheet</item>
     </style>
 
     <!-- Alert dialog -->
