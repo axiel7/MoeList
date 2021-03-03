@@ -16,6 +16,7 @@ import com.axiel7.moelist.model.MyListStatus
 import com.axiel7.moelist.utils.StringFormat
 import com.axiel7.moelist.utils.Urls
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_anime_details.*
 import kotlinx.android.synthetic.main.bottom_sheet_edit_anime.*
@@ -86,8 +87,19 @@ class EditAnimeFragment(private var myListStatus: MyListStatus?,
         val scoreTextValue = "${getString(R.string.score_value)} " + score_slider.value.toInt().let { StringFormat.formatScore(it, requireContext()) }
         score_text?.text = scoreTextValue
 
-        delete_button?.setOnClickListener { deleteEntry() }
-
+        delete_button?.setOnClickListener {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(resources.getString(R.string.delete))
+                .setMessage(resources.getString(R.string.delete_confirmation))
+                .setNeutralButton(resources.getString(R.string.cancel)) { _, _ ->
+                    // Respond to neutral button press
+                }
+                .setPositiveButton(resources.getString(R.string.ok)) { _, _ ->
+                    // Respond to positive button press
+                    deleteEntry()
+                }
+                .show()
+        }
 
         episodes_field_layout.suffixText = "/$numEpisodes"
         if (myListStatus != null) {

@@ -16,6 +16,7 @@ import com.axiel7.moelist.model.MyMangaListStatus
 import com.axiel7.moelist.utils.StringFormat
 import com.axiel7.moelist.utils.Urls
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.bottom_sheet_edit_manga.*
 import retrofit2.Call
@@ -93,7 +94,19 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
                 score_slider.value.toInt().let { StringFormat.formatScore(it, requireContext()) }
         score_text?.text = scoreTextValue
 
-        delete_button?.setOnClickListener { deleteEntry() }
+        delete_button?.setOnClickListener {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(resources.getString(R.string.delete))
+                .setMessage(resources.getString(R.string.delete_confirmation))
+                .setNeutralButton(resources.getString(R.string.cancel)) { _, _ ->
+                    // Respond to neutral button press
+                }
+                .setPositiveButton(resources.getString(R.string.ok)) { _, _ ->
+                    // Respond to positive button press
+                    deleteEntry()
+                }
+                .show()
+        }
         chapters_layout.suffixText = "/$numChapters"
         volumes_layout.suffixText = "/$numVolumes"
         if (myListStatus != null) {
