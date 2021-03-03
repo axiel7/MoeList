@@ -89,7 +89,10 @@ class LoginActivity : BaseActivity() {
                             MyApplication.loadSavedPrefs()
                             MyApplication.createRetrofit(applicationContext)
                             val openMainActivity = Intent(this@LoginActivity, MainActivity::class.java)
+                            openMainActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                            openMainActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                             startActivityForResult(openMainActivity, 2)
+                            finish()
                         }
                         else {
                             Log.d("MoeLog", "token was null")
