@@ -49,8 +49,8 @@ class MyAnimeListAdapter(private val animes: MutableList<UserAnimeList>,
         val posterUrl = animes[position].node.main_picture?.medium
         val animeTitle = animes[position].node.title
         val animeScore = animes[position].list_status?.score
-        val watchedEpisodes = animes[position].list_status?.num_episodes_watched
-        val totalEpisodes = animes[position].node.num_episodes
+        val watchedEpisodes = animes[position].list_status?.num_episodes_watched ?: 0
+        val totalEpisodes = animes[position].node.num_episodes ?: 0
         var mediaType = animes[position].node.media_type
         var status = animes[position].node.status
         status = status?.let { StringFormat.formatStatus(it, context) }
@@ -75,14 +75,15 @@ class MyAnimeListAdapter(private val animes: MutableList<UserAnimeList>,
 
         holder.progressText.text = progressText
         holder.mediaStatus.text = mediaStatus
-        if (totalEpisodes != null && watchedEpisodes != null
-            && totalEpisodes != 0) {
-            holder.progressBar.max = totalEpisodes
-            holder.progressBar.progress = watchedEpisodes
-        }
-        else {
-            holder.progressBar.max = 100
-            holder.progressBar.progress = 50
+        when {
+            totalEpisodes != 0 || watchedEpisodes == 0 -> {
+                holder.progressBar.max = totalEpisodes
+                holder.progressBar.progress = watchedEpisodes
+            }
+            else -> {
+                holder.progressBar.max = 100
+                holder.progressBar.progress = 50
+            }
         }
 
         if (position == animes.size - 3) run {

@@ -49,8 +49,8 @@ class MyMangaListAdapter(private val mangas: MutableList<UserMangaList>,
         val posterUrl = mangas[position].node.main_picture?.medium
         val mangaTitle = mangas[position].node.title
         val mangaScore = mangas[position].list_status?.score
-        val chaptersRead = mangas[position].list_status?.num_chapters_read
-        val totalChapters = mangas[position].node.num_chapters
+        val chaptersRead = mangas[position].list_status?.num_chapters_read ?: 0
+        val totalChapters = mangas[position].node.num_chapters ?: 0
         var mediaType = mangas[position].node.media_type
         var status = mangas[position].node.status
         status = status?.let { StringFormat.formatStatus(it, context) }
@@ -75,14 +75,15 @@ class MyMangaListAdapter(private val mangas: MutableList<UserMangaList>,
 
         holder.progressText.text = progressText
         holder.mediaStatus.text = mediaStatus
-        if (totalChapters != null && chaptersRead != null
-            && totalChapters != 0) {
-            holder.progressBar.max = totalChapters
-            holder.progressBar.progress = chaptersRead
-        }
-        else {
-            holder.progressBar.max = 100
-            holder.progressBar.progress = 50
+        when {
+            totalChapters != 0 || chaptersRead == 0 -> {
+                holder.progressBar.max = totalChapters
+                holder.progressBar.progress = chaptersRead
+            }
+            else -> {
+                holder.progressBar.max = 100
+                holder.progressBar.progress = 50
+            }
         }
 
         if (position == mangas.size - 3) run {
