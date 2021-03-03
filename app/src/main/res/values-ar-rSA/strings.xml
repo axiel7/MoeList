@@ -59,6 +59,7 @@
     <string name="airing_in">سيبث في %s س</string>
     <string name="score_value">التقييم:</string>
     <string name="plus_one">1+</string>
+    <string name="minus_one">-1</string>
     <string name="plus_one_chapter">1+ فصل</string>
     <string name="add">إضافة</string>
     <string name="invalid_number">الرقم غير صالح</string>
@@ -244,8 +245,11 @@
     <string name="analytics_summary">هذا سيساعد في تحسين التطبيق</string>
     <string name="github_sponsor">راعي المشروع 💰</string>
     <string name="parent_story">القصة الأم</string>
+    <string name="hour_abbreviation">س</string>
+    <string name="minutes_abbreviation">دقيقة</string>
     <string name="full_story">القصة الكاملة</string>
     <string name="theme_black">أسود</string>
     <string name="aired_ago">تم بثه منذ %s س</string>
-    <string name="anime_stats" comment="anime_stats" maxLength="25">إحصائيات\nالأنيمي</string>
+    <string name="anime_stats">إحصائيات\nالأنيمي</string>
+    <string name="delete_confirmation">هل أنت متأكد أنك تريد حذف هذا المدخل؟</string>
 </resources>
