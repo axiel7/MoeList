@@ -60,6 +60,7 @@
     <string name="airing_in">Airing in %sh</string>
     <string name="score_value">Score:</string>
     <string name="plus_one">+1</string>
+    <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 CH</string>
     <string name="add">Add</string>
     <string name="invalid_number">Invalid number</string>
