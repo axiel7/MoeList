@@ -59,6 +59,7 @@
     <string name="airing_in">Emisión en %sh</string>
     <string name="score_value">Puntuación:</string>
     <string name="plus_one">+1</string>
+    <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 CAP</string>
     <string name="add">Añadir</string>
     <string name="invalid_number">Número inválido</string>
@@ -244,8 +245,11 @@
     <string name="analytics_summary">Esto ayuda a mejorar la aplicación</string>
     <string name="github_sponsor">Patrocina el proyecto 💰</string>
     <string name="parent_story">Historia principal</string>
+    <string name="hour_abbreviation">h</string>
+    <string name="minutes_abbreviation">min</string>
     <string name="full_story">Historia completa</string>
     <string name="theme_black">Negro</string>
     <string name="aired_ago">Emitido hace %sh</string>
-    <string name="anime_stats" comment="anime_stats" maxLength="25">Estadísticas de\nAnime</string>
+    <string name="anime_stats">Estadísticas de\nAnime</string>
+    <string name="delete_confirmation">¿Estás seguro de que quieres eliminar esta entrada?</string>
 </resources>
