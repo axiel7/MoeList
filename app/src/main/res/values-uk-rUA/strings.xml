@@ -59,6 +59,7 @@
     <string name="airing_in">Трансляція через %s год</string>
     <string name="score_value">Оцінка:</string>
     <string name="plus_one">+1</string>
+    <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 РОЗ</string>
     <string name="add">Додати</string>
     <string name="invalid_number">Невірне число</string>
@@ -244,8 +245,11 @@
     <string name="analytics_summary">Це допомагає покращити додаток</string>
     <string name="github_sponsor">Спонсорувати проект 💰</string>
     <string name="parent_story">Головна історія</string>
+    <string name="hour_abbreviation">год</string>
+    <string name="minutes_abbreviation">хв</string>
     <string name="full_story">Повна історія</string>
     <string name="theme_black">Чорна</string>
     <string name="aired_ago">Транслювалося %s год тому</string>
-    <string name="anime_stats" comment="anime_stats" maxLength="25">Аніме\nСтатистика</string>
+    <string name="anime_stats">Аніме\nСтатистика</string>
+    <string name="delete_confirmation">Ви дійсно бажаєте видалити цей запис?</string>
 </resources>
