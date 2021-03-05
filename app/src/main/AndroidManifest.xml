@@ -132,6 +132,13 @@
             android:hardwareAccelerated="true"
             android:configChanges="keyboard|orientation|screenSize" />
 
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_moelist_logo_white" />
