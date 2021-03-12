@@ -56,9 +56,10 @@
     <string name="mean_score">Nota Média</string>
     <string name="rewatched">Reassistido</string>
     <string name="view_profile_mal">Ver perfil no MAL</string>
-    <string name="airing_in">Exibição em</string>
+    <string name="airing_in">Exibição em %sh</string>
     <string name="score_value">Nota:</string>
     <string name="plus_one">+1</string>
+    <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 CAP</string>
     <string name="add">Adicionar</string>
     <string name="invalid_number">Número inválido</string>
@@ -142,7 +143,7 @@
     <string name="theme_light">Claro</string>
     <string name="theme_dark">Escuro</string>
     <string name="theme_system">Seguir o sistema</string>
-    <string name="title_login">Fazer login</string>
+    <string name="title_login">Login</string>
     <string name="title_details">Detalhes</string>
     <string name="title_search">Buscar</string>
     <string name="title_poster">Imagem</string>
@@ -243,7 +244,12 @@
     <string name="send_analytics">Enviar estatísticas de uso</string>
     <string name="analytics_summary">Isso ajuda a melhorar o aplicativo</string>
     <string name="github_sponsor">Patrocine o projeto 💰</string>
-    <string name="parent_story" comment="parent_story&#10;&#10;Relation type">História principal</string>
+    <string name="parent_story">História principal</string>
     <string name="hour_abbreviation">h</string>
-    <string name="minutes_abbreviation" comment="minutes_abbreviation&#10;&#10;For episodes duration">min</string>
+    <string name="minutes_abbreviation">min</string>
+    <string name="full_story">História completa</string>
+    <string name="theme_black">Preto</string>
+    <string name="aired_ago">Exibido há %sh</string>
+    <string name="anime_stats">Estatísticas de\nAnimes</string>
+    <string name="delete_confirmation">Tem certeza que deseja excluir essa entrada?</string>
 </resources>

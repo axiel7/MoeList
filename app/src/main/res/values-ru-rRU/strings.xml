@@ -56,9 +56,10 @@
     <string name="mean_score">Средний балл</string>
     <string name="rewatched">Пересмотрено</string>
     <string name="view_profile_mal">Посмотреть профиль на MAL</string>
-    <string name="airing_in">Выйдет через</string>
+    <string name="airing_in">Выйдет через %s ч.</string>
     <string name="score_value">Оценка:</string>
     <string name="plus_one">+1</string>
+    <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 ГЛ</string>
     <string name="add">Добавить</string>
     <string name="invalid_number">Неправильное число</string>
@@ -243,7 +244,12 @@
     <string name="send_analytics">Отправлять аналитику</string>
     <string name="analytics_summary">Это помогает улучшать приложение</string>
     <string name="github_sponsor">Спонсировать проект 💰</string>
-    <string name="parent_story" comment="parent_story&#10;&#10;Relation type">Основная история</string>
-    <string name="hour_abbreviation">ч</string>
-    <string name="minutes_abbreviation" comment="minutes_abbreviation&#10;&#10;For episodes duration">мин</string>
+    <string name="parent_story">Основная история</string>
+    <string name="hour_abbreviation">h</string>
+    <string name="minutes_abbreviation">min</string>
+    <string name="full_story">Полная история</string>
+    <string name="theme_black">Чёрная</string>
+    <string name="aired_ago">Вышло %s ч. назад</string>
+    <string name="anime_stats">Аниме\nСтатистика</string>
+    <string name="delete_confirmation">Are you sure you want to delete this entry?</string>
 </resources>
