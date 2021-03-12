@@ -48,6 +48,11 @@
             app:title="@string/german"/>
 
         <Preference
+            app:key="bulgarian_translation"
+            app:summary="\@itzlighter"
+            app:title="@string/bulgarian"/>
+
+        <Preference
             app:key="spanish_translation"
             app:summary="\@axiel7"
             app:title="@string/spanish" />
