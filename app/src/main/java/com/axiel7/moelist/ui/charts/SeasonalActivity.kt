@@ -119,11 +119,7 @@ class SeasonalActivity : BaseActivity() {
                     if (shouldClear) {
                         seasonalList.clear()
                     }
-                    for (anime in animeList) {
-                        if (anime.node.start_season==currentSeason) {
-                            seasonalList.add(anime)
-                        }
-                    }
+                    seasonalList.addAll(animeList)
                     animeDb?.seasonalResponseDao()?.insertSeasonalResponse(animeResponse!!)
                     seasonalAdapter.notifyDataSetChanged()
                 }
