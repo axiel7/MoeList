@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.axiel7.moelist.MyApplication.Companion.animeDb
 import com.axiel7.moelist.MyApplication.Companion.malApiService
 import com.axiel7.moelist.R
+import com.axiel7.moelist.UseCases
 import com.axiel7.moelist.adapter.AiringAnimeAdapter
 import com.axiel7.moelist.adapter.CurrentSeasonalAdapter
 import com.axiel7.moelist.adapter.EndListReachedListener
@@ -317,9 +318,8 @@ class HomeFragment : Fragment() {
                     }
                 }
                 else if (response.code()==401) {
-                    sharedPref.saveBoolean("isUserLogged", false)
                     if (isAdded) {
-                        Snackbar.make(home_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                        UseCases.logOut(requireContext())
                     }
                 }
 

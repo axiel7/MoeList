@@ -12,7 +12,7 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.axiel7.moelist.BuildConfig
 import com.axiel7.moelist.R
-import com.axiel7.moelist.utils.SharedPrefsHelpers
+import com.axiel7.moelist.UseCases
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import kotlinx.android.synthetic.main.activity_settings.*
 
@@ -59,14 +59,7 @@ class SettingsActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceCha
 
             val logout = findPreference<Preference>("logout")
             logout?.setOnPreferenceClickListener {
-                val intent = Intent(requireActivity(), LoginActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                val sharedPref = SharedPrefsHelpers.instance
-                sharedPref?.saveBoolean("isUserLogged", false)
-                sharedPref?.deleteValue("accessToken")
-                sharedPref?.deleteValue("refreshToken")
-                requireActivity().startActivity(intent)
+                UseCases.logOut(requireContext())
                 true
             }
 

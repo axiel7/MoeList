@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.axiel7.moelist.MyApplication.Companion.animeDb
 import com.axiel7.moelist.MyApplication.Companion.malApiService
 import com.axiel7.moelist.R
+import com.axiel7.moelist.UseCases
 import com.axiel7.moelist.adapter.EndListReachedListener
 import com.axiel7.moelist.adapter.MyAnimeListAdapter
 import com.axiel7.moelist.adapter.PlusButtonTouchedListener
@@ -247,9 +248,8 @@ class AnimeListFragment : Fragment() {
                 }
 
                 else if (response.code()==401) {
-                    sharedPref.saveBoolean("isUserLogged", false)
                     if (isAdded) {
-                        Snackbar.make(animelist_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                        UseCases.logOut(requireContext())
                     }
                 }
             }
