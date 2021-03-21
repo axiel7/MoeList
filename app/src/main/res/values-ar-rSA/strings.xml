@@ -252,4 +252,6 @@
     <string name="aired_ago">تم بثه منذ %s س</string>
     <string name="anime_stats">إحصائيات\nالأنيمي</string>
     <string name="delete_confirmation">هل أنت متأكد أنك تريد حذف هذا المدخل؟</string>
+    <string name="bulgarian">Bulgarian</string>
+    <string name="log_in_again">Please log in again</string>
 </resources>
