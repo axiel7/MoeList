@@ -53,6 +53,11 @@
             app:title="@string/bulgarian"/>
 
         <Preference
+            app:key="french_translation"
+            app:summary="\@mamanamgae, \@frosqh"
+            app:title="@string/french"/>
+
+        <Preference
             app:key="spanish_translation"
             app:summary="\@axiel7"
             app:title="@string/spanish" />
