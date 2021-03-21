@@ -10,7 +10,7 @@
     <string name="start_date">Date de début</string>
     <string name="end_date">Date de fin</string>
     <string name="season">Saison</string>
-    <string name="broadcast">Broadcast</string>
+    <string name="broadcast">Diffusion</string>
     <string name="duration">Durée</string>
     <string name="source">Source</string>
     <string name="studios">Studios</string>
@@ -18,10 +18,10 @@
     <string name="authors">Auteurs</string>
     <string name="volumes">Volumes</string>
     <string name="serialization">Serialization</string>
-    <string name="donations_thanks">Thank you for considering supporting me!\n( /^ω^)/♪♪</string>
-    <string name="buy_tea">Buy me a tea 🍵</string>
-    <string name="buy">Buy</string>
-    <string name="buy_burger">Buy me a burger 🍔</string>
+    <string name="donations_thanks">Merci d\'avoir envisagé de me soutenir!\n( /^ω^)/♪♪</string>
+    <string name="buy_tea">Payez moi un thé 🍵</string>
+    <string name="buy">Acheter</string>
+    <string name="buy_burger">Payez moi un burger 🍔</string>
     <string name="login">Se connecter</string>
     <string name="search_in_mal">Rechercher dans MAL</string>
     <string name="no_results">Aucun résultat</string>
@@ -45,211 +45,211 @@
     <string name="year">Année</string>
     <string name="anime_ranking">Classement des animés</string>
     <string name="manga_ranking">Classement des mangas</string>
-    <string name="seasonal_chart">Seasonal Chart</string>
+    <string name="seasonal_chart">Sorties Saisonnières</string>
     <string name="random">Aléatoire</string>
     <string name="today">Aujourd\'hui</string>
-    <string name="nothing_today">Nothing today\n( ≧Д≦)</string>
-    <string name="this_season">This Season</string>
-    <string name="recommendations">Recommendations</string>
-    <string name="username">Username</string>
+    <string name="nothing_today">Rien pour aujourd\'hui\n( ≧Д≦)</string>
+    <string name="this_season">Cette saison</string>
+    <string name="recommendations">Recommandations</string>
+    <string name="username">Nom d\'utilisateur</string>
     <string name="total_entries">Total:</string>
-    <string name="mean_score">Mean Score</string>
-    <string name="rewatched">Rewatched</string>
-    <string name="view_profile_mal">View profile on MAL</string>
-    <string name="airing_in">Airing in %sh</string>
+    <string name="mean_score">Score moyen</string>
+    <string name="rewatched">Revu</string>
+    <string name="view_profile_mal">Voir le profil sur MAL</string>
+    <string name="airing_in">Diffusion dans %sh</string>
     <string name="score_value">Score:</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 CH</string>
-    <string name="add">Add</string>
-    <string name="invalid_number">Invalid number</string>
-    <string name="unknown">Unknown</string>
-    <string name="top_ranked">Top Ranked</string>
-    <string name="members">Members</string>
-    <string name="users_scores">Users scores</string>
-    <string name="popularity">Popularity</string>
-    <string name="deleted">Deleted</string>
-    <string name="error_server">Error connecting to server</string>
-    <string name="error_delete_entry">Error deleting entry</string>
-    <string name="updated">Updated</string>
-    <string name="error_updating_list">Error updating list</string>
-    <string name="added_ptw">Added to Plan to Watch</string>
-    <string name="no_changes">No changes</string>
+    <string name="add">Ajouter</string>
+    <string name="invalid_number">Nombre invalide</string>
+    <string name="unknown">Inconnue</string>
+    <string name="top_ranked">Meilleur classement</string>
+    <string name="members">Membres</string>
+    <string name="users_scores">Score des utilisateurs</string>
+    <string name="popularity">Popularité</string>
+    <string name="deleted">Supprimé</string>
+    <string name="error_server">Erreur de connexion au serveur</string>
+    <string name="error_delete_entry">Erreur lors de la suppression</string>
+    <string name="updated">Mis à jour</string>
+    <string name="error_updating_list">Erreur lors de la mise à jour de la liste</string>
+    <string name="added_ptw">Ajouté dans À regarder plus tard</string>
+    <string name="no_changes">Aucun changement</string>
     <string name="tv">TV</string>
     <string name="ova">OVA</string>
     <string name="ona">ONA</string>
-    <string name="movie">Movie</string>
-    <string name="special">Special</string>
-    <string name="music">Music</string>
+    <string name="movie">Film</string>
+    <string name="special">Spécial</string>
+    <string name="music">Musique</string>
     <string name="manga">Manga</string>
     <string name="anime">Anime</string>
     <string name="one_shot">One Shot</string>
     <string name="manhwa">Manhwa</string>
-    <string name="novel">Novel</string>
-    <string name="airing">Airing</string>
-    <string name="finished">Finished</string>
+    <string name="novel">Roman</string>
+    <string name="airing">Diffusion en cours</string>
+    <string name="finished">Terminé</string>
     <string name="on_hiatus">On Hiatus</string>
-    <string name="winter">Winter</string>
-    <string name="spring">Spring</string>
-    <string name="summer">Summer</string>
-    <string name="fall">Fall</string>
+    <string name="winter">Hiver</string>
+    <string name="spring">Printemps</string>
+    <string name="summer">Été</string>
+    <string name="fall">Automne</string>
     <string name="original">Original</string>
-    <string name="light_novel">Light Novel</string>
-    <string name="visual_novel">Visual Novel</string>
-    <string name="game">Game</string>
+    <string name="light_novel">Roman Court</string>
+    <string name="visual_novel">Roman Visuel</string>
+    <string name="game">Jeu</string>
     <string name="web_manga">Web Manga</string>
-    <string name="score_apalling">1 Appalling</string>
+    <string name="score_apalling">1 Épouvantable</string>
     <string name="score_horrible">2 Horrible</string>
-    <string name="score_very_bad">3 Very Bad</string>
-    <string name="score_bad">4 Bad</string>
-    <string name="score_average">5 Average</string>
-    <string name="score_fine">6 Fine</string>
-    <string name="score_good">7 Good</string>
-    <string name="score_very_good">8 Very Good</string>
-    <string name="score_great">9 Great</string>
-    <string name="score_masterpiece">10 Masterpiece</string>
-    <string name="monday">Monday</string>
-    <string name="tuesday">Tuesday</string>
-    <string name="wednesday">Wednesday</string>
-    <string name="thursday">Thursday</string>
-    <string name="friday">Friday</string>
-    <string name="saturday">Saturday</string>
-    <string name="sunday">Sunday</string>
-    <string name="not_yet_aired">Not Yet Aired</string>
-    <string name="publishing">Publishing</string>
-    <string name="all">All</string>
-    <string name="popular">Popular</string>
-    <string name="added_ptr">Added to Plan to Read</string>
-    <string name="days">Days</string>
-    <string name="donation_thanked">Thank you!\n(◔‿◔)</string>
-    <string name="login_error">Login error</string>
-    <string name="search">Search</string>
-    <string name="theme">Theme</string>
-    <string name="show_nsfw">Show NSFW content</string>
-    <string name="nsfw_summary">I confirm that I\'m over 18.</string>
-    <string name="default_section">Default section</string>
-    <string name="display">Display</string>
-    <string name="startup">Startup</string>
-    <string name="account">Account</string>
-    <string name="logout">Log Out</string>
-    <string name="logout_summary">Log out only from MoeList, not MAL.</string>
-    <string name="other">Other</string>
+    <string name="score_very_bad">3 Très Mauvais</string>
+    <string name="score_bad">4 Mauvais</string>
+    <string name="score_average">5 Moyen</string>
+    <string name="score_fine">6 OK</string>
+    <string name="score_good">7 Bon</string>
+    <string name="score_very_good">8 Très Bon</string>
+    <string name="score_great">9 Excellent</string>
+    <string name="score_masterpiece">10 Chef d’oeuvre</string>
+    <string name="monday">Lundi</string>
+    <string name="tuesday">Mardi</string>
+    <string name="wednesday">Mercredi</string>
+    <string name="thursday">Jeudi</string>
+    <string name="friday">Vendredi</string>
+    <string name="saturday">Samedi</string>
+    <string name="sunday">Dimanche</string>
+    <string name="not_yet_aired">Pas encore diffusé</string>
+    <string name="publishing">En cours de publication</string>
+    <string name="all">Tout</string>
+    <string name="popular">Populaire</string>
+    <string name="added_ptr">Ajouté dans À lire plus tard</string>
+    <string name="days">Jours</string>
+    <string name="donation_thanked">Merci!\n(◔‿◔)</string>
+    <string name="login_error">Erreur d\'authentification</string>
+    <string name="search">Recherche</string>
+    <string name="theme">Thème</string>
+    <string name="show_nsfw">Afficher du contenu NSFW</string>
+    <string name="nsfw_summary">Je confirme que j\'ai plus de 18 ans.</string>
+    <string name="default_section">Section par défaut</string>
+    <string name="display">Affichage</string>
+    <string name="startup">Au lancement</string>
+    <string name="account">Compte</string>
+    <string name="logout">Se Déconnecter</string>
+    <string name="logout_summary">Se déconnecter seulement de MoeList, pas de MAL.</string>
+    <string name="other">Autre</string>
     <string name="version">Version</string>
-    <string name="credits">Credits</string>
-    <string name="discord_summary">Join the official server!</string>
-    <string name="github_summary">Star the repository!</string>
-    <string name="credits_summary">People who helped me</string>
-    <string name="feedback">Send feedback</string>
-    <string name="theme_light">Light</string>
-    <string name="theme_dark">Dark</string>
-    <string name="theme_system">Follow system</string>
-    <string name="title_login">Login</string>
-    <string name="title_details">Details</string>
-    <string name="title_search">Search</string>
+    <string name="credits">Crédits</string>
+    <string name="discord_summary">Rejoignez le Discord officiel!</string>
+    <string name="github_summary">Laissez une étoile sur le Git!</string>
+    <string name="credits_summary">Les personnes qui m\'ont aidé</string>
+    <string name="feedback">Envoyer un retour</string>
+    <string name="theme_light">Clair</string>
+    <string name="theme_dark">Sombre</string>
+    <string name="theme_system">Suivre le système</string>
+    <string name="title_login">Se connecter</string>
+    <string name="title_details">Détails</string>
+    <string name="title_search">Recherche</string>
     <string name="title_poster">Image</string>
-    <string name="title_settings">Settings</string>
-    <string name="title_donations">Donations</string>
-    <string name="title_ranking">Ranking</string>
-    <string name="title_seasonal">Seasonal</string>
-    <string name="synopsis_icon">Expand synopsis</string>
-    <string name="poster">Poster</string>
-    <string name="moelist_banner">MoeList banner</string>
-    <string name="drag_pill">Drag pill</string>
-    <string name="profile_picture">Profile picture</string>
-    <string name="purchase_cancelled">Purchase cancelled</string>
-    <string name="error_not_found">Not found</string>
-    <string name="relateds">Relateds</string>
-    <string name="view_on_mal">View on MAL</string>
-    <string name="share">Share</string>
-    <string name="sort_title">Title</string>
+    <string name="title_settings">Réglages</string>
+    <string name="title_donations">Dons</string>
+    <string name="title_ranking">Classement</string>
+    <string name="title_seasonal">Saisonnier</string>
+    <string name="synopsis_icon">Développer le synopsis</string>
+    <string name="poster">Affiche</string>
+    <string name="moelist_banner">Bannière MoeList</string>
+    <string name="drag_pill">Poignée</string>
+    <string name="profile_picture">Photo de profil</string>
+    <string name="purchase_cancelled">Achat annulé</string>
+    <string name="error_not_found">Introuvable</string>
+    <string name="relateds">Similaire</string>
+    <string name="view_on_mal">Afficher sur MAL</string>
+    <string name="share">Partager</string>
+    <string name="sort_title">Titre</string>
     <string name="sort_score">Score</string>
-    <string name="sort_last_updated">Last updated</string>
-    <string name="sort" tools:ignore="MissingTranslation">Sort</string>
-    <string name="sort_by" tools:ignore="MissingTranslation">Sort by</string>
+    <string name="sort_last_updated">Dernière mise à jour</string>
+    <string name="sort" tools:ignore="MissingTranslation">Trier</string>
+    <string name="sort_by" tools:ignore="MissingTranslation">Trier par</string>
     <string name="ok" tools:ignore="MissingTranslation">OK</string>
     <string name="support" tools:ignore="MissingTranslation">Support</string>
-    <string name="logo_design" tools:ignore="MissingTranslation">Logo design</string>
-    <string name="general_help" tools:ignore="MissingTranslation">General help</string>
-    <string name="api_help" tools:ignore="MissingTranslation">MyAnimeList API help</string>
-    <string name="translations" tools:ignore="MissingTranslation">Translations</string>
-    <string name="turkish" tools:ignore="MissingTranslation">Turkish</string>
-    <string name="brazilian" tools:ignore="MissingTranslation">Brazilian</string>
-    <string name="russian" tools:ignore="MissingTranslation">Russian</string>
-    <string name="arabic" tools:ignore="MissingTranslation">Arabic</string>
-    <string name="spanish" tools:ignore="MissingTranslation">Spanish</string>
+    <string name="logo_design" tools:ignore="MissingTranslation">Design du logo</string>
+    <string name="general_help" tools:ignore="MissingTranslation">Aide Générale</string>
+    <string name="api_help" tools:ignore="MissingTranslation">Aide avec l\'API MyAnimeList</string>
+    <string name="translations" tools:ignore="MissingTranslation">Traductions</string>
+    <string name="turkish" tools:ignore="MissingTranslation">Turque</string>
+    <string name="brazilian" tools:ignore="MissingTranslation">Brésilien</string>
+    <string name="russian" tools:ignore="MissingTranslation">Russe</string>
+    <string name="arabic" tools:ignore="MissingTranslation">Arabe</string>
+    <string name="spanish" tools:ignore="MissingTranslation">Espagnol</string>
     <string name="genre_action" tools:ignore="MissingTranslation">Action</string>
-    <string name="genre_adventure" tools:ignore="MissingTranslation">Adventure</string>
-    <string name="genre_cars" tools:ignore="MissingTranslation">Cars</string>
-    <string name="genre_comedy" tools:ignore="MissingTranslation">Comedy</string>
-    <string name="genre_dementia" tools:ignore="MissingTranslation">Dementia</string>
-    <string name="genre_demons" tools:ignore="MissingTranslation">Demons</string>
-    <string name="genre_drama" tools:ignore="MissingTranslation">Drama</string>
+    <string name="genre_adventure" tools:ignore="MissingTranslation">Aventure</string>
+    <string name="genre_cars" tools:ignore="MissingTranslation">Automobile</string>
+    <string name="genre_comedy" tools:ignore="MissingTranslation">Comédie</string>
+    <string name="genre_dementia" tools:ignore="MissingTranslation">Démence</string>
+    <string name="genre_demons" tools:ignore="MissingTranslation">Démons</string>
+    <string name="genre_drama" tools:ignore="MissingTranslation">Drame</string>
     <string name="genre_ecchi" tools:ignore="MissingTranslation" tools:keep="@string/genre_ecchi">Ecchi</string>
-    <string name="genre_fantasy" tools:ignore="MissingTranslation">Fantasy</string>
-    <string name="genre_game" tools:ignore="MissingTranslation">Game</string>
+    <string name="genre_fantasy" tools:ignore="MissingTranslation">Fantaisie</string>
+    <string name="genre_game" tools:ignore="MissingTranslation">Jeu</string>
     <string name="genre_harem" tools:ignore="MissingTranslation">Harem</string>
     <string name="genre_hentai" tools:ignore="MissingTranslation">Hentai</string>
-    <string name="genre_historical" tools:ignore="MissingTranslation">Historical</string>
-    <string name="genre_horror" tools:ignore="MissingTranslation">Horror</string>
+    <string name="genre_historical" tools:ignore="MissingTranslation">Historique</string>
+    <string name="genre_horror" tools:ignore="MissingTranslation">Horreur</string>
     <string name="genre_josei" tools:ignore="MissingTranslation">Josei</string>
-    <string name="genre_kids" tools:ignore="MissingTranslation">Kids</string>
-    <string name="genre_magic" tools:ignore="MissingTranslation">Magic</string>
-    <string name="genre_martial_arts" tools:ignore="MissingTranslation">Martial Arts</string>
+    <string name="genre_kids" tools:ignore="MissingTranslation">Jeunesse</string>
+    <string name="genre_magic" tools:ignore="MissingTranslation">Magique</string>
+    <string name="genre_martial_arts" tools:ignore="MissingTranslation">Arts martiaux</string>
     <string name="genre_mecha" tools:ignore="MissingTranslation">Mecha</string>
-    <string name="genre_military" tools:ignore="MissingTranslation">Military</string>
-    <string name="genre_music" tools:ignore="MissingTranslation">Music</string>
-    <string name="genre_mystery" tools:ignore="MissingTranslation">Mystery</string>
-    <string name="genre_parody" tools:ignore="MissingTranslation">Parody</string>
+    <string name="genre_military" tools:ignore="MissingTranslation">Armée</string>
+    <string name="genre_music" tools:ignore="MissingTranslation">Musique</string>
+    <string name="genre_mystery" tools:ignore="MissingTranslation">Mystère</string>
+    <string name="genre_parody" tools:ignore="MissingTranslation">Parodie</string>
     <string name="genre_police" tools:ignore="MissingTranslation">Police</string>
-    <string name="genre_psychological" tools:ignore="MissingTranslation">Psychological</string>
-    <string name="genre_romance" tools:ignore="MissingTranslation">Romance</string>
-    <string name="genre_samurai" tools:ignore="MissingTranslation">Samurai</string>
-    <string name="genre_school" tools:ignore="MissingTranslation">School</string>
+    <string name="genre_psychological" tools:ignore="MissingTranslation">Psychologique</string>
+    <string name="genre_romance" tools:ignore="MissingTranslation">Romantique</string>
+    <string name="genre_samurai" tools:ignore="MissingTranslation">Samouraï</string>
+    <string name="genre_school" tools:ignore="MissingTranslation">École</string>
     <string name="genre_sci_fi" tools:ignore="MissingTranslation">Sci-Fi</string>
     <string name="genre_seinen" tools:ignore="MissingTranslation">Seinen</string>
     <string name="genre_shoujo" tools:ignore="MissingTranslation">Shoujo</string>
     <string name="genre_shoujo_ai" tools:ignore="MissingTranslation">Shoujo Ai</string>
     <string name="genre_shounen" tools:ignore="MissingTranslation">Shounen</string>
     <string name="genre_shounen_ai" tools:ignore="MissingTranslation">Shounen Ai</string>
-    <string name="genre_slice_of_life" tools:ignore="MissingTranslation">Slice of Life</string>
-    <string name="genre_space" tools:ignore="MissingTranslation">Space</string>
+    <string name="genre_slice_of_life" tools:ignore="MissingTranslation">Tranche de vie</string>
+    <string name="genre_space" tools:ignore="MissingTranslation">Espace</string>
     <string name="genre_sports" tools:ignore="MissingTranslation">Sports</string>
-    <string name="genre_superpower" tools:ignore="MissingTranslation">Super Power</string>
-    <string name="genre_supernatural" tools:ignore="MissingTranslation">Supernatural</string>
+    <string name="genre_superpower" tools:ignore="MissingTranslation">Super pouvoirs</string>
+    <string name="genre_supernatural" tools:ignore="MissingTranslation">Surnaturel</string>
     <string name="genre_thriller" tools:ignore="MissingTranslation">Thriller</string>
     <string name="genre_vampire" tools:ignore="MissingTranslation">Vampire</string>
     <string name="genre_yaoi" tools:ignore="MissingTranslation">Yaoi</string>
     <string name="genre_yuri" tools:ignore="MissingTranslation">Yuri</string>
-    <string name="relation_prequel" tools:ignore="MissingTranslation">Prequel</string>
+    <string name="relation_prequel" tools:ignore="MissingTranslation">Préquel</string>
     <string name="relation_sequel" tools:ignore="MissingTranslation">Sequel</string>
-    <string name="relation_summary" tools:ignore="MissingTranslation">Summary</string>
-    <string name="relation_alternative_version" tools:ignore="MissingTranslation">Alternative version</string>
-    <string name="relation_other" tools:ignore="MissingTranslation" tools:keep="@string/relation_other">Other</string>
-    <string name="relation_side_story" tools:ignore="MissingTranslation">Side story</string>
-    <string name="relation_alternative_setting" tools:ignore="MissingTranslation">Alternative setting</string>
+    <string name="relation_summary" tools:ignore="MissingTranslation">Description</string>
+    <string name="relation_alternative_version" tools:ignore="MissingTranslation">Version alternative</string>
+    <string name="relation_other" tools:ignore="MissingTranslation" tools:keep="@string/relation_other">Autre</string>
+    <string name="relation_side_story" tools:ignore="MissingTranslation">Histoire annexe</string>
+    <string name="relation_alternative_setting" tools:ignore="MissingTranslation">Version alternative</string>
     <string name="relation_spin_off" tools:ignore="MissingTranslation">Spin-off</string>
-    <string name="translate" tools:ignore="MissingTranslation">Translate</string>
-    <string name="translate_original" tools:ignore="MissingTranslation">Show original</string>
+    <string name="translate" tools:ignore="MissingTranslation">Traduire</string>
+    <string name="translate_original" tools:ignore="MissingTranslation">Afficher l\'original</string>
     <string name="adaptation" tools:ignore="MissingTranslation" tools:keep="@string/adaptation">Adaptation</string>
-    <string name="open_source_licenses" tools:ignore="MissingTranslation">Open Source licenses</string>
-    <string name="filters" tools:ignore="MissingTranslation">Filters</string>
-    <string name="date_format" tools:ignore="MissingTranslation">Date format</string>
+    <string name="open_source_licenses" tools:ignore="MissingTranslation">Licences Open Source</string>
+    <string name="filters" tools:ignore="MissingTranslation">Filtres</string>
+    <string name="date_format" tools:ignore="MissingTranslation">Format de la date</string>
     <string name="manhua">Manhua</string>
-    <string name="discontinued">Discontinued</string>
-    <string name="opening">Opening Themes</string>
-    <string name="ending">Ending Themes</string>
-    <string name="german">German</string>
-    <string name="copied">Copied!</string>
-    <string name="login_browser_warning">Try with another browser if you can\'t login.</string>
-    <string name="send_analytics">Send analytics</string>
-    <string name="analytics_summary">This helps improve the app</string>
-    <string name="github_sponsor">Sponsor the project 💰</string>
-    <string name="parent_story">Parent story</string>
+    <string name="discontinued">Abandonné</string>
+    <string name="opening">Thèmes d\'ouverture</string>
+    <string name="ending">Thèmes de fin</string>
+    <string name="german">Allemand</string>
+    <string name="copied">Copié!</string>
+    <string name="login_browser_warning">Essayez avec un autre navigateur si vous ne pouvez pas vous connecter.</string>
+    <string name="send_analytics">Envoyer les données d\'utilisation</string>
+    <string name="analytics_summary">Cela aide à améliorer l\'application</string>
+    <string name="github_sponsor">Sponsorisez le projet 💰</string>
+    <string name="parent_story">Histoire parente</string>
     <string name="hour_abbreviation">h</string>
     <string name="minutes_abbreviation">min</string>
-    <string name="full_story">Full story</string>
-    <string name="theme_black">Black</string>
-    <string name="aired_ago">Aired %sh ago</string>
-    <string name="anime_stats">Anime\nStats</string>
-    <string name="delete_confirmation">Are you sure you want to delete this entry?</string>
+    <string name="full_story">Histoire complète</string>
+    <string name="theme_black">Noir</string>
+    <string name="aired_ago">Diffusion il y a %sh</string>
+    <string name="anime_stats">Stats\nd\'animes</string>
+    <string name="delete_confirmation">Souhaitez-vous vraiment supprimer cette entrée ?</string>
 </resources>
