@@ -252,4 +252,6 @@
     <string name="aired_ago">Транслювалося %s год тому</string>
     <string name="anime_stats">Аніме\nСтатистика</string>
     <string name="delete_confirmation">Ви дійсно бажаєте видалити цей запис?</string>
+    <string name="bulgarian">Bulgarian</string>
+    <string name="log_in_again">Please log in again</string>
 </resources>
