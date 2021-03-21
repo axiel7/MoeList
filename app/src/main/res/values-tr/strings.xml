@@ -252,4 +252,6 @@
     <string name="aired_ago">%s saat önce yayınlandı</string>
     <string name="anime_stats">Anime\nİstatistikleri</string>
     <string name="delete_confirmation">Bu girdiyi silmek istediğinize emin misiniz?</string>
+    <string name="bulgarian">Bulgarian</string>
+    <string name="log_in_again">Please log in again</string>
 </resources>
