@@ -252,4 +252,6 @@
     <string name="aired_ago">Diffusion il y a %sh</string>
     <string name="anime_stats">Stats\nd\'animes</string>
     <string name="delete_confirmation">Souhaitez-vous vraiment supprimer cette entrée ?</string>
+    <string name="bulgarian">Bulgarian</string>
+    <string name="log_in_again">Please log in again</string>
 </resources>
