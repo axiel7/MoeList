@@ -208,7 +208,7 @@ class ProfileFragment : Fragment() {
 
         view_on_mal.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW,
-                Uri.parse("https://myanimelist.net/profile/$username"))
+                Uri.parse("https://myanimelist.net/profile/$usernameText"))
             startActivity(intent)
         }
     }
