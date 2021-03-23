@@ -252,7 +252,7 @@
     <string name="aired_ago">Излъчен %s преди</string>
     <string name="anime_stats">Аниме\nСтатистики</string>
     <string name="delete_confirmation">Сигурни ли сте, че искате да изтриете това?</string>
-    <string name="bulgarian">Bulgarian</string>
-    <string name="log_in_again">Please log in again</string>
-    <string name="french">French</string>
+    <string name="bulgarian">Български</string>
+    <string name="log_in_again">Влезте отново</string>
+    <string name="french">Френски</string>
 </resources>
