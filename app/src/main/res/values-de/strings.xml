@@ -252,4 +252,7 @@
     <string name="aired_ago">Lief vor %sh</string>
     <string name="anime_stats">Anime\nStatistik</string>
     <string name="delete_confirmation">Are you sure you want to delete this entry?</string>
+    <string name="bulgarian">Bulgarian</string>
+    <string name="log_in_again">Please log in again</string>
+    <string name="french">French</string>
 </resources>

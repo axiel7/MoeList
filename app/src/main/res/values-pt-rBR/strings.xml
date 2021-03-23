@@ -252,4 +252,7 @@
     <string name="aired_ago">Exibido há %sh</string>
     <string name="anime_stats">Estatísticas de\nAnimes</string>
     <string name="delete_confirmation">Tem certeza que deseja excluir essa entrada?</string>
+    <string name="bulgarian">Búlgaro</string>
+    <string name="log_in_again">Por favor, faça login novamente</string>
+    <string name="french">Francês</string>
 </resources>
