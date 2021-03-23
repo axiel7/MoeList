@@ -69,7 +69,7 @@ class RankingFragment : Fragment() {
 
         when(mediaType) {
             "anime" -> {
-                if (rankingAnime.isEmpty()) { ranking_loading.show() }
+                if (rankingAnime.isEmpty() && isAdded) { ranking_loading.show() }
                 animeRankingAdapter = AnimeRankingAdapter(
                     rankingAnime,
                     R.layout.list_item_ranking,
@@ -89,7 +89,7 @@ class RankingFragment : Fragment() {
                 recycler_ranking.adapter = animeRankingAdapter
             }
             "manga" -> {
-                if (rankingManga.isEmpty()) { ranking_loading.show() }
+                if (rankingManga.isEmpty() && isAdded) { ranking_loading.show() }
                 mangaRankingAdapter = MangaRankingAdapter(
                     rankingManga,
                     R.layout.list_item_ranking,
@@ -160,7 +160,9 @@ class RankingFragment : Fragment() {
                         Snackbar.make(ranking_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                     }
                 }
-                ranking_loading.hide()
+                if (isAdded) {
+                    ranking_loading.hide()
+                }
             }
 
             override fun onFailure(call: Call<AnimeRankingResponse>, t: Throwable) {
@@ -207,12 +209,16 @@ class RankingFragment : Fragment() {
                         Snackbar.make(ranking_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                     }
                 }
-                ranking_loading.hide()
+                if (isAdded) {
+                    ranking_loading.hide()
+                }
             }
             override fun onFailure(call: Call<MangaRankingResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
-                ranking_loading.hide()
-                Snackbar.make(ranking_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                if (isAdded) {
+                    ranking_loading.hide()
+                    Snackbar.make(ranking_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                }
             }
         })
     }

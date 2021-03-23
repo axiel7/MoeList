@@ -84,9 +84,11 @@ class AnimeListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loading_animelist.hide()
-        if (animeList.isEmpty()) {
-            loading_animelist.show()
+        if (isAdded) {
+            loading_animelist.hide()
+            if (animeList.isEmpty()) {
+                loading_animelist.show()
+            }
         }
 
         animeListAdapter =
@@ -214,8 +216,10 @@ class AnimeListFragment : Fragment() {
         } else {
             malApiService.getUserAnimeList(listStatus, "list_status,num_episodes,media_type,status", sortMode, showNsfw)
         }
-        loading_animelist.show()
-        initAnimeListCall(animeListCall, true)
+        if (isAdded) {
+            loading_animelist.show()
+            initAnimeListCall(animeListCall, true)
+        }
     }
     private fun initAnimeListCall(call: Call<UserAnimeListResponse>, shouldClear: Boolean) {
         call.enqueue(object: Callback<UserAnimeListResponse> {
@@ -257,6 +261,7 @@ class AnimeListFragment : Fragment() {
             override fun onFailure(call: Call<UserAnimeListResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
                 if (isAdded) {
+                    loading_animelist.hide()
                     Snackbar.make(animelist_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
             }
@@ -264,7 +269,9 @@ class AnimeListFragment : Fragment() {
         })
     }
     private fun addOneEpisode(animeId: Int, watchedEpisodes: Int?, status: String?) {
-        loading_animelist.show()
+        if (isAdded) {
+            loading_animelist.show()
+        }
         val shouldNotUpdate = watchedEpisodes==null
         if (!shouldNotUpdate) {
             val updateListCall = malApiService

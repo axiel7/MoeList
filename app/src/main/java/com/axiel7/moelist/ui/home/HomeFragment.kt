@@ -95,9 +95,11 @@ class HomeFragment : Fragment() {
         seasonal_chart.setOnClickListener { openSeasonChart(seasonal_chart) }
         random.setOnClickListener { openDetails(-1, random) }
 
-        if (animeListSeasonal.isEmpty()) {
-            loading_season.show()
-        } else { loading_season.hide() }
+        if (isAdded) {
+            if (animeListSeasonal.isEmpty()) {
+                loading_season.show()
+            } else { loading_season.hide() }
+        }
         animeRankingAdapter = CurrentSeasonalAdapter(
             animeListSeasonal,
             R.layout.list_item_anime,
@@ -108,9 +110,11 @@ class HomeFragment : Fragment() {
         seasonTitle.text = seasonValue
         seasonTitle.setOnClickListener { openSeasonChart(seasonTitle) }
 
-        if (animeListRecommend.isEmpty()) {
-            loading_recommend.show()
-        } else { loading_season.hide() }
+        if (isAdded) {
+            if (animeListRecommend.isEmpty()) {
+                loading_recommend.show()
+            } else { loading_season.hide() }
+        }
         animeRecommendAdapter =
                 RecommendationsAdapter(
                     animeListRecommend,
@@ -130,9 +134,11 @@ class HomeFragment : Fragment() {
         })
         recommend_recycler.adapter = animeRecommendAdapter
 
-        if (todayList.isEmpty()) {
-            loading_today.show()
-        } else { loading_season.hide() }
+        if (isAdded) {
+            if (todayList.isEmpty()) {
+                loading_today.show()
+            } else { loading_season.hide() }
+        }
         todayAdapter =
             AiringAnimeAdapter(
                 todayList,
@@ -217,8 +223,8 @@ class HomeFragment : Fragment() {
 
             override fun onFailure(call: Call<AnimeRankingResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
-                if (animeListSeasonal.isNotEmpty()) { loading_season.hide() }
                 if (isAdded) {
+                    if (animeListSeasonal.isNotEmpty()) { loading_season.hide() }
                     Snackbar.make(home_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
                 val recommendCall = malApiService.getAnimeRecommend(30)
@@ -272,8 +278,8 @@ class HomeFragment : Fragment() {
 
             override fun onFailure(call: Call<AnimeListResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
-                if (animeListRecommend.isNotEmpty()) { loading_recommend.hide() }
                 if (isAdded) {
+                    if (animeListRecommend.isNotEmpty()) { loading_recommend.hide() }
                     Snackbar.make(home_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
             }

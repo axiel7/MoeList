@@ -50,7 +50,9 @@ class EditAnimeFragment(private var myListStatus: MyListStatus?,
             (dialog as BottomSheetDialog).behavior
         )
 
-        loading.hide()
+        if (isAdded) {
+            loading.hide()
+        }
         apply_button?.setOnClickListener {
 
             var status :String? = null
@@ -146,7 +148,7 @@ class EditAnimeFragment(private var myListStatus: MyListStatus?,
 
     private fun initUpdateCall(status: String?, score: Int?, watchedEpisodes: Int?) {
         val shouldNotUpdate = status.isNullOrEmpty() && score==null && watchedEpisodes==null
-        if (!shouldNotUpdate) {
+        if (!shouldNotUpdate && isAdded) {
             loading.show()
             val updateListCall = MyApplication.malApiService
                 .updateAnimeList(Urls.apiBaseUrl + "anime/$animeId/my_list_status", status, score, watchedEpisodes)

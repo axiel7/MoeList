@@ -49,7 +49,9 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
             (dialog as BottomSheetDialog).behavior
         )
 
-        loading.hide()
+        if (isAdded) {
+            loading.hide()
+        }
         apply_button?.setOnClickListener {
 
             var status :String? = null
@@ -180,7 +182,7 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
 
     private fun initUpdateCall(status: String?, score: Int?, chaptersRead: Int?, volumesRead: Int?) {
         val shouldNotUpdate = status.isNullOrEmpty() && score==null && chaptersRead==null && volumesRead==null
-        if (!shouldNotUpdate) {
+        if (!shouldNotUpdate && isAdded) {
             loading.show()
             val updateListCall = MyApplication.malApiService
                 .updateMangaList(Urls.apiBaseUrl + "manga/$mangaId/my_list_status", status, score, chaptersRead, volumesRead)
@@ -219,7 +221,7 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
         val deleteCall = MyApplication.malApiService.deleteEntry(Urls.apiBaseUrl + "manga/$mangaId/my_list_status")
         deleteCall.enqueue(object :Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                if (response.isSuccessful) {
+                if (response.isSuccessful && isAdded) {
                     myListStatus = null
                     entryUpdated = true
                     loading.hide()
