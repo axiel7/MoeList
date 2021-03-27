@@ -17,7 +17,7 @@
     <string name="edit">Modifier</string>
     <string name="authors">Auteurs</string>
     <string name="volumes">Volumes</string>
-    <string name="serialization">Serialization</string>
+    <string name="serialization">Éditeur</string>
     <string name="donations_thanks">Merci d\'avoir envisagé de me soutenir!\n( /^ω^)/♪♪</string>
     <string name="buy_tea">Payez moi un thé 🍵</string>
     <string name="buy">Acheter</string>
@@ -88,7 +88,7 @@
     <string name="novel">Roman</string>
     <string name="airing">Diffusion en cours</string>
     <string name="finished">Terminé</string>
-    <string name="on_hiatus">On Hiatus</string>
+    <string name="on_hiatus">Sur Hiatus</string>
     <string name="winter">Hiver</string>
     <string name="spring">Printemps</string>
     <string name="summer">Été</string>
@@ -252,7 +252,7 @@
     <string name="aired_ago">Diffusion il y a %sh</string>
     <string name="anime_stats">Stats\nd\'animes</string>
     <string name="delete_confirmation">Souhaitez-vous vraiment supprimer cette entrée ?</string>
-    <string name="bulgarian">Bulgarian</string>
-    <string name="log_in_again">Please log in again</string>
-    <string name="french">French</string>
+    <string name="bulgarian">Bulgare</string>
+    <string name="log_in_again">Veuillez vous connecter à nouveau</string>
+    <string name="french">Français</string>
 </resources>
