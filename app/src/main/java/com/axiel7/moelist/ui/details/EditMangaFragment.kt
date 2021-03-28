@@ -142,7 +142,7 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
         plus_vol_button.setOnClickListener {
             val inputVolumes = volumes_field.text.toString().toIntOrNull() ?: 0
             if (inputVolumes < numVolumes || numVolumes == 0) {
-                chapters_field.setText((inputVolumes + 1).toString())
+                volumes_field.setText((inputVolumes + 1).toString())
             }
         }
 
