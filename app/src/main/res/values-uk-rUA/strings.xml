@@ -19,9 +19,9 @@
     <string name="volumes">Томи</string>
     <string name="serialization">Публікація</string>
     <string name="donations_thanks">Спасибі, що вирішити підтримати мене!\n( /^ω^)/♪♪</string>
-    <string name="buy_tea">Купіть мені чаю 🍵</string>
-    <string name="buy">Купити</string>
-    <string name="buy_burger">Купіть мені бургер 🍔</string>
+    <string name="buy_tea">Buy me a tea 🍵</string>
+    <string name="buy">Buy</string>
+    <string name="buy_burger">Buy me a burger 🍔</string>
     <string name="login">Увійти</string>
     <string name="search_in_mal">Пошук на MAL</string>
     <string name="no_results">Нічого не знайдено</string>
