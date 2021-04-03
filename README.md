@@ -36,6 +36,7 @@ You can help translate the app!
 * View/add friends
 * View others userlists
 * MyAnimeList notifications/messages
+* Characters and voice actors
 
 # Other
 **Special thanks:**
