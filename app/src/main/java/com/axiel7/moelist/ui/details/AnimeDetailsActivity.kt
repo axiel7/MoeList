@@ -13,8 +13,6 @@ import android.view.Menu
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.TooltipCompat
-import androidx.browser.customtabs.CustomTabColorSchemeParams
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
@@ -451,13 +449,9 @@ class AnimeDetailsActivity : BaseActivity(), EditAnimeFragment.OnDataPass {
 
         val viewOnMal = menu?.findItem(R.id.view_on_mal)
         viewOnMal?.setOnMenuItemClickListener { _ ->
-            val builder = CustomTabsIntent.Builder()
-            builder.setDefaultColorSchemeParams(CustomTabColorSchemeParams.Builder()
-                .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
-                .build())
-            val chromeIntent = builder.build()
-            chromeIntent.launchUrl(this,
+            val intent = Intent(Intent.ACTION_VIEW,
                 Uri.parse("https://myanimelist.net/anime/$animeId"))
+            startActivity(Intent.createChooser(intent, viewOnMal.title))
             return@setOnMenuItemClickListener true
         }
 
