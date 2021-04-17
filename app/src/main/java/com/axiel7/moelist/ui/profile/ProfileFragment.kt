@@ -34,7 +34,7 @@ import java.time.format.DateTimeFormatter
 
 class ProfileFragment : Fragment() {
 
-    private lateinit var sharedPref: SharedPrefsHelpers
+    private var sharedPref = SharedPrefsHelpers.instance!!
     private lateinit var userAnimeStatistics: UserAnimeStatistics
     private var user: User? = null
     private var userId = -1
@@ -42,7 +42,7 @@ class ProfileFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        sharedPref = SharedPrefsHelpers.instance!!
+        //sharedPref = SharedPrefsHelpers.instance!!
 
         userId = sharedPref.getInt("userId", -1)
         if (MyApplication.animeDb?.userDao()?.getUserById(userId)!=null) {
@@ -68,7 +68,7 @@ class ProfileFragment : Fragment() {
 
         getUser()
     }
-    private fun getUser() {
+    fun getUser() {
         val call = malApiService.getUserInfo("id,name,gender,location,joined_at,anime_statistics")
         call.enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
@@ -84,6 +84,7 @@ class ProfileFragment : Fragment() {
                         userId = user!!.id
                         MyApplication.animeDb?.userDao()?.insertUser(user!!)
                         sharedPref.saveInt("userId", userId)
+                        sharedPref.saveString("userPicture", user!!.picture)
                         if (isAdded) { setDataToViews() }
                     }
                 }

@@ -7,9 +7,10 @@ import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.app.ShareCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.axiel7.moelist.MyApplication
 import com.axiel7.moelist.R
 import com.axiel7.moelist.ui.animelist.AnimeListFragment
@@ -49,19 +50,22 @@ class MainActivity : BaseActivity(), EditAnimeFragment.OnDataPass, EditMangaFrag
             else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
 
+        loadUser(sharedPreferences.getString("userPicture", null))
+
         //toolbar
         setSupportActionBar(main_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        main_toolbar.navigationIcon = ContextCompat.getDrawable(this, R.drawable.ic_round_menu_24)
+        main_toolbar.setNavigationOnClickListener { openSearch(main_toolbar) }
+        //main_toolbar.navigationIcon = ContextCompat.getDrawable(this, R.drawable.ic_round_menu_24)
 
         //window.statusBarColor = ContextCompat.getColor(this, R.color.colorBackground)
 
         // bottom sheet
         bottomSheetDialog = BottomSheetDialog(this)
         bottomSheetDialog.setContentView(R.layout.bottom_sheet_main)
-        main_toolbar.setNavigationOnClickListener { bottomSheetDialog.show() }
+        profile_picture.setOnClickListener { bottomSheetDialog.show() }
 
         //launch login
         if (!MyApplication.isUserLogged || isTokenNull) {
@@ -134,6 +138,20 @@ class MainActivity : BaseActivity(), EditAnimeFragment.OnDataPass, EditMangaFrag
 
         profileFragment.enterTransition = fade
         profileFragment.exitTransition = fade
+    }
+
+    private fun loadUser(userPicture: String?) {
+        if (userPicture == null) {
+            profileFragment.getUser()
+        }
+        else {
+            profile_picture.load(userPicture) {
+                crossfade(true)
+                crossfade(500)
+                transformations(CircleCropTransformation())
+                error(R.drawable.ic_round_account_circle_24)
+            }
+        }
     }
 
     fun openSearch(view: View) {
