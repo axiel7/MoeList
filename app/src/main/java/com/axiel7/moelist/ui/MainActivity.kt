@@ -50,8 +50,6 @@ class MainActivity : BaseActivity(), EditAnimeFragment.OnDataPass, EditMangaFrag
             else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
 
-        loadUser(sharedPreferences.getString("userPicture", null))
-
         //toolbar
         setSupportActionBar(main_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -77,6 +75,7 @@ class MainActivity : BaseActivity(), EditAnimeFragment.OnDataPass, EditMangaFrag
             //bottom nav and fragments
             setupTransitions()
             setupBottomBar(nav_view, defaultSection)
+            loadUser(sharedPreferences.getString("userPicture", null))
         }
     }
 
