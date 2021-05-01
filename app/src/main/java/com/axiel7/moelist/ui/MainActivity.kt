@@ -21,7 +21,7 @@ import com.axiel7.moelist.ui.mangalist.MangaListFragment
 import com.axiel7.moelist.ui.profile.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.transition.platform.MaterialFadeThrough
+import com.google.android.material.transition.platform.MaterialSharedAxis
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity(), EditAnimeFragment.OnDataPass, EditMangaFragment.OnDataPass {
@@ -31,6 +31,8 @@ class MainActivity : BaseActivity(), EditAnimeFragment.OnDataPass, EditMangaFrag
     private val animeListFragment = AnimeListFragment()
     private val mangaListFragment = MangaListFragment()
     private val profileFragment = ProfileFragment()
+    private val enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+    private val exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
     private lateinit var bottomSheetDialog: BottomSheetDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,7 +75,6 @@ class MainActivity : BaseActivity(), EditAnimeFragment.OnDataPass, EditMangaFrag
         }
         else {
             //bottom nav and fragments
-            setupTransitions()
             setupBottomBar(nav_view, defaultSection)
             loadUser(sharedPreferences.getString("userPicture", null))
         }
@@ -112,31 +113,16 @@ class MainActivity : BaseActivity(), EditAnimeFragment.OnDataPass, EditMangaFrag
                 R.id.navigation_manga_list -> selectedFragment = mangaListFragment
                 R.id.navigation_profile -> selectedFragment = profileFragment
             }
-            val fade = MaterialFadeThrough()
-            selectedFragment.enterTransition = fade
-            selectedFragment.exitTransition = fade
+            selectedFragment.enterTransition = enterTransition
+            selectedFragment.exitTransition = exitTransition
+            selectedFragment.reenterTransition = enterTransition
+            selectedFragment.returnTransition = exitTransition
             fragmentManager.beginTransaction()
                 .replace(R.id.nav_host_fragment, selectedFragment)
                 .commit()
 
             return@setOnNavigationItemSelectedListener true
         }
-    }
-
-    private fun setupTransitions() {
-        val fade = MaterialFadeThrough()
-
-        homeFragment.enterTransition = fade
-        homeFragment.exitTransition = fade
-
-        animeListFragment.enterTransition = fade
-        animeListFragment.exitTransition = fade
-
-        mangaListFragment.enterTransition = fade
-        mangaListFragment.exitTransition = fade
-
-        profileFragment.enterTransition = fade
-        profileFragment.exitTransition = fade
     }
 
     private fun loadUser(userPicture: String?) {
