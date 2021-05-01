@@ -170,7 +170,7 @@ class MainActivity : BaseActivity(), EditAnimeFragment.OnDataPass, EditMangaFrag
         bottomSheetDialog.dismiss()
     }
     fun openShare(view: View) {
-        ShareCompat.IntentBuilder.from(this@MainActivity)
+        ShareCompat.IntentBuilder(this@MainActivity)
             .setType("text/plain")
             .setChooserTitle("")
             .setText("https://play.google.com/store/apps/details?id=com.axiel7.moelist")
