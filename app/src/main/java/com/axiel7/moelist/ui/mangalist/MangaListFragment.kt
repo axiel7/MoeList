@@ -84,11 +84,13 @@ class MangaListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (isAdded) {
-            loading_mangalist.hide()
+            loading_mangalist.isRefreshing = true
             if (mangaList.isEmpty()) {
-                loading_mangalist.show()
+                loading_mangalist.isRefreshing = false
             }
         }
+
+        loading_mangalist.setOnRefreshListener { initCalls(true, null) }
 
         mangaListAdapter =
             MyMangaListAdapter(
@@ -247,7 +249,7 @@ class MangaListFragment : Fragment() {
                             }
                         }
                         MyApplication.animeDb?.userMangaListDao()?.insertUserMangaList(mangaList)
-                        mangaListAdapter.notifyDataSetChanged()
+                        loading_mangalist.isRefreshing = false
                     }
                     else {
                         mangaListResponse = responseOld
@@ -264,7 +266,7 @@ class MangaListFragment : Fragment() {
             override fun onFailure(call: Call<UserMangaListResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
                 if (isAdded) {
-                    loading_mangalist.hide()
+                    loading_mangalist.isRefreshing = false
                     Snackbar.make(mangalist_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
             }
@@ -273,7 +275,7 @@ class MangaListFragment : Fragment() {
     }
     private fun addOneEpisode(mangaId: Int, chaptersRead: Int?, status: String?, position: Int) {
         if (isAdded) {
-            loading_mangalist.show()
+            loading_mangalist.isRefreshing = false
         }
         val shouldNotUpdate = chaptersRead==null
         if (!shouldNotUpdate) {
@@ -298,7 +300,7 @@ class MangaListFragment : Fragment() {
             })
         } else {
             if (isAdded) {
-                loading_mangalist.hide()
+                loading_mangalist.isRefreshing = false
                 Snackbar.make(mangalist_layout, getString(R.string.no_changes), Snackbar.LENGTH_SHORT).show()
             }
         }

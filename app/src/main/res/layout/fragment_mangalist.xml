@@ -7,22 +7,21 @@
     android:layout_height="match_parent"
     tools:context=".ui.mangalist.MangaListFragment">
 
-    <androidx.core.widget.ContentLoadingProgressBar
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/loading_mangalist"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="180dp"
-        android:elevation="10dp"
-        style="?android:attr/progressBarStyleLarge"/>
+        android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/mangalist_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="15dp"
-        android:clipToPadding="false"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/list_item_animelist"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mangalist_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="15dp"
+            android:clipToPadding="false"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/list_item_animelist"/>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/filters_fab"
@@ -35,4 +34,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:contentDescription="@string/filters" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

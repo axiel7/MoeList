@@ -85,11 +85,13 @@ class AnimeListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (isAdded) {
-            loading_animelist.hide()
+            loading_animelist.isRefreshing = false
             if (animeList.isEmpty()) {
-                loading_animelist.show()
+                loading_animelist.isRefreshing = true
             }
         }
+
+        loading_animelist.setOnRefreshListener { initCalls(true, null) }
 
         animeListAdapter =
                 MyAnimeListAdapter(
@@ -259,7 +261,7 @@ class AnimeListFragment : Fragment() {
                             }
                         }
                         animeDb?.userAnimeListDao()?.insertUserAnimeList(animeList)
-                        animeListAdapter.notifyDataSetChanged()
+                        loading_animelist.isRefreshing = false
                     }
                     else {
                         animeListResponse = responseOld
@@ -276,7 +278,7 @@ class AnimeListFragment : Fragment() {
             override fun onFailure(call: Call<UserAnimeListResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
                 if (isAdded) {
-                    loading_animelist.hide()
+                    loading_animelist.isRefreshing = false
                     Snackbar.make(animelist_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
             }
@@ -285,7 +287,7 @@ class AnimeListFragment : Fragment() {
     }
     private fun addOneEpisode(animeId: Int, watchedEpisodes: Int?, status: String?, position: Int) {
         if (isAdded) {
-            loading_animelist.show()
+            loading_animelist.isRefreshing = true
         }
         val shouldNotUpdate = watchedEpisodes==null
         if (!shouldNotUpdate) {
@@ -310,7 +312,7 @@ class AnimeListFragment : Fragment() {
             })
         } else {
             if (isAdded) {
-                loading_animelist.hide()
+                loading_animelist.isRefreshing = false
                 Snackbar.make(animelist_layout, getString(R.string.no_changes), Snackbar.LENGTH_SHORT).show()
             }
         }
