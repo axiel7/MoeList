@@ -54,7 +54,7 @@ class ThemesAdapter(
             true
         }
         if (position == themes.size - 2) run {
-            endListReachedListener?.onBottomReached(position)
+            endListReachedListener?.onBottomReached(position, themes.size)
         }
     }
 

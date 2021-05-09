@@ -76,7 +76,7 @@ class RankingFragment : Fragment() {
                     requireContext(),
                     onClickListener = {itemView, animeRanking -> openDetails(animeRanking.node.id, itemView)})
                 animeRankingAdapter.setEndListReachedListener(object :EndListReachedListener {
-                    override fun onBottomReached(position: Int) {
+                    override fun onBottomReached(position: Int, lastPosition: Int) {
                         if (animeResponse!=null) {
                             val nextPage = animeResponse?.paging?.next
                             if (nextPage!=null && nextPage.isNotEmpty()) {
@@ -96,7 +96,7 @@ class RankingFragment : Fragment() {
                     requireContext(),
                     onClickListener = {itemView, mangaRanking -> openDetails(mangaRanking.node.id, itemView)})
                 mangaRankingAdapter.setEndListReachedListener(object :EndListReachedListener {
-                    override fun onBottomReached(position: Int) {
+                    override fun onBottomReached(position: Int, lastPosition: Int) {
                         if (mangaResponse!=null) {
                             val nextPage = mangaResponse?.paging?.next
                             if (nextPage!=null && nextPage.isNotEmpty()) {

@@ -47,7 +47,7 @@ class CurrentSeasonalAdapter(private val animes: MutableList<AnimeRanking>,
             onClickListener(view, anime)
         }
         if (position == animes.size - 2) run {
-            endListReachedListener?.onBottomReached(position)
+            endListReachedListener?.onBottomReached(position, animes.size)
         }
     }
 

@@ -76,7 +76,7 @@ class TodayActivity : BaseActivity() {
             this,
             onClickListener = {itemView, animeList -> openDetails(animeList.node.id, itemView)})
         todayAdapter.setEndListReachedListener(object : EndListReachedListener {
-            override fun onBottomReached(position: Int) {
+            override fun onBottomReached(position: Int, lastPosition: Int) {
                 if (todayResponse!=null) {
                     val nextPage = todayResponse?.paging?.next
                     if (nextPage!=null && nextPage.isNotEmpty()) {

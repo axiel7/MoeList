@@ -50,6 +50,7 @@ class MangaDetailsActivity : BaseActivity(), EditMangaFragment.OnDataPass {
     private val relateds: MutableList<Related> = mutableListOf()
     private var entryUpdated: Boolean = false
     private var mangaId = 1
+    private var position = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,6 +75,7 @@ class MangaDetailsActivity : BaseActivity(), EditMangaFragment.OnDataPass {
         } else {
             intent.getIntExtra("mangaId", 1)
         }
+        position = intent?.extras?.getInt("position", 0) ?: 0
 
         initViews()
         if (animeDb?.mangaDetailsDao()?.getMangaDetailsById(mangaId)!=null) {
@@ -191,7 +193,7 @@ class MangaDetailsActivity : BaseActivity(), EditMangaFragment.OnDataPass {
         bottomSheetDialog =
             EditMangaFragment(mangaDetails.my_list_status, mangaId,
                 mangaDetails.num_chapters ?: 0,
-                mangaDetails.num_volumes ?: 0)
+                mangaDetails.num_volumes ?: 0, 0)
         val unknown = getString(R.string.unknown)
         //quit loading bar
         loading_layout.visibility = View.GONE
@@ -419,11 +421,12 @@ class MangaDetailsActivity : BaseActivity(), EditMangaFragment.OnDataPass {
     override fun finish() {
         val returnIntent = Intent()
         returnIntent.putExtra("entryUpdated", entryUpdated)
+        returnIntent.putExtra("position", position)
         setResult(Activity.RESULT_OK, returnIntent)
         super.finish()
     }
 
-    override fun onMangaEntryUpdated(updated: Boolean) {
+    override fun onMangaEntryUpdated(updated: Boolean, position: Int) {
         entryUpdated = updated
         changeFabAction()
         animeDb?.mangaDetailsDao()?.insertMangaDetails(mangaDetails)

@@ -28,7 +28,8 @@ import retrofit2.Response
 class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
                         private var mangaId: Int,
                         private var numChapters: Int,
-                        private var numVolumes: Int) : BottomSheetDialogFragment() {
+                        private var numVolumes: Int,
+                        private var position: Int) : BottomSheetDialogFragment() {
     private var entryUpdated: Boolean = false
     private lateinit var dataPasser: OnDataPass
 
@@ -259,7 +260,7 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         syncListStatus()
-        dataPasser.onMangaEntryUpdated(entryUpdated)
+        dataPasser.onMangaEntryUpdated(entryUpdated, position)
     }
 
     override fun onAttach(context: Context) {
@@ -268,7 +269,7 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
     }
 
     interface OnDataPass {
-        fun onMangaEntryUpdated(updated: Boolean)
+        fun onMangaEntryUpdated(updated: Boolean, position: Int)
     }
 
 }

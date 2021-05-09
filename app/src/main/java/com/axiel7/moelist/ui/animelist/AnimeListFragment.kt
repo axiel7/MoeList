@@ -96,22 +96,23 @@ class AnimeListFragment : Fragment() {
                     animeList,
                     R.layout.list_item_animelist,
                     requireContext(),
-                    onClickListener = { itemView, userAnimeList -> openDetails(userAnimeList.node.id, itemView) },
-                    onLongClickListener = { _, userAnimeList ->
+                    onClickListener = { itemView, userAnimeList, pos ->
+                        openDetails(userAnimeList.node.id, itemView, pos) },
+                    onLongClickListener = { _, userAnimeList, pos ->
                         val editSheet =
                             EditAnimeFragment(userAnimeList.list_status,
                                 userAnimeList.node.id,
-                                userAnimeList.node.num_episodes ?: 0)
+                                userAnimeList.node.num_episodes ?: 0, pos)
                         editSheet.show(parentFragmentManager, "Edit")
                     }
                 )
         animeListAdapter.setEndListReachedListener(object :EndListReachedListener {
-            override fun onBottomReached(position: Int) {
+            override fun onBottomReached(position: Int, lastPosition: Int) {
                 if (animeListResponse!=null) {
                     val nextPage: String? = animeListResponse?.paging?.next
                     if (nextPage!=null) {
                         val getMoreCall = malApiService.getNextAnimeListPage(nextPage)
-                        initAnimeListCall(getMoreCall, false)
+                        initAnimeListCall(getMoreCall, false, null, lastPosition)
                     }
                 }
             }
@@ -123,10 +124,10 @@ class AnimeListFragment : Fragment() {
                 val totalEpisodes = animeListAdapter.getTotalEpisodes(position)
                 if (totalEpisodes!=null) {
                     if (watchedEpisodes==totalEpisodes.minus(1)) {
-                        addOneEpisode(animeId, watchedEpisodes.plus(1), "completed")
+                        addOneEpisode(animeId, watchedEpisodes.plus(1), "completed", position)
                     }
                     else {
-                        addOneEpisode(animeId, watchedEpisodes?.plus(1), null)
+                        addOneEpisode(animeId, watchedEpisodes?.plus(1), null, position)
                     }
                 }
 
@@ -164,7 +165,8 @@ class AnimeListFragment : Fragment() {
                 animeList.addAll(animeList2)
                 animeListAdapter.notifyDataSetChanged()
             }
-            initCalls()
+            bottomSheetDialog.dismiss()
+            initCalls(true, null)
         }
 
         val sortView = dialogView.findViewById<LinearLayoutCompat>(R.id.sort)
@@ -183,7 +185,8 @@ class AnimeListFragment : Fragment() {
                     // Respond to positive button press
                     sharedPref.saveInt("sortAnime", defaultSort)
                     sortSummary.text = StringFormat.formatSortOption(sortMode, requireContext())
-                    initCalls()
+                    bottomSheetDialog.dismiss()
+                    initCalls(true, null)
                 }
                 // Single-choice items (initialized with checked item)
                 .setSingleChoiceItems(items, defaultSort) { _, which ->
@@ -207,9 +210,9 @@ class AnimeListFragment : Fragment() {
             }
         })
 
-        initCalls()
+        initCalls(true, null)
     }
-    private fun initCalls() {
+    private fun initCalls(shouldClear: Boolean, position: Int?) {
         val animeListCall = if (listStatus == "all") {
             // To return all anime, don't specify status field.
             malApiService.getUserAnimeList(null, "list_status,num_episodes,media_type,status", sortMode, showNsfw)
@@ -217,11 +220,11 @@ class AnimeListFragment : Fragment() {
             malApiService.getUserAnimeList(listStatus, "list_status,num_episodes,media_type,status", sortMode, showNsfw)
         }
         if (isAdded) {
-            loading_animelist.show()
-            initAnimeListCall(animeListCall, true)
+            loading_animelist.isRefreshing = true
+            initAnimeListCall(animeListCall, shouldClear, position, null)
         }
     }
-    private fun initAnimeListCall(call: Call<UserAnimeListResponse>, shouldClear: Boolean) {
+    private fun initAnimeListCall(call: Call<UserAnimeListResponse>, shouldClear: Boolean, position: Int?, lastPosition: Int?) {
         call.enqueue(object: Callback<UserAnimeListResponse> {
             override fun onResponse(call: Call<UserAnimeListResponse>, response: Response<UserAnimeListResponse>) {
 
@@ -241,8 +244,20 @@ class AnimeListFragment : Fragment() {
                             animeDb?.userAnimeListDao()?.deleteUserAnimeList(animeList)
                             animeList.clear()
                         }
-                        animeList.addAll(animeList2)
-                        loading_animelist.hide()
+                        when {
+                            shouldClear -> {
+                                animeList.addAll(animeList2)
+                                animeListAdapter.notifyDataSetChanged()
+                            }
+                            lastPosition != null -> {
+                                animeList.addAll(animeList2)
+                                animeListAdapter.notifyItemRangeInserted(lastPosition, animeList2.size)
+                            }
+                            position != null -> {
+                                animeList[position] = animeList2[position]
+                                animeListAdapter.notifyItemChanged(position)
+                            }
+                        }
                         animeDb?.userAnimeListDao()?.insertUserAnimeList(animeList)
                         animeListAdapter.notifyDataSetChanged()
                     }
@@ -268,7 +283,7 @@ class AnimeListFragment : Fragment() {
 
         })
     }
-    private fun addOneEpisode(animeId: Int, watchedEpisodes: Int?, status: String?) {
+    private fun addOneEpisode(animeId: Int, watchedEpisodes: Int?, status: String?, position: Int) {
         if (isAdded) {
             loading_animelist.show()
         }
@@ -279,7 +294,7 @@ class AnimeListFragment : Fragment() {
             updateListCall.enqueue(object :Callback<MyListStatus> {
                 override fun onResponse(call: Call<MyListStatus>, response: Response<MyListStatus>) {
                     if (response.isSuccessful && isAdded) {
-                        initCalls()
+                        initCalls(false, position)
                     }
                     else if (isAdded) {
                         Snackbar.make(animelist_layout, getString(R.string.error_updating_list), Snackbar.LENGTH_SHORT).show()
@@ -319,17 +334,19 @@ class AnimeListFragment : Fragment() {
             else -> "anime_title"
         }
     }
-    private fun openDetails(animeId: Int?, view: View?) {
+    private fun openDetails(animeId: Int?, view: View?, position: Int) {
         if (view!=null) {
             val poster = view.findViewById<FrameLayout>(R.id.poster_container)
             val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), poster, poster.transitionName)
             val intent = Intent(context, AnimeDetailsActivity::class.java)
             intent.putExtra("animeId", animeId)
+            intent.putExtra("position", position)
             startActivityForResult(intent, 17, bundle.toBundle())
         }
         else {
             val intent = Intent(context, AnimeDetailsActivity::class.java)
             intent.putExtra("animeId", animeId)
+            intent.putExtra("position", position)
             startActivityForResult(intent, 17)
         }
     }
@@ -337,9 +354,10 @@ class AnimeListFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode==17 && resultCode==Activity.RESULT_OK) {
-            val shouldUpdate :Boolean = data?.extras?.get("entryUpdated") as Boolean
+            val shouldUpdate: Boolean = data?.extras?.getBoolean("entryUpdated", false) ?: false
+            val position: Int? = data?.extras?.getInt("position")
             if (shouldUpdate) {
-                initCalls()
+                initCalls(false, position)
             }
         }
     }

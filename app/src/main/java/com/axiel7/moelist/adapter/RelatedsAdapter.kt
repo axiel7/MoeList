@@ -52,7 +52,7 @@ class RelatedsAdapter(private val animes: MutableList<Related>,
             onClickListener(view, anime)
         }
         if (position == animes.size - 2) run {
-            endListReachedListener?.onBottomReached(position)
+            endListReachedListener?.onBottomReached(position, animes.size)
         }
     }
 

@@ -55,6 +55,7 @@ class AnimeDetailsActivity : BaseActivity(), EditAnimeFragment.OnDataPass {
     private val relateds: MutableList<Related> = mutableListOf()
     private var entryUpdated: Boolean = false
     private var animeId = 1
+    private var position = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +83,7 @@ class AnimeDetailsActivity : BaseActivity(), EditAnimeFragment.OnDataPass {
         if (animeId==-1) {
             animeId = Random(System.nanoTime()).nextInt(0, 5000)
         }
+        position = intent?.extras?.getInt("position", 0) ?: 0
 
         initViews()
         if (animeDb?.animeDetailsDao()?.getAnimeDetailsById(animeId)!=null) {
@@ -203,7 +205,7 @@ class AnimeDetailsActivity : BaseActivity(), EditAnimeFragment.OnDataPass {
     }
     private fun setDataToViews() {
         bottomSheetDialog =
-            EditAnimeFragment(animeDetails.my_list_status, animeId, animeDetails.num_episodes ?: 0)
+            EditAnimeFragment(animeDetails.my_list_status, animeId, animeDetails.num_episodes ?: 0, 0)
         val unknown = getString(R.string.unknown)
         //quit loading bar
         loading_layout.visibility = View.GONE
@@ -434,11 +436,12 @@ class AnimeDetailsActivity : BaseActivity(), EditAnimeFragment.OnDataPass {
     override fun finish() {
         val returnIntent = Intent()
         returnIntent.putExtra("entryUpdated", entryUpdated)
+        returnIntent.putExtra("position", position)
         setResult(Activity.RESULT_OK, returnIntent)
         super.finish()
     }
 
-    override fun onAnimeEntryUpdated(updated: Boolean) {
+    override fun onAnimeEntryUpdated(updated: Boolean, position: Int) {
         entryUpdated = updated
         changeFabAction()
         animeDb?.animeDetailsDao()?.insertAnimeDetails(animeDetails)

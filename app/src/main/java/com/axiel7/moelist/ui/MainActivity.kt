@@ -174,15 +174,17 @@ class MainActivity : BaseActivity(), EditAnimeFragment.OnDataPass, EditMangaFrag
         }
     }
 
-    override fun onAnimeEntryUpdated(updated: Boolean) {
+    override fun onAnimeEntryUpdated(updated: Boolean, position: Int) {
         val intent = Intent()
         intent.putExtra("entryUpdated", updated)
+        intent.putExtra("position", position)
         animeListFragment.onActivityResult(17, RESULT_OK, intent)
     }
 
-    override fun onMangaEntryUpdated(updated: Boolean) {
+    override fun onMangaEntryUpdated(updated: Boolean, position: Int) {
         val intent = Intent()
         intent.putExtra("entryUpdated", updated)
+        intent.putExtra("position", position)
         mangaListFragment.onActivityResult(17, RESULT_OK, intent)
     }
 }

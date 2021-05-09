@@ -95,23 +95,24 @@ class MangaListFragment : Fragment() {
                 mangaList,
                 R.layout.list_item_mangalist,
                 requireContext(),
-                onClickListener = { itemView, userMangaList -> openDetails(userMangaList.node.id, itemView) },
-                onLongClickListener = { _, userMangaList ->
+                onClickListener = { itemView, userMangaList, pos ->
+                    openDetails(userMangaList.node.id, itemView, pos) },
+                onLongClickListener = { _, userMangaList, pos ->
                     val editSheet =
                         EditMangaFragment(userMangaList.list_status,
                             userMangaList.node.id,
                             userMangaList.node.num_chapters ?: 0,
-                            userMangaList.node.num_volumes ?: 0)
+                            userMangaList.node.num_volumes ?: 0, pos)
                     editSheet.show(parentFragmentManager, "Edit")
                 }
             )
         mangaListAdapter.setEndListReachedListener(object : EndListReachedListener {
-            override fun onBottomReached(position: Int) {
+            override fun onBottomReached(position: Int, lastPosition: Int) {
                 if (mangaListResponse!=null) {
                     val nextPage: String? = mangaListResponse?.paging?.next
                     if (nextPage!=null) {
                         val getMoreCall = malApiService.getNextMangaListPage(nextPage)
-                        initMangaListCall(getMoreCall, false)
+                        initMangaListCall(getMoreCall, false, null, lastPosition)
                     }
                 }
             }
@@ -123,10 +124,10 @@ class MangaListFragment : Fragment() {
                 val totalEpisodes = mangaListAdapter.getTotalEpisodes(position)
                 if (totalEpisodes!=null) {
                     if (watchedEpisodes==totalEpisodes.minus(1)) {
-                        addOneEpisode(animeId, watchedEpisodes.plus(1), "completed")
+                        addOneEpisode(animeId, watchedEpisodes.plus(1), "completed", position)
                     }
                     else {
-                        addOneEpisode(animeId, watchedEpisodes?.plus(1), null)
+                        addOneEpisode(animeId, watchedEpisodes?.plus(1), null, position)
                     }
                 }
             }
@@ -152,7 +153,8 @@ class MangaListFragment : Fragment() {
                 mangaList.addAll(mangaList2)
                 mangaListAdapter.notifyDataSetChanged()
             }
-            initCalls()
+            bottomSheetDialog.dismiss()
+            initCalls(true, null)
         }
 
         val sortView = dialogView.findViewById<LinearLayoutCompat>(R.id.sort)
@@ -171,7 +173,8 @@ class MangaListFragment : Fragment() {
                     // Respond to positive button press
                     sharedPref.saveInt("sortManga", defaultSort)
                     sortSummary.text = StringFormat.formatSortOption(sortMode, requireContext())
-                    initCalls()
+                    bottomSheetDialog.dismiss()
+                    initCalls(true, null)
                 }
                 // Single-choice items (initialized with checked item)
                 .setSingleChoiceItems(items, defaultSort) { _, which ->
@@ -195,9 +198,9 @@ class MangaListFragment : Fragment() {
             }
         })
 
-        initCalls()
+        initCalls(true, null)
     }
-    private fun initCalls() {
+    private fun initCalls(shouldClear: Boolean, position: Int?) {
         val mangaListCall = if (listStatus == "all") {
             // To return all manga, don't specify status field.
             malApiService.getUserMangaList(null, "list_status,num_chapters,media_type,status", sortMode, showNsfw)
@@ -205,11 +208,11 @@ class MangaListFragment : Fragment() {
             malApiService.getUserMangaList(listStatus, "list_status,num_chapters,media_type,status", sortMode, showNsfw)
         }
         if (isAdded) {
-            loading_mangalist.show()
-            initMangaListCall(mangaListCall, true)
+            loading_mangalist.isRefreshing = true
+            initMangaListCall(mangaListCall, shouldClear, position, null)
         }
     }
-    private fun initMangaListCall(call: Call<UserMangaListResponse>, shouldClear: Boolean) {
+    private fun initMangaListCall(call: Call<UserMangaListResponse>, shouldClear: Boolean, position: Int?, lastPosition: Int?) {
         call.enqueue(object: Callback<UserMangaListResponse> {
             override fun onResponse(call: Call<UserMangaListResponse>, response: Response<UserMangaListResponse>) {
 
@@ -229,8 +232,20 @@ class MangaListFragment : Fragment() {
                             MyApplication.animeDb?.userMangaListDao()?.deleteUserMangaList(mangaList)
                             mangaList.clear()
                         }
-                        mangaList.addAll(mangaList2)
-                        loading_mangalist.hide()
+                        when {
+                            shouldClear -> {
+                                mangaList.addAll(mangaList2)
+                                mangaListAdapter.notifyDataSetChanged()
+                            }
+                            lastPosition != null -> {
+                                mangaList.addAll(mangaList2)
+                                mangaListAdapter.notifyItemRangeInserted(lastPosition, mangaList2.size)
+                            }
+                            position != null -> {
+                                mangaList[position] = mangaList2[position]
+                                mangaListAdapter.notifyItemChanged(position)
+                            }
+                        }
                         MyApplication.animeDb?.userMangaListDao()?.insertUserMangaList(mangaList)
                         mangaListAdapter.notifyDataSetChanged()
                     }
@@ -256,7 +271,7 @@ class MangaListFragment : Fragment() {
 
         })
     }
-    private fun addOneEpisode(mangaId: Int, chaptersRead: Int?, status: String?) {
+    private fun addOneEpisode(mangaId: Int, chaptersRead: Int?, status: String?, position: Int) {
         if (isAdded) {
             loading_mangalist.show()
         }
@@ -267,7 +282,7 @@ class MangaListFragment : Fragment() {
             updateListCall.enqueue(object : Callback<MyMangaListStatus> {
                 override fun onResponse(call: Call<MyMangaListStatus>, response: Response<MyMangaListStatus>) {
                     if (response.isSuccessful && isAdded) {
-                        initCalls()
+                        initCalls(false, position)
                     }
                     else if (isAdded) {
                         Snackbar.make(mangalist_layout, getString(R.string.error_updating_list), Snackbar.LENGTH_SHORT).show()
@@ -307,17 +322,19 @@ class MangaListFragment : Fragment() {
             else -> "manga_title"
         }
     }
-    private fun openDetails(mangaId: Int?, view: View?) {
+    private fun openDetails(mangaId: Int?, view: View?, position: Int) {
         if (view!=null) {
             val poster = view.findViewById<FrameLayout>(R.id.poster_container)
             val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), poster, poster.transitionName)
             val intent = Intent(context, MangaDetailsActivity::class.java)
             intent.putExtra("mangaId", mangaId)
+            intent.putExtra("position", position)
             startActivityForResult(intent, 17, bundle.toBundle())
         }
         else {
             val intent = Intent(context, MangaDetailsActivity::class.java)
             intent.putExtra("mangaId", mangaId)
+            intent.putExtra("position", position)
             startActivityForResult(intent, 17)
         }
     }
@@ -325,9 +342,10 @@ class MangaListFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode==17 && resultCode== Activity.RESULT_OK) {
-            val shouldUpdate :Boolean = data?.extras?.get("entryUpdated") as Boolean
+            val shouldUpdate :Boolean = data?.extras?.getBoolean("entryUpdated", false) ?: false
+            val position: Int? = data?.extras?.getInt("position")
             if (shouldUpdate) {
-                initCalls()
+                initCalls(false, position)
             }
         }
     }

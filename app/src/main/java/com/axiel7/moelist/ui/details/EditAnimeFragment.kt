@@ -29,7 +29,8 @@ import retrofit2.Response
 
 class EditAnimeFragment(private var myListStatus: MyListStatus?,
                         private var animeId: Int,
-                        private var numEpisodes: Int) : BottomSheetDialogFragment() {
+                        private var numEpisodes: Int,
+                        private var position: Int) : BottomSheetDialogFragment() {
     private var entryUpdated: Boolean = false
     private lateinit var dataPasser: OnDataPass
 
@@ -224,7 +225,7 @@ class EditAnimeFragment(private var myListStatus: MyListStatus?,
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         syncListStatus()
-        dataPasser.onAnimeEntryUpdated(entryUpdated)
+        dataPasser.onAnimeEntryUpdated(entryUpdated, position)
     }
 
     override fun onAttach(context: Context) {
@@ -233,7 +234,7 @@ class EditAnimeFragment(private var myListStatus: MyListStatus?,
     }
 
     interface OnDataPass {
-        fun onAnimeEntryUpdated(updated: Boolean)
+        fun onAnimeEntryUpdated(updated: Boolean, position: Int)
     }
 
 }

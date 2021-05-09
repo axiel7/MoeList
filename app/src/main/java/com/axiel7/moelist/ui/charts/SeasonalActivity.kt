@@ -87,7 +87,7 @@ class SeasonalActivity : BaseActivity() {
             this,
             onClickListener = {itemView, animeList -> openDetails(animeList.node.id, itemView)})
         seasonalAdapter.setEndListReachedListener(object :EndListReachedListener {
-            override fun onBottomReached(position: Int) {
+            override fun onBottomReached(position: Int, lastPosition: Int) {
                 if (animeResponse!=null) {
                     val nextPage = animeResponse?.paging?.next
                     if (nextPage!=null && nextPage.isNotEmpty()) {

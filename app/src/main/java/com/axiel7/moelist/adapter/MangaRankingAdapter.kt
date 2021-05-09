@@ -72,7 +72,7 @@ class MangaRankingAdapter(private val mangas: MutableList<MangaRanking>,
             onClickListener(view, anime)
         }
         if (position == mangas.size - 2) run {
-            endListReachedListener?.onBottomReached(position)
+            endListReachedListener?.onBottomReached(position, mangas.size)
         }
     }
 

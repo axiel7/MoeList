@@ -122,7 +122,7 @@ class HomeFragment : Fragment() {
                     onClickListener = { itemView, animeList -> openDetails(animeList.node.id, itemView) }
                 )
         animeRankingAdapter.setEndListReachedListener(object :EndListReachedListener {
-            override fun onBottomReached(position: Int) {
+            override fun onBottomReached(position: Int, lastPosition: Int) {
                 if (animesRankingResponse!=null && animeListSeasonal.size <= 25) {
                     val nextPage: String? = animesRankingResponse?.paging?.next
                     if (!nextPage.isNullOrEmpty()) {
@@ -147,7 +147,7 @@ class HomeFragment : Fragment() {
                 onClickListener = { itemView, animeList -> openDetails(animeList.node.id, itemView) }
             )
         todayAdapter.setEndListReachedListener(object: EndListReachedListener {
-            override fun onBottomReached(position: Int) {
+            override fun onBottomReached(position: Int, lastPosition: Int) {
                 if (todayResponse!=null) {
                     val nextPage: String? = todayResponse?.paging?.next
                     if (!nextPage.isNullOrEmpty()) {
@@ -260,7 +260,7 @@ class HomeFragment : Fragment() {
                     }
 
                     animeRecommendAdapter.setEndListReachedListener(object :EndListReachedListener {
-                        override fun onBottomReached(position: Int) {
+                        override fun onBottomReached(position: Int, lastPosition: Int) {
                             if (animesRecommendResponse!=null && animeListRecommend.size <= 25) {
                                 val getMoreCall = malApiService.getNextRecommendPage(animesRecommendResponse?.paging?.next!!)
                                 initRecommendCall(getMoreCall, false)
