@@ -89,7 +89,7 @@ dependencies {
     kapt 'androidx.room:room-compiler:2.3.0'
 
     //Image
-    implementation 'io.coil-kt:coil:1.1.1'
+    implementation 'io.coil-kt:coil:1.2.1'
     implementation 'com.igreenwood.loupe:loupe:1.2.1'
     implementation 'com.igreenwood.loupe:extensions:1.0.0'
 
