@@ -445,7 +445,7 @@ class MangaDetailsActivity : BaseActivity(), EditMangaFragment.OnDataPass {
 
         val share = menu?.findItem(R.id.share)
         share?.setOnMenuItemClickListener { _ ->
-            ShareCompat.IntentBuilder.from(this)
+            ShareCompat.IntentBuilder(this@MangaDetailsActivity)
                 .setType("text/plain")
                 .setChooserTitle(main_title.text)
                 .setText("https://myanimelist.net/manga/$mangaId")

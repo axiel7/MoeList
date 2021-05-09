@@ -140,7 +140,7 @@ class AnimeListFragment : Fragment() {
                     if (requestReview.isSuccessful) {
                         // We got the ReviewInfo object
                         val reviewInfo = requestReview.result
-                        val flow = manager.launchReviewFlow(requireActivity(), reviewInfo)
+                        manager.launchReviewFlow(requireActivity(), reviewInfo)
                     }
                 }
             }

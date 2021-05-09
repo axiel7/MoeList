@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import com.axiel7.moelist.MyApplication
 import com.axiel7.moelist.R
@@ -19,7 +20,6 @@ import com.axiel7.moelist.utils.Urls
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.bottom_sheet_edit_manga.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -198,13 +198,13 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
                     myListStatus = response.body()
                     entryUpdated = true
                     val toastText = getString(R.string.updated)
-                    Snackbar.make(edit_sheet, toastText, Snackbar.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), toastText, Toast.LENGTH_SHORT).show()
                     loading.hide()
                     this@EditMangaFragment.dismiss()
                 }
                 else if (isAdded) {
                     loading.hide()
-                    Snackbar.make(edit_sheet, getString(R.string.error_updating_list), Snackbar.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.error_updating_list), Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -212,7 +212,7 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
                 Log.d("MoeLog", t.toString())
                 if (isAdded) {
                     loading.hide()
-                    Snackbar.make(edit_sheet, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.error_server), Toast.LENGTH_SHORT).show()
                 }
             }
         })
@@ -226,12 +226,12 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
                     myListStatus = null
                     entryUpdated = true
                     loading.hide()
-                    Snackbar.make(edit_sheet, getString(R.string.deleted), Snackbar.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.deleted), Toast.LENGTH_SHORT).show()
                     dismiss()
                 }
                 else if (isAdded) {
                     loading.hide()
-                    Snackbar.make(edit_sheet, getString(R.string.error_delete_entry), Snackbar.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.error_delete_entry), Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -239,7 +239,7 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
                 Log.d("MoeLog", t.toString())
                 if (isAdded) {
                     loading.hide()
-                    Snackbar.make(edit_sheet, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.error_server), Toast.LENGTH_SHORT).show()
                 }
             }
         })

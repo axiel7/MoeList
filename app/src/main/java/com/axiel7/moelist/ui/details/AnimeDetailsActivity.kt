@@ -460,7 +460,7 @@ class AnimeDetailsActivity : BaseActivity(), EditAnimeFragment.OnDataPass {
 
         val share = menu?.findItem(R.id.share)
         share?.setOnMenuItemClickListener { _ ->
-            ShareCompat.IntentBuilder.from(this)
+            ShareCompat.IntentBuilder(this@AnimeDetailsActivity)
                 .setType("text/plain")
                 .setChooserTitle(main_title.text)
                 .setText("https://myanimelist.net/anime/$animeId")
