@@ -83,9 +83,9 @@
     <string name="music">Müzik</string>
     <string name="manga">Manga</string>
     <string name="anime">Anime</string>
-    <string name="one_shot">Tek Sefer</string>
+    <string name="one_shot">Tek Seferlik</string>
     <string name="manhwa">Manhwa</string>
-    <string name="novel">Novel</string>
+    <string name="novel">Roman</string>
     <string name="airing">Yayınlanıyor</string>
     <string name="finished">Tamamlandı</string>
     <string name="on_hiatus">Ara verdi</string>
@@ -94,8 +94,8 @@
     <string name="summer">Yaz</string>
     <string name="fall">Sonbahar</string>
     <string name="original">Orijinal</string>
-    <string name="light_novel">Light Novel</string>
-    <string name="visual_novel">Visual Novel</string>
+    <string name="light_novel">Hafif Roman</string>
+    <string name="visual_novel">Görsel Roman</string>
     <string name="game">Oyun</string>
     <string name="web_manga">Web Manga</string>
     <string name="score_apalling">1 Berbat</string>
@@ -126,9 +126,9 @@
     <string name="search">Ara</string>
     <string name="theme">Tema</string>
     <string name="show_nsfw">NSFW içeriği göster</string>
-    <string name="nsfw_summary">18 yaş üzeriyim.</string>
+    <string name="nsfw_summary">18 yaş üzeri olduğumu onaylıyorum.</string>
     <string name="default_section">Varsayılan bölüm</string>
-    <string name="display">Göster</string>
+    <string name="display">Görüntüle</string>
     <string name="startup">Başlangıç</string>
     <string name="account">Hesap</string>
     <string name="logout">Çıkış Yap</string>
