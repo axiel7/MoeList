@@ -143,7 +143,7 @@
     <string name="theme_light">Aydınlık</string>
     <string name="theme_dark">Karanlık</string>
     <string name="theme_system">Sistem ile aynı</string>
-    <string name="title_login">Giriş</string>
+    <string name="title_login">Oturum aç</string>
     <string name="title_details">Ayrıntılar</string>
     <string name="title_search">Ara</string>
     <string name="title_poster">Görsel</string>
