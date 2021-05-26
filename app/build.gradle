@@ -14,8 +14,8 @@ android {
         applicationId "com.axiel7.moelist"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 38
-        versionName "1.5.2"
+        versionCode 51
+        versionName "1.5.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -51,8 +51,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     //AndroidX
-    implementation 'androidx.core:core-ktx:1.5.0-rc01'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.core:core-ktx:1.5.0'
+    implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.browser:browser:1.3.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
@@ -67,9 +67,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     //Firebase
-    implementation 'com.google.firebase:firebase-analytics-ktx:18.0.3'
-    implementation 'com.google.firebase:firebase-crashlytics-ktx:17.4.1'
-    implementation 'com.google.firebase:firebase-messaging-ktx:21.0.1'
+    implementation 'com.google.firebase:firebase-analytics-ktx:19.0.0'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.0.0'
+    implementation 'com.google.firebase:firebase-messaging-ktx:22.0.0'
 
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -94,7 +94,7 @@ dependencies {
     implementation 'com.igreenwood.loupe:extensions:1.0.0'
 
     //Google
-    implementation 'com.android.billingclient:billing-ktx:3.0.3'
+    implementation 'com.android.billingclient:billing-ktx:4.0.0'
     implementation 'com.google.android.play:core:1.10.0'
     implementation 'com.google.android.play:core-ktx:1.8.1'
     implementation 'com.google.mlkit:translate:16.1.2'
