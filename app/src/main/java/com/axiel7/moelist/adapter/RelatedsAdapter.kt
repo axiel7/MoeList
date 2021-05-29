@@ -4,60 +4,55 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.axiel7.moelist.R
+import com.axiel7.moelist.databinding.ListItemAnimeRelatedBinding
 import com.axiel7.moelist.model.Related
 import com.axiel7.moelist.utils.StringFormat
 
-class RelatedsAdapter(private val animes: MutableList<Related>,
-                      private val rowLayout: Int,
+class RelatedsAdapter(private val relateds: MutableList<Related>,
                       private val context: Context,
                       private val onClickListener: (View, Related) -> Unit) :
     RecyclerView.Adapter<RelatedsAdapter.AnimeViewHolder>() {
     private var endListReachedListener: EndListReachedListener? = null
 
-    class AnimeViewHolder internal constructor(v: View) : RecyclerView.ViewHolder(v) {
-        val animeTitle: TextView = v.findViewById(R.id.anime_title)
-        val animePoster: ImageView = v.findViewById(R.id.related_poster)
-        val relationText: TextView = v.findViewById(R.id.relation_text)
-
-        init {
-            animePoster.clipToOutline = true
-        }
-    }
+    class AnimeViewHolder(val binding: ListItemAnimeRelatedBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(rowLayout, parent, false)
-        return AnimeViewHolder(view)
+        val binding = ListItemAnimeRelatedBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return AnimeViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
-        val posterUrl = animes[position].node.main_picture?.medium
-        val animeTitle = animes[position].node.title
-        val relation = animes[position].relation_type_formatted
-        holder.animePoster.load(posterUrl) {
+        val posterUrl = relateds[position].node.main_picture?.medium
+        val animeTitle = relateds[position].node.title
+        val relation = relateds[position].relation_type_formatted
+        holder.binding.relatedPoster.load(posterUrl) {
             crossfade(true)
             crossfade(500)
             error(R.drawable.ic_launcher_foreground)
             allowHardware(false)
         }
-        holder.animeTitle.text = animeTitle
-        holder.relationText.text = StringFormat.formatRelation(relation, context)
+        holder.binding.animeTitle.text = animeTitle
+        holder.binding.relationText.text = StringFormat.formatRelation(relation, context)
 
-        val anime = animes[position]
+        val anime = relateds[position]
         holder.itemView.setOnClickListener { view ->
             onClickListener(view, anime)
         }
-        if (position == animes.size - 2) run {
-            endListReachedListener?.onBottomReached(position, animes.size)
+        if (position == relateds.size - 2) run {
+            endListReachedListener?.onBottomReached(position, relateds.size)
         }
     }
 
     override fun getItemCount(): Int {
-        return animes.size
+        return relateds.size
     }
 
     fun setEndListReachedListener(endListReachedListener: EndListReachedListener?) {

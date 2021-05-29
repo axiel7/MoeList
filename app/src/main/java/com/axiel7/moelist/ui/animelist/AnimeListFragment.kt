@@ -22,6 +22,7 @@ import com.axiel7.moelist.UseCases
 import com.axiel7.moelist.adapter.EndListReachedListener
 import com.axiel7.moelist.adapter.MyAnimeListAdapter
 import com.axiel7.moelist.adapter.PlusButtonTouchedListener
+import com.axiel7.moelist.databinding.FragmentAnimelistBinding
 import com.axiel7.moelist.model.MyListStatus
 import com.axiel7.moelist.model.UserAnimeList
 import com.axiel7.moelist.model.UserAnimeListResponse
@@ -35,7 +36,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.review.ReviewManagerFactory
-import kotlinx.android.synthetic.main.fragment_animelist.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -52,6 +52,8 @@ class AnimeListFragment : Fragment() {
     private var defaultStatus: Int? = null
     private var defaultSort: Int = 0
     private var showNsfw = 0
+    private var _binding: FragmentAnimelistBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,9 +77,10 @@ class AnimeListFragment : Fragment() {
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
-            savedInstanceState: Bundle?): View? {
-
-        return inflater.inflate(R.layout.fragment_animelist, container, false)
+            savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentAnimelistBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     @SuppressLint("InflateParams")
@@ -85,18 +88,17 @@ class AnimeListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (isAdded) {
-            loading_animelist.isRefreshing = false
+            binding.loadingAnimelist.isRefreshing = false
             if (animeList.isEmpty()) {
-                loading_animelist.isRefreshing = true
+                binding.loadingAnimelist.isRefreshing = true
             }
         }
 
-        loading_animelist.setOnRefreshListener { initCalls(true, null) }
+        binding.loadingAnimelist.setOnRefreshListener { initCalls(true, null) }
 
         animeListAdapter =
                 MyAnimeListAdapter(
                     animeList,
-                    R.layout.list_item_animelist,
                     requireContext(),
                     onClickListener = { itemView, userAnimeList, pos ->
                         openDetails(userAnimeList.node.id, itemView, pos) },
@@ -146,13 +148,13 @@ class AnimeListFragment : Fragment() {
             }
         })
 
-        animelist_recycler.adapter = animeListAdapter
+        binding.animelistRecycler.adapter = animeListAdapter
 
         // filters dialog
         val dialogView = layoutInflater.inflate(R.layout.bottom_sheet_filters, null)
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         bottomSheetDialog.setContentView(dialogView)
-        filters_fab.setOnClickListener { bottomSheetDialog.show() }
+        binding.filtersFab.setOnClickListener { bottomSheetDialog.show() }
 
         val radioGroup = dialogView.findViewById<RadioGroup>(R.id.status_radio_group)
         val defaultCheck = defaultStatus!!
@@ -199,15 +201,15 @@ class AnimeListFragment : Fragment() {
                 .show()
         }
 
-        animelist_recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.animelistRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     //scroll down
-                    filters_fab.hide()
+                    binding.filtersFab.hide()
                 } else if (dy < 0) {
                     //scroll up
-                    filters_fab.show()
+                    binding.filtersFab.show()
                 }
             }
         })
@@ -222,7 +224,7 @@ class AnimeListFragment : Fragment() {
             malApiService.getUserAnimeList(listStatus, "list_status,num_episodes,media_type,status", sortMode, showNsfw)
         }
         if (isAdded) {
-            loading_animelist.isRefreshing = true
+            binding.loadingAnimelist.isRefreshing = true
             initAnimeListCall(animeListCall, shouldClear, position, null)
         }
     }
@@ -261,7 +263,7 @@ class AnimeListFragment : Fragment() {
                             }
                         }
                         animeDb?.userAnimeListDao()?.insertUserAnimeList(animeList)
-                        loading_animelist.isRefreshing = false
+                        binding.loadingAnimelist.isRefreshing = false
                     }
                     else {
                         animeListResponse = responseOld
@@ -278,8 +280,8 @@ class AnimeListFragment : Fragment() {
             override fun onFailure(call: Call<UserAnimeListResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
                 if (isAdded) {
-                    loading_animelist.isRefreshing = false
-                    Snackbar.make(animelist_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    binding.loadingAnimelist.isRefreshing = false
+                    Snackbar.make(binding.root, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
             }
 
@@ -287,7 +289,7 @@ class AnimeListFragment : Fragment() {
     }
     private fun addOneEpisode(animeId: Int, watchedEpisodes: Int?, status: String?, position: Int) {
         if (isAdded) {
-            loading_animelist.isRefreshing = true
+            binding.loadingAnimelist.isRefreshing = true
         }
         val shouldNotUpdate = watchedEpisodes==null
         if (!shouldNotUpdate) {
@@ -299,21 +301,21 @@ class AnimeListFragment : Fragment() {
                         initCalls(false, position)
                     }
                     else if (isAdded) {
-                        Snackbar.make(animelist_layout, getString(R.string.error_updating_list), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(binding.root, getString(R.string.error_updating_list), Snackbar.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<MyListStatus>, t: Throwable) {
                     Log.d("MoeLog", t.toString())
                     if (isAdded) {
-                        Snackbar.make(animelist_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(binding.root, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                     }
                 }
             })
         } else {
             if (isAdded) {
-                loading_animelist.isRefreshing = false
-                Snackbar.make(animelist_layout, getString(R.string.no_changes), Snackbar.LENGTH_SHORT).show()
+                binding.loadingAnimelist.isRefreshing = false
+                Snackbar.make(binding.root, getString(R.string.no_changes), Snackbar.LENGTH_SHORT).show()
             }
         }
     }
@@ -362,5 +364,10 @@ class AnimeListFragment : Fragment() {
                 initCalls(false, position)
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

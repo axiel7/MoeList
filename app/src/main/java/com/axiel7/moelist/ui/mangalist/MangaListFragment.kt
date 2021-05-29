@@ -22,6 +22,7 @@ import com.axiel7.moelist.UseCases
 import com.axiel7.moelist.adapter.EndListReachedListener
 import com.axiel7.moelist.adapter.MyMangaListAdapter
 import com.axiel7.moelist.adapter.PlusButtonTouchedListener
+import com.axiel7.moelist.databinding.FragmentMangalistBinding
 import com.axiel7.moelist.model.MyMangaListStatus
 import com.axiel7.moelist.model.UserMangaList
 import com.axiel7.moelist.model.UserMangaListResponse
@@ -34,7 +35,6 @@ import com.axiel7.moelist.utils.Urls
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_mangalist.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -50,6 +50,8 @@ class MangaListFragment : Fragment() {
     private var defaultStatus: Int? = null
     private var defaultSort: Int = 0
     private var showNsfw = 0
+    private var _binding: FragmentMangalistBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,9 +76,10 @@ class MangaListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
-
-        return inflater.inflate(R.layout.fragment_mangalist, container, false)
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentMangalistBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     @SuppressLint("InflateParams")
@@ -84,18 +87,17 @@ class MangaListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (isAdded) {
-            loading_mangalist.isRefreshing = true
+            binding.loadingMangalist.isRefreshing = true
             if (mangaList.isEmpty()) {
-                loading_mangalist.isRefreshing = false
+                binding.loadingMangalist.isRefreshing = false
             }
         }
 
-        loading_mangalist.setOnRefreshListener { initCalls(true, null) }
+        binding.loadingMangalist.setOnRefreshListener { initCalls(true, null) }
 
         mangaListAdapter =
             MyMangaListAdapter(
                 mangaList,
-                R.layout.list_item_mangalist,
                 requireContext(),
                 onClickListener = { itemView, userMangaList, pos ->
                     openDetails(userMangaList.node.id, itemView, pos) },
@@ -135,12 +137,12 @@ class MangaListFragment : Fragment() {
             }
         })
 
-        mangalist_recycler.adapter = mangaListAdapter
+        binding.mangalistRecycler.adapter = mangaListAdapter
 
         val dialogView = layoutInflater.inflate(R.layout.bottom_sheet_filters_manga, null)
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         bottomSheetDialog.setContentView(dialogView)
-        filters_fab.setOnClickListener { bottomSheetDialog.show() }
+        binding.filtersFab.setOnClickListener { bottomSheetDialog.show() }
 
         val radioGroup = dialogView.findViewById<RadioGroup>(R.id.status_radio_group)
         val defaultCheck = defaultStatus!!
@@ -187,15 +189,15 @@ class MangaListFragment : Fragment() {
                 .show()
         }
 
-        mangalist_recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.mangalistRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     //scroll down
-                    filters_fab.hide()
+                    binding.filtersFab.hide()
                 } else if (dy < 0) {
                     //scroll up
-                    filters_fab.show()
+                    binding.filtersFab.show()
                 }
             }
         })
@@ -210,7 +212,7 @@ class MangaListFragment : Fragment() {
             malApiService.getUserMangaList(listStatus, "list_status,num_chapters,media_type,status", sortMode, showNsfw)
         }
         if (isAdded) {
-            loading_mangalist.isRefreshing = true
+            binding.loadingMangalist.isRefreshing = true
             initMangaListCall(mangaListCall, shouldClear, position, null)
         }
     }
@@ -249,7 +251,7 @@ class MangaListFragment : Fragment() {
                             }
                         }
                         MyApplication.animeDb?.userMangaListDao()?.insertUserMangaList(mangaList)
-                        loading_mangalist.isRefreshing = false
+                        binding.loadingMangalist.isRefreshing = false
                     }
                     else {
                         mangaListResponse = responseOld
@@ -266,8 +268,8 @@ class MangaListFragment : Fragment() {
             override fun onFailure(call: Call<UserMangaListResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
                 if (isAdded) {
-                    loading_mangalist.isRefreshing = false
-                    Snackbar.make(mangalist_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    binding.loadingMangalist.isRefreshing = false
+                    Snackbar.make(binding.root, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
             }
 
@@ -275,7 +277,7 @@ class MangaListFragment : Fragment() {
     }
     private fun addOneEpisode(mangaId: Int, chaptersRead: Int?, status: String?, position: Int) {
         if (isAdded) {
-            loading_mangalist.isRefreshing = false
+            binding.loadingMangalist.isRefreshing = false
         }
         val shouldNotUpdate = chaptersRead==null
         if (!shouldNotUpdate) {
@@ -287,21 +289,21 @@ class MangaListFragment : Fragment() {
                         initCalls(false, position)
                     }
                     else if (isAdded) {
-                        Snackbar.make(mangalist_layout, getString(R.string.error_updating_list), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(binding.root, getString(R.string.error_updating_list), Snackbar.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<MyMangaListStatus>, t: Throwable) {
                     Log.d("MoeLog", t.toString())
                     if (isAdded) {
-                        Snackbar.make(mangalist_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(binding.root, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                     }
                 }
             })
         } else {
             if (isAdded) {
-                loading_mangalist.isRefreshing = false
-                Snackbar.make(mangalist_layout, getString(R.string.no_changes), Snackbar.LENGTH_SHORT).show()
+                binding.loadingMangalist.isRefreshing = false
+                Snackbar.make(binding.root, getString(R.string.no_changes), Snackbar.LENGTH_SHORT).show()
             }
         }
     }
@@ -350,5 +352,10 @@ class MangaListFragment : Fragment() {
                 initCalls(false, position)
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

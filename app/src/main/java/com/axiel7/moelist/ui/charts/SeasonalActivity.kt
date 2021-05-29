@@ -15,6 +15,7 @@ import com.axiel7.moelist.MyApplication.Companion.malApiService
 import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.EndListReachedListener
 import com.axiel7.moelist.adapter.SeasonalAnimeAdapter
+import com.axiel7.moelist.databinding.ActivitySeasonalBinding
 import com.axiel7.moelist.model.SeasonalAnimeResponse
 import com.axiel7.moelist.model.SeasonalList
 import com.axiel7.moelist.model.StartSeason
@@ -29,7 +30,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.transition.platform.MaterialSharedAxis
-import kotlinx.android.synthetic.main.activity_seasonal.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -46,6 +46,7 @@ class SeasonalActivity : BaseActivity() {
     private var year by Delegates.notNull<Int>()
     private var animeResponse: SeasonalAnimeResponse? = null
     private var showNsfw = 0
+    private lateinit var binding: ActivitySeasonalBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         window.enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
@@ -53,21 +54,22 @@ class SeasonalActivity : BaseActivity() {
         window.allowEnterTransitionOverlap = true
         window.allowReturnTransitionOverlap = true
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_seasonal)
+        binding = ActivitySeasonalBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         window.statusBarColor = getColorFromAttr(R.attr.colorToolbar)
 
-        setSupportActionBar(seasonal_toolbar)
+        setSupportActionBar(binding.seasonalToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
-        seasonal_toolbar.setNavigationOnClickListener { onBackPressed() }
+        binding.seasonalToolbar.setNavigationOnClickListener { onBackPressed() }
 
         showNsfw = if (SharedPrefsHelpers.instance!!.getBoolean("nsfw", false)) { 1 } else { 0 }
 
         season = SeasonCalendar.getCurrentSeason()
         year = SeasonCalendar.getCurrentYear()
         currentSeason = StartSeason(year, season)
-        seasonal_toolbar.title = "${StringFormat.formatSeason(season, this)} $year"
+        binding.seasonalToolbar.title = "${StringFormat.formatSeason(season, this)} $year"
 
         seasonalList = mutableListOf()
         val savedResponse = animeDb?.seasonalResponseDao()?.getSeasonalResponse(season, year)
@@ -83,7 +85,6 @@ class SeasonalActivity : BaseActivity() {
         }
         seasonalAdapter = SeasonalAnimeAdapter(
             seasonalList,
-            R.layout.list_item_seasonal,
             this,
             onClickListener = {itemView, animeList -> openDetails(animeList.node.id, itemView)})
         seasonalAdapter.setEndListReachedListener(object :EndListReachedListener {
@@ -97,9 +98,9 @@ class SeasonalActivity : BaseActivity() {
                 }
             }
         })
-        seasonal_recycler.adapter = seasonalAdapter
+        binding.seasonalRecycler.adapter = seasonalAdapter
 
-        filter_fab.addSystemWindowInsetToMargin(bottom = true)
+        binding.filterFab.addSystemWindowInsetToMargin(bottom = true)
         setupBottomSheet()
 
         val seasonCall = malApiService.getSeasonalAnime(Urls.apiBaseUrl + "anime/season/$year/$season",
@@ -107,7 +108,7 @@ class SeasonalActivity : BaseActivity() {
         initCalls(true, seasonCall)
     }
     private fun initCalls(shouldClear: Boolean, call: Call<SeasonalAnimeResponse>) {
-        seasonal_loading.show()
+        binding.seasonalLoading.show()
         call.enqueue(object :Callback<SeasonalAnimeResponse> {
             override fun onResponse(
                 call: Call<SeasonalAnimeResponse>,
@@ -124,18 +125,18 @@ class SeasonalActivity : BaseActivity() {
                     seasonalAdapter.notifyDataSetChanged()
                 }
                 else if (response.code()==401) {
-                    Snackbar.make(seasonal_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
                 else if (response.code()==404) {
-                    Snackbar.make(seasonal_layout, getString(R.string.error_not_found), Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, getString(R.string.error_not_found), Snackbar.LENGTH_SHORT).show()
                 }
-                seasonal_loading.hide()
+                binding.seasonalLoading.hide()
             }
 
             override fun onFailure(call: Call<SeasonalAnimeResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
-                seasonal_loading.hide()
-                Snackbar.make(seasonal_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                binding.seasonalLoading.hide()
+                Snackbar.make(binding.root, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
             }
         })
     }
@@ -145,7 +146,7 @@ class SeasonalActivity : BaseActivity() {
         val bottomSheetDialog = BottomSheetDialog(this)
         val dialogView = layoutInflater.inflate(R.layout.bottom_sheet_seasonal, null)
         bottomSheetDialog.setContentView(dialogView)
-        filter_fab.setOnClickListener { bottomSheetDialog.show() }
+        binding.filterFab.setOnClickListener { bottomSheetDialog.show() }
 
         val applyButton = bottomSheetDialog.findViewById<Button>(R.id.apply_button)
         applyButton?.setOnClickListener {
@@ -154,7 +155,7 @@ class SeasonalActivity : BaseActivity() {
             val seasonCall = malApiService.getSeasonalAnime(Urls.apiBaseUrl + "anime/season/$year/$season",
                 "anime_score", "start_season,broadcast,num_episodes,media_type,mean", 300, showNsfw)
             initCalls(true, seasonCall)
-            seasonal_toolbar.title = "${StringFormat.formatSeason(season, this)} $year"
+            binding.seasonalToolbar.title = "${StringFormat.formatSeason(season, this)} $year"
             bottomSheetDialog.hide()
         }
         val cancelButton = bottomSheetDialog.findViewById<Button>(R.id.cancel_button)
@@ -194,7 +195,7 @@ class SeasonalActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         if (seasonalList.isNotEmpty()) {
-            seasonal_loading.hide()
+            binding.seasonalLoading.hide()
         }
     }
 }

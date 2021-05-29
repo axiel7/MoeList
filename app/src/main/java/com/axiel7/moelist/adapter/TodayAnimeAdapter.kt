@@ -7,24 +7,24 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.axiel7.moelist.R
-import com.axiel7.moelist.databinding.ListItemAnimeTodayBinding
+import com.axiel7.moelist.databinding.ListItemAnimeTodayExtendedBinding
 import com.axiel7.moelist.model.SeasonalList
 import com.axiel7.moelist.utils.SeasonCalendar
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.absoluteValue
 
-class AiringAnimeAdapter(private val animes: MutableList<SeasonalList>,
-                         private val context: Context,
-                         private val onClickListener: (View, SeasonalList) -> Unit) :
-    RecyclerView.Adapter<AiringAnimeAdapter.AnimeViewHolder>() {
+class TodayAnimeAdapter(private val animes: MutableList<SeasonalList>,
+                        private val context: Context,
+                        private val onClickListener: (View, SeasonalList) -> Unit) :
+    RecyclerView.Adapter<TodayAnimeAdapter.AnimeViewHolder>() {
     private var endListReachedListener: EndListReachedListener? = null
 
-    class AnimeViewHolder(val binding: ListItemAnimeTodayBinding) :
+    class AnimeViewHolder(val binding: ListItemAnimeTodayExtendedBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeViewHolder {
-        val binding = ListItemAnimeTodayBinding.inflate(
+        val binding = ListItemAnimeTodayExtendedBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false)

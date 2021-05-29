@@ -4,36 +4,29 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.axiel7.moelist.R
+import com.axiel7.moelist.databinding.ListItemSearchResultBinding
 import com.axiel7.moelist.model.AnimeList
 import com.axiel7.moelist.utils.StringFormat
 
 class SearchAnimeAdapter(private val animes: MutableList<AnimeList>,
-                         private val rowLayout: Int,
                          private val context: Context,
                          private val onClickListener: (View, AnimeList) -> Unit) :
     RecyclerView.Adapter<SearchAnimeAdapter.AnimeViewHolder>() {
     private var endListReachedListener: EndListReachedListener? = null
 
-    class AnimeViewHolder internal constructor(v: View) : RecyclerView.ViewHolder(v) {
-        val animeTitleView: TextView = v.findViewById(R.id.anime_title)
-        val animePosterView: ImageView = v.findViewById(R.id.anime_poster)
-        val mediaStatusView: TextView = v.findViewById(R.id.media_status)
-        val yearView: TextView = v.findViewById(R.id.year_text)
-        val scoreView: TextView = v.findViewById(R.id.score_text)
-
-        init {
-            animePosterView.clipToOutline = true
-        }
-    }
+    class AnimeViewHolder(val binding: ListItemSearchResultBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(rowLayout, parent, false)
-        return AnimeViewHolder(view)
+        val binding = ListItemSearchResultBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return AnimeViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
@@ -44,28 +37,28 @@ class SearchAnimeAdapter(private val animes: MutableList<AnimeList>,
         val year = animes[position].node.start_season?.year
         val score = animes[position].node.mean
 
-        holder.animePosterView.load(posterUrl) {
+        holder.binding.animePoster.load(posterUrl) {
             crossfade(true)
             crossfade(500)
             error(R.drawable.ic_launcher_foreground)
             allowHardware(false)
         }
 
-        holder.animeTitleView.text = animeTitle
+        holder.binding.animeTitle.text = animeTitle
 
         val mediaStatus = if (episodes==0) { "$mediaType (?? ${context.getString(R.string.episodes)})" }
         else { "$mediaType ($episodes ${context.getString(R.string.episodes)})" }
-        holder.mediaStatusView.text = mediaStatus
+        holder.binding.mediaStatus.text = mediaStatus
 
         if (year == null) {
-            holder.yearView.text = context.getString(R.string.unknown)
+            holder.binding.yearText.text = context.getString(R.string.unknown)
         }
         else {
-            holder.yearView.text = year.toString()
+            holder.binding.yearText.text = year.toString()
         }
 
         val scoreText = score?.toString() ?: "??"
-        holder.scoreView.text = scoreText
+        holder.binding.scoreText.text = scoreText
 
         val anime = animes[position]
         holder.itemView.setOnClickListener { view ->

@@ -8,8 +8,9 @@ import android.widget.ImageView
 import androidx.core.app.ActivityOptionsCompat
 import com.axiel7.moelist.MyApplication
 import com.axiel7.moelist.R
-import com.axiel7.moelist.adapter.AiringAnimeAdapter
 import com.axiel7.moelist.adapter.EndListReachedListener
+import com.axiel7.moelist.adapter.TodayAnimeAdapter
+import com.axiel7.moelist.databinding.ActivitySeasonalBinding
 import com.axiel7.moelist.model.SeasonalAnimeResponse
 import com.axiel7.moelist.model.SeasonalList
 import com.axiel7.moelist.model.StartSeason
@@ -21,19 +22,19 @@ import com.axiel7.moelist.utils.Urls
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.platform.MaterialSharedAxis
-import kotlinx.android.synthetic.main.activity_seasonal.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class TodayActivity : BaseActivity() {
 
-    private lateinit var todayAdapter: AiringAnimeAdapter
+    private lateinit var todayAdapter: TodayAnimeAdapter
     private lateinit var todayList: MutableList<SeasonalList>
     private lateinit var jpDayWeek: String
     private lateinit var currentSeason: StartSeason
     private var todayResponse: SeasonalAnimeResponse? = null
     private var showNsfw = 0
+    private lateinit var binding: ActivitySeasonalBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         window.enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
@@ -41,15 +42,16 @@ class TodayActivity : BaseActivity() {
         window.allowEnterTransitionOverlap = true
         window.allowReturnTransitionOverlap = true
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_seasonal)
+        binding = ActivitySeasonalBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         window.statusBarColor = getColorFromAttr(R.attr.colorToolbar)
 
-        seasonal_toolbar.title = getString(R.string.today)
-        setSupportActionBar(seasonal_toolbar)
+        binding.seasonalToolbar.title = getString(R.string.today)
+        setSupportActionBar(binding.seasonalToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
-        seasonal_toolbar.setNavigationOnClickListener { onBackPressed() }
+        binding.seasonalToolbar.setNavigationOnClickListener { onBackPressed() }
 
         showNsfw = if (SharedPrefsHelpers.instance!!.getBoolean("nsfw", false)) { 1 } else { 0 }
 
@@ -70,9 +72,8 @@ class TodayActivity : BaseActivity() {
         }
         todayList.sortByDescending { it.node.mean }
 
-        todayAdapter = AiringAnimeAdapter(
+        todayAdapter = TodayAnimeAdapter(
             todayList,
-            R.layout.list_item_anime_today_extended,
             this,
             onClickListener = {itemView, animeList -> openDetails(animeList.node.id, itemView)})
         todayAdapter.setEndListReachedListener(object : EndListReachedListener {
@@ -86,9 +87,9 @@ class TodayActivity : BaseActivity() {
                 }
             }
         })
-        seasonal_recycler.adapter = todayAdapter
+        binding.seasonalRecycler.adapter = todayAdapter
 
-        seasonal_loading.hide()
+        binding.seasonalLoading.hide()
         val filterFab = findViewById<FloatingActionButton>(R.id.filter_fab)
         filterFab.visibility = View.GONE
 
@@ -99,7 +100,7 @@ class TodayActivity : BaseActivity() {
     }
 
     private fun initCall(call: Call<SeasonalAnimeResponse>?, shouldClear: Boolean) {
-        seasonal_loading.show()
+        binding.seasonalLoading.show()
         call?.enqueue(object: Callback<SeasonalAnimeResponse> {
             override fun onResponse(
                 call: Call<SeasonalAnimeResponse>,
@@ -126,26 +127,26 @@ class TodayActivity : BaseActivity() {
                         call.cancel()
                         val nextPage: String? = todayResponse!!.paging?.next
                         if (nextPage.isNullOrEmpty()) {
-                            seasonal_recycler.visibility = View.INVISIBLE
-                            seasonal_loading.visibility = View.INVISIBLE
+                            binding.seasonalRecycler.visibility = View.INVISIBLE
+                            binding.seasonalLoading.hide()
                         }
                     }
                     else {
                         MyApplication.animeDb?.seasonalListDao()?.insertAllSeasonalAnimes(todayList)
                         todayList.sortByDescending { it.node.mean }
-                        seasonal_loading.hide()
+                        binding.seasonalLoading.hide()
                         todayAdapter.notifyDataSetChanged()
                     }
                 }
                 else if (response.code()==401) {
-                    Snackbar.make(seasonal_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<SeasonalAnimeResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
-                seasonal_loading.hide()
-                Snackbar.make(seasonal_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                binding.seasonalLoading.hide()
+                Snackbar.make(binding.root, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
             }
         })
     }

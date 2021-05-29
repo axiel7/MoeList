@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import com.axiel7.moelist.MyApplication
 import com.axiel7.moelist.R
+import com.axiel7.moelist.databinding.BottomSheetEditMangaBinding
 import com.axiel7.moelist.model.MyMangaListStatus
 import com.axiel7.moelist.utils.InsetsHelper
 import com.axiel7.moelist.utils.StringFormat
@@ -20,7 +21,6 @@ import com.axiel7.moelist.utils.Urls
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.android.synthetic.main.bottom_sheet_edit_manga.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -32,13 +32,16 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
                         private var position: Int) : BottomSheetDialogFragment() {
     private var entryUpdated: Boolean = false
     private lateinit var dataPasser: OnDataPass
+    private var _binding: BottomSheetEditMangaBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.bottom_sheet_edit_manga, container, false)
+    ): View {
+        _binding = BottomSheetEditMangaBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,23 +54,23 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
         )
 
         if (isAdded) {
-            loading.hide()
+            binding.loading.hide()
         }
-        apply_button?.setOnClickListener {
+        binding.applyButton.setOnClickListener {
 
             var status :String? = null
-            val statusCurrent = StringFormat.formatListStatusInverted(status_field.text.toString(), requireContext())
+            val statusCurrent = StringFormat.formatListStatusInverted(binding.statusField.text.toString(), requireContext())
             val statusOrigin = myListStatus?.status
 
             var score :Int? = null
-            val scoreCurrent = score_slider.value.toInt()
+            val scoreCurrent = binding.scoreSlider.value.toInt()
             val scoreOrigin = myListStatus?.score
 
             var chapters: Int? = null
-            val chaptersCurrent = chapters_field.text.toString().toIntOrNull()
+            val chaptersCurrent = binding.chaptersField.text.toString().toIntOrNull()
             val chaptersOrigin = myListStatus?.num_chapters_read
             var volumes: Int? = null
-            val volumesCurrent = volumes_field.text.toString().toIntOrNull()
+            val volumesCurrent = binding.volumesField.text.toString().toIntOrNull()
             val volumesOrigin = myListStatus?.num_volumes_read
             if (statusCurrent!=statusOrigin) {
                 status = statusCurrent
@@ -87,7 +90,7 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
             }
             initUpdateCall(status, score, chapters, volumes)
         }
-        cancel_button?.setOnClickListener {
+        binding.cancelButton.setOnClickListener {
             syncListStatus()
             dismiss()
         }
@@ -95,18 +98,18 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
         val statusItems = listOf(getString(R.string.reading), getString(R.string.completed),
             getString(R.string.on_hold), getString(R.string.dropped), getString(R.string.ptr))
         val adapter = ArrayAdapter(requireContext(), R.layout.list_status_item, statusItems)
-        (status_layout.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+        (binding.statusLayout.editText as? AutoCompleteTextView)?.setAdapter(adapter)
 
-        score_slider.addOnChangeListener { _, value, _ ->
+        binding.scoreSlider.addOnChangeListener { _, value, _ ->
             val scoreTextValue = "${getString(R.string.score_value)} " +
                     value.toInt().let { StringFormat.formatScore(it, requireContext()) }
-            score_text?.text = scoreTextValue
+            binding.scoreText.text = scoreTextValue
         }
         val scoreTextValue = "${getString(R.string.score_value)} " +
-                score_slider.value.toInt().let { StringFormat.formatScore(it, requireContext()) }
-        score_text?.text = scoreTextValue
+                binding.scoreSlider.value.toInt().let { StringFormat.formatScore(it, requireContext()) }
+        binding.scoreText.text = scoreTextValue
 
-        delete_button?.setOnClickListener {
+        binding.deleteButton.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle(resources.getString(R.string.delete))
                 .setMessage(resources.getString(R.string.delete_confirmation))
@@ -119,31 +122,31 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
                 }
                 .show()
         }
-        chapters_layout.suffixText = "/$numChapters"
-        volumes_layout.suffixText = "/$numVolumes"
+        binding.chaptersLayout.suffixText = "/$numChapters"
+        binding.volumesLayout.suffixText = "/$numVolumes"
 
-        minus_ch_button.setOnClickListener {
-            val inputChapters = chapters_field.text.toString().toIntOrNull() ?: 0
+        binding.minusChButton.setOnClickListener {
+            val inputChapters = binding.chaptersField.text.toString().toIntOrNull() ?: 0
             if (inputChapters > 0) {
-                chapters_field.setText((inputChapters - 1).toString())
+                binding.chaptersField.setText((inputChapters - 1).toString())
             }
         }
-        plus_ch_button.setOnClickListener {
-            val inputChapters = chapters_field.text.toString().toIntOrNull() ?: 0
+        binding.plusChButton.setOnClickListener {
+            val inputChapters = binding.chaptersField.text.toString().toIntOrNull() ?: 0
             if (inputChapters < numChapters || numChapters == 0) {
-                chapters_field.setText((inputChapters + 1).toString())
+                binding.chaptersField.setText((inputChapters + 1).toString())
             }
         }
-        minus_vol_button.setOnClickListener {
-            val inputVolumes = volumes_field.text.toString().toIntOrNull() ?: 0
+        binding.minusVolButton.setOnClickListener {
+            val inputVolumes = binding.volumesField.text.toString().toIntOrNull() ?: 0
             if (inputVolumes > 0) {
-                volumes_field.setText((inputVolumes - 1).toString())
+                binding.volumesField.setText((inputVolumes - 1).toString())
             }
         }
-        plus_vol_button.setOnClickListener {
-            val inputVolumes = volumes_field.text.toString().toIntOrNull() ?: 0
+        binding.plusVolButton.setOnClickListener {
+            val inputVolumes = binding.volumesField.text.toString().toIntOrNull() ?: 0
             if (inputVolumes < numVolumes || numVolumes == 0) {
-                volumes_field.setText((inputVolumes + 1).toString())
+                binding.volumesField.setText((inputVolumes + 1).toString())
             }
         }
 
@@ -151,32 +154,32 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
             syncListStatus()
         }
         // chapters/volumes input logic
-        chapters_layout.editText?.doOnTextChanged { text, _, _, _ ->
+        binding.chaptersLayout.editText?.doOnTextChanged { text, _, _, _ ->
             val inputChapters = text.toString().toIntOrNull()
             if (numChapters!=0) {
                 if (text.isNullOrEmpty() || text.isBlank() || inputChapters==null
                     || inputChapters > numChapters) {
-                    chapters_layout.error = getString(R.string.invalid_number)
-                } else { chapters_layout.error = null }
+                    binding.chaptersLayout.error = getString(R.string.invalid_number)
+                } else { binding.chaptersLayout.error = null }
             }
             else {
                 if (text.isNullOrEmpty() || text.isBlank()) {
-                    chapters_layout.error = getString(R.string.invalid_number)
-                } else { chapters_layout.error = null }
+                    binding.chaptersLayout.error = getString(R.string.invalid_number)
+                } else { binding.chaptersLayout.error = null }
             }
         }
-        volumes_layout.editText?.doOnTextChanged { text, _, _, _ ->
+        binding.volumesLayout.editText?.doOnTextChanged { text, _, _, _ ->
             val inputVolumes = text.toString().toIntOrNull()
             if (numVolumes!=0) {
                 if (text.isNullOrEmpty() || text.isBlank() || inputVolumes==null
                     || inputVolumes > numVolumes) {
-                    volumes_layout.error = getString(R.string.invalid_number)
-                } else { volumes_layout.error = null }
+                    binding.volumesLayout.error = getString(R.string.invalid_number)
+                } else { binding.volumesLayout.error = null }
             }
             else {
                 if (text.isNullOrEmpty() || text.isBlank()) {
-                    volumes_layout.error = getString(R.string.invalid_number)
-                } else { volumes_layout.error = null }
+                    binding.volumesLayout.error = getString(R.string.invalid_number)
+                } else { binding.volumesLayout.error = null }
             }
         }
     }
@@ -184,7 +187,7 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
     private fun initUpdateCall(status: String?, score: Int?, chaptersRead: Int?, volumesRead: Int?) {
         val shouldNotUpdate = status.isNullOrEmpty() && score==null && chaptersRead==null && volumesRead==null
         if (!shouldNotUpdate && isAdded) {
-            loading.show()
+            binding.loading.show()
             val updateListCall = MyApplication.malApiService
                 .updateMangaList(Urls.apiBaseUrl + "manga/$mangaId/my_list_status", status, score, chaptersRead, volumesRead)
             patchCall(updateListCall)
@@ -199,11 +202,11 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
                     entryUpdated = true
                     val toastText = getString(R.string.updated)
                     Toast.makeText(requireContext(), toastText, Toast.LENGTH_SHORT).show()
-                    loading.hide()
+                    binding.loading.hide()
                     this@EditMangaFragment.dismiss()
                 }
                 else if (isAdded) {
-                    loading.hide()
+                    binding.loading.hide()
                     Toast.makeText(requireContext(), getString(R.string.error_updating_list), Toast.LENGTH_SHORT).show()
                 }
             }
@@ -211,7 +214,7 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
             override fun onFailure(call: Call<MyMangaListStatus>, t: Throwable) {
                 Log.d("MoeLog", t.toString())
                 if (isAdded) {
-                    loading.hide()
+                    binding.loading.hide()
                     Toast.makeText(requireContext(), getString(R.string.error_server), Toast.LENGTH_SHORT).show()
                 }
             }
@@ -225,12 +228,12 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
                 if (response.isSuccessful && isAdded) {
                     myListStatus = null
                     entryUpdated = true
-                    loading.hide()
+                    binding.loading.hide()
                     Toast.makeText(requireContext(), getString(R.string.deleted), Toast.LENGTH_SHORT).show()
                     dismiss()
                 }
                 else if (isAdded) {
-                    loading.hide()
+                    binding.loading.hide()
                     Toast.makeText(requireContext(), getString(R.string.error_delete_entry), Toast.LENGTH_SHORT).show()
                 }
             }
@@ -238,7 +241,7 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 Log.d("MoeLog", t.toString())
                 if (isAdded) {
-                    loading.hide()
+                    binding.loading.hide()
                     Toast.makeText(requireContext(), getString(R.string.error_server), Toast.LENGTH_SHORT).show()
                 }
             }
@@ -247,14 +250,14 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
 
     private fun syncListStatus() {
         val chaptersRead = myListStatus?.num_chapters_read
-        chapters_field.setText(chaptersRead.toString())
+        binding.chaptersField.setText(chaptersRead.toString())
         val volumesRead = myListStatus?.num_volumes_read
-        volumes_field.setText(volumesRead.toString())
+        binding.volumesField.setText(volumesRead.toString())
 
         val statusValue = StringFormat.formatListStatus(myListStatus?.status, requireContext())
-        status_field.setText(statusValue, false)
+        binding.statusField.setText(statusValue, false)
 
-        score_slider.value = myListStatus?.score?.toFloat() ?: 0f
+        binding.scoreSlider.value = myListStatus?.score?.toFloat() ?: 0f
     }
 
     override fun onDismiss(dialog: DialogInterface) {
@@ -266,6 +269,11 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
     override fun onAttach(context: Context) {
         super.onAttach(context)
         dataPasser = context as OnDataPass
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     interface OnDataPass {

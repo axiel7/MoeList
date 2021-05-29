@@ -6,9 +6,9 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.axiel7.moelist.R
+import com.axiel7.moelist.databinding.ActivityRankingBinding
 import com.axiel7.moelist.ui.BaseActivity
 import com.google.android.material.transition.platform.MaterialSharedAxis
-import kotlinx.android.synthetic.main.activity_ranking.*
 
 class RankingActivity : BaseActivity() {
 
@@ -16,6 +16,7 @@ class RankingActivity : BaseActivity() {
     private val rankingPopFragment = RankingFragment()
     private val allBundle = Bundle()
     private val popBundle = Bundle()
+    private lateinit var binding: ActivityRankingBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         window.enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
@@ -23,7 +24,8 @@ class RankingActivity : BaseActivity() {
         window.allowEnterTransitionOverlap = true
         window.allowReturnTransitionOverlap = true
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_ranking)
+        binding = ActivityRankingBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         window.statusBarColor = getColorFromAttr(R.attr.colorToolbar)
 
@@ -35,17 +37,17 @@ class RankingActivity : BaseActivity() {
         rankingAllFragment.arguments = allBundle
         rankingPopFragment.arguments = popBundle
 
-        ranking_viewpager.offscreenPageLimit = 0
-        setupViewPager(ranking_viewpager)
-        ranking_tab_layout.setupWithViewPager(ranking_viewpager)
+        binding.rankingViewpager.offscreenPageLimit = 0
+        setupViewPager(binding.rankingViewpager)
+        binding.rankingTabLayout.setupWithViewPager(binding.rankingViewpager)
 
-        setSupportActionBar(ranking_toolbar)
+        setSupportActionBar(binding.rankingToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
-        ranking_toolbar.setNavigationOnClickListener { onBackPressed() }
+        binding.rankingToolbar.setNavigationOnClickListener { onBackPressed() }
         when(mediaType) {
-            "anime" -> ranking_toolbar.title = getString(R.string.anime_ranking)
-            "manga" -> ranking_toolbar.title = getString(R.string.manga)
+            "anime" -> binding.rankingToolbar.title = getString(R.string.anime_ranking)
+            "manga" -> binding.rankingToolbar.title = getString(R.string.manga)
         }
 
     }

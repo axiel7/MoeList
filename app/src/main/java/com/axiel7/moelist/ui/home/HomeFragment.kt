@@ -17,6 +17,7 @@ import com.axiel7.moelist.adapter.AiringAnimeAdapter
 import com.axiel7.moelist.adapter.CurrentSeasonalAdapter
 import com.axiel7.moelist.adapter.EndListReachedListener
 import com.axiel7.moelist.adapter.RecommendationsAdapter
+import com.axiel7.moelist.databinding.FragmentHomeBinding
 import com.axiel7.moelist.model.*
 import com.axiel7.moelist.ui.charts.RankingActivity
 import com.axiel7.moelist.ui.charts.SeasonalActivity
@@ -24,7 +25,6 @@ import com.axiel7.moelist.ui.details.AnimeDetailsActivity
 import com.axiel7.moelist.utils.*
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_home.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -44,6 +44,8 @@ class HomeFragment : Fragment() {
     private var animesRecommendResponse: AnimeListResponse? = null
     private var todayResponse: SeasonalAnimeResponse? = null
     private var showNsfw = 0
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,28 +85,27 @@ class HomeFragment : Fragment() {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
-
-        return inflater.inflate(R.layout.fragment_home, container, false)
+    ): View {
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        anime_rank.setOnClickListener { openRanking("anime", anime_rank) }
-        manga_rank.setOnClickListener { openRanking("manga", manga_rank) }
-        seasonal_chart.setOnClickListener { openSeasonChart(seasonal_chart) }
-        random.setOnClickListener { openDetails(-1, random) }
+        binding.animeRank.setOnClickListener { openRanking("anime", it) }
+        binding.mangaRank.setOnClickListener { openRanking("manga", it) }
+        binding.seasonalChart.setOnClickListener { openSeasonChart(it) }
+        binding.random.setOnClickListener { openDetails(-1, it) }
 
         if (isAdded) {
             if (animeListSeasonal.isEmpty()) {
-                loading_season.show()
-            } else { loading_season.hide() }
+                binding.loadingSeason.show()
+            } else { binding.loadingSeason.hide() }
         }
         animeRankingAdapter = CurrentSeasonalAdapter(
             animeListSeasonal,
-            R.layout.list_item_anime,
             onClickListener = { itemView, animeRanking ->  openDetails(animeRanking.node.id, itemView)})
-        season_recycler.adapter = animeRankingAdapter
+        binding.seasonRecycler.adapter = animeRankingAdapter
         val seasonTitle = view.findViewById<TextView>(R.id.season_title)
         val seasonValue = "${StringFormat.formatSeason(currentSeason.season, requireContext())} ${currentSeason.year}"
         seasonTitle.text = seasonValue
@@ -112,13 +113,12 @@ class HomeFragment : Fragment() {
 
         if (isAdded) {
             if (animeListRecommend.isEmpty()) {
-                loading_recommend.show()
-            } else { loading_season.hide() }
+                binding.loadingRecommend.show()
+            } else { binding.loadingRecommend.hide() }
         }
         animeRecommendAdapter =
                 RecommendationsAdapter(
                     animeListRecommend,
-                    R.layout.list_item_anime,
                     onClickListener = { itemView, animeList -> openDetails(animeList.node.id, itemView) }
                 )
         animeRankingAdapter.setEndListReachedListener(object :EndListReachedListener {
@@ -132,17 +132,16 @@ class HomeFragment : Fragment() {
                 }
             }
         })
-        recommend_recycler.adapter = animeRecommendAdapter
+        binding.recommendRecycler.adapter = animeRecommendAdapter
 
         if (isAdded) {
             if (todayList.isEmpty()) {
-                loading_today.show()
-            } else { loading_season.hide() }
+                binding.loadingToday.show()
+            } else { binding.loadingToday.hide() }
         }
         todayAdapter =
             AiringAnimeAdapter(
                 todayList,
-                R.layout.list_item_anime_today,
                 requireContext(),
                 onClickListener = { itemView, animeList -> openDetails(animeList.node.id, itemView) }
             )
@@ -157,7 +156,7 @@ class HomeFragment : Fragment() {
                 }
             }
         })
-        today_recycler.adapter = todayAdapter
+        binding.todayRecycler.adapter = todayAdapter
         val todayTitle = view.findViewById<TextView>(R.id.today_title)
         todayTitle.setOnClickListener { openToday() }
 
@@ -203,17 +202,17 @@ class HomeFragment : Fragment() {
                             }
                         }
                         animeDb?.rankingAnimeDao()?.insertAllRankingAnimes(animeList2)
-                        loading_season.hide()
+                        binding.loadingSeason.hide()
                         animeRankingAdapter.notifyDataSetChanged()
                     }
                     else {
-                        loading_season.hide()
+                        binding.loadingSeason.hide()
                         animesRankingResponse = responseOld
                     }
                 }
                 else if (response.code()==401) {
                     if (isAdded) {
-                        Snackbar.make(home_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(binding.root, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                     }
                 }
 
@@ -224,8 +223,8 @@ class HomeFragment : Fragment() {
             override fun onFailure(call: Call<AnimeRankingResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
                 if (isAdded) {
-                    if (animeListSeasonal.isNotEmpty()) { loading_season.hide() }
-                    Snackbar.make(home_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    if (animeListSeasonal.isNotEmpty()) { binding.loadingSeason.hide() }
+                    Snackbar.make(binding.root, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
                 val recommendCall = malApiService.getAnimeRecommend(30)
                 initRecommendCall(recommendCall, true)
@@ -251,11 +250,11 @@ class HomeFragment : Fragment() {
                         }
                         animeListRecommend.addAll(animeList2)
                         animeDb?.listAnimeDao()?.insertAllListAnimes(animeList2)
-                        loading_recommend.hide()
+                        binding.loadingRecommend.hide()
                         animeRecommendAdapter.notifyDataSetChanged()
                     }
                     else {
-                        loading_recommend.hide()
+                        binding.loadingRecommend.hide()
                         animesRecommendResponse = responseOld
                     }
 
@@ -267,11 +266,11 @@ class HomeFragment : Fragment() {
                             }
                         }
                     })
-                    loading_recommend.hide()
+                    binding.loadingRecommend.hide()
                 }
                 else if (response.code()==401) {
                     if (isAdded) {
-                        Snackbar.make(home_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(binding.root, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -279,8 +278,8 @@ class HomeFragment : Fragment() {
             override fun onFailure(call: Call<AnimeListResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
                 if (isAdded) {
-                    if (animeListRecommend.isNotEmpty()) { loading_recommend.hide() }
-                    Snackbar.make(home_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    if (animeListRecommend.isNotEmpty()) { binding.loadingRecommend.hide() }
+                    Snackbar.make(binding.root, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
             }
         })
@@ -311,15 +310,15 @@ class HomeFragment : Fragment() {
                         call.cancel()
                         val nextPage: String? = todayResponse!!.paging?.next
                         if (nextPage.isNullOrEmpty()) {
-                            today_recycler.visibility = View.INVISIBLE
-                            loading_today.visibility = View.INVISIBLE
-                            empty_today.visibility = View.VISIBLE
+                            binding.todayRecycler.visibility = View.INVISIBLE
+                            binding.loadingToday.hide()
+                            binding.emptyToday.visibility = View.VISIBLE
                         }
                     }
                     else {
                         animeDb?.seasonalListDao()?.insertAllSeasonalAnimes(todayList)
                         todayList.sortByDescending { it.node.mean }
-                        loading_today.hide()
+                        binding.loadingToday.hide()
                         todayAdapter.notifyDataSetChanged()
                     }
                 }
@@ -336,9 +335,9 @@ class HomeFragment : Fragment() {
             override fun onFailure(call: Call<SeasonalAnimeResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
                 if (isAdded) {
-                    loading_today.hide()
-                    if (todayList.isEmpty()) { empty_today.visibility = View.VISIBLE }
-                    Snackbar.make(home_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    binding.loadingToday.hide()
+                    if (todayList.isEmpty()) { binding.emptyToday.visibility = View.VISIBLE }
+                    Snackbar.make(binding.root, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                     val rankingCall = malApiService.getAnimeRanking("airing","start_season", 200, showNsfw)
                     initRankingCall(rankingCall, true)
                 }
@@ -379,5 +378,10 @@ class HomeFragment : Fragment() {
         val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity())
         val intent = Intent(context, TodayActivity::class.java)
         startActivity(intent, bundle.toBundle())
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -4,36 +4,29 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.axiel7.moelist.R
+import com.axiel7.moelist.databinding.ListItemSeasonalBinding
 import com.axiel7.moelist.model.SeasonalList
 import com.axiel7.moelist.utils.StringFormat
 
 class SeasonalAnimeAdapter(private val animes: MutableList<SeasonalList>,
-                           private val rowLayout: Int,
                            private val context: Context,
                            private val onClickListener: (View, SeasonalList) -> Unit) :
     RecyclerView.Adapter<SeasonalAnimeAdapter.AnimeViewHolder>() {
     private var endListReachedListener: EndListReachedListener? = null
 
-    class AnimeViewHolder internal constructor(v: View) : RecyclerView.ViewHolder(v) {
-        val animeTitle: TextView = v.findViewById(R.id.anime_title)
-        val animePoster: ImageView = v.findViewById(R.id.anime_poster)
-        val mediaStatusView: TextView = v.findViewById(R.id.media_status)
-        val scoreView: TextView = v.findViewById(R.id.score_text)
-        val broadcastView: TextView = v.findViewById(R.id.broadcast_text)
-
-        init {
-            animePoster.clipToOutline = true
-        }
-    }
+    class AnimeViewHolder(val binding: ListItemSeasonalBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(rowLayout, parent, false)
-        return AnimeViewHolder(view)
+        val binding = ListItemSeasonalBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return AnimeViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
@@ -46,24 +39,24 @@ class SeasonalAnimeAdapter(private val animes: MutableList<SeasonalList>,
         val startTime = broadcast?.start_time
         val score = animes[position].node.mean
 
-        holder.animePoster.load(posterUrl) {
+        holder.binding.animePoster.load(posterUrl) {
             crossfade(true)
             crossfade(500)
             error(R.drawable.ic_launcher_foreground)
             allowHardware(false)
         }
 
-        holder.animeTitle.text = mangaTitle
+        holder.binding.animeTitle.text = mangaTitle
 
         val mediaStatus = if (episodes==0) { "$mediaType (?? ${context.getString(R.string.episodes)})" }
         else { "$mediaType ($episodes ${context.getString(R.string.episodes)})" }
-        holder.mediaStatusView.text = mediaStatus
+        holder.binding.mediaStatus.text = mediaStatus
 
         val scoreText = score?.toString() ?: "??"
-        holder.scoreView.text = scoreText
+        holder.binding.scoreText.text = scoreText
 
         val broadcastValue = "$weekDay $startTime"
-        holder.broadcastView.text = if (broadcast!=null) { broadcastValue }
+        holder.binding.broadcastText.text = if (broadcast!=null) { broadcastValue }
         else { context.getString(R.string.unknown) }
 
         val manga = animes[position]

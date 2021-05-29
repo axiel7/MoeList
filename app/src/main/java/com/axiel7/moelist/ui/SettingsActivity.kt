@@ -13,29 +13,30 @@ import androidx.preference.PreferenceManager
 import com.axiel7.moelist.BuildConfig
 import com.axiel7.moelist.R
 import com.axiel7.moelist.UseCases
+import com.axiel7.moelist.databinding.ActivitySettingsBinding
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
-import kotlinx.android.synthetic.main.activity_settings.*
-
 
 @Suppress("unused")
 class SettingsActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var sharedPreferences: SharedPreferences
     private var themeChanged = false
+    private lateinit var binding: ActivitySettingsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+        binding = ActivitySettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         val settingsFragment = SettingsFragment()
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.settings_container, settingsFragment)
             .commit()
 
-        setSupportActionBar(setting_toolbar)
+        setSupportActionBar(binding.settingToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-        setting_toolbar.setNavigationOnClickListener { onBackPressed() }
+        binding.settingToolbar.setNavigationOnClickListener { onBackPressed() }
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         when(sharedPreferences.getString("theme", "follow_system")) {

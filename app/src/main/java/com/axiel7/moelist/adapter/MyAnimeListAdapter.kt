@@ -4,18 +4,14 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.axiel7.moelist.R
+import com.axiel7.moelist.databinding.ListItemAnimelistBinding
 import com.axiel7.moelist.model.UserAnimeList
 import com.axiel7.moelist.utils.StringFormat
 
 class MyAnimeListAdapter(private val animes: MutableList<UserAnimeList>,
-                         private val rowLayout: Int,
                          private val context: Context,
                          private val onClickListener: (View, UserAnimeList, Int) -> Unit,
                          private val onLongClickListener: (View, UserAnimeList, Int) -> Unit) :
@@ -23,26 +19,16 @@ class MyAnimeListAdapter(private val animes: MutableList<UserAnimeList>,
     private var endListReachedListener: EndListReachedListener? = null
     private var plusButtonTouchedListener: PlusButtonTouchedListener? = null
 
-    inner class AnimeViewHolder internal constructor(v: View) : RecyclerView.ViewHolder(v) {
-        val animeTitle: TextView = v.findViewById(R.id.anime_title)
-        val animePoster: ImageView = v.findViewById(R.id.anime_poster)
-        val animeScore: TextView = v.findViewById(R.id.score_text)
-        val progressText: TextView = v.findViewById(R.id.progress_text)
-        val progressBar: ProgressBar = v.findViewById(R.id.episodes_progress)
-        val mediaStatus: TextView = v.findViewById(R.id.media_status)
-        val plusButton: Button = v.findViewById(R.id.add_one_button)
-
-        init {
-            plusButton.setOnClickListener { view ->
-                plusButtonTouchedListener?.onButtonTouched(view, adapterPosition) }
-            animePoster.clipToOutline = true
-        }
-    }
+    inner class AnimeViewHolder(val binding: ListItemAnimelistBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(rowLayout, parent, false)
-
-        return AnimeViewHolder(view)
+        val binding = ListItemAnimelistBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return AnimeViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
@@ -59,30 +45,30 @@ class MyAnimeListAdapter(private val animes: MutableList<UserAnimeList>,
         val progressText = "$watchedEpisodes/$totalEpisodes"
         val mediaStatus = "$mediaType • $status"
 
-        holder.animePoster.load(posterUrl) {
+        holder.binding.animePoster.load(posterUrl) {
             crossfade(true)
             crossfade(500)
             error(R.drawable.ic_launcher_foreground)
             allowHardware(false)
         }
-        holder.animeTitle.text = animeTitle
+        holder.binding.animeTitle.text = animeTitle
 
         if (animeScore==0) {
-            holder.animeScore.text = "─"
+            holder.binding.scoreText.text = "─"
         } else {
-            holder.animeScore.text = animeScore.toString()
+            holder.binding.scoreText.text = animeScore.toString()
         }
 
-        holder.progressText.text = progressText
-        holder.mediaStatus.text = mediaStatus
+        holder.binding.progressText.text = progressText
+        holder.binding.mediaStatus.text = mediaStatus
         when {
             totalEpisodes != 0 || watchedEpisodes == 0 -> {
-                holder.progressBar.max = totalEpisodes
-                holder.progressBar.progress = watchedEpisodes
+                holder.binding.episodesProgress.max = totalEpisodes
+                holder.binding.episodesProgress.progress = watchedEpisodes
             }
             else -> {
-                holder.progressBar.max = 100
-                holder.progressBar.progress = 50
+                holder.binding.episodesProgress.max = 100
+                holder.binding.episodesProgress.progress = 50
             }
         }
 
@@ -100,12 +86,12 @@ class MyAnimeListAdapter(private val animes: MutableList<UserAnimeList>,
         }
         val listStatus = animes[position].list_status
         if (listStatus?.status == "watching" || listStatus?.is_rewatching == true) {
-            holder.plusButton.visibility = View.VISIBLE
-            holder.plusButton.isEnabled = true
+            holder.binding.addOneButton.visibility = View.VISIBLE
+            holder.binding.addOneButton.isEnabled = true
         }
         else {
-            holder.plusButton.visibility = View.INVISIBLE
-            holder.plusButton.isEnabled = false
+            holder.binding.addOneButton.visibility = View.INVISIBLE
+            holder.binding.addOneButton.isEnabled = false
         }
     }
 

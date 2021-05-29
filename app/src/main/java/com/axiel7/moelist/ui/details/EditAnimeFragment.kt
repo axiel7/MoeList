@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import com.axiel7.moelist.MyApplication
 import com.axiel7.moelist.R
+import com.axiel7.moelist.databinding.BottomSheetEditAnimeBinding
 import com.axiel7.moelist.model.MyListStatus
 import com.axiel7.moelist.utils.InsetsHelper
 import com.axiel7.moelist.utils.StringFormat
@@ -20,9 +21,6 @@ import com.axiel7.moelist.utils.Urls
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.android.synthetic.main.activity_anime_details.*
-import kotlinx.android.synthetic.main.bottom_sheet_edit_anime.*
-import kotlinx.android.synthetic.main.bottom_sheet_edit_anime.score_text
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,13 +31,16 @@ class EditAnimeFragment(private var myListStatus: MyListStatus?,
                         private var position: Int) : BottomSheetDialogFragment() {
     private var entryUpdated: Boolean = false
     private lateinit var dataPasser: OnDataPass
+    private var _binding: BottomSheetEditAnimeBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.bottom_sheet_edit_anime, container, false)
+    ): View {
+        _binding = BottomSheetEditAnimeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,20 +53,20 @@ class EditAnimeFragment(private var myListStatus: MyListStatus?,
         )
 
         if (isAdded) {
-            loading.hide()
+            binding.loading.hide()
         }
-        apply_button?.setOnClickListener {
+        binding.applyButton.setOnClickListener {
 
             var status :String? = null
-            val statusCurrent = StringFormat.formatListStatusInverted(status_field.text.toString(), requireContext())
+            val statusCurrent = StringFormat.formatListStatusInverted(binding.statusField.text.toString(), requireContext())
             val statusOrigin = myListStatus?.status
 
             var score :Int? = null
-            val scoreCurrent = score_slider.value.toInt()
+            val scoreCurrent = binding.scoreSlider.value.toInt()
             val scoreOrigin = myListStatus?.score
 
             var episodes: Int? = null
-            val episodesCurrent = episodes_field.text.toString().toIntOrNull()
+            val episodesCurrent = binding.episodesField.text.toString().toIntOrNull()
             val episodesOrigin = myListStatus?.num_episodes_watched
             if (statusCurrent!=statusOrigin) {
                 status = statusCurrent
@@ -82,7 +83,7 @@ class EditAnimeFragment(private var myListStatus: MyListStatus?,
             initUpdateCall(status, score, episodes)
         }
 
-        cancel_button?.setOnClickListener {
+        binding.cancelButton.setOnClickListener {
             syncListStatus()
             dismiss()
         }
@@ -90,16 +91,16 @@ class EditAnimeFragment(private var myListStatus: MyListStatus?,
         val statusItems = listOf(getString(R.string.watching), getString(R.string.completed),
             getString(R.string.on_hold), getString(R.string.dropped), getString(R.string.ptw))
         val adapter = ArrayAdapter(requireContext(), R.layout.list_status_item, statusItems)
-        (status_layout.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+        (binding.statusLayout.editText as? AutoCompleteTextView)?.setAdapter(adapter)
 
-        score_slider.addOnChangeListener { _, value, _ ->
+        binding.scoreSlider.addOnChangeListener { _, value, _ ->
             val scoreTextValue = "${getString(R.string.score_value)} " + value.toInt().let { StringFormat.formatScore(it, requireContext()) }
-            score_text?.text = scoreTextValue
+            binding.scoreText.text = scoreTextValue
         }
-        val scoreTextValue = "${getString(R.string.score_value)} " + score_slider.value.toInt().let { StringFormat.formatScore(it, requireContext()) }
-        score_text?.text = scoreTextValue
+        val scoreTextValue = "${getString(R.string.score_value)} " + binding.scoreSlider.value.toInt().let { StringFormat.formatScore(it, requireContext()) }
+        binding.scoreText.text = scoreTextValue
 
-        delete_button?.setOnClickListener {
+        binding.deleteButton.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle(resources.getString(R.string.delete))
                 .setMessage(resources.getString(R.string.delete_confirmation))
@@ -113,17 +114,17 @@ class EditAnimeFragment(private var myListStatus: MyListStatus?,
                 .show()
         }
 
-        episodes_field_layout.suffixText = "/$numEpisodes"
-        minus_button.setOnClickListener {
-            val inputEpisodes = episodes_field.text.toString().toIntOrNull() ?: 0
+        binding.episodesFieldLayout.suffixText = "/$numEpisodes"
+        binding.minusButton.setOnClickListener {
+            val inputEpisodes = binding.episodesField.text.toString().toIntOrNull() ?: 0
             if (inputEpisodes > 0) {
-                episodes_field.setText((inputEpisodes - 1).toString())
+                binding.episodesField.setText((inputEpisodes - 1).toString())
             }
         }
-        plus_button.setOnClickListener {
-            val inputEpisodes = episodes_field.text.toString().toIntOrNull() ?: 0
+        binding.plusButton.setOnClickListener {
+            val inputEpisodes = binding.episodesField.text.toString().toIntOrNull() ?: 0
             if (inputEpisodes < numEpisodes || numEpisodes == 0) {
-                episodes_field.setText((inputEpisodes + 1).toString())
+                binding.episodesField.setText((inputEpisodes + 1).toString())
             }
         }
 
@@ -131,18 +132,18 @@ class EditAnimeFragment(private var myListStatus: MyListStatus?,
             syncListStatus()
         }
         //episodes input logic
-        episodes_field_layout.editText?.doOnTextChanged { text, _, _, _ ->
+        binding.episodesFieldLayout.editText?.doOnTextChanged { text, _, _, _ ->
             val inputEpisodes = text.toString().toIntOrNull()
             if (numEpisodes!=0) {
                 if (text.isNullOrEmpty() || text.isBlank() || inputEpisodes==null
                     || inputEpisodes > numEpisodes) {
-                    episodes_field_layout.error = getString(R.string.invalid_number)
-                } else { episodes_field_layout.error = null }
+                    binding.episodesFieldLayout.error = getString(R.string.invalid_number)
+                } else { binding.episodesFieldLayout.error = null }
             }
             else {
                 if (text.isNullOrEmpty() || text.isBlank()) {
-                    episodes_field_layout.error = getString(R.string.invalid_number)
-                } else { episodes_field_layout.error = null }
+                    binding.episodesFieldLayout.error = getString(R.string.invalid_number)
+                } else { binding.episodesFieldLayout.error = null }
             }
         }
     }
@@ -150,7 +151,7 @@ class EditAnimeFragment(private var myListStatus: MyListStatus?,
     private fun initUpdateCall(status: String?, score: Int?, watchedEpisodes: Int?) {
         val shouldNotUpdate = status.isNullOrEmpty() && score==null && watchedEpisodes==null
         if (!shouldNotUpdate && isAdded) {
-            loading.show()
+            binding.loading.show()
             val updateListCall = MyApplication.malApiService
                 .updateAnimeList(Urls.apiBaseUrl + "anime/$animeId/my_list_status", status, score, watchedEpisodes)
             patchCall(updateListCall)
@@ -165,11 +166,11 @@ class EditAnimeFragment(private var myListStatus: MyListStatus?,
                     entryUpdated = true
                     val toastText = getString(R.string.updated)
                     Toast.makeText(requireContext(), toastText, Toast.LENGTH_SHORT).show()
-                    loading.hide()
+                    binding.loading.hide()
                     this@EditAnimeFragment.dismiss()
                 }
                 else if (isAdded) {
-                    loading.hide()
+                    binding.loading.hide()
                     Toast.makeText(requireContext(), getString(R.string.error_updating_list), Toast.LENGTH_SHORT).show()
                 }
             }
@@ -177,7 +178,7 @@ class EditAnimeFragment(private var myListStatus: MyListStatus?,
             override fun onFailure(call: Call<MyListStatus>, t: Throwable) {
                 Log.d("MoeLog", t.toString())
                 if (isAdded) {
-                    loading.hide()
+                    binding.loading.hide()
                     Toast.makeText(requireContext(), getString(R.string.error_server), Toast.LENGTH_SHORT).show()
                 }
             }
@@ -192,12 +193,12 @@ class EditAnimeFragment(private var myListStatus: MyListStatus?,
                     myListStatus = null
                     //changeFabAction()
                     entryUpdated = true
-                    loading.hide()
+                    binding.loading.hide()
                     Toast.makeText(requireContext(), getString(R.string.deleted), Toast.LENGTH_SHORT).show()
                     this@EditAnimeFragment.dismiss()
                 }
                 else if (isAdded) {
-                    loading.hide()
+                    binding.loading.hide()
                     Toast.makeText(requireContext(), getString(R.string.error_delete_entry), Toast.LENGTH_SHORT).show()
                 }
             }
@@ -205,7 +206,7 @@ class EditAnimeFragment(private var myListStatus: MyListStatus?,
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 Log.d("MoeLog", t.toString())
                 if (isAdded) {
-                    loading.hide()
+                    binding.loading.hide()
                     Toast.makeText(requireContext(), getString(R.string.error_server), Toast.LENGTH_SHORT).show()
                 }
             }
@@ -214,12 +215,12 @@ class EditAnimeFragment(private var myListStatus: MyListStatus?,
 
     private fun syncListStatus() {
         val watchedEpisodes = myListStatus?.num_episodes_watched
-        episodes_field.setText(watchedEpisodes.toString())
+        binding.episodesField.setText(watchedEpisodes.toString())
 
         val statusValue = StringFormat.formatListStatus(myListStatus?.status, requireContext())
-        status_field.setText(statusValue, false)
+        binding.statusField.setText(statusValue, false)
 
-        score_slider.value = myListStatus?.score?.toFloat() ?: 0f
+        binding.scoreSlider.value = myListStatus?.score?.toFloat() ?: 0f
     }
 
     override fun onDismiss(dialog: DialogInterface) {
@@ -231,6 +232,11 @@ class EditAnimeFragment(private var myListStatus: MyListStatus?,
     override fun onAttach(context: Context) {
         super.onAttach(context)
         dataPasser = context as OnDataPass
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     interface OnDataPass {

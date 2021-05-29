@@ -6,36 +6,33 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.axiel7.moelist.R
+import com.axiel7.moelist.databinding.ListItemThemeBinding
 import com.axiel7.moelist.model.Theme
 
-
-class ThemesAdapter(
-    private val themes: MutableList<Theme>,
-    private val rowLayout: Int,
-    private val context: Context
-) :
+class ThemesAdapter(private val themes: MutableList<Theme>,
+                    private val context: Context) :
     RecyclerView.Adapter<ThemesAdapter.AnimeViewHolder>() {
     private var endListReachedListener: EndListReachedListener? = null
 
-    class AnimeViewHolder internal constructor(v: View) : RecyclerView.ViewHolder(v) {
-        val themeView: TextView = v.findViewById(R.id.theme)
-    }
+    class AnimeViewHolder(val binding: ListItemThemeBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(rowLayout, parent, false)
-        return AnimeViewHolder(view)
+        val binding = ListItemThemeBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return AnimeViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
         val themeText = themes[position].text
 
-        holder.themeView.text = themeText
+        holder.binding.theme.text = themeText
 
         var query = themeText.replace(" ", "+", true)
         if (query.startsWith("#")) {

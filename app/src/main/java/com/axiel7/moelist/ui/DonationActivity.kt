@@ -6,27 +6,29 @@ import android.os.Bundle
 import android.widget.Toast
 import com.android.billingclient.api.*
 import com.axiel7.moelist.R
+import com.axiel7.moelist.databinding.ActivityDonationsBinding
 import com.google.android.material.transition.platform.MaterialFadeThrough
-import kotlinx.android.synthetic.main.activity_donations.*
 
 
 class DonationActivity : BaseActivity(), PurchasesUpdatedListener {
 
     private lateinit var billingClient: BillingClient
     private val skuList = listOf("coffee", "burger")
+    private lateinit var binding: ActivityDonationsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         window.enterTransition = MaterialFadeThrough()
         window.allowEnterTransitionOverlap = true
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_donations)
+        binding = ActivityDonationsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        setSupportActionBar(donations_toolbar)
+        setSupportActionBar(binding.donationsToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
-        donations_toolbar.setNavigationOnClickListener { onBackPressed() }
+        binding.donationsToolbar.setNavigationOnClickListener { onBackPressed() }
 
-        github_button.setOnClickListener {
+        binding.githubButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse("https://github.com/axiel7/MoeList")
             startActivity(intent)
@@ -69,7 +71,7 @@ class DonationActivity : BaseActivity(), PurchasesUpdatedListener {
                     for (skuDetails in skuDetailsList) {
                         //this will return both the SKUs from Google Play Console
                         if (skuDetails.sku == "coffee") {
-                            coffee_button.setOnClickListener {
+                            binding.coffeeButton.setOnClickListener {
                                 val billingFlowParams = BillingFlowParams
                                     .newBuilder()
                                     .setSkuDetails(skuDetails)
@@ -78,7 +80,7 @@ class DonationActivity : BaseActivity(), PurchasesUpdatedListener {
                             }
                         }
                         if (skuDetails.sku == "burger") {
-                            burger_button.setOnClickListener {
+                            binding.burgerButton.setOnClickListener {
                                 val billingFlowParams = BillingFlowParams
                                     .newBuilder()
                                     .setSkuDetails(skuDetails)

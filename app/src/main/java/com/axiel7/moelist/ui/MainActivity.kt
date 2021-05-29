@@ -13,6 +13,7 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.axiel7.moelist.MyApplication
 import com.axiel7.moelist.R
+import com.axiel7.moelist.databinding.ActivityMainBinding
 import com.axiel7.moelist.ui.animelist.AnimeListFragment
 import com.axiel7.moelist.ui.details.EditAnimeFragment
 import com.axiel7.moelist.ui.details.EditMangaFragment
@@ -22,7 +23,6 @@ import com.axiel7.moelist.ui.profile.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.transition.platform.MaterialSharedAxis
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity(), EditAnimeFragment.OnDataPass, EditMangaFragment.OnDataPass {
 
@@ -34,10 +34,12 @@ class MainActivity : BaseActivity(), EditAnimeFragment.OnDataPass, EditMangaFrag
     private val enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
     private val exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
     private lateinit var bottomSheetDialog: BottomSheetDialog
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         //shared preferences
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
@@ -53,11 +55,11 @@ class MainActivity : BaseActivity(), EditAnimeFragment.OnDataPass, EditMangaFrag
         }
 
         //toolbar
-        setSupportActionBar(main_toolbar)
+        setSupportActionBar(binding.mainToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        main_toolbar.setNavigationOnClickListener { openSearch(main_toolbar) }
+        binding.mainToolbar.setNavigationOnClickListener { openSearch(it) }
         //main_toolbar.navigationIcon = ContextCompat.getDrawable(this, R.drawable.ic_round_menu_24)
 
         //window.statusBarColor = ContextCompat.getColor(this, R.color.colorBackground)
@@ -65,7 +67,7 @@ class MainActivity : BaseActivity(), EditAnimeFragment.OnDataPass, EditMangaFrag
         // bottom sheet
         bottomSheetDialog = BottomSheetDialog(this)
         bottomSheetDialog.setContentView(R.layout.bottom_sheet_main)
-        profile_picture.setOnClickListener { bottomSheetDialog.show() }
+        binding.profilePicture.setOnClickListener { bottomSheetDialog.show() }
 
         //launch login
         if (!MyApplication.isUserLogged || isTokenNull) {
@@ -75,7 +77,7 @@ class MainActivity : BaseActivity(), EditAnimeFragment.OnDataPass, EditMangaFrag
         }
         else {
             //bottom nav and fragments
-            setupBottomBar(nav_view, defaultSection)
+            setupBottomBar(binding.navView, defaultSection)
             loadUser(sharedPreferences.getString("userPicture", null))
         }
     }
@@ -130,7 +132,7 @@ class MainActivity : BaseActivity(), EditAnimeFragment.OnDataPass, EditMangaFrag
             profileFragment.getUser()
         }
         else {
-            profile_picture.load(userPicture) {
+            binding.profilePicture.load(userPicture) {
                 crossfade(true)
                 crossfade(500)
                 transformations(CircleCropTransformation())
@@ -142,7 +144,7 @@ class MainActivity : BaseActivity(), EditAnimeFragment.OnDataPass, EditMangaFrag
     fun openSearch(view: View) {
         val intent = Intent(this, SearchActivity::class.java)
         val bundle = ActivityOptionsCompat
-            .makeSceneTransitionAnimation(this, main_toolbar, main_toolbar.transitionName).toBundle()
+            .makeSceneTransitionAnimation(this, binding.mainToolbar, binding.mainToolbar.transitionName).toBundle()
         startActivity(intent, bundle)
     }
     fun openSettings(view: View) {

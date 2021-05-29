@@ -15,6 +15,7 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.AnimeRankingAdapter
 import com.axiel7.moelist.adapter.EndListReachedListener
 import com.axiel7.moelist.adapter.MangaRankingAdapter
+import com.axiel7.moelist.databinding.FragmentRankingBinding
 import com.axiel7.moelist.model.AnimeRanking
 import com.axiel7.moelist.model.AnimeRankingResponse
 import com.axiel7.moelist.model.MangaRanking
@@ -24,7 +25,6 @@ import com.axiel7.moelist.ui.details.MangaDetailsActivity
 import com.axiel7.moelist.utils.ResponseConverter
 import com.axiel7.moelist.utils.SharedPrefsHelpers
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_ranking.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,6 +41,8 @@ class RankingFragment : Fragment() {
     private var showNsfw = 0
     private var animeResponse: AnimeRankingResponse? = null
     private var mangaResponse: MangaRankingResponse? = null
+    private var _binding: FragmentRankingBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,8 +62,9 @@ class RankingFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_ranking, container, false)
+    ): View {
+        _binding = FragmentRankingBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,10 +72,9 @@ class RankingFragment : Fragment() {
 
         when(mediaType) {
             "anime" -> {
-                if (rankingAnime.isEmpty() && isAdded) { ranking_loading.show() }
+                if (rankingAnime.isEmpty() && isAdded) { binding.rankingLoading.show() }
                 animeRankingAdapter = AnimeRankingAdapter(
                     rankingAnime,
-                    R.layout.list_item_ranking,
                     requireContext(),
                     onClickListener = {itemView, animeRanking -> openDetails(animeRanking.node.id, itemView)})
                 animeRankingAdapter.setEndListReachedListener(object :EndListReachedListener {
@@ -86,13 +88,12 @@ class RankingFragment : Fragment() {
                         }
                     }
                 })
-                recycler_ranking.adapter = animeRankingAdapter
+                binding.recyclerRanking.adapter = animeRankingAdapter
             }
             "manga" -> {
-                if (rankingManga.isEmpty() && isAdded) { ranking_loading.show() }
+                if (rankingManga.isEmpty() && isAdded) { binding.rankingLoading.show() }
                 mangaRankingAdapter = MangaRankingAdapter(
                     rankingManga,
-                    R.layout.list_item_ranking,
                     requireContext(),
                     onClickListener = {itemView, mangaRanking -> openDetails(mangaRanking.node.id, itemView)})
                 mangaRankingAdapter.setEndListReachedListener(object :EndListReachedListener {
@@ -106,7 +107,7 @@ class RankingFragment : Fragment() {
                         }
                     }
                 })
-                recycler_ranking.adapter = mangaRankingAdapter
+                binding.recyclerRanking.adapter = mangaRankingAdapter
             }
         }
 
@@ -157,19 +158,19 @@ class RankingFragment : Fragment() {
                 }
                 else if (response.code()==401) {
                     if (isAdded) {
-                        Snackbar.make(ranking_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(binding.root, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                     }
                 }
                 if (isAdded) {
-                    ranking_loading.hide()
+                    binding.rankingLoading.hide()
                 }
             }
 
             override fun onFailure(call: Call<AnimeRankingResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
                 if (isAdded) {
-                    ranking_loading.hide()
-                    Snackbar.make(ranking_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    binding.rankingLoading.hide()
+                    Snackbar.make(binding.root, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
             }
         })
@@ -206,18 +207,18 @@ class RankingFragment : Fragment() {
                 }
                 else if (response.code()==401) {
                     if (isAdded) {
-                        Snackbar.make(ranking_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(binding.root, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                     }
                 }
                 if (isAdded) {
-                    ranking_loading.hide()
+                    binding.rankingLoading.hide()
                 }
             }
             override fun onFailure(call: Call<MangaRankingResponse>, t: Throwable) {
                 Log.e("MoeLog", t.toString())
                 if (isAdded) {
-                    ranking_loading.hide()
-                    Snackbar.make(ranking_layout, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
+                    binding.rankingLoading.hide()
+                    Snackbar.make(binding.root, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
                 }
             }
         })
@@ -237,5 +238,10 @@ class RankingFragment : Fragment() {
                 startActivity(intent, bundle.toBundle())
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

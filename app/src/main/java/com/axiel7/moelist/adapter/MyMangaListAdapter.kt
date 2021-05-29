@@ -4,18 +4,14 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.axiel7.moelist.R
+import com.axiel7.moelist.databinding.ListItemMangalistBinding
 import com.axiel7.moelist.model.UserMangaList
 import com.axiel7.moelist.utils.StringFormat
 
 class MyMangaListAdapter(private val mangas: MutableList<UserMangaList>,
-                         private val rowLayout: Int,
                          private val context: Context,
                          private val onClickListener: (View, UserMangaList, Int) -> Unit,
                          private val onLongClickListener: (View, UserMangaList, Int) -> Unit) :
@@ -23,26 +19,16 @@ class MyMangaListAdapter(private val mangas: MutableList<UserMangaList>,
     private var endListReachedListener: EndListReachedListener? = null
     private var plusButtonTouchedListener: PlusButtonTouchedListener? = null
 
-    inner class AnimeViewHolder internal constructor(v: View) : RecyclerView.ViewHolder(v) {
-        val mangaTitle: TextView = v.findViewById(R.id.manga_title)
-        val mangaPoster: ImageView = v.findViewById(R.id.manga_poster)
-        val mangaScore: TextView = v.findViewById(R.id.score_text)
-        val progressText: TextView = v.findViewById(R.id.progress_text)
-        val progressBar: ProgressBar = v.findViewById(R.id.chapters_progress)
-        val mediaStatus: TextView = v.findViewById(R.id.media_status)
-        val plusButton: Button = v.findViewById(R.id.add_one_button)
-
-        init {
-            plusButton.setOnClickListener { view ->
-                plusButtonTouchedListener?.onButtonTouched(view, adapterPosition) }
-            mangaPoster.clipToOutline = true
-        }
-    }
+    inner class AnimeViewHolder(val binding: ListItemMangalistBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(rowLayout, parent, false)
-
-        return AnimeViewHolder(view)
+        val binding = ListItemMangalistBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return AnimeViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
@@ -59,30 +45,30 @@ class MyMangaListAdapter(private val mangas: MutableList<UserMangaList>,
         val progressText = "$chaptersRead/$totalChapters"
         val mediaStatus = "$mediaType • $status"
 
-        holder.mangaPoster.load(posterUrl) {
+        holder.binding.mangaPoster.load(posterUrl) {
             crossfade(true)
             crossfade(500)
             error(R.drawable.ic_launcher_foreground)
             allowHardware(false)
         }
-        holder.mangaTitle.text = mangaTitle
+        holder.binding.mangaTitle.text = mangaTitle
 
         if (mangaScore==0) {
-            holder.mangaScore.text = "─"
+            holder.binding.scoreText.text = "─"
         } else {
-            holder.mangaScore.text = mangaScore.toString()
+            holder.binding.scoreText.text = mangaScore.toString()
         }
 
-        holder.progressText.text = progressText
-        holder.mediaStatus.text = mediaStatus
+        holder.binding.progressText.text = progressText
+        holder.binding.mediaStatus.text = mediaStatus
         when {
             totalChapters != 0 || chaptersRead == 0 -> {
-                holder.progressBar.max = totalChapters
-                holder.progressBar.progress = chaptersRead
+                holder.binding.chaptersProgress.max = totalChapters
+                holder.binding.chaptersProgress.progress = chaptersRead
             }
             else -> {
-                holder.progressBar.max = 100
-                holder.progressBar.progress = 50
+                holder.binding.chaptersProgress.max = 100
+                holder.binding.chaptersProgress.progress = 50
             }
         }
 
@@ -100,12 +86,12 @@ class MyMangaListAdapter(private val mangas: MutableList<UserMangaList>,
         }
         val listStatus = mangas[position].list_status
         if (listStatus?.status == "reading" || listStatus?.is_rereading == true) {
-            holder.plusButton.visibility = View.VISIBLE
-            holder.plusButton.isEnabled = true
+            holder.binding.addOneButton.visibility = View.VISIBLE
+            holder.binding.addOneButton.isEnabled = true
         }
         else {
-            holder.plusButton.visibility = View.INVISIBLE
-            holder.plusButton.isEnabled = false
+            holder.binding.addOneButton.visibility = View.INVISIBLE
+            holder.binding.addOneButton.isEnabled = false
         }
     }
 
