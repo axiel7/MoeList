@@ -84,6 +84,9 @@ class MyAnimeListAdapter(private val animes: MutableList<UserAnimeList>,
             onLongClickListener(view, anime, position)
             true
         }
+        holder.binding.addOneButton.setOnClickListener {
+            plusButtonTouchedListener?.onButtonTouched(it, position)
+        }
         val listStatus = animes[position].list_status
         if (listStatus?.status == "watching" || listStatus?.is_rewatching == true) {
             holder.binding.addOneButton.visibility = View.VISIBLE

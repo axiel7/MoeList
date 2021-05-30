@@ -84,6 +84,9 @@ class MyMangaListAdapter(private val mangas: MutableList<UserMangaList>,
             onLongClickListener(view, manga, position)
             true
         }
+        holder.binding.addOneButton.setOnClickListener {
+            plusButtonTouchedListener?.onButtonTouched(it, position)
+        }
         val listStatus = mangas[position].list_status
         if (listStatus?.status == "reading" || listStatus?.is_rereading == true) {
             holder.binding.addOneButton.visibility = View.VISIBLE
