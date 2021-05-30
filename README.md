@@ -28,6 +28,7 @@ You can help translate the app!
 
 **Coming soon**
 * [See project](https://github.com/axiel7/MoeList/projects/1)
+* [2.0 Version](https://github.com/axiel7/MoeList/projects/2)
 
 **Not possible due to API limitations:**
 * Manga stats
@@ -43,8 +44,6 @@ You can help translate the app!
 * [danielvd_art](https://instagram.com/danielvd_art) (Logo design)
 * [Jeluchu](https://github.com/Jeluchu)
 * [Glodanif](https://github.com/glodanif)
-
-**Disclaimer:** I'm still learning so the code may not be perfect and clean, however I decided to open source this project so everyone can see how the MAL API works and take a reference.
 
 **Libraries used:**
 * [Material Components](https://github.com/material-components/material-components-android)
