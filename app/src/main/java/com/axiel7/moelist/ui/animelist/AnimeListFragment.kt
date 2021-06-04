@@ -40,7 +40,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
 class AnimeListFragment : Fragment() {
 
     private lateinit var sharedPref: SharedPrefsHelpers
@@ -94,7 +93,11 @@ class AnimeListFragment : Fragment() {
             }
         }
 
-        binding.loadingAnimelist.setOnRefreshListener { initCalls(true, null) }
+        binding.loadingAnimelist.setOnRefreshListener { initCalls(
+            shouldClear = true,
+            deleted = false,
+            position = null
+        ) }
 
         animeListAdapter =
                 MyAnimeListAdapter(
@@ -116,7 +119,12 @@ class AnimeListFragment : Fragment() {
                     val nextPage: String? = animeListResponse?.paging?.next
                     if (nextPage!=null) {
                         val getMoreCall = malApiService.getNextAnimeListPage(nextPage)
-                        initAnimeListCall(getMoreCall, false, null, lastPosition)
+                        initAnimeListCall(getMoreCall,
+                            shouldClear = false,
+                            deleted = false,
+                            position = null,
+                            lastPosition = lastPosition
+                        )
                     }
                 }
             }
@@ -170,7 +178,7 @@ class AnimeListFragment : Fragment() {
                 animeListAdapter.notifyDataSetChanged()
             }
             bottomSheetDialog.dismiss()
-            initCalls(true, null)
+            initCalls(shouldClear = true, deleted = false, position = null)
         }
 
         val sortView = dialogView.findViewById<LinearLayoutCompat>(R.id.sort)
@@ -190,7 +198,7 @@ class AnimeListFragment : Fragment() {
                     sharedPref.saveInt("sortAnime", defaultSort)
                     sortSummary.text = StringFormat.formatSortOption(sortMode, requireContext())
                     bottomSheetDialog.dismiss()
-                    initCalls(true, null)
+                    initCalls(shouldClear = true, deleted = false, position = null)
                 }
                 // Single-choice items (initialized with checked item)
                 .setSingleChoiceItems(items, defaultSort) { _, which ->
@@ -214,9 +222,9 @@ class AnimeListFragment : Fragment() {
             }
         })
 
-        initCalls(true, null)
+        initCalls(shouldClear = true, deleted = false, position = null)
     }
-    private fun initCalls(shouldClear: Boolean, position: Int?) {
+    private fun initCalls(shouldClear: Boolean, deleted: Boolean, position: Int?) {
         val animeListCall = if (listStatus == "all") {
             // To return all anime, don't specify status field.
             malApiService.getUserAnimeList(null, "list_status,num_episodes,media_type,status", sortMode, showNsfw)
@@ -225,10 +233,11 @@ class AnimeListFragment : Fragment() {
         }
         if (isAdded) {
             binding.loadingAnimelist.isRefreshing = true
-            initAnimeListCall(animeListCall, shouldClear, position, null)
+            initAnimeListCall(animeListCall, shouldClear, deleted, position, null)
         }
     }
-    private fun initAnimeListCall(call: Call<UserAnimeListResponse>, shouldClear: Boolean, position: Int?, lastPosition: Int?) {
+    private fun initAnimeListCall(call: Call<UserAnimeListResponse>, shouldClear: Boolean, deleted: Boolean,
+                                  position: Int?, lastPosition: Int?) {
         call.enqueue(object: Callback<UserAnimeListResponse> {
             override fun onResponse(call: Call<UserAnimeListResponse>, response: Response<UserAnimeListResponse>) {
 
@@ -258,8 +267,14 @@ class AnimeListFragment : Fragment() {
                                 animeListAdapter.notifyItemRangeInserted(lastPosition, animeList2.size)
                             }
                             position != null -> {
-                                animeList[position] = animeList2[position]
-                                animeListAdapter.notifyItemChanged(position)
+                                if (deleted) {
+                                    animeList.removeAt(position)
+                                    animeListAdapter.notifyItemRemoved(position)
+                                }
+                                else {
+                                    animeList[position] = animeList2[position]
+                                    animeListAdapter.notifyItemChanged(position)
+                                }
                             }
                         }
                         animeDb?.userAnimeListDao()?.insertUserAnimeList(animeList)
@@ -298,7 +313,7 @@ class AnimeListFragment : Fragment() {
             updateListCall.enqueue(object :Callback<MyListStatus> {
                 override fun onResponse(call: Call<MyListStatus>, response: Response<MyListStatus>) {
                     if (response.isSuccessful && isAdded) {
-                        initCalls(false, position)
+                        initCalls(shouldClear = false, deleted = false, position = position)
                     }
                     else if (isAdded) {
                         Snackbar.make(binding.root, getString(R.string.error_updating_list), Snackbar.LENGTH_SHORT).show()
@@ -359,9 +374,10 @@ class AnimeListFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode==17 && resultCode==Activity.RESULT_OK) {
             val shouldUpdate: Boolean = data?.extras?.getBoolean("entryUpdated", false) ?: false
+            val deleted: Boolean = data?.extras?.getBoolean("deleted", false) ?: false
             val position: Int? = data?.extras?.getInt("position")
             if (shouldUpdate) {
-                initCalls(false, position)
+                initCalls(false, deleted, position)
             }
         }
     }

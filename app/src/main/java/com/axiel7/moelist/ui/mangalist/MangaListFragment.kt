@@ -93,7 +93,11 @@ class MangaListFragment : Fragment() {
             }
         }
 
-        binding.loadingMangalist.setOnRefreshListener { initCalls(true, null) }
+        binding.loadingMangalist.setOnRefreshListener { initCalls(
+            shouldClear = true,
+            deleted = false,
+            position = null
+        ) }
 
         mangaListAdapter =
             MyMangaListAdapter(
@@ -116,7 +120,12 @@ class MangaListFragment : Fragment() {
                     val nextPage: String? = mangaListResponse?.paging?.next
                     if (nextPage!=null) {
                         val getMoreCall = malApiService.getNextMangaListPage(nextPage)
-                        initMangaListCall(getMoreCall, false, null, lastPosition)
+                        initMangaListCall(getMoreCall,
+                            shouldClear = false,
+                            deleted = false,
+                            position = null,
+                            lastPosition = lastPosition
+                        )
                     }
                 }
             }
@@ -158,7 +167,7 @@ class MangaListFragment : Fragment() {
                 mangaListAdapter.notifyDataSetChanged()
             }
             bottomSheetDialog.dismiss()
-            initCalls(true, null)
+            initCalls(shouldClear = true, deleted = false, position = null)
         }
 
         val sortView = dialogView.findViewById<LinearLayoutCompat>(R.id.sort)
@@ -178,7 +187,7 @@ class MangaListFragment : Fragment() {
                     sharedPref.saveInt("sortManga", defaultSort)
                     sortSummary.text = StringFormat.formatSortOption(sortMode, requireContext())
                     bottomSheetDialog.dismiss()
-                    initCalls(true, null)
+                    initCalls(shouldClear = true, deleted = false, position = null)
                 }
                 // Single-choice items (initialized with checked item)
                 .setSingleChoiceItems(items, defaultSort) { _, which ->
@@ -202,9 +211,9 @@ class MangaListFragment : Fragment() {
             }
         })
 
-        initCalls(true, null)
+        initCalls(shouldClear = true, deleted = false, position = null)
     }
-    private fun initCalls(shouldClear: Boolean, position: Int?) {
+    private fun initCalls(shouldClear: Boolean, deleted: Boolean, position: Int?) {
         val mangaListCall = if (listStatus == "all") {
             // To return all manga, don't specify status field.
             malApiService.getUserMangaList(null, "list_status,num_chapters,media_type,status", sortMode, showNsfw)
@@ -213,10 +222,11 @@ class MangaListFragment : Fragment() {
         }
         if (isAdded) {
             binding.loadingMangalist.isRefreshing = true
-            initMangaListCall(mangaListCall, shouldClear, position, null)
+            initMangaListCall(mangaListCall, shouldClear, deleted, position, null)
         }
     }
-    private fun initMangaListCall(call: Call<UserMangaListResponse>, shouldClear: Boolean, position: Int?, lastPosition: Int?) {
+    private fun initMangaListCall(call: Call<UserMangaListResponse>, shouldClear: Boolean, deleted: Boolean,
+                                  position: Int?, lastPosition: Int?) {
         call.enqueue(object: Callback<UserMangaListResponse> {
             override fun onResponse(call: Call<UserMangaListResponse>, response: Response<UserMangaListResponse>) {
 
@@ -246,8 +256,14 @@ class MangaListFragment : Fragment() {
                                 mangaListAdapter.notifyItemRangeInserted(lastPosition, mangaList2.size)
                             }
                             position != null -> {
-                                mangaList[position] = mangaList2[position]
-                                mangaListAdapter.notifyItemChanged(position)
+                                if (deleted) {
+                                    mangaList.removeAt(position)
+                                    mangaListAdapter.notifyItemRemoved(position)
+                                }
+                                else {
+                                    mangaList[position] = mangaList2[position]
+                                    mangaListAdapter.notifyItemChanged(position)
+                                }
                             }
                         }
                         MyApplication.animeDb?.userMangaListDao()?.insertUserMangaList(mangaList)
@@ -286,7 +302,7 @@ class MangaListFragment : Fragment() {
             updateListCall.enqueue(object : Callback<MyMangaListStatus> {
                 override fun onResponse(call: Call<MyMangaListStatus>, response: Response<MyMangaListStatus>) {
                     if (response.isSuccessful && isAdded) {
-                        initCalls(false, position)
+                        initCalls(shouldClear = false, deleted = false, position = position)
                     }
                     else if (isAdded) {
                         Snackbar.make(binding.root, getString(R.string.error_updating_list), Snackbar.LENGTH_SHORT).show()
@@ -347,9 +363,10 @@ class MangaListFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode==17 && resultCode== Activity.RESULT_OK) {
             val shouldUpdate :Boolean = data?.extras?.getBoolean("entryUpdated", false) ?: false
+            val deleted: Boolean = data?.extras?.getBoolean("deleted", false) ?: false
             val position: Int? = data?.extras?.getInt("position")
             if (shouldUpdate) {
-                initCalls(false, position)
+                initCalls(false, deleted, position)
             }
         }
     }

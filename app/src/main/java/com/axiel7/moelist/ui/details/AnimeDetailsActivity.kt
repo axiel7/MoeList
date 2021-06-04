@@ -54,6 +54,7 @@ class AnimeDetailsActivity : BaseActivity(), EditAnimeFragment.OnDataPass {
     private lateinit var relatedsAdapter: RelatedsAdapter
     private val relateds: MutableList<Related> = mutableListOf()
     private var entryUpdated: Boolean = false
+    private var deleted: Boolean = false
     private var animeId = 1
     private var position = 0
     private lateinit var binding: ActivityAnimeDetailsBinding
@@ -435,13 +436,15 @@ class AnimeDetailsActivity : BaseActivity(), EditAnimeFragment.OnDataPass {
     override fun finish() {
         val returnIntent = Intent()
         returnIntent.putExtra("entryUpdated", entryUpdated)
+        returnIntent.putExtra("deleted", deleted)
         returnIntent.putExtra("position", position)
         setResult(Activity.RESULT_OK, returnIntent)
         super.finish()
     }
 
-    override fun onAnimeEntryUpdated(updated: Boolean, position: Int) {
+    override fun onAnimeEntryUpdated(updated: Boolean, deleted: Boolean, position: Int) {
         entryUpdated = updated
+        this.deleted = deleted
         changeFabAction()
         animeDb?.animeDetailsDao()?.insertAnimeDetails(animeDetails)
     }

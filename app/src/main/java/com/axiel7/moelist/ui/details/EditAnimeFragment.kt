@@ -30,6 +30,7 @@ class EditAnimeFragment(private var myListStatus: MyListStatus?,
                         private var numEpisodes: Int,
                         private var position: Int) : BottomSheetDialogFragment() {
     private var entryUpdated: Boolean = false
+    private var deleted: Boolean = false
     private lateinit var dataPasser: OnDataPass
     private var _binding: BottomSheetEditAnimeBinding? = null
     private val binding get() = _binding!!
@@ -154,35 +155,36 @@ class EditAnimeFragment(private var myListStatus: MyListStatus?,
             binding.loading.show()
             val updateListCall = MyApplication.malApiService
                 .updateAnimeList(Urls.apiBaseUrl + "anime/$animeId/my_list_status", status, score, watchedEpisodes)
-            patchCall(updateListCall)
-        }
-    }
-    private fun patchCall(call: Call<MyListStatus>) {
-        call.enqueue(object :Callback<MyListStatus> {
-            override fun onResponse(call: Call<MyListStatus>, response: Response<MyListStatus>) {
-                if (response.isSuccessful && isAdded) {
-                    syncListStatus()
-                    myListStatus = response.body()
-                    entryUpdated = true
-                    val toastText = getString(R.string.updated)
-                    Toast.makeText(requireContext(), toastText, Toast.LENGTH_SHORT).show()
-                    binding.loading.hide()
-                    this@EditAnimeFragment.dismiss()
+            updateListCall.enqueue(object :Callback<MyListStatus> {
+                override fun onResponse(call: Call<MyListStatus>, response: Response<MyListStatus>) {
+                    if (response.isSuccessful && isAdded) {
+                        syncListStatus()
+                        val newListStatus = response.body()
+                        entryUpdated = true
+                        if (myListStatus?.status != newListStatus?.status) {
+                            deleted = true
+                        }
+                        myListStatus = newListStatus
+                        val toastText = getString(R.string.updated)
+                        Toast.makeText(requireContext(), toastText, Toast.LENGTH_SHORT).show()
+                        binding.loading.hide()
+                        this@EditAnimeFragment.dismiss()
+                    }
+                    else if (isAdded) {
+                        binding.loading.hide()
+                        Toast.makeText(requireContext(), getString(R.string.error_updating_list), Toast.LENGTH_SHORT).show()
+                    }
                 }
-                else if (isAdded) {
-                    binding.loading.hide()
-                    Toast.makeText(requireContext(), getString(R.string.error_updating_list), Toast.LENGTH_SHORT).show()
-                }
-            }
 
-            override fun onFailure(call: Call<MyListStatus>, t: Throwable) {
-                Log.d("MoeLog", t.toString())
-                if (isAdded) {
-                    binding.loading.hide()
-                    Toast.makeText(requireContext(), getString(R.string.error_server), Toast.LENGTH_SHORT).show()
+                override fun onFailure(call: Call<MyListStatus>, t: Throwable) {
+                    Log.d("MoeLog", t.toString())
+                    if (isAdded) {
+                        binding.loading.hide()
+                        Toast.makeText(requireContext(), getString(R.string.error_server), Toast.LENGTH_SHORT).show()
+                    }
                 }
-            }
-        })
+            })
+        }
     }
 
     private fun deleteEntry() {
@@ -193,6 +195,7 @@ class EditAnimeFragment(private var myListStatus: MyListStatus?,
                     myListStatus = null
                     //changeFabAction()
                     entryUpdated = true
+                    deleted = true
                     binding.loading.hide()
                     Toast.makeText(requireContext(), getString(R.string.deleted), Toast.LENGTH_SHORT).show()
                     this@EditAnimeFragment.dismiss()
@@ -226,7 +229,7 @@ class EditAnimeFragment(private var myListStatus: MyListStatus?,
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         syncListStatus()
-        dataPasser.onAnimeEntryUpdated(entryUpdated, position)
+        dataPasser.onAnimeEntryUpdated(entryUpdated, deleted, position)
     }
 
     override fun onAttach(context: Context) {
@@ -240,7 +243,7 @@ class EditAnimeFragment(private var myListStatus: MyListStatus?,
     }
 
     interface OnDataPass {
-        fun onAnimeEntryUpdated(updated: Boolean, position: Int)
+        fun onAnimeEntryUpdated(updated: Boolean, deleted: Boolean, position: Int)
     }
 
 }

@@ -31,6 +31,7 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
                         private var numVolumes: Int,
                         private var position: Int) : BottomSheetDialogFragment() {
     private var entryUpdated: Boolean = false
+    private var deleted: Boolean = false
     private lateinit var dataPasser: OnDataPass
     private var _binding: BottomSheetEditMangaBinding? = null
     private val binding get() = _binding!!
@@ -190,35 +191,36 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
             binding.loading.show()
             val updateListCall = MyApplication.malApiService
                 .updateMangaList(Urls.apiBaseUrl + "manga/$mangaId/my_list_status", status, score, chaptersRead, volumesRead)
-            patchCall(updateListCall)
-        }
-    }
-    private fun patchCall(call: Call<MyMangaListStatus>) {
-        call.enqueue(object :Callback<MyMangaListStatus> {
-            override fun onResponse(call: Call<MyMangaListStatus>, response: Response<MyMangaListStatus>) {
-                if (response.isSuccessful && isAdded) {
-                    syncListStatus()
-                    myListStatus = response.body()
-                    entryUpdated = true
-                    val toastText = getString(R.string.updated)
-                    Toast.makeText(requireContext(), toastText, Toast.LENGTH_SHORT).show()
-                    binding.loading.hide()
-                    this@EditMangaFragment.dismiss()
+            updateListCall.enqueue(object :Callback<MyMangaListStatus> {
+                override fun onResponse(call: Call<MyMangaListStatus>, response: Response<MyMangaListStatus>) {
+                    if (response.isSuccessful && isAdded) {
+                        syncListStatus()
+                        val newListStatus = response.body()
+                        entryUpdated = true
+                        if (myListStatus?.status != newListStatus?.status) {
+                            deleted = true
+                        }
+                        myListStatus = newListStatus
+                        val toastText = getString(R.string.updated)
+                        Toast.makeText(requireContext(), toastText, Toast.LENGTH_SHORT).show()
+                        binding.loading.hide()
+                        this@EditMangaFragment.dismiss()
+                    }
+                    else if (isAdded) {
+                        binding.loading.hide()
+                        Toast.makeText(requireContext(), getString(R.string.error_updating_list), Toast.LENGTH_SHORT).show()
+                    }
                 }
-                else if (isAdded) {
-                    binding.loading.hide()
-                    Toast.makeText(requireContext(), getString(R.string.error_updating_list), Toast.LENGTH_SHORT).show()
-                }
-            }
 
-            override fun onFailure(call: Call<MyMangaListStatus>, t: Throwable) {
-                Log.d("MoeLog", t.toString())
-                if (isAdded) {
-                    binding.loading.hide()
-                    Toast.makeText(requireContext(), getString(R.string.error_server), Toast.LENGTH_SHORT).show()
+                override fun onFailure(call: Call<MyMangaListStatus>, t: Throwable) {
+                    Log.d("MoeLog", t.toString())
+                    if (isAdded) {
+                        binding.loading.hide()
+                        Toast.makeText(requireContext(), getString(R.string.error_server), Toast.LENGTH_SHORT).show()
+                    }
                 }
-            }
-        })
+            })
+        }
     }
 
     private fun deleteEntry() {
@@ -228,6 +230,7 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
                 if (response.isSuccessful && isAdded) {
                     myListStatus = null
                     entryUpdated = true
+                    deleted = true
                     binding.loading.hide()
                     Toast.makeText(requireContext(), getString(R.string.deleted), Toast.LENGTH_SHORT).show()
                     dismiss()
@@ -263,7 +266,7 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         syncListStatus()
-        dataPasser.onMangaEntryUpdated(entryUpdated, position)
+        dataPasser.onMangaEntryUpdated(entryUpdated, deleted, position)
     }
 
     override fun onAttach(context: Context) {
@@ -277,7 +280,7 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
     }
 
     interface OnDataPass {
-        fun onMangaEntryUpdated(updated: Boolean, position: Int)
+        fun onMangaEntryUpdated(updated: Boolean, deleted: Boolean, position: Int)
     }
 
 }
