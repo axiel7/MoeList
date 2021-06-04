@@ -13,7 +13,7 @@ android {
         applicationId "com.axiel7.moelist"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 51
+        versionCode 54
         versionName "1.5.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -70,7 +70,7 @@ dependencies {
 
     //Firebase
     implementation 'com.google.firebase:firebase-analytics-ktx:19.0.0'
-    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.0.0'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.0.1'
     implementation 'com.google.firebase:firebase-messaging-ktx:22.0.0'
 
     //Retrofit
