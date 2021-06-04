@@ -56,7 +56,7 @@ class MangaDetailsActivity : BaseActivity(), EditMangaFragment.OnDataPass {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMangaDetailsBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_manga_details)
+        setContentView(binding.root)
 
         WindowCompat.setDecorFitsSystemWindows(window, true)
 
