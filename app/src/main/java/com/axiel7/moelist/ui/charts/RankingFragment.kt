@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.core.app.ActivityOptionsCompat
-import androidx.fragment.app.Fragment
 import com.axiel7.moelist.MyApplication.Companion.animeDb
 import com.axiel7.moelist.MyApplication.Companion.malApiService
 import com.axiel7.moelist.R
@@ -20,6 +19,7 @@ import com.axiel7.moelist.model.AnimeRanking
 import com.axiel7.moelist.model.AnimeRankingResponse
 import com.axiel7.moelist.model.MangaRanking
 import com.axiel7.moelist.model.MangaRankingResponse
+import com.axiel7.moelist.ui.base.BaseFragment
 import com.axiel7.moelist.ui.details.AnimeDetailsActivity
 import com.axiel7.moelist.ui.details.MangaDetailsActivity
 import com.axiel7.moelist.utils.ResponseConverter
@@ -29,8 +29,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class RankingFragment : Fragment() {
+class RankingFragment : BaseFragment<FragmentRankingBinding>() {
 
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentRankingBinding
+        get() = FragmentRankingBinding::inflate
     private lateinit var sharedPref: SharedPrefsHelpers
     private lateinit var rankingAnime: MutableList<AnimeRanking>
     private lateinit var rankingManga: MutableList<MangaRanking>
@@ -41,8 +43,6 @@ class RankingFragment : Fragment() {
     private var showNsfw = 0
     private var animeResponse: AnimeRankingResponse? = null
     private var mangaResponse: MangaRankingResponse? = null
-    private var _binding: FragmentRankingBinding? = null
-    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,18 +58,7 @@ class RankingFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentRankingBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun setup() {
         when(mediaType) {
             "anime" -> {
                 if (rankingAnime.isEmpty() && isAdded) { binding.rankingLoading.show() }
@@ -113,6 +102,7 @@ class RankingFragment : Fragment() {
 
         initCall()
     }
+
     private fun initCall() {
         when(mediaType) {
             "anime" -> {
@@ -238,10 +228,5 @@ class RankingFragment : Fragment() {
                 startActivity(intent, bundle.toBundle())
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

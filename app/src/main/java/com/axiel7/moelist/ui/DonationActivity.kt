@@ -2,27 +2,28 @@ package com.axiel7.moelist.ui
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
+import android.view.LayoutInflater
 import android.widget.Toast
 import com.android.billingclient.api.*
 import com.axiel7.moelist.R
 import com.axiel7.moelist.databinding.ActivityDonationsBinding
+import com.axiel7.moelist.ui.base.BaseActivity
 import com.google.android.material.transition.platform.MaterialFadeThrough
 
+class DonationActivity : BaseActivity<ActivityDonationsBinding>(), PurchasesUpdatedListener {
 
-class DonationActivity : BaseActivity(), PurchasesUpdatedListener {
-
+    override val bindingInflater: (LayoutInflater) -> ActivityDonationsBinding
+        get() = ActivityDonationsBinding::inflate
     private lateinit var billingClient: BillingClient
     private val skuList = listOf("coffee", "burger")
-    private lateinit var binding: ActivityDonationsBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun preCreate() {
+        super.preCreate()
         window.enterTransition = MaterialFadeThrough()
         window.allowEnterTransitionOverlap = true
-        super.onCreate(savedInstanceState)
-        binding = ActivityDonationsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    }
 
+    override fun setup() {
         setSupportActionBar(binding.donationsToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)

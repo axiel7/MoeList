@@ -13,22 +13,13 @@
         android:elevation="10dp"
         style="?android:attr/progressBarStyleLarge"/>
 
-    <RelativeLayout
-        android:id="@+id/poster_container"
+    <ImageView
+        android:id="@+id/anime_poster"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:background="@android:color/black">
-        <ImageView
-            android:id="@+id/anime_poster"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:scaleType="centerInside"
-            android:contentDescription="@string/poster" />
-    </RelativeLayout>
+        android:contentDescription="@string/poster" />
 
 </RelativeLayout>

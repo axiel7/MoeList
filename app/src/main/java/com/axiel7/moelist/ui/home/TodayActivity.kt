@@ -1,8 +1,8 @@
 package com.axiel7.moelist.ui.home
 
 import android.content.Intent
-import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import androidx.core.app.ActivityOptionsCompat
@@ -14,7 +14,7 @@ import com.axiel7.moelist.databinding.ActivitySeasonalBinding
 import com.axiel7.moelist.model.SeasonalAnimeResponse
 import com.axiel7.moelist.model.SeasonalList
 import com.axiel7.moelist.model.StartSeason
-import com.axiel7.moelist.ui.BaseActivity
+import com.axiel7.moelist.ui.base.BaseActivity
 import com.axiel7.moelist.ui.details.AnimeDetailsActivity
 import com.axiel7.moelist.utils.SeasonCalendar
 import com.axiel7.moelist.utils.SharedPrefsHelpers
@@ -26,25 +26,26 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class TodayActivity : BaseActivity() {
+class TodayActivity : BaseActivity<ActivitySeasonalBinding>() {
 
+    override val bindingInflater: (LayoutInflater) -> ActivitySeasonalBinding
+        get() = ActivitySeasonalBinding::inflate
     private lateinit var todayAdapter: TodayAnimeAdapter
     private lateinit var todayList: MutableList<SeasonalList>
     private lateinit var jpDayWeek: String
     private lateinit var currentSeason: StartSeason
     private var todayResponse: SeasonalAnimeResponse? = null
     private var showNsfw = 0
-    private lateinit var binding: ActivitySeasonalBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun preCreate() {
+        super.preCreate()
         window.enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
         window.returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
         window.allowEnterTransitionOverlap = true
         window.allowReturnTransitionOverlap = true
-        super.onCreate(savedInstanceState)
-        binding = ActivitySeasonalBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    }
 
+    override fun setup() {
         window.statusBarColor = getColorFromAttr(R.attr.colorToolbar)
 
         binding.seasonalToolbar.title = getString(R.string.today)

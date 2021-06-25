@@ -7,15 +7,14 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.WindowCompat
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.axiel7.moelist.MyApplication
@@ -29,8 +28,8 @@ import com.axiel7.moelist.model.AnimeDetails
 import com.axiel7.moelist.model.MyListStatus
 import com.axiel7.moelist.model.Related
 import com.axiel7.moelist.model.Theme
-import com.axiel7.moelist.ui.BaseActivity
 import com.axiel7.moelist.ui.LoginActivity
+import com.axiel7.moelist.ui.base.BaseActivity
 import com.axiel7.moelist.utils.*
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
@@ -47,8 +46,10 @@ import java.text.NumberFormat
 import java.util.*
 import kotlin.random.Random
 
-class AnimeDetailsActivity : BaseActivity(), EditAnimeFragment.OnDataPass {
+class AnimeDetailsActivity : BaseActivity<ActivityAnimeDetailsBinding>(), EditAnimeFragment.OnDataPass {
 
+    override val bindingInflater: (LayoutInflater) -> ActivityAnimeDetailsBinding
+        get() = ActivityAnimeDetailsBinding::inflate
     private lateinit var animeDetails: AnimeDetails
     private lateinit var bottomSheetDialog: BottomSheetDialogFragment
     private lateinit var relatedsAdapter: RelatedsAdapter
@@ -57,15 +58,12 @@ class AnimeDetailsActivity : BaseActivity(), EditAnimeFragment.OnDataPass {
     private var deleted: Boolean = false
     private var animeId = 1
     private var position = 0
-    private lateinit var binding: ActivityAnimeDetailsBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityAnimeDetailsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun setDecorFitsSystemWindows(value: Boolean) {
+        super.setDecorFitsSystemWindows(true)
+    }
 
-        WindowCompat.setDecorFitsSystemWindows(window, true)
-
+    override fun setup() {
         setSupportActionBar(binding.detailsToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
@@ -96,6 +94,7 @@ class AnimeDetailsActivity : BaseActivity(), EditAnimeFragment.OnDataPass {
 
         initCalls()
     }
+
     private fun initCalls() {
         val detailsCall = malApiService.getAnimeDetails(Urls.apiBaseUrl + "anime/$animeId", fields)
         initDetailsCall(detailsCall)

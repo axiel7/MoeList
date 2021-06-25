@@ -2,7 +2,7 @@ package com.axiel7.moelist.ui
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityOptionsCompat
@@ -15,6 +15,7 @@ import com.axiel7.moelist.MyApplication
 import com.axiel7.moelist.R
 import com.axiel7.moelist.databinding.ActivityMainBinding
 import com.axiel7.moelist.ui.animelist.AnimeListFragment
+import com.axiel7.moelist.ui.base.BaseActivity
 import com.axiel7.moelist.ui.details.EditAnimeFragment
 import com.axiel7.moelist.ui.details.EditMangaFragment
 import com.axiel7.moelist.ui.home.HomeFragment
@@ -24,9 +25,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.transition.platform.MaterialSharedAxis
 
-class MainActivity : BaseActivity(), EditAnimeFragment.OnDataPass, EditMangaFragment.OnDataPass {
+class MainActivity : BaseActivity<ActivityMainBinding>(), EditAnimeFragment.OnDataPass, EditMangaFragment.OnDataPass {
 
-    private val fragmentManager = supportFragmentManager
+    override val bindingInflater: (LayoutInflater) -> ActivityMainBinding
+        get() = ActivityMainBinding::inflate
     private val homeFragment = HomeFragment()
     private val animeListFragment = AnimeListFragment()
     private val mangaListFragment = MangaListFragment()
@@ -34,13 +36,8 @@ class MainActivity : BaseActivity(), EditAnimeFragment.OnDataPass, EditMangaFrag
     private val enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
     private val exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
     private lateinit var bottomSheetDialog: BottomSheetDialog
-    private lateinit var binding: ActivityMainBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+    override fun setup() {
         //shared preferences
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val isTokenNull = MyApplication.accessToken == "null"
@@ -97,7 +94,7 @@ class MainActivity : BaseActivity(), EditAnimeFragment.OnDataPass, EditMangaFrag
             "profile" -> profileFragment
             else -> homeFragment
         }
-        fragmentManager.beginTransaction()
+        supportFragmentManager.beginTransaction()
             .replace(R.id.nav_host_fragment, fragment)
             .commit()
         navigationView.selectedItemId = when(section) {
@@ -119,7 +116,7 @@ class MainActivity : BaseActivity(), EditAnimeFragment.OnDataPass, EditMangaFrag
             selectedFragment.exitTransition = exitTransition
             selectedFragment.reenterTransition = enterTransition
             selectedFragment.returnTransition = exitTransition
-            fragmentManager.beginTransaction()
+            supportFragmentManager.beginTransaction()
                 .replace(R.id.nav_host_fragment, selectedFragment)
                 .commit()
 

@@ -38,7 +38,8 @@
                     android:id="@+id/search_view"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="3"/>
+                    android:layout_weight="3"
+                    app:searchIcon="@null" />
                 <Button
                     android:id="@+id/search_type_button"
                     style="@style/Widget.MaterialComponents.Button.TextButton"

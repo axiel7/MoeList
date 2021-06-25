@@ -1,11 +1,8 @@
 package com.axiel7.moelist.ui.details
 
-import android.content.Context
 import android.content.DialogInterface
-import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -15,37 +12,30 @@ import com.axiel7.moelist.MyApplication
 import com.axiel7.moelist.R
 import com.axiel7.moelist.databinding.BottomSheetEditAnimeBinding
 import com.axiel7.moelist.model.MyListStatus
+import com.axiel7.moelist.ui.base.BaseBottomSheetDialogFragment
 import com.axiel7.moelist.utils.InsetsHelper
 import com.axiel7.moelist.utils.StringFormat
 import com.axiel7.moelist.utils.Urls
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class EditAnimeFragment(private var myListStatus: MyListStatus?,
-                        private var animeId: Int,
-                        private var numEpisodes: Int,
-                        private var position: Int) : BottomSheetDialogFragment() {
+class EditAnimeFragment(
+    private var myListStatus: MyListStatus?,
+    private var animeId: Int,
+    private var numEpisodes: Int,
+    private var position: Int
+    ) : BaseBottomSheetDialogFragment<BottomSheetEditAnimeBinding>() {
+
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> BottomSheetEditAnimeBinding
+        get() = BottomSheetEditAnimeBinding::inflate
     private var entryUpdated: Boolean = false
     private var deleted: Boolean = false
     private lateinit var dataPasser: OnDataPass
-    private var _binding: BottomSheetEditAnimeBinding? = null
-    private val binding get() = _binding!!
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = BottomSheetEditAnimeBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun setup() {
         //Set peek height to hide delete button
         InsetsHelper.getViewBottomHeight(
             view as ViewGroup,
@@ -232,14 +222,9 @@ class EditAnimeFragment(private var myListStatus: MyListStatus?,
         dataPasser.onAnimeEntryUpdated(entryUpdated, deleted, position)
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        dataPasser = context as OnDataPass
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onAttaching() {
+        super.onAttaching()
+        dataPasser = safeContext as OnDataPass
     }
 
     interface OnDataPass {

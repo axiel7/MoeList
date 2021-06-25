@@ -7,15 +7,14 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.WindowCompat
 import coil.load
 import com.axiel7.moelist.MyApplication
 import com.axiel7.moelist.MyApplication.Companion.animeDb
@@ -26,8 +25,8 @@ import com.axiel7.moelist.databinding.ActivityMangaDetailsBinding
 import com.axiel7.moelist.model.MangaDetails
 import com.axiel7.moelist.model.MyMangaListStatus
 import com.axiel7.moelist.model.Related
-import com.axiel7.moelist.ui.BaseActivity
 import com.axiel7.moelist.ui.LoginActivity
+import com.axiel7.moelist.ui.base.BaseActivity
 import com.axiel7.moelist.utils.*
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
@@ -42,8 +41,10 @@ import retrofit2.Response
 import java.text.NumberFormat
 import java.util.*
 
-class MangaDetailsActivity : BaseActivity(), EditMangaFragment.OnDataPass {
+class MangaDetailsActivity : BaseActivity<ActivityMangaDetailsBinding>(), EditMangaFragment.OnDataPass {
 
+    override val bindingInflater: (LayoutInflater) -> ActivityMangaDetailsBinding
+        get() = ActivityMangaDetailsBinding::inflate
     private lateinit var mangaDetails: MangaDetails
     private lateinit var bottomSheetDialog: EditMangaFragment
     private lateinit var relatedsAdapter: RelatedsAdapter
@@ -52,15 +53,12 @@ class MangaDetailsActivity : BaseActivity(), EditMangaFragment.OnDataPass {
     private var deleted: Boolean = false
     private var mangaId = 1
     private var position = 0
-    private lateinit var binding: ActivityMangaDetailsBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityMangaDetailsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun setDecorFitsSystemWindows(value: Boolean) {
+        super.setDecorFitsSystemWindows(true)
+    }
 
-        WindowCompat.setDecorFitsSystemWindows(window, true)
-
+    override fun setup() {
         setSupportActionBar(binding.detailsToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
@@ -88,6 +86,7 @@ class MangaDetailsActivity : BaseActivity(), EditMangaFragment.OnDataPass {
 
         initCalls()
     }
+
     private fun initCalls() {
         val detailsCall = malApiService.getMangaDetails(Urls.apiBaseUrl + "manga/$mangaId", fields)
         initDetailsCall(detailsCall)

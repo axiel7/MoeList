@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.Preference
@@ -14,23 +15,21 @@ import com.axiel7.moelist.BuildConfig
 import com.axiel7.moelist.R
 import com.axiel7.moelist.UseCases
 import com.axiel7.moelist.databinding.ActivitySettingsBinding
+import com.axiel7.moelist.ui.base.BaseActivity
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 
 @Suppress("unused")
-class SettingsActivity : BaseActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
+class SettingsActivity : BaseActivity<ActivitySettingsBinding>(), SharedPreferences.OnSharedPreferenceChangeListener {
 
+    override val bindingInflater: (LayoutInflater) -> ActivitySettingsBinding
+        get() = ActivitySettingsBinding::inflate
     private lateinit var sharedPreferences: SharedPreferences
     private var themeChanged = false
-    private lateinit var binding: ActivitySettingsBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivitySettingsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        val settingsFragment = SettingsFragment()
+    override fun setup() {
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.settings_container, settingsFragment)
+            .replace(R.id.settings_container, SettingsFragment())
             .commit()
 
         setSupportActionBar(binding.settingToolbar)

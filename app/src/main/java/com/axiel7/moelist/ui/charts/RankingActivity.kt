@@ -1,32 +1,34 @@
 package com.axiel7.moelist.ui.charts
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.axiel7.moelist.R
 import com.axiel7.moelist.databinding.ActivityRankingBinding
-import com.axiel7.moelist.ui.BaseActivity
+import com.axiel7.moelist.ui.base.BaseActivity
 import com.google.android.material.transition.platform.MaterialSharedAxis
 
-class RankingActivity : BaseActivity() {
+class RankingActivity : BaseActivity<ActivityRankingBinding>() {
 
+    override val bindingInflater: (LayoutInflater) -> ActivityRankingBinding
+        get() = ActivityRankingBinding::inflate
     private val rankingAllFragment = RankingFragment()
     private val rankingPopFragment = RankingFragment()
     private val allBundle = Bundle()
     private val popBundle = Bundle()
-    private lateinit var binding: ActivityRankingBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun preCreate() {
+        super.preCreate()
         window.enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
         window.returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
         window.allowEnterTransitionOverlap = true
         window.allowReturnTransitionOverlap = true
-        super.onCreate(savedInstanceState)
-        binding = ActivityRankingBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    }
 
+    override fun setup() {
         window.statusBarColor = getColorFromAttr(R.attr.colorToolbar)
 
         val mediaType = intent.extras?.getString("mediaType", "anime").toString()
@@ -49,10 +51,9 @@ class RankingActivity : BaseActivity() {
             "anime" -> binding.rankingToolbar.title = getString(R.string.anime_ranking)
             "manga" -> binding.rankingToolbar.title = getString(R.string.manga)
         }
-
     }
-    private fun setupViewPager(viewPager: ViewPager) {
 
+    private fun setupViewPager(viewPager: ViewPager) {
         val adapter = RankingPagerAdapter(supportFragmentManager)
         adapter.addFragment(rankingAllFragment, getString(R.string.all))
         adapter.addFragment(rankingPopFragment, getString(R.string.popular))

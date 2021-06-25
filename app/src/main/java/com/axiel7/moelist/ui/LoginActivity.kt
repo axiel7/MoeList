@@ -3,8 +3,8 @@ package com.axiel7.moelist.ui
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import com.axiel7.moelist.MyApplication
@@ -14,6 +14,7 @@ import com.axiel7.moelist.model.AccessToken
 import com.axiel7.moelist.private.ClientId
 import com.axiel7.moelist.rest.LoginService
 import com.axiel7.moelist.rest.ServiceGenerator
+import com.axiel7.moelist.ui.base.BaseActivity
 import com.axiel7.moelist.utils.PkceGenerator
 import com.axiel7.moelist.utils.SharedPrefsHelpers
 import com.axiel7.moelist.utils.Urls
@@ -22,12 +23,13 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class LoginActivity : BaseActivity() {
+class LoginActivity : BaseActivity<ActivityLoginBinding>() {
 
+    override val bindingInflater: (LayoutInflater) -> ActivityLoginBinding
+        get() = ActivityLoginBinding::inflate
     private lateinit var codeVerifier: String
     private lateinit var codeChallenge: String
     private lateinit var accessToken: AccessToken
-    private lateinit var binding: ActivityLoginBinding
 
     companion object {
         const val clientId = ClientId.clientId
@@ -35,11 +37,7 @@ class LoginActivity : BaseActivity() {
         const val state = "MoeList123"
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+    override fun setup() {
         codeVerifier = PkceGenerator.generateVerifier(128)
         codeChallenge = codeVerifier
 

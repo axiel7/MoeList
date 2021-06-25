@@ -10,7 +10,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import app.futured.donut.DonutSection
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -21,6 +20,7 @@ import com.axiel7.moelist.UseCases
 import com.axiel7.moelist.databinding.FragmentProfileBinding
 import com.axiel7.moelist.model.User
 import com.axiel7.moelist.model.UserAnimeStatistics
+import com.axiel7.moelist.ui.base.BaseFragment
 import com.axiel7.moelist.ui.details.FullPosterActivity
 import com.axiel7.moelist.utils.ResponseConverter
 import com.axiel7.moelist.utils.SharedPrefsHelpers
@@ -32,14 +32,14 @@ import java.text.NumberFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentProfileBinding
+        get() = FragmentProfileBinding::inflate
     private var sharedPref = SharedPrefsHelpers.instance!!
     private lateinit var userAnimeStatistics: UserAnimeStatistics
     private var user: User? = null
     private var userId = -1
-    private var _binding: FragmentProfileBinding? = null
-    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,24 +53,13 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentProfileBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun setup() {
         if (user!=null) {
             setDataToViews()
         }
-
         getUser()
     }
+
     fun getUser() {
         val call = malApiService.getUserInfo("id,name,gender,location,joined_at,anime_statistics")
         call.enqueue(object : Callback<User> {
@@ -214,10 +203,5 @@ class ProfileFragment : Fragment() {
                 Uri.parse("https://myanimelist.net/profile/$usernameText"))
             startActivity(Intent.createChooser(intent, binding.viewOnMal.text))
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

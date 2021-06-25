@@ -1,6 +1,5 @@
 package com.axiel7.moelist.ui.mangalist
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -13,7 +12,6 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.app.ActivityOptionsCompat
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.axiel7.moelist.MyApplication
 import com.axiel7.moelist.MyApplication.Companion.malApiService
@@ -26,6 +24,7 @@ import com.axiel7.moelist.databinding.FragmentMangalistBinding
 import com.axiel7.moelist.model.MyMangaListStatus
 import com.axiel7.moelist.model.UserMangaList
 import com.axiel7.moelist.model.UserMangaListResponse
+import com.axiel7.moelist.ui.base.BaseFragment
 import com.axiel7.moelist.ui.details.EditMangaFragment
 import com.axiel7.moelist.ui.details.MangaDetailsActivity
 import com.axiel7.moelist.utils.ResponseConverter
@@ -39,8 +38,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MangaListFragment : Fragment() {
+class MangaListFragment : BaseFragment<FragmentMangalistBinding>() {
 
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentMangalistBinding
+        get() = FragmentMangalistBinding::inflate
     private lateinit var sharedPref: SharedPrefsHelpers
     private lateinit var mangaListAdapter: MyMangaListAdapter
     private var mangaListResponse: UserMangaListResponse? = null
@@ -50,8 +51,6 @@ class MangaListFragment : Fragment() {
     private var defaultStatus: Int? = null
     private var defaultSort: Int = 0
     private var showNsfw = 0
-    private var _binding: FragmentMangalistBinding? = null
-    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,19 +72,7 @@ class MangaListFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentMangalistBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    @SuppressLint("InflateParams")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun setup() {
         if (isAdded) {
             binding.loadingMangalist.isRefreshing = true
             if (mangaList.isEmpty()) {
@@ -213,6 +200,7 @@ class MangaListFragment : Fragment() {
 
         initCalls(shouldClear = true, deleted = false, position = null)
     }
+
     private fun initCalls(shouldClear: Boolean, deleted: Boolean, position: Int?) {
         val mangaListCall = if (listStatus == "all") {
             // To return all manga, don't specify status field.
@@ -369,10 +357,5 @@ class MangaListFragment : Fragment() {
                 initCalls(false, deleted, position)
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

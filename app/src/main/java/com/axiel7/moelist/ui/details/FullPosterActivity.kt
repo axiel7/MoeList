@@ -1,45 +1,26 @@
 package com.axiel7.moelist.ui.details
 
-import android.os.Bundle
-import coil.Coil
-import coil.request.ImageRequest
-import coil.size.ViewSizeResolver
+import android.view.LayoutInflater
+import coil.load
 import com.axiel7.moelist.R
 import com.axiel7.moelist.databinding.ActivityFullPosterBinding
-import com.axiel7.moelist.ui.BaseActivity
-import com.igreenwood.loupe.extensions.createLoupe
-import com.igreenwood.loupe.extensions.setOnViewTranslateListener
+import com.axiel7.moelist.ui.base.BaseActivity
 
-class FullPosterActivity : BaseActivity() {
+class FullPosterActivity : BaseActivity<ActivityFullPosterBinding>() {
 
-    private lateinit var binding: ActivityFullPosterBinding
+    override val bindingInflater: (LayoutInflater) -> ActivityFullPosterBinding
+        get() = ActivityFullPosterBinding::inflate
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityFullPosterBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+    override fun setup() {
         binding.loadingPoster.show()
         val imageUrl = intent.extras?.getString("posterUrl", "")
 
-        val imageLoader = Coil.imageLoader(this)
-
-        val request = ImageRequest.Builder(this)
-            .data(imageUrl)
-            .crossfade(true)
-            .crossfade(300)
-            .error(R.drawable.ic_launcher_foreground)
-            .size(ViewSizeResolver(binding.animePoster))
-            .target { result ->
-                binding.animePoster.setImageDrawable(result)
-                binding.loadingPoster.hide()
-                createLoupe(binding.animePoster, binding.posterContainer) {
-                    setOnViewTranslateListener(
-                        onDismiss = { finish() }
-                    )
-                }
-            }
-            .build()
-        imageLoader.enqueue(request)
+        binding.animePoster.load(imageUrl) {
+            crossfade(true)
+            crossfade(300)
+            error(R.drawable.ic_launcher_foreground)
+            //size(ViewSizeResolver(binding.animePoster))
+            listener(onSuccess = {_, _ -> binding.loadingPoster.hide() })
+        }
     }
 }

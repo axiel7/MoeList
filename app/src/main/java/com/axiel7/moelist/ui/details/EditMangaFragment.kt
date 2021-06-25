@@ -1,11 +1,8 @@
 package com.axiel7.moelist.ui.details
 
-import android.content.Context
 import android.content.DialogInterface
-import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -15,38 +12,31 @@ import com.axiel7.moelist.MyApplication
 import com.axiel7.moelist.R
 import com.axiel7.moelist.databinding.BottomSheetEditMangaBinding
 import com.axiel7.moelist.model.MyMangaListStatus
+import com.axiel7.moelist.ui.base.BaseBottomSheetDialogFragment
 import com.axiel7.moelist.utils.InsetsHelper
 import com.axiel7.moelist.utils.StringFormat
 import com.axiel7.moelist.utils.Urls
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
-                        private var mangaId: Int,
-                        private var numChapters: Int,
-                        private var numVolumes: Int,
-                        private var position: Int) : BottomSheetDialogFragment() {
+class EditMangaFragment(
+    private var myListStatus: MyMangaListStatus?,
+    private var mangaId: Int,
+    private var numChapters: Int,
+    private var numVolumes: Int,
+    private var position: Int
+    ) : BaseBottomSheetDialogFragment<BottomSheetEditMangaBinding>() {
+
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> BottomSheetEditMangaBinding
+        get() = BottomSheetEditMangaBinding::inflate
     private var entryUpdated: Boolean = false
     private var deleted: Boolean = false
     private lateinit var dataPasser: OnDataPass
-    private var _binding: BottomSheetEditMangaBinding? = null
-    private val binding get() = _binding!!
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = BottomSheetEditMangaBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun setup() {
         //Set peek height to hide delete button
         InsetsHelper.getViewBottomHeight(
             view as ViewGroup,
@@ -269,14 +259,9 @@ class EditMangaFragment(private var myListStatus: MyMangaListStatus?,
         dataPasser.onMangaEntryUpdated(entryUpdated, deleted, position)
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        dataPasser = context as OnDataPass
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onAttaching() {
+        super.onAttaching()
+        dataPasser = safeContext as OnDataPass
     }
 
     interface OnDataPass {

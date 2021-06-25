@@ -6,9 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.app.ActivityOptionsCompat
-import androidx.fragment.app.Fragment
 import com.axiel7.moelist.MyApplication.Companion.animeDb
 import com.axiel7.moelist.MyApplication.Companion.malApiService
 import com.axiel7.moelist.R
@@ -19,6 +17,7 @@ import com.axiel7.moelist.adapter.EndListReachedListener
 import com.axiel7.moelist.adapter.RecommendationsAdapter
 import com.axiel7.moelist.databinding.FragmentHomeBinding
 import com.axiel7.moelist.model.*
+import com.axiel7.moelist.ui.base.BaseFragment
 import com.axiel7.moelist.ui.charts.RankingActivity
 import com.axiel7.moelist.ui.charts.SeasonalActivity
 import com.axiel7.moelist.ui.details.AnimeDetailsActivity
@@ -29,8 +28,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding
+        get() = FragmentHomeBinding::inflate
     private lateinit var sharedPref: SharedPrefsHelpers
     private lateinit var animeRankingAdapter: CurrentSeasonalAdapter
     private lateinit var animeRecommendAdapter: RecommendationsAdapter
@@ -44,8 +45,6 @@ class HomeFragment : Fragment() {
     private var animesRecommendResponse: AnimeListResponse? = null
     private var todayResponse: SeasonalAnimeResponse? = null
     private var showNsfw = 0
-    private var _binding: FragmentHomeBinding? = null
-    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,17 +80,7 @@ class HomeFragment : Fragment() {
 
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun setup() {
         binding.animeRank.setOnClickListener { openRanking("anime", it) }
         binding.mangaRank.setOnClickListener { openRanking("manga", it) }
         binding.seasonalChart.setOnClickListener { openSeasonChart(it) }
@@ -106,10 +95,9 @@ class HomeFragment : Fragment() {
             animeListSeasonal,
             onClickListener = { itemView, animeRanking ->  openDetails(animeRanking.node.id, itemView)})
         binding.seasonRecycler.adapter = animeRankingAdapter
-        val seasonTitle = view.findViewById<TextView>(R.id.season_title)
         val seasonValue = "${StringFormat.formatSeason(currentSeason.season, requireContext())} ${currentSeason.year}"
-        seasonTitle.text = seasonValue
-        seasonTitle.setOnClickListener { openSeasonChart(seasonTitle) }
+        binding.seasonTitle.text = seasonValue
+        binding.seasonTitle.setOnClickListener { openSeasonChart(it) }
 
         if (isAdded) {
             if (animeListRecommend.isEmpty()) {
@@ -117,10 +105,10 @@ class HomeFragment : Fragment() {
             } else { binding.loadingRecommend.hide() }
         }
         animeRecommendAdapter =
-                RecommendationsAdapter(
-                    animeListRecommend,
-                    onClickListener = { itemView, animeList -> openDetails(animeList.node.id, itemView) }
-                )
+            RecommendationsAdapter(
+                animeListRecommend,
+                onClickListener = { itemView, animeList -> openDetails(animeList.node.id, itemView) }
+            )
         animeRankingAdapter.setEndListReachedListener(object :EndListReachedListener {
             override fun onBottomReached(position: Int, lastPosition: Int) {
                 if (animesRankingResponse!=null && animeListSeasonal.size <= 25) {
@@ -157,11 +145,11 @@ class HomeFragment : Fragment() {
             }
         })
         binding.todayRecycler.adapter = todayAdapter
-        val todayTitle = view.findViewById<TextView>(R.id.today_title)
-        todayTitle.setOnClickListener { openToday() }
+        binding.todayTitle.setOnClickListener { openToday() }
 
         initCalls()
     }
+
     private fun initCalls() {
         val todayCall = malApiService.getSeasonalAnime(Urls.apiBaseUrl +
                 "anime/season/${SeasonCalendar.getCurrentYear()}/${SeasonCalendar.getCurrentSeason()}",
@@ -378,10 +366,5 @@ class HomeFragment : Fragment() {
         val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity())
         val intent = Intent(context, TodayActivity::class.java)
         startActivity(intent, bundle.toBundle())
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

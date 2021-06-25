@@ -1,6 +1,5 @@
 package com.axiel7.moelist.ui.animelist
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -13,7 +12,6 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.app.ActivityOptionsCompat
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.axiel7.moelist.MyApplication.Companion.animeDb
 import com.axiel7.moelist.MyApplication.Companion.malApiService
@@ -26,6 +24,7 @@ import com.axiel7.moelist.databinding.FragmentAnimelistBinding
 import com.axiel7.moelist.model.MyListStatus
 import com.axiel7.moelist.model.UserAnimeList
 import com.axiel7.moelist.model.UserAnimeListResponse
+import com.axiel7.moelist.ui.base.BaseFragment
 import com.axiel7.moelist.ui.details.AnimeDetailsActivity
 import com.axiel7.moelist.ui.details.EditAnimeFragment
 import com.axiel7.moelist.utils.ResponseConverter
@@ -40,8 +39,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class AnimeListFragment : Fragment() {
+class AnimeListFragment : BaseFragment<FragmentAnimelistBinding>() {
 
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentAnimelistBinding
+        get() = FragmentAnimelistBinding::inflate
     private lateinit var sharedPref: SharedPrefsHelpers
     private lateinit var animeListAdapter: MyAnimeListAdapter
     private var animeListResponse: UserAnimeListResponse? = null
@@ -51,8 +52,6 @@ class AnimeListFragment : Fragment() {
     private var defaultStatus: Int? = null
     private var defaultSort: Int = 0
     private var showNsfw = 0
-    private var _binding: FragmentAnimelistBinding? = null
-    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,19 +72,7 @@ class AnimeListFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentAnimelistBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    @SuppressLint("InflateParams")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun setup() {
         if (isAdded) {
             binding.loadingAnimelist.isRefreshing = false
             if (animeList.isEmpty()) {
@@ -100,19 +87,19 @@ class AnimeListFragment : Fragment() {
         ) }
 
         animeListAdapter =
-                MyAnimeListAdapter(
-                    animeList,
-                    requireContext(),
-                    onClickListener = { itemView, userAnimeList, pos ->
-                        openDetails(userAnimeList.node.id, itemView, pos) },
-                    onLongClickListener = { _, userAnimeList, pos ->
-                        val editSheet =
-                            EditAnimeFragment(userAnimeList.list_status,
-                                userAnimeList.node.id,
-                                userAnimeList.node.num_episodes ?: 0, pos)
-                        editSheet.show(parentFragmentManager, "Edit")
-                    }
-                )
+            MyAnimeListAdapter(
+                animeList,
+                requireContext(),
+                onClickListener = { itemView, userAnimeList, pos ->
+                    openDetails(userAnimeList.node.id, itemView, pos) },
+                onLongClickListener = { _, userAnimeList, pos ->
+                    val editSheet =
+                        EditAnimeFragment(userAnimeList.list_status,
+                            userAnimeList.node.id,
+                            userAnimeList.node.num_episodes ?: 0, pos)
+                    editSheet.show(parentFragmentManager, "Edit")
+                }
+            )
         animeListAdapter.setEndListReachedListener(object :EndListReachedListener {
             override fun onBottomReached(position: Int, lastPosition: Int) {
                 if (animeListResponse!=null) {
@@ -224,6 +211,7 @@ class AnimeListFragment : Fragment() {
 
         initCalls(shouldClear = true, deleted = false, position = null)
     }
+
     private fun initCalls(shouldClear: Boolean, deleted: Boolean, position: Int?) {
         val animeListCall = if (listStatus == "all") {
             // To return all anime, don't specify status field.
@@ -382,8 +370,4 @@ class AnimeListFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

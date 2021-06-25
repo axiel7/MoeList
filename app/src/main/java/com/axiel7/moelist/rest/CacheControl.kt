@@ -27,7 +27,7 @@ class CacheControl(private val context: Context) : Interceptor {
             *  The 'only-if-cached' attribute indicates to not retrieve new data; fetch the cache only instead.
             */
             request.newBuilder()
-                .header("Cache-Control", "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7).build()
+                .header("Cache-Control", "public, only-if-cached, max-stale=${60 * 60 * 24 * 7}").build()
 
         return chain.proceed(request)
     }

@@ -1,8 +1,8 @@
 package com.axiel7.moelist.ui
 
 import android.content.Intent
-import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
@@ -18,6 +18,7 @@ import com.axiel7.moelist.model.AnimeList
 import com.axiel7.moelist.model.AnimeListResponse
 import com.axiel7.moelist.model.MangaList
 import com.axiel7.moelist.model.MangaListResponse
+import com.axiel7.moelist.ui.base.BaseActivity
 import com.axiel7.moelist.ui.details.AnimeDetailsActivity
 import com.axiel7.moelist.ui.details.MangaDetailsActivity
 import com.google.android.material.snackbar.Snackbar
@@ -25,21 +26,18 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SearchActivity : BaseActivity() {
+class SearchActivity : BaseActivity<ActivitySearchBinding>() {
 
+    override val bindingInflater: (LayoutInflater) -> ActivitySearchBinding
+        get() = ActivitySearchBinding::inflate
     private lateinit var searchItemsAnime: MutableList<AnimeList>
     private lateinit var searchItemsManga: MutableList<MangaList>
     private lateinit var searchAnimeAdapter: SearchAnimeAdapter
     private lateinit var searchMangaAdapter: SearchMangaAdapter
     private lateinit var searchType: String
     private var showNsfw = 0
-    private lateinit var binding: ActivitySearchBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivitySearchBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+    override fun setup() {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         showNsfw = if (sharedPreferences.getBoolean("nsfw", false)) { 1 } else { 0 }
 
@@ -68,14 +66,14 @@ class SearchActivity : BaseActivity() {
         )
         recyclerSearch.adapter = searchAnimeAdapter
 
-        val searchView: SearchView = binding.searchToolbar.findViewById(R.id.search_view)
-        val searchViewIcon = searchView.findViewById<ImageView>(androidx.appcompat.R.id.search_mag_icon)
-        searchViewIcon.visibility = View.GONE
-        searchViewIcon.setImageDrawable(null)
-        searchView.queryHint = getString(R.string.search)
-        searchView.setIconifiedByDefault(false)
-        searchView.requestFocus()
-        searchView.setOnQueryTextListener(object :SearchView.OnQueryTextListener {
+        //val searchView: SearchView = binding.searchToolbar.findViewById(R.id.search_view)
+        //val searchViewIcon = searchView.findViewById<ImageView>(androidx.appcompat.R.id.search_mag_icon)
+        //searchViewIcon.visibility = View.GONE
+        //searchViewIcon.setImageDrawable(null)
+        binding.searchView.queryHint = getString(R.string.search)
+        binding.searchView.setIconifiedByDefault(false)
+        binding.searchView.requestFocus()
+        binding.searchView.setOnQueryTextListener(object :SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrEmpty()) {
                     if (searchType == "manga") {
@@ -94,8 +92,8 @@ class SearchActivity : BaseActivity() {
 
         searchType = binding.searchTypeButton.text.toString()
         binding.searchTypeButton.setOnClickListener {
-            searchView.setQuery("", false)
-            searchView.requestFocus()
+            binding.searchView.setQuery("", false)
+            binding.searchView.requestFocus()
             if (searchType == "anime") {
                 binding.searchTypeButton.text = getString(R.string.manga)
                 searchType = "manga"
@@ -108,6 +106,7 @@ class SearchActivity : BaseActivity() {
             }
         }
     }
+
     private fun initAnimeSearch(search: String) {
         binding.searchLoading.show()
         val fields = "id,title,main_picture,mean,media_type,num_episodes,start_season"

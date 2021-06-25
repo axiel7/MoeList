@@ -2,8 +2,8 @@ package com.axiel7.moelist.ui.charts
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -19,7 +19,7 @@ import com.axiel7.moelist.databinding.ActivitySeasonalBinding
 import com.axiel7.moelist.model.SeasonalAnimeResponse
 import com.axiel7.moelist.model.SeasonalList
 import com.axiel7.moelist.model.StartSeason
-import com.axiel7.moelist.ui.BaseActivity
+import com.axiel7.moelist.ui.base.BaseActivity
 import com.axiel7.moelist.ui.details.AnimeDetailsActivity
 import com.axiel7.moelist.utils.InsetsHelper.addSystemWindowInsetToMargin
 import com.axiel7.moelist.utils.SeasonCalendar
@@ -35,8 +35,10 @@ import retrofit2.Callback
 import retrofit2.Response
 import kotlin.properties.Delegates
 
-class SeasonalActivity : BaseActivity() {
+class SeasonalActivity : BaseActivity<ActivitySeasonalBinding>() {
 
+    override val bindingInflater: (LayoutInflater) -> ActivitySeasonalBinding
+        get() = ActivitySeasonalBinding::inflate
     private lateinit var seasonalAdapter: SeasonalAnimeAdapter
     private lateinit var seasonalList: MutableList<SeasonalList>
     private lateinit var seasonLayout: TextInputLayout
@@ -46,17 +48,16 @@ class SeasonalActivity : BaseActivity() {
     private var year by Delegates.notNull<Int>()
     private var animeResponse: SeasonalAnimeResponse? = null
     private var showNsfw = 0
-    private lateinit var binding: ActivitySeasonalBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun preCreate() {
+        super.preCreate()
         window.enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
         window.returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
         window.allowEnterTransitionOverlap = true
         window.allowReturnTransitionOverlap = true
-        super.onCreate(savedInstanceState)
-        binding = ActivitySeasonalBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    }
 
+    override fun setup() {
         window.statusBarColor = getColorFromAttr(R.attr.colorToolbar)
 
         setSupportActionBar(binding.seasonalToolbar)
@@ -107,6 +108,7 @@ class SeasonalActivity : BaseActivity() {
             "anime_score", "start_season,broadcast,num_episodes,media_type,mean", 300, showNsfw)
         initCalls(true, seasonCall)
     }
+
     private fun initCalls(shouldClear: Boolean, call: Call<SeasonalAnimeResponse>) {
         binding.seasonalLoading.show()
         call.enqueue(object :Callback<SeasonalAnimeResponse> {
