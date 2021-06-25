@@ -70,7 +70,7 @@ dependencies {
 
     //Firebase
     implementation 'com.google.firebase:firebase-analytics-ktx:19.0.0'
-    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.0.1'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.1.0'
     implementation 'com.google.firebase:firebase-messaging-ktx:22.0.0'
 
     //Retrofit
@@ -81,10 +81,10 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
 
     //Utils
-    implementation 'commons-codec:commons-codec:20041127.091804'
+    implementation 'commons-codec:commons-codec:1.15'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
-    implementation 'app.futured.donut:library:2.1.0'
+    implementation 'app.futured.donut:donut:2.1.0'
 
     //Room
     implementation 'androidx.room:room-runtime:2.3.0'
@@ -92,8 +92,8 @@ dependencies {
 
     //Image
     implementation 'io.coil-kt:coil:1.2.1'
-    implementation 'com.igreenwood.loupe:loupe:1.2.1'
-    implementation 'com.igreenwood.loupe:extensions:1.0.0'
+    //implementation 'com.igreenwood.loupe:loupe:1.2.1'
+    //implementation 'com.igreenwood.loupe:extensions:1.0.0'
 
     //Google
     implementation 'com.android.billingclient:billing-ktx:4.0.0'
