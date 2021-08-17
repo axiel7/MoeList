@@ -3,55 +3,35 @@ package com.axiel7.moelist.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.DiffUtil
 import coil.load
-import com.axiel7.moelist.R
+import com.axiel7.moelist.adapter.base.BasePagingAdapter
+import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.databinding.ListItemAnimeBinding
-import com.axiel7.moelist.model.AnimeRanking
 
-class CurrentSeasonalAdapter(private val animes: MutableList<AnimeRanking>,
-                             private val onClickListener: (View, AnimeRanking) -> Unit) :
-    RecyclerView.Adapter<CurrentSeasonalAdapter.AnimeViewHolder>() {
-    private var endListReachedListener: EndListReachedListener? = null
+class CurrentSeasonalAdapter(
+    private val onClick: (View, AnimeSeasonal) -> Unit
+) : BasePagingAdapter<ListItemAnimeBinding, AnimeSeasonal>(Comparator) {
 
-    class AnimeViewHolder(val binding: ListItemAnimeBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> ListItemAnimeBinding
+        get() = ListItemAnimeBinding::inflate
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeViewHolder {
-        val binding = ListItemAnimeBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-        return AnimeViewHolder(binding)
+    override fun loadData(holder: ViewHolder, position: Int, item: AnimeSeasonal) {
+
+        holder.binding.poster.load(item.node.mainPicture?.medium)
+
+        holder.binding.title.text = item.node.title
+
+        holder.itemView.setOnClickListener { onClick(it, item) }
     }
 
-    override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
-        val posterUrl = animes[position].node.main_picture?.medium
-        val animeTitle = animes[position].node.title
-        holder.binding.animePoster.load(posterUrl) {
-            crossfade(true)
-            crossfade(500)
-            error(R.drawable.ic_launcher_foreground)
-            allowHardware(false)
+    object Comparator : DiffUtil.ItemCallback<AnimeSeasonal>() {
+        override fun areItemsTheSame(oldItem: AnimeSeasonal, newItem: AnimeSeasonal): Boolean {
+            return oldItem.node.id == newItem.node.id
         }
 
-        holder.binding.animeTitle.text = animeTitle
-
-        val anime = animes[position]
-        holder.itemView.setOnClickListener { view ->
-            onClickListener(view, anime)
+        override fun areContentsTheSame(oldItem: AnimeSeasonal, newItem: AnimeSeasonal): Boolean {
+            return oldItem == newItem
         }
-        if (position == animes.size - 2) run {
-            endListReachedListener?.onBottomReached(position, animes.size)
-        }
-    }
-
-    override fun getItemCount(): Int {
-        return animes.size
-    }
-
-    fun setEndListReachedListener(endListReachedListener: EndListReachedListener?) {
-        this.endListReachedListener = endListReachedListener
     }
 }

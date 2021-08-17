@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
-    android:id="@+id/manga_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="15dp"
@@ -28,20 +27,18 @@
         <FrameLayout
             android:id="@+id/poster_container"
             android:layout_width="110dp"
-            android:layout_height="150dp"
-            android:transitionName="shared_poster_container">
+            android:layout_height="150dp">
 
             <ImageView
-                android:id="@+id/manga_poster"
+                android:id="@+id/poster"
                 android:layout_width="110dp"
                 android:layout_height="150dp"
                 android:layout_gravity="start"
                 android:background="@color/colorPlaceHolder"
                 android:scaleType="centerCrop"
-                android:transitionName="shared_poster_container"
                 android:contentDescription="@string/poster" />
             <TextView
-                android:id="@+id/score_text"
+                android:id="@+id/score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
@@ -63,7 +60,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/manga_title"
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/text_margin"

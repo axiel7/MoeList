@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
-    android:id="@+id/anime_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="15dp"
@@ -26,7 +25,7 @@
         android:background="?attr/selectableItemBackgroundBorderless">
 
         <ImageView
-            android:id="@+id/anime_poster"
+            android:id="@+id/poster"
             android:layout_width="93dp"
             android:layout_height="130dp"
             android:layout_gravity="start"
@@ -41,7 +40,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/anime_title"
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/text_margin"
@@ -62,7 +61,7 @@
                 android:textColor="?attr/colorControlNormal"
                 tools:ignore="HardcodedText" />
             <TextView
-                android:id="@+id/score_text"
+                android:id="@+id/score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/text_margin"
@@ -74,7 +73,7 @@
                 app:drawableStartCompat="@drawable/ic_round_details_star_24"
                 tools:ignore="HardcodedText" />
             <TextView
-                android:id="@+id/broadcast_text"
+                android:id="@+id/broadcast"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/text_margin"

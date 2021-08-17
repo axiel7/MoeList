@@ -8,7 +8,7 @@
 
     <androidx.core.widget.ContentLoadingProgressBar
         style="?android:attr/progressBarStyleLarge"
-        android:id="@+id/ranking_loading"
+        android:id="@+id/loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_ranking"
+        android:id="@+id/list_ranking"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="35dp"

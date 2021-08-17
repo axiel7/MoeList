@@ -4,76 +4,47 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.DiffUtil
 import coil.load
 import com.axiel7.moelist.R
+import com.axiel7.moelist.adapter.base.BasePagingAdapter
+import com.axiel7.moelist.data.model.anime.AnimeList
 import com.axiel7.moelist.databinding.ListItemSearchResultBinding
-import com.axiel7.moelist.model.AnimeList
-import com.axiel7.moelist.utils.StringFormat
+import com.axiel7.moelist.utils.StringExtensions.formatMediaType
 
-class SearchAnimeAdapter(private val animes: MutableList<AnimeList>,
-                         private val context: Context,
-                         private val onClickListener: (View, AnimeList) -> Unit) :
-    RecyclerView.Adapter<SearchAnimeAdapter.AnimeViewHolder>() {
-    private var endListReachedListener: EndListReachedListener? = null
+class SearchAnimeAdapter(
+    private val context: Context,
+    private val onClick: (View, AnimeList, Int) -> Unit,
+) : BasePagingAdapter<ListItemSearchResultBinding, AnimeList>(Comparator) {
 
-    class AnimeViewHolder(val binding: ListItemSearchResultBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> ListItemSearchResultBinding
+        get() = ListItemSearchResultBinding::inflate
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeViewHolder {
-        val binding = ListItemSearchResultBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-        return AnimeViewHolder(binding)
+    override fun loadData(holder: ViewHolder, position: Int, item: AnimeList) {
+
+        holder.binding.poster.load(item.node.mainPicture?.medium)
+
+        holder.binding.title.text = item.node.title
+
+        val mediaType = item.node.mediaType?.formatMediaType(context)
+        val episodes = item.node.numEpisodes
+        holder.binding.mediaStatus.text = if (episodes == 0) "$mediaType (?? ${context.getString(R.string.episodes)})"
+        else "$mediaType ($episodes ${context.getString(R.string.episodes)})"
+
+        holder.binding.year.text = item.node.startSeason?.year?.toString() ?: context.getString(R.string.unknown)
+
+        holder.binding.score.text = item.node.mean?.toString() ?: "??"
+
+        holder.itemView.setOnClickListener { onClick(it, item, position) }
     }
 
-    override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
-        val posterUrl = animes[position].node.main_picture?.medium
-        val animeTitle = animes[position].node.title
-        val mediaType = animes[position].node.media_type?.let { StringFormat.formatMediaType(it, context) }
-        val episodes = animes[position].node.num_episodes
-        val year = animes[position].node.start_season?.year
-        val score = animes[position].node.mean
-
-        holder.binding.animePoster.load(posterUrl) {
-            crossfade(true)
-            crossfade(500)
-            error(R.drawable.ic_launcher_foreground)
-            allowHardware(false)
+    object Comparator : DiffUtil.ItemCallback<AnimeList>() {
+        override fun areItemsTheSame(oldItem: AnimeList, newItem: AnimeList): Boolean {
+            return oldItem.node.id == newItem.node.id
         }
 
-        holder.binding.animeTitle.text = animeTitle
-
-        val mediaStatus = if (episodes==0) { "$mediaType (?? ${context.getString(R.string.episodes)})" }
-        else { "$mediaType ($episodes ${context.getString(R.string.episodes)})" }
-        holder.binding.mediaStatus.text = mediaStatus
-
-        if (year == null) {
-            holder.binding.yearText.text = context.getString(R.string.unknown)
+        override fun areContentsTheSame(oldItem: AnimeList, newItem: AnimeList): Boolean {
+            return oldItem == newItem
         }
-        else {
-            holder.binding.yearText.text = year.toString()
-        }
-
-        val scoreText = score?.toString() ?: "??"
-        holder.binding.scoreText.text = scoreText
-
-        val anime = animes[position]
-        holder.itemView.setOnClickListener { view ->
-            onClickListener(view, anime)
-        }
-        if (position == animes.size - 2) run {
-            endListReachedListener?.onBottomReached(position, animes.size)
-        }
-    }
-
-    override fun getItemCount(): Int {
-        return animes.size
-    }
-
-    fun setEndListReachedListener(endListReachedListener: EndListReachedListener?) {
-        this.endListReachedListener = endListReachedListener
     }
 }

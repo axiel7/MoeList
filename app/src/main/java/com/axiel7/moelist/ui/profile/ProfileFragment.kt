@@ -1,33 +1,24 @@
 package com.axiel7.moelist.ui.profile
 
-import android.annotation.SuppressLint
 import android.app.ActivityOptions
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import app.futured.donut.DonutSection
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.axiel7.moelist.MyApplication
-import com.axiel7.moelist.MyApplication.Companion.malApiService
 import com.axiel7.moelist.R
-import com.axiel7.moelist.UseCases
+import com.axiel7.moelist.data.model.User
 import com.axiel7.moelist.databinding.FragmentProfileBinding
-import com.axiel7.moelist.model.User
-import com.axiel7.moelist.model.UserAnimeStatistics
 import com.axiel7.moelist.ui.base.BaseFragment
-import com.axiel7.moelist.ui.details.FullPosterActivity
-import com.axiel7.moelist.utils.ResponseConverter
-import com.axiel7.moelist.utils.SharedPrefsHelpers
-import com.google.android.material.snackbar.Snackbar
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.axiel7.moelist.ui.details.FullPosterFragment
+import com.axiel7.moelist.utils.Constants.RESPONSE_ERROR
+import kotlinx.coroutines.flow.collectLatest
 import java.text.NumberFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -36,89 +27,58 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentProfileBinding
         get() = FragmentProfileBinding::inflate
-    private var sharedPref = SharedPrefsHelpers.instance!!
-    private lateinit var userAnimeStatistics: UserAnimeStatistics
-    private var user: User? = null
+    private val viewModel: ProfileViewModel by viewModels()
     private var userId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        //sharedPref = SharedPrefsHelpers.instance!!
-
         userId = sharedPref.getInt("userId", -1)
-        if (MyApplication.animeDb?.userDao()?.getUserById(userId)!=null) {
-            user = MyApplication.animeDb?.userDao()?.getUserById(userId)!!
-            userAnimeStatistics = user?.anime_statistics!!
-        }
     }
 
     override fun setup() {
-        if (user!=null) {
-            setDataToViews()
+        binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+
+        launchLifecycleStarted {
+            viewModel.user.collectLatest {
+                it?.let { setUserData(it) }
+            }
         }
-        getUser()
-    }
 
-    fun getUser() {
-        val call = malApiService.getUserInfo("id,name,gender,location,joined_at,anime_statistics")
-        call.enqueue(object : Callback<User> {
-            override fun onResponse(call: Call<User>, response: Response<User>) {
-                if (response.isSuccessful) {
-                    val responseOld = ResponseConverter
-                        .stringToUserResponse(sharedPref.getString("userResponse", ""))
-
-                    if (responseOld!=response.body() || user==null) {
-                        user = response.body()
-                        sharedPref.saveString("userResponse",
-                            ResponseConverter.userResponseToString(user))
-                        userAnimeStatistics = user!!.anime_statistics
-                        userId = user!!.id
-                        MyApplication.animeDb?.userDao()?.insertUser(user!!)
-                        sharedPref.saveInt("userId", userId)
-                        sharedPref.saveString("userPicture", user!!.picture)
-                        if (isAdded) { setDataToViews() }
-                    }
-                }
-
-                else if (response.code()==401) {
-                    if (isAdded) {
-                        UseCases.logOut(requireContext())
-                    }
+        launchLifecycleStarted {
+            viewModel.response.collectLatest {
+                if (it.first == RESPONSE_ERROR) {
+                    showSnackbar(it.second)
                 }
             }
-            override fun onFailure(call: Call<User>, t: Throwable) {
-                Log.e("MoeLog", t.toString())
-                if (isAdded) {
-                    Snackbar.make(binding.root, getString(R.string.error_server), Snackbar.LENGTH_SHORT).show()
-                }
-            }
-        })
-    }
-    @SuppressLint("NewApi")
-    private fun setDataToViews() {
+        }
 
-        binding.profilePicture.load(user?.picture) {
-                crossfade(true)
-                crossfade(500)
+        viewModel.getUser(userId)
+    }
+
+    private fun setUserData(user: User) {
+        sharedPref.saveInt("userId", user.id)
+
+        binding.profilePicture.load(user.picture) {
                 transformations(CircleCropTransformation())
                 error(R.drawable.ic_round_account_circle_24)
             }
+
         binding.profilePicture.setOnClickListener {
-            val intent = Intent(context, FullPosterActivity::class.java)
-            val options = ActivityOptions.makeSceneTransitionAnimation(
+            val bundle = ActivityOptions.makeSceneTransitionAnimation(
                 requireActivity(),
                 it,
                 "shared_poster_container"
-            )
-            intent.putExtra("posterUrl", user?.picture)
-            startActivity(intent, options.toBundle())
+            ).toBundle()
+            bundle.putString("poster_url", user.picture)
+            val fullPosterFragment = FullPosterFragment()
+            fullPosterFragment.arguments = bundle
+            //TODO
         }
 
-        val usernameText = user?.name
+        val usernameText = user.name
         binding.username.text = usernameText
 
-        val locationText = user?.location
+        val locationText = user.location
         if (locationText.isNullOrEmpty()) {
             binding.location.visibility = View.GONE
         } else {
@@ -126,21 +86,21 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             binding.location.text = locationText
         }
 
-        val birthdayText = user?.birthday
+        val birthdayText = user.birthday
         if (birthdayText.isNullOrEmpty()) {
             binding.birthday.visibility = View.GONE
         } else {
             binding.birthday.visibility = View.VISIBLE
             binding.birthday.text = birthdayText
         }
-        binding.joinedAt.text = LocalDate.parse(user?.joined_at, DateTimeFormatter.ISO_DATE_TIME).toString()
+        binding.joinedAt.text = LocalDate.parse(user.joinedAt, DateTimeFormatter.ISO_DATE_TIME).toString()
 
-        val watching = userAnimeStatistics.num_items_watching!!
-        val completed = userAnimeStatistics.num_items_completed!!
-        val onHold = userAnimeStatistics.num_items_on_hold!!
-        val dropped = userAnimeStatistics.num_items_dropped!!
-        val ptw = userAnimeStatistics.num_items_plan_to_watch!!
-        val totalEntries = userAnimeStatistics.num_items!!
+        val watching = user.animeStatistics.numItemsWatching ?: 0f
+        val completed = user.animeStatistics.numItemsCompleted ?: 0f
+        val onHold = user.animeStatistics.numItemsOnHold ?: 0f
+        val dropped = user.animeStatistics.numItemsDropped ?: 0f
+        val ptw = user.animeStatistics.numItemsPlanToWatch ?: 0f
+        val totalEntries = user.animeStatistics.numItems ?: 0f
 
         val watchingKey = "${getString(R.string.watching)} ($watching)"
         binding.watchingText.text = watchingKey
@@ -183,10 +143,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         binding.animeChart.cap = 0f
         binding.animeChart.submitData(listOf(ptwSection, droppedSection, onHoldSection, completedSection, watchingSection))
 
-        val days = userAnimeStatistics.num_days!!
-        val episodes = NumberFormat.getInstance().format(userAnimeStatistics.num_episodes)!!
-        val score = userAnimeStatistics.mean_score!!
-        val rewatch = NumberFormat.getInstance().format(userAnimeStatistics.num_times_rewatched)!!
+        val days = user.animeStatistics.numDays ?: 0
+        val episodes = NumberFormat.getInstance().format(user.animeStatistics.numEpisodes ?: 0)
+        val score = user.animeStatistics.meanScore ?: 0
+        val rewatch = NumberFormat.getInstance().format(user.animeStatistics.numTimesRewatched ?: 0)
 
         val daysValue = "$days\n${getString(R.string.days)}"
         val episodesValue = "$episodes\n${getString(R.string.episodes)}"

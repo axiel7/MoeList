@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        app:key="version"
+        app:title="@string/version"
+        app:summary="1.0"
+        app:icon="@drawable/ic_moelist_logo"/>
+
+    <Preference
+        app:key="discord"
+        app:icon="@drawable/ic_discord"
+        app:title="@string/discord"
+        app:summary="@string/discord_summary" />
+
+    <Preference
+        app:key="github"
+        app:icon="@drawable/ic_github"
+        app:title="@string/github"
+        app:summary="@string/github_summary" />
+
+    <Preference
+        app:key="credits"
+        app:title="@string/credits"
+        app:summary="@string/credits_summary"
+        app:icon="@drawable/ic_round_group_24"/>
+
+    <Preference
+        app:key="licenses"
+        app:title="@string/open_source_licenses"/>
+
+</PreferenceScreen>

@@ -4,11 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.preference.PreferenceManager
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 
-@Suppress("unused")
 class SharedPrefsHelpers {
     fun saveInt(key: String?, value: Int) {
         val editor = mSharedPreferences!!.edit()
@@ -70,48 +66,6 @@ class SharedPrefsHelpers {
         } else defaultValue
     }
 
-    fun <T> saveObject(key: String?, `object`: T) {
-        val objectString = Gson().toJson(`object`)
-        val editor = mSharedPreferences!!.edit()
-        editor.putString(key, objectString)
-        editor.apply()
-    }
-
-    fun <T> getObject(key: String, classType: Class<T>?): T? {
-        if (isKeyExists(key)) {
-            val objectString = mSharedPreferences!!.getString(key, null)
-            if (objectString != null) {
-                return Gson().fromJson(objectString, classType)
-            }
-        }
-        return null
-    }
-
-    fun <T> saveObjectsList(key: String?, objectList: List<T>?) {
-        val gsonBuilder = GsonBuilder().setLenient().create()
-        val objectString = gsonBuilder.toJson(objectList)
-        val editor = mSharedPreferences!!.edit()
-        editor.putString(key, objectString)
-        editor.apply()
-    }
-
-    fun <T> getObjectsList(key: String, classType: Class<T>?): List<T>? {
-        if (isKeyExists(key)) {
-            val objectString = mSharedPreferences!!.getString(key, null)
-            val gsonBuilder = GsonBuilder().setLenient().create()
-            if (objectString != null) {
-                val t: ArrayList<T> = Gson().fromJson(objectString, object : TypeToken<List<T>?>() {}.type)
-                val finalList: MutableList<T> = ArrayList()
-                for (i in 0 until t.size) {
-                    val s = java.lang.String.valueOf(t[i])
-                    finalList.add(gsonBuilder.fromJson(s, classType))
-                }
-                return finalList
-            }
-        }
-        return null
-    }
-
     fun clearSession() {
         val editor = mSharedPreferences!!.edit()
         editor.clear()
@@ -133,7 +87,7 @@ class SharedPrefsHelpers {
         return if (map.containsKey(key)) {
             true
         } else {
-            Log.e("SharedPreferences", "No element founded in sharedPrefs with the key $key")
+            Log.e("SharedPreferences", "No element found in sharedPrefs with the key $key")
             false
         }
     }

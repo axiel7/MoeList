@@ -1,0 +1,37 @@
+package com.axiel7.moelist.utils
+
+object Constants {
+
+    //Urls
+    const val MAL_OAUTH2_URL = "https://myanimelist.net/v1/oauth2/"
+    const val MAL_API_URL = "https://api.myanimelist.net/v2/"
+    const val MOELIST_PAGELINK = "moelist://moelist.page.link/"
+
+    //List Status
+    const val STATUS_ALL = "all"
+    const val STATUS_WATCHING = "watching"
+    const val STATUS_COMPLETED = "completed"
+    const val STATUS_ON_HOLD = "on_hold"
+    const val STATUS_DROPPED = "dropped"
+    const val STATUS_PTW = "plan_to_watch"
+    const val STATUS_PTR = "plan_to_read"
+    const val STATUS_READING = "reading"
+
+    // Anime/Manga Status
+    const val STATUS_AIRING = "currently_airing"
+
+    //Sorting
+    const val SORT_ANIME_TITLE = "anime_title"
+    const val SORT_ANIME_SCORE = "anime_score"
+    const val SORT_SCORE = "list_score"
+    const val SORT_UPDATED = "list_updated_at"
+    const val SORT_MANGA_TITLE = "manga_title"
+
+    //Responses
+    const val RESPONSE_OK = "ok"
+    const val RESPONSE_ERROR = "error"
+    const val RESPONSE_NONE = ""
+
+    //Errors
+    const val ERROR_SERVER = "error_server"
+}

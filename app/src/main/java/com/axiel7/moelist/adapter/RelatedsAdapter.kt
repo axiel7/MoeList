@@ -4,58 +4,27 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.axiel7.moelist.R
+import com.axiel7.moelist.adapter.base.BaseAdapter
+import com.axiel7.moelist.data.model.Related
 import com.axiel7.moelist.databinding.ListItemAnimeRelatedBinding
-import com.axiel7.moelist.model.Related
-import com.axiel7.moelist.utils.StringFormat
+import com.axiel7.moelist.utils.StringExtensions.formatRelation
 
-class RelatedsAdapter(private val relateds: MutableList<Related>,
-                      private val context: Context,
-                      private val onClickListener: (View, Related) -> Unit) :
-    RecyclerView.Adapter<RelatedsAdapter.AnimeViewHolder>() {
-    private var endListReachedListener: EndListReachedListener? = null
+class RelatedsAdapter(
+    private val context: Context,
+    private val onClick: (View, Related) -> Unit
+) : BaseAdapter<ListItemAnimeRelatedBinding, Related>() {
 
-    class AnimeViewHolder(val binding: ListItemAnimeRelatedBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> ListItemAnimeRelatedBinding
+        get() = ListItemAnimeRelatedBinding::inflate
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeViewHolder {
-        val binding = ListItemAnimeRelatedBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-        return AnimeViewHolder(binding)
-    }
+    override fun loadData(holder: ViewHolder, position: Int, item: Related) {
+        holder.binding.poster.load(item.node.mainPicture?.medium)
 
-    override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
-        val posterUrl = relateds[position].node.main_picture?.medium
-        val animeTitle = relateds[position].node.title
-        val relation = relateds[position].relation_type_formatted
-        holder.binding.relatedPoster.load(posterUrl) {
-            crossfade(true)
-            crossfade(500)
-            error(R.drawable.ic_launcher_foreground)
-            allowHardware(false)
-        }
-        holder.binding.animeTitle.text = animeTitle
-        holder.binding.relationText.text = StringFormat.formatRelation(relation, context)
+        holder.binding.title.text = item.node.title
 
-        val anime = relateds[position]
-        holder.itemView.setOnClickListener { view ->
-            onClickListener(view, anime)
-        }
-        if (position == relateds.size - 2) run {
-            endListReachedListener?.onBottomReached(position, relateds.size)
-        }
-    }
+        holder.binding.relation.text = item.relationTypeFormatted.formatRelation(context)
 
-    override fun getItemCount(): Int {
-        return relateds.size
-    }
-
-    fun setEndListReachedListener(endListReachedListener: EndListReachedListener?) {
-        this.endListReachedListener = endListReachedListener
+        holder.itemView.setOnClickListener { onClick(it, item) }
     }
 }

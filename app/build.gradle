@@ -1,30 +1,34 @@
-apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.android.gms.oss-licenses-plugin'
-apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlinx-serialization'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.android.gms.oss-licenses-plugin'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+}
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdk 31
 
     defaultConfig {
         applicationId "com.axiel7.moelist"
-        minSdkVersion 21
-        targetSdkVersion 30
-        versionCode 54
-        versionName "1.5.3"
+        minSdk 23
+        targetSdk 31
+        versionCode 58
+        versionName "2.0.0-alpha05"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         debug {
+            debuggable true
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            zipAlignEnabled true
+            zipAlignEnabled false
             shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
             debuggable false
@@ -49,57 +53,62 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     //AndroidX
-    implementation 'androidx.core:core-ktx:1.5.0'
-    implementation 'androidx.appcompat:appcompat:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.browser:browser:1.3.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
-    implementation "androidx.preference:preference-ktx:1.1.1"
-    implementation 'com.google.android.material:material:1.3.0'
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation "androidx.core:core-ktx:1.6.0"
+    implementation "androidx.appcompat:appcompat:1.3.1"
 
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation "androidx.constraintlayout:constraintlayout:2.1.0"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+    implementation "androidx.browser:browser:1.3.0"
+    implementation "androidx.preference:preference-ktx:1.1.1"
+
+    implementation "androidx.navigation:navigation-fragment-ktx:2.4.0-alpha06"
+    implementation "androidx.navigation:navigation-ui-ktx:2.4.0-alpha06"
+
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0-alpha03"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0-alpha03"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-alpha03"
+    
+    implementation "androidx.core:core-splashscreen:1.0.0-alpha01"
+    implementation "com.google.android.material:material:1.4.0"
+
+    //Paging
+    implementation "androidx.paging:paging-runtime-ktx:3.0.1"
+
+    //Test
+    testImplementation "junit:junit:4.13.2"
+    androidTestImplementation "androidx.test.ext:junit:1.1.3"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
 
     //Firebase
-    implementation 'com.google.firebase:firebase-analytics-ktx:19.0.0'
-    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.1.0'
-    implementation 'com.google.firebase:firebase-messaging-ktx:22.0.0'
+    implementation platform("com.google.firebase:firebase-bom:28.3.0")
+    implementation "com.google.firebase:firebase-analytics-ktx"
+    implementation "com.google.firebase:firebase-crashlytics-ktx"
 
-    //Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
-    implementation 'com.google.code.gson:gson:2.8.6'
+    //Ktor
+    implementation "io.ktor:ktor-client-okhttp:1.6.2"
+    implementation "io.ktor:ktor-client-serialization:1.6.2"
+    implementation "io.ktor:ktor-client-auth:1.6.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2"
+    implementation "io.ktor:ktor-client-logging-jvm:1.6.2"
 
     //Utils
-    implementation 'commons-codec:commons-codec:1.15'
-    implementation 'org.apache.commons:commons-lang3:3.12.0'
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
-    implementation 'app.futured.donut:donut:2.1.0'
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.1.5"
+    implementation "org.apache.commons:commons-lang3:3.12.0"
+    implementation "app.futured.donut:donut:2.1.0"
 
     //Room
-    implementation 'androidx.room:room-runtime:2.3.0'
-    kapt 'androidx.room:room-compiler:2.3.0'
+    implementation "androidx.room:room-runtime:2.3.0"
+    implementation "androidx.room:room-ktx:2.3.0"
+    kapt "androidx.room:room-compiler:2.3.0"
 
     //Image
-    implementation 'io.coil-kt:coil:1.2.1'
-    //implementation 'com.igreenwood.loupe:loupe:1.2.1'
-    //implementation 'com.igreenwood.loupe:extensions:1.0.0'
+    implementation "io.coil-kt:coil:1.3.2"
 
     //Google
-    implementation 'com.android.billingclient:billing-ktx:4.0.0'
-    implementation 'com.google.android.play:core:1.10.0'
-    implementation 'com.google.android.play:core-ktx:1.8.1'
-    implementation 'com.google.mlkit:translate:16.1.2'
-    implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
+    implementation "com.google.mlkit:translate:16.1.2"
+    implementation "com.google.android.gms:play-services-oss-licenses:17.0.0"
 
 }

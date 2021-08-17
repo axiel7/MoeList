@@ -4,75 +4,54 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.DiffUtil
 import coil.load
 import com.axiel7.moelist.R
+import com.axiel7.moelist.adapter.base.BasePagingAdapter
+import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.databinding.ListItemSeasonalBinding
-import com.axiel7.moelist.model.SeasonalList
-import com.axiel7.moelist.utils.StringFormat
+import com.axiel7.moelist.utils.StringExtensions.formatMediaType
+import com.axiel7.moelist.utils.StringExtensions.formatWeekday
 
-class SeasonalAnimeAdapter(private val animes: MutableList<SeasonalList>,
-                           private val context: Context,
-                           private val onClickListener: (View, SeasonalList) -> Unit) :
-    RecyclerView.Adapter<SeasonalAnimeAdapter.AnimeViewHolder>() {
-    private var endListReachedListener: EndListReachedListener? = null
+class SeasonalAnimeAdapter(
+    private val context: Context,
+    private val onClick: (View, AnimeSeasonal) -> Unit
+) : BasePagingAdapter<ListItemSeasonalBinding, AnimeSeasonal>(Comparator) {
 
-    class AnimeViewHolder(val binding: ListItemSeasonalBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> ListItemSeasonalBinding
+        get() = ListItemSeasonalBinding::inflate
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeViewHolder {
-        val binding = ListItemSeasonalBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-        return AnimeViewHolder(binding)
-    }
+    override fun loadData(holder: ViewHolder, position: Int, item: AnimeSeasonal) {
+        holder.binding.poster.load(item.node.mainPicture?.medium)
 
-    override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
-        val posterUrl = animes[position].node.main_picture?.medium
-        val mangaTitle = animes[position].node.title
-        val mediaType = animes[position].node.media_type?.let { StringFormat.formatMediaType(it, context) }
-        val episodes = animes[position].node.num_episodes
-        val broadcast = animes[position].node.broadcast
-        val weekDay = StringFormat.formatWeekday(broadcast?.day_of_the_week, context)
-        val startTime = broadcast?.start_time
-        val score = animes[position].node.mean
+        holder.binding.title.text = item.node.title
 
-        holder.binding.animePoster.load(posterUrl) {
-            crossfade(true)
-            crossfade(500)
-            error(R.drawable.ic_launcher_foreground)
-            allowHardware(false)
-        }
-
-        holder.binding.animeTitle.text = mangaTitle
-
+        val episodes = item.node.numEpisodes
+        val mediaType = item.node.mediaType?.formatMediaType(context)
         val mediaStatus = if (episodes==0) { "$mediaType (?? ${context.getString(R.string.episodes)})" }
         else { "$mediaType ($episodes ${context.getString(R.string.episodes)})" }
         holder.binding.mediaStatus.text = mediaStatus
 
-        val scoreText = score?.toString() ?: "??"
-        holder.binding.scoreText.text = scoreText
+        holder.binding.score.text = item.node.mean?.toString() ?: "??"
 
-        val broadcastValue = "$weekDay $startTime"
-        holder.binding.broadcastText.text = if (broadcast!=null) { broadcastValue }
-        else { context.getString(R.string.unknown) }
+        if (item.node.broadcast != null) {
+            val weekDay = item.node.broadcast.dayOfTheWeek.formatWeekday(context)
+            holder.binding.broadcast.text = "$weekDay ${item.node.broadcast.startTime}"
+        } else {
+            holder.binding.broadcast.text = context.getString(R.string.unknown)
+        }
 
-        val manga = animes[position]
-        holder.itemView.setOnClickListener { view ->
-            onClickListener(view, manga)
-        }
-        if (position == animes.size - 2) run {
-            endListReachedListener?.onBottomReached(position, animes.size)
-        }
+        holder.itemView.setOnClickListener { onClick(it, item) }
+
     }
 
-    override fun getItemCount(): Int {
-        return animes.size
-    }
+    object Comparator : DiffUtil.ItemCallback<AnimeSeasonal>() {
+        override fun areItemsTheSame(oldItem: AnimeSeasonal, newItem: AnimeSeasonal): Boolean {
+            return oldItem.node.id == newItem.node.id
+        }
 
-    fun setEndListReachedListener(endListReachedListener: EndListReachedListener?) {
-        this.endListReachedListener = endListReachedListener
+        override fun areContentsTheSame(oldItem: AnimeSeasonal, newItem: AnimeSeasonal): Boolean {
+            return oldItem == newItem
+        }
     }
 }

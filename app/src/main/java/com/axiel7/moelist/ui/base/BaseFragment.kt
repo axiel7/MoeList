@@ -6,14 +6,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewbinding.ViewBinding
+import com.axiel7.moelist.ui.main.MainActivity
+import com.axiel7.moelist.utils.SharedPrefsHelpers
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 
 abstract class BaseFragment<VB: ViewBinding> : Fragment() {
 
     protected lateinit var safeContext: Context
     private var _binding: VB? = null
     protected val binding get() = _binding!!
-    abstract val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB
+    protected val mainActivity get() = activity as? MainActivity
+    protected abstract val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB
+    protected val sharedPref = SharedPrefsHelpers.instance!!
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -41,6 +50,25 @@ abstract class BaseFragment<VB: ViewBinding> : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        onDestroyingView()
         _binding = null
     }
+
+    open fun onDestroyingView() {}
+
+    protected fun launchLifecycleStarted(launch: suspend () -> Unit) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch.invoke()
+            }
+        }
+    }
+
+    protected fun showSnackbar(message: String?) {
+        if (isAdded && message != null) {
+            val root = (activity as? MainActivity)?.root ?: binding.root
+            Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
+        }
+    }
+
 }

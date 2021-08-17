@@ -1,28 +1,32 @@
 package com.axiel7.moelist.ui.base
 
-import android.content.Context
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.LayoutInflater
-import androidx.annotation.AttrRes
-import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import androidx.preference.PreferenceManager
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewbinding.ViewBinding
 import com.axiel7.moelist.R
+import com.axiel7.moelist.utils.SharedPrefsHelpers
+import kotlinx.coroutines.launch
 
 abstract class BaseActivity<VB: ViewBinding> : AppCompatActivity() {
 
     private var _binding: VB? = null
     protected val binding get() = _binding!!
-    abstract val bindingInflater: (LayoutInflater) -> VB
+    protected abstract val bindingInflater: (LayoutInflater) -> VB
+    protected val sharedPref = SharedPrefsHelpers.instance!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         changeTheme()
         preCreate()
         super.onCreate(savedInstanceState)
-        setDecorFitsSystemWindows(false)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         _binding = bindingInflater.invoke(layoutInflater)
         setContentView(binding.root)
         setup()
@@ -33,30 +37,23 @@ abstract class BaseActivity<VB: ViewBinding> : AppCompatActivity() {
      */
     protected open fun preCreate() {}
 
-    protected open fun setDecorFitsSystemWindows(value: Boolean) {
-        WindowCompat.setDecorFitsSystemWindows(window, value)
-    }
-
     /**
      * Called after setContentView in onCreate
      */
     protected abstract fun setup()
 
-    private fun changeTheme() {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-        if (sharedPreferences.getString("theme", "follow_system")=="amoled") {
-            setTheme(R.style.AppTheme_Amoled)
-        } else { setTheme(R.style.AppTheme) }
+    protected fun launchLifecycleStarted(launch: suspend () -> Unit) {
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch.invoke()
+            }
+        }
     }
 
-    @ColorInt
-    protected fun Context.getColorFromAttr(
-        @AttrRes attrColor: Int,
-        typedValue: TypedValue = TypedValue(),
-        resolveRefs: Boolean = true
-    ): Int {
-        theme.resolveAttribute(attrColor, typedValue, resolveRefs)
-        return typedValue.data
+    private fun changeTheme() {
+        if (sharedPref.getString("theme", "follow_system") == "amoled") {
+            setTheme(R.style.AppTheme_Amoled)
+        } else { setTheme(R.style.AppTheme) }
     }
 
     override fun onDestroy() {

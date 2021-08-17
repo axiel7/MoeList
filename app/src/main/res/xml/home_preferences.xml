@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference app:layout="@layout/header_preference"/>
+
+    <Preference
+        app:key="news"
+        app:icon="@drawable/ic_new_releases"
+        app:title="@string/anime_manga_news"
+        app:summary="@string/news_summary" />
+
+    <Preference
+        app:key="announcements"
+        app:icon="@drawable/ic_campaign"
+        app:title="@string/mal_announcements"
+        app:summary="@string/mal_announcements_summary"
+        app:allowDividerBelow="true" />
+
+    <Preference
+        app:key="settings"
+        app:icon="@drawable/ic_round_settings_24"
+        app:title="@string/settings"
+        app:allowDividerAbove="true" />
+
+    <Preference
+        app:key="about"
+        app:icon="@drawable/ic_info"
+        app:title="@string/about"
+        app:allowDividerBelow="true" />
+
+    <Preference
+        app:key="feedback"
+        app:title="@string/feedback"
+        app:icon="@drawable/ic_round_feedback_24"/>
+
+    <Preference
+        app:key="logout"
+        app:icon="@drawable/ic_round_power_settings_new_24"
+        app:title="@string/logout"
+        app:summary="@string/logout_summary"
+        app:allowDividerAbove="true" />
+
+</PreferenceScreen>

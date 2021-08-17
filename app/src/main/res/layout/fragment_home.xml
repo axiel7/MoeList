@@ -3,16 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/home_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="?attr/actionBarSize"
+    android:clipToPadding="false"
     android:animateLayoutChanges="true"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ui.home.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        android:descendantFocusability="afterDescendants">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/charts_layout"
@@ -133,7 +136,6 @@
                 android:layout_marginTop="8dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:transitionName="shared_poster_container"
                 app:cardBackgroundColor="?attr/colorCard"
                 app:cardElevation="5dp"
                 app:contentPadding="3dp"
@@ -169,19 +171,19 @@
             app:drawableEndCompat="@drawable/ic_round_arrow_forward_24" />
 
         <androidx.core.widget.ContentLoadingProgressBar
+            style="?android:attr/progressBarStyleLarge"
             android:id="@+id/loading_today"
-            android:layout_width="match_parent"
-            android:layout_height="170dp"
-            android:padding="60dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/today_title"
-            style="?android:attr/progressBarStyleLarge"/>
+            app:layout_constraintTop_toTopOf="@id/today_list"
+            app:layout_constraintBottom_toBottomOf="@id/today_list" />
 
         <TextView
             android:id="@+id/empty_today"
-            android:layout_width="match_parent"
-            android:layout_height="170dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:visibility="invisible"
             android:text="@string/nothing_today"
             android:gravity="center"
@@ -189,12 +191,14 @@
             android:textColor="@color/colorText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/today_title"/>
+            app:layout_constraintTop_toTopOf="@id/today_list"
+            app:layout_constraintBottom_toBottomOf="@id/today_list"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/today_recycler"
+            android:id="@+id/today_list"
             android:layout_width="match_parent"
-            android:layout_height="170dp"
+            android:layout_height="wrap_content"
+            android:minHeight="170dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
@@ -213,25 +217,40 @@
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackground"
+            app:drawableEndCompat="@drawable/ic_round_arrow_forward_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/today_recycler"
-            app:drawableEndCompat="@drawable/ic_round_arrow_forward_24" />
+            app:layout_constraintTop_toBottomOf="@id/today_list" />
 
         <androidx.core.widget.ContentLoadingProgressBar
+            style="?android:attr/progressBarStyleLarge"
             android:id="@+id/loading_season"
-            android:layout_width="match_parent"
-            android:layout_height="220dp"
-            android:padding="80dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/season_title"
-            style="?android:attr/progressBarStyleLarge"/>
+            app:layout_constraintTop_toTopOf="@id/season_list"
+            app:layout_constraintBottom_toBottomOf="@id/season_list" />
+
+        <TextView
+            android:id="@+id/empty_season"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:text="@string/something_went_wrong"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="@color/colorText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/season_list"
+            app:layout_constraintBottom_toBottomOf="@id/season_list"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/season_recycler"
+            android:id="@+id/season_list"
             android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_height="wrap_content"
+            android:minHeight="220dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
@@ -247,24 +266,43 @@
             android:text="@string/recommendations"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
+            app:drawableEndCompat="@drawable/ic_round_arrow_forward_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/season_recycler" />
+            app:layout_constraintTop_toBottomOf="@id/season_list" />
 
         <androidx.core.widget.ContentLoadingProgressBar
+            style="?android:attr/progressBarStyleLarge"
             android:id="@+id/loading_recommend"
-            android:layout_width="match_parent"
-            android:layout_height="220dp"
-            android:padding="80dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recommend_title"
-            style="?android:attr/progressBarStyleLarge"/>
+            app:layout_constraintTop_toTopOf="@id/recommend_list"
+            app:layout_constraintBottom_toBottomOf="@id/recommend_list"/>
+
+        <TextView
+            android:id="@+id/empty_recommend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:text="@string/something_went_wrong"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="@color/colorText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/recommend_list"
+            app:layout_constraintBottom_toBottomOf="@id/recommend_list"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recommend_recycler"
+            android:id="@+id/recommend_list"
             android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_height="wrap_content"
+            android:minHeight="220dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"

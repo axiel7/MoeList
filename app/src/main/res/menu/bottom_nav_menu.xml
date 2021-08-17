@@ -17,8 +17,8 @@
         android:title="@string/title_manga_list" />
 
     <item
-        android:id="@+id/navigation_profile"
-        android:icon="@drawable/selector_profile"
-        android:title="@string/title_profile" />
+        android:id="@+id/navigation_more"
+        android:icon="@drawable/ic_more_horizontal"
+        android:title="@string/more" />
 
 </menu>

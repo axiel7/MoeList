@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:id="@+id/anime_layout"
     android:layout_width="101dp"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
@@ -24,7 +23,7 @@
         android:gravity="center_horizontal">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/related_poster"
+            android:id="@+id/poster"
             android:layout_width="90dp"
             android:layout_height="130dp"
             android:layout_gravity="start"
@@ -42,7 +41,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/anime_title"
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Boku no Pico"
@@ -52,7 +51,7 @@
                 android:textSize="14sp"
                 tools:ignore="HardcodedText" />
             <TextView
-                android:id="@+id/relation_text"
+                android:id="@+id/relation"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Manga"

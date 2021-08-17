@@ -2,8 +2,6 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
-    android:id="@+id/anime_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="15dp"
@@ -18,6 +16,7 @@
     app:cardBackgroundColor="?attr/colorCard"
     app:cardElevation="5dp"
     app:cardCornerRadius="5dp">
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,7 +25,7 @@
         android:background="?attr/selectableItemBackgroundBorderless">
 
         <ImageView
-            android:id="@+id/anime_poster"
+            android:id="@+id/poster"
             android:layout_width="93dp"
             android:layout_height="130dp"
             android:layout_gravity="start"
@@ -41,7 +40,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/anime_title"
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/text_margin"
@@ -62,7 +61,7 @@
                 android:textColor="?attr/colorControlNormal"
                 tools:ignore="HardcodedText" />
             <TextView
-                android:id="@+id/year_text"
+                android:id="@+id/year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/text_margin"
@@ -71,7 +70,7 @@
                 android:textColor="?attr/colorControlNormal"
                 tools:ignore="HardcodedText" />
             <TextView
-                android:id="@+id/score_text"
+                android:id="@+id/score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/text_margin"

@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
-    android:id="@+id/anime_layout"
     android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:maxWidth="300dp"
@@ -22,7 +21,7 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/anime_poster"
+            android:id="@+id/poster"
             android:layout_width="100dp"
             android:layout_height="140dp"
             android:layout_gravity="start"
@@ -42,7 +41,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/anime_title"
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/text_margin"
@@ -64,7 +63,7 @@
                 android:textColor="?attr/colorControlNormal"
                 tools:ignore="HardcodedText" />
             <TextView
-                android:id="@+id/score_text"
+                android:id="@+id/score"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/text_margin"
