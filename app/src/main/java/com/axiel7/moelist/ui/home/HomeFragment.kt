@@ -19,6 +19,7 @@ import com.axiel7.moelist.utils.Constants.RESPONSE_ERROR
 import com.axiel7.moelist.utils.Constants.RESPONSE_OK
 import com.axiel7.moelist.utils.Extensions.toInt
 import kotlinx.coroutines.flow.collectLatest
+import kotlin.random.Random
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
@@ -53,6 +54,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.seasonalChart.setOnClickListener {
             mainActivity?.navigate(
                 idAction = R.id.action_navigation_home_to_seasonalFragment
+            )
+        }
+
+        binding.random.setOnClickListener {
+            mainViewModel.selectId(Random.nextInt(from = 0, until = 5000))
+            mainActivity?.navigate(
+                idAction = if (Random.nextBoolean()) R.id.action_navigation_home_to_animeDetailsFragment
+                else R.id.action_navigation_home_to_mangaDetailsFragment
             )
         }
 
