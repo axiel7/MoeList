@@ -21,12 +21,12 @@ object Extensions {
         return if (result == "null") null else result
     }
 
-    /**
-     * Shows the soft input keyboard on a SearchView
-     */
+    /** Shows the soft input keyboard on a SearchView */
     fun SearchView.showKeyboard(context: Context) {
-        val inputMethodManager = context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         requestFocus()
-        inputMethodManager.showSoftInput(this, 0)
+        (context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager).apply {
+            toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
+        }
+        //inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
     }
 }

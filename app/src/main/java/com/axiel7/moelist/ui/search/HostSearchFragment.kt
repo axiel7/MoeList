@@ -60,7 +60,7 @@ class HostSearchFragment : BaseFragment<FragmentHostSearchBinding>() {
 
         binding.searchView.postDelayed({
             binding.searchView.showKeyboard(safeContext)
-        }, 150)
+        }, 250)
 
     }
 
