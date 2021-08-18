@@ -67,7 +67,6 @@ class Api(private val client: HttpClient) {
         parameter("nsfw", params.nsfw)
         parameter("fields", params.fields)
         parameter("limit", params.limit)
-        timeout {  }
     }
 
     suspend fun getSeasonalAnime(url: String) : Response<List<AnimeSeasonal>> = client.get(url)

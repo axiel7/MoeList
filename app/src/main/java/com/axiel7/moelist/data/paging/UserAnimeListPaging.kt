@@ -34,27 +34,7 @@ class UserAnimeListPaging(
         return state.anchorPosition?.let {
             val anchorPage = state.closestPageToPosition(it)
 
-            val prevUrl = anchorPage?.prevKey?.toHttpUrlOrNull()
-            val prevOffset = prevUrl?.queryParameter("offset")?.toIntOrNull() ?: 0
-            //Log.d("moepage", "prevOffset $prevOffset")
-            val prevLimit = prevUrl?.queryParameter("limit")?.toIntOrNull() ?: 100
-            //Log.d("moepage", "prevLimit $prevLimit")
-            val prevUrlNew = prevUrl?.newBuilder()
-                ?.removeAllQueryParameters("offset")
-                ?.addQueryParameter("offset", (prevOffset ).toString())
-                ?.build()
-
-            val nextUrl = anchorPage?.nextKey?.toHttpUrlOrNull()
-            val nextOffset = nextUrl?.queryParameter("offset")?.toIntOrNull() ?: 100
-            //Log.d("moepage", "nextOffset $nextOffset")
-            //val nextLimit = nextUrl?.queryParameter("limit")?.toIntOrNull() ?: 100
-            //Log.d("moepage", "nextLimit $nextLimit")
-            val nextUrlNew = nextUrl?.newBuilder()
-                ?.removeAllQueryParameters("offset")
-                ?.addQueryParameter("offset", (nextOffset * 2).toString())
-                ?.build()
-
-            prevUrlNew?.toString() ?: nextUrlNew?.toString()
+            anchorPage?.prevKey ?: anchorPage?.nextKey
         }
     }
 }

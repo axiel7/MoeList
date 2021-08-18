@@ -3,6 +3,7 @@ package com.axiel7.moelist.ui.seasonal
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
 import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.SeasonalAnimeAdapter
@@ -31,7 +32,7 @@ class SeasonalFragment : BaseFragment<FragmentSeasonalBinding>() {
         }
 
         adapter = SeasonalAnimeAdapter(safeContext,
-            onClick = { itemView, item ->
+            onClick = { _, item ->
                 mainViewModel.selectId(item.node.id)
                 mainActivity?.navigate(
                     idAction = R.id.action_seasonalFragment_to_animeDetailsFragment
@@ -54,18 +55,21 @@ class SeasonalFragment : BaseFragment<FragmentSeasonalBinding>() {
         }
 
         launchLifecycleStarted {
-            viewModel.animeseasonalFlow.collectLatest {
+            viewModel.animeSeasonalFlow.collectLatest {
                 adapter.submitData(it)
             }
         }
 
-        changeSeason()
-    }
-
-    fun changeSeason() {
         val season = viewModel.startSeason.value.season.formatSeason(safeContext)
         val year = viewModel.startSeason.value.year
         binding.toolbar.title = "$season $year"
-        adapter.refresh()
+    }
+
+    fun changeSeason(year: Int, season: String) {
+        val seasonFormatted = season.formatSeason(safeContext)
+        binding.toolbar.title = "$seasonFormatted $year"
+        viewModel.setStartSeason(year, season)
+        viewModel.updateAnimeSeasonalFlow()
+        onViewCreated(binding.root, null)
     }
 }

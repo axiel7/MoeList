@@ -52,13 +52,18 @@ class MangaListViewModel : ViewModel() {
         )
     )
 
-    val mangaListFlow =
-        Pager(
-            PagingConfig(pageSize = 15, prefetchDistance = 10)
-        ) {
-            UserMangaListPaging(App.api, params.value)
-        }.flow
-            .cachedIn(viewModelScope)
+    var mangaListFlow = createMangaListFlow()
+
+    private fun createMangaListFlow() = Pager(
+        PagingConfig(pageSize = 15, prefetchDistance = 10)
+    ) {
+        UserMangaListPaging(App.api, params.value)
+    }.flow
+        .cachedIn(viewModelScope)
+
+    fun updateMangaListFlow() {
+        mangaListFlow = createMangaListFlow()
+    }
 
     private val _updateResponse = MutableStateFlow<Pair<MyMangaListStatus?, String>>(null to RESPONSE_NONE)
     val updateResponse: StateFlow<Pair<MyMangaListStatus?, String>> = _updateResponse

@@ -29,11 +29,9 @@ class SeasonalViewModel : ViewModel() {
         )
     )
     val startSeason: StateFlow<StartSeason> = _startSeason
-    fun setSeason(year: Int, season: String) {
-        _startSeason.value = StartSeason(
-            year = year,
-            season = season
-        )
+    fun setStartSeason(year: Int, season: String) {
+        _startSeason.value.year = year
+        _startSeason.value.season = season
     }
 
     val params = MutableStateFlow(
@@ -44,17 +42,22 @@ class SeasonalViewModel : ViewModel() {
         )
     )
 
-    val animeseasonalFlow = Pager(
-        PagingConfig(pageSize = 15, prefetchDistance = 10)
-    ) {
-        AnimeSeasonalPaging(
-            api = App.api,
-            apiParams = params.value,
-            year = _startSeason.value.year,
-            season = _startSeason.value.season
-        )
-    }.flow
-        .cachedIn(viewModelScope)
+    var animeSeasonalFlow = createAnimeSeasonalFlow()
+
+    private fun createAnimeSeasonalFlow() = Pager(
+            PagingConfig(pageSize = 15, prefetchDistance = 5)
+        ) {
+            AnimeSeasonalPaging(
+                api = App.api,
+                apiParams = params.value,
+                startSeason = _startSeason.value
+            )
+        }.flow
+            .cachedIn(viewModelScope)
+
+    fun updateAnimeSeasonalFlow() {
+        animeSeasonalFlow = createAnimeSeasonalFlow()
+    }
 
     companion object {
         private const val FIELDS = "start_season,broadcast,num_episodes,media_type,mean"

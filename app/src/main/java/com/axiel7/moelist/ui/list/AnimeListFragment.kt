@@ -148,7 +148,8 @@ class AnimeListFragment : BaseFragment<FragmentListBinding>() {
         defaultSort = sort
         sharedPref.saveString("last_sort_anime", sort)
         viewModel.setSortMode(sort)
-        adapter.refresh()
+        viewModel.updateAnimeListFlow()
+        onViewCreated(binding.root, null)
     }
 
     private fun showSortDialog() {

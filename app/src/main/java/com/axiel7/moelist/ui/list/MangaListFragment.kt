@@ -3,7 +3,6 @@ package com.axiel7.moelist.ui.list
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.core.view.updatePadding
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -138,7 +137,8 @@ class MangaListFragment : BaseFragment<FragmentListBinding>() {
         defaultSort = sort
         sharedPref.saveString("last_sort_manga", defaultSort)
         viewModel.setSortMode(sort)
-        adapter.refresh()
+        viewModel.updateMangaListFlow()
+        onViewCreated(binding.root, null)
     }
 
     private fun showSortDialog() {

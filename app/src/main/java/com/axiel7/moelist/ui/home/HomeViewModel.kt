@@ -43,10 +43,12 @@ class HomeViewModel : ViewModel() {
             PagingConfig(pageSize = 15, prefetchDistance = 5)
         ) {
             AnimeSeasonalPaging(
-                App.api,
-                paramsSeasonal.value,
-                SeasonCalendar.currentYear,
-                SeasonCalendar.currentSeasonStr
+                api = App.api,
+                apiParams = paramsSeasonal.value,
+                startSeason = StartSeason(
+                    SeasonCalendar.currentYear,
+                    SeasonCalendar.currentSeasonStr
+                )
             )
         }.flow
             .cachedIn(viewModelScope)

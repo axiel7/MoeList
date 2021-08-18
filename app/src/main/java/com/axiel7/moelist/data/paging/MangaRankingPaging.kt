@@ -35,23 +35,7 @@ class MangaRankingPaging(
         return state.anchorPosition?.let {
             val anchorPage = state.closestPageToPosition(it)
 
-            val prevUrl = anchorPage?.prevKey?.toHttpUrlOrNull()
-            val prevOffset = prevUrl?.queryParameter("offset")?.toIntOrNull() ?: 0
-            //val prevLimit = prevUrl?.queryParameter("limit")?.toIntOrNull() ?: 100
-            val prevUrlNew = prevUrl?.newBuilder()
-                ?.removeAllQueryParameters("offset")
-                ?.addQueryParameter("offset", (prevOffset ).toString())
-                ?.build()
-
-            val nextUrl = anchorPage?.nextKey?.toHttpUrlOrNull()
-            val nextOffset = nextUrl?.queryParameter("offset")?.toIntOrNull() ?: 100
-            //val nextLimit = nextUrl?.queryParameter("limit")?.toIntOrNull() ?: 100
-            val nextUrlNew = nextUrl?.newBuilder()
-                ?.removeAllQueryParameters("offset")
-                ?.addQueryParameter("offset", (nextOffset * 2).toString())
-                ?.build()
-
-            prevUrlNew?.toString() ?: nextUrlNew?.toString()
+            anchorPage?.prevKey ?: anchorPage?.nextKey
         }
     }
 }

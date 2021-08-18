@@ -52,13 +52,18 @@ class AnimeListViewModel : ViewModel() {
         )
     )
 
-    val animeListFlow =
-        Pager(
-            PagingConfig(pageSize = 15, prefetchDistance = 10)
-        ) {
-            UserAnimeListPaging(App.api, params.value)
-        }.flow
-            .cachedIn(viewModelScope)
+    var animeListFlow = createAnimeListFlow()
+
+    private fun createAnimeListFlow() = Pager(
+        PagingConfig(pageSize = 15, prefetchDistance = 10)
+    ) {
+        UserAnimeListPaging(App.api, params.value)
+    }.flow
+        .cachedIn(viewModelScope)
+
+    fun updateAnimeListFlow() {
+        animeListFlow = createAnimeListFlow()
+    }
 
     private val _updateResponse = MutableStateFlow<Pair<MyAnimeListStatus?, String>>(null to RESPONSE_NONE)
     val updateResponse: StateFlow<Pair<MyAnimeListStatus?, String>> = _updateResponse

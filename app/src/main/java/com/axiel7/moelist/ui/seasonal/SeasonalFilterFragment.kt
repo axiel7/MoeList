@@ -37,11 +37,10 @@ class SeasonalFilterFragment : BaseBottomSheetDialogFragment<BottomSheetSeasonal
 
     override fun setup() {
         binding.applyButton.setOnClickListener {
-            viewModel.setSeason(
+            (parentFragment as? SeasonalFragment)?.changeSeason(
                 year = selectedYear,
                 season = selectedSeason.formatSeasonInverted(safeContext)
             )
-            (parentFragment as? SeasonalFragment)?.changeSeason()
             dismiss()
         }
 
