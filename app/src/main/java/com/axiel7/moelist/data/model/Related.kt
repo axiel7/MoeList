@@ -13,3 +13,11 @@ data class Related(
     @SerialName("relation_type_formatted")
     val relationTypeFormatted: String = "",
 )
+
+fun Related.isManga(): Boolean = node.mediaType == "manga"
+        || node.mediaType == "one_shot"
+        || node.mediaType == "manhwa"
+        || node.mediaType == "novel"
+        || node.mediaType == "doujinshi"
+        || node.mediaType == "light_novel"
+        || node.mediaType == "manhua"

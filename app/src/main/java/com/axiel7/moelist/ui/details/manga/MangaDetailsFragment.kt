@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import coil.load
 import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.RelatedsAdapter
+import com.axiel7.moelist.data.model.isManga
 import com.axiel7.moelist.data.model.manga.MangaDetails
 import com.axiel7.moelist.databinding.FragmentMangaDetailsBinding
 import com.axiel7.moelist.ui.base.BaseFragment
@@ -51,7 +52,10 @@ class MangaDetailsFragment : BaseFragment<FragmentMangaDetailsBinding>() {
 
         launchLifecycleStarted {
             mainViewModel.selectedId.collectLatest {
-                it?.let { viewModel.getMangaDetails(it) }
+                it?.let {
+                    binding.loading.show()
+                    viewModel.getMangaDetails(it)
+                }
             }
         }
 
@@ -144,14 +148,21 @@ class MangaDetailsFragment : BaseFragment<FragmentMangaDetailsBinding>() {
         adapterRelateds = RelatedsAdapter(
             safeContext,
             onClick = { _, item ->
-
+                mainViewModel.selectId(item.node.id)
+                if (!item.isManga()) mainActivity?.navigate(
+                    idAction = R.id.action_animeDetailsFragment_self
+                )
             }
         )
         binding.relatedsRecycler.adapter = adapterRelateds
+
+        binding.editFab.setOnClickListener {
+            bottomSheetDialog.show(parentFragmentManager, "Edit")
+        }
     }
 
     private fun setMangaData(mangaDetails: MangaDetails) {
-        binding.loadingLayout.visibility = View.GONE
+        binding.loading.hide()
 
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
@@ -170,24 +181,13 @@ class MangaDetailsFragment : BaseFragment<FragmentMangaDetailsBinding>() {
             mangaDetails.numVolumes ?: 0
         )
 
-        // Change FAB behavior if entry not added
+        // Change FAB if entry not added
         if (mangaDetails.myListStatus == null) {
             binding.editFab.text = getString(R.string.add)
             binding.editFab.setIconResource(R.drawable.ic_round_add_24)
-            binding.editFab.setOnClickListener {
-                //TODO: initUpdateCall()
-                binding.editFab.text = getString(R.string.edit)
-                binding.editFab.setIconResource(R.drawable.ic_round_edit_24)
-                binding.editFab.setOnClickListener {
-                    bottomSheetDialog.show(parentFragmentManager, "Edit")
-                }
-            }
         } else {
             binding.editFab.text = getString(R.string.edit)
             binding.editFab.setIconResource(R.drawable.ic_round_edit_24)
-            binding.editFab.setOnClickListener {
-                bottomSheetDialog.show(parentFragmentManager, "Edit")
-            }
         }
 
         binding.mangaPoster.load(mangaDetails.mainPicture?.medium)

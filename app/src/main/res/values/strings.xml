@@ -271,4 +271,5 @@
     <string name="something_went_wrong">Something went wrong \n (；ﾟДﾟ)</string>
     <string name="upcoming">Upcoming</string>
     <string name="favorite">Favorite</string>
+    <string name="empty_slash" translatable="false">─</string>
 </resources>

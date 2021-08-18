@@ -11,20 +11,13 @@
     android:transitionGroup="true"
     tools:context=".ui.details.manga.MangaDetailsFragment">
 
-    <FrameLayout
-        android:id="@+id/loading_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:elevation="15dp"
-        tools:visibility="invisible"
-        android:background="@color/colorBackground">
-
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
-
-    </FrameLayout>
+    <androidx.core.widget.ContentLoadingProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="1dp"
+        android:layout_gravity="center"/>
 
     <ScrollView
         android:id="@+id/details_scroll"
@@ -102,19 +95,19 @@
                     android:drawablePadding="6dp"
                     tools:ignore="HardcodedText"
                     app:drawableStartCompat="@drawable/ic_round_menu_book_24" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/chapters_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/media_type_text"
-                    android:layout_toEndOf="@id/manga_poster"
-                    android:layout_marginEnd="@dimen/text_margin"
                     android:layout_marginTop="10dp"
-                    android:text="12 Chapters"
+                    android:layout_marginEnd="@dimen/text_margin"
+                    android:layout_toEndOf="@id/manga_poster"
+                    android:drawablePadding="6dp"
+                    android:text="@string/chapters"
                     android:textColor="?attr/colorControlNormal"
                     android:textSize="16sp"
-                    android:drawablePadding="6dp"
-                    tools:ignore="HardcodedText"
                     app:drawableStartCompat="@drawable/ic_round_timer_24" />
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/status_text"
@@ -125,11 +118,10 @@
                     android:layout_marginEnd="@dimen/text_margin"
                     android:layout_marginTop="10dp"
                     android:gravity="center_vertical"
-                    android:text="Publishing"
+                    android:text="@string/finished"
                     android:textColor="?attr/colorControlNormal"
                     android:textSize="16sp"
                     android:drawablePadding="5dp"
-                    tools:ignore="HardcodedText"
                     app:drawableStartCompat="@drawable/ic_round_rss_feed_24" />
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/score_text"
@@ -140,7 +132,7 @@
                     android:layout_marginEnd="@dimen/text_margin"
                     android:layout_marginTop="10dp"
                     android:gravity="center_vertical"
-                    android:text="4.52"
+                    android:text="7.52"
                     android:textColor="?attr/colorControlNormal"
                     android:textSize="16sp"
                     android:drawablePadding="6dp"
@@ -198,7 +190,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/translate_button"
-                android:text="@string/lorem_ipsun"
+                android:text="@string/loading"
+                tools:text="@string/lorem_ipsun"
                 android:ellipsize="end"
                 android:maxLines="5"
                 android:paddingStart="@dimen/text_margin"
@@ -326,9 +319,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textIsSelectable="true"
-                    android:text="Inio Asano"
-                    android:textColor="?attr/colorControlNormal"
-                    tools:ignore="HardcodedText" />
+                    android:text="@string/empty_slash"
+                    tools:text="Inio Asano"
+                    android:textColor="?attr/colorControlNormal" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -384,10 +377,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="My Pico\nBoku no Pico OVA 1"
+                    android:text="@string/empty_slash"
+                    tools:text="My Pico\nBoku no Pico OVA 1"
                     android:textIsSelectable="true"
-                    android:textColor="?attr/colorControlNormal"
-                    tools:ignore="HardcodedText" />
+                    android:textColor="?attr/colorControlNormal" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -410,7 +403,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="ぼくのぴこ"
+                    android:text="@string/empty_slash"
+                    tools:text="ぼくのぴこ"
                     android:textIsSelectable="true"
                     android:textColor="?attr/colorControlNormal"
                     tools:ignore="HardcodedText" />
@@ -524,9 +518,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Shonen Jump"
-                    android:textColor="?attr/colorControlNormal"
-                    tools:ignore="HardcodedText" />
+                    android:text="@string/empty_slash"
+                    tools:text="Shonen Jump"
+                    android:textColor="?attr/colorControlNormal" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

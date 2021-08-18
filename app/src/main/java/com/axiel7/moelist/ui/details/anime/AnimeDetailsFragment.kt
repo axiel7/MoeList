@@ -13,6 +13,7 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.RelatedsAdapter
 import com.axiel7.moelist.adapter.ThemesAdapter
 import com.axiel7.moelist.data.model.anime.AnimeDetails
+import com.axiel7.moelist.data.model.isManga
 import com.axiel7.moelist.databinding.FragmentAnimeDetailsBinding
 import com.axiel7.moelist.ui.base.BaseFragment
 import com.axiel7.moelist.ui.main.MainViewModel
@@ -54,7 +55,10 @@ class AnimeDetailsFragment : BaseFragment<FragmentAnimeDetailsBinding>() {
 
         launchLifecycleStarted {
             mainViewModel.selectedId.collectLatest {
-                it?.let { viewModel.getAnimeDetails(it) }
+                it?.let {
+                    binding.loading.show()
+                    viewModel.getAnimeDetails(it)
+                }
             }
         }
 
@@ -147,14 +151,22 @@ class AnimeDetailsFragment : BaseFragment<FragmentAnimeDetailsBinding>() {
         adapterRelateds = RelatedsAdapter(
             safeContext,
             onClick = { _, item ->
-
+                mainViewModel.selectId(item.node.id)
+                if (item.isManga()) mainActivity?.navigate(
+                    idAction = R.id.action_mangaDetailsFragment_self
+                )
             }
         )
         binding.relatedsRecycler.adapter = adapterRelateds
+
+        binding.editFab.setOnClickListener {
+            bottomSheetDialog.show(parentFragmentManager, "Edit")
+        }
     }
 
     private fun setAnimeData(animeDetails: AnimeDetails) {
-        binding.loadingLayout.visibility = View.GONE
+        binding.detailsScroll.smoothScrollTo(0, 0)
+        binding.loading.hide()
 
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
@@ -172,24 +184,13 @@ class AnimeDetailsFragment : BaseFragment<FragmentAnimeDetailsBinding>() {
             numEpisodes = animeDetails.numEpisodes ?: 0
         )
 
-        // Change FAB behavior if entry not added
+        // Change FAB if entry not added
         if (animeDetails.myListStatus == null) {
             binding.editFab.text = getString(R.string.add)
             binding.editFab.setIconResource(R.drawable.ic_round_add_24)
-            binding.editFab.setOnClickListener {
-                //TODO: initUpdateCall()
-                binding.editFab.text = getString(R.string.edit)
-                binding.editFab.setIconResource(R.drawable.ic_round_edit_24)
-                binding.editFab.setOnClickListener {
-                    bottomSheetDialog.show(parentFragmentManager, "Edit")
-                }
-            }
         } else {
             binding.editFab.text = getString(R.string.edit)
             binding.editFab.setIconResource(R.drawable.ic_round_edit_24)
-            binding.editFab.setOnClickListener {
-                bottomSheetDialog.show(parentFragmentManager, "Edit")
-            }
         }
 
         binding.animePoster.load(animeDetails.mainPicture?.medium)
