@@ -21,14 +21,6 @@ class MoreHomeFragment : PreferenceFragmentCompat() {
         safeContext = context
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition = MaterialFade()
-        exitTransition = MaterialFade()
-        returnTransition = MaterialFade()
-        reenterTransition = MaterialFade()
-    }
-
     override fun onResume() {
         super.onResume()
         (activity as? MainActivity)?.showToolbar()

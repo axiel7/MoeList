@@ -6,12 +6,13 @@
     android:id="@+id/profile_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    android:transitionGroup="true"
     tools:context=".ui.profile.ProfileFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
         android:orientation="horizontal">
 
         <com.google.android.material.appbar.MaterialToolbar

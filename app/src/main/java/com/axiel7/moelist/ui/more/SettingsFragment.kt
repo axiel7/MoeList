@@ -5,22 +5,15 @@ import androidx.preference.PreferenceFragmentCompat
 import com.axiel7.moelist.R
 import com.axiel7.moelist.ui.main.MainActivity
 import com.google.android.material.transition.MaterialFade
+import com.google.android.material.transition.MaterialFadeThrough
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onResume() {
         super.onResume()
-        (activity as? MainActivity)?.hideToolbar()
-        (activity as? MainActivity)?.hideBottomBar()
+        (activity as? MainActivity)?.showToolbar(false)
+        (activity as? MainActivity)?.showBottomBar(false)
         (parentFragment as? MoreFragment)?.showToolbar()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition = MaterialFade()
-        exitTransition = MaterialFade()
-        returnTransition = MaterialFade()
-        reenterTransition = MaterialFade()
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {

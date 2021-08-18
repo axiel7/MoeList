@@ -12,8 +12,8 @@ class CreditsFragment : PreferenceFragmentCompat() {
 
     override fun onResume() {
         super.onResume()
-        (activity as? MainActivity)?.hideToolbar()
-        (activity as? MainActivity)?.hideBottomBar()
+        (activity as? MainActivity)?.showToolbar(false)
+        (activity as? MainActivity)?.showBottomBar(false)
         (parentFragment as? MoreFragment)?.showToolbar()
     }
 

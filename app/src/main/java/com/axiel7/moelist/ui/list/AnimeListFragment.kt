@@ -24,6 +24,8 @@ import com.axiel7.moelist.utils.Constants.STATUS_COMPLETED
 import com.axiel7.moelist.utils.Constants.STATUS_WATCHING
 import com.axiel7.moelist.utils.Extensions.toInt
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.transition.Hold
+import com.google.android.material.transition.MaterialElevationScale
 import kotlinx.coroutines.flow.collectLatest
 
 class AnimeListFragment : BaseFragment<FragmentListBinding>() {
@@ -43,6 +45,8 @@ class AnimeListFragment : BaseFragment<FragmentListBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        exitTransition = MaterialElevationScale(false)
+        reenterTransition = MaterialElevationScale(true)
         status = arguments?.getString("status") ?: STATUS_WATCHING
         defaultSort = sharedPref.getString("last_sort_anime", SORT_ANIME_TITLE) ?: SORT_ANIME_TITLE
     }

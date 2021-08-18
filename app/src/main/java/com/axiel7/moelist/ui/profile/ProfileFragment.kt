@@ -18,6 +18,7 @@ import com.axiel7.moelist.databinding.FragmentProfileBinding
 import com.axiel7.moelist.ui.base.BaseFragment
 import com.axiel7.moelist.ui.details.FullPosterFragment
 import com.axiel7.moelist.utils.Constants.RESPONSE_ERROR
+import com.google.android.material.transition.MaterialFade
 import kotlinx.coroutines.flow.collectLatest
 import java.text.NumberFormat
 import java.time.LocalDate
@@ -32,6 +33,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enterTransition = MaterialFade()
+        exitTransition = MaterialFade()
         userId = sharedPref.getInt("userId", -1)
     }
 

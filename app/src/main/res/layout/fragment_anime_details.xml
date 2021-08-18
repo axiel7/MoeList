@@ -8,6 +8,7 @@
     android:focusable="true"
     android:background="?attr/colorSurface"
     android:animateLayoutChanges="true"
+    android:transitionGroup="true"
     tools:context=".ui.details.anime.AnimeDetailsFragment">
 
     <FrameLayout
@@ -25,7 +26,7 @@
 
     </FrameLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
         android:id="@+id/details_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -33,8 +34,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fitsSystemWindows="true">
+            android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/details_toolbar"
@@ -72,7 +72,6 @@
                     android:background="@color/colorPlaceHolder"
                     android:elevation="10dp"
                     android:scaleType="centerCrop"
-                    android:transitionName="shared_poster_container"
                     app:shapeAppearanceOverlay="@style/circleImageView" />
 
                 <TextView
@@ -614,7 +613,7 @@
 
         </RelativeLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/edit_fab"

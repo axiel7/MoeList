@@ -7,11 +7,13 @@ import android.view.View
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import androidx.transition.TransitionManager
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.axiel7.moelist.App
@@ -23,7 +25,11 @@ import com.axiel7.moelist.ui.login.LoginActivity
 import com.axiel7.moelist.ui.profile.ProfileViewModel
 import com.axiel7.moelist.utils.InsetsHelper.addSystemWindowInsetToPadding
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.transition.MaterialArcMotion
+import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialSharedAxis
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
+import io.ktor.utils.io.*
 import kotlinx.coroutines.flow.collectLatest
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
@@ -37,6 +43,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     val root get() = binding.root
     val toolbarHeight get() = binding.appbarLayout.root.height
     val bottomNavHeight get() = binding.navView.height
+
+    override fun preCreate() {
+        super.preCreate()
+        //setEnterSharedElementCallback(MaterialContainerTransformSharedElementCallback())
+        //setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
+    }
 
     override fun setup() {
         //launch login
@@ -88,31 +100,32 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.animeDetailsFragment -> {
-                    hideBottomBar()
-                    //hideToolbar()
+                    showBottomBar(false)
+                    showToolbar(false)
                 }
                 R.id.mangaDetailsFragment -> {
-                    hideBottomBar()
-                    //hideToolbar()
+                    showBottomBar(false)
+                    showToolbar(false)
                 }
                 R.id.hostSearchFragment -> {
-                    hideBottomBar()
+                    showBottomBar(false)
+                    showToolbar(false)
                 }
                 R.id.fragmentProfile -> {
-                    hideBottomBar()
-                    hideToolbar()
+                    showBottomBar(false)
+                    showToolbar(false)
                 }
                 R.id.animeRankingFragment -> {
-                    hideBottomBar()
-                    hideToolbar()
+                    showBottomBar(false)
+                    showToolbar(false)
                 }
                 R.id.mangaRankingFragment -> {
-                    hideBottomBar()
-                    hideToolbar()
+                    showBottomBar(false)
+                    showToolbar(false)
                 }
                 R.id.seasonalFragment -> {
-                    hideBottomBar()
-                    hideToolbar()
+                    showBottomBar(false)
+                    showToolbar(false)
                 }
                 else -> {
                     showBottomBar()
@@ -130,38 +143,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         sharedView: View? = null
     ) {
         if (sharedView != null) {
-            val extras = FragmentNavigatorExtras(sharedView to sharedView.transitionName)
-            navController.navigate(idAction, bundle, null, extras)
+            //val extras = FragmentNavigatorExtras(sharedView to sharedView.transitionName)
+            navController.navigate(idAction, bundle, null, null)
         }
         else {
             navController.navigate(idAction, bundle)
         }
     }
 
-    fun showBottomBar() {
-        binding.navView.visibility = View.VISIBLE
+    fun showBottomBar(show: Boolean = true) {
+        binding.navView.visibility = if (show) View.VISIBLE else View.INVISIBLE
     }
 
-    fun hideBottomBar() {
-        binding.navView.visibility = View.GONE
-    }
-
-    fun showToolbar() {
-        val params = binding.navHostFragment.layoutParams as CoordinatorLayout.LayoutParams
-        params.behavior = AppBarLayout.ScrollingViewBehavior()
-        binding.navHostFragment.requestLayout()
-        //TransitionManager.beginDelayedTransition(binding.root, MaterialFadeThrough())
-        binding.appbarLayout.root.visibility = View.VISIBLE
-        //binding.appbarLayout.root.setExpanded(true)
-    }
-
-    fun hideToolbar() {
-        val params = binding.navHostFragment.layoutParams as CoordinatorLayout.LayoutParams
-        params.behavior = null
-        binding.navHostFragment.requestLayout()
-        //TransitionManager.beginDelayedTransition(binding.root, MaterialFadeThrough())
-        binding.appbarLayout.root.visibility = View.GONE
-        //binding.appbarLayout.root.setExpanded(false)
+    fun showToolbar(show: Boolean = true) {
+        binding.appbarLayout.root.setExpanded(show)
     }
 
     private fun loadUser(userPicture: String?) {
@@ -175,7 +170,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         sharedPref.saveString("userPicture", it.picture)
                         binding.appbarLayout.profilePicture.load(it.picture) {
                             transformations(CircleCropTransformation())
-                            kotlin.error(R.drawable.ic_round_account_circle_24)
+                            error(R.drawable.ic_round_account_circle_24)
                         }
                     }
                 }

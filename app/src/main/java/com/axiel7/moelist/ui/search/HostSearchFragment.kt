@@ -14,7 +14,6 @@ import com.axiel7.moelist.databinding.FragmentHostSearchBinding
 import com.axiel7.moelist.ui.base.BaseFragment
 import com.axiel7.moelist.utils.Extensions.showKeyboard
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.android.material.transition.MaterialContainerTransform
 
 class HostSearchFragment : BaseFragment<FragmentHostSearchBinding>() {
 
@@ -23,17 +22,6 @@ class HostSearchFragment : BaseFragment<FragmentHostSearchBinding>() {
     private val currentFragment
         get() = childFragmentManager.findFragmentByTag("f${binding.listViewPager.currentItem}")
     val searchQuery get() = binding.searchView.query.toString()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = MaterialContainerTransform()
-        sharedElementReturnTransition = MaterialContainerTransform()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        mainActivity?.hideToolbar()
-    }
 
     override fun setup() {
         binding.searchToolbar.setNavigationOnClickListener { activity?.onBackPressed() }

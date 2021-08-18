@@ -22,7 +22,7 @@ import com.axiel7.moelist.utils.StringExtensions.formatMediaType
 import com.axiel7.moelist.utils.StringExtensions.formatStatus
 import com.axiel7.moelist.utils.UseCases.copyToClipBoard
 import com.google.android.material.chip.Chip
-import com.google.android.material.transition.MaterialContainerTransform
+import com.google.android.material.transition.MaterialSharedAxis
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
@@ -43,13 +43,12 @@ class MangaDetailsFragment : BaseFragment<FragmentMangaDetailsBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = MaterialContainerTransform()
-        sharedElementReturnTransition = MaterialContainerTransform()
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
     }
 
     override fun onResume() {
         super.onResume()
-        mainActivity?.hideToolbar()
         binding.editFab.addSystemWindowInsetToMargin(bottom = true)
     }
 
