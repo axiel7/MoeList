@@ -30,6 +30,8 @@
         android:id="@+id/details_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="100dp"
+        android:clipToPadding="false"
         android:scrollbars="none">
 
         <RelativeLayout
@@ -37,20 +39,20 @@
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/details_toolbar"
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@android:color/transparent"
                 android:layout_alignParentTop="true"
-                app:navigationIcon="@drawable/ic_arrow_back"
+                android:background="@android:color/transparent"
                 app:contentInsetStartWithNavigation="0dp"
                 app:menu="@menu/details_menu"
-                app:title="@string/title_details"/>
+                app:navigationIcon="@drawable/ic_arrow_back"
+                app:title="@string/title_details" />
             <View
                 android:id="@+id/toolbar_divider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_below="@id/details_toolbar"
+                android:layout_below="@id/toolbar"
                 android:background="?android:attr/listDivider" />
 
             <RelativeLayout
@@ -564,6 +566,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="@dimen/text_margin"
                 android:orientation="vertical"
+                android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/list_item_theme"/>
 
@@ -586,6 +589,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="@dimen/text_margin"
                 android:orientation="vertical"
+                android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/list_item_theme"/>
 
@@ -606,7 +610,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/relateds"
                 android:layout_marginTop="10dp"
-                android:paddingBottom="100dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/list_item_anime_related"/>

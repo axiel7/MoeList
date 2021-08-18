@@ -17,6 +17,7 @@ import com.axiel7.moelist.databinding.FragmentAnimeDetailsBinding
 import com.axiel7.moelist.ui.base.BaseFragment
 import com.axiel7.moelist.ui.main.MainViewModel
 import com.axiel7.moelist.utils.Constants.RESPONSE_ERROR
+import com.axiel7.moelist.utils.Extensions.openCustomTab
 import com.axiel7.moelist.utils.InsetsHelper.addSystemWindowInsetToMargin
 import com.axiel7.moelist.utils.StringExtensions.formatGenre
 import com.axiel7.moelist.utils.StringExtensions.formatMediaType
@@ -26,7 +27,6 @@ import com.axiel7.moelist.utils.StringExtensions.formatStatus
 import com.axiel7.moelist.utils.StringExtensions.formatWeekday
 import com.axiel7.moelist.utils.UseCases.copyToClipBoard
 import com.google.android.material.chip.Chip
-import com.google.android.material.transition.MaterialSharedAxis
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
@@ -44,12 +44,6 @@ class AnimeDetailsFragment : BaseFragment<FragmentAnimeDetailsBinding>() {
     private val viewModel: AnimeDetailsViewModel by viewModels()
     private lateinit var adapterRelateds: RelatedsAdapter
     private lateinit var bottomSheetDialog: EditAnimeFragment
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
-    }
 
     override fun onResume() {
         super.onResume()
@@ -72,7 +66,14 @@ class AnimeDetailsFragment : BaseFragment<FragmentAnimeDetailsBinding>() {
 
         launchLifecycleStarted {
             viewModel.relateds.collectLatest {
-                if (it.isNotEmpty()) adapterRelateds.setData(it)
+                if (it.isNotEmpty()) {
+                    binding.relateds.visibility = View.VISIBLE
+                    binding.relatedsRecycler.visibility = View.VISIBLE
+                    adapterRelateds.setData(it)
+                } else {
+                    binding.relateds.visibility = View.GONE
+                    binding.relatedsRecycler.visibility = View.GONE
+                }
             }
         }
 
@@ -88,6 +89,8 @@ class AnimeDetailsFragment : BaseFragment<FragmentAnimeDetailsBinding>() {
     }
 
     private fun initUI() {
+        binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+
         //Title
         binding.mainTitle.setOnLongClickListener {
             binding.mainTitle.text.toString().copyToClipBoard(safeContext)
@@ -95,7 +98,6 @@ class AnimeDetailsFragment : BaseFragment<FragmentAnimeDetailsBinding>() {
         }
 
         binding.loadingTranslate.hide()
-
         //Translate
         if (Locale.getDefault().language == "en") {
             binding.translateButton.visibility = View.GONE
@@ -153,6 +155,16 @@ class AnimeDetailsFragment : BaseFragment<FragmentAnimeDetailsBinding>() {
 
     private fun setAnimeData(animeDetails: AnimeDetails) {
         binding.loadingLayout.visibility = View.GONE
+
+        binding.toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.open_in_browser -> {
+                    safeContext.openCustomTab("https://myanimelist.net/anime/${animeDetails.id}")
+                    true
+                }
+                else -> false
+            }
+        }
 
         bottomSheetDialog = EditAnimeFragment(
             myListStatus = animeDetails.myListStatus,
@@ -255,12 +267,26 @@ class AnimeDetailsFragment : BaseFragment<FragmentAnimeDetailsBinding>() {
         val studiosText = studiosNames.joinToString(separator = ",\n")
         binding.studiosText.text = if (studiosText.isNotEmpty()) studiosText else unknown
 
-        binding.openingRecycler.adapter = ThemesAdapter(safeContext).apply {
-            animeDetails.openingThemes?.let { setData(it) }
+        if (animeDetails.openingThemes.isNullOrEmpty()) {
+            binding.opening.visibility = View.GONE
+            binding.openingRecycler.visibility = View.GONE
+        } else {
+            binding.opening.visibility = View.VISIBLE
+            binding.openingRecycler.visibility = View.VISIBLE
+            binding.openingRecycler.adapter = ThemesAdapter(safeContext).apply {
+                setData(animeDetails.openingThemes)
+            }
         }
 
-        binding.endingRecycler.adapter = ThemesAdapter(safeContext).apply {
-            animeDetails.endingThemes?.let { setData(it) }
+        if (animeDetails.endingThemes.isNullOrEmpty()) {
+            binding.ending.visibility = View.GONE
+            binding.endingRecycler.visibility = View.GONE
+        } else {
+            binding.ending.visibility = View.VISIBLE
+            binding.endingRecycler.visibility = View.VISIBLE
+            binding.endingRecycler.adapter = ThemesAdapter(safeContext).apply {
+                setData(animeDetails.endingThemes)
+            }
         }
     }
 

@@ -2,8 +2,10 @@ package com.axiel7.moelist.utils
 
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
+import android.net.Uri
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.SearchView
+import androidx.browser.customtabs.CustomTabsIntent
 
 object Extensions {
 
@@ -28,5 +30,10 @@ object Extensions {
             toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
         }
         //inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+    }
+
+    /** Open link in Chrome Custom Tabs */
+    fun Context.openCustomTab(url: String) {
+        CustomTabsIntent.Builder().build().launchUrl(this, Uri.parse(url))
     }
 }

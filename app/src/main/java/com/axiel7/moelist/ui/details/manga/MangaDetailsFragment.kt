@@ -16,6 +16,7 @@ import com.axiel7.moelist.databinding.FragmentMangaDetailsBinding
 import com.axiel7.moelist.ui.base.BaseFragment
 import com.axiel7.moelist.ui.main.MainViewModel
 import com.axiel7.moelist.utils.Constants.RESPONSE_ERROR
+import com.axiel7.moelist.utils.Extensions.openCustomTab
 import com.axiel7.moelist.utils.InsetsHelper.addSystemWindowInsetToMargin
 import com.axiel7.moelist.utils.StringExtensions.formatGenre
 import com.axiel7.moelist.utils.StringExtensions.formatMediaType
@@ -41,12 +42,6 @@ class MangaDetailsFragment : BaseFragment<FragmentMangaDetailsBinding>() {
     private lateinit var adapterRelateds: RelatedsAdapter
     private lateinit var bottomSheetDialog: EditMangaFragment
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
-    }
-
     override fun onResume() {
         super.onResume()
         binding.editFab.addSystemWindowInsetToMargin(bottom = true)
@@ -68,7 +63,14 @@ class MangaDetailsFragment : BaseFragment<FragmentMangaDetailsBinding>() {
 
         launchLifecycleStarted {
             viewModel.relateds.collectLatest {
-                if (it.isNotEmpty()) adapterRelateds.setData(it)
+                if (it.isNotEmpty()) {
+                    binding.relateds.visibility = View.VISIBLE
+                    binding.relatedsRecycler.visibility = View.VISIBLE
+                    adapterRelateds.setData(it)
+                } else {
+                    binding.relateds.visibility = View.GONE
+                    binding.relatedsRecycler.visibility = View.GONE
+                }
             }
         }
 
@@ -84,6 +86,8 @@ class MangaDetailsFragment : BaseFragment<FragmentMangaDetailsBinding>() {
     }
 
     private fun initUI() {
+        binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+
         //Title
         binding.mainTitle.setOnLongClickListener {
             binding.mainTitle.text.toString().copyToClipBoard(safeContext)
@@ -91,7 +95,6 @@ class MangaDetailsFragment : BaseFragment<FragmentMangaDetailsBinding>() {
         }
 
         binding.loadingTranslate.hide()
-
         //Translate
         if (Locale.getDefault().language == "en") {
             binding.translateButton.visibility = View.GONE
@@ -149,6 +152,16 @@ class MangaDetailsFragment : BaseFragment<FragmentMangaDetailsBinding>() {
 
     private fun setMangaData(mangaDetails: MangaDetails) {
         binding.loadingLayout.visibility = View.GONE
+
+        binding.toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.open_in_browser -> {
+                    safeContext.openCustomTab("https://myanimelist.net/anime/${mangaDetails.id}")
+                    true
+                }
+                else -> false
+            }
+        }
 
         bottomSheetDialog = EditMangaFragment(
             mangaDetails.myListStatus,
