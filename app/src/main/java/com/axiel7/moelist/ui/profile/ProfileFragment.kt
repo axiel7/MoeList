@@ -67,15 +67,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             }
 
         binding.profilePicture.setOnClickListener {
-            val bundle = ActivityOptions.makeSceneTransitionAnimation(
-                requireActivity(),
-                it,
-                "shared_poster_container"
-            ).toBundle()
-            bundle.putString("poster_url", user.picture)
-            val fullPosterFragment = FullPosterFragment()
-            fullPosterFragment.arguments = bundle
-            //TODO
+            mainActivity?.navigate(
+                idAction = R.id.action_global_fullPosterFragment,
+                bundle = Bundle().apply { putString("poster_url", user.picture) }
+            )
         }
 
         val usernameText = user.name

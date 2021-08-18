@@ -9,6 +9,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.axiel7.moelist.R
 import com.axiel7.moelist.ui.main.MainActivity
+import com.axiel7.moelist.utils.Extensions.openCustomTab
 import com.axiel7.moelist.utils.UseCases.logOut
 import com.google.android.material.transition.MaterialFade
 
@@ -33,15 +34,13 @@ class MoreHomeFragment : PreferenceFragmentCompat() {
 
         val news = findPreference<Preference>("news")
         news?.setOnPreferenceClickListener {
-            val intent = CustomTabsIntent.Builder().build()
-            intent.launchUrl(safeContext, Uri.parse("https://myanimelist.net/news"))
+            safeContext.openCustomTab("https://myanimelist.net/news")
             true
         }
 
         val announcements = findPreference<Preference>("announcements")
         announcements?.setOnPreferenceClickListener {
-            val intent = CustomTabsIntent.Builder().build()
-            intent.launchUrl(safeContext, Uri.parse("https://myanimelist.net/forum/?board=5"))
+            safeContext.openCustomTab("https://myanimelist.net/forum/?board=5")
             true
         }
 

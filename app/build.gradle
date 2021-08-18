@@ -100,9 +100,9 @@ dependencies {
     implementation "app.futured.donut:donut:2.1.0"
 
     //Room
-    implementation "androidx.room:room-runtime:2.3.0"
-    implementation "androidx.room:room-ktx:2.3.0"
-    kapt "androidx.room:room-compiler:2.3.0"
+    implementation "androidx.room:room-runtime:2.4.0-alpha04"
+    implementation "androidx.room:room-ktx:2.4.0-alpha04"
+    kapt "androidx.room:room-compiler:2.4.0-alpha04"
 
     //Image
     implementation "io.coil-kt:coil:1.3.2"

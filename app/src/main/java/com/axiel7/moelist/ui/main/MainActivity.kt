@@ -44,12 +44,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     val toolbarHeight get() = binding.appbarLayout.root.height
     val bottomNavHeight get() = binding.navView.height
 
-    override fun preCreate() {
-        super.preCreate()
-        //setEnterSharedElementCallback(MaterialContainerTransformSharedElementCallback())
-        //setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
-    }
-
     override fun setup() {
         //launch login
         if (!App.isUserLogged || App.accessToken == "null") {
@@ -147,11 +141,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         sharedView: View? = null
     ) {
         if (sharedView != null) {
-            //val extras = FragmentNavigatorExtras(sharedView to sharedView.transitionName)
-            navController.navigate(idAction, bundle, null, null)
+            val extras = FragmentNavigatorExtras(sharedView to sharedView.transitionName)
+            navController.navigate(idAction, bundle, null, extras)
         }
         else {
-            navController.navigate(idAction, bundle)
+            navController.navigate(idAction, bundle, null, null)
         }
     }
 

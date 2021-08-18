@@ -59,13 +59,10 @@ class MangaListFragment : BaseFragment<FragmentListBinding>() {
 
         adapter = UserMangaListAdapter(
             safeContext,
-            onClick = { itemView, item, _ ->
+            onClick = { _, item, _ ->
                 mainViewModel.selectId(item.node.id)
-                val poster = itemView.findViewById<FrameLayout>(R.id.poster_container)
-                poster.transitionName = "shared_poster_container"
                 mainActivity?.navigate(
-                    idAction = R.id.action_navigation_manga_list_to_mangaDetailsFragment,
-                    sharedView = poster
+                    idAction = R.id.action_navigation_manga_list_to_mangaDetailsFragment
                 )
             },
             onLongClick = { _, item, _ ->

@@ -70,13 +70,10 @@ class AnimeListFragment : BaseFragment<FragmentListBinding>() {
 
         adapter = UserAnimeListAdapter(
             safeContext,
-            onClick = { itemView, item, _ ->
+            onClick = { _, item, _ ->
                 mainViewModel.selectId(item.node.id)
-                val poster = itemView.findViewById<FrameLayout>(R.id.poster_container)
-                poster.transitionName = "shared_poster_container"
                 mainActivity?.navigate(
-                    idAction = R.id.action_navigation_anime_list_to_animeDetailsFragment,
-                    sharedView = poster
+                    idAction = R.id.action_navigation_anime_list_to_animeDetailsFragment
                 )
             },
             onLongClick = { _, item, _ ->

@@ -60,13 +60,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             attachToRecyclerView(binding.todayList)
         }
         adapterToday = AiringAnimeAdapter(safeContext,
-            onClick = { itemView, item ->
+            onClick = { _, item ->
                 mainViewModel.selectId(item.node.id)
-                val poster = itemView.findViewById<ImageView>(R.id.poster)
-                poster.transitionName = "shared_poster_container"
                 mainActivity?.navigate(
-                    idAction = R.id.action_navigation_home_to_animeDetailsFragment,
-                    sharedView = poster
+                    idAction = R.id.action_navigation_home_to_animeDetailsFragment
                 )
             }
         )
@@ -78,21 +75,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 val poster = itemView.findViewById<ImageView>(R.id.poster)
                 poster.transitionName = "shared_poster_container"
                 mainActivity?.navigate(
-                    idAction = R.id.action_navigation_home_to_animeDetailsFragment,
-                    sharedView = poster
+                    idAction = R.id.action_navigation_home_to_animeDetailsFragment
                 )
             }
         )
         binding.seasonList.adapter = adapterSeason
 
         adapterRecommend = RecommendationsAdapter(
-            onClick = { itemView, item ->
+            onClick = { _, item ->
                 mainViewModel.selectId(item.node.id)
-                val poster = itemView.findViewById<ImageView>(R.id.poster)
-                poster.transitionName = "shared_poster_container"
                 mainActivity?.navigate(
-                    idAction = R.id.action_navigation_home_to_animeDetailsFragment,
-                    sharedView = poster
+                    idAction = R.id.action_navigation_home_to_animeDetailsFragment
                 )
             }
         )
