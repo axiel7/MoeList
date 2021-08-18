@@ -157,5 +157,10 @@
             app:popUpTo="@id/seasonalFragment"
             app:popUpToSaveState="true"/>
     </fragment>
+    <fragment
+        android:id="@+id/fullPosterFragment"
+        android:name="com.axiel7.moelist.ui.details.FullPosterFragment"
+        android:label="fragment_full_poster"
+        tools:layout="@layout/fragment_full_poster" /><action android:id="@+id/action_global_fullPosterFragment" app:destination="@id/fullPosterFragment"/>
 
 </navigation>

@@ -178,7 +178,12 @@ class MangaDetailsFragment : BaseFragment<FragmentMangaDetailsBinding>() {
         }
 
         binding.mangaPoster.load(mangaDetails.mainPicture?.medium)
-        //binding.mangaPoster.setOnClickListener { openFullPoster() } //TODO: open poster
+        binding.mangaPoster.setOnClickListener {
+            mainActivity?.navigate(
+                idAction = R.id.action_global_fullPosterFragment,
+                bundle = Bundle().apply { putString("poster_url", mangaDetails.mainPicture?.large) }
+            )
+        }
         binding.mainTitle.text = mangaDetails.title
 
         binding.mediaTypeText.text = mangaDetails.mediaType?.formatMediaType(safeContext)

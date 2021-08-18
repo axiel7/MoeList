@@ -127,6 +127,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     showBottomBar(false)
                     showToolbar(false)
                 }
+                R.id.fullPosterFragment -> {
+                    showBottomBar(false)
+                    showToolbar(false)
+                }
                 else -> {
                     showBottomBar()
                     showToolbar()
