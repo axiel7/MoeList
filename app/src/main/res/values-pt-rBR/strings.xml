@@ -163,7 +163,7 @@
     <string name="share">Compartilhar</string>
     <string name="sort_title">Título</string>
     <string name="sort_score">Nota</string>
-    <string name="sort_last_updated">Última atualização</string>
+    <string name="sort_last_updated">Último atualizado</string>
     <string name="sort" tools:ignore="MissingTranslation">Ordenar</string>
     <string name="sort_by" tools:ignore="MissingTranslation">Ordenar por</string>
     <string name="ok" tools:ignore="MissingTranslation">OK</string>
@@ -267,4 +267,6 @@
     <string name="something_went_wrong">Algo deu errado \n (；ﾟДﾟ)</string>
     <string name="upcoming">Próximo(s)</string>
     <string name="favorite">Favorito</string>
+    <string name="use_external_browser">Use external browser</string>
+    <string name="help">Help</string>
 </resources>
