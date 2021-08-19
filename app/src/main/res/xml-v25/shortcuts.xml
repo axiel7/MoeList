@@ -7,7 +7,7 @@
         android:shortcutShortLabel="@string/title_home">
         <intent
             android:action="home"
-            android:targetClass="com.axiel7.moelist.ui.MainActivity"
+            android:targetClass="com.axiel7.moelist.ui.main.MainActivity"
             android:targetPackage="com.axiel7.moelist" />
     </shortcut>
     <shortcut
@@ -17,7 +17,7 @@
         android:shortcutShortLabel="@string/title_anime_list">
         <intent
             android:action="anime"
-            android:targetClass="com.axiel7.moelist.ui.MainActivity"
+            android:targetClass="com.axiel7.moelist.ui.main.MainActivity"
             android:targetPackage="com.axiel7.moelist" />
     </shortcut>
     <shortcut
@@ -27,7 +27,7 @@
         android:shortcutShortLabel="@string/title_manga_list">
         <intent
             android:action="manga"
-            android:targetClass="com.axiel7.moelist.ui.MainActivity"
+            android:targetClass="com.axiel7.moelist.ui.main.MainActivity"
             android:targetPackage="com.axiel7.moelist" />
     </shortcut>
     <shortcut
@@ -37,7 +37,7 @@
         android:shortcutShortLabel="@string/title_profile">
         <intent
             android:action="profile"
-            android:targetClass="com.axiel7.moelist.ui.MainActivity"
+            android:targetClass="com.axiel7.moelist.ui.main.MainActivity"
             android:targetPackage="com.axiel7.moelist" />
     </shortcut>
 </shortcuts>

@@ -59,6 +59,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             "home" -> R.id.navigation_home
             "anime" -> R.id.navigation_anime_list
             "manga" -> R.id.navigation_manga_list
+            "profile" -> R.id.fragmentProfile
             else -> R.id.navigation_home
         }
 
