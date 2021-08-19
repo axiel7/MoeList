@@ -100,6 +100,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
         val code = uri.getQueryParameter("code")
         val receivedState = uri.getQueryParameter("state")
         if (code != null && receivedState == LoginViewModel.STATE) {
+            binding.loadingBar.visibility = View.VISIBLE
             viewModel.getAccessToken(code)
         }
     }
