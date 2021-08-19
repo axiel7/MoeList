@@ -163,7 +163,7 @@
     <string name="share">Compartilhar</string>
     <string name="sort_title">Título</string>
     <string name="sort_score">Nota</string>
-    <string name="sort_last_updated">Última atualização</string>
+    <string name="sort_last_updated">Último atualizado</string>
     <string name="sort" tools:ignore="MissingTranslation">Ordenar</string>
     <string name="sort_by" tools:ignore="MissingTranslation">Ordenar por</string>
     <string name="ok" tools:ignore="MissingTranslation">OK</string>
@@ -255,4 +255,18 @@
     <string name="bulgarian">Búlgaro</string>
     <string name="log_in_again">Por favor, faça login novamente</string>
     <string name="french">Francês</string>
+    <string name="loading">Carregando</string>
+    <string name="search_anime">Buscar Anime</string>
+    <string name="search_manga">Buscar Mangá</string>
+    <string name="anime_manga_news"><![CDATA[Notícias de Animes e Mangás]]></string>
+    <string name="mal_announcements">Anúncios do MyAnimeList</string>
+    <string name="about">Sobre</string>
+    <string name="mal_announcements_summary">Atualizações, mudanças e adições ao MAL.</string>
+    <string name="news_summary">Últimas informações sobre a indústria.</string>
+    <string name="more">Mais</string>
+    <string name="something_went_wrong">Algo deu errado \n (；ﾟДﾟ)</string>
+    <string name="upcoming">Próximo(s)</string>
+    <string name="favorite">Favorito</string>
+    <string name="use_external_browser">Use external browser</string>
+    <string name="help">Help</string>
 </resources>

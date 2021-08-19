@@ -19,9 +19,9 @@
     <string name="volumes">Томи</string>
     <string name="serialization">Публікація</string>
     <string name="donations_thanks">Спасибі, що вирішити підтримати мене!\n( /^ω^)/♪♪</string>
-    <string name="buy_tea">Купіть мені чаю 🍵</string>
-    <string name="buy">Купити</string>
-    <string name="buy_burger">Купіть мені бургер 🍔</string>
+    <string name="buy_tea">Пригостити мене чаєм 🍵</string>
+    <string name="buy">Придбати</string>
+    <string name="buy_burger">Пригостити мене бургером 🍔</string>
     <string name="login">Увійти</string>
     <string name="search_in_mal">Пошук на MAL</string>
     <string name="no_results">Нічого не знайдено</string>
@@ -252,7 +252,21 @@
     <string name="aired_ago">Транслювалося %s год тому</string>
     <string name="anime_stats">Аніме\nСтатистика</string>
     <string name="delete_confirmation">Ви дійсно бажаєте видалити цей запис?</string>
-    <string name="bulgarian">Bulgarian</string>
-    <string name="log_in_again">Please log in again</string>
-    <string name="french">French</string>
+    <string name="bulgarian">Болгарська</string>
+    <string name="log_in_again">Будь ласка, увійдіть ще раз</string>
+    <string name="french">Французька</string>
+    <string name="loading">Завантаження</string>
+    <string name="search_anime">Пошук аніме</string>
+    <string name="search_manga">Пошук манґи</string>
+    <string name="anime_manga_news"><![CDATA[Новини аніме та манґи]]></string>
+    <string name="mal_announcements">Оголошення MyAnimeList</string>
+    <string name="about">Про програму</string>
+    <string name="mal_announcements_summary">Оновлення, зміни та доповнення до MAL.</string>
+    <string name="news_summary">Остання інформація про фендом.</string>
+    <string name="more">Більше</string>
+    <string name="something_went_wrong">Щось пішло не так \n (；ﾟДﾟ)</string>
+    <string name="upcoming">Незабаром</string>
+    <string name="favorite">Обране</string>
+    <string name="use_external_browser">Use external browser</string>
+    <string name="help">Help</string>
 </resources>

@@ -255,4 +255,18 @@
     <string name="bulgarian">Bulgare</string>
     <string name="log_in_again">Veuillez vous connecter à nouveau</string>
     <string name="french">Français</string>
+    <string name="loading">Chargement</string>
+    <string name="search_anime">Rechercher un Anime</string>
+    <string name="search_manga">Rechercher un Manga</string>
+    <string name="anime_manga_news"><![CDATA[Actualité Anime & Manga]]></string>
+    <string name="mal_announcements">Annonces MyAnimeList</string>
+    <string name="about">À propos</string>
+    <string name="mal_announcements_summary">Mises à jour, changements et ajouts à MAL.</string>
+    <string name="news_summary">Dernières information sur l\'industrie.</string>
+    <string name="more">Plus</string>
+    <string name="something_went_wrong">Quelque chose s\'est mal passé \n (；ﾟДﾟ)</string>
+    <string name="upcoming">À venir</string>
+    <string name="favorite">Favoris</string>
+    <string name="use_external_browser">Use external browser</string>
+    <string name="help">Help</string>
 </resources>
