@@ -2,6 +2,7 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="?attr/materialCardViewStyle"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,13 +11,7 @@
     android:layout_marginTop="15dp"
     android:elevation="8dp"
     android:gravity="center_horizontal"
-    android:clickable="true"
-    android:focusable="true"
-    android:background="?attr/selectableItemBackgroundBorderless"
-    android:minHeight="72dp"
-    app:cardBackgroundColor="?attr/colorCard"
-    app:cardElevation="5dp"
-    app:cardCornerRadius="5dp">
+    android:minHeight="72dp">
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"

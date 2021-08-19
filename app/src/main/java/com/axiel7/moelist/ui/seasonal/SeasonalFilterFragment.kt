@@ -24,13 +24,13 @@ class SeasonalFilterFragment : BaseBottomSheetDialogFragment<BottomSheetSeasonal
         )
     }
     private val adapterSeason: ArrayAdapter<String> by lazy {
-        ArrayAdapter(safeContext, R.layout.list_item_status, seasons)
+        ArrayAdapter(safeContext, R.layout.item_spinner, seasons)
     }
     private val years: Array<Int> by lazy {
         (BASE_YEAR..SeasonCalendar.currentYear+1).toList().sortedDescending().toTypedArray()
     }
     private val adapterYear: ArrayAdapter<Int> by lazy {
-        ArrayAdapter(safeContext, R.layout.list_item_status, years)
+        ArrayAdapter(safeContext, R.layout.item_spinner, years)
     }
     private val selectedSeason get() = binding.seasonField.text.toString()
     private val selectedYear get() = binding.yearField.text.toString().toInt()

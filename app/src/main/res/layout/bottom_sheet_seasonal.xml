@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
+    android:background="?attr/colorSurface"
     android:fitsSystemWindows="false"
     app:behavior_hideable="true"
     app:behavior_peekHeight="80dp"
