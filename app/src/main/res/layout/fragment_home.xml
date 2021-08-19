@@ -47,7 +47,9 @@
                     android:layout_gravity="start"
                     android:gravity="center_vertical"
                     android:text="@string/anime_ranking"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     app:drawableStartCompat="@drawable/ic_round_movie_24" />
             </com.google.android.material.card.MaterialCardView>
             <com.google.android.material.card.MaterialCardView
@@ -69,7 +71,9 @@
                     android:layout_gravity="start"
                     android:gravity="center_vertical"
                     android:text="@string/manga_ranking"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     app:drawableStartCompat="@drawable/ic_round_menu_book_24" />
             </com.google.android.material.card.MaterialCardView>
 
@@ -103,7 +107,9 @@
                     android:layout_gravity="start"
                     android:gravity="center_vertical"
                     android:text="@string/seasonal_chart"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     app:drawableStartCompat="@drawable/ic_round_event_24" />
             </com.google.android.material.card.MaterialCardView>
             <com.google.android.material.card.MaterialCardView
@@ -126,7 +132,9 @@
                     android:layout_gravity="start"
                     android:gravity="center_vertical"
                     android:text="@string/random"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     app:drawableStartCompat="@drawable/ic_round_casino_24" />
             </com.google.android.material.card.MaterialCardView>
 

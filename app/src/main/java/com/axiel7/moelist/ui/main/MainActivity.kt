@@ -31,10 +31,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val profileViewModel: ProfileViewModel by viewModels()
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
-    private val currentFragment
-        get() = (navHostFragment.childFragmentManager.primaryNavigationFragment as? BaseFragment<*>)
     val root get() = binding.root
-    val toolbarHeight get() = binding.appbarLayout.root.height
     val bottomNavHeight get() = binding.navView.height
 
     override fun setup() {
