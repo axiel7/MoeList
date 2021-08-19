@@ -2,11 +2,10 @@ package com.axiel7.moelist.ui.details.anime
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import com.axiel7.moelist.R
+import com.axiel7.moelist.adapter.MaterialSpinnerAdapter
 import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
 import com.axiel7.moelist.databinding.BottomSheetEditAnimeBinding
 import com.axiel7.moelist.ui.base.BaseBottomSheetDialogFragment
@@ -93,13 +92,10 @@ class EditAnimeFragment(
             viewModel.updateList(animeId, status, score, episodes)
         }
 
-        binding.cancelButton.setOnClickListener {
-            syncListStatus()
-            dismiss()
-        }
+        binding.cancelButton.setOnClickListener { dismiss() }
 
-        val adapter = ArrayAdapter(safeContext, R.layout.list_item_status, statusItems)
-        (binding.statusLayout.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+        val adapter = MaterialSpinnerAdapter(safeContext, statusItems)
+        binding.statusField.setAdapter(adapter)
 
         binding.scoreSlider.addOnChangeListener { _, value, _ ->
             binding.scoreText.text =
