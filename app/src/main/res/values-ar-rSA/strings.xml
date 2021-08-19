@@ -255,11 +255,11 @@
     <string name="bulgarian">البلغارية</string>
     <string name="log_in_again">الرجاء تسجيل الدخول مرة أخرى</string>
     <string name="french">الفرنسية</string>
-    <string name="loading">Loading</string>
-    <string name="search_anime">Search Anime</string>
-    <string name="search_manga">Search Manga</string>
-    <string name="anime_manga_news"><![CDATA[Anime & Manga News]]></string>
-    <string name="mal_announcements">MyAnimeList Announcements</string>
+    <string name="loading">تحميل</string>
+    <string name="search_anime">أبحث أنيمي</string>
+    <string name="search_manga">أبحث مانجا</string>
+    <string name="anime_manga_news"><![CDATA[أخبار الأنيمي و المانجا]]></string>
+    <string name="mal_announcements">إعلانات MyAnimeList</string>
     <string name="about">About</string>
     <string name="mal_announcements_summary">Updates, changes, and additions to MAL.</string>
     <string name="news_summary">Latest information about the industry.</string>
