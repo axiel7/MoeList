@@ -46,6 +46,12 @@ class LoginViewModel : ViewModel() {
         }
     }
 
+    private val _useExternalBrowser = MutableStateFlow(false)
+    val userExternalBrowser get() = _useExternalBrowser.value
+    fun setUseExternalBrowser(value: Boolean) {
+        _useExternalBrowser.value = value
+    }
+
     companion object {
         const val STATE = "MoeList123"
     }

@@ -12,9 +12,9 @@ object UseCases {
 
     fun Context.logOut() {
         SharedPrefsHelpers.instance?.apply {
-            saveBoolean("isUserLogged", false)
-            deleteValue("accessToken")
-            deleteValue("refreshToken")
+            saveBoolean("user_logged", false)
+            deleteValue("access_token")
+            deleteValue("refresh_token")
         }
         Intent(this, LoginActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

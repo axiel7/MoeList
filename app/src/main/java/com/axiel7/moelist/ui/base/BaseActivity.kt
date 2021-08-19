@@ -2,6 +2,7 @@ package com.axiel7.moelist.ui.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
@@ -48,6 +49,10 @@ abstract class BaseActivity<VB: ViewBinding> : AppCompatActivity() {
                 launch.invoke()
             }
         }
+    }
+
+    protected fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroy() {
