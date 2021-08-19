@@ -4,38 +4,31 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.activity.viewModels
 import androidx.annotation.IdRes
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.view.updateLayoutParams
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import androidx.transition.TransitionManager
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
 import com.axiel7.moelist.databinding.ActivityMainBinding
 import com.axiel7.moelist.ui.base.BaseActivity
-import com.axiel7.moelist.ui.base.BaseFragment
 import com.axiel7.moelist.ui.login.LoginActivity
 import com.axiel7.moelist.ui.profile.ProfileViewModel
+import com.axiel7.moelist.utils.Constants.ERROR_SERVER
+import com.axiel7.moelist.utils.Constants.RESPONSE_ERROR
 import com.axiel7.moelist.utils.InsetsHelper.addSystemWindowInsetToPadding
-import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.transition.MaterialArcMotion
-import com.google.android.material.transition.MaterialContainerTransform
-import com.google.android.material.transition.MaterialSharedAxis
-import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
-import io.ktor.utils.io.*
+import com.axiel7.moelist.utils.UseCases.logOut
 import kotlinx.coroutines.flow.collectLatest
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override val bindingInflater: (LayoutInflater) -> ActivityMainBinding
         get() = ActivityMainBinding::inflate
+    private val profileViewModel: ProfileViewModel by viewModels()
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
     private val currentFragment
@@ -57,7 +50,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         binding.appbarLayout.mainToolbar.setOnClickListener { navigate(R.id.action_global_hostSearchFragment) }
 
         binding.appbarLayout.profilePicture.setOnClickListener { navigate(R.id.action_global_fragmentProfile) }
-        loadUser(sharedPref.getString("userPicture", null))
+        loadUser(sharedPref.getInt("userId", -1))
 
         val defaultSection = sharedPref.getString("default_section", "anime")
         val section = if (!intent.action.isNullOrEmpty() && intent.action != "android.intent.action.MAIN") {
@@ -148,27 +141,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         binding.appbarLayout.root.setExpanded(show)
     }
 
-    private fun loadUser(userPicture: String?) {
-        if (userPicture == null) {
-            val profileViewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
-            profileViewModel.getUser()
-
-            launchLifecycleStarted {
-                profileViewModel.user.collectLatest {
-                    it?.let {
-                        sharedPref.saveString("userPicture", it.picture)
-                        binding.appbarLayout.profilePicture.load(it.picture) {
-                            transformations(CircleCropTransformation())
-                            error(R.drawable.ic_round_account_circle_24)
-                        }
+    private fun loadUser(id: Int) {
+        profileViewModel.getUser(id)
+        launchLifecycleStarted {
+            profileViewModel.user.collectLatest {
+                it?.let {
+                    binding.appbarLayout.profilePicture.load(it.picture) {
+                        transformations(CircleCropTransformation())
+                        error(R.drawable.ic_round_account_circle_24)
                     }
                 }
             }
         }
-        else {
-            binding.appbarLayout.profilePicture.load(userPicture) {
-                transformations(CircleCropTransformation())
-                error(R.drawable.ic_round_account_circle_24)
+        launchLifecycleStarted {
+            profileViewModel.response.collectLatest {
+                if (it.first == RESPONSE_ERROR && it.second != ERROR_SERVER) {
+                    if (it.second.contains("token")) logOut()
+                }
             }
         }
     }

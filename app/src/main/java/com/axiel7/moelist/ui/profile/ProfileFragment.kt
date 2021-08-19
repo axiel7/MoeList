@@ -1,6 +1,5 @@
 package com.axiel7.moelist.ui.profile
 
-import android.app.ActivityOptions
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -8,7 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import app.futured.donut.DonutSection
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -16,7 +15,6 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.User
 import com.axiel7.moelist.databinding.FragmentProfileBinding
 import com.axiel7.moelist.ui.base.BaseFragment
-import com.axiel7.moelist.ui.details.FullPosterFragment
 import com.axiel7.moelist.utils.Constants.RESPONSE_ERROR
 import com.google.android.material.transition.MaterialFade
 import kotlinx.coroutines.flow.collectLatest
@@ -28,7 +26,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentProfileBinding
         get() = FragmentProfileBinding::inflate
-    private val viewModel: ProfileViewModel by viewModels()
+    private val viewModel: ProfileViewModel by activityViewModels()
     private var userId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
