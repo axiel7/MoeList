@@ -9,7 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewbinding.ViewBinding
-import com.axiel7.moelist.R
+import com.axiel7.moelist.utils.Extensions.changeTheme
 import com.axiel7.moelist.utils.SharedPrefsHelpers
 import kotlinx.coroutines.launch
 
@@ -48,12 +48,6 @@ abstract class BaseActivity<VB: ViewBinding> : AppCompatActivity() {
                 launch.invoke()
             }
         }
-    }
-
-    private fun changeTheme() {
-        if (sharedPref.getString("theme", "follow_system") == "amoled") {
-            setTheme(R.style.AppTheme_Amoled)
-        } else { setTheme(R.style.AppTheme) }
     }
 
     override fun onDestroy() {

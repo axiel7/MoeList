@@ -53,42 +53,33 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             return
         }
 
-        val defaultSection = sharedPref.getString("default_section", "anime")
-
-        when (sharedPref.getString("theme", "follow_system")) {
-            "light" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            "dark" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            "follow_system" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-            "amoled" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-        }
-
         binding.appbarLayout.mainToolbar.setNavigationOnClickListener { navigate(R.id.action_global_hostSearchFragment) }
         binding.appbarLayout.mainToolbar.setOnClickListener { navigate(R.id.action_global_hostSearchFragment) }
 
         binding.appbarLayout.profilePicture.setOnClickListener { navigate(R.id.action_global_fragmentProfile) }
         loadUser(sharedPref.getString("userPicture", null))
 
+        val defaultSection = sharedPref.getString("default_section", "anime")
         val section = if (!intent.action.isNullOrEmpty() && intent.action != "android.intent.action.MAIN") {
             intent.action
         } else { // if the action is MAIN then use the saved pref
             defaultSection
         }
+        val destinationId = when(section) {
+            "home" -> R.id.navigation_home
+            "anime" -> R.id.navigation_anime_list
+            "manga" -> R.id.navigation_manga_list
+            else -> R.id.navigation_home
+        }
 
         navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
+
+        binding.navView.selectedItemId = destinationId
+        binding.navView.menu.findItem(destinationId)?.isChecked = true
         val graph = navController.navInflater.inflate(R.navigation.main_graph)
-        graph.setStartDestination(
-            when(section) {
-                "home" -> R.id.navigation_home
-                "anime" -> R.id.navigation_anime_list
-                "manga" -> R.id.navigation_manga_list
-                else -> R.id.navigation_home
-            }
-        )
+        graph.setStartDestination(destinationId)
         navController.graph = graph
-        navHostFragment.enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
-        navHostFragment.exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
         binding.navView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
