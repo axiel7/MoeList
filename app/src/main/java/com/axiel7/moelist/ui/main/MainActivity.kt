@@ -28,6 +28,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override val bindingInflater: (LayoutInflater) -> ActivityMainBinding
         get() = ActivityMainBinding::inflate
+    private val viewModel: MainViewModel by viewModels()
     private val profileViewModel: ProfileViewModel by viewModels()
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
@@ -115,6 +116,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
 
         binding.navHostFragment.addSystemWindowInsetToPadding(bottom = true)
+
+        intent.dataString?.let {
+            if (it.startsWith("https://myanimelist.net/anime")) {
+                viewModel.selectId(it.split("/")[4].toIntOrNull())
+                navigate(
+                    idAction = R.id.action_global_animeDetailsFragment
+                )
+            }
+            else if (it.startsWith("https://myanimelist.net/manga")) {
+                viewModel.selectId(it.split("/")[4].toIntOrNull())
+                navigate(
+                    idAction = R.id.action_global_mangaDetailsFragment
+                )
+            }
+        }
     }
 
     fun navigate(

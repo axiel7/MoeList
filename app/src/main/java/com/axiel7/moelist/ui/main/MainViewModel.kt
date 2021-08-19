@@ -9,7 +9,7 @@ class MainViewModel : ViewModel() {
     private val _selectedId = MutableStateFlow<Int?>(null)
     val selectedId: StateFlow<Int?> = _selectedId
 
-    fun selectId(id: Int) {
+    fun selectId(id: Int?) {
         _selectedId.value = id
     }
 }
