@@ -267,4 +267,6 @@
     <string name="something_went_wrong">Щось пішло не так \n (；ﾟДﾟ)</string>
     <string name="upcoming">Незабаром</string>
     <string name="favorite">Обране</string>
+    <string name="use_external_browser">Use external browser</string>
+    <string name="help">Help</string>
 </resources>
