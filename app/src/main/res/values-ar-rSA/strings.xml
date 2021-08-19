@@ -260,11 +260,13 @@
     <string name="search_manga">أبحث مانجا</string>
     <string name="anime_manga_news"><![CDATA[أخبار الأنيمي و المانجا]]></string>
     <string name="mal_announcements">إعلانات MyAnimeList</string>
-    <string name="about">About</string>
-    <string name="mal_announcements_summary">Updates, changes, and additions to MAL.</string>
-    <string name="news_summary">Latest information about the industry.</string>
-    <string name="more">More</string>
-    <string name="something_went_wrong">Something went wrong \n (；ﾟДﾟ)</string>
-    <string name="upcoming">Upcoming</string>
-    <string name="favorite">Favorite</string>
+    <string name="about">حول التطبيق</string>
+    <string name="mal_announcements_summary">التحديثات والتغييرات والإضافات إلى MyAnimeList.</string>
+    <string name="news_summary">آخر المعلومات.</string>
+    <string name="more">المزيد</string>
+    <string name="something_went_wrong">حدث خطأ ما\n (；ﾟДﾟ)</string>
+    <string name="upcoming">القادم</string>
+    <string name="favorite">المفضلة</string>
+    <string name="use_external_browser">Use external browser</string>
+    <string name="help">Help</string>
 </resources>
