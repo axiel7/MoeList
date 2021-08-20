@@ -12,6 +12,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.axiel7.moelist.R
 import com.axiel7.moelist.databinding.FragmentHostSearchBinding
 import com.axiel7.moelist.ui.base.BaseFragment
+import com.axiel7.moelist.ui.main.MainViewModel
+import com.axiel7.moelist.utils.Extensions.hideKeyboard
 import com.axiel7.moelist.utils.Extensions.showKeyboard
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -58,10 +60,11 @@ class HostSearchFragment : BaseFragment<FragmentHostSearchBinding>() {
             }
         })
 
-        binding.searchView.postDelayed({
-            binding.searchView.showKeyboard(safeContext)
-        }, 250)
-
+        binding.searchView.setOnQueryTextFocusChangeListener { view, hasFocus ->
+            if (hasFocus) view.showKeyboard()
+            else view.hideKeyboard()
+        }
+        binding.searchView.requestFocus()
     }
 
     inner class SearchPagerAdapter(

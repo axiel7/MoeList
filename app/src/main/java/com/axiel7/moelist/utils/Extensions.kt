@@ -2,12 +2,14 @@ package com.axiel7.moelist.utils
 
 import android.app.Activity
 import android.content.Context
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.net.Uri
-import android.view.inputmethod.InputMethodManager
+import android.view.View
+import android.widget.TextView
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.widget.SearchView
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.axiel7.moelist.R
 
 object Extensions {
@@ -53,14 +55,11 @@ object Extensions {
         }
     }
 
-    /** Shows the soft input keyboard on a SearchView */
-    fun SearchView.showKeyboard(context: Context) {
-        requestFocus()
-        (context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager).apply {
-            toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.RESULT_HIDDEN)
-        }
-        //inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
-    }
+    fun View.showKeyboard() = ViewCompat.getWindowInsetsController(this)
+        ?.show(WindowInsetsCompat.Type.ime())
+
+    fun View.hideKeyboard() = ViewCompat.getWindowInsetsController(this)
+        ?.hide(WindowInsetsCompat.Type.ime())
 
     /** Open link in Chrome Custom Tabs */
     fun Context.openCustomTab(url: String) {
