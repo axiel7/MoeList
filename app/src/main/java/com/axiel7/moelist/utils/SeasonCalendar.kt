@@ -4,7 +4,9 @@ import com.axiel7.moelist.data.model.Season
 import java.util.*
 
 object SeasonCalendar {
-    private val calendar = Calendar.getInstance(Locale.ENGLISH)
+    private val calendar: Calendar by lazy {
+        Calendar.getInstance(Locale.getDefault())
+    }
     private val jpCalendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"), Locale.ENGLISH)
     private val month = calendar.get(Calendar.MONTH)
     private val weekDay = calendar.get(Calendar.DAY_OF_WEEK)
