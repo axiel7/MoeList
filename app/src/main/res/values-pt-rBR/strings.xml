@@ -267,6 +267,7 @@
     <string name="something_went_wrong">Algo deu errado \n (；ﾟДﾟ)</string>
     <string name="upcoming">Próximo(s)</string>
     <string name="favorite">Favorito</string>
-    <string name="use_external_browser">Use external browser</string>
-    <string name="help">Help</string>
+    <string name="use_external_browser">Usar navegador externo</string>
+    <string name="help">Ajuda</string>
+    <string name="calendar">Calendar</string>
 </resources>
