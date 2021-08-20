@@ -41,7 +41,7 @@ class MangaDetailsFragment : BaseFragment<FragmentMangaDetailsBinding>() {
     private val mainViewModel: MainViewModel by activityViewModels()
     private val viewModel: MangaDetailsViewModel by viewModels()
     private lateinit var adapterRelateds: RelatedsAdapter
-    private lateinit var bottomSheetDialog: EditMangaFragment
+    private var bottomSheetDialog: EditMangaFragment? = null
 
     override fun onResume() {
         super.onResume()
@@ -157,7 +157,7 @@ class MangaDetailsFragment : BaseFragment<FragmentMangaDetailsBinding>() {
         binding.relatedsRecycler.adapter = adapterRelateds
 
         binding.editFab.setOnClickListener {
-            bottomSheetDialog.show(parentFragmentManager, "Edit")
+            bottomSheetDialog?.show(parentFragmentManager, "Edit")
         }
     }
 

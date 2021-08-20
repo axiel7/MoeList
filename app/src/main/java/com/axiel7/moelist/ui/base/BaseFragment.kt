@@ -66,8 +66,9 @@ abstract class BaseFragment<VB: ViewBinding> : Fragment() {
 
     protected fun showSnackbar(message: String?) {
         if (isAdded && message != null) {
-            val root = (activity as? MainActivity)?.root ?: binding.root
-            Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
+            ((activity as? MainActivity)?.root ?: _binding?.root)?.let {
+                Snackbar.make(it, message, Snackbar.LENGTH_SHORT).show()
+            }
         }
     }
 
