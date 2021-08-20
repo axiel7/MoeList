@@ -100,6 +100,7 @@
                 android:layout_marginTop="8dp"
                 app:contentPadding="3dp">
                 <TextView
+                    android:id="@+id/seasonal_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -110,11 +111,11 @@
                     android:textSize="15sp"
                     android:maxLines="1"
                     android:ellipsize="end"
-                    app:drawableStartCompat="@drawable/ic_round_event_24" />
+                    app:drawableStartCompat="@drawable/ic_winter_24" />
             </com.google.android.material.card.MaterialCardView>
             <com.google.android.material.card.MaterialCardView
                 style="?attr/materialCardViewStyle"
-                android:id="@+id/random"
+                android:id="@+id/calendar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -131,11 +132,11 @@
                     android:drawablePadding="10dp"
                     android:layout_gravity="start"
                     android:gravity="center_vertical"
-                    android:text="@string/random"
+                    android:text="@string/calendar"
                     android:textSize="15sp"
                     android:maxLines="1"
                     android:ellipsize="end"
-                    app:drawableStartCompat="@drawable/ic_round_casino_24" />
+                    app:drawableStartCompat="@drawable/ic_round_event_24" />
             </com.google.android.material.card.MaterialCardView>
 
         </androidx.appcompat.widget.LinearLayoutCompat>

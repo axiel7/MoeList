@@ -31,6 +31,12 @@
             app:restoreState="true"
             app:popUpTo="@id/mangaDetailsFragment"
             app:popUpToSaveState="true"/>
+        <action
+            android:id="@+id/action_navigation_home_to_hostCalendarFragment"
+            app:destination="@id/hostCalendarFragment"
+            app:restoreState="true"
+            app:popUpTo="@id/hostCalendarFragment"
+            app:popUpToSaveState="true"/>
     </fragment>
 
     <fragment
@@ -169,5 +175,17 @@
         android:label="fragment_full_poster"
         tools:layout="@layout/fragment_full_poster" />
     <action android:id="@+id/action_global_fullPosterFragment" app:destination="@id/fullPosterFragment" /><action android:id="@+id/action_global_animeDetailsFragment" app:destination="@id/animeDetailsFragment"/><action android:id="@+id/action_global_mangaDetailsFragment" app:destination="@id/mangaDetailsFragment"/>
+    <fragment
+        android:id="@+id/hostCalendarFragment"
+        android:name="com.axiel7.moelist.ui.calendar.HostCalendarFragment"
+        android:label="fragment_host_calendar"
+        tools:layout="@layout/fragment_host_calendar" >
+        <action
+            android:id="@+id/action_hostCalendarFragment_to_animeDetailsFragment"
+            app:destination="@id/animeDetailsFragment"
+            app:restoreState="true"
+            app:popUpTo="@id/animeDetailsFragment"
+            app:popUpToSaveState="true"/>
+    </fragment>
 
 </navigation>

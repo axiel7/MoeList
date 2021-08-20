@@ -74,46 +74,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         navController.graph = graph
         binding.navView.setupWithNavController(navController)
 
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.animeDetailsFragment -> {
-                    showBottomBar(false)
-                    showToolbar(false)
-                }
-                R.id.mangaDetailsFragment -> {
-                    showBottomBar(false)
-                    showToolbar(false)
-                }
-                R.id.hostSearchFragment -> {
-                    showBottomBar(false)
-                    showToolbar(false)
-                }
-                R.id.fragmentProfile -> {
-                    showBottomBar(false)
-                    showToolbar(false)
-                }
-                R.id.animeRankingFragment -> {
-                    showBottomBar(false)
-                    showToolbar(false)
-                }
-                R.id.mangaRankingFragment -> {
-                    showBottomBar(false)
-                    showToolbar(false)
-                }
-                R.id.seasonalFragment -> {
-                    showBottomBar(false)
-                    showToolbar(false)
-                }
-                R.id.fullPosterFragment -> {
-                    showBottomBar(false)
-                    showToolbar(false)
-                }
-                else -> {
-                    showBottomBar()
-                    showToolbar()
-                }
-            }
-        }
+        setupDestinationListener()
 
         binding.navHostFragment.addSystemWindowInsetToPadding(bottom = true)
 
@@ -153,6 +114,53 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     fun showToolbar(show: Boolean = true) {
         binding.appbarLayout.root.setExpanded(show)
+    }
+
+    private fun setupDestinationListener() {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.animeDetailsFragment -> {
+                    showBottomBar(false)
+                    showToolbar(false)
+                }
+                R.id.mangaDetailsFragment -> {
+                    showBottomBar(false)
+                    showToolbar(false)
+                }
+                R.id.hostSearchFragment -> {
+                    showBottomBar(false)
+                    showToolbar(false)
+                }
+                R.id.fragmentProfile -> {
+                    showBottomBar(false)
+                    showToolbar(false)
+                }
+                R.id.animeRankingFragment -> {
+                    showBottomBar(false)
+                    showToolbar(false)
+                }
+                R.id.mangaRankingFragment -> {
+                    showBottomBar(false)
+                    showToolbar(false)
+                }
+                R.id.seasonalFragment -> {
+                    showBottomBar(false)
+                    showToolbar(false)
+                }
+                R.id.fullPosterFragment -> {
+                    showBottomBar(false)
+                    showToolbar(false)
+                }
+                R.id.hostCalendarFragment -> {
+                    showBottomBar(false)
+                    showToolbar(false)
+                }
+                else -> {
+                    showBottomBar()
+                    showToolbar()
+                }
+            }
+        }
     }
 
     private fun loadUser(id: Int) {

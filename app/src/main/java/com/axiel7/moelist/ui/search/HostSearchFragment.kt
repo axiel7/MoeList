@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -16,17 +17,33 @@ import com.axiel7.moelist.ui.main.MainViewModel
 import com.axiel7.moelist.utils.Extensions.hideKeyboard
 import com.axiel7.moelist.utils.Extensions.showKeyboard
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlin.random.Random
 
 class HostSearchFragment : BaseFragment<FragmentHostSearchBinding>() {
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHostSearchBinding
         get() = FragmentHostSearchBinding::inflate
+    private val mainViewModel: MainViewModel by activityViewModels()
     private val currentFragment
         get() = childFragmentManager.findFragmentByTag("f${binding.listViewPager.currentItem}")
     val searchQuery get() = binding.searchView.query.toString()
 
     override fun setup() {
         binding.searchToolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+        binding.searchToolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.random -> {
+                    mainViewModel.selectId(Random.nextInt(from = 0, until = 5000))
+                    mainActivity?.navigate(
+                        idAction = if (Random.nextBoolean()) R.id.action_hostSearchFragment_to_animeDetailsFragment
+                        else R.id.action_hostSearchFragment_to_mangaDetailsFragment
+                    )
+                    true
+                }
+                else -> false
+            }
+        }
+
         binding.listViewPager.adapter = SearchPagerAdapter(childFragmentManager, lifecycle)
 
         TabLayoutMediator(binding.tabLayout, binding.listViewPager) { tab, position ->

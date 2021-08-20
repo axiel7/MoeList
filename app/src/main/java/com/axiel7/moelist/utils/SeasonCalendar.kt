@@ -33,27 +33,27 @@ object SeasonCalendar {
     val currentSeasonStr get() = currentSeason.name.lowercase()
 
     val currentWeekday = when(weekDay) {
-        2 -> "monday"
-        3 -> "tuesday"
-        4 -> "wednesday"
-        5 -> "thursday"
-        6 -> "friday"
-        7 -> "saturday"
-        1 -> "sunday"
-        else -> "monday"
+        2 -> Constants.MONDAY
+        3 -> Constants.TUESDAY
+        4 -> Constants.WEDNESDAY
+        5 -> Constants.THURSDAY
+        6 -> Constants.FRIDAY
+        7 -> Constants.SATURDAY
+        1 -> Constants.SUNDAY
+        else -> Constants.MONDAY
     }
 
     val currentJapanHour = jpCalendar.get(Calendar.HOUR_OF_DAY)
 
     val currentJapanWeekday = when(jpCalendar.get(Calendar.DAY_OF_WEEK)) {
-        2 -> "monday"
-        3 -> "tuesday"
-        4 -> "wednesday"
-        5 -> "thursday"
-        6 -> "friday"
-        7 -> "saturday"
-        1 -> "sunday"
-        else -> "monday"
+        2 -> Constants.MONDAY
+        3 -> Constants.TUESDAY
+        4 -> Constants.WEDNESDAY
+        5 -> Constants.THURSDAY
+        6 -> Constants.FRIDAY
+        7 -> Constants.SATURDAY
+        1 -> Constants.SUNDAY
+        else -> Constants.MONDAY
     }
 
 }

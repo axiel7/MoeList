@@ -12,14 +12,16 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.AiringAnimeAdapter
 import com.axiel7.moelist.adapter.CurrentSeasonalAdapter
 import com.axiel7.moelist.adapter.RecommendationsAdapter
+import com.axiel7.moelist.data.model.Season
 import com.axiel7.moelist.databinding.FragmentHomeBinding
 import com.axiel7.moelist.ui.base.BaseFragment
 import com.axiel7.moelist.ui.main.MainViewModel
 import com.axiel7.moelist.utils.Constants.RESPONSE_ERROR
 import com.axiel7.moelist.utils.Constants.RESPONSE_OK
+import com.axiel7.moelist.utils.Extensions.setDrawables
 import com.axiel7.moelist.utils.Extensions.toInt
+import com.axiel7.moelist.utils.SeasonCalendar
 import kotlinx.coroutines.flow.collectLatest
-import kotlin.random.Random
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
@@ -51,17 +53,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             )
         }
 
+        val seasonIcon = when (SeasonCalendar.currentSeason) {
+            Season.WINTER -> R.drawable.ic_winter_24
+            Season.SPRING -> R.drawable.ic_spring_24
+            Season.SUMMER -> R.drawable.ic_summer_24
+            Season.FALL -> R.drawable.ic_fall_24
+        }
+        binding.seasonalText.setDrawables(start = seasonIcon)
         binding.seasonalChart.setOnClickListener {
             mainActivity?.navigate(
                 idAction = R.id.action_navigation_home_to_seasonalFragment
             )
         }
 
-        binding.random.setOnClickListener {
-            mainViewModel.selectId(Random.nextInt(from = 0, until = 5000))
+        binding.calendar.setOnClickListener {
             mainActivity?.navigate(
-                idAction = if (Random.nextBoolean()) R.id.action_navigation_home_to_animeDetailsFragment
-                else R.id.action_navigation_home_to_mangaDetailsFragment
+                idAction = R.id.action_navigation_home_to_hostCalendarFragment
             )
         }
 
@@ -77,6 +84,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         )
         binding.todayList.adapter = adapterToday
+
+        binding.todayTitle.setOnClickListener {
+            mainActivity?.navigate(
+                idAction = R.id.action_navigation_home_to_hostCalendarFragment
+            )
+        }
 
         adapterSeason = CurrentSeasonalAdapter(
             onClick = { itemView, item ->

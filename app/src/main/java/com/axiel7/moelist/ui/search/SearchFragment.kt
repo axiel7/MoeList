@@ -42,11 +42,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     private fun initAnimeSearch() {
         searchAnimeAdapter = SearchAnimeAdapter(safeContext,
-            onClick = { view, item, _ ->
+            onClick = { _, item, _ ->
                 mainViewModel.selectId(item.node.id)
                 mainActivity?.navigate(
                     R.id.action_hostSearchFragment_to_animeDetailsFragment,
-                    //sharedView = poster
                 )
             }
         )
@@ -81,7 +80,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     private fun initMangaSearch() {
         searchMangaAdapter = SearchMangaAdapter(
             safeContext,
-            onClick = { view, item, _ ->
+            onClick = { _, item, _ ->
                 mainViewModel.selectId(item.node.id)
                 mainActivity?.navigate(
                     R.id.action_hostSearchFragment_to_mangaDetailsFragment,

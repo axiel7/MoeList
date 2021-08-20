@@ -110,13 +110,9 @@ class HomeViewModel : ViewModel() {
                         && anime.node.broadcast.dayOfTheWeek == jpDayOfWeek
                         && anime.node.startSeason == currentStartSeason
                         && anime.node.status == Constants.STATUS_AIRING
-                    ) {
-                        tempList.add(anime)
-                    }
+                    ) { tempList.add(anime) }
                 }
                 tempList.sortByDescending { it.node.broadcast?.startTime }
-                /*if (tempList.isEmpty()) result.paging?.next.let { getTodayAnimes(it) }
-                else _todayResponse.value = tempList to RESPONSE_OK*/
                 _todayResponse.value = tempList to RESPONSE_OK
             }
             else {

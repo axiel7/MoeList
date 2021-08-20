@@ -4,59 +4,72 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:transitionGroup="true"
-    tools:context=".ui.search.HostSearchFragment">
+    tools:context=".ui.calendar.HostCalendarFragment">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorSurface"
-        android:transitionName="toolSearch">
+        android:background="@color/colorBackground"
+        android:elevation="0dp"
+        app:elevation="0dp">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/search_toolbar"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorSurface"
-            app:menu="@menu/search_menu"
+            app:title="@string/calendar"
             app:layout_scrollFlags="scroll|enterAlways"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:contentInsetStartWithNavigation="0dp">
-
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/search_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:iconifiedByDefault="false"
-                app:queryHint="@string/search"
-                app:searchIcon="@null"
-                app:queryBackground="@android:color/transparent" />
-
-        </com.google.android.material.appbar.MaterialToolbar>
+            app:contentInsetStartWithNavigation="0dp"/>
 
         <com.google.android.material.tabs.TabLayout
-            style="@style/Theme.Widget.Tabs"
             android:id="@+id/tab_layout"
+            style="@style/Theme.Widget.Tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/anime" />
+                android:text="@string/monday" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/manga" />
+                android:text="@string/tuesday" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wednesday" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/thursday" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/friday" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/saturday" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sunday" />
 
         </com.google.android.material.tabs.TabLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="?android:attr/listDivider"/>
+            android:background="?android:attr/listDivider" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
