@@ -6,7 +6,6 @@ import com.axiel7.moelist.data.model.ApiParams
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.anime.StartSeason
 import com.axiel7.moelist.data.network.Api
-import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 
 class AnimeSeasonalPaging(
     private val api: Api,

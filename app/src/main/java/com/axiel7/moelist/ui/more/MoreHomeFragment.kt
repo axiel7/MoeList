@@ -4,14 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.axiel7.moelist.R
 import com.axiel7.moelist.ui.main.MainActivity
 import com.axiel7.moelist.utils.Extensions.openCustomTab
 import com.axiel7.moelist.utils.UseCases.logOut
-import com.google.android.material.transition.MaterialFade
 
 class MoreHomeFragment : PreferenceFragmentCompat() {
 

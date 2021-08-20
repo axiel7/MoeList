@@ -5,7 +5,6 @@ import androidx.paging.PagingState
 import com.axiel7.moelist.data.model.ApiParams
 import com.axiel7.moelist.data.model.anime.UserAnimeList
 import com.axiel7.moelist.data.network.Api
-import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 
 class UserAnimeListPaging(
     private val api: Api,

@@ -24,7 +24,6 @@ import com.axiel7.moelist.utils.StringExtensions.formatMediaType
 import com.axiel7.moelist.utils.StringExtensions.formatStatus
 import com.axiel7.moelist.utils.UseCases.copyToClipBoard
 import com.google.android.material.chip.Chip
-import com.google.android.material.transition.MaterialSharedAxis
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation

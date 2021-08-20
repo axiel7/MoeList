@@ -9,7 +9,6 @@ import com.axiel7.moelist.data.model.manga.*
 import com.axiel7.moelist.utils.Constants.MAL_API_URL
 import com.axiel7.moelist.utils.Constants.MAL_OAUTH2_URL
 import io.ktor.client.*
-import io.ktor.client.features.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.http.*

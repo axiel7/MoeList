@@ -5,7 +5,6 @@ import androidx.paging.PagingState
 import com.axiel7.moelist.data.model.ApiParams
 import com.axiel7.moelist.data.model.manga.MangaRanking
 import com.axiel7.moelist.data.network.Api
-import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 
 class MangaRankingPaging(
     private val api: Api,
