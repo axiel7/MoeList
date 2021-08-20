@@ -71,18 +71,20 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
         launchLifecycleStarted {
             viewModel.accessToken.collectLatest {
                 it?.let {
-                    sharedPref.apply {
-                        saveString("access_token", it.accessToken)
-                        saveString("refresh_token", it.refreshToken)
-                        saveBoolean("user_logged", true)
-                    }
-                    App.createKtorClient()
-                    Intent(this@LoginActivity, MainActivity::class.java).apply {
-                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        startActivity(this)
-                        finish()
-                    }
+                    if (it.accessToken != null) {
+                        sharedPref.apply {
+                            saveString("access_token", it.accessToken)
+                            saveString("refresh_token", it.refreshToken)
+                            saveBoolean("user_logged", true)
+                        }
+                        App.createKtorClient()
+                        Intent(this@LoginActivity, MainActivity::class.java).apply {
+                            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            startActivity(this)
+                            finish()
+                        }
+                    } else showToast("Token null: ${it.error}: ${it.message}")
                 }
             }
         }

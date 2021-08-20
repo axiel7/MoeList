@@ -10,7 +10,12 @@ data class AccessToken(
     @SerialName("expires_in")
     val expiresIn: Int = 0,
     @SerialName("access_token")
-    val accessToken: String,
+    val accessToken: String? = null,
     @SerialName("refresh_token")
-    val refreshToken: String
+    val refreshToken: String? = null,
+
+    @SerialName("error")
+    val error: String? = null,
+    @SerialName("message")
+    val message: String? = null,
 )
