@@ -34,7 +34,7 @@
     <string name="chapters">Главы</string>
     <string name="watching">Смотрю</string>
     <string name="reading">Читаю</string>
-    <string name="completed">Завершено</string>
+    <string name="completed">Заверешено</string>
     <string name="on_hold">Отложено</string>
     <string name="dropped">Брошено</string>
     <string name="ptw">Запланировано</string>
@@ -269,4 +269,5 @@
     <string name="favorite">Favorite</string>
     <string name="use_external_browser">Use external browser</string>
     <string name="help">Help</string>
+    <string name="calendar">Calendar</string>
 </resources>
