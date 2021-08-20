@@ -3,7 +3,6 @@ package com.axiel7.moelist.ui.list
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.updatePadding
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
@@ -21,7 +20,6 @@ import com.axiel7.moelist.utils.Constants.STATUS_COMPLETED
 import com.axiel7.moelist.utils.Constants.STATUS_READING
 import com.axiel7.moelist.utils.Extensions.toInt
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 
 class MangaListFragment : BaseFragment<FragmentListBinding>() {
@@ -45,16 +43,11 @@ class MangaListFragment : BaseFragment<FragmentListBinding>() {
         defaultSort = sharedPref.getString("last_sort_manga", SORT_MANGA_TITLE) ?: SORT_MANGA_TITLE
     }
 
-    @ExperimentalCoroutinesApi
     override fun setup() {
 
         viewModel.setStatus(status)
         viewModel.setSortMode(defaultSort)
         viewModel.setNsfw(sharedPref.getBoolean("nsfw", false).toInt())
-
-        binding.list.updatePadding(
-            bottom = binding.list.paddingBottom + (mainActivity?.bottomNavHeight ?: 0)
-        )
 
         adapter = UserMangaListAdapter(
             safeContext,

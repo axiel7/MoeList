@@ -33,7 +33,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
     val root get() = binding.root
-    val bottomNavHeight get() = binding.navView.height
 
     override fun setup() {
         //launch login

@@ -3,10 +3,6 @@ package com.axiel7.moelist.ui.list
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
@@ -24,8 +20,6 @@ import com.axiel7.moelist.utils.Constants.STATUS_COMPLETED
 import com.axiel7.moelist.utils.Constants.STATUS_WATCHING
 import com.axiel7.moelist.utils.Extensions.toInt
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.transition.Hold
-import com.google.android.material.transition.MaterialElevationScale
 import kotlinx.coroutines.flow.collectLatest
 
 class AnimeListFragment : BaseFragment<FragmentListBinding>() {
@@ -45,21 +39,8 @@ class AnimeListFragment : BaseFragment<FragmentListBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        exitTransition = MaterialElevationScale(false)
-        reenterTransition = MaterialElevationScale(true)
         status = arguments?.getString("status") ?: STATUS_WATCHING
         defaultSort = sharedPref.getString("last_sort_anime", SORT_ANIME_TITLE) ?: SORT_ANIME_TITLE
-    }
-
-    override fun onResume() {
-        super.onResume()
-        ViewCompat.setOnApplyWindowInsetsListener(binding.list) { view, insets ->
-            val bottomInset = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
-            view.updatePadding(
-                bottom = bottomInset + (mainActivity?.bottomNavHeight ?: 0)
-            )
-            insets
-        }
     }
 
     override fun setup() {

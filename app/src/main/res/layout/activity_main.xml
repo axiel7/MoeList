@@ -26,7 +26,7 @@
         android:id="@+id/nav_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="?attr/actionBarSize"
+        android:minHeight="@dimen/bottom_nav_height"
         android:background="?attr/colorToolbar"
         android:layout_gravity="bottom"
         app:elevation="0dp"
