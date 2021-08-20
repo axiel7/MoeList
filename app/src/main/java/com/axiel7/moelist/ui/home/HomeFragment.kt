@@ -103,6 +103,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         )
         binding.seasonList.adapter = adapterSeason
 
+        binding.seasonTitle.setOnClickListener {
+            mainActivity?.navigate(
+                idAction = R.id.action_navigation_home_to_seasonalFragment
+            )
+        }
+
         adapterRecommend = RecommendationsAdapter(
             onClick = { _, item ->
                 mainViewModel.selectId(item.node.id)
