@@ -28,7 +28,6 @@ You can help translate the app!
 
 **Coming soon**
 * [See project](https://github.com/axiel7/MoeList/projects/1)
-* [2.0 Version](https://github.com/axiel7/MoeList/projects/2)
 
 **Not possible due to API limitations:**
 * Manga stats
