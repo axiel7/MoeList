@@ -17,8 +17,7 @@ import com.axiel7.moelist.databinding.FragmentMangaDetailsBinding
 import com.axiel7.moelist.ui.base.BaseFragment
 import com.axiel7.moelist.ui.main.MainViewModel
 import com.axiel7.moelist.utils.Constants.RESPONSE_ERROR
-import com.axiel7.moelist.utils.Extensions.openCustomTab
-import com.axiel7.moelist.utils.InsetsHelper.addSystemWindowInsetToMargin
+import com.axiel7.moelist.utils.Extensions.openLink
 import com.axiel7.moelist.utils.StringExtensions.formatGenre
 import com.axiel7.moelist.utils.StringExtensions.formatMediaType
 import com.axiel7.moelist.utils.StringExtensions.formatStatus
@@ -166,7 +165,7 @@ class MangaDetailsFragment : BaseFragment<FragmentMangaDetailsBinding>() {
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.open_in_browser -> {
-                    safeContext.openCustomTab("https://myanimelist.net/anime/${mangaDetails.id}")
+                    safeContext.openLink("https://myanimelist.net/anime/${mangaDetails.id}")
                     true
                 }
                 else -> false

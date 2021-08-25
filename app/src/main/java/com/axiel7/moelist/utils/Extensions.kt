@@ -2,12 +2,15 @@ package com.axiel7.moelist.utils
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.axiel7.moelist.R
@@ -63,7 +66,22 @@ object Extensions {
 
     /** Open link in Chrome Custom Tabs */
     fun Context.openCustomTab(url: String) {
-        CustomTabsIntent.Builder().build().launchUrl(this, Uri.parse(url))
+        val colors = CustomTabColorSchemeParams.Builder()
+            .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+            .build()
+        CustomTabsIntent.Builder()
+            .setDefaultColorSchemeParams(colors)
+            .build().apply {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                launchUrl(this@openCustomTab, Uri.parse(url))
+            }
+    }
+
+    /** Open external link by intent chooser */
+    fun Context.openLink(url: String) {
+        Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+            startActivity(Intent.createChooser(this, url))
+        }
     }
 
     /** Aux function with optional values */
