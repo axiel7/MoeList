@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,7 +8,6 @@
     android:focusable="true"
     android:background="?attr/colorSurface"
     android:animateLayoutChanges="true"
-    android:transitionGroup="true"
     tools:context=".ui.details.anime.AnimeDetailsFragment">
 
     <androidx.core.widget.ContentLoadingProgressBar
@@ -17,139 +16,147 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elevation="1dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        tools:visibility="invisible"/>
 
     <ScrollView
         android:id="@+id/details_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="100dp"
-        android:clipToPadding="false"
         android:scrollbars="none">
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="100dp">
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:layout_alignParentTop="true"
                 android:background="@android:color/transparent"
                 app:contentInsetStartWithNavigation="0dp"
                 app:menu="@menu/details_menu"
                 app:navigationIcon="@drawable/ic_arrow_back"
-                app:title="@string/title_details" />
+                app:title="@string/title_details"
+                app:layout_constraintTop_toTopOf="parent"/>
+
             <View
-                android:id="@+id/toolbar_divider"
+                android:id="@+id/divider_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_below="@id/toolbar"
-                android:background="?android:attr/listDivider" />
+                android:background="?android:attr/listDivider"
+                app:layout_constraintTop_toBottomOf="@id/toolbar"/>
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/main_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:layout_below="@id/toolbar_divider">
+                app:layout_constraintTop_toBottomOf="@id/divider_toolbar">
 
                 <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/anime_poster"
+                    android:id="@+id/poster"
                     android:layout_width="150dp"
                     android:layout_height="213dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="@dimen/text_margin"
-                    android:layout_marginTop="@dimen/text_margin"
-                    android:layout_marginEnd="@dimen/text_margin"
-                    android:layout_marginBottom="@dimen/text_margin"
+                    android:layout_margin="16dp"
                     android:background="@color/colorPlaceHolder"
                     android:elevation="10dp"
                     android:scaleType="centerCrop"
-                    app:shapeAppearanceOverlay="@style/circleImageView" />
+                    app:shapeAppearanceOverlay="@style/circleImageView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
                 <TextView
                     android:id="@+id/main_title"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/anime_poster"
-                    android:layout_marginEnd="@dimen/text_margin"
-                    android:layout_marginTop="@dimen/text_margin"
-                    android:ellipsize="end"
-                    android:text="Loading…"
+                    android:layout_margin="@dimen/text_margin"
+                    android:longClickable="true"
+                    android:text="@string/loading"
                     android:textColor="@color/colorText"
                     android:textSize="22sp"
                     android:textStyle="bold"
-                    android:longClickable="true"
-                    tools:ignore="HardcodedText" />
+                    app:layout_constraintStart_toEndOf="@id/poster"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/media_type_text"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/media_type"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/main_title"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="@dimen/text_margin"
                     android:layout_marginEnd="@dimen/text_margin"
-                    android:layout_toEndOf="@id/anime_poster"
-                    android:drawablePadding="6dp"
-                    android:text="TV"
+                    android:text="@string/tv"
                     android:textColor="?attr/colorControlNormal"
                     android:textSize="16sp"
+                    android:drawablePadding="8dp"
                     app:drawableStartCompat="@drawable/ic_round_movie_24"
-                    tools:ignore="HardcodedText" />
+                    app:layout_constraintStart_toEndOf="@id/poster"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/main_title"/>
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/episodes_text"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/episodes_chapters"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/media_type_text"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="@dimen/text_margin"
                     android:layout_marginEnd="@dimen/text_margin"
-                    android:layout_toEndOf="@id/anime_poster"
-                    android:drawablePadding="6dp"
                     android:text="@string/episodes"
                     android:textColor="?attr/colorControlNormal"
                     android:textSize="16sp"
-                    app:drawableStartCompat="@drawable/ic_round_timer_24" />
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/status_text"
-                    android:layout_width="match_parent"
+                    android:drawablePadding="8dp"
+                    app:drawableStartCompat="@drawable/ic_round_timer_24"
+                    app:layout_constraintStart_toEndOf="@id/poster"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/media_type"/>
+
+                <TextView
+                    android:id="@+id/status"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/episodes_text"
-                    android:layout_toEndOf="@id/anime_poster"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="@dimen/text_margin"
                     android:layout_marginEnd="@dimen/text_margin"
-                    android:layout_marginTop="10dp"
                     android:gravity="center_vertical"
                     android:text="@string/finished"
                     android:textColor="?attr/colorControlNormal"
                     android:textSize="16sp"
-                    android:drawablePadding="5dp"
-                    app:drawableStartCompat="@drawable/ic_round_rss_feed_24" />
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/score_text"
-                    android:layout_width="match_parent"
+                    android:drawablePadding="8dp"
+                    app:drawableStartCompat="@drawable/ic_round_rss_feed_24"
+                    app:layout_constraintStart_toEndOf="@id/poster"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/episodes_chapters"/>
+
+                <TextView
+                    android:id="@+id/score"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/status_text"
-                    android:layout_toEndOf="@id/anime_poster"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="@dimen/text_margin"
                     android:layout_marginEnd="@dimen/text_margin"
-                    android:layout_marginTop="10dp"
                     android:gravity="center_vertical"
-                    android:text="7.52"
+                    android:text="@string/unknown"
+                    tools:text="7.52"
                     android:textColor="?attr/colorControlNormal"
                     android:textSize="16sp"
-                    android:drawablePadding="6dp"
-                    tools:ignore="HardcodedText"
-                    app:drawableStartCompat="@drawable/ic_round_details_star_24" />
+                    android:drawablePadding="8dp"
+                    app:drawableStartCompat="@drawable/ic_round_details_star_24"
+                    app:layout_constraintStart_toEndOf="@id/poster"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/status"/>
 
-            </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <HorizontalScrollView
                 android:id="@+id/genres_scroll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scrollbars="none"
-                android:layout_below="@id/main_info">
+                app:layout_constraintTop_toBottomOf="@id/main_info">
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chip_group_genres"
@@ -157,38 +164,38 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
-                    app:singleLine="true" />
+                    app:singleLine="true"/>
 
             </HorizontalScrollView>
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
+                style="@style/Text.Clickable"
                 android:id="@+id/translate_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/genres_scroll"
                 android:text="@string/translate"
                 android:textColor="@color/colorAccent"
                 android:gravity="center_vertical"
-                android:drawableStart="@drawable/ic_outline_translate_24"
-                android:drawablePadding="5dp"
                 android:paddingStart="@dimen/text_margin"
                 android:paddingEnd="@dimen/text_margin"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?attr/selectableItemBackground"
-                app:drawableTint="@color/colorAccent" />
+                android:drawablePadding="8dp"
+                app:drawableTint="@color/colorAccent"
+                app:drawableStartCompat="@drawable/ic_outline_translate_24"
+                app:layout_constraintTop_toBottomOf="@id/genres_scroll"
+                app:layout_constraintStart_toStartOf="parent"/>
+
             <androidx.core.widget.ContentLoadingProgressBar
-                android:id="@+id/loading_translate"
                 style="?android:attr/progressBarStyleSmall"
+                android:id="@+id/loading_translate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="13dp"
-                android:layout_toEndOf="@id/translate_button"
-                android:layout_below="@id/genres_scroll"/>
+                app:layout_constraintTop_toTopOf="@id/translate_button"
+                app:layout_constraintBottom_toBottomOf="@id/translate_button"
+                app:layout_constraintStart_toEndOf="@id/translate_button"/>
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
                 android:id="@+id/synopsis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -198,418 +205,436 @@
                 android:ellipsize="end"
                 android:maxLines="5"
                 android:paddingStart="@dimen/text_margin"
-                android:paddingEnd="@dimen/text_margin" />
+                android:paddingEnd="@dimen/text_margin"
+                app:layout_constraintTop_toBottomOf="@id/translate_button"/>
+
             <ImageView
+                style="@style/Image.Clickable"
                 android:id="@+id/synopsis_icon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/synopsis"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?attr/selectableItemBackground"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
                 android:src="@drawable/ic_round_keyboard_arrow_down_24"
-                android:contentDescription="@string/synopsis_icon" />
+                android:contentDescription="@string/synopsis_icon"
+                app:layout_constraintTop_toBottomOf="@id/synopsis"/>
 
             <TextView
                 android:id="@+id/stats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/synopsis_icon"
-                android:layout_marginStart="@dimen/text_margin"
-                android:layout_marginEnd="@dimen/text_margin"
-                android:layout_marginTop="@dimen/text_margin"
+                android:layout_margin="@dimen/text_margin"
                 android:text="@string/stats"
                 android:textSize="16sp"
-                android:textStyle="bold" />
-            <androidx.appcompat.widget.LinearLayoutCompat
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/synopsis_icon"/>
+
+            <LinearLayout
                 android:id="@+id/stats_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/stats"
-                android:layout_marginTop="@dimen/text_margin"
-                android:layout_marginBottom="@dimen/text_margin"
+                android:layout_margin="@dimen/text_margin"
                 android:gravity="top"
                 android:divider="?android:attr/listDivider"
                 android:showDividers="middle"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/stats">
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <TextView
+                    style="@style/Text.Clickable.Borderless"
                     android:id="@+id/rank_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:gravity="center"
                     android:text="# 24"
                     android:textColor="?attr/colorControlNormal"
                     tools:ignore="HardcodedText"
                     app:drawableTopCompat="@drawable/ic_round_bar_chart_24" />
-                <androidx.appcompat.widget.AppCompatTextView
+
+                <TextView
+                    style="@style/Text.Clickable.Borderless"
                     android:id="@+id/num_scores_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:gravity="center"
                     android:text="116,329"
                     android:textColor="?attr/colorControlNormal"
                     tools:ignore="HardcodedText"
                     app:drawableTopCompat="@drawable/ic_round_thumbs_up_down_24" />
-                <androidx.appcompat.widget.AppCompatTextView
+
+                <TextView
+                    style="@style/Text.Clickable.Borderless"
                     android:id="@+id/members_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:gravity="center"
                     android:text="116,329"
                     android:textColor="?attr/colorControlNormal"
                     tools:ignore="HardcodedText"
                     app:drawableTopCompat="@drawable/ic_round_group_24" />
-                <androidx.appcompat.widget.AppCompatTextView
+
+                <TextView
+                    style="@style/Text.Clickable.Borderless"
                     android:id="@+id/popularity_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:gravity="center"
                     android:text="# 1096"
                     android:textColor="?attr/colorControlNormal"
                     tools:ignore="HardcodedText"
                     app:drawableTopCompat="@drawable/ic_round_trending_up_24" />
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/more_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/stats_layout"
-                android:layout_marginStart="@dimen/text_margin"
-                android:layout_marginEnd="@dimen/text_margin"
-                android:layout_marginTop="@dimen/text_margin"
+                android:layout_margin="@dimen/text_margin"
                 android:text="@string/more_info"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/stats_layout"/>
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/synonyms_layout"
+            <GridLayout
+                android:id="@+id/grid_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/more_info"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="54dp">
+                android:layout_marginTop="8dp"
+                android:columnCount="2"
+                android:useDefaultMargins="true"
+                app:layout_constraintTop_toBottomOf="@id/more_info">
 
                 <TextView
+                    android:id="@+id/authors_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_columnWeight="1"
                     android:layout_marginStart="@dimen/text_margin"
-                    android:layout_weight="1"
-                    android:text="@string/synonyms" />
+                    android:text="@string/authors" />
 
                 <TextView
-                    android:id="@+id/synonyms_text"
+                    android:id="@+id/authors"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_columnWeight="1"
+                    android:layout_marginEnd="@dimen/text_margin"
+                    android:text="@string/empty_slash"
+                    android:textColor="?attr/colorControlNormal"
+                    android:textIsSelectable="true"
+                    tools:text="Inio Asano" />
+
+                <TextView
+                    android:id="@+id/volumes_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_columnWeight="1"
+                    android:layout_marginStart="@dimen/text_margin"
+                    android:text="@string/volumes" />
+
+                <TextView
+                    android:id="@+id/volumes"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_columnWeight="1"
+                    android:layout_marginEnd="@dimen/text_margin"
+                    android:text="13"
+                    android:textColor="?attr/colorControlNormal"
+                    tools:ignore="HardcodedText" />
+
+                <View
+                    android:id="@+id/divider_volumes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_columnSpan="2"
+                    android:background="?android:attr/listDivider" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_columnWeight="1"
+                    android:layout_marginStart="@dimen/text_margin"
+                    android:text="@string/synonyms"/>
+
+                <TextView
+                    android:id="@+id/synonyms"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_columnWeight="1"
+                    android:layout_marginEnd="@dimen/text_margin"
                     android:text="@string/empty_slash"
                     tools:text="My Pico\nBoku no Pico OVA 1"
                     android:textColor="?attr/colorControlNormal"
-                    android:textIsSelectable="true" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/jp_title_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="54dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_below="@id/synonyms_layout">
+                    android:textIsSelectable="true"/>
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_columnWeight="1"
                     android:layout_marginStart="@dimen/text_margin"
-                    android:text="@string/jp_title" />
+                    android:text="@string/jp_title"/>
+
                 <TextView
                     android:id="@+id/jp_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_columnWeight="1"
+                    android:layout_marginEnd="@dimen/text_margin"
                     android:text="@string/empty_slash"
                     tools:text="ぼくのぴこ"
                     android:textIsSelectable="true"
-                    android:textColor="?attr/colorControlNormal" />
+                    android:textColor="?attr/colorControlNormal"/>
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <View
-                android:id="@+id/divider0"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/jp_title_layout"
-                android:background="?android:attr/listDivider" />
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/start_date_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="54dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_below="@id/divider0">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_columnSpan="2"
+                    android:background="?android:attr/listDivider" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_columnWeight="1"
                     android:layout_marginStart="@dimen/text_margin"
                     android:text="@string/start_date" />
+
                 <TextView
-                    android:id="@+id/start_date_text"
+                    android:id="@+id/start_date"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_columnWeight="1"
+                    android:layout_marginEnd="@dimen/text_margin"
                     android:text="Sep 7, 2006"
                     android:textColor="?attr/colorControlNormal"
                     tools:ignore="HardcodedText" />
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/end_date_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="54dp"
-                android:layout_marginBottom="10dp"
-                android:layout_below="@id/start_date_layout">
-
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_columnWeight="1"
                     android:layout_marginStart="@dimen/text_margin"
                     android:text="@string/end_date" />
+
                 <TextView
-                    android:id="@+id/end_date_text"
+                    android:id="@+id/end_date"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_columnWeight="1"
+                    android:layout_marginEnd="@dimen/text_margin"
                     android:text="Sep 7, 2006"
                     android:textColor="?attr/colorControlNormal"
                     tools:ignore="HardcodedText" />
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/season_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="54dp"
-                android:layout_marginBottom="10dp"
-                android:layout_below="@id/end_date_layout">
-
                 <TextView
+                    android:id="@+id/season_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_columnWeight="1"
                     android:layout_marginStart="@dimen/text_margin"
                     android:text="@string/season" />
+
                 <TextView
-                    android:id="@+id/season_text"
+                    android:id="@+id/season"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_columnWeight="1"
+                    android:layout_marginEnd="@dimen/text_margin"
                     android:text="Summer 2006"
                     android:textColor="?attr/colorControlNormal"
                     tools:ignore="HardcodedText" />
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/broadcast_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="54dp"
-                android:layout_marginBottom="10dp"
-                android:layout_below="@id/season_layout">
-
                 <TextView
+                    android:id="@+id/broadcast_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_columnWeight="1"
                     android:layout_marginStart="@dimen/text_margin"
                     android:text="@string/broadcast" />
+
                 <TextView
-                    android:id="@+id/broadcast_text"
+                    android:id="@+id/broadcast"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_columnWeight="1"
+                    android:layout_marginEnd="@dimen/text_margin"
                     android:text="Fridays 00:00"
                     android:textColor="?attr/colorControlNormal"
                     tools:ignore="HardcodedText" />
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/duration_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="54dp"
-                android:layout_marginBottom="10dp"
-                android:layout_below="@id/broadcast_layout">
-
                 <TextView
+                    android:id="@+id/duration_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_columnWeight="1"
                     android:layout_marginStart="@dimen/text_margin"
                     android:text="@string/duration" />
+
                 <TextView
-                    android:id="@+id/duration_text"
+                    android:id="@+id/duration"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_columnWeight="1"
+                    android:layout_marginEnd="@dimen/text_margin"
                     android:text="34 min."
                     android:textColor="?attr/colorControlNormal"
                     tools:ignore="HardcodedText" />
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/source_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="54dp"
-                android:layout_marginBottom="10dp"
-                android:layout_below="@id/duration_layout">
-
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_columnWeight="1"
                     android:layout_marginStart="@dimen/text_margin"
                     android:text="@string/source" />
+
                 <TextView
-                    android:id="@+id/source_text"
+                    android:id="@+id/source"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_columnWeight="1"
+                    android:layout_marginEnd="@dimen/text_margin"
                     android:text="Original"
                     android:textColor="?attr/colorControlNormal"
                     tools:ignore="HardcodedText" />
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <View
-                android:id="@+id/divider1"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/source_layout"
-                android:background="?android:attr/listDivider" />
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/studios_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="54dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_below="@id/divider1">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_columnSpan="2"
+                    android:background="?android:attr/listDivider" />
 
                 <TextView
+                    android:id="@+id/studios_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_columnWeight="1"
                     android:layout_marginStart="@dimen/text_margin"
                     android:text="@string/studios" />
+
                 <TextView
-                    android:id="@+id/studios_text"
+                    android:id="@+id/studios"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_columnWeight="1"
+                    android:layout_marginEnd="@dimen/text_margin"
                     android:textIsSelectable="true"
                     android:text="@string/empty_slash"
                     tools:text="Sugar Boy\nBlue Cat"
                     android:textColor="?attr/colorControlNormal" />
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            </GridLayout>
 
             <TextView
                 android:id="@+id/opening"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/studios_layout"
                 android:layout_marginStart="@dimen/text_margin"
                 android:layout_marginEnd="@dimen/text_margin"
                 android:layout_marginTop="@dimen/text_margin"
                 android:text="@string/opening"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/grid_info"/>
+
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/opening_recycler"
+                android:id="@+id/list_opening"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/opening"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginEnd="@dimen/text_margin"
                 android:orientation="vertical"
                 android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/list_item_theme"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/list_item_theme"/>
+                app:layout_constraintTop_toBottomOf="@id/opening" />
 
             <TextView
                 android:id="@+id/ending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/opening_recycler"
                 android:layout_marginStart="@dimen/text_margin"
                 android:layout_marginEnd="@dimen/text_margin"
                 android:layout_marginTop="@dimen/text_margin"
                 android:text="@string/ending"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/list_opening"/>
+
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/ending_recycler"
+                android:id="@+id/list_ending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ending"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginEnd="@dimen/text_margin"
                 android:orientation="vertical"
                 android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/list_item_theme"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/list_item_theme"/>
+                app:layout_constraintTop_toBottomOf="@id/ending"/>
 
             <TextView
                 android:id="@+id/relateds"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ending_recycler"
                 android:layout_marginStart="@dimen/text_margin"
                 android:layout_marginEnd="@dimen/text_margin"
                 android:layout_marginTop="@dimen/text_margin"
                 android:text="@string/relateds"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/list_ending"/>
+
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/relateds_recycler"
+                android:id="@+id/list_relateds"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/relateds"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal"
+                tools:listitem="@layout/list_item_anime_related"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/list_item_anime_related"/>
+                app:layout_constraintTop_toBottomOf="@id/relateds"/>
 
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
@@ -622,8 +647,6 @@
         android:text="@string/edit"
         android:textColor="@color/colorTextInverted"
         app:iconTint="@color/colorTextInverted"
-        app:icon="@drawable/ic_round_edit_24"
-        app:layout_anchor="@id/details_scroll"
-        app:layout_anchorGravity="bottom|end" />
+        app:icon="@drawable/ic_round_edit_24"/>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</FrameLayout>

@@ -138,13 +138,29 @@
     </style>
 
     <!-- TextView -->
-    <style name="Text.Option" parent="TextAppearance.AppCompat">
-        <item name="android:background">?attr/selectableItemBackground</item>
-        <item name="android:clickable">true</item>
-        <item name="android:focusable">true</item>
+    <style name="Text.Option" parent="Text.Clickable">
         <item name="android:gravity">center_vertical</item>
         <item name="android:padding">16dp</item>
         <item name="android:drawablePadding">16dp</item>
+    </style>
+
+    <style name="Text.Clickable" parent="TextAppearance.AppCompat">
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="Text.Clickable.Borderless" parent="TextAppearance.AppCompat">
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <!-- ImageView -->
+    <style name="Image.Clickable" parent="ThemeOverlay.AppCompat">
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
     </style>
 
     <!-- Alert dialog -->
