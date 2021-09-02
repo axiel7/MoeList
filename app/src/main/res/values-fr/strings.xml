@@ -32,7 +32,7 @@
     <string name="episodes">Épisodes</string>
     <string name="delete">Supprimer</string>
     <string name="chapters">Chapitres</string>
-    <string name="watching">En train de visionnage</string>
+    <string name="watching">En cours de visionnage</string>
     <string name="reading">En cours de lecture</string>
     <string name="completed">Terminé</string>
     <string name="on_hold">En attente</string>
