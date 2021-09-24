@@ -82,7 +82,7 @@
         android:id="@+id/animeDetailsFragment"
         android:name="com.axiel7.moelist.ui.details.anime.AnimeDetailsFragment"
         android:label="fragment_anime_details"
-        tools:layout="@layout/fragment_anime_details" >
+        tools:layout="@layout/fragment_details" >
         <action
             android:id="@+id/action_animeDetailsFragment_self"
             app:destination="@id/animeDetailsFragment"
@@ -92,7 +92,7 @@
         android:id="@+id/mangaDetailsFragment"
         android:name="com.axiel7.moelist.ui.details.manga.MangaDetailsFragment"
         android:label="fragment_manga_details"
-        tools:layout="@layout/fragment_manga_details" >
+        tools:layout="@layout/fragment_details" >
         <action
             android:id="@+id/action_mangaDetailsFragment_self"
             app:destination="@id/mangaDetailsFragment" />

@@ -47,7 +47,7 @@ class LoginViewModel : ViewModel() {
     }
 
     private val _useExternalBrowser = MutableStateFlow(false)
-    val userExternalBrowser get() = _useExternalBrowser.value
+    val useExternalBrowser get() = _useExternalBrowser.value
     fun setUseExternalBrowser(value: Boolean) {
         _useExternalBrowser.value = value
     }

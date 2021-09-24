@@ -53,7 +53,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
         }
 
         binding.login.setOnClickListener {
-            if (viewModel.userExternalBrowser) {
+            if (viewModel.useExternalBrowser) {
                 Intent(Intent.ACTION_VIEW, Uri.parse(viewModel.loginUrl)).apply {
                     try {
                         startActivity(intent)
