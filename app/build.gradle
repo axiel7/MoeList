@@ -16,8 +16,8 @@ android {
         applicationId "com.axiel7.moelist"
         minSdk 23
         targetSdk 31
-        versionCode 61
-        versionName "2.0.0-beta03"
+        versionCode 62
+        versionName "2.0.0-beta04"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -64,12 +64,12 @@ dependencies {
     implementation "androidx.browser:browser:1.3.0"
     implementation "androidx.preference:preference-ktx:1.1.1"
 
-    implementation "androidx.navigation:navigation-fragment-ktx:2.4.0-alpha06"
-    implementation "androidx.navigation:navigation-ui-ktx:2.4.0-alpha06"
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.0-alpha09'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.4.0-alpha09'
 
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0-alpha03"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0-alpha03"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-alpha03"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0-beta01"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0-beta01"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-beta01"
     
     implementation "androidx.core:core-splashscreen:1.0.0-alpha01"
     implementation "com.google.android.material:material:1.4.0"
@@ -88,11 +88,11 @@ dependencies {
     implementation "com.google.firebase:firebase-crashlytics-ktx"
 
     //Ktor
-    implementation "io.ktor:ktor-client-okhttp:1.6.2"
-    implementation "io.ktor:ktor-client-serialization:1.6.2"
-    implementation "io.ktor:ktor-client-auth:1.6.2"
+    implementation 'io.ktor:ktor-client-okhttp:1.6.3'
+    implementation 'io.ktor:ktor-client-serialization:1.6.3'
+    implementation 'io.ktor:ktor-client-auth:1.6.3'
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2"
-    implementation "io.ktor:ktor-client-logging-jvm:1.6.2"
+    implementation 'io.ktor:ktor-client-logging-jvm:1.6.3'
 
     //Utils
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.1.5"
