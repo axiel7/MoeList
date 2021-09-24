@@ -91,12 +91,12 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         }
         binding.joinedAt.text = LocalDate.parse(user.joinedAt, DateTimeFormatter.ISO_DATE_TIME).toString()
 
-        val watching = user.animeStatistics.numItemsWatching ?: 0f
-        val completed = user.animeStatistics.numItemsCompleted ?: 0f
-        val onHold = user.animeStatistics.numItemsOnHold ?: 0f
-        val dropped = user.animeStatistics.numItemsDropped ?: 0f
-        val ptw = user.animeStatistics.numItemsPlanToWatch ?: 0f
-        val totalEntries = user.animeStatistics.numItems ?: 0f
+        val watching = user.animeStatistics?.numItemsWatching ?: 0f
+        val completed = user.animeStatistics?.numItemsCompleted ?: 0f
+        val onHold = user.animeStatistics?.numItemsOnHold ?: 0f
+        val dropped = user.animeStatistics?.numItemsDropped ?: 0f
+        val ptw = user.animeStatistics?.numItemsPlanToWatch ?: 0f
+        val totalEntries = user.animeStatistics?.numItems ?: 0f
 
         val watchingKey = "${getString(R.string.watching)} ($watching)"
         binding.watchingText.text = watchingKey
@@ -139,10 +139,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         binding.animeChart.cap = 0f
         binding.animeChart.submitData(listOf(ptwSection, droppedSection, onHoldSection, completedSection, watchingSection))
 
-        val days = user.animeStatistics.numDays ?: 0
-        val episodes = NumberFormat.getInstance().format(user.animeStatistics.numEpisodes ?: 0)
-        val score = user.animeStatistics.meanScore ?: 0
-        val rewatch = NumberFormat.getInstance().format(user.animeStatistics.numTimesRewatched ?: 0)
+        val days = user.animeStatistics?.numDays ?: 0
+        val episodes = NumberFormat.getInstance().format(user.animeStatistics?.numEpisodes ?: 0)
+        val score = user.animeStatistics?.meanScore ?: 0
+        val rewatch = NumberFormat.getInstance().format(user.animeStatistics?.numTimesRewatched ?: 0)
 
         val daysValue = "$days\n${getString(R.string.days)}"
         val episodesValue = "$episodes\n${getString(R.string.episodes)}"

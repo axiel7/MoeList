@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 data class User(
     @PrimaryKey
     @SerialName("id")
-    val id: Int,
+    val id: Int = 0,
     @SerialName("name")
     val name: String? = null,
     @SerialName("gender")
@@ -24,7 +24,7 @@ data class User(
     @SerialName("picture")
     val picture: String? = null,
     @SerialName("anime_statistics")
-    val animeStatistics: UserAnimeStatistics,
+    val animeStatistics: UserAnimeStatistics? = null,
 
     @SerialName("message")
     val message: String? = null,
