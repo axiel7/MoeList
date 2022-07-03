@@ -23,6 +23,11 @@
     <PreferenceCategory app:title="@string/translations">
 
         <Preference
+            app:key="ukrainian_translation"
+            app:summary="\@Sensetivity"
+            app:title="@string/ukrainian"/>
+
+        <Preference
             app:key="turkish_translation"
             app:summary="\@hsinankirdar"
             app:title="@string/turkish"/>

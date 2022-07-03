@@ -26,7 +26,7 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(), SharedPreferences.OnSh
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        if (key == "theme") {
+        if (key == "theme" || key == "app_language") {
             activity?.recreate()
         }
     }
