@@ -270,4 +270,7 @@
     <string name="use_external_browser">Harici tarayıcı kullan</string>
     <string name="help">Yardım</string>
     <string name="calendar">Yayım Takvimi</string>
+    <string name="english">English</string>
+    <string name="ukrainian">Ukrainian</string>
+    <string name="language">Language</string>
 </resources>
