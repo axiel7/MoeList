@@ -58,11 +58,9 @@ object Extensions {
         }
     }
 
-    fun View.showKeyboard() = ViewCompat.getWindowInsetsController(this)
-        ?.show(WindowInsetsCompat.Type.ime())
+    fun View.showKeyboard() = windowInsetsController?.show(WindowInsetsCompat.Type.ime())
 
-    fun View.hideKeyboard() = ViewCompat.getWindowInsetsController(this)
-        ?.hide(WindowInsetsCompat.Type.ime())
+    fun View.hideKeyboard() = windowInsetsController?.hide(WindowInsetsCompat.Type.ime())
 
     /** Open link in Chrome Custom Tabs */
     fun Context.openCustomTab(url: String) {
