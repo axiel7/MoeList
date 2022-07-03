@@ -270,4 +270,7 @@
     <string name="use_external_browser">Usar navegador web externo</string>
     <string name="help">Ayuda</string>
     <string name="calendar">Calendario</string>
+    <string name="english">Inglés</string>
+    <string name="ukrainian">Ukraniano</string>
+    <string name="language">Idioma</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.axiel7.moelist.ui.base
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Toast
@@ -13,6 +14,7 @@ import androidx.viewbinding.ViewBinding
 import com.axiel7.moelist.utils.Extensions.changeTheme
 import com.axiel7.moelist.utils.SharedPrefsHelpers
 import kotlinx.coroutines.launch
+import java.util.*
 
 abstract class BaseActivity<VB: ViewBinding> : AppCompatActivity() {
 
@@ -23,6 +25,9 @@ abstract class BaseActivity<VB: ViewBinding> : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
+        sharedPref.getString("app_language", null)?.let {
+            if (it != "null") changeLocale(it)
+        }
         changeTheme()
         preCreate()
         super.onCreate(savedInstanceState)
@@ -58,5 +63,15 @@ abstract class BaseActivity<VB: ViewBinding> : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun changeLocale(languageCode: String) {
+        val config = resources.configuration
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+        config.setLocale(locale)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            createConfigurationContext(config)
+        resources.updateConfiguration(config, resources.displayMetrics)
     }
 }
