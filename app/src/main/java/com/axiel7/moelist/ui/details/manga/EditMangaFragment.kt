@@ -28,7 +28,7 @@ class EditMangaFragment(
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> BottomSheetEditMangaBinding
         get() = BottomSheetEditMangaBinding::inflate
     private val viewModel: MangaListViewModel by activityViewModels()
-    val statusItems: Array<String> by lazy {
+    private val statusItems: Array<String> by lazy {
         arrayOf(getString(R.string.reading),
             getString(R.string.completed),
             getString(R.string.on_hold),

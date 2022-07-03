@@ -17,8 +17,8 @@ class FullPosterFragment : BaseFragment<FragmentFullPosterBinding>() {
         val imageUrl = arguments?.getString("poster_url")
 
         binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
-        binding.toolbar.setOnMenuItemClickListener {
-            when (it.itemId) {
+        binding.toolbar.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
                 R.id.open_in_browser -> {
                     imageUrl?.let { safeContext.openCustomTab(it) }
                     true

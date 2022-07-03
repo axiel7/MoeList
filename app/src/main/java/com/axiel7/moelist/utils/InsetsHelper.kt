@@ -80,7 +80,7 @@ object InsetsHelper {
         }
     }
 
-    inline fun <reified T : ViewGroup.LayoutParams> View.layoutParams(block: T.() -> Unit) {
+    private inline fun <reified T : ViewGroup.LayoutParams> View.layoutParams(block: T.() -> Unit) {
         if (layoutParams is T) block(layoutParams as T)
     }
 

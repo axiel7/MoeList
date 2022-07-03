@@ -273,7 +273,7 @@ class MangaDetailsFragment : BaseFragment<FragmentDetailsBinding>() {
         }
 
         val authorsTextJoin = authorsText.joinToString(separator = ",\n")
-        binding.authors.text = if (authorsTextJoin.isNotEmpty()) authorsTextJoin else unknown
+        binding.authors.text = authorsTextJoin.ifEmpty { unknown }
 
         // Serialization
         val serialNames = mutableListOf<String>()
@@ -281,7 +281,7 @@ class MangaDetailsFragment : BaseFragment<FragmentDetailsBinding>() {
             serialNames.add(it.node.name)
         }
         val serialText = serialNames.joinToString(separator = ",\n")
-        binding.studios.text = if (serialText.isNotEmpty()) serialText else unknown
+        binding.studios.text = serialText.ifEmpty { unknown }
     }
 
     private fun translateSynopsis(translator: Translator) {

@@ -80,7 +80,7 @@ class HomeViewModel : ViewModel() {
         )
     )
 
-    fun getTodayAnimes(page: String? = null) {
+    private fun getTodayAnimes(page: String? = null) {
         viewModelScope.launch {
             val call = if (page == null) async { App.api.getSeasonalAnime(
                 params = paramsToday.value,

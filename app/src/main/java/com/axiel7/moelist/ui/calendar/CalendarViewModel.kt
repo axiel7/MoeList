@@ -58,7 +58,7 @@ class CalendarViewModel : ViewModel() {
         )
     )
 
-    fun getSeasonAnimes(page: String? = null) {
+    private fun getSeasonAnimes(page: String? = null) {
         viewModelScope.launch {
             val call = if (page == null) async { App.api.getSeasonalAnime(
                 params = params.value,
