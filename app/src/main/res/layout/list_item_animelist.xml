@@ -41,11 +41,12 @@
                 android:gravity="center"
                 android:background="@drawable/score_background"
                 android:text="7"
-                android:textColor="@android:color/white"
+                android:textColor="?attr/colorOnPrimaryContainer"
                 android:textSize="14sp"
                 tools:ignore="HardcodedText"
                 android:drawablePadding="2dp"
-                app:drawableEndCompat="@drawable/ic_round_star_24" />
+                app:drawableEndCompat="@drawable/ic_round_star_24"
+                app:drawableTint="?attr/colorOnPrimaryContainer" />
 
         </FrameLayout>
 
@@ -96,15 +97,18 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/add_one_button"
+                    style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="75dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_margin="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:text="@string/plus_one"
-                    style="?attr/materialButtonOutlinedStyle"/>
+                    android:text="@string/plus_one" />
 
                 <ProgressBar
                     android:id="@+id/episodes_progress"
@@ -112,8 +116,6 @@
                     android:layout_height="4dp"
                     android:layout_alignParentBottom="true"
                     android:progress="50"
-                    android:progressDrawable="@drawable/progress_bar"
-                    android:progressBackgroundTint="@color/colorProgressBackground"
                     style="?android:attr/progressBarStyleHorizontal"/>
 
             </RelativeLayout>

@@ -34,26 +34,18 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@android:color/transparent"
                 app:contentInsetStartWithNavigation="0dp"
                 app:menu="@menu/details_menu"
                 app:navigationIcon="@drawable/ic_arrow_back"
                 app:title="@string/title_details"
                 app:layout_constraintTop_toTopOf="parent"/>
 
-            <View
-                android:id="@+id/divider_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintTop_toBottomOf="@id/toolbar"/>
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/main_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                app:layout_constraintTop_toBottomOf="@id/divider_toolbar">
+                app:layout_constraintTop_toBottomOf="@id/toolbar">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/poster"
@@ -75,7 +67,6 @@
                     android:layout_margin="@dimen/text_margin"
                     android:longClickable="true"
                     android:text="@string/loading"
-                    android:textColor="@color/colorText"
                     android:textSize="22sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@id/poster"
@@ -174,14 +165,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/translate"
-                android:textColor="@color/colorAccent"
+                android:textColor="?attr/colorPrimary"
                 android:gravity="center_vertical"
                 android:paddingStart="@dimen/text_margin"
                 android:paddingEnd="@dimen/text_margin"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
                 android:drawablePadding="8dp"
-                app:drawableTint="@color/colorAccent"
+                app:drawableTint="?attr/colorPrimary"
                 app:drawableStartCompat="@drawable/ic_outline_translate_24"
                 app:layout_constraintTop_toBottomOf="@id/genres_scroll"
                 app:layout_constraintStart_toStartOf="parent"/>
@@ -639,14 +630,13 @@
     </ScrollView>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        style="@style/Widget.Material3.ExtendedFloatingActionButton.Icon.Primary"
         android:id="@+id/edit_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:text="@string/edit"
-        android:textColor="@color/colorTextInverted"
-        app:iconTint="@color/colorTextInverted"
         app:icon="@drawable/ic_round_edit_24"/>
 
 </FrameLayout>

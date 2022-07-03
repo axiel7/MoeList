@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <attr name="colorToolbar" format="color" />
-    <attr name="colorCard" format="color" />
-    <attr name="cardStrokeWidth" format="dimension" />
-    <attr name="mainToolbarStyle" format="reference" />
-</resources>

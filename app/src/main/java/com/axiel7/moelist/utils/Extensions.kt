@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.axiel7.moelist.R
 
@@ -61,7 +60,7 @@ object Extensions {
     /** Open link in Chrome Custom Tabs */
     fun Context.openCustomTab(url: String) {
         val colors = CustomTabColorSchemeParams.Builder()
-            .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+            .setToolbarColor(ContextCompat.getColor(this, R.color.colorMoeList))
             .build()
         CustomTabsIntent.Builder()
             .setDefaultColorSchemeParams(colors)

@@ -42,11 +42,12 @@
                 android:gravity="center"
                 android:background="@drawable/score_background"
                 android:text="7"
-                android:textColor="@android:color/white"
+                android:textColor="?attr/colorOnPrimaryContainer"
                 android:textSize="14sp"
                 tools:ignore="HardcodedText"
                 android:drawablePadding="2dp"
-                app:drawableEndCompat="@drawable/ic_round_star_24" />
+                app:drawableEndCompat="@drawable/ic_round_star_24"
+                app:drawableTint="?attr/colorOnPrimaryContainer"/>
 
         </FrameLayout>
 
@@ -116,8 +117,6 @@
                     android:layout_height="4dp"
                     android:layout_alignParentBottom="true"
                     android:progress="50"
-                    android:progressDrawable="@drawable/progress_bar"
-                    android:progressBackgroundTint="@color/colorProgressBackground"
                     style="?android:attr/progressBarStyleHorizontal"/>
 
             </RelativeLayout>

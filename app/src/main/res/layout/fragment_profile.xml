@@ -23,13 +23,6 @@
             app:navigationIcon="@drawable/ic_arrow_back"
             app:title="@string/title_profile" />
 
-        <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/toolbar"
-            android:background="?android:attr/listDivider" />
-
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/user_details"
             android:layout_width="match_parent"
@@ -37,7 +30,7 @@
             android:layout_marginTop="32dp"
             android:layout_marginBottom="32dp"
             android:orientation="horizontal"
-            android:layout_below="@id/divider">
+            android:layout_below="@id/toolbar">
 
             <ImageView
                 android:id="@+id/profile_picture"

@@ -228,8 +228,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
-        android:backgroundTint="?attr/colorError"
-        android:textColor="?attr/colorOnError"
-        android:text="@string/delete"/>
+        android:backgroundTint="?attr/colorErrorContainer"
+        android:text="@string/delete"
+        android:textColor="?attr/colorOnErrorContainer"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
