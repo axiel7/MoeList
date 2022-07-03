@@ -270,4 +270,7 @@
     <string name="use_external_browser">Use external browser</string>
     <string name="help">Help</string>
     <string name="calendar">Calendar</string>
+    <string name="english">English</string>
+    <string name="ukrainian">Ukrainian</string>
+    <string name="language">Language</string>
 </resources>
