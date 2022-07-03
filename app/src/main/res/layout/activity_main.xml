@@ -23,19 +23,13 @@
         app:layout_constraintBottom_toTopOf="@id/nav_view"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
+        style="@style/Widget.Material3.BottomNavigationView"
         android:id="@+id/nav_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/bottom_nav_height"
-        android:background="?attr/colorToolbar"
+        android:elevation="8dp"
         android:layout_gravity="bottom"
-        app:elevation="0dp"
         app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_nav_menu" >
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider" />
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
+        app:menu="@menu/bottom_nav_menu" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

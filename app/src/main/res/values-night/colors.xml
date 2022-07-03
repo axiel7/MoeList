@@ -14,4 +14,14 @@
     <color name="colorCard">#2d2d2d</color>
     <color name="colorDivider" tools:keep="@color/colorDivider">#1f000000</color>
     <color name="colorProgressBackground">#c0c0c0</color>
+
+    <!-- Material3 colors -->
+    <color name="colorPrimary3">#515da4</color>
+    <color name="colorPrimaryContainer">#dbe1ff</color>
+    <color name="colorPrimaryInverse">#bdc8ff</color>
+    <color name="colorOnPrimary">#1e2a71</color>
+    <color name="colorSecondary">#5b5f71</color>
+    <color name="colorSecondaryContainer">#dde2f8</color>
+    <color name="colorHighlight">#995160a4</color>
+    <color name="colorHighlightDark">#99bdc7ff</color>
 </resources>

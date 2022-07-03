@@ -43,7 +43,7 @@
 
         <Button
             android:id="@+id/cancel_button"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+            style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancel"
@@ -53,12 +53,11 @@
 
         <Button
             android:id="@+id/apply_button"
-            style="@style/Widget.MaterialComponents.Button"
+            style="@style/Widget.Material3.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/apply"
-            android:backgroundTint="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -76,7 +75,7 @@
         android:hint="@string/status"
         android:labelFor="@id/status_field"
         app:errorEnabled="true"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
         <AutoCompleteTextView
             android:id="@+id/status_field"
@@ -94,7 +93,7 @@
 
         <Button
             android:id="@+id/minus_ch_button"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -115,7 +114,7 @@
             android:hint="@string/chapters"
             app:suffixText="/24"
             app:errorEnabled="true"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/chapters_field"
@@ -127,7 +126,7 @@
 
         <Button
             android:id="@+id/plus_ch_button"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -147,7 +146,7 @@
 
         <Button
             android:id="@+id/minus_vol_button"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -168,7 +167,7 @@
             android:hint="@string/volumes"
             app:suffixText="/24"
             app:errorEnabled="true"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/volumes_field"
@@ -180,7 +179,7 @@
 
         <Button
             android:id="@+id/plus_vol_button"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -225,11 +224,12 @@
 
     <Button
         android:id="@+id/delete_button"
-        style="@style/Widget.MaterialComponents.Button"
+        style="@style/Widget.Material3.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
-        android:backgroundTint="@color/colorError"
+        android:backgroundTint="?attr/colorError"
+        android:textColor="?attr/colorOnError"
         android:text="@string/delete"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -45,11 +45,6 @@ class AnimeDetailsFragment : BaseFragment<FragmentDetailsBinding>() {
     private lateinit var adapterRelateds: RelatedsAdapter
     private var bottomSheetDialog: EditAnimeFragment? = null
 
-    override fun onResume() {
-        super.onResume()
-        binding.editFab.addSystemWindowInsetToMargin(bottom = true)
-    }
-
     override fun setup() {
 
         launchLifecycleStarted {

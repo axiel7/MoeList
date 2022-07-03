@@ -46,10 +46,6 @@ object Extensions {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
                     setTheme(R.style.AppTheme)
                 }
-                "amoled" -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    setTheme(R.style.AppTheme_Amoled)
-                }
                 else -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
                     setTheme(R.style.AppTheme)
