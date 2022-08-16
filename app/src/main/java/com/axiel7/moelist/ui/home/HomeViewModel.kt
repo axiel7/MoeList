@@ -33,7 +33,7 @@ class HomeViewModel : ViewModel() {
 
     private val paramsSeasonal = MutableStateFlow(
         ApiParams(
-            sort = Constants.SORT_ANIME_SCORE,
+            sort = Constants.SORT_ANIME_START_DATE,
             nsfw = nsfw.value
         )
     )
