@@ -28,7 +28,6 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.card.MaterialCardView
-                style="?attr/materialCardViewStyle"
                 android:id="@+id/anime_rank"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -53,7 +52,6 @@
                     app:drawableStartCompat="@drawable/ic_round_movie_24" />
             </com.google.android.material.card.MaterialCardView>
             <com.google.android.material.card.MaterialCardView
-                style="?attr/materialCardViewStyle"
                 android:id="@+id/manga_rank"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -88,7 +86,6 @@
             app:layout_constraintTop_toBottomOf="@id/charts_layout">
 
             <com.google.android.material.card.MaterialCardView
-                style="?attr/materialCardViewStyle"
                 android:id="@+id/seasonal_chart"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -114,7 +111,6 @@
                     app:drawableStartCompat="@drawable/ic_winter_24" />
             </com.google.android.material.card.MaterialCardView>
             <com.google.android.material.card.MaterialCardView
-                style="?attr/materialCardViewStyle"
                 android:id="@+id/calendar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

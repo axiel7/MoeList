@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/md_theme_light_primary</item>
         <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
         <item name="colorPrimaryContainer">@color/md_theme_light_primaryContainer</item>
@@ -31,20 +31,19 @@
         <item name="colorPrimaryInverse">@color/md_theme_light_inversePrimary</item>
 
         <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:statusBarColor">@color/md_theme_light_surface</item>
+        <item name="android:statusBarColor">?attr/colorSurface</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:textColor">?attr/colorControlNormal</item>
-        <item name="materialCardViewStyle">@style/CardView.Normal</item>
-        <item name="bottomSheetDialogTheme">@style/BottomSheetDialog</item>
+        <item name="materialCardViewStyle">@style/CardView.Elevated</item>
     </style>
 
     <style name="Theme.MySplash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/md_theme_light_surface</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="windowSplashScreenBackground">?attr/colorSurface</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>
         <item name="postSplashScreenTheme">@style/AppTheme</item>
     </style>
 
@@ -62,16 +61,9 @@
     </style>
 
     <!-- CardView -->
-    <style name="CardView.Normal" parent="Widget.Material3.CardView.Elevated">
+    <style name="CardView.Elevated" parent="Widget.Material3.CardView.Elevated">
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
-    </style>
-
-    <!-- Bottom sheet dialog -->
-    <style name="BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:navigationBarColor">?attr/colorOnSecondary</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
     <!-- TextView -->
@@ -94,7 +86,7 @@
     </style>
 
     <!-- ImageView -->
-    <style name="Image.Clickable" parent="ThemeOverlay.AppCompat">
+    <style name="Image.Clickable" parent="ThemeOverlay.Material3">
         <item name="android:background">?attr/selectableItemBackground</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
