@@ -15,6 +15,7 @@ import com.axiel7.moelist.utils.Constants.RESPONSE_OK
 import com.axiel7.moelist.utils.Constants.SORT_ANIME_TITLE
 import com.axiel7.moelist.utils.Constants.SORT_SCORE
 import com.axiel7.moelist.utils.Constants.SORT_UPDATED
+import io.ktor.client.statement.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -81,12 +82,10 @@ class AnimeListViewModel : ViewModel() {
             } catch (e: Exception) {
                 null
             }
-            if (result != null) {
-                _updateResponse.value = result to RESPONSE_OK
-            }
-            else {
-                _updateResponse.value = null to RESPONSE_ERROR
-            }
+            if (result != null) _updateResponse.value = result to RESPONSE_OK
+            else _updateResponse.value = null to RESPONSE_ERROR
+        }
+    }
 
         }
     }

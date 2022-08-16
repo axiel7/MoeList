@@ -58,7 +58,10 @@ class AnimeDetailsFragment : BaseFragment<FragmentDetailsBinding>() {
 
         launchLifecycleStarted {
             viewModel.animeDetails.collectLatest {
-                it?.let { setAnimeData(it) }
+                it?.let {
+                    binding.loading.hide()
+                    setAnimeData(it)
+                }
             }
         }
 
@@ -172,7 +175,6 @@ class AnimeDetailsFragment : BaseFragment<FragmentDetailsBinding>() {
 
     private fun setAnimeData(animeDetails: AnimeDetails) {
         binding.detailsScroll.smoothScrollTo(0, 0)
-        binding.loading.hide()
 
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
@@ -272,7 +274,7 @@ class AnimeDetailsFragment : BaseFragment<FragmentDetailsBinding>() {
             studiosNames.add(it.name)
         }
         val studiosText = studiosNames.joinToString(separator = ",\n")
-        binding.studios.text = if (studiosText.isNotEmpty()) studiosText else unknown
+        binding.studios.text = studiosText.ifEmpty { unknown }
 
         if (animeDetails.openingThemes.isNullOrEmpty()) {
             binding.opening.visibility = View.GONE
