@@ -1,6 +1,5 @@
 package com.axiel7.moelist.ui.base
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Toast
@@ -16,7 +15,6 @@ import com.axiel7.moelist.utils.SharedPrefsHelpers
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.elevation.SurfaceColors
 import kotlinx.coroutines.launch
-import java.util.*
 
 abstract class BaseActivity<VB: ViewBinding> : AppCompatActivity() {
 
@@ -29,9 +27,6 @@ abstract class BaseActivity<VB: ViewBinding> : AppCompatActivity() {
         installSplashScreen()
         DynamicColors.applyToActivityIfAvailable(this)
         window.statusBarColor = SurfaceColors.SURFACE_0.getColor(this)
-        sharedPref.getString("app_language", null)?.let {
-            if (it != "null") changeLocale(it)
-        }
         changeTheme()
         preCreate()
         super.onCreate(savedInstanceState)
@@ -67,15 +62,5 @@ abstract class BaseActivity<VB: ViewBinding> : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-    }
-
-    private fun changeLocale(languageCode: String) {
-        val config = resources.configuration
-        val locale = Locale(languageCode)
-        Locale.setDefault(locale)
-        config.setLocale(locale)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            createConfigurationContext(config)
-        resources.updateConfiguration(config, resources.displayMetrics)
     }
 }
