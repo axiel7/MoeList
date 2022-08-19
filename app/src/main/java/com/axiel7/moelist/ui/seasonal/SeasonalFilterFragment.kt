@@ -3,7 +3,7 @@ package com.axiel7.moelist.ui.seasonal
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.axiel7.moelist.R
 import com.axiel7.moelist.databinding.BottomSheetSeasonalBinding
 import com.axiel7.moelist.ui.base.BaseBottomSheetDialogFragment
@@ -15,7 +15,7 @@ class SeasonalFilterFragment : BaseBottomSheetDialogFragment<BottomSheetSeasonal
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> BottomSheetSeasonalBinding
         get() = BottomSheetSeasonalBinding::inflate
-    private val viewModel: SeasonalViewModel by activityViewModels()
+    private val viewModel: SeasonalViewModel by viewModels()
     private val seasons: Array<String> by lazy {
         arrayOf(getString(R.string.winter),
             getString(R.string.spring),

@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import app.futured.donut.DonutSection
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -26,7 +26,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentProfileBinding
         get() = FragmentProfileBinding::inflate
-    private val viewModel: ProfileViewModel by activityViewModels()
+    private val viewModel: ProfileViewModel by viewModels()
     private var userId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
