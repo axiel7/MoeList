@@ -9,7 +9,7 @@ import com.axiel7.moelist.private.ClientId
 import com.axiel7.moelist.utils.Constants.MAL_OAUTH2_URL
 import com.axiel7.moelist.utils.PkceGenerator
 import io.ktor.client.*
-import kotlinx.coroutines.async
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -28,16 +28,15 @@ class LoginViewModel : ViewModel() {
     val accessToken: StateFlow<AccessToken?> = _accessToken
 
     fun getAccessToken(code: String) {
-        viewModelScope.launch {
-            val call = async { api.getAccessToken(
-                clientId = ClientId.CLIENT_ID,
-                code = code,
-                codeVerifier = codeVerifier,
-                grantType = "authorization_code"
-            ) }
+        viewModelScope.launch(Dispatchers.IO) {
 
             val result = try {
-                call.await()
+                api.getAccessToken(
+                    clientId = ClientId.CLIENT_ID,
+                    code = code,
+                    codeVerifier = codeVerifier,
+                    grantType = "authorization_code"
+                )
             } catch (e: Exception) {
                 null
             }

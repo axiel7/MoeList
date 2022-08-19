@@ -16,6 +16,7 @@ import com.axiel7.moelist.utils.Constants.SORT_ANIME_TITLE
 import com.axiel7.moelist.utils.Constants.SORT_SCORE
 import com.axiel7.moelist.utils.Constants.SORT_UPDATED
 import io.ktor.client.statement.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -75,7 +76,7 @@ class AnimeListViewModel : ViewModel() {
         score: Int? = null,
         watchedEpisodes: Int? = null
     ) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val call = async { App.api.updateUserAnimeList(animeId, status, score, watchedEpisodes) }
             val result = try {
                 call.await()
@@ -87,13 +88,18 @@ class AnimeListViewModel : ViewModel() {
         }
     }
 
-        }
-    }
-
+    private val _deleteResponse = MutableStateFlow<Pair<HttpResponse?, String>>(null to RESPONSE_NONE)
+    val deleteResponse: StateFlow<Pair<HttpResponse?, String>> = _deleteResponse
     fun deleteEntry(animeId: Int) {
-        viewModelScope.launch {
-            val call = async { App.api.deleteAnimeEntry(animeId) }
-            call.await()
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = try {
+                App.api.deleteAnimeEntry(animeId)
+            } catch (e: Exception) {
+                null
+            }
+
+            if (result != null) _deleteResponse.value = result to RESPONSE_OK
+            else _deleteResponse.value = null to RESPONSE_ERROR
         }
     }
 
