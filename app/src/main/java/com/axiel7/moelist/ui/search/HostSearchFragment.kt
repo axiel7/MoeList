@@ -77,9 +77,9 @@ class HostSearchFragment : BaseFragment<FragmentHostSearchBinding>() {
             }
         })
 
-        binding.searchView.setOnQueryTextFocusChangeListener { view, hasFocus ->
-            if (hasFocus) view.showKeyboard()
-            else view.hideKeyboard()
+        binding.searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
+            if (hasFocus) activity?.window?.showKeyboard()
+            else activity?.window?.hideKeyboard()
         }
         binding.searchView.requestFocus()
     }

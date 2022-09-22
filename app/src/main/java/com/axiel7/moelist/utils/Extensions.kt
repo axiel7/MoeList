@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.view.View
+import android.view.Window
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatDelegate
@@ -12,6 +12,7 @@ import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.axiel7.moelist.R
 
 object Extensions {
@@ -53,9 +54,9 @@ object Extensions {
         }
     }
 
-    fun View.showKeyboard() = windowInsetsController?.show(WindowInsetsCompat.Type.ime())
+    fun Window.showKeyboard() = WindowInsetsControllerCompat(this, decorView).show(WindowInsetsCompat.Type.ime())
 
-    fun View.hideKeyboard() = windowInsetsController?.hide(WindowInsetsCompat.Type.ime())
+    fun Window.hideKeyboard() = WindowInsetsControllerCompat(this, decorView).hide(WindowInsetsCompat.Type.ime())
 
     /** Open link in Chrome Custom Tabs */
     fun Context.openCustomTab(url: String) {
