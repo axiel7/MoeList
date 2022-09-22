@@ -145,7 +145,10 @@ class EditMangaFragment(
 
         if (myListStatus != null) {
             syncListStatus()
+        } else {
+            binding.statusField.setText(statusItems.last(), false)
         }
+
         // Chapters input validation
         binding.chaptersLayout.editText?.doOnTextChanged { text, _, _, _ ->
             val inputChapters = text.toString().toIntOrNull()
