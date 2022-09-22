@@ -74,7 +74,7 @@ object Extensions {
     /** Open external link by intent chooser */
     fun Context.openLink(url: String) {
         Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
-            startActivity(Intent.createChooser(this, url))
+            startActivity(this)
         }
     }
 
