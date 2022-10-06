@@ -45,11 +45,11 @@ class ThemesAdapter(
         if (query.startsWith("#")) {
             query = query.substring(4, size)
         }
-        val index = query.indexOf("(eps")
+        val index = query.indexOf("(ep")
         return if (index == -1) {
-            query.replace(" ", "+")
+            query
         } else {
-            query.substring(0, index - 1).replace(" ", "+")
+            query.substring(0, index - 1)
         }
     }
 
