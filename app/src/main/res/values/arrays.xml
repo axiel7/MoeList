@@ -16,13 +16,38 @@
         <item>@string/theme_light</item>
         <item>@string/theme_dark</item>
         <item>@string/theme_system</item>
-        <item>@string/theme_black</item>
     </string-array>
     <string-array name="theme_options_values">
         <item>light</item>
         <item>dark</item>
         <item>follow_system</item>
-        <item>amoled</item>
+    </string-array>
+
+    <string-array name="language_options">
+        <item>@string/theme_system</item>
+        <item>@string/english</item>
+        <item>@string/arabic</item>
+        <item>@string/bulgarian</item>
+        <item>@string/german</item>
+        <item>@string/spanish</item>
+        <item>@string/french</item>
+        <item>@string/brazilian</item>
+        <item>@string/russian</item>
+        <item>@string/turkish</item>
+        <item>@string/ukrainian</item>
+    </string-array>
+    <string-array name="language_options_values">
+        <item>null</item>
+        <item>en</item>
+        <item>ar-rSA</item>
+        <item>bg-rBG</item>
+        <item>de</item>
+        <item>es</item>
+        <item>fr</item>
+        <item>pt-rBR</item>
+        <item>ru-rRU</item>
+        <item>tr</item>
+        <item>uk-rUA</item>
     </string-array>
 
 </resources>

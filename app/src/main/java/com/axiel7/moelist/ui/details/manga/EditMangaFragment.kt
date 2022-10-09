@@ -3,7 +3,7 @@ package com.axiel7.moelist.ui.details.manga
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.MaterialSpinnerAdapter
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
@@ -27,8 +27,8 @@ class EditMangaFragment(
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> BottomSheetEditMangaBinding
         get() = BottomSheetEditMangaBinding::inflate
-    private val viewModel: MangaListViewModel by activityViewModels()
-    val statusItems: Array<String> by lazy {
+    private val viewModel: MangaListViewModel by viewModels()
+    private val statusItems: Array<String> by lazy {
         arrayOf(getString(R.string.reading),
             getString(R.string.completed),
             getString(R.string.on_hold),
@@ -145,7 +145,10 @@ class EditMangaFragment(
 
         if (myListStatus != null) {
             syncListStatus()
+        } else {
+            binding.statusField.setText(statusItems.last(), false)
         }
+
         // Chapters input validation
         binding.chaptersLayout.editText?.doOnTextChanged { text, _, _, _ ->
             val inputChapters = text.toString().toIntOrNull()

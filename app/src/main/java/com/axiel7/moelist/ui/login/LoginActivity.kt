@@ -16,7 +16,6 @@ import com.axiel7.moelist.ui.main.MainActivity
 import com.axiel7.moelist.utils.Constants.MOELIST_PAGELINK
 import com.axiel7.moelist.utils.Extensions.openCustomTab
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import io.ktor.client.*
 import kotlinx.coroutines.flow.collectLatest
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>() {
@@ -53,7 +52,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
         }
 
         binding.login.setOnClickListener {
-            if (viewModel.userExternalBrowser) {
+            if (viewModel.useExternalBrowser) {
                 Intent(Intent.ACTION_VIEW, Uri.parse(viewModel.loginUrl)).apply {
                     try {
                         startActivity(intent)

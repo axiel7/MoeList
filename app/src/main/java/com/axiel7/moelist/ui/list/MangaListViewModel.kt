@@ -15,7 +15,7 @@ import com.axiel7.moelist.utils.Constants.RESPONSE_OK
 import com.axiel7.moelist.utils.Constants.SORT_MANGA_TITLE
 import com.axiel7.moelist.utils.Constants.SORT_SCORE
 import com.axiel7.moelist.utils.Constants.SORT_UPDATED
-import kotlinx.coroutines.async
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -75,27 +75,20 @@ class MangaListViewModel : ViewModel() {
         chaptersRead: Int? = null,
         volumesRead: Int? = null
     ) {
-        viewModelScope.launch {
-            val call = async { App.api.updateUserMangaList(mangaId, status, score, chaptersRead, volumesRead) }
+        viewModelScope.launch(Dispatchers.IO) {
             val result = try {
-                call.await()
+                App.api.updateUserMangaList(mangaId, status, score, chaptersRead, volumesRead)
             } catch (e: Exception) {
                 null
             }
-            if (result != null) {
-                _updateResponse.value = result to RESPONSE_OK
-            }
-            else {
-                _updateResponse.value = null to RESPONSE_ERROR
-            }
-
+            if (result != null) _updateResponse.value = result to RESPONSE_OK
+            else _updateResponse.value = null to RESPONSE_ERROR
         }
     }
 
     fun deleteEntry(mangaId: Int) {
-        viewModelScope.launch {
-            val call = async { App.api.deleteMangaEntry(mangaId) }
-            call.await()
+        viewModelScope.launch(Dispatchers.IO) {
+            App.api.deleteMangaEntry(mangaId)
         }
     }
 

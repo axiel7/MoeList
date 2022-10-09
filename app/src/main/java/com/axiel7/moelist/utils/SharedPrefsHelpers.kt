@@ -108,7 +108,7 @@ class SharedPrefsHelpers {
             private set
         private var mSharedPreferences: SharedPreferences? = null
 
-        fun init(context: Context?) {
+        fun init(context: Context) {
             mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
         }
 

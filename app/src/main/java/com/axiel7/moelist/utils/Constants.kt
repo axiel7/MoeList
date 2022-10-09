@@ -24,6 +24,7 @@ object Constants {
     const val SORT_ANIME_TITLE = "anime_title"
     const val SORT_ANIME_SCORE = "anime_score"
     const val SORT_ANIME_NUM_USERS = "anime_num_list_users"
+    const val SORT_ANIME_START_DATE = "anime_start_date"
     const val SORT_SCORE = "list_score"
     const val SORT_UPDATED = "list_updated_at"
     const val SORT_MANGA_TITLE = "manga_title"

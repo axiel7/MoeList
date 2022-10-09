@@ -9,8 +9,10 @@ import com.axiel7.moelist.data.model.manga.*
 import com.axiel7.moelist.utils.Constants.MAL_API_URL
 import com.axiel7.moelist.utils.Constants.MAL_OAUTH2_URL
 import io.ktor.client.*
+import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
+import io.ktor.client.statement.*
 import io.ktor.http.*
 
 class Api(private val client: HttpClient) {
@@ -23,25 +25,25 @@ class Api(private val client: HttpClient) {
         codeVerifier: String,
         grantType: String
     ): AccessToken = client.post("${MAL_OAUTH2_URL}token") {
-        body = FormDataContent(Parameters.build {
+        setBody(FormDataContent(Parameters.build {
             append("client_id", clientId)
             append("code", code)
             append("code_verifier", codeVerifier)
             append("grant_type", grantType)
-        })
-    }
+        }))
+    }.body()
 
     suspend fun getAccessToken(
         clientId: String,
         refreshToken: String,
         grantType: String
     ): AccessToken = client.post("${MAL_OAUTH2_URL}token") {
-        body = FormDataContent(Parameters.build {
+        setBody(FormDataContent(Parameters.build {
             append("client_id", clientId)
             append("refresh_token", refreshToken)
             append("grant_type", grantType)
-        })
-    }
+        }))
+    }.body()
 
     // Anime
 
@@ -53,9 +55,9 @@ class Api(private val client: HttpClient) {
         parameter("offset", params.offset)
         parameter("nsfw", params.nsfw)
         parameter("fields", params.fields)
-    }
+    }.body()
 
-    suspend fun getAnimeList(url: String) : Response<List<AnimeList>> = client.get(url)
+    suspend fun getAnimeList(url: String) : Response<List<AnimeList>> = client.get(url).body()
 
     suspend fun getSeasonalAnime(
         params: ApiParams,
@@ -66,9 +68,9 @@ class Api(private val client: HttpClient) {
         parameter("nsfw", params.nsfw)
         parameter("fields", params.fields)
         parameter("limit", params.limit)
-    }
+    }.body()
 
-    suspend fun getSeasonalAnime(url: String) : Response<List<AnimeSeasonal>> = client.get(url)
+    suspend fun getSeasonalAnime(url: String) : Response<List<AnimeSeasonal>> = client.get(url).body()
 
     suspend fun getAnimeRanking(
         params: ApiParams,
@@ -78,9 +80,9 @@ class Api(private val client: HttpClient) {
         parameter("nsfw", params.nsfw)
         parameter("fields", params.fields)
         parameter("limit", params.limit)
-    }
+    }.body()
 
-    suspend fun getAnimeRanking(url: String) : Response<List<AnimeRanking>> = client.get(url)
+    suspend fun getAnimeRanking(url: String) : Response<List<AnimeRanking>> = client.get(url).body()
 
     suspend fun getAnimeRecommendations(
         params: ApiParams = ApiParams()
@@ -88,9 +90,9 @@ class Api(private val client: HttpClient) {
         parameter("nsfw", params.nsfw)
         parameter("fields", params.fields)
         parameter("limit", params.limit)
-    }
+    }.body()
 
-    suspend fun getAnimeRecommendations(url: String) : Response<List<AnimeList>> = client.get(url)
+    suspend fun getAnimeRecommendations(url: String) : Response<List<AnimeList>> = client.get(url).body()
 
     suspend fun getUserAnimeList(
         params: ApiParams
@@ -99,9 +101,9 @@ class Api(private val client: HttpClient) {
         parameter("sort", params.sort)
         parameter("nsfw", params.nsfw)
         parameter("fields", params.fields)
-    }
+    }.body()
 
-    suspend fun getUserAnimeList(url: String) : Response<List<UserAnimeList>> = client.get(url)
+    suspend fun getUserAnimeList(url: String) : Response<List<UserAnimeList>> = client.get(url).body()
 
     //TODO (implement: is_rewatching, priority, num_times_rewatched, rewatch_value, tags, comments)
     suspend fun updateUserAnimeList(
@@ -111,23 +113,23 @@ class Api(private val client: HttpClient) {
         watchedEpisodes: Int?,
     ): MyAnimeListStatus = client.request("${MAL_API_URL}anime/$animeId/my_list_status") {
         method = HttpMethod.Patch
-        body = FormDataContent(Parameters.build {
+        setBody(FormDataContent(Parameters.build {
             if (status != null) append("status", status)
             if (score != null) append("score", score.toString())
             if (watchedEpisodes != null) append("num_watched_episodes", watchedEpisodes.toString())
-        })
-    }
+        }))
+    }.body()
 
     suspend fun deleteAnimeEntry(
         animeId: Int
-    ): Unit = client.delete("${MAL_API_URL}anime/$animeId/my_list_status")
+    ): HttpResponse = client.delete("${MAL_API_URL}anime/$animeId/my_list_status")
 
     suspend fun getAnimeDetails(
         animeId: Int,
         fields: String?
     ): AnimeDetails = client.get("${MAL_API_URL}anime/$animeId") {
         parameter("fields", fields)
-    }
+    }.body()
 
     // Manga
 
@@ -139,9 +141,9 @@ class Api(private val client: HttpClient) {
         parameter("offset", params.offset)
         parameter("nsfw", params.nsfw)
         parameter("fields", params.fields)
-    }
+    }.body()
 
-    suspend fun getMangaList(url: String) : Response<List<MangaList>> = client.get(url)
+    suspend fun getMangaList(url: String) : Response<List<MangaList>> = client.get(url).body()
 
     suspend fun getUserMangaList(
         params: ApiParams
@@ -150,7 +152,7 @@ class Api(private val client: HttpClient) {
         parameter("sort", params.sort)
         parameter("nsfw", params.nsfw)
         parameter("fields", params.fields)
-    }
+    }.body()
 
     suspend fun getMangaRanking(
         params: ApiParams,
@@ -160,11 +162,11 @@ class Api(private val client: HttpClient) {
         parameter("nsfw", params.nsfw)
         parameter("fields", params.fields)
         parameter("limit", params.limit)
-    }
+    }.body()
 
-    suspend fun getMangaRanking(url: String) : Response<List<MangaRanking>> = client.get(url)
+    suspend fun getMangaRanking(url: String) : Response<List<MangaRanking>> = client.get(url).body()
 
-    suspend fun getUserMangaList(url: String) : Response<List<UserMangaList>> = client.get(url)
+    suspend fun getUserMangaList(url: String) : Response<List<UserMangaList>> = client.get(url).body()
 
     //TODO (implement: is_rereading, priority, num_times_reread, reread_value, tags, comments)
     suspend fun updateUserMangaList(
@@ -175,24 +177,24 @@ class Api(private val client: HttpClient) {
         volumesRead: Int?
     ): MyMangaListStatus = client.request("${MAL_API_URL}manga/$mangaId/my_list_status") {
         method = HttpMethod.Patch
-        body = FormDataContent(Parameters.build {
+        setBody(FormDataContent(Parameters.build {
             if (status != null) append("status", status)
             if (score != null) append("score", score.toString())
             if (chaptersRead != null) append("num_chapters_read", chaptersRead.toString())
             if (volumesRead != null) append("num_volumes_read", volumesRead.toString())
-        })
-    }
+        }))
+    }.body()
 
     suspend fun deleteMangaEntry(
         mangaId: Int
-    ): Unit = client.delete("${MAL_API_URL}manga/$mangaId/my_list_status")
+    ): Unit = client.delete("${MAL_API_URL}manga/$mangaId/my_list_status").body()
 
     suspend fun getMangaDetails(
         mangaId: Int,
         fields: String?
     ): MangaDetails = client.get("${MAL_API_URL}manga/$mangaId") {
         parameter("fields", fields)
-    }
+    }.body()
 
     // User
 
@@ -200,5 +202,5 @@ class Api(private val client: HttpClient) {
         fields: String?
     ): User = client.get("${MAL_API_URL}users/@me") {
         parameter("fields", fields)
-    }
+    }.body()
 }

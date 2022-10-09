@@ -3,14 +3,12 @@ package com.axiel7.moelist
 import android.app.Application
 import coil.ImageLoader
 import coil.ImageLoaderFactory
-import coil.util.CoilUtils
 import com.axiel7.moelist.data.network.Api
 import com.axiel7.moelist.data.network.KtorClient
 import com.axiel7.moelist.data.room.AnimeDatabase
 import com.axiel7.moelist.utils.SharedPrefsHelpers
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.ktor.client.*
-import okhttp3.OkHttpClient
 
 class App : Application(), ImageLoaderFactory {
 
@@ -33,11 +31,6 @@ class App : Application(), ImageLoaderFactory {
             .crossfade(true)
             .crossfade(500)
             .error(R.drawable.ic_launcher_foreground)
-            .okHttpClient {
-                OkHttpClient.Builder()
-                    .cache(CoilUtils.createDefaultCache(applicationContext))
-                    .build()
-            }
             .build()
     }
 

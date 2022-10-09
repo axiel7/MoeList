@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.CalendarAnimeAdapter
 import com.axiel7.moelist.databinding.FragmentCalendarBinding
@@ -17,7 +18,7 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>() {
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentCalendarBinding
         get() = FragmentCalendarBinding::inflate
-    private val viewModel: CalendarViewModel by activityViewModels()
+    private val viewModel: CalendarViewModel by viewModels()
     private val mainViewModel: MainViewModel by activityViewModels()
     private lateinit var adapter: CalendarAnimeAdapter
     private var weekDay = Constants.MONDAY

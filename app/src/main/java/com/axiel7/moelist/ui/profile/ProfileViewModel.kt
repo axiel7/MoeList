@@ -8,7 +8,7 @@ import com.axiel7.moelist.utils.Constants.ERROR_SERVER
 import com.axiel7.moelist.utils.Constants.RESPONSE_ERROR
 import com.axiel7.moelist.utils.Constants.RESPONSE_NONE
 import com.axiel7.moelist.utils.Constants.RESPONSE_OK
-import kotlinx.coroutines.async
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -22,12 +22,11 @@ class ProfileViewModel : ViewModel() {
     val response: StateFlow<Pair<String, String>> = _response
 
     fun getUser(userId: Int? = null) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             userId?.let { _user.value = App.animeDb.userDao().getUserById(it) }
 
-            val call = async { App.api.getUser(FIELDS) }
             val result = try {
-                call.await()
+                App.api.getUser(FIELDS)
             } catch (e: Exception) {
                 null
             }

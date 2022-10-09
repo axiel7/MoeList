@@ -5,22 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fitsSystemWindows="true"
-    android:background="@android:color/transparent"
-    app:elevation="0dp"
     app:layout_constraintTop_toTopOf="parent">
 
     <com.google.android.material.appbar.MaterialToolbar
-        style="?attr/mainToolbarStyle"
+        style="@style/Widget.Material3.Toolbar"
         android:id="@+id/main_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="15dp"
-        android:elevation="10dp"
+        android:layout_height="wrap_content"
         android:transitionName="toolSearch"
-        app:subtitle="@string/search_in_mal"
+        app:title="@string/app_name"
+        app:titleCentered="true"
         app:navigationIcon="@drawable/ic_round_search_24"
-        app:layout_scrollFlags="scroll|enterAlways"
-        app:contentInsetStartWithNavigation="0dp">
+        app:layout_scrollFlags="scroll|enterAlways">
 
         <ImageView
             android:id="@+id/profile_picture"

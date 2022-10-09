@@ -14,7 +14,7 @@ import com.axiel7.moelist.data.model.manga.UserMangaList
 @TypeConverters(value = [com.axiel7.moelist.data.room.TypeConverters::class])
 @Database(entities = [AnimeDetails::class, MangaDetails::class,
     UserAnimeList::class, UserMangaList::class, User::class],
-    version = 48)
+    version = 49)
 abstract class AnimeDatabase : RoomDatabase() {
 
     abstract fun animeDetailsDao(): AnimeDetailsDao

@@ -122,6 +122,8 @@ class EditAnimeFragment(
 
         if (myListStatus != null) {
             syncListStatus()
+        } else {
+            binding.statusField.setText(statusItems.last(), false)
         }
 
         // Episodes input validation

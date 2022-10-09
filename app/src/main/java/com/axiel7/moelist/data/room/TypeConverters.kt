@@ -32,7 +32,7 @@ class TypeConverters {
         else null
     }
     @TypeConverter
-    fun nodeToString(someObject: AnimeNode?): String? {
+    fun nodeToString(someObject: AnimeNode?): String {
         return json.encodeToString(someObject)
     }
 
@@ -43,7 +43,7 @@ class TypeConverters {
         else null
     }
     @TypeConverter
-    fun seasonalListToString(someObject: MutableList<AnimeSeasonal?>?): String? {
+    fun seasonalListToString(someObject: MutableList<AnimeSeasonal?>?): String {
         return json.encodeToString(someObject)
     }
 
@@ -54,7 +54,7 @@ class TypeConverters {
         else null
     }
     @TypeConverter
-    fun rankingToString(someObject: Ranking?): String? {
+    fun rankingToString(someObject: Ranking?): String {
         return json.encodeToString(someObject)
     }
 
@@ -65,7 +65,7 @@ class TypeConverters {
         else null
     }
     @TypeConverter
-    fun mainPictureToString(someObject: MainPicture?): String? {
+    fun mainPictureToString(someObject: MainPicture?): String {
         return json.encodeToString(someObject)
     }
     // list main picture
@@ -75,7 +75,7 @@ class TypeConverters {
         else null
     }
     @TypeConverter
-    fun listMainPictureToString(someObject: List<MainPicture?>?): String? {
+    fun listMainPictureToString(someObject: List<MainPicture?>?): String {
         return json.encodeToString(someObject)
     }
 
@@ -86,7 +86,7 @@ class TypeConverters {
         else null
     }
     @TypeConverter
-    fun startSeasonToString(someObject: StartSeason?): String? {
+    fun startSeasonToString(someObject: StartSeason?): String {
         return json.encodeToString(someObject)
     }
 
@@ -97,7 +97,7 @@ class TypeConverters {
         else null
     }
     @TypeConverter
-    fun alternativeTitlesToString(someObject: AlternativeTitles?): String? {
+    fun alternativeTitlesToString(someObject: AlternativeTitles?): String {
         return json.encodeToString(someObject)
     }
 
@@ -108,7 +108,7 @@ class TypeConverters {
         else null
     }
     @TypeConverter
-    fun listGenresToString(someObject: List<Genre?>?): String? {
+    fun listGenresToString(someObject: List<Genre?>?): String {
         return json.encodeToString(someObject)
     }
 
@@ -119,7 +119,7 @@ class TypeConverters {
         else null
     }
     @TypeConverter
-    fun myListStatusToString(someObject: MyAnimeListStatus?): String? {
+    fun myListStatusToString(someObject: MyAnimeListStatus?): String {
         return json.encodeToString(someObject)
     }
 
@@ -130,7 +130,7 @@ class TypeConverters {
         else null
     }
     @TypeConverter
-    fun broadcastToString(someObject: Broadcast?): String? {
+    fun broadcastToString(someObject: Broadcast?): String {
         return json.encodeToString(someObject)
     }
 
@@ -141,7 +141,7 @@ class TypeConverters {
         else null
     }
     @TypeConverter
-    fun listRelatedAnimeToString(someObject: List<Related?>?): String? {
+    fun listRelatedAnimeToString(someObject: List<Related?>?): String {
         return json.encodeToString(someObject)
     }
 
@@ -152,7 +152,7 @@ class TypeConverters {
         else null
     }
     @TypeConverter
-    fun listRecommendationsToString(someObject: List<Recommendations?>?): String? {
+    fun listRecommendationsToString(someObject: List<Recommendations?>?): String {
         return json.encodeToString(someObject)
     }
 
@@ -163,7 +163,7 @@ class TypeConverters {
         else null
     }
     @TypeConverter
-    fun listStudiosToString(someObject: List<Studio?>?): String? {
+    fun listStudiosToString(someObject: List<Studio?>?): String {
         return json.encodeToString(someObject)
     }
 
@@ -174,7 +174,7 @@ class TypeConverters {
         else null
     }
     @TypeConverter
-    fun listThemesToString(someObject: List<Theme?>?): String? {
+    fun listThemesToString(someObject: List<Theme?>?): String {
         return json.encodeToString(someObject)
     }
 
@@ -185,7 +185,7 @@ class TypeConverters {
         else null
     }
     @TypeConverter
-    fun statisticsToString(someObject: Statistics?): String? {
+    fun statisticsToString(someObject: Statistics?): String {
         return json.encodeToString(someObject)
     }
     // statistics status
@@ -195,7 +195,7 @@ class TypeConverters {
         else null
     }
     @TypeConverter
-    fun statisticsStatusToString(someObject: StatisticsStatus?): String? {
+    fun statisticsStatusToString(someObject: StatisticsStatus?): String {
         return json.encodeToString(someObject)
     }
 
@@ -209,7 +209,7 @@ class TypeConverters {
         else null
     }
     @TypeConverter
-    fun nodeMangaToString(someObject: MangaNode?): String? {
+    fun nodeMangaToString(someObject: MangaNode?): String {
         return json.encodeToString(someObject)
     }
     // serialization node
@@ -219,7 +219,7 @@ class TypeConverters {
         else null
     }
     @TypeConverter
-    fun serialNodeToString(someObject: SerialNode?): String? {
+    fun serialNodeToString(someObject: SerialNode?): String {
         return json.encodeToString(someObject)
     }
     // list serialization node
@@ -229,7 +229,7 @@ class TypeConverters {
         else null
     }
     @TypeConverter
-    fun listSerialNodeToString(someObject: List<SerialNode?>?): String? {
+    fun listSerialNodeToString(someObject: List<SerialNode?>?): String {
         return json.encodeToString(someObject)
     }
     // serialization
@@ -239,7 +239,7 @@ class TypeConverters {
         else null
     }
     @TypeConverter
-    fun serializationToString(someObject: Serialization?): String? {
+    fun serializationToString(someObject: Serialization?): String {
         return json.encodeToString(someObject)
     }
     // list serialization
@@ -249,7 +249,7 @@ class TypeConverters {
         else null
     }
     @TypeConverter
-    fun listSerialToString(someObject: List<Serialization?>?): String? {
+    fun listSerialToString(someObject: List<Serialization?>?): String {
         return json.encodeToString(someObject)
     }
 
@@ -260,7 +260,7 @@ class TypeConverters {
         else null
     }
     @TypeConverter
-    fun authorNodeToString(someObject: AuthorNode?): String? {
+    fun authorNodeToString(someObject: AuthorNode?): String {
         return json.encodeToString(someObject)
     }
 
@@ -271,7 +271,7 @@ class TypeConverters {
         else null
     }
     @TypeConverter
-    fun authorToString(someObject: Author?): String? {
+    fun authorToString(someObject: Author?): String {
         return json.encodeToString(someObject)
     }
     // list author
@@ -281,7 +281,7 @@ class TypeConverters {
         else null
     }
     @TypeConverter
-    fun listAuthorToString(someObject: List<Author?>?): String? {
+    fun listAuthorToString(someObject: List<Author?>?): String {
         return json.encodeToString(someObject)
     }
 
@@ -292,7 +292,7 @@ class TypeConverters {
         else null
     }
     @TypeConverter
-    fun myMangaListStatusToString(someObject: MyMangaListStatus?): String? {
+    fun myMangaListStatusToString(someObject: MyMangaListStatus?): String {
         return json.encodeToString(someObject)
     }
 
@@ -307,7 +307,7 @@ class TypeConverters {
         else null
     }
     @TypeConverter
-    fun userAnimeStatsToString(someObject: UserAnimeStatistics?): String? {
+    fun userAnimeStatsToString(someObject: UserAnimeStatistics?): String {
         return json.encodeToString(someObject)
     }
 }

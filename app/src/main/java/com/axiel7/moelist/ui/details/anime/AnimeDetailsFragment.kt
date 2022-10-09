@@ -14,12 +14,11 @@ import com.axiel7.moelist.adapter.RelatedsAdapter
 import com.axiel7.moelist.adapter.ThemesAdapter
 import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.isManga
-import com.axiel7.moelist.databinding.FragmentAnimeDetailsBinding
+import com.axiel7.moelist.databinding.FragmentDetailsBinding
 import com.axiel7.moelist.ui.base.BaseFragment
 import com.axiel7.moelist.ui.main.MainViewModel
 import com.axiel7.moelist.utils.Constants.RESPONSE_ERROR
-import com.axiel7.moelist.utils.Extensions.openCustomTab
-import com.axiel7.moelist.utils.InsetsHelper.addSystemWindowInsetToMargin
+import com.axiel7.moelist.utils.Extensions.openLink
 import com.axiel7.moelist.utils.StringExtensions.formatGenre
 import com.axiel7.moelist.utils.StringExtensions.formatMediaType
 import com.axiel7.moelist.utils.StringExtensions.formatSeason
@@ -37,19 +36,14 @@ import kotlinx.coroutines.flow.collectLatest
 import java.text.NumberFormat
 import java.util.*
 
-class AnimeDetailsFragment : BaseFragment<FragmentAnimeDetailsBinding>() {
+class AnimeDetailsFragment : BaseFragment<FragmentDetailsBinding>() {
 
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentAnimeDetailsBinding
-        get() = FragmentAnimeDetailsBinding::inflate
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentDetailsBinding
+        get() = FragmentDetailsBinding::inflate
     private val mainViewModel: MainViewModel by activityViewModels()
     private val viewModel: AnimeDetailsViewModel by viewModels()
     private lateinit var adapterRelateds: RelatedsAdapter
     private var bottomSheetDialog: EditAnimeFragment? = null
-
-    override fun onResume() {
-        super.onResume()
-        binding.editFab.addSystemWindowInsetToMargin(bottom = true)
-    }
 
     override fun setup() {
 
@@ -64,7 +58,10 @@ class AnimeDetailsFragment : BaseFragment<FragmentAnimeDetailsBinding>() {
 
         launchLifecycleStarted {
             viewModel.animeDetails.collectLatest {
-                it?.let { setAnimeData(it) }
+                it?.let {
+                    binding.loading.hide()
+                    setAnimeData(it)
+                }
             }
         }
 
@@ -72,11 +69,11 @@ class AnimeDetailsFragment : BaseFragment<FragmentAnimeDetailsBinding>() {
             viewModel.relateds.collectLatest {
                 if (it.isNotEmpty()) {
                     binding.relateds.visibility = View.VISIBLE
-                    binding.relatedsRecycler.visibility = View.VISIBLE
+                    binding.listRelateds.visibility = View.VISIBLE
                     adapterRelateds.setData(it)
                 } else {
                     binding.relateds.visibility = View.GONE
-                    binding.relatedsRecycler.visibility = View.GONE
+                    binding.listRelateds.visibility = View.GONE
                 }
             }
         }
@@ -147,6 +144,8 @@ class AnimeDetailsFragment : BaseFragment<FragmentAnimeDetailsBinding>() {
         TooltipCompat.setTooltipText(binding.popularityText, getString(R.string.popularity))
         binding.popularityText.setOnClickListener { it.performLongClick() }
 
+        hideMangaViews()
+
         //Relateds
         adapterRelateds = RelatedsAdapter(
             safeContext,
@@ -157,21 +156,30 @@ class AnimeDetailsFragment : BaseFragment<FragmentAnimeDetailsBinding>() {
                 )
             }
         )
-        binding.relatedsRecycler.adapter = adapterRelateds
+        binding.listRelateds.adapter = adapterRelateds
 
         binding.editFab.setOnClickListener {
             bottomSheetDialog?.show(parentFragmentManager, "Edit")
         }
     }
 
+    private fun hideMangaViews() {
+        binding.apply {
+            authorsTitle.visibility = View.GONE
+            authors.visibility = View.GONE
+            volumesTitle.visibility = View.GONE
+            volumes.visibility = View.GONE
+            dividerVolumes.visibility = View.GONE
+        }
+    }
+
     private fun setAnimeData(animeDetails: AnimeDetails) {
         binding.detailsScroll.smoothScrollTo(0, 0)
-        binding.loading.hide()
 
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.open_in_browser -> {
-                    safeContext.openCustomTab("https://myanimelist.net/anime/${animeDetails.id}")
+                    safeContext.openLink("https://myanimelist.net/anime/${animeDetails.id}")
                     true
                 }
                 else -> false
@@ -193,8 +201,8 @@ class AnimeDetailsFragment : BaseFragment<FragmentAnimeDetailsBinding>() {
             binding.editFab.setIconResource(R.drawable.ic_round_edit_24)
         }
 
-        binding.animePoster.load(animeDetails.mainPicture?.medium)
-        binding.animePoster.setOnClickListener {
+        binding.poster.load(animeDetails.mainPicture?.medium)
+        binding.poster.setOnClickListener {
             mainActivity?.navigate(
                 idAction = R.id.action_global_fullPosterFragment,
                 bundle = Bundle().apply { putString("poster_url", animeDetails.mainPicture?.large) }
@@ -202,14 +210,14 @@ class AnimeDetailsFragment : BaseFragment<FragmentAnimeDetailsBinding>() {
         }
         binding.mainTitle.text = animeDetails.title
 
-        binding.mediaTypeText.text = animeDetails.mediaType?.formatMediaType(safeContext)
+        binding.mediaType.text = animeDetails.mediaType?.formatMediaType(safeContext)
 
-        binding.episodesText.text = if (animeDetails.numEpisodes == 0) "?? ${getString(R.string.episodes)}"
+        binding.episodesChapters.text = if (animeDetails.numEpisodes == 0) "?? ${getString(R.string.episodes)}"
         else "${animeDetails.numEpisodes} ${getString(R.string.episodes)}"
 
-        binding.statusText.text = animeDetails.status?.formatStatus(safeContext)
+        binding.status.text = animeDetails.status?.formatStatus(safeContext)
 
-        binding.scoreText.text = animeDetails.mean.toString()
+        binding.score.text = animeDetails.mean.toString()
         binding.synopsis.text = animeDetails.synopsis
 
         // Genres chips
@@ -234,58 +242,58 @@ class AnimeDetailsFragment : BaseFragment<FragmentAnimeDetailsBinding>() {
 
         // More info
         val synonymsText = animeDetails.alternativeTitles?.synonyms?.joinToString(separator = ",\n")
-        binding.synonymsText.text = if (!synonymsText.isNullOrEmpty()) synonymsText else "─"
+        binding.synonyms.text = if (!synonymsText.isNullOrEmpty()) synonymsText else "─"
 
         val jpTitle = animeDetails.alternativeTitles?.ja
         binding.jpTitle.text = if (!jpTitle.isNullOrEmpty()) jpTitle else "─"
 
         val unknown = getString(R.string.unknown)
-        binding.startDateText.text = if (!animeDetails.startDate.isNullOrEmpty()) animeDetails.startDate
+        binding.startDate.text = if (!animeDetails.startDate.isNullOrEmpty()) animeDetails.startDate
         else unknown
-        binding.endDateText.text = if (!animeDetails.endDate.isNullOrEmpty()) animeDetails.endDate
+        binding.endDate.text = if (!animeDetails.endDate.isNullOrEmpty()) animeDetails.endDate
         else unknown
 
         val year = animeDetails.startSeason?.year
         val season = animeDetails.startSeason?.season?.formatSeason(safeContext)
         val seasonText = "$season $year"
-        binding.seasonText.text = if (animeDetails.startSeason != null) seasonText else unknown
+        binding.season.text = if (animeDetails.startSeason != null) seasonText else unknown
 
         val weekDay = animeDetails.broadcast?.dayOfTheWeek?.formatWeekday(safeContext)
         val startTime = animeDetails.broadcast?.startTime
-        binding.broadcastText.text = if (animeDetails.broadcast!=null) "$weekDay $startTime (JST)"
+        binding.broadcast.text = if (animeDetails.broadcast!=null) "$weekDay $startTime (JST)"
         else unknown
 
         val duration = animeDetails.averageEpisodeDuration?.div(60)
         val durationText = "$duration ${getString(R.string.minutes_abbreviation)}."
-        binding.durationText.text = if (duration == 0) unknown else durationText
+        binding.duration.text = if (duration == 0) unknown else durationText
 
-        binding.sourceText.text = animeDetails.source?.formatSource(safeContext)
+        binding.source.text = animeDetails.source?.formatSource(safeContext)
 
         val studiosNames = mutableListOf<String>()
         animeDetails.studios?.forEach {
             studiosNames.add(it.name)
         }
         val studiosText = studiosNames.joinToString(separator = ",\n")
-        binding.studiosText.text = if (studiosText.isNotEmpty()) studiosText else unknown
+        binding.studios.text = studiosText.ifEmpty { unknown }
 
         if (animeDetails.openingThemes.isNullOrEmpty()) {
             binding.opening.visibility = View.GONE
-            binding.openingRecycler.visibility = View.GONE
+            binding.listOpening.visibility = View.GONE
         } else {
             binding.opening.visibility = View.VISIBLE
-            binding.openingRecycler.visibility = View.VISIBLE
-            binding.openingRecycler.adapter = ThemesAdapter(safeContext).apply {
+            binding.listOpening.visibility = View.VISIBLE
+            binding.listOpening.adapter = ThemesAdapter(safeContext).apply {
                 setData(animeDetails.openingThemes)
             }
         }
 
         if (animeDetails.endingThemes.isNullOrEmpty()) {
             binding.ending.visibility = View.GONE
-            binding.endingRecycler.visibility = View.GONE
+            binding.listEnding.visibility = View.GONE
         } else {
             binding.ending.visibility = View.VISIBLE
-            binding.endingRecycler.visibility = View.VISIBLE
-            binding.endingRecycler.adapter = ThemesAdapter(safeContext).apply {
+            binding.listEnding.visibility = View.VISIBLE
+            binding.listEnding.adapter = ThemesAdapter(safeContext).apply {
                 setData(animeDetails.endingThemes)
             }
         }

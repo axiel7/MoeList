@@ -1,2 +1,4 @@
 /build
 /google-services.json
+/src/androidTest
+/src/test

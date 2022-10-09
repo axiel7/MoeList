@@ -3,6 +3,7 @@ package com.axiel7.moelist.ui.seasonal
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
 import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.SeasonalAnimeAdapter
@@ -18,7 +19,7 @@ class SeasonalFragment : BaseFragment<FragmentSeasonalBinding>() {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentSeasonalBinding
         get() = FragmentSeasonalBinding::inflate
     private val mainViewModel: MainViewModel by activityViewModels()
-    private val viewModel: SeasonalViewModel by activityViewModels()
+    private val viewModel: SeasonalViewModel by viewModels()
     private lateinit var adapter: SeasonalAnimeAdapter
 
     override fun setup() {

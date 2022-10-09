@@ -9,7 +9,7 @@ import com.axiel7.moelist.utils.Constants.ERROR_SERVER
 import com.axiel7.moelist.utils.Constants.RESPONSE_ERROR
 import com.axiel7.moelist.utils.Constants.RESPONSE_NONE
 import com.axiel7.moelist.utils.Constants.RESPONSE_OK
-import kotlinx.coroutines.async
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -26,12 +26,11 @@ class MangaDetailsViewModel : ViewModel() {
     val response: StateFlow<Pair<String, String>> = _response
 
     fun getMangaDetails(mangaId: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             App.animeDb.mangaDetailsDao().getMangaDetailsById(mangaId)?.let { postValues(it) }
 
-            val call = async { App.api.getMangaDetails(mangaId, FIELDS) }
             val result = try {
-                call.await()
+                App.api.getMangaDetails(mangaId, FIELDS)
             } catch (e: Exception) {
                 null
             }

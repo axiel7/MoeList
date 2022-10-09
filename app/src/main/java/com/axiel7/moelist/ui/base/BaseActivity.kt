@@ -12,6 +12,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewbinding.ViewBinding
 import com.axiel7.moelist.utils.Extensions.changeTheme
 import com.axiel7.moelist.utils.SharedPrefsHelpers
+import com.google.android.material.color.DynamicColors
+import com.google.android.material.elevation.SurfaceColors
 import kotlinx.coroutines.launch
 
 abstract class BaseActivity<VB: ViewBinding> : AppCompatActivity() {
@@ -23,6 +25,8 @@ abstract class BaseActivity<VB: ViewBinding> : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
+        DynamicColors.applyToActivityIfAvailable(this)
+        window.statusBarColor = SurfaceColors.SURFACE_0.getColor(this)
         changeTheme()
         preCreate()
         super.onCreate(savedInstanceState)

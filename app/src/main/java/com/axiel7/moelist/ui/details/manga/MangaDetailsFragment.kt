@@ -13,12 +13,12 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.RelatedsAdapter
 import com.axiel7.moelist.data.model.isManga
 import com.axiel7.moelist.data.model.manga.MangaDetails
-import com.axiel7.moelist.databinding.FragmentMangaDetailsBinding
+import com.axiel7.moelist.databinding.FragmentDetailsBinding
 import com.axiel7.moelist.ui.base.BaseFragment
 import com.axiel7.moelist.ui.main.MainViewModel
 import com.axiel7.moelist.utils.Constants.RESPONSE_ERROR
-import com.axiel7.moelist.utils.Extensions.openCustomTab
-import com.axiel7.moelist.utils.InsetsHelper.addSystemWindowInsetToMargin
+import com.axiel7.moelist.utils.Extensions.openLink
+import com.axiel7.moelist.utils.Extensions.setDrawables
 import com.axiel7.moelist.utils.StringExtensions.formatGenre
 import com.axiel7.moelist.utils.StringExtensions.formatMediaType
 import com.axiel7.moelist.utils.StringExtensions.formatStatus
@@ -33,19 +33,14 @@ import kotlinx.coroutines.flow.collectLatest
 import java.text.NumberFormat
 import java.util.*
 
-class MangaDetailsFragment : BaseFragment<FragmentMangaDetailsBinding>() {
+class MangaDetailsFragment : BaseFragment<FragmentDetailsBinding>() {
 
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentMangaDetailsBinding
-        get() = FragmentMangaDetailsBinding::inflate
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentDetailsBinding
+        get() = FragmentDetailsBinding::inflate
     private val mainViewModel: MainViewModel by activityViewModels()
     private val viewModel: MangaDetailsViewModel by viewModels()
     private lateinit var adapterRelateds: RelatedsAdapter
     private var bottomSheetDialog: EditMangaFragment? = null
-
-    override fun onResume() {
-        super.onResume()
-        binding.editFab.addSystemWindowInsetToMargin(bottom = true)
-    }
 
     override fun setup() {
 
@@ -68,11 +63,11 @@ class MangaDetailsFragment : BaseFragment<FragmentMangaDetailsBinding>() {
             viewModel.relateds.collectLatest {
                 if (it.isNotEmpty()) {
                     binding.relateds.visibility = View.VISIBLE
-                    binding.relatedsRecycler.visibility = View.VISIBLE
+                    binding.listRelateds.visibility = View.VISIBLE
                     adapterRelateds.setData(it)
                 } else {
                     binding.relateds.visibility = View.GONE
-                    binding.relatedsRecycler.visibility = View.GONE
+                    binding.listRelateds.visibility = View.GONE
                 }
             }
         }
@@ -143,6 +138,8 @@ class MangaDetailsFragment : BaseFragment<FragmentMangaDetailsBinding>() {
         TooltipCompat.setTooltipText(binding.popularityText, getString(R.string.popularity))
         binding.popularityText.setOnClickListener { it.performLongClick() }
 
+        hideAnimeViews()
+
         //Relateds
         adapterRelateds = RelatedsAdapter(
             safeContext,
@@ -153,10 +150,27 @@ class MangaDetailsFragment : BaseFragment<FragmentMangaDetailsBinding>() {
                 )
             }
         )
-        binding.relatedsRecycler.adapter = adapterRelateds
+        binding.listRelateds.adapter = adapterRelateds
 
         binding.editFab.setOnClickListener {
             bottomSheetDialog?.show(parentFragmentManager, "Edit")
+        }
+    }
+
+    private fun hideAnimeViews() {
+        binding.apply {
+            mediaType.setDrawables(start = R.drawable.ic_round_menu_book_24)
+            seasonTitle.visibility = View.GONE
+            season.visibility = View.GONE
+            broadcastTitle.visibility = View.GONE
+            broadcast.visibility = View.GONE
+            durationTitle.visibility = View.GONE
+            duration.visibility = View.GONE
+            studiosTitle.text = getString(R.string.serialization)
+            opening.visibility = View.GONE
+            listOpening.visibility = View.GONE
+            ending.visibility = View.GONE
+            listEnding.visibility = View.GONE
         }
     }
 
@@ -166,7 +180,7 @@ class MangaDetailsFragment : BaseFragment<FragmentMangaDetailsBinding>() {
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.open_in_browser -> {
-                    safeContext.openCustomTab("https://myanimelist.net/anime/${mangaDetails.id}")
+                    safeContext.openLink("https://myanimelist.net/manga/${mangaDetails.id}")
                     true
                 }
                 else -> false
@@ -189,8 +203,8 @@ class MangaDetailsFragment : BaseFragment<FragmentMangaDetailsBinding>() {
             binding.editFab.setIconResource(R.drawable.ic_round_edit_24)
         }
 
-        binding.mangaPoster.load(mangaDetails.mainPicture?.medium)
-        binding.mangaPoster.setOnClickListener {
+        binding.poster.load(mangaDetails.mainPicture?.medium)
+        binding.poster.setOnClickListener {
             mainActivity?.navigate(
                 idAction = R.id.action_global_fullPosterFragment,
                 bundle = Bundle().apply { putString("poster_url", mangaDetails.mainPicture?.large) }
@@ -198,17 +212,17 @@ class MangaDetailsFragment : BaseFragment<FragmentMangaDetailsBinding>() {
         }
         binding.mainTitle.text = mangaDetails.title
 
-        binding.mediaTypeText.text = mangaDetails.mediaType?.formatMediaType(safeContext)
+        binding.mediaType.text = mangaDetails.mediaType?.formatMediaType(safeContext)
 
-        binding.chaptersText.text = if (mangaDetails.numChapters == 0) "?? ${getString(R.string.chapters)}"
+        binding.episodesChapters.text = if (mangaDetails.numChapters == 0) "?? ${getString(R.string.chapters)}"
         else "${mangaDetails.numChapters} ${getString(R.string.chapters)}"
 
-        binding.volumesText.text = if (mangaDetails.numVolumes == 0) "?? ${getString(R.string.volumes)}"
+        binding.volumes.text = if (mangaDetails.numVolumes == 0) "?? ${getString(R.string.volumes)}"
         else "${mangaDetails.numVolumes} ${getString(R.string.volumes)}"
 
-        binding.statusText.text = mangaDetails.status?.formatStatus(safeContext)
+        binding.status.text = mangaDetails.status?.formatStatus(safeContext)
 
-        binding.scoreText.text = mangaDetails.mean.toString()
+        binding.score.text = mangaDetails.mean.toString()
         binding.synopsis.text = mangaDetails.synopsis
 
         // Genres chips
@@ -233,15 +247,15 @@ class MangaDetailsFragment : BaseFragment<FragmentMangaDetailsBinding>() {
 
         // More info
         val synonymsText = mangaDetails.alternativeTitles?.synonyms?.joinToString(separator = ",\n")
-        binding.synonymsText.text = if (!synonymsText.isNullOrEmpty()) synonymsText else "─"
+        binding.synonyms.text = if (!synonymsText.isNullOrEmpty()) synonymsText else "─"
 
         val jpTitle = mangaDetails.alternativeTitles?.ja
         binding.jpTitle.text = if (!jpTitle.isNullOrEmpty()) jpTitle else "─"
 
         val unknown = getString(R.string.unknown)
-        binding.startDateText.text = if (!mangaDetails.startDate.isNullOrEmpty()) mangaDetails.startDate
+        binding.startDate.text = if (!mangaDetails.startDate.isNullOrEmpty()) mangaDetails.startDate
         else unknown
-        binding.endDateText.text = if (!mangaDetails.endDate.isNullOrEmpty()) mangaDetails.endDate
+        binding.endDate.text = if (!mangaDetails.endDate.isNullOrEmpty()) mangaDetails.endDate
         else unknown
 
         // Authors
@@ -259,7 +273,7 @@ class MangaDetailsFragment : BaseFragment<FragmentMangaDetailsBinding>() {
         }
 
         val authorsTextJoin = authorsText.joinToString(separator = ",\n")
-        binding.authorsText.text = if (authorsTextJoin.isNotEmpty()) authorsTextJoin else unknown
+        binding.authors.text = authorsTextJoin.ifEmpty { unknown }
 
         // Serialization
         val serialNames = mutableListOf<String>()
@@ -267,7 +281,7 @@ class MangaDetailsFragment : BaseFragment<FragmentMangaDetailsBinding>() {
             serialNames.add(it.node.name)
         }
         val serialText = serialNames.joinToString(separator = ",\n")
-        binding.serialText.text = if (serialText.isNotEmpty()) serialText else unknown
+        binding.studios.text = serialText.ifEmpty { unknown }
     }
 
     private fun translateSynopsis(translator: Translator) {

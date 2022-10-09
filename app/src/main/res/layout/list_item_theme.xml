@@ -7,7 +7,7 @@
     android:layout_marginBottom="8dp"
     android:id="@+id/theme"
     android:text="Opening 1"
-    android:textColor="@color/colorAccent"
+    android:textColor="?attr/colorPrimary"
     android:clickable="true"
     android:focusable="true"
     android:background="?attr/selectableItemBackground"

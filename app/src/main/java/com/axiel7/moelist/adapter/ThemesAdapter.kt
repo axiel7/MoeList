@@ -22,11 +22,8 @@ class ThemesAdapter(
 
         holder.binding.theme.text = themeText
 
-        var query = themeText.replace(" ", "+", true)
-        if (query.startsWith("#")) {
-            query = query.replaceFirst("#", "")
-        }
-
+        val query = getQueryFromThemeText(themeText)
+    
         holder.itemView.setOnClickListener {
             Intent(Intent.ACTION_VIEW).apply {
                 data = Uri.parse("https://www.youtube.com/results?search_query=$query")
@@ -38,6 +35,19 @@ class ThemesAdapter(
             themeText.copyToClipBoard(context)
             true
         }
+    }
+
+    private fun getQueryFromThemeText(themeText: String): String {
+        var query = themeText.replace(" ", "+")
+        val size = query.length
+
+        if (query.startsWith("#")) {
+            query = query.substring(4, size)
+        }
+        val index = query.indexOf("(ep")
+
+        return if (index == -1) query
+        else query.substring(0, index - 1)
     }
 
 }

@@ -1,6 +1,5 @@
 package com.axiel7.moelist.ui.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -17,7 +16,7 @@ import com.axiel7.moelist.utils.Constants.RESPONSE_ERROR
 import com.axiel7.moelist.utils.Constants.RESPONSE_NONE
 import com.axiel7.moelist.utils.Constants.RESPONSE_OK
 import com.axiel7.moelist.utils.SeasonCalendar
-import kotlinx.coroutines.async
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -33,7 +32,7 @@ class HomeViewModel : ViewModel() {
 
     private val paramsSeasonal = MutableStateFlow(
         ApiParams(
-            sort = Constants.SORT_ANIME_SCORE,
+            sort = Constants.SORT_ANIME_START_DATE,
             nsfw = nsfw.value
         )
     )
@@ -80,22 +79,17 @@ class HomeViewModel : ViewModel() {
         )
     )
 
-    fun getTodayAnimes(page: String? = null) {
-        viewModelScope.launch {
-            val call = if (page == null) async { App.api.getSeasonalAnime(
-                params = paramsToday.value,
-                year = SeasonCalendar.currentYear,
-                season = SeasonCalendar.currentSeasonStr
-            ) } else {
-                async {
-                    App.api.getSeasonalAnime(page)
-                }
-            }
+    private fun getTodayAnimes(page: String? = null) {
+        viewModelScope.launch(Dispatchers.IO) {
 
             val result = try {
-                call.await()
+                if (page == null) App.api.getSeasonalAnime(
+                    params = paramsToday.value,
+                    year = SeasonCalendar.currentYear,
+                    season = SeasonCalendar.currentSeasonStr
+                )
+                else App.api.getSeasonalAnime(page)
             } catch (e: Exception) {
-                Log.d("moelog", e.toString())
                 null
             }
 

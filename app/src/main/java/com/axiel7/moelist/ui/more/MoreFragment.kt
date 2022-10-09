@@ -4,6 +4,8 @@ import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.axiel7.moelist.databinding.FragmentMoreBinding
@@ -26,8 +28,14 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(), SharedPreferences.OnSh
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        if (key == "theme") {
-            activity?.recreate()
+        when (key) {
+            "theme" -> activity?.recreate()
+            "app_language" -> {
+                sharedPref.getString("app_language", null)?.let {
+                    val appLocale = LocaleListCompat.forLanguageTags(it)
+                    AppCompatDelegate.setApplicationLocales(appLocale)
+                }
+            }
         }
     }
 

@@ -17,6 +17,15 @@
             app:summary="@string/nsfw_summary"
             app:title="@string/show_nsfw" />
 
+        <ListPreference
+            app:key="app_language"
+            app:title="@string/language"
+            app:summary="%s"
+            app:icon="@drawable/ic_round_language_24"
+            app:entries="@array/language_options"
+            app:entryValues="@array/language_options_values"
+            app:defaultValue="null"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/startup">

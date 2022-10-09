@@ -38,7 +38,7 @@ class RankingFragment : BaseFragment<FragmentRankingBinding>() {
 
     private fun initAnimeRanking() {
         adapterAnime = RankingAnimeAdapter(safeContext,
-            onClick = { itemView, item ->
+            onClick = { _, item ->
                 mainViewModel.selectId(item.node.id)
                 mainActivity?.navigate(
                     idAction = R.id.action_animeRankingFragment_to_animeDetailsFragment
@@ -69,7 +69,7 @@ class RankingFragment : BaseFragment<FragmentRankingBinding>() {
 
     private fun initMangaRanking() {
         adapterManga = RankingMangaAdapter(safeContext,
-            onClick = { itemView, item ->
+            onClick = { _, item ->
                 mainViewModel.selectId(item.node.id)
                 mainActivity?.navigate(
                     idAction = R.id.action_mangaRankingFragment_to_mangaDetailsFragment

@@ -1,6 +1,5 @@
 package com.axiel7.moelist.ui.calendar
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.axiel7.moelist.App
@@ -12,7 +11,7 @@ import com.axiel7.moelist.utils.Constants.RESPONSE_ERROR
 import com.axiel7.moelist.utils.Constants.RESPONSE_NONE
 import com.axiel7.moelist.utils.Constants.RESPONSE_OK
 import com.axiel7.moelist.utils.SeasonCalendar
-import kotlinx.coroutines.async
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -58,22 +57,17 @@ class CalendarViewModel : ViewModel() {
         )
     )
 
-    fun getSeasonAnimes(page: String? = null) {
-        viewModelScope.launch {
-            val call = if (page == null) async { App.api.getSeasonalAnime(
-                params = params.value,
-                year = SeasonCalendar.currentYear,
-                season = SeasonCalendar.currentSeasonStr
-            ) } else {
-                async {
-                    App.api.getSeasonalAnime(page)
-                }
-            }
+    private fun getSeasonAnimes(page: String? = null) {
+        viewModelScope.launch(Dispatchers.IO) {
 
             val result = try {
-                call.await()
+                if (page == null) App.api.getSeasonalAnime(
+                    params = params.value,
+                    year = SeasonCalendar.currentYear,
+                    season = SeasonCalendar.currentSeasonStr
+                )
+                else App.api.getSeasonalAnime(page)
             } catch (e: Exception) {
-                Log.d("moelog", e.toString())
                 null
             }
 

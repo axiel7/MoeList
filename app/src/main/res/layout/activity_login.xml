@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        android:background="?attr/colorSurface"
         app:menu="@menu/login_menu"
         app:layout_constraintTop_toTopOf="parent" />
 

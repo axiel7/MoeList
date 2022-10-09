@@ -16,6 +16,7 @@
         android:text="@string/sort"
         app:iconStartPadding="8dp"
         app:chipIcon="@drawable/ic_round_sort_24"
+        app:chipIconTint="?attr/colorOnSurface"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
