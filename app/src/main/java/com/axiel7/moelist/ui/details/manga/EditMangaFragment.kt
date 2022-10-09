@@ -2,6 +2,7 @@ package com.axiel7.moelist.ui.details.manga
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.AdapterView.OnItemClickListener
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import com.axiel7.moelist.R
@@ -105,6 +106,15 @@ class EditMangaFragment(
 
         val adapter = MaterialSpinnerAdapter(safeContext, statusItems)
         binding.statusField.setAdapter(adapter)
+        binding.statusField.onItemClickListener = OnItemClickListener { _, _, position, _ ->
+            if (statusItems[position] == getString(R.string.completed)) {
+                binding.chaptersField.setText(numChapters.toString())
+                binding.volumesField.setText(numVolumes.toString())
+            } else {
+                binding.chaptersField.setText(myListStatus?.numChaptersRead.toString())
+                binding.volumesField.setText(myListStatus?.numVolumesRead.toString())
+            }
+        }
 
         binding.scoreSlider.addOnChangeListener { _, value, _ ->
             binding.scoreText.text =

@@ -2,6 +2,7 @@ package com.axiel7.moelist.ui.details.anime
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.AdapterView.OnItemClickListener
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import com.axiel7.moelist.R
@@ -96,6 +97,13 @@ class EditAnimeFragment(
 
         val adapter = MaterialSpinnerAdapter(safeContext, statusItems)
         binding.statusField.setAdapter(adapter)
+        binding.statusField.onItemClickListener = OnItemClickListener { _, _, position, _ ->
+            if (statusItems[position] == getString(R.string.completed)) {
+                binding.episodesField.setText(numEpisodes.toString())
+            } else {
+                binding.episodesField.setText(myListStatus?.numEpisodesWatched.toString())
+            }
+        }
 
         binding.scoreSlider.addOnChangeListener { _, value, _ ->
             binding.scoreText.text =
