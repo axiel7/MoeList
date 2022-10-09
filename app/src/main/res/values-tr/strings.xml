@@ -263,11 +263,14 @@
     <string name="about">Hakkında</string>
     <string name="mal_announcements_summary">MAL da güncellemeler, değişiklikler ve eklemeler.</string>
     <string name="news_summary">Endüstri hakkında güncel bilgiler.</string>
-    <string name="more">More</string>
+    <string name="more">Diğer</string>
     <string name="something_went_wrong">Bir şeyler ters gitti \n (；ﾟДﾟ)</string>
     <string name="upcoming">Yakında</string>
     <string name="favorite">Favori</string>
     <string name="use_external_browser">Harici tarayıcı kullan</string>
     <string name="help">Yardım</string>
-    <string name="calendar">Calendar</string>
+    <string name="calendar">Yayım Takvimi</string>
+    <string name="english">English</string>
+    <string name="ukrainian">Ukrainian</string>
+    <string name="language">Language</string>
 </resources>

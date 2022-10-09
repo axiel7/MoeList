@@ -32,9 +32,9 @@
     <string name="episodes">Épisodes</string>
     <string name="delete">Supprimer</string>
     <string name="chapters">Chapitres</string>
-    <string name="watching">En train de visionnage</string>
+    <string name="watching">En cours de visionnage</string>
     <string name="reading">En cours de lecture</string>
-    <string name="completed">Terminé</string>
+    <string name="completed">Complété</string>
     <string name="on_hold">En attente</string>
     <string name="dropped">Annulé</string>
     <string name="ptw">À regarder</string>
@@ -270,4 +270,7 @@
     <string name="use_external_browser">Utiliser un navigateur externe</string>
     <string name="help">Aide</string>
     <string name="calendar">Calendrier</string>
+    <string name="english">English</string>
+    <string name="ukrainian">Ukrainian</string>
+    <string name="language">Language</string>
 </resources>
