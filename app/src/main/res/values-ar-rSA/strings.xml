@@ -267,10 +267,10 @@
     <string name="something_went_wrong">حدث خطأ ما\n (；ﾟДﾟ)</string>
     <string name="upcoming">القادم</string>
     <string name="favorite">المفضلة</string>
-    <string name="use_external_browser">Use external browser</string>
-    <string name="help">Help</string>
-    <string name="calendar">Calendar</string>
-    <string name="english">English</string>
-    <string name="ukrainian">Ukrainian</string>
-    <string name="language">Language</string>
+    <string name="use_external_browser">استخدام المتصفح الخارجي</string>
+    <string name="help">مساعدة</string>
+    <string name="calendar">التقويم</string>
+    <string name="english">الإنجليزية</string>
+    <string name="ukrainian">الأوكرانية</string>
+    <string name="language">اللغة</string>
 </resources>

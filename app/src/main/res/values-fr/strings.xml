@@ -32,8 +32,8 @@
     <string name="episodes">Épisodes</string>
     <string name="delete">Supprimer</string>
     <string name="chapters">Chapitres</string>
-    <string name="watching">En cours de visionnage</string>
-    <string name="reading">En cours de lecture</string>
+    <string name="watching">En cours</string>
+    <string name="reading">En cours</string>
     <string name="completed">Complété</string>
     <string name="on_hold">En attente</string>
     <string name="dropped">Annulé</string>
@@ -220,7 +220,7 @@
     <string name="genre_vampire" tools:ignore="MissingTranslation">Vampire</string>
     <string name="genre_yaoi" tools:ignore="MissingTranslation">Yaoi</string>
     <string name="genre_yuri" tools:ignore="MissingTranslation">Yuri</string>
-    <string name="relation_prequel" tools:ignore="MissingTranslation">Préquel</string>
+    <string name="relation_prequel" tools:ignore="MissingTranslation">Précédent</string>
     <string name="relation_sequel" tools:ignore="MissingTranslation">Sequel</string>
     <string name="relation_summary" tools:ignore="MissingTranslation">Description</string>
     <string name="relation_alternative_version" tools:ignore="MissingTranslation">Version alternative</string>
@@ -270,7 +270,7 @@
     <string name="use_external_browser">Utiliser un navigateur externe</string>
     <string name="help">Aide</string>
     <string name="calendar">Calendrier</string>
-    <string name="english">English</string>
-    <string name="ukrainian">Ukrainian</string>
-    <string name="language">Language</string>
+    <string name="english">Anglais</string>
+    <string name="ukrainian">Ukrainien</string>
+    <string name="language">Langage</string>
 </resources>
