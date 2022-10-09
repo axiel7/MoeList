@@ -37,20 +37,17 @@ class ThemesAdapter(
         }
     }
 
-
-    fun getQueryFromThemeText(themeText: String): String {
-        var query=themeText;
-        query = query.replace(" ", "+")
+    private fun getQueryFromThemeText(themeText: String): String {
+        var query = themeText.replace(" ", "+")
         val size = query.length
+
         if (query.startsWith("#")) {
             query = query.substring(4, size)
         }
         val index = query.indexOf("(ep")
-        return if (index == -1) {
-            query
-        } else {
-            query.substring(0, index - 1)
-        }
+
+        return if (index == -1) query
+        else query.substring(0, index - 1)
     }
 
 }
