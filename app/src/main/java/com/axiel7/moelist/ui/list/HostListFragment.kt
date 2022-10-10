@@ -37,10 +37,10 @@ class HostListFragment : BaseFragment<FragmentHostListBinding>() {
         TabLayoutMediator(binding.statusTabLayout, binding.listViewPager) { tab, position ->
             when (position) {
                 0 -> tab.text = if (type == 0) { getString(R.string.watching) } else { getString(R.string.reading) }
-                1 -> tab.text = getString(R.string.completed)
-                2 -> tab.text = getString(R.string.on_hold)
-                3 -> tab.text = getString(R.string.dropped)
-                4 -> tab.text = if (type == 0) { getString(R.string.ptw) } else { getString(R.string.ptr) }
+                1 -> tab.text = if (type == 0) { getString(R.string.ptw) } else { getString(R.string.ptr) }
+                2 -> tab.text = getString(R.string.completed)
+                3 -> tab.text = getString(R.string.on_hold)
+                4 -> tab.text = getString(R.string.dropped)
                 5 -> tab.text = getString(R.string.all)
             }
         }.attach()
@@ -58,10 +58,10 @@ class HostListFragment : BaseFragment<FragmentHostListBinding>() {
             val bundle = Bundle()
             when (position) {
                 0 -> bundle.putString("status", STATUS_WATCHING)
-                1 -> bundle.putString("status", STATUS_COMPLETED)
-                2 -> bundle.putString("status", STATUS_ON_HOLD)
-                3 -> bundle.putString("status", STATUS_DROPPED)
-                4 -> bundle.putString("status", STATUS_PTW)
+                1 -> bundle.putString("status", STATUS_PTW)
+                2 -> bundle.putString("status", STATUS_COMPLETED)
+                3 -> bundle.putString("status", STATUS_ON_HOLD)
+                4 -> bundle.putString("status", STATUS_DROPPED)
                 5 -> bundle.putString("status", STATUS_ALL)
                 else -> bundle.putString("status", STATUS_WATCHING)
             }
@@ -81,10 +81,10 @@ class HostListFragment : BaseFragment<FragmentHostListBinding>() {
             val bundle = Bundle()
             when (position) {
                 0 -> bundle.putString("status", STATUS_READING)
-                1 -> bundle.putString("status", STATUS_COMPLETED)
-                2 -> bundle.putString("status", STATUS_ON_HOLD)
-                3 -> bundle.putString("status", STATUS_DROPPED)
-                4 -> bundle.putString("status", STATUS_PTR)
+                1 -> bundle.putString("status", STATUS_PTR)
+                2 -> bundle.putString("status", STATUS_COMPLETED)
+                3 -> bundle.putString("status", STATUS_ON_HOLD)
+                4 -> bundle.putString("status", STATUS_DROPPED)
                 5 -> bundle.putString("status", STATUS_ALL)
                 else -> bundle.putString("status", STATUS_READING)
             }
