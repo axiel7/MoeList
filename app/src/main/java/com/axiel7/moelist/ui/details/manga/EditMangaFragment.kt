@@ -139,6 +139,9 @@ class EditMangaFragment(
             if (inputChapters < numChapters || numChapters == 0) {
                 binding.chaptersField.setText((inputChapters + 1).toString())
             }
+            if (myListStatus?.status == "plan_to_read" && inputChapters == 0) {
+                binding.statusField.setText(statusItems.first())
+            }
         }
         binding.minusVolButton.setOnClickListener {
             val inputVolumes = binding.volumesField.text.toString().toIntOrNull() ?: 0
@@ -150,6 +153,9 @@ class EditMangaFragment(
             val inputVolumes = binding.volumesField.text.toString().toIntOrNull() ?: 0
             if (inputVolumes < numVolumes || numVolumes == 0) {
                 binding.volumesField.setText((inputVolumes + 1).toString())
+            }
+            if (myListStatus?.status == "plan_to_read" && inputVolumes == 0) {
+                binding.statusField.setText(statusItems.first())
             }
         }
 

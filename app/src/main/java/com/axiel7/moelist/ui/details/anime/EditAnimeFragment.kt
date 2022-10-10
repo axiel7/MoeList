@@ -125,6 +125,9 @@ class EditAnimeFragment(
             val inputEpisodes = binding.episodesField.text.toString().toIntOrNull() ?: 0
             if (inputEpisodes < numEpisodes || numEpisodes == 0) {
                 binding.episodesField.setText((inputEpisodes + 1).toString())
+                if (myListStatus?.status == "plan_to_watch" && inputEpisodes == 0) {
+                    binding.statusField.setText(statusItems.first())
+                }
             }
         }
 
