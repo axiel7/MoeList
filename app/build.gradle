@@ -16,8 +16,8 @@ android {
         applicationId "com.axiel7.moelist"
         minSdk 23
         targetSdk 33
-        versionCode 63
-        versionName "2.1.0-beta01"
+        versionCode 70
+        versionName "2.1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resConfigs 'en', 'ar-rSA', 'bg-rBG', 'de', 'es', 'fr', 'pt-rBR', 'ru-rRU', 'tr', 'uk-rUA'
