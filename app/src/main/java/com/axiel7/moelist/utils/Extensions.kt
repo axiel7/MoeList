@@ -31,7 +31,7 @@ object Extensions {
         return if (result == "null") null else result
     }
 
-    fun Activity.changeTheme() {
+    fun Context.changeTheme() {
         SharedPrefsHelpers.instance?.let {
             when (it.getString("theme", "follow_system")) {
                 "light" -> {

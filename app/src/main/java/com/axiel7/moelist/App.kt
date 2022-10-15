@@ -6,6 +6,7 @@ import coil.ImageLoaderFactory
 import com.axiel7.moelist.data.network.Api
 import com.axiel7.moelist.data.network.KtorClient
 import com.axiel7.moelist.data.room.AnimeDatabase
+import com.axiel7.moelist.utils.Extensions.changeTheme
 import com.axiel7.moelist.utils.SharedPrefsHelpers
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.ktor.client.*
@@ -16,6 +17,7 @@ class App : Application(), ImageLoaderFactory {
         super.onCreate()
 
         SharedPrefsHelpers.init(applicationContext)
+        changeTheme()
         if (isUserLogged) {
             createKtorClient()
         }

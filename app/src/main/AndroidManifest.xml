@@ -52,7 +52,6 @@
         <activity
             android:name=".ui.login.LoginActivity"
             android:label="@string/title_login"
-            android:theme="@style/Theme.MySplash"
             android:configChanges="keyboard|orientation|screenSize"
             android:launchMode="singleTop"
             android:exported="true">
