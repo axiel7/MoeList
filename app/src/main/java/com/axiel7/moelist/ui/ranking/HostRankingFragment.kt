@@ -34,7 +34,7 @@ class HostRankingFragment : BaseFragment<FragmentHostRankingBinding>() {
 
         TabLayoutMediator(binding.tabLayout, binding.rankingViewpager) { tab, position ->
             when (position) {
-                0 -> tab.text = getString(R.string.all)
+                0 -> tab.text = getString(R.string.sort_score)
                 1 -> tab.text = getString(R.string.popular)
                 2 -> tab.text = getString(R.string.favorite)
                 3 -> tab.text = getString(R.string.upcoming)
