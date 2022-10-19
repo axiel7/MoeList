@@ -8,7 +8,6 @@ import com.axiel7.moelist.data.network.KtorClient
 import com.axiel7.moelist.data.room.AnimeDatabase
 import com.axiel7.moelist.utils.Extensions.changeTheme
 import com.axiel7.moelist.utils.SharedPrefsHelpers
-import com.google.firebase.analytics.FirebaseAnalytics
 import io.ktor.client.*
 
 class App : Application(), ImageLoaderFactory {
@@ -23,10 +22,6 @@ class App : Application(), ImageLoaderFactory {
         }
 
         animeDb = AnimeDatabase.getAnimeDatabase(applicationContext)
-
-        FirebaseAnalytics.getInstance(applicationContext).apply {
-            setAnalyticsCollectionEnabled(sendAnalytics)
-        }
     }
     override fun newImageLoader(): ImageLoader {
         return ImageLoader.Builder(applicationContext)
