@@ -73,7 +73,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
     
     implementation 'androidx.core:core-splashscreen:1.0.0'
-    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'com.google.android.material:material:1.7.0'
 
     //Paging
     implementation 'androidx.paging:paging-runtime-ktx:3.1.1'
