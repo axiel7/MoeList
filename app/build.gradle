@@ -14,8 +14,9 @@ android {
         applicationId "com.axiel7.moelist"
         minSdk 23
         targetSdk 33
-        versionCode 70
-        versionName "2.1.1"
+        versionCode 71
+        versionName "2.1.2"
+        archivesBaseName = "moelist-v$versionName"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resConfigs 'en', 'ar-rSA', 'bg-rBG', 'de', 'es', 'fr', 'pt-rBR', 'ru-rRU', 'tr', 'uk-rUA'
@@ -37,6 +38,14 @@ android {
             zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "boolean", "IS_DEBUG", "false"
+        }
+    }
+    splits {
+        abi {
+            enable true
+            reset()
+            include "armeabi-v7a", "arm64-v8a", "x86"
+            universalApk true
         }
     }
     buildFeatures {
