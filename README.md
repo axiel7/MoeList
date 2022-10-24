@@ -1,7 +1,8 @@
 # ![app-icon](https://github.com/axiel7/MoeList/blob/master/app/src/main/res/mipmap-mdpi/ic_launcher_round.png)MoeList
 Another unofficial Android MAL client
 
-<a href="https://play.google.com/store/apps/details?id=com.axiel7.moelist" target="_blank"><img alt="Google Play" height="90" src="https://play.google.com/intl/en_US/badges/images/generic/en_badge_web_generic.png"/></a>
+[<img alt="Google Play" height="80" src="https://play.google.com/intl/en_US/badges/images/generic/en_badge_web_generic.png"/>](https://play.google.com/store/apps/details?id=com.axiel7.moelist)
+[<img alt="Google Play" height="80" src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"/>](https://apt.izzysoft.de/fdroid/index/apk/com.axiel7.moelist)
 
 Follow the development on the official Discord server:
 
