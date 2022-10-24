@@ -47,8 +47,9 @@ You can help translate the app!
 
 **Libraries used:**
 * [Material Components](https://github.com/material-components/material-components-android)
-* [Firebase](https://github.com/firebase/firebase-android-sdk)
 * [Room](https://developer.android.com/topic/libraries/architecture/room)
+* [Paging](https://developer.android.com/topic/libraries/architecture/paging/v3-overview)
 * [Ktor](https://ktor.io/)
 * [Coil](https://github.com/coil-kt/coil)
+* [ML Kit Translate](https://developers.google.com/ml-kit/language/translation/android)
 * [Donut](https://github.com/futuredapp/donut)
