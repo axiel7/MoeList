@@ -56,7 +56,7 @@ class MangaListViewModel : ViewModel() {
     var mangaListFlow = createMangaListFlow()
 
     private fun createMangaListFlow() = Pager(
-        PagingConfig(pageSize = 15, prefetchDistance = 10)
+        PagingConfig(pageSize = 15, prefetchDistance = 10, initialLoadSize = params.value.limit)
     ) {
         UserMangaListPaging(App.api, params.value)
     }.flow

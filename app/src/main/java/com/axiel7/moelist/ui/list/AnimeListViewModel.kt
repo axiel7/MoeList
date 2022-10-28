@@ -58,7 +58,7 @@ class AnimeListViewModel : ViewModel() {
     var animeListFlow = createAnimeListFlow()
 
     private fun createAnimeListFlow() = Pager(
-        PagingConfig(pageSize = 15, prefetchDistance = 10)
+        PagingConfig(pageSize = 15, prefetchDistance = 10, initialLoadSize = params.value.limit)
     ) {
         UserAnimeListPaging(App.api, params.value)
     }.flow

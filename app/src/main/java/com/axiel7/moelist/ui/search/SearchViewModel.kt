@@ -37,14 +37,14 @@ class SearchViewModel : ViewModel() {
     )
 
     val animeListFlow = Pager(
-        PagingConfig(pageSize = 15, prefetchDistance = 10)
+        PagingConfig(pageSize = 15, prefetchDistance = 10, initialLoadSize = params.value.limit)
     ) {
         AnimeListPaging(App.api, params.value)
     }.flow
         .cachedIn(viewModelScope)
 
     val mangaListFlow = Pager(
-        PagingConfig(pageSize = 15, prefetchDistance = 10)
+        PagingConfig(pageSize = 15, prefetchDistance = 10, initialLoadSize = params.value.limit)
     ) {
         MangaListPaging(App.api, params.value)
     }.flow
