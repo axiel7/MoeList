@@ -12,6 +12,7 @@ import com.axiel7.moelist.data.paging.UserAnimeListPaging
 import com.axiel7.moelist.utils.Constants.RESPONSE_ERROR
 import com.axiel7.moelist.utils.Constants.RESPONSE_NONE
 import com.axiel7.moelist.utils.Constants.RESPONSE_OK
+import com.axiel7.moelist.utils.Constants.SORT_ANIME_START_DATE
 import com.axiel7.moelist.utils.Constants.SORT_ANIME_TITLE
 import com.axiel7.moelist.utils.Constants.SORT_SCORE
 import com.axiel7.moelist.utils.Constants.SORT_UPDATED
@@ -118,6 +119,7 @@ class AnimeListViewModel : ViewModel() {
         0 -> SORT_ANIME_TITLE
         1 -> SORT_SCORE
         2 -> SORT_UPDATED
+        3 -> SORT_ANIME_START_DATE
         else -> SORT_ANIME_TITLE
     }
 

@@ -34,7 +34,9 @@ class AnimeListFragment : BaseFragment<FragmentListBinding>() {
     private val sortItems: Array<String> by lazy {
         arrayOf(getString(R.string.sort_title),
             getString(R.string.sort_score),
-            getString(R.string.sort_last_updated))
+            getString(R.string.sort_last_updated),
+            getString(R.string.sort_start_date)
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
