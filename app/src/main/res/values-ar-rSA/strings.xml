@@ -273,4 +273,5 @@
     <string name="english">الإنجليزية</string>
     <string name="ukrainian">الأوكرانية</string>
     <string name="language">اللغة</string>
+    <string name="sort_start_date">Start date</string>
 </resources>
