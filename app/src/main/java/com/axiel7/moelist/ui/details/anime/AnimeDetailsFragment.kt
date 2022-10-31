@@ -19,6 +19,7 @@ import com.axiel7.moelist.ui.base.BaseFragment
 import com.axiel7.moelist.ui.main.MainViewModel
 import com.axiel7.moelist.utils.Constants.RESPONSE_ERROR
 import com.axiel7.moelist.utils.Extensions.openCustomTab
+import com.axiel7.moelist.utils.Extensions.openLink
 import com.axiel7.moelist.utils.StringExtensions.formatGenre
 import com.axiel7.moelist.utils.StringExtensions.formatMediaType
 import com.axiel7.moelist.utils.StringExtensions.formatSeason
@@ -179,7 +180,7 @@ class AnimeDetailsFragment : BaseFragment<FragmentDetailsBinding>() {
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.open_in_browser -> {
-                    safeContext.openCustomTab("https://myanimelist.net/anime/${animeDetails.id}")
+                    safeContext.openLink("https://myanimelist.net/anime/${animeDetails.id}")
                     true
                 }
                 else -> false
