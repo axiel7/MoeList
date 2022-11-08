@@ -49,7 +49,7 @@
 
         <Preference
             app:key="german_translation"
-            app:summary="\@Secresa"
+            app:summary="\@Secresa, \@MaximilianGT500"
             app:title="@string/german"/>
 
         <Preference
