@@ -18,10 +18,6 @@
     <string name="authors">Автори</string>
     <string name="volumes">Томи</string>
     <string name="serialization">Публікація</string>
-    <string name="donations_thanks">Спасибі, що вирішити підтримати мене!\n( /^ω^)/♪♪</string>
-    <string name="buy_tea">Пригостити мене чаєм 🍵</string>
-    <string name="buy">Придбати</string>
-    <string name="buy_burger">Пригостити мене бургером 🍔</string>
     <string name="login">Увійти</string>
     <string name="search_in_mal">Пошук на MAL</string>
     <string name="no_results">Нічого не знайдено</string>
@@ -148,7 +144,6 @@
     <string name="title_search">Пошук</string>
     <string name="title_poster">Зображення</string>
     <string name="title_settings">Налаштування</string>
-    <string name="title_donations">Пожертви</string>
     <string name="title_ranking">Топ</string>
     <string name="title_seasonal">Сезони</string>
     <string name="synopsis_icon">Розгорнути синопсис</string>
@@ -156,7 +151,6 @@
     <string name="moelist_banner">Банер MoeList</string>
     <string name="drag_pill">Потягніть шторку</string>
     <string name="profile_picture">Аватар</string>
-    <string name="purchase_cancelled">Покупку скасовано</string>
     <string name="error_not_found">Не знайдено</string>
     <string name="relateds">Пов\'язані</string>
     <string name="view_on_mal">Переглянути на MAL</string>
@@ -241,9 +235,6 @@
     <string name="german">Німецькою</string>
     <string name="copied">Скопійовано!</string>
     <string name="login_browser_warning">Якщо ви не можете увійти спробуйте інший браузер.</string>
-    <string name="send_analytics">Надсилати аналітику</string>
-    <string name="analytics_summary">Це допомагає покращити додаток</string>
-    <string name="github_sponsor">Спонсорувати проект 💰</string>
     <string name="parent_story">Головна історія</string>
     <string name="hour_abbreviation">год</string>
     <string name="minutes_abbreviation">хв</string>
@@ -273,4 +264,5 @@
     <string name="english">Англійська</string>
     <string name="ukrainian">Українська</string>
     <string name="language">Мова</string>
+    <string name="sort_start_date">Дата початку</string>
 </resources>

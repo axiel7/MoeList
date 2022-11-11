@@ -18,10 +18,6 @@
     <string name="authors">Yaratıcılar</string>
     <string name="volumes">Cilt</string>
     <string name="serialization">Serileştirme</string>
-    <string name="donations_thanks">Bana destek olmayı düşündüğünüz için teşekkür ederim!\n( /^ω^)/♪♪</string>
-    <string name="buy_tea">Bir çay ısmarla 🍵</string>
-    <string name="buy">Satın al</string>
-    <string name="buy_burger">Bir hamburger ısmarla 🍔</string>
     <string name="login">Giriş</string>
     <string name="search_in_mal">MAL \'de ara</string>
     <string name="no_results">Sonuç bulunamadı</string>
@@ -148,7 +144,6 @@
     <string name="title_search">Ara</string>
     <string name="title_poster">Görsel</string>
     <string name="title_settings">Ayarlar</string>
-    <string name="title_donations">Bağışlar</string>
     <string name="title_ranking">Sıralama</string>
     <string name="title_seasonal">Sezonluk</string>
     <string name="synopsis_icon">Özeti genişlet</string>
@@ -156,7 +151,6 @@
     <string name="moelist_banner">MoeList başlığı</string>
     <string name="drag_pill">Sürükle</string>
     <string name="profile_picture">Profil fotoğrafı</string>
-    <string name="purchase_cancelled">Satın alım iptal edildi</string>
     <string name="error_not_found">Bulunamadı</string>
     <string name="relateds">Alakalılar</string>
     <string name="view_on_mal">MAL \'de göster</string>
@@ -241,9 +235,6 @@
     <string name="german">Almanca</string>
     <string name="copied">Kopyalandı!</string>
     <string name="login_browser_warning">Eğer giriş yapamıyorsanız, farklı bir tarayıcı ile deneyin.</string>
-    <string name="send_analytics">Kullanım verilerini gönder</string>
-    <string name="analytics_summary">Bu, uygulamanın geliştirilmesine yardımcı olur</string>
-    <string name="github_sponsor">Projeye sponsor olun 💰</string>
     <string name="parent_story">Ana hikaye</string>
     <string name="hour_abbreviation">saat</string>
     <string name="minutes_abbreviation">dakika</string>
@@ -273,4 +264,5 @@
     <string name="english">İngilizce</string>
     <string name="ukrainian">Ukraynaca</string>
     <string name="language">Dil</string>
+    <string name="sort_start_date">Başlangıç tarihi</string>
 </resources>
