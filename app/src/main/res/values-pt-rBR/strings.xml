@@ -18,10 +18,6 @@
     <string name="authors">Autores</string>
     <string name="volumes">Volumes</string>
     <string name="serialization">Serialização</string>
-    <string name="donations_thanks">Obrigado por considerar me apoiar!\n( /^ω^)/♪♪</string>
-    <string name="buy_tea">Me pague um chá 🍵</string>
-    <string name="buy">Comprar</string>
-    <string name="buy_burger">Me pague um hambúrguer 🍔</string>
     <string name="login">Fazer login</string>
     <string name="search_in_mal">Buscar no MAL</string>
     <string name="no_results">Nenhum resultado</string>
@@ -148,7 +144,6 @@
     <string name="title_search">Buscar</string>
     <string name="title_poster">Imagem</string>
     <string name="title_settings">Configurações</string>
-    <string name="title_donations">Doações</string>
     <string name="title_ranking">Ranking</string>
     <string name="title_seasonal">Temporadas</string>
     <string name="synopsis_icon">Expandir sinopse</string>
@@ -156,7 +151,6 @@
     <string name="moelist_banner">Banner MoeList</string>
     <string name="drag_pill">Barra de arraste</string>
     <string name="profile_picture">Foto de Perfil</string>
-    <string name="purchase_cancelled">Compra cancelada</string>
     <string name="error_not_found">Não encontrado</string>
     <string name="relateds">Relacionados</string>
     <string name="view_on_mal">Ver no MAL</string>
@@ -241,9 +235,6 @@
     <string name="german">Alemão</string>
     <string name="copied">Copiado!</string>
     <string name="login_browser_warning">Tente com outro navegador se você não conseguir fazer login.</string>
-    <string name="send_analytics">Enviar estatísticas de uso</string>
-    <string name="analytics_summary">Isso ajuda a melhorar o aplicativo</string>
-    <string name="github_sponsor">Patrocine o projeto 💰</string>
     <string name="parent_story">História principal</string>
     <string name="hour_abbreviation">h</string>
     <string name="minutes_abbreviation">min</string>
