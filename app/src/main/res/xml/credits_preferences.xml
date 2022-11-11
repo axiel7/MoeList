@@ -63,6 +63,11 @@
             app:title="@string/french"/>
 
         <Preference
+            app:key="japanese_translation"
+            app:summary="\@axiel7, \@watashibeme"
+            app:title="@string/japanese"/>
+
+        <Preference
             app:key="spanish_translation"
             app:summary="\@axiel7"
             app:title="@string/spanish" />
