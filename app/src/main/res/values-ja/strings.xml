@@ -18,16 +18,12 @@
     <string name="authors">Authors</string>
     <string name="volumes">Volumes</string>
     <string name="serialization">Serialization</string>
-    <string name="donations_thanks">Thank you for considering supporting me!\n( /^ω^)/♪♪</string>
-    <string name="buy_tea">Buy me a tea 🍵</string>
-    <string name="buy">Buy</string>
-    <string name="buy_burger">Buy me a burger 🍔</string>
     <string name="login">Login</string>
     <string name="search_in_mal">Search in MAL</string>
     <string name="no_results">No results</string>
     <string name="title_profile">Profile</string>
     <string name="cancel">Cancel</string>
-    <string name="apply">Apply</string>
+    <string name="apply">OK</string>
     <string name="status">Status</string>
     <string name="episodes">Episodes</string>
     <string name="delete">Delete</string>
@@ -148,7 +144,6 @@
     <string name="title_search">Search</string>
     <string name="title_poster">Image</string>
     <string name="title_settings">Settings</string>
-    <string name="title_donations">Donations</string>
     <string name="title_ranking">Ranking</string>
     <string name="title_seasonal">Seasonal</string>
     <string name="synopsis_icon">Expand synopsis</string>
@@ -156,7 +151,6 @@
     <string name="moelist_banner">MoeList banner</string>
     <string name="drag_pill">Drag pill</string>
     <string name="profile_picture">Profile picture</string>
-    <string name="purchase_cancelled">Purchase cancelled</string>
     <string name="error_not_found">Not found</string>
     <string name="relateds">Relateds</string>
     <string name="view_on_mal">View on MAL</string>
@@ -205,7 +199,7 @@
     <string name="genre_romance" tools:ignore="MissingTranslation">Romance</string>
     <string name="genre_samurai" tools:ignore="MissingTranslation">Samurai</string>
     <string name="genre_school" tools:ignore="MissingTranslation">School</string>
-    <string name="genre_sci_fi" tools:ignore="MissingTranslation">Sci-Fi</string>
+    <string name="genre_sci_fi" tools:ignore="MissingTranslation">SF</string>
     <string name="genre_seinen" tools:ignore="MissingTranslation">Seinen</string>
     <string name="genre_shoujo" tools:ignore="MissingTranslation">Shoujo</string>
     <string name="genre_shoujo_ai" tools:ignore="MissingTranslation">Shoujo Ai</string>
@@ -241,9 +235,6 @@
     <string name="german">German</string>
     <string name="copied">Copied!</string>
     <string name="login_browser_warning">Try with another browser if you can\'t login.</string>
-    <string name="send_analytics">Send analytics</string>
-    <string name="analytics_summary">This helps improve the app</string>
-    <string name="github_sponsor">Sponsor the project 💰</string>
     <string name="parent_story">Parent story</string>
     <string name="hour_abbreviation">h</string>
     <string name="minutes_abbreviation">min</string>
