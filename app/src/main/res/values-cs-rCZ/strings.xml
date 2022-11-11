@@ -15,13 +15,9 @@
     <string name="source">Zdroj</string>
     <string name="studios">Studia</string>
     <string name="edit">Upravit</string>
-    <string name="authors">Authors</string>
+    <string name="authors">Autoři</string>
     <string name="volumes">Svazky</string>
     <string name="serialization">Serializace</string>
-    <string name="donations_thanks">Děkuji že mě zvažujete podporovat!\n( /^ω^)/♪♪</string>
-    <string name="buy_tea">Kupte mi čaj 🍵</string>
-    <string name="buy">Koupit</string>
-    <string name="buy_burger">Kupte mi burger 🍔</string>
     <string name="login">Přihlášení</string>
     <string name="search_in_mal">Vyhledat v MAL</string>
     <string name="no_results">Žádné výsledky</string>
@@ -148,7 +144,6 @@
     <string name="title_search">Search</string>
     <string name="title_poster">Image</string>
     <string name="title_settings">Settings</string>
-    <string name="title_donations">Donations</string>
     <string name="title_ranking">Ranking</string>
     <string name="title_seasonal">Seasonal</string>
     <string name="synopsis_icon">Expand synopsis</string>
@@ -156,7 +151,6 @@
     <string name="moelist_banner">MoeList banner</string>
     <string name="drag_pill">Drag pill</string>
     <string name="profile_picture">Profile picture</string>
-    <string name="purchase_cancelled">Purchase cancelled</string>
     <string name="error_not_found">Not found</string>
     <string name="relateds">Relateds</string>
     <string name="view_on_mal">View on MAL</string>
@@ -241,9 +235,6 @@
     <string name="german">German</string>
     <string name="copied">Copied!</string>
     <string name="login_browser_warning">Try with another browser if you can\'t login.</string>
-    <string name="send_analytics">Send analytics</string>
-    <string name="analytics_summary">This helps improve the app</string>
-    <string name="github_sponsor">Sponsor the project 💰</string>
     <string name="parent_story">Parent story</string>
     <string name="hour_abbreviation">h</string>
     <string name="minutes_abbreviation">min</string>
