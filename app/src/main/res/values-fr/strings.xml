@@ -18,10 +18,6 @@
     <string name="authors">Auteurs</string>
     <string name="volumes">Volumes</string>
     <string name="serialization">Éditeur</string>
-    <string name="donations_thanks">Merci d\'avoir envisagé de me soutenir!\n( /^ω^)/♪♪</string>
-    <string name="buy_tea">Payez moi un thé 🍵</string>
-    <string name="buy">Acheter</string>
-    <string name="buy_burger">Payez moi un burger 🍔</string>
     <string name="login">Se connecter</string>
     <string name="search_in_mal">Rechercher dans MAL</string>
     <string name="no_results">Aucun résultat</string>
@@ -148,7 +144,6 @@
     <string name="title_search">Recherche</string>
     <string name="title_poster">Image</string>
     <string name="title_settings">Réglages</string>
-    <string name="title_donations">Dons</string>
     <string name="title_ranking">Classement</string>
     <string name="title_seasonal">Saisonnier</string>
     <string name="synopsis_icon">Développer le synopsis</string>
@@ -156,7 +151,6 @@
     <string name="moelist_banner">Bannière MoeList</string>
     <string name="drag_pill">Poignée</string>
     <string name="profile_picture">Photo de profil</string>
-    <string name="purchase_cancelled">Achat annulé</string>
     <string name="error_not_found">Introuvable</string>
     <string name="relateds">Similaire</string>
     <string name="view_on_mal">Afficher sur MAL</string>
@@ -241,9 +235,6 @@
     <string name="german">Allemand</string>
     <string name="copied">Copié!</string>
     <string name="login_browser_warning">Essayez avec un autre navigateur si vous ne pouvez pas vous connecter.</string>
-    <string name="send_analytics">Envoyer les données d\'utilisation</string>
-    <string name="analytics_summary">Cela aide à améliorer l\'application</string>
-    <string name="github_sponsor">Sponsorisez le projet 💰</string>
     <string name="parent_story">Histoire parente</string>
     <string name="hour_abbreviation">h</string>
     <string name="minutes_abbreviation">min</string>
