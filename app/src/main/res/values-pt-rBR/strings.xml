@@ -36,7 +36,6 @@
     <string name="ptw">Planejo Assistir</string>
     <string name="ptr">Planejo Ler</string>
     <string name="share_app">Compartilhar Aplicativo</string>
-    <string name="donations">Doações</string>
     <string name="settings">Configurações</string>
     <string name="year">Ano</string>
     <string name="anime_ranking">Ranking de Animes</string>
@@ -117,7 +116,6 @@
     <string name="popular">Popular</string>
     <string name="added_ptr">Adicionado em Planejo Ler</string>
     <string name="days">Dias</string>
-    <string name="donation_thanked">Obrigado!\n(◔‿◔)</string>
     <string name="login_error">Falha ao fazer login</string>
     <string name="search">Buscar</string>
     <string name="theme">Tema</string>

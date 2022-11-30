@@ -36,7 +36,6 @@
     <string name="ptw">İzlenecek</string>
     <string name="ptr">Okunacak</string>
     <string name="share_app">Uygulamayı paylaş</string>
-    <string name="donations">Bağışlar</string>
     <string name="settings">Ayarlar</string>
     <string name="year">Yıl</string>
     <string name="anime_ranking">Anime Sıralaması</string>
@@ -117,7 +116,6 @@
     <string name="popular">Popüler</string>
     <string name="added_ptr">Okumak İstenenlere Eklendi</string>
     <string name="days">Gün</string>
-    <string name="donation_thanked">Teşekkürler!\n(◔‿◔)</string>
     <string name="login_error">Oturum açma hatası</string>
     <string name="search">Ara</string>
     <string name="theme">Tema</string>

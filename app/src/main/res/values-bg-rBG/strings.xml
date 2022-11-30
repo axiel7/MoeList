@@ -36,7 +36,6 @@
     <string name="ptw">Планирано за гледане</string>
     <string name="ptr">Планирано за четене</string>
     <string name="share_app">Споделяне на приложението</string>
-    <string name="donations">Дарения</string>
     <string name="settings">Настройки</string>
     <string name="year">Година</string>
     <string name="anime_ranking">Аниме класация</string>
@@ -117,7 +116,6 @@
     <string name="popular">Популярни</string>
     <string name="added_ptr">Добавено в Планирано за Гледане</string>
     <string name="days">Дни</string>
-    <string name="donation_thanked">Благодаря ти!\n(◔‿◔)</string>
     <string name="login_error">Грешка при влизането</string>
     <string name="search">Търси</string>
     <string name="theme">Тема</string>

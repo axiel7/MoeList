@@ -36,7 +36,6 @@
     <string name="ptw">أخطط للمشاهدة</string>
     <string name="ptr">أخطط للقراءة</string>
     <string name="share_app">مشاركة التطبيق</string>
-    <string name="donations">المساهمة</string>
     <string name="settings">الإعدادات</string>
     <string name="year">السنة</string>
     <string name="anime_ranking">الأنيمي المصنّف</string>
@@ -117,7 +116,6 @@
     <string name="popular">الأكثر شعبية</string>
     <string name="added_ptr">إضافة إلى قائمة أخطط قرائتة</string>
     <string name="days">الأيام</string>
-    <string name="donation_thanked">شكرًا لك!\n(◔‿◔)</string>
     <string name="login_error">خطأ في تسجيل الدخول</string>
     <string name="search">البحث</string>
     <string name="theme">السِمة</string>

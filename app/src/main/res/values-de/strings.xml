@@ -36,7 +36,6 @@
     <string name="ptw">Geplant zu Schauen</string>
     <string name="ptr">Geplant zu Lesen</string>
     <string name="share_app">App teilen</string>
-    <string name="donations">Spenden</string>
     <string name="settings">Einstellungen</string>
     <string name="year">Jahr</string>
     <string name="anime_ranking">Anime Rangliste</string>
@@ -117,7 +116,6 @@
     <string name="popular">Beliebt</string>
     <string name="added_ptr">Zu Geplant zu Lesen hinzugefügt</string>
     <string name="days">Tage</string>
-    <string name="donation_thanked">Danke!\n(◔‿◔)</string>
     <string name="login_error">Anmeldefehler</string>
     <string name="search">Suche</string>
     <string name="theme">Farbschema</string>

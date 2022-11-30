@@ -36,7 +36,6 @@
     <string name="ptw">À regarder</string>
     <string name="ptr">À lire</string>
     <string name="share_app">Partager l\'application</string>
-    <string name="donations">Dons</string>
     <string name="settings">Réglages</string>
     <string name="year">Année</string>
     <string name="anime_ranking">Classement des animés</string>
@@ -117,7 +116,6 @@
     <string name="popular">Populaire</string>
     <string name="added_ptr">Ajouté dans À lire plus tard</string>
     <string name="days">Jours</string>
-    <string name="donation_thanked">Merci!\n(◔‿◔)</string>
     <string name="login_error">Erreur d\'authentification</string>
     <string name="search">Recherche</string>
     <string name="theme">Thème</string>

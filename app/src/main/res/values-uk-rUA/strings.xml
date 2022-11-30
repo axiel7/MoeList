@@ -36,7 +36,6 @@
     <string name="ptw">Заплановано</string>
     <string name="ptr">Заплановано</string>
     <string name="share_app">Поділитися додатком</string>
-    <string name="donations">Пожертви</string>
     <string name="settings">Налаштування</string>
     <string name="year">Рік</string>
     <string name="anime_ranking">Топ аніме</string>
@@ -117,7 +116,6 @@
     <string name="popular">Популярні</string>
     <string name="added_ptr">Додано до запланованих</string>
     <string name="days">Днів</string>
-    <string name="donation_thanked">Дякую!\n(◔‿◔)</string>
     <string name="login_error">Помилка входу</string>
     <string name="search">Пошук</string>
     <string name="theme">Тема</string>

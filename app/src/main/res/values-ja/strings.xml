@@ -36,7 +36,6 @@
     <string name="ptw">プランニング</string>
     <string name="ptr">プランニング</string>
     <string name="share_app">アプリを共有する</string>
-    <string name="donations">献金</string>
     <string name="settings">設定</string>
     <string name="year">年</string>
     <string name="anime_ranking">アニメランキング</string>
@@ -117,7 +116,6 @@
     <string name="popular">人気</string>
     <string name="added_ptr">プランニングに追加しました</string>
     <string name="days">日間</string>
-    <string name="donation_thanked">ありがとう！\n(◔‿◔)</string>
     <string name="login_error">ログインエラー</string>
     <string name="search">検索</string>
     <string name="theme">テーマ</string>

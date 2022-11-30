@@ -36,7 +36,6 @@
     <string name="ptw">Plánuji Sledovat</string>
     <string name="ptr">Plánuji Číst</string>
     <string name="share_app">Sdílet Aplikaci</string>
-    <string name="donations">Příspěvky</string>
     <string name="settings">Nastavení</string>
     <string name="year">Rok</string>
     <string name="anime_ranking">Anime Žebříček</string>
@@ -117,7 +116,6 @@
     <string name="popular">Populární</string>
     <string name="added_ptr">Přidáno do Plánu Čtení</string>
     <string name="days">Dnů</string>
-    <string name="donation_thanked">Děkuji!\n(◔‿◔)</string>
     <string name="login_error">Chyba přihlášení</string>
     <string name="search">Vyhledávání</string>
     <string name="theme">Motiv</string>

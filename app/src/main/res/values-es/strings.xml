@@ -36,7 +36,6 @@
     <string name="ptw">Pendiente de ver</string>
     <string name="ptr">Pendiente de leer</string>
     <string name="share_app">Compartir App</string>
-    <string name="donations">Donaciones</string>
     <string name="settings">Ajustes</string>
     <string name="year">Año</string>
     <string name="anime_ranking">Ranking Anime</string>
@@ -117,7 +116,6 @@
     <string name="popular">Popular</string>
     <string name="added_ptr">Añadido a Pendiente por leer</string>
     <string name="days">Días</string>
-    <string name="donation_thanked">¡Gracias!\n(◔‿◔)</string>
     <string name="login_error">Error al iniciar sesión</string>
     <string name="search">Buscar</string>
     <string name="theme">Tema</string>
