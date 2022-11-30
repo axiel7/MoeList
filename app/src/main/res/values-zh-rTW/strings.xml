@@ -18,10 +18,6 @@
     <string name="authors">作者</string>
     <string name="volumes">音量</string>
     <string name="serialization">連載</string>
-    <string name="donations_thanks">Thank you for considering supporting me!\n( /^ω^)/♪♪</string>
-    <string name="buy_tea">Buy me a tea 🍵</string>
-    <string name="buy">Buy</string>
-    <string name="buy_burger">Buy me a burger 🍔</string>
     <string name="login">登入</string>
     <string name="search_in_mal">在 MAL 中搜尋</string>
     <string name="no_results">找不到任何結果</string>
@@ -40,7 +36,6 @@
     <string name="ptw">稍後觀看</string>
     <string name="ptr">稍後閱讀</string>
     <string name="share_app">分享 App</string>
-    <string name="donations">贊助</string>
     <string name="settings">設定</string>
     <string name="year">年</string>
     <string name="anime_ranking">動畫排行榜</string>
@@ -121,7 +116,6 @@
     <string name="popular">熱門</string>
     <string name="added_ptr">新增到稍後閱讀</string>
     <string name="days">天</string>
-    <string name="donation_thanked">謝謝！\n(◔‿◔)</string>
     <string name="login_error">登入錯誤</string>
     <string name="search">搜尋</string>
     <string name="theme">主題</string>
@@ -148,7 +142,6 @@
     <string name="title_search">搜尋</string>
     <string name="title_poster">圖片</string>
     <string name="title_settings">設定</string>
-    <string name="title_donations">Donations</string>
     <string name="title_ranking">排行榜</string>
     <string name="title_seasonal">季節性</string>
     <string name="synopsis_icon">展開概要</string>
@@ -156,7 +149,6 @@
     <string name="moelist_banner">MoeList 橫幅</string>
     <string name="drag_pill">拉桿</string>
     <string name="profile_picture">個人頭像</string>
-    <string name="purchase_cancelled">Purchase cancelled</string>
     <string name="error_not_found">未找到</string>
     <string name="relateds">相關</string>
     <string name="view_on_mal">在 MAL 上查看</string>
@@ -241,9 +233,6 @@
     <string name="german">德文</string>
     <string name="copied">已複製！</string>
     <string name="login_browser_warning">如果您無法登入，請嘗試使用其它瀏覽器。</string>
-    <string name="send_analytics">Send analytics</string>
-    <string name="analytics_summary">This helps improve the app</string>
-    <string name="github_sponsor">Sponsor the project 💰</string>
     <string name="parent_story">主要故事</string>
     <string name="hour_abbreviation">小時</string>
     <string name="minutes_abbreviation">分鐘</string>
