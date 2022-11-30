@@ -18,10 +18,6 @@
     <string name="authors">Autores</string>
     <string name="volumes">Volumes</string>
     <string name="serialization">Serialização</string>
-    <string name="donations_thanks">Thank you for considering supporting me!\n( /^ω^)/♪♪</string>
-    <string name="buy_tea">Buy me a tea 🍵</string>
-    <string name="buy">Buy</string>
-    <string name="buy_burger">Buy me a burger 🍔</string>
     <string name="login">Fazer login</string>
     <string name="search_in_mal">Buscar no MAL</string>
     <string name="no_results">Nenhum resultado</string>
@@ -40,7 +36,6 @@
     <string name="ptw">Planejo Assistir</string>
     <string name="ptr">Planejo Ler</string>
     <string name="share_app">Compartilhar Aplicativo</string>
-    <string name="donations">Doações</string>
     <string name="settings">Configurações</string>
     <string name="year">Ano</string>
     <string name="anime_ranking">Ranking de Animes</string>
@@ -121,7 +116,6 @@
     <string name="popular">Popular</string>
     <string name="added_ptr">Adicionado em Planejo Ler</string>
     <string name="days">Dias</string>
-    <string name="donation_thanked">Obrigado!\n(◔‿◔)</string>
     <string name="login_error">Falha ao fazer login</string>
     <string name="search">Buscar</string>
     <string name="theme">Tema</string>
@@ -148,7 +142,6 @@
     <string name="title_search">Buscar</string>
     <string name="title_poster">Imagem</string>
     <string name="title_settings">Configurações</string>
-    <string name="title_donations">Donations</string>
     <string name="title_ranking">Ranking</string>
     <string name="title_seasonal">Temporadas</string>
     <string name="synopsis_icon">Expandir sinopse</string>
@@ -156,7 +149,6 @@
     <string name="moelist_banner">Banner MoeList</string>
     <string name="drag_pill">Barra de arraste</string>
     <string name="profile_picture">Foto de Perfil</string>
-    <string name="purchase_cancelled">Purchase cancelled</string>
     <string name="error_not_found">Não encontrado</string>
     <string name="relateds">Relacionados</string>
     <string name="view_on_mal">Ver no MAL</string>
@@ -241,9 +233,6 @@
     <string name="german">Alemão</string>
     <string name="copied">Copiado!</string>
     <string name="login_browser_warning">Tente com outro navegador se você não conseguir fazer login.</string>
-    <string name="send_analytics">Send analytics</string>
-    <string name="analytics_summary">This helps improve the app</string>
-    <string name="github_sponsor">Sponsor the project 💰</string>
     <string name="parent_story">História principal</string>
     <string name="hour_abbreviation">h</string>
     <string name="minutes_abbreviation">min</string>
