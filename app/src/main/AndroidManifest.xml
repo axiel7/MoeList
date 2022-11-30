@@ -4,6 +4,13 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" />
+        </intent>
+    </queries>
 
     <application
         android:name=".App"
@@ -52,7 +59,6 @@
         <activity
             android:name=".ui.login.LoginActivity"
             android:label="@string/title_login"
-            android:theme="@style/Theme.MySplash"
             android:configChanges="keyboard|orientation|screenSize"
             android:launchMode="singleTop"
             android:exported="true">

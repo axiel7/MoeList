@@ -17,6 +17,7 @@ import com.axiel7.moelist.databinding.FragmentDetailsBinding
 import com.axiel7.moelist.ui.base.BaseFragment
 import com.axiel7.moelist.ui.main.MainViewModel
 import com.axiel7.moelist.utils.Constants.RESPONSE_ERROR
+import com.axiel7.moelist.utils.Extensions.openCustomTab
 import com.axiel7.moelist.utils.Extensions.openLink
 import com.axiel7.moelist.utils.Extensions.setDrawables
 import com.axiel7.moelist.utils.StringExtensions.formatGenre
@@ -31,7 +32,7 @@ import com.google.mlkit.nl.translate.Translator
 import com.google.mlkit.nl.translate.TranslatorOptions
 import kotlinx.coroutines.flow.collectLatest
 import java.text.NumberFormat
-import java.util.*
+import java.util.Locale
 
 class MangaDetailsFragment : BaseFragment<FragmentDetailsBinding>() {
 

@@ -44,6 +44,12 @@ class ProfileViewModel : ViewModel() {
         }
     }
 
+    fun getLocalUser(userId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _user.value = App.animeDb.userDao().getUserById(userId)
+        }
+    }
+
     companion object {
         private const val FIELDS = "id,name,gender,location,joined_at,anime_statistics"
     }

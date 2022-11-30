@@ -41,14 +41,4 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/other">
-
-        <SwitchPreferenceCompat
-            app:key="send_analytics"
-            app:title="@string/send_analytics"
-            app:summary="@string/analytics_summary"
-            app:defaultValue="true"/>
-
-    </PreferenceCategory>
-
 </PreferenceScreen>

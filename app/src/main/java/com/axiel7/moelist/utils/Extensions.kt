@@ -3,6 +3,7 @@ package com.axiel7.moelist.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.view.Window
 import android.widget.TextView
@@ -31,7 +32,7 @@ object Extensions {
         return if (result == "null") null else result
     }
 
-    fun Activity.changeTheme() {
+    fun Context.changeTheme() {
         SharedPrefsHelpers.instance?.let {
             when (it.getString("theme", "follow_system")) {
                 "light" -> {
@@ -74,8 +75,20 @@ object Extensions {
     /** Open external link by intent chooser */
     fun Context.openLink(url: String) {
         Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+            setPackage(browserIntentPackageName())
             startActivity(this)
         }
+    }
+
+    /** Finds the default browser package name */
+    private fun Context.browserIntentPackageName() : String? {
+        val emptyBrowserIntent = Intent()
+            .setAction(Intent.ACTION_VIEW)
+            .addCategory(Intent.CATEGORY_BROWSABLE)
+            .setData(Uri.fromParts("https", "", null))
+
+        val resolveInfos = packageManager.queryIntentActivities(emptyBrowserIntent, 0)
+        return (resolveInfos.find { it.isDefault } ?: resolveInfos.firstOrNull())?.activityInfo?.packageName
     }
 
     /** Aux function with optional values */

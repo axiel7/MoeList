@@ -162,8 +162,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
     }
 
-    private fun loadUser(id: Int) {
-        profileViewModel.getUser(id)
+    private fun loadUser(id: Int, refreshImg: Boolean = false) {
+        profileViewModel.getLocalUser(id)
         launchLifecycleStarted {
             profileViewModel.user.collectLatest {
                 it?.let {
@@ -174,10 +174,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 }
             }
         }
-        launchLifecycleStarted {
-            profileViewModel.response.collectLatest {
-                if (it.first == RESPONSE_ERROR && it.second != ERROR_SERVER) {
-                    if (it.second.contains("token")) logOut()
+        if (refreshImg) {
+            profileViewModel.getUser(id)
+            launchLifecycleStarted {
+                profileViewModel.response.collectLatest {
+                    if (it.first == RESPONSE_ERROR && it.second != ERROR_SERVER) {
+                        if (it.second.contains("token")) logOut()
+                    }
                 }
             }
         }

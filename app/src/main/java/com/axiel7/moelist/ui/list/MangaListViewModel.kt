@@ -12,6 +12,7 @@ import com.axiel7.moelist.data.paging.UserMangaListPaging
 import com.axiel7.moelist.utils.Constants.RESPONSE_ERROR
 import com.axiel7.moelist.utils.Constants.RESPONSE_NONE
 import com.axiel7.moelist.utils.Constants.RESPONSE_OK
+import com.axiel7.moelist.utils.Constants.SORT_MANGA_START_DATE
 import com.axiel7.moelist.utils.Constants.SORT_MANGA_TITLE
 import com.axiel7.moelist.utils.Constants.SORT_SCORE
 import com.axiel7.moelist.utils.Constants.SORT_UPDATED
@@ -55,7 +56,7 @@ class MangaListViewModel : ViewModel() {
     var mangaListFlow = createMangaListFlow()
 
     private fun createMangaListFlow() = Pager(
-        PagingConfig(pageSize = 15, prefetchDistance = 10)
+        PagingConfig(pageSize = 15, prefetchDistance = 10, initialLoadSize = params.value.limit)
     ) {
         UserMangaListPaging(App.api, params.value)
     }.flow
@@ -107,6 +108,7 @@ class MangaListViewModel : ViewModel() {
         0 -> SORT_MANGA_TITLE
         1 -> SORT_SCORE
         2 -> SORT_UPDATED
+        3 -> SORT_MANGA_START_DATE
         else -> SORT_MANGA_TITLE
     }
 

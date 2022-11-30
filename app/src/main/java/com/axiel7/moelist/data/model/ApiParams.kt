@@ -6,6 +6,6 @@ data class ApiParams(
     var status: String? = null,
     var nsfw: Int? = 0,
     var fields: String? = "",
-    var limit: Int? = 100,
+    var limit: Int = 50,
     var offset: Int? = 0
 )

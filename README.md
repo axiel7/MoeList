@@ -1,7 +1,8 @@
 # ![app-icon](https://github.com/axiel7/MoeList/blob/master/app/src/main/res/mipmap-mdpi/ic_launcher_round.png)MoeList
 Another unofficial Android MAL client
 
-<a href="https://play.google.com/store/apps/details?id=com.axiel7.moelist" target="_blank"><img alt="Google Play" height="90" src="https://play.google.com/intl/en_US/badges/images/generic/en_badge_web_generic.png"/></a>
+[<img alt="Google Play" height="80" src="https://play.google.com/intl/en_US/badges/images/generic/en_badge_web_generic.png"/>](https://play.google.com/store/apps/details?id=com.axiel7.moelist)
+[<img alt="Google Play" height="80" src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"/>](https://apt.izzysoft.de/fdroid/index/apk/com.axiel7.moelist)
 
 Follow the development on the official Discord server:
 
@@ -41,13 +42,15 @@ You can help translate the app!
 # Other
 **Special thanks:**
 * [danielvd_art](https://instagram.com/danielvd_art) (Logo design)
+* [MaximilianGT500](https://github.com/MaximilianGT500) (Website)
 * [Jeluchu](https://github.com/Jeluchu)
 * [Glodanif](https://github.com/glodanif)
 
 **Libraries used:**
 * [Material Components](https://github.com/material-components/material-components-android)
-* [Firebase](https://github.com/firebase/firebase-android-sdk)
 * [Room](https://developer.android.com/topic/libraries/architecture/room)
+* [Paging](https://developer.android.com/topic/libraries/architecture/paging/v3-overview)
 * [Ktor](https://ktor.io/)
 * [Coil](https://github.com/coil-kt/coil)
+* [ML Kit Translate](https://developers.google.com/ml-kit/language/translation/android)
 * [Donut](https://github.com/futuredapp/donut)

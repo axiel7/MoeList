@@ -28,6 +28,7 @@ object Constants {
     const val SORT_SCORE = "list_score"
     const val SORT_UPDATED = "list_updated_at"
     const val SORT_MANGA_TITLE = "manga_title"
+    const val SORT_MANGA_START_DATE = "manga_start_date"
 
     //Responses
     const val RESPONSE_OK = "ok"

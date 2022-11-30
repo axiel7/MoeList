@@ -39,7 +39,7 @@
                 android:gravity="center"
                 android:background="@drawable/score_background"
                 android:text="#1"
-                android:textColor="@android:color/white"
+                android:textColor="?attr/colorOnPrimaryContainer"
                 android:textSize="14sp"
                 tools:ignore="HardcodedText" />
 

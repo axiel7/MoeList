@@ -49,7 +49,7 @@
 
         <Preference
             app:key="german_translation"
-            app:summary="\@Secresa"
+            app:summary="\@Secresa, \@MaximilianGT500"
             app:title="@string/german"/>
 
         <Preference
@@ -61,6 +61,16 @@
             app:key="french_translation"
             app:summary="\@mamanamgae, \@frosqh"
             app:title="@string/french"/>
+
+        <Preference
+            app:key="traditional_chinese_translation"
+            app:summary="\@jhih_yu_lin"
+            app:title="@string/chinese_traditional"/>
+
+        <Preference
+            app:key="japanese_translation"
+            app:summary="\@axiel7, \@watashibeme"
+            app:title="@string/japanese"/>
 
         <Preference
             app:key="spanish_translation"

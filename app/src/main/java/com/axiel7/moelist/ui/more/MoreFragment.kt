@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.axiel7.moelist.databinding.FragmentMoreBinding
 import com.axiel7.moelist.ui.base.BaseFragment
+import com.axiel7.moelist.utils.Extensions.changeTheme
 
 class MoreFragment : BaseFragment<FragmentMoreBinding>(), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -29,7 +30,7 @@ class MoreFragment : BaseFragment<FragmentMoreBinding>(), SharedPreferences.OnSh
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            "theme" -> activity?.recreate()
+            "theme" -> context?.changeTheme()
             "app_language" -> {
                 sharedPref.getString("app_language", null)?.let {
                     val appLocale = LocaleListCompat.forLanguageTags(it)
