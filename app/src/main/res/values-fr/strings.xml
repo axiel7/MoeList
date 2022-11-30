@@ -263,6 +263,6 @@
     <string name="ukrainian">Ukrainien</string>
     <string name="language">Langage</string>
     <string name="sort_start_date">Date de début </string>
-    <string name="japanese">Japanese</string>
-    <string name="chinese_traditional">Chinese (Traditional)</string>
+    <string name="japanese">Japonais</string>
+    <string name="chinese_traditional">Chinois (Traditionnel)</string>
 </resources>
