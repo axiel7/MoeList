@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="title_home">首頁</string>
+    <string name="title_anime_list">動畫</string>
+    <string name="title_manga_list">漫畫</string>
+    <string name="stats">統計</string>
+    <string name="more_info">更多資訊</string>
+    <string name="synonyms">同義詞</string>
+    <string name="jp_title">日語</string>
+    <string name="start_date">開始日期</string>
+    <string name="end_date">結束日期</string>
+    <string name="season">季</string>
+    <string name="broadcast">廣播</string>
+    <string name="duration">時長</string>
+    <string name="source">來源</string>
+    <string name="studios">工作室</string>
+    <string name="edit">編輯</string>
+    <string name="authors">作者</string>
+    <string name="volumes">音量</string>
+    <string name="serialization">連載</string>
+    <string name="login">登入</string>
+    <string name="search_in_mal">在 MAL 中搜尋</string>
+    <string name="no_results">找不到任何結果</string>
+    <string name="title_profile">個人檔案</string>
+    <string name="cancel">取消</string>
+    <string name="apply">套用</string>
+    <string name="status">狀態</string>
+    <string name="episodes">單集</string>
+    <string name="delete">刪除</string>
+    <string name="chapters">章節</string>
+    <string name="watching">觀看中</string>
+    <string name="reading">閱讀中</string>
+    <string name="completed">已完成</string>
+    <string name="on_hold">已暫停</string>
+    <string name="dropped">丟棄</string>
+    <string name="ptw">稍後觀看</string>
+    <string name="ptr">稍後閱讀</string>
+    <string name="share_app">分享 App</string>
+    <string name="settings">設定</string>
+    <string name="year">年</string>
+    <string name="anime_ranking">動畫排行榜</string>
+    <string name="manga_ranking">漫畫排行榜</string>
+    <string name="seasonal_chart">季節性圖表</string>
+    <string name="random">隨機</string>
+    <string name="today">今天</string>
+    <string name="nothing_today">今天什麼都沒有\n( ≧Д≦)</string>
+    <string name="this_season">這一季</string>
+    <string name="recommendations">推薦</string>
+    <string name="username">使用者名稱</string>
+    <string name="total_entries">總計:</string>
+    <string name="mean_score">平均分數</string>
+    <string name="rewatched">重看</string>
+    <string name="view_profile_mal">在 MAL 上查看個人資料</string>
+    <string name="airing_in">%s小時後播出</string>
+    <string name="score_value">分數:</string>
+    <string name="plus_one">+1</string>
+    <string name="minus_one">-1</string>
+    <string name="plus_one_chapter">+1 章</string>
+    <string name="add">加入</string>
+    <string name="invalid_number">無效數字</string>
+    <string name="unknown">未知</string>
+    <string name="top_ranked">排名</string>
+    <string name="members">成員</string>
+    <string name="users_scores">使用者評分</string>
+    <string name="popularity">人氣</string>
+    <string name="deleted">已刪除</string>
+    <string name="error_server">連線到伺服器時發生錯誤</string>
+    <string name="error_delete_entry">刪除時發生錯誤</string>
+    <string name="updated">已更新</string>
+    <string name="error_updating_list">更新列表時發生錯誤</string>
+    <string name="added_ptw">新增到稍後觀看</string>
+    <string name="no_changes">無變更內容</string>
+    <string name="tv">電視</string>
+    <string name="ova">OVA</string>
+    <string name="ona">ONA</string>
+    <string name="movie">電影</string>
+    <string name="special">特別的</string>
+    <string name="music">音樂</string>
+    <string name="manga">漫畫</string>
+    <string name="anime">動畫</string>
+    <string name="one_shot">單篇</string>
+    <string name="manhwa">韓漫</string>
+    <string name="novel">小說</string>
+    <string name="airing">正在播出</string>
+    <string name="finished">完成</string>
+    <string name="on_hiatus">中斷</string>
+    <string name="winter">冬季</string>
+    <string name="spring">春季</string>
+    <string name="summer">夏季</string>
+    <string name="fall">秋季</string>
+    <string name="original">原始</string>
+    <string name="light_novel">輕小說</string>
+    <string name="visual_novel">視覺小說</string>
+    <string name="game">遊戲</string>
+    <string name="web_manga">網路漫畫</string>
+    <string name="score_apalling">1 駭人聽聞</string>
+    <string name="score_horrible">2 可怕的</string>
+    <string name="score_very_bad">3 非常差</string>
+    <string name="score_bad">4 差</string>
+    <string name="score_average">5 普通</string>
+    <string name="score_fine">6 可接受</string>
+    <string name="score_good">7 好的</string>
+    <string name="score_very_good">8 非常好</string>
+    <string name="score_great">9 很讚</string>
+    <string name="score_masterpiece">10 傑作</string>
+    <string name="monday">週一</string>
+    <string name="tuesday">週二</string>
+    <string name="wednesday">週三</string>
+    <string name="thursday">週四</string>
+    <string name="friday">週五</string>
+    <string name="saturday">週六</string>
+    <string name="sunday">週日</string>
+    <string name="not_yet_aired">尚未播出</string>
+    <string name="publishing">正在發表</string>
+    <string name="all">全部</string>
+    <string name="popular">熱門</string>
+    <string name="added_ptr">新增到稍後閱讀</string>
+    <string name="days">天</string>
+    <string name="login_error">登入錯誤</string>
+    <string name="search">搜尋</string>
+    <string name="theme">主題</string>
+    <string name="show_nsfw">顯示 NSFW 內容</string>
+    <string name="nsfw_summary">我已經年滿18歲</string>
+    <string name="default_section">預設選項卡</string>
+    <string name="display">顯示</string>
+    <string name="startup">啟動</string>
+    <string name="account">帳號</string>
+    <string name="logout">登出</string>
+    <string name="logout_summary">登出 MoeList，但不登出 MAL。</string>
+    <string name="other">其它</string>
+    <string name="version">版本</string>
+    <string name="credits">致謝</string>
+    <string name="discord_summary">加入官方伺服器！</string>
+    <string name="github_summary">為存儲庫加上星標</string>
+    <string name="credits_summary">誰幫助了我</string>
+    <string name="feedback">提供意見</string>
+    <string name="theme_light">淺色</string>
+    <string name="theme_dark">深色</string>
+    <string name="theme_system">依據系統設定</string>
+    <string name="title_login">登入</string>
+    <string name="title_details">詳細資訊</string>
+    <string name="title_search">搜尋</string>
+    <string name="title_poster">圖片</string>
+    <string name="title_settings">設定</string>
+    <string name="title_ranking">排行榜</string>
+    <string name="title_seasonal">季節性</string>
+    <string name="synopsis_icon">展開概要</string>
+    <string name="poster">海報</string>
+    <string name="moelist_banner">MoeList 橫幅</string>
+    <string name="drag_pill">拉桿</string>
+    <string name="profile_picture">個人頭像</string>
+    <string name="error_not_found">未找到</string>
+    <string name="relateds">相關</string>
+    <string name="view_on_mal">在 MAL 上查看</string>
+    <string name="share">分享</string>
+    <string name="sort_title">標題</string>
+    <string name="sort_score">分數</string>
+    <string name="sort_last_updated">最後更新</string>
+    <string name="sort" tools:ignore="MissingTranslation">排序</string>
+    <string name="sort_by" tools:ignore="MissingTranslation">排序依據</string>
+    <string name="ok" tools:ignore="MissingTranslation">確定</string>
+    <string name="support" tools:ignore="MissingTranslation">支援</string>
+    <string name="logo_design" tools:ignore="MissingTranslation">標誌設計</string>
+    <string name="general_help" tools:ignore="MissingTranslation">一般幫助</string>
+    <string name="api_help" tools:ignore="MissingTranslation">MyAnimeList API 幫助</string>
+    <string name="translations" tools:ignore="MissingTranslation">翻譯</string>
+    <string name="turkish" tools:ignore="MissingTranslation">土耳其文</string>
+    <string name="brazilian" tools:ignore="MissingTranslation">巴西文</string>
+    <string name="russian" tools:ignore="MissingTranslation">俄文</string>
+    <string name="arabic" tools:ignore="MissingTranslation">阿拉伯文</string>
+    <string name="spanish" tools:ignore="MissingTranslation">西班牙文</string>
+    <string name="genre_action" tools:ignore="MissingTranslation">動作</string>
+    <string name="genre_adventure" tools:ignore="MissingTranslation">冒險</string>
+    <string name="genre_cars" tools:ignore="MissingTranslation">車</string>
+    <string name="genre_comedy" tools:ignore="MissingTranslation">喜劇</string>
+    <string name="genre_dementia" tools:ignore="MissingTranslation">失智</string>
+    <string name="genre_demons" tools:ignore="MissingTranslation">惡魔</string>
+    <string name="genre_drama" tools:ignore="MissingTranslation">戲劇</string>
+    <string name="genre_ecchi" tools:ignore="MissingTranslation" tools:keep="@string/genre_ecchi">色情</string>
+    <string name="genre_fantasy" tools:ignore="MissingTranslation">幻想</string>
+    <string name="genre_game" tools:ignore="MissingTranslation">遊戲</string>
+    <string name="genre_harem" tools:ignore="MissingTranslation">後宮</string>
+    <string name="genre_hentai" tools:ignore="MissingTranslation">變態</string>
+    <string name="genre_historical" tools:ignore="MissingTranslation">歷史</string>
+    <string name="genre_horror" tools:ignore="MissingTranslation">恐怖</string>
+    <string name="genre_josei" tools:ignore="MissingTranslation">女性向</string>
+    <string name="genre_kids" tools:ignore="MissingTranslation">孩童</string>
+    <string name="genre_magic" tools:ignore="MissingTranslation">魔法</string>
+    <string name="genre_martial_arts" tools:ignore="MissingTranslation">武術</string>
+    <string name="genre_mecha" tools:ignore="MissingTranslation">機甲</string>
+    <string name="genre_military" tools:ignore="MissingTranslation">軍事</string>
+    <string name="genre_music" tools:ignore="MissingTranslation">音樂</string>
+    <string name="genre_mystery" tools:ignore="MissingTranslation">神秘</string>
+    <string name="genre_parody" tools:ignore="MissingTranslation">惡搞</string>
+    <string name="genre_police" tools:ignore="MissingTranslation">警察</string>
+    <string name="genre_psychological" tools:ignore="MissingTranslation">心理學</string>
+    <string name="genre_romance" tools:ignore="MissingTranslation">浪漫</string>
+    <string name="genre_samurai" tools:ignore="MissingTranslation">武士</string>
+    <string name="genre_school" tools:ignore="MissingTranslation">學校</string>
+    <string name="genre_sci_fi" tools:ignore="MissingTranslation">科幻</string>
+    <string name="genre_seinen" tools:ignore="MissingTranslation">青年</string>
+    <string name="genre_shoujo" tools:ignore="MissingTranslation">少女</string>
+    <string name="genre_shoujo_ai" tools:ignore="MissingTranslation">少女愛情</string>
+    <string name="genre_shounen" tools:ignore="MissingTranslation">少年</string>
+    <string name="genre_shounen_ai" tools:ignore="MissingTranslation">少年愛情</string>
+    <string name="genre_slice_of_life" tools:ignore="MissingTranslation">日常</string>
+    <string name="genre_space" tools:ignore="MissingTranslation">太空</string>
+    <string name="genre_sports" tools:ignore="MissingTranslation">運動</string>
+    <string name="genre_superpower" tools:ignore="MissingTranslation">超能力</string>
+    <string name="genre_supernatural" tools:ignore="MissingTranslation">超自然</string>
+    <string name="genre_thriller" tools:ignore="MissingTranslation">驚悚</string>
+    <string name="genre_vampire" tools:ignore="MissingTranslation">吸血鬼</string>
+    <string name="genre_yaoi" tools:ignore="MissingTranslation">男男</string>
+    <string name="genre_yuri" tools:ignore="MissingTranslation">女女</string>
+    <string name="relation_prequel" tools:ignore="MissingTranslation">前傳</string>
+    <string name="relation_sequel" tools:ignore="MissingTranslation">續集</string>
+    <string name="relation_summary" tools:ignore="MissingTranslation">概要</string>
+    <string name="relation_alternative_version" tools:ignore="MissingTranslation">選擇版本</string>
+    <string name="relation_other" tools:ignore="MissingTranslation" tools:keep="@string/relation_other">其它</string>
+    <string name="relation_side_story" tools:ignore="MissingTranslation">番外篇</string>
+    <string name="relation_alternative_setting" tools:ignore="MissingTranslation">選擇設定</string>
+    <string name="relation_spin_off" tools:ignore="MissingTranslation">衍生作品</string>
+    <string name="translate" tools:ignore="MissingTranslation">翻譯</string>
+    <string name="translate_original" tools:ignore="MissingTranslation">顯示原文</string>
+    <string name="adaptation" tools:ignore="MissingTranslation" tools:keep="@string/adaptation">改編</string>
+    <string name="open_source_licenses" tools:ignore="MissingTranslation">開放原始碼授權</string>
+    <string name="filters" tools:ignore="MissingTranslation">篩選條件</string>
+    <string name="date_format" tools:ignore="MissingTranslation">日期格式</string>
+    <string name="manhua">漫畫</string>
+    <string name="discontinued">停止</string>
+    <string name="opening">主題曲</string>
+    <string name="ending">片尾曲</string>
+    <string name="german">德文</string>
+    <string name="copied">已複製！</string>
+    <string name="login_browser_warning">如果您無法登入，請嘗試使用其它瀏覽器。</string>
+    <string name="parent_story">主要故事</string>
+    <string name="hour_abbreviation">小時</string>
+    <string name="minutes_abbreviation">分鐘</string>
+    <string name="full_story">整個故事</string>
+    <string name="theme_black">黑色</string>
+    <string name="aired_ago">%s小時前播出</string>
+    <string name="anime_stats">動漫\n統計</string>
+    <string name="delete_confirmation">您確定要刪除此條目嗎？</string>
+    <string name="bulgarian">保加利亞文</string>
+    <string name="log_in_again">請重新登入</string>
+    <string name="french">法文</string>
+    <string name="loading">載入中</string>
+    <string name="search_anime">搜尋動漫</string>
+    <string name="search_manga">搜尋漫畫</string>
+    <string name="anime_manga_news"><![CDATA[動畫與漫畫新聞]]></string>
+    <string name="mal_announcements">MyAnimeList 公告</string>
+    <string name="about">關於</string>
+    <string name="mal_announcements_summary">MAL 的更新、更改和添加。</string>
+    <string name="news_summary">有關行業的最新資訊。</string>
+    <string name="more">更多</string>
+    <string name="something_went_wrong">出了點問題\n(；ﾟДﾟ)</string>
+    <string name="upcoming">即將到來</string>
+    <string name="favorite">我的最愛</string>
+    <string name="use_external_browser">使用外部瀏覽器</string>
+    <string name="help">幫助</string>
+    <string name="calendar">行事曆</string>
+    <string name="english">英文</string>
+    <string name="ukrainian">烏克蘭文</string>
+    <string name="language">語言</string>
+    <string name="sort_start_date">開始日期</string>
+    <string name="japanese">日語</string>
+    <string name="chinese_traditional">中文 (繁體)</string>
+</resources>

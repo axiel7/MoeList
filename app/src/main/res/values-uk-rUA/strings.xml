@@ -263,4 +263,6 @@
     <string name="ukrainian">Українська</string>
     <string name="language">Мова</string>
     <string name="sort_start_date">Дата початку</string>
+    <string name="japanese">Japanese</string>
+    <string name="chinese_traditional">Chinese (Traditional)</string>
 </resources>
