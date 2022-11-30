@@ -280,4 +280,5 @@
     <string name="language">Language</string>
     <string name="sort_start_date">Start date</string>
     <string name="japanese">Japanese</string>
+    <string name="chinese_traditional">Chinese (Traditional)</string>
 </resources>
