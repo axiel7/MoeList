@@ -52,7 +52,7 @@
     <string name="mean_score">平均スコア</string>
     <string name="rewatched">見直しました</string>
     <string name="view_profile_mal">MALでプロファイルを表示</string>
-    <string name="airing_in">Airing in %sh</string>
+    <string name="airing_in">%s時間で配信中</string>
     <string name="score_value">スコア：</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
@@ -111,7 +111,7 @@
     <string name="friday">金曜日</string>
     <string name="saturday">土曜日</string>
     <string name="sunday">日曜日</string>
-    <string name="not_yet_aired">Not Yet Aired</string>
+    <string name="not_yet_aired">まだ配信していません</string>
     <string name="publishing">公開中</string>
     <string name="all">すべて</string>
     <string name="popular">人気</string>
@@ -124,8 +124,8 @@
     <string name="show_nsfw">NSFW コンテンツを表示する</string>
     <string name="nsfw_summary">私は18歳以上だと確認します。</string>
     <string name="default_section">Default section</string>
-    <string name="display">ディスプレー</string>
-    <string name="startup">スタートアップ</string>
+    <string name="display" comment="Settings section">ディスプレー</string>
+    <string name="startup" comment="Settings section">スタートアップ</string>
     <string name="account">アカウント</string>
     <string name="logout">ログアウト</string>
     <string name="logout_summary">MALではなく、MoeListからのみログアウトします。</string>
@@ -163,8 +163,8 @@
     <string name="ok" tools:ignore="MissingTranslation">OK</string>
     <string name="support" tools:ignore="MissingTranslation">サポート</string>
     <string name="logo_design" tools:ignore="MissingTranslation">ロゴデザイン</string>
-    <string name="general_help" tools:ignore="MissingTranslation">General help</string>
-    <string name="api_help" tools:ignore="MissingTranslation">MyAnimeList API help</string>
+    <string name="general_help" tools:ignore="MissingTranslation">一般ヘルプ</string>
+    <string name="api_help" tools:ignore="MissingTranslation">MyAnimeList API ヘルプ</string>
     <string name="translations" tools:ignore="MissingTranslation">翻訳</string>
     <string name="turkish" tools:ignore="MissingTranslation">トルコ語</string>
     <string name="brazilian" tools:ignore="MissingTranslation">ブラジル語</string>
