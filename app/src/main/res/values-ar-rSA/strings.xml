@@ -18,10 +18,6 @@
     <string name="authors">المؤلفون</string>
     <string name="volumes">المجلدات</string>
     <string name="serialization">شركة الأصدار</string>
-    <string name="donations_thanks">Thank you for considering supporting me!\n( /^ω^)/♪♪</string>
-    <string name="buy_tea">Buy me a tea 🍵</string>
-    <string name="buy">Buy</string>
-    <string name="buy_burger">Buy me a burger 🍔</string>
     <string name="login">تسجيل الدخول</string>
     <string name="search_in_mal">البحث في MAL</string>
     <string name="no_results">لا توجد نتائج</string>
@@ -40,7 +36,6 @@
     <string name="ptw">أخطط للمشاهدة</string>
     <string name="ptr">أخطط للقراءة</string>
     <string name="share_app">مشاركة التطبيق</string>
-    <string name="donations">المساهمة</string>
     <string name="settings">الإعدادات</string>
     <string name="year">السنة</string>
     <string name="anime_ranking">الأنيمي المصنّف</string>
@@ -121,7 +116,6 @@
     <string name="popular">الأكثر شعبية</string>
     <string name="added_ptr">إضافة إلى قائمة أخطط قرائتة</string>
     <string name="days">الأيام</string>
-    <string name="donation_thanked">شكرًا لك!\n(◔‿◔)</string>
     <string name="login_error">خطأ في تسجيل الدخول</string>
     <string name="search">البحث</string>
     <string name="theme">السِمة</string>
@@ -148,7 +142,6 @@
     <string name="title_search">البحث</string>
     <string name="title_poster">الصورة</string>
     <string name="title_settings">الإعدادات</string>
-    <string name="title_donations">Donations</string>
     <string name="title_ranking">المراتب</string>
     <string name="title_seasonal">المواسم</string>
     <string name="synopsis_icon">توسيع الملخص</string>
@@ -156,7 +149,6 @@
     <string name="moelist_banner">لافتة MoeList</string>
     <string name="drag_pill">شريط السحب</string>
     <string name="profile_picture">صورة الملفّ الشخصي</string>
-    <string name="purchase_cancelled">Purchase cancelled</string>
     <string name="error_not_found">غير موجود</string>
     <string name="relateds">ذات صلة</string>
     <string name="view_on_mal">عرض على MAL</string>
@@ -241,9 +233,6 @@
     <string name="german">الألمانية</string>
     <string name="copied">تم النسخ!</string>
     <string name="login_browser_warning">حاول مع متصفح آخر إذا لم تتمكن من تسجيل الدخول.</string>
-    <string name="send_analytics">Send analytics</string>
-    <string name="analytics_summary">This helps improve the app</string>
-    <string name="github_sponsor">Sponsor the project 💰</string>
     <string name="parent_story">القصة الأم</string>
     <string name="hour_abbreviation">س</string>
     <string name="minutes_abbreviation">دقيقة</string>
