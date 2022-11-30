@@ -18,6 +18,10 @@
     <string name="authors">Autoren</string>
     <string name="volumes">Bände</string>
     <string name="serialization">Serialisierung</string>
+    <string name="donations_thanks">Thank you for considering supporting me!\n( /^ω^)/♪♪</string>
+    <string name="buy_tea">Buy me a tea 🍵</string>
+    <string name="buy">Buy</string>
+    <string name="buy_burger">Buy me a burger 🍔</string>
     <string name="login">Anmelden</string>
     <string name="search_in_mal">Suche in MAL</string>
     <string name="no_results">Kein Ergebnis</string>
@@ -144,6 +148,7 @@
     <string name="title_search">Suche</string>
     <string name="title_poster">Bild</string>
     <string name="title_settings">Einstellungen</string>
+    <string name="title_donations">Donations</string>
     <string name="title_ranking">Ranking</string>
     <string name="title_seasonal">Saisonal</string>
     <string name="synopsis_icon">Synopse erweitern</string>
@@ -151,6 +156,7 @@
     <string name="moelist_banner">MoeList banner</string>
     <string name="drag_pill">Ziehe Pille</string>
     <string name="profile_picture">Profilbild</string>
+    <string name="purchase_cancelled">Purchase cancelled</string>
     <string name="error_not_found">Nicht gefunden</string>
     <string name="relateds">Verwandt</string>
     <string name="view_on_mal">Auf MAL ansehen</string>
@@ -235,6 +241,9 @@
     <string name="german">Deutsch</string>
     <string name="copied">Kopiert!</string>
     <string name="login_browser_warning">Versuchen Sie es mit einem anderen Browser, wenn Sie sich nicht einloggen können.</string>
+    <string name="send_analytics">Send analytics</string>
+    <string name="analytics_summary">This helps improve the app</string>
+    <string name="github_sponsor">Sponsor the project 💰</string>
     <string name="parent_story">Hauptgeschichte</string>
     <string name="hour_abbreviation">h</string>
     <string name="minutes_abbreviation">min</string>
@@ -265,4 +274,6 @@
     <string name="ukrainian">Ukrainisch</string>
     <string name="language">Sprache</string>
     <string name="sort_start_date">Startdatum</string>
+    <string name="japanese">Japanese</string>
+    <string name="chinese_traditional">Chinese (Traditional)</string>
 </resources>
