@@ -18,10 +18,6 @@
     <string name="authors">Autoři</string>
     <string name="volumes">Svazky</string>
     <string name="serialization">Serializace</string>
-    <string name="donations_thanks">Thank you for considering supporting me!\n( /^ω^)/♪♪</string>
-    <string name="buy_tea">Buy me a tea 🍵</string>
-    <string name="buy">Buy</string>
-    <string name="buy_burger">Buy me a burger 🍔</string>
     <string name="login">Přihlášení</string>
     <string name="search_in_mal">Vyhledat v MAL</string>
     <string name="no_results">Žádné výsledky</string>
@@ -40,7 +36,6 @@
     <string name="ptw">Plánuji Sledovat</string>
     <string name="ptr">Plánuji Číst</string>
     <string name="share_app">Sdílet Aplikaci</string>
-    <string name="donations">Příspěvky</string>
     <string name="settings">Nastavení</string>
     <string name="year">Rok</string>
     <string name="anime_ranking">Anime Žebříček</string>
@@ -121,7 +116,6 @@
     <string name="popular">Populární</string>
     <string name="added_ptr">Přidáno do Plánu Čtení</string>
     <string name="days">Dnů</string>
-    <string name="donation_thanked">Děkuji!\n(◔‿◔)</string>
     <string name="login_error">Chyba přihlášení</string>
     <string name="search">Vyhledávání</string>
     <string name="theme">Motiv</string>
@@ -148,7 +142,6 @@
     <string name="title_search">Search</string>
     <string name="title_poster">Image</string>
     <string name="title_settings">Settings</string>
-    <string name="title_donations">Donations</string>
     <string name="title_ranking">Ranking</string>
     <string name="title_seasonal">Seasonal</string>
     <string name="synopsis_icon">Expand synopsis</string>
@@ -156,7 +149,6 @@
     <string name="moelist_banner">MoeList banner</string>
     <string name="drag_pill">Drag pill</string>
     <string name="profile_picture">Profile picture</string>
-    <string name="purchase_cancelled">Purchase cancelled</string>
     <string name="error_not_found">Not found</string>
     <string name="relateds">Relateds</string>
     <string name="view_on_mal">View on MAL</string>
@@ -241,9 +233,6 @@
     <string name="german">German</string>
     <string name="copied">Copied!</string>
     <string name="login_browser_warning">Try with another browser if you can\'t login.</string>
-    <string name="send_analytics">Send analytics</string>
-    <string name="analytics_summary">This helps improve the app</string>
-    <string name="github_sponsor">Sponsor the project 💰</string>
     <string name="parent_story">Parent story</string>
     <string name="hour_abbreviation">h</string>
     <string name="minutes_abbreviation">min</string>
