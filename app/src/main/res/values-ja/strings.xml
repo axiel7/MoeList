@@ -263,6 +263,6 @@
     <string name="ukrainian">ウクライナ語</string>
     <string name="language">言語</string>
     <string name="sort_start_date">開始日</string>
-    <string name="japanese">Japanese</string>
-    <string name="chinese_traditional">Chinese (Traditional)</string>
+    <string name="japanese">日本語</string>
+    <string name="chinese_traditional">中国語（繁体字）</string>
 </resources>
