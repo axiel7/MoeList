@@ -10,4 +10,6 @@
     <locale android:name="ru-rRU"/>
     <locale android:name="tr"/>
     <locale android:name="uk-rUA"/>
+    <locale android:name="ja"/>
+    <locale android:name="zh-rTW"/>
 </locale-config>
