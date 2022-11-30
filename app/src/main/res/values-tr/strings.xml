@@ -18,10 +18,6 @@
     <string name="authors">Yaratıcılar</string>
     <string name="volumes">Cilt</string>
     <string name="serialization">Serileştirme</string>
-    <string name="donations_thanks">Thank you for considering supporting me!\n( /^ω^)/♪♪</string>
-    <string name="buy_tea">Buy me a tea 🍵</string>
-    <string name="buy">Buy</string>
-    <string name="buy_burger">Buy me a burger 🍔</string>
     <string name="login">Giriş</string>
     <string name="search_in_mal">MAL \'de ara</string>
     <string name="no_results">Sonuç bulunamadı</string>
@@ -40,7 +36,6 @@
     <string name="ptw">İzlenecek</string>
     <string name="ptr">Okunacak</string>
     <string name="share_app">Uygulamayı paylaş</string>
-    <string name="donations">Bağışlar</string>
     <string name="settings">Ayarlar</string>
     <string name="year">Yıl</string>
     <string name="anime_ranking">Anime Sıralaması</string>
@@ -121,7 +116,6 @@
     <string name="popular">Popüler</string>
     <string name="added_ptr">Okumak İstenenlere Eklendi</string>
     <string name="days">Gün</string>
-    <string name="donation_thanked">Teşekkürler!\n(◔‿◔)</string>
     <string name="login_error">Oturum açma hatası</string>
     <string name="search">Ara</string>
     <string name="theme">Tema</string>
@@ -148,7 +142,6 @@
     <string name="title_search">Ara</string>
     <string name="title_poster">Görsel</string>
     <string name="title_settings">Ayarlar</string>
-    <string name="title_donations">Donations</string>
     <string name="title_ranking">Sıralama</string>
     <string name="title_seasonal">Sezonluk</string>
     <string name="synopsis_icon">Özeti genişlet</string>
@@ -156,7 +149,6 @@
     <string name="moelist_banner">MoeList başlığı</string>
     <string name="drag_pill">Sürükle</string>
     <string name="profile_picture">Profil fotoğrafı</string>
-    <string name="purchase_cancelled">Purchase cancelled</string>
     <string name="error_not_found">Bulunamadı</string>
     <string name="relateds">Alakalılar</string>
     <string name="view_on_mal">MAL \'de göster</string>
@@ -241,9 +233,6 @@
     <string name="german">Almanca</string>
     <string name="copied">Kopyalandı!</string>
     <string name="login_browser_warning">Eğer giriş yapamıyorsanız, farklı bir tarayıcı ile deneyin.</string>
-    <string name="send_analytics">Send analytics</string>
-    <string name="analytics_summary">This helps improve the app</string>
-    <string name="github_sponsor">Sponsor the project 💰</string>
     <string name="parent_story">Ana hikaye</string>
     <string name="hour_abbreviation">saat</string>
     <string name="minutes_abbreviation">dakika</string>
