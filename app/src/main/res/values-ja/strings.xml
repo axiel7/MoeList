@@ -18,6 +18,10 @@
     <string name="authors">作者</string>
     <string name="volumes">単行本</string>
     <string name="serialization">連載</string>
+    <string name="donations_thanks">Thank you for considering supporting me!\n( /^ω^)/♪♪</string>
+    <string name="buy_tea">Buy me a tea 🍵</string>
+    <string name="buy">Buy</string>
+    <string name="buy_burger">Buy me a burger 🍔</string>
     <string name="login">ログイン</string>
     <string name="search_in_mal">MALで検索</string>
     <string name="no_results">該当なし</string>
@@ -124,8 +128,8 @@
     <string name="show_nsfw">NSFW コンテンツを表示する</string>
     <string name="nsfw_summary">私は18歳以上だと確認します。</string>
     <string name="default_section">Default section</string>
-    <string name="display" comment="Settings section">ディスプレー</string>
-    <string name="startup" comment="Settings section">スタートアップ</string>
+    <string name="display">ディスプレー</string>
+    <string name="startup">スタートアップ</string>
     <string name="account">アカウント</string>
     <string name="logout">ログアウト</string>
     <string name="logout_summary">MALではなく、MoeListからのみログアウトします。</string>
@@ -144,6 +148,7 @@
     <string name="title_search">検索</string>
     <string name="title_poster">画像</string>
     <string name="title_settings">設定</string>
+    <string name="title_donations">Donations</string>
     <string name="title_ranking">ランキング</string>
     <string name="title_seasonal">季節</string>
     <string name="synopsis_icon">概要を展開</string>
@@ -151,6 +156,7 @@
     <string name="moelist_banner">MoeListバナー</string>
     <string name="drag_pill">ドラッグピル</string>
     <string name="profile_picture">プロフィール写真</string>
+    <string name="purchase_cancelled">Purchase cancelled</string>
     <string name="error_not_found">見つかりません</string>
     <string name="relateds">関連</string>
     <string name="view_on_mal">MALで表示</string>
@@ -183,18 +189,18 @@
     <string name="genre_game" tools:ignore="MissingTranslation">ゲーム</string>
     <string name="genre_harem" tools:ignore="MissingTranslation">ハーレム</string>
     <string name="genre_hentai" tools:ignore="MissingTranslation">変態</string>
-    <string name="genre_historical" tools:ignore="MissingTranslation">Historical</string>
+    <string name="genre_historical" tools:ignore="MissingTranslation">歴史</string>
     <string name="genre_horror" tools:ignore="MissingTranslation">ホラー</string>
     <string name="genre_josei" tools:ignore="MissingTranslation">女性</string>
     <string name="genre_kids" tools:ignore="MissingTranslation">子供</string>
     <string name="genre_magic" tools:ignore="MissingTranslation">マジック</string>
-    <string name="genre_martial_arts" tools:ignore="MissingTranslation">Martial Arts</string>
+    <string name="genre_martial_arts" tools:ignore="MissingTranslation">武術</string>
     <string name="genre_mecha" tools:ignore="MissingTranslation">メカ</string>
     <string name="genre_military" tools:ignore="MissingTranslation">軍事</string>
     <string name="genre_music" tools:ignore="MissingTranslation">音楽</string>
     <string name="genre_mystery" tools:ignore="MissingTranslation">ミステリー</string>
     <string name="genre_parody" tools:ignore="MissingTranslation">パロディ</string>
-    <string name="genre_police" tools:ignore="MissingTranslation">Police</string>
+    <string name="genre_police" tools:ignore="MissingTranslation">警察</string>
     <string name="genre_psychological" tools:ignore="MissingTranslation">心理的</string>
     <string name="genre_romance" tools:ignore="MissingTranslation">ロマンス</string>
     <string name="genre_samurai" tools:ignore="MissingTranslation">侍</string>
@@ -205,7 +211,7 @@
     <string name="genre_shoujo_ai" tools:ignore="MissingTranslation">少女愛</string>
     <string name="genre_shounen" tools:ignore="MissingTranslation">少年</string>
     <string name="genre_shounen_ai" tools:ignore="MissingTranslation">少年愛</string>
-    <string name="genre_slice_of_life" tools:ignore="MissingTranslation">Slice of Life</string>
+    <string name="genre_slice_of_life" tools:ignore="MissingTranslation">スライスオブライフ</string>
     <string name="genre_space" tools:ignore="MissingTranslation">宇宙</string>
     <string name="genre_sports" tools:ignore="MissingTranslation">スポーツ</string>
     <string name="genre_superpower" tools:ignore="MissingTranslation">スーパーパワー</string>
@@ -217,15 +223,15 @@
     <string name="relation_prequel" tools:ignore="MissingTranslation">前篇</string>
     <string name="relation_sequel" tools:ignore="MissingTranslation">続</string>
     <string name="relation_summary" tools:ignore="MissingTranslation">摘要</string>
-    <string name="relation_alternative_version" tools:ignore="MissingTranslation">Alternative version</string>
+    <string name="relation_alternative_version" tools:ignore="MissingTranslation">代替バージョン</string>
     <string name="relation_other" tools:ignore="MissingTranslation" tools:keep="@string/relation_other">他</string>
     <string name="relation_side_story" tools:ignore="MissingTranslation">サイドストーリー</string>
-    <string name="relation_alternative_setting" tools:ignore="MissingTranslation">Alternative setting</string>
+    <string name="relation_alternative_setting" tools:ignore="MissingTranslation">代替バージョン</string>
     <string name="relation_spin_off" tools:ignore="MissingTranslation">スピンオフ</string>
     <string name="translate" tools:ignore="MissingTranslation">翻訳する</string>
-    <string name="translate_original" tools:ignore="MissingTranslation">Show original</string>
-    <string name="adaptation" tools:ignore="MissingTranslation" tools:keep="@string/adaptation">Adaptation</string>
-    <string name="open_source_licenses" tools:ignore="MissingTranslation">Open Source licenses</string>
+    <string name="translate_original" tools:ignore="MissingTranslation">原文を見る</string>
+    <string name="adaptation" tools:ignore="MissingTranslation" tools:keep="@string/adaptation">アダプテーション</string>
+    <string name="open_source_licenses" tools:ignore="MissingTranslation">オープンソース ライセンス</string>
     <string name="filters" tools:ignore="MissingTranslation">フィルター</string>
     <string name="date_format" tools:ignore="MissingTranslation">Date format</string>
     <string name="manhua">Manhua</string>
@@ -234,14 +240,17 @@
     <string name="ending">エンディング</string>
     <string name="german">ドイツ語</string>
     <string name="copied">コピーしました！</string>
-    <string name="login_browser_warning">Try with another browser if you can\'t login.</string>
-    <string name="parent_story">Parent story</string>
+    <string name="login_browser_warning">ログインできない場合は、別のブラウザでお試しください。</string>
+    <string name="send_analytics">Send analytics</string>
+    <string name="analytics_summary">This helps improve the app</string>
+    <string name="github_sponsor">Sponsor the project 💰</string>
+    <string name="parent_story">親ストーリー</string>
     <string name="hour_abbreviation">時</string>
     <string name="minutes_abbreviation">分</string>
-    <string name="full_story">Full story</string>
+    <string name="full_story">全物語</string>
     <string name="theme_black">ブラック</string>
     <string name="aired_ago">%s時間前</string>
-    <string name="anime_stats">Anime\nStats</string>
+    <string name="anime_stats">アニメ\nの統計</string>
     <string name="delete_confirmation">このエントリーを削除してもよろしいですか？</string>
     <string name="bulgarian">ブルガリア語</string>
     <string name="log_in_again">もう一度ログインしてください</string>
@@ -258,11 +267,13 @@
     <string name="something_went_wrong">Something went wrong \n (；ﾟДﾟ)</string>
     <string name="upcoming">予定</string>
     <string name="favorite">お気に入り</string>
-    <string name="use_external_browser">Use external browser</string>
+    <string name="use_external_browser">外部ブラウザーを使用する</string>
     <string name="help">ヘルプ</string>
     <string name="calendar">カレンダー</string>
     <string name="english">英語</string>
     <string name="ukrainian">ウクライナ語</string>
     <string name="language">言語</string>
     <string name="sort_start_date">開始日</string>
+    <string name="japanese">Japanese</string>
+    <string name="chinese_traditional">Chinese (Traditional)</string>
 </resources>
