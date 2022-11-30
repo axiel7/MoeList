@@ -18,10 +18,6 @@
     <string name="authors">Автори</string>
     <string name="volumes">Томи</string>
     <string name="serialization">Публікація</string>
-    <string name="donations_thanks">Thank you for considering supporting me!\n( /^ω^)/♪♪</string>
-    <string name="buy_tea">Buy me a tea 🍵</string>
-    <string name="buy">Buy</string>
-    <string name="buy_burger">Buy me a burger 🍔</string>
     <string name="login">Увійти</string>
     <string name="search_in_mal">Пошук на MAL</string>
     <string name="no_results">Нічого не знайдено</string>
@@ -40,7 +36,6 @@
     <string name="ptw">Заплановано</string>
     <string name="ptr">Заплановано</string>
     <string name="share_app">Поділитися додатком</string>
-    <string name="donations">Пожертви</string>
     <string name="settings">Налаштування</string>
     <string name="year">Рік</string>
     <string name="anime_ranking">Топ аніме</string>
@@ -121,7 +116,6 @@
     <string name="popular">Популярні</string>
     <string name="added_ptr">Додано до запланованих</string>
     <string name="days">Днів</string>
-    <string name="donation_thanked">Дякую!\n(◔‿◔)</string>
     <string name="login_error">Помилка входу</string>
     <string name="search">Пошук</string>
     <string name="theme">Тема</string>
@@ -148,7 +142,6 @@
     <string name="title_search">Пошук</string>
     <string name="title_poster">Зображення</string>
     <string name="title_settings">Налаштування</string>
-    <string name="title_donations">Donations</string>
     <string name="title_ranking">Топ</string>
     <string name="title_seasonal">Сезони</string>
     <string name="synopsis_icon">Розгорнути синопсис</string>
@@ -156,7 +149,6 @@
     <string name="moelist_banner">Банер MoeList</string>
     <string name="drag_pill">Потягніть шторку</string>
     <string name="profile_picture">Аватар</string>
-    <string name="purchase_cancelled">Purchase cancelled</string>
     <string name="error_not_found">Не знайдено</string>
     <string name="relateds">Пов\'язані</string>
     <string name="view_on_mal">Переглянути на MAL</string>
@@ -241,9 +233,6 @@
     <string name="german">Німецькою</string>
     <string name="copied">Скопійовано!</string>
     <string name="login_browser_warning">Якщо ви не можете увійти спробуйте інший браузер.</string>
-    <string name="send_analytics">Send analytics</string>
-    <string name="analytics_summary">This helps improve the app</string>
-    <string name="github_sponsor">Sponsor the project 💰</string>
     <string name="parent_story">Головна історія</string>
     <string name="hour_abbreviation">год</string>
     <string name="minutes_abbreviation">хв</string>
