@@ -28,7 +28,7 @@ You can help translate the app!
 * NSFW toggle
 
 **Coming soon**
-* [See project](https://github.com/axiel7/MoeList/projects/1)
+* [See project](https://github.com/users/axiel7/projects/1)
 
 **Not possible due to API limitations:**
 * Manga stats
