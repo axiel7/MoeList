@@ -68,6 +68,10 @@ class AnimeListViewModel : ViewModel() {
         animeListFlow = createAnimeListFlow()
     }
 
+    fun resetAnimeListPage() {
+        params.value.resetPage = true
+    }
+
     private val _updateResponse = MutableStateFlow<Pair<MyAnimeListStatus?, String>>(null to RESPONSE_NONE)
     val updateResponse: StateFlow<Pair<MyAnimeListStatus?, String>> = _updateResponse
 

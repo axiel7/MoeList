@@ -66,6 +66,10 @@ class MangaListViewModel : ViewModel() {
         mangaListFlow = createMangaListFlow()
     }
 
+    fun resetMangaListPage() {
+        params.value.resetPage = true
+    }
+
     private val _updateResponse = MutableStateFlow<Pair<MyMangaListStatus?, String>>(null to RESPONSE_NONE)
     val updateResponse: StateFlow<Pair<MyMangaListStatus?, String>> = _updateResponse
 

@@ -7,5 +7,6 @@ data class ApiParams(
     var nsfw: Int? = 0,
     var fields: String? = "",
     var limit: Int = 50,
-    var offset: Int? = 0
+    var offset: Int? = 0,
+    var resetPage: Boolean = false,
 )

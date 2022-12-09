@@ -86,7 +86,10 @@ class MangaListFragment : BaseFragment<FragmentListBinding>() {
             }
         )
 
-        binding.loading.setOnRefreshListener { adapter.refresh() }
+        binding.loading.setOnRefreshListener {
+            viewModel.resetMangaListPage()
+            adapter.refresh()
+        }
 
         launchLifecycleStarted {
             viewModel.mangaListFlow.collectLatest {
@@ -110,6 +113,7 @@ class MangaListFragment : BaseFragment<FragmentListBinding>() {
                         showSnackbar("${it.first!!.error}: ${it.first!!.message}")
                     }
                     else {
+                        viewModel.resetMangaListPage()
                         adapter.refresh()
                     }
                 }
