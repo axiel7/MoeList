@@ -294,9 +294,11 @@ class MangaDetailsFragment : BaseFragment<FragmentDetailsBinding>() {
                 try {
                     translator.translate(binding.synopsis.text as String)
                         .addOnSuccessListener { translatedText ->
-                            binding.loadingTranslate.hide()
-                            binding.translateButton.text = resources.getString(R.string.translate_original)
-                            binding.synopsis.text = translatedText
+                            if (isAdded) {
+                                binding.loadingTranslate.hide()
+                                binding.translateButton.text = resources.getString(R.string.translate_original)
+                                binding.synopsis.text = translatedText
+                            }
                         }
                         .addOnFailureListener { exception ->
                             showSnackbar(exception.localizedMessage)
