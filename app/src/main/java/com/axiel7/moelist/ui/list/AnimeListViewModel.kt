@@ -79,10 +79,12 @@ class AnimeListViewModel : ViewModel() {
         animeId: Int,
         status: String? = null,
         score: Int? = null,
-        watchedEpisodes: Int? = null
+        watchedEpisodes: Int? = null,
+        startDate: String? = null,
+        endDate: String? = null
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            val call = async { App.api.updateUserAnimeList(animeId, status, score, watchedEpisodes) }
+            val call = async { App.api.updateUserAnimeList(animeId, status, score, watchedEpisodes, startDate, endDate) }
             val result = try {
                 call.await()
             } catch (e: Exception) {

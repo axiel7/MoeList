@@ -78,11 +78,13 @@ class MangaListViewModel : ViewModel() {
         status: String? = null,
         score: Int? = null,
         chaptersRead: Int? = null,
-        volumesRead: Int? = null
+        volumesRead: Int? = null,
+        startDate: String? = null,
+        endDate: String? = null
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             val result = try {
-                App.api.updateUserMangaList(mangaId, status, score, chaptersRead, volumesRead)
+                App.api.updateUserMangaList(mangaId, status, score, chaptersRead, volumesRead, startDate, endDate)
             } catch (e: Exception) {
                 null
             }

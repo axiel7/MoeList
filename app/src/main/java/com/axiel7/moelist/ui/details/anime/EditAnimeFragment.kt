@@ -11,11 +11,13 @@ import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
 import com.axiel7.moelist.databinding.BottomSheetEditAnimeBinding
 import com.axiel7.moelist.ui.base.BaseBottomSheetDialogFragment
 import com.axiel7.moelist.ui.list.AnimeListViewModel
+import com.axiel7.moelist.utils.DateUtils
 import com.axiel7.moelist.utils.InsetsHelper
 import com.axiel7.moelist.utils.StringExtensions.formatListStatus
 import com.axiel7.moelist.utils.StringExtensions.formatListStatusInverted
 import com.axiel7.moelist.utils.StringExtensions.formatScore
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.flow.collectLatest
 
@@ -44,6 +46,17 @@ class EditAnimeFragment(
                 viewModel.deleteEntry(animeId)
             }
     }
+
+    private var selectedStartDate = DateUtils.getTimeInMillisFromDateString(date = myListStatus?.startDate)
+    private val startDatePicker = MaterialDatePicker.Builder.datePicker()
+        .setTitleText(R.string.select_date)
+        .setSelection(selectedStartDate)
+        .build()
+    private var selectedEndDate = DateUtils.getTimeInMillisFromDateString(date = myListStatus?.endDate)
+    private val endDatePicker = MaterialDatePicker.Builder.datePicker()
+        .setTitleText(R.string.select_date)
+        .setSelection(selectedEndDate)
+        .build()
 
     override fun onResume() {
         super.onResume()
@@ -89,8 +102,14 @@ class EditAnimeFragment(
                 else -> null
             }
 
+            val startDateCurrent = DateUtils.unixtimeToStringDate(selectedStartDate)
+            val startDate = if (startDateCurrent != myListStatus?.startDate) startDateCurrent else null
+
+            val endDateCurrent = DateUtils.unixtimeToStringDate(selectedEndDate)
+            val endDate = if (endDateCurrent != myListStatus?.endDate) endDateCurrent else null
+
             binding.loading.show()
-            viewModel.updateList(animeId, status, score, episodes)
+            viewModel.updateList(animeId, status, score, episodes, startDate, endDate)
         }
 
         binding.cancelButton.setOnClickListener { dismiss() }
@@ -100,6 +119,7 @@ class EditAnimeFragment(
         binding.statusField.onItemClickListener = OnItemClickListener { _, _, position, _ ->
             if (statusItems[position] == getString(R.string.completed)) {
                 binding.episodesField.setText(numEpisodes.toString())
+                selectedEndDate?.let { selectedEndDate = MaterialDatePicker.todayInUtcMilliseconds() }
             } else {
                 binding.episodesField.setText(myListStatus?.numEpisodesWatched.toString())
             }
@@ -126,9 +146,28 @@ class EditAnimeFragment(
             if (inputEpisodes < numEpisodes || numEpisodes == 0) {
                 binding.episodesField.setText((inputEpisodes + 1).toString())
                 if (myListStatus?.status == "plan_to_watch" && inputEpisodes == 0) {
+                    selectedStartDate?.let { selectedStartDate = MaterialDatePicker.todayInUtcMilliseconds() }
                     binding.statusField.setText(statusItems.first())
                 }
             }
+        }
+
+        binding.startDateField.setOnClickListener {
+            startDatePicker.show(childFragmentManager, "start_date_picker")
+        }
+
+        startDatePicker.addOnPositiveButtonClickListener {
+            selectedStartDate = it
+            binding.startDateField.setText(startDatePicker.headerText)
+        }
+
+        binding.endDateField.setOnClickListener {
+            endDatePicker.show(childFragmentManager, "end_date_picker")
+        }
+
+        endDatePicker.addOnPositiveButtonClickListener {
+            selectedEndDate = it
+            binding.endDateField.setText(endDatePicker.headerText)
         }
 
         if (myListStatus != null) {
@@ -154,6 +193,12 @@ class EditAnimeFragment(
         binding.episodesField.setText(myListStatus?.numEpisodesWatched.toString())
         binding.statusField.setText(myListStatus?.status.formatListStatus(safeContext), false)
         binding.scoreSlider.value = myListStatus?.score?.toFloat() ?: 0f
+        DateUtils.getLocalDateFromDateString(myListStatus?.startDate)?.let {
+            binding.startDateField.setText(DateUtils.formatLocalDateToString(it))
+        }
+        DateUtils.getLocalDateFromDateString(myListStatus?.endDate)?.let {
+            binding.endDateField.setText(DateUtils.formatLocalDateToString(it))
+        }
     }
 
 }

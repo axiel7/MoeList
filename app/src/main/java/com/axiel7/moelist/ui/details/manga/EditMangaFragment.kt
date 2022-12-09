@@ -11,13 +11,20 @@ import com.axiel7.moelist.data.model.manga.MyMangaListStatus
 import com.axiel7.moelist.databinding.BottomSheetEditMangaBinding
 import com.axiel7.moelist.ui.base.BaseBottomSheetDialogFragment
 import com.axiel7.moelist.ui.list.MangaListViewModel
+import com.axiel7.moelist.utils.DateUtils
 import com.axiel7.moelist.utils.InsetsHelper
+import com.axiel7.moelist.utils.SeasonCalendar
 import com.axiel7.moelist.utils.StringExtensions.formatListStatus
 import com.axiel7.moelist.utils.StringExtensions.formatListStatusInverted
 import com.axiel7.moelist.utils.StringExtensions.formatScore
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.flow.collectLatest
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class EditMangaFragment(
     private val myListStatus: MyMangaListStatus?,
@@ -46,6 +53,17 @@ class EditMangaFragment(
                 viewModel.deleteEntry(mangaId)
             }
     }
+
+    private var selectedStartDate = DateUtils.getTimeInMillisFromDateString(date = myListStatus?.startDate)
+    private val startDatePicker = MaterialDatePicker.Builder.datePicker()
+        .setTitleText(R.string.select_date)
+        .setSelection(selectedStartDate)
+        .build()
+    private var selectedEndDate = DateUtils.getTimeInMillisFromDateString(date = myListStatus?.endDate)
+    private val endDatePicker = MaterialDatePicker.Builder.datePicker()
+        .setTitleText(R.string.select_date)
+        .setSelection(selectedEndDate)
+        .build()
 
     override fun onResume() {
         super.onResume()
@@ -98,8 +116,14 @@ class EditMangaFragment(
                 else -> null
             }
 
+            val startDateCurrent = DateUtils.unixtimeToStringDate(selectedStartDate)
+            val startDate = if (startDateCurrent != myListStatus?.startDate) startDateCurrent else null
+
+            val endDateCurrent = DateUtils.unixtimeToStringDate(selectedEndDate)
+            val endDate = if (endDateCurrent != myListStatus?.endDate) endDateCurrent else null
+
             binding.loading.show()
-            viewModel.updateList(mangaId, status, score, chapters, volumes)
+            viewModel.updateList(mangaId, status, score, chapters, volumes, startDate, endDate)
         }
 
         binding.cancelButton.setOnClickListener { dismiss() }
@@ -110,6 +134,7 @@ class EditMangaFragment(
             if (statusItems[position] == getString(R.string.completed)) {
                 binding.chaptersField.setText(numChapters.toString())
                 binding.volumesField.setText(numVolumes.toString())
+                selectedEndDate?.let { selectedEndDate = MaterialDatePicker.todayInUtcMilliseconds() }
             } else {
                 binding.chaptersField.setText(myListStatus?.numChaptersRead.toString())
                 binding.volumesField.setText(myListStatus?.numVolumesRead.toString())
@@ -140,6 +165,7 @@ class EditMangaFragment(
                 binding.chaptersField.setText((inputChapters + 1).toString())
             }
             if (myListStatus?.status == "plan_to_read" && inputChapters == 0) {
+                selectedStartDate?.let { selectedStartDate = MaterialDatePicker.todayInUtcMilliseconds() }
                 binding.statusField.setText(statusItems.first())
             }
         }
@@ -155,8 +181,27 @@ class EditMangaFragment(
                 binding.volumesField.setText((inputVolumes + 1).toString())
             }
             if (myListStatus?.status == "plan_to_read" && inputVolumes == 0) {
+                selectedStartDate?.let { selectedStartDate = MaterialDatePicker.todayInUtcMilliseconds() }
                 binding.statusField.setText(statusItems.first())
             }
+        }
+
+        binding.startDateField.setOnClickListener {
+            startDatePicker.show(childFragmentManager, "start_date_picker")
+        }
+
+        startDatePicker.addOnPositiveButtonClickListener {
+            selectedStartDate = it
+            binding.startDateField.setText(startDatePicker.headerText)
+        }
+
+        binding.endDateField.setOnClickListener {
+            endDatePicker.show(childFragmentManager, "end_date_picker")
+        }
+
+        endDatePicker.addOnPositiveButtonClickListener {
+            selectedEndDate = it
+            binding.endDateField.setText(endDatePicker.headerText)
         }
 
         if (myListStatus != null) {
@@ -194,6 +239,12 @@ class EditMangaFragment(
         binding.volumesField.setText(myListStatus?.numVolumesRead.toString())
         binding.statusField.setText(myListStatus?.status.formatListStatus(safeContext), false)
         binding.scoreSlider.value = myListStatus?.score?.toFloat() ?: 0f
+        DateUtils.getLocalDateFromDateString(myListStatus?.startDate)?.let {
+            binding.startDateField.setText(DateUtils.formatLocalDateToString(it))
+        }
+        DateUtils.getLocalDateFromDateString(myListStatus?.endDate)?.let {
+            binding.endDateField.setText(DateUtils.formatLocalDateToString(it))
+        }
     }
 
 }

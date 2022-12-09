@@ -17,6 +17,11 @@ data class MyMangaListStatus (
     val isRereading: Boolean = false,
     @SerialName("updated_at")
     val updatedAt: String? = null,
+    @SerialName("start_date")
+    val startDate: String? = null,
+    @SerialName("end_date")
+    val endDate: String? = null,
+
     @SerialName("message")
     val message: String? = null,
     @SerialName("error")

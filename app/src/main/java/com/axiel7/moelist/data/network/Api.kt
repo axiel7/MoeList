@@ -111,12 +111,16 @@ class Api(private val client: HttpClient) {
         status: String?,
         score: Int?,
         watchedEpisodes: Int?,
+        startDate: String?,
+        endDate: String?
     ): MyAnimeListStatus = client.request("${MAL_API_URL}anime/$animeId/my_list_status") {
         method = HttpMethod.Patch
         setBody(FormDataContent(Parameters.build {
-            if (status != null) append("status", status)
-            if (score != null) append("score", score.toString())
-            if (watchedEpisodes != null) append("num_watched_episodes", watchedEpisodes.toString())
+            status?.let { append("status", it) }
+            score?.let { append("score", it.toString()) }
+            watchedEpisodes?.let { append("num_watched_episodes", it.toString()) }
+            startDate?.let { append("start_date", it) }
+            endDate?.let { append("end_date", it) }
         }))
     }.body()
 
@@ -174,14 +178,18 @@ class Api(private val client: HttpClient) {
         status: String?,
         score: Int?,
         chaptersRead: Int?,
-        volumesRead: Int?
+        volumesRead: Int?,
+        startDate: String?,
+        endDate: String?
     ): MyMangaListStatus = client.request("${MAL_API_URL}manga/$mangaId/my_list_status") {
         method = HttpMethod.Patch
         setBody(FormDataContent(Parameters.build {
-            if (status != null) append("status", status)
-            if (score != null) append("score", score.toString())
-            if (chaptersRead != null) append("num_chapters_read", chaptersRead.toString())
-            if (volumesRead != null) append("num_volumes_read", volumesRead.toString())
+            status?.let { append("status", it) }
+            score?.let { append("score", it.toString()) }
+            chaptersRead?.let { append("num_chapters_read", it.toString()) }
+            volumesRead?.let { append("num_volumes_read", it.toString()) }
+            startDate?.let { append("start_date", it) }
+            endDate?.let { append("end_date", it) }
         }))
     }.body()
 
