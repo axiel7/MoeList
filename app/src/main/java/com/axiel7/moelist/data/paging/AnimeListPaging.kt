@@ -16,6 +16,10 @@ class AnimeListPaging(
             val nextPage = params.key
             val response = if (nextPage == null) {
                 api.getAnimeList(apiParams)
+            } else if (apiParams.resetPage) {
+                apiParams.offset = 0
+                apiParams.resetPage = false
+                api.getAnimeList(apiParams)
             } else {
                 api.getAnimeList(nextPage)
             }
