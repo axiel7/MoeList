@@ -265,4 +265,5 @@
     <string name="sort_start_date">Data de início</string>
     <string name="japanese">Japonês</string>
     <string name="chinese_traditional">Chinês (Tradicional)</string>
+    <string name="select_date">Select date</string>
 </resources>
