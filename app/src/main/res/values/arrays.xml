@@ -25,18 +25,18 @@
 
     <string-array name="language_options">
         <item>@string/theme_system</item>
-        <item>@string/english</item>
-        <item>@string/arabic</item>
-        <item>@string/bulgarian</item>
-        <item>@string/german</item>
-        <item>@string/spanish</item>
-        <item>@string/french</item>
-        <item>@string/brazilian</item>
-        <item>@string/russian</item>
-        <item>@string/turkish</item>
-        <item>@string/ukrainian</item>
-        <item>@string/japanese</item>
-        <item>@string/chinese_traditional</item>
+        <item>English</item>
+        <item>العربية</item>
+        <item>Български</item>
+        <item>Deutsch</item>
+        <item>Español</item>
+        <item>Français</item>
+        <item>Português (Brasil)</item>
+        <item>Русский</item>
+        <item>Türkçe</item>
+        <item>Українська</item>
+        <item>日本語</item>
+        <item>中文 (繁體)</item>
     </string-array>
     <string-array name="language_options_values">
         <item>null</item>
