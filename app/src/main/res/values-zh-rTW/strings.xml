@@ -6,7 +6,7 @@
     <string name="stats">統計</string>
     <string name="more_info">更多資訊</string>
     <string name="synonyms">同義詞</string>
-    <string name="jp_title">日語</string>
+    <string name="jp_title">日文</string>
     <string name="start_date">開始日期</string>
     <string name="end_date">結束日期</string>
     <string name="season">季</string>
@@ -265,4 +265,5 @@
     <string name="sort_start_date">開始日期</string>
     <string name="japanese">日語</string>
     <string name="chinese_traditional">中文 (繁體)</string>
+    <string name="select_date">Select date</string>
 </resources>
