@@ -95,6 +95,10 @@ class AnimeListViewModel : ViewModel() {
         }
     }
 
+    fun consumeUpdateResponse() {
+        _updateResponse.value = null to RESPONSE_NONE
+    }
+
     private val _deleteResponse = MutableStateFlow<Pair<HttpResponse?, String>>(null to RESPONSE_NONE)
     val deleteResponse: StateFlow<Pair<HttpResponse?, String>> = _deleteResponse
     fun deleteEntry(animeId: Int) {

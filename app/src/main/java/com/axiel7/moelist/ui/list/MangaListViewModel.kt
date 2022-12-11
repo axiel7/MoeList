@@ -93,6 +93,10 @@ class MangaListViewModel : ViewModel() {
         }
     }
 
+    fun consumeUpdateResponse() {
+        _updateResponse.value = null to RESPONSE_NONE
+    }
+
     fun deleteEntry(mangaId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             App.api.deleteMangaEntry(mangaId)

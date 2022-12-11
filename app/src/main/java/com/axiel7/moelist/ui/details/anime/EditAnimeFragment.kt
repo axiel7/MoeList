@@ -72,10 +72,12 @@ class EditAnimeFragment(
                         showToast("${it.first!!.error}: ${it.first!!.message}")
                     }
                     else dismiss()
+                    viewModel.consumeUpdateResponse()
                 }
                 else if (it.second == "Error") {
                     binding.loading.hide()
                     showToast(getString(R.string.error_updating_list))
+                    viewModel.consumeUpdateResponse()
                 }
             }
         }
