@@ -266,4 +266,6 @@
     <string name="japanese">日本語</string>
     <string name="chinese_traditional">中国語（繁体字）</string>
     <string name="select_date">Select date</string>
+    <string name="total_rereads">Total Rereads</string>
+    <string name="total_rewatches">Total Rewatches</string>
 </resources>
