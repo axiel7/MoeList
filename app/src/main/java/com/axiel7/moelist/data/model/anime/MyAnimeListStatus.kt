@@ -19,6 +19,8 @@ data class MyAnimeListStatus (
     val startDate: String? = null,
     @SerialName("end_date")
     val endDate: String? = null,
+    @SerialName("num_times_rewatched")
+    val numTimesRewatched: Int = 0,
 
     @SerialName("message")
     val message: String? = null,

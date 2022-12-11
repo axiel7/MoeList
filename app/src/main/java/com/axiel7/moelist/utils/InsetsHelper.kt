@@ -57,15 +57,18 @@ object InsetsHelper {
         }
     }
 
-    fun <T : ViewGroup> getViewBottomHeight(layout: ViewGroup,
-                                            targetViewId: Int,
-                                            behavior: BottomSheetBehavior<T>) {
+    fun <T : ViewGroup> getViewBottomHeight(
+        layout: ViewGroup,
+        targetViewId: Int,
+        behavior: BottomSheetBehavior<T>,
+        offset: Float = 0f
+    ) {
         layout.apply {
             viewTreeObserver.addOnGlobalLayoutListener(
                 object : ViewTreeObserver.OnGlobalLayoutListener {
                     override fun onGlobalLayout() {
                         viewTreeObserver.removeOnGlobalLayoutListener(this)
-                        behavior.peekHeight = findViewById<View>(targetViewId).bottom
+                        behavior.peekHeight = findViewById<View>(targetViewId).bottom + dpToPx(offset)
                     }
                 })
         }

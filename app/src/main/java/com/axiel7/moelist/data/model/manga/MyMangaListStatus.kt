@@ -21,6 +21,8 @@ data class MyMangaListStatus (
     val startDate: String? = null,
     @SerialName("end_date")
     val endDate: String? = null,
+    @SerialName("num_times_reread")
+    val numTimesReread: Int = 0,
 
     @SerialName("message")
     val message: String? = null,

@@ -3,6 +3,8 @@ package com.axiel7.moelist.ui.details.anime
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.AdapterView.OnItemClickListener
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import com.axiel7.moelist.R
@@ -82,12 +84,18 @@ class EditAnimeFragment(
             }
         }
 
-        //Set peek height to hide delete button
-        InsetsHelper.getViewBottomHeight(
-            view as ViewGroup,
-            R.id.divider,
-            (dialog as BottomSheetDialog).behavior
-        )
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val bottomInset = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
+            //Set peek height to hide delete button
+            InsetsHelper.getViewBottomHeight(
+                view as ViewGroup,
+                R.id.divider,
+                (dialog as BottomSheetDialog).behavior,
+                offset = bottomInset.toFloat()
+            )
+
+            insets
+        }
 
         binding.applyButton.setOnClickListener {
 
@@ -110,8 +118,11 @@ class EditAnimeFragment(
             val endDateCurrent = DateUtils.unixtimeToStringDate(selectedEndDate)
             val endDate = if (endDateCurrent != myListStatus?.endDate) endDateCurrent else null
 
+            val rewatchesCurrent = binding.rewatchField.text.toString().toIntOrNull()
+            val rewatches = if (rewatchesCurrent != myListStatus?.numTimesRewatched) rewatchesCurrent else null
+
             binding.loading.show()
-            viewModel.updateList(animeId, status, score, episodes, startDate, endDate)
+            viewModel.updateList(animeId, status, score, episodes, startDate, endDate, rewatches)
         }
 
         binding.cancelButton.setOnClickListener { dismiss() }
@@ -172,6 +183,18 @@ class EditAnimeFragment(
             binding.endDateField.setText(endDatePicker.headerText)
         }
 
+        binding.minusRewatchButton.setOnClickListener {
+            val inputRereads = binding.rewatchField.text.toString().toIntOrNull() ?: 0
+            if (inputRereads > 0) {
+                binding.rewatchField.setText((inputRereads - 1).toString())
+            }
+        }
+
+        binding.plusRewatchButton.setOnClickListener {
+            val inputRereads = binding.rewatchField.text.toString().toIntOrNull() ?: 0
+            binding.rewatchField.setText((inputRereads + 1).toString())
+        }
+
         if (myListStatus != null) {
             syncListStatus()
         } else {
@@ -201,6 +224,7 @@ class EditAnimeFragment(
         DateUtils.getLocalDateFromDateString(myListStatus?.endDate)?.let {
             binding.endDateField.setText(DateUtils.formatLocalDateToString(it))
         }
+        binding.rewatchField.setText(myListStatus?.numTimesRewatched.toString())
     }
 
 }

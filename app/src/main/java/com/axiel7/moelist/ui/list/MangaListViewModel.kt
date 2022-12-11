@@ -80,11 +80,12 @@ class MangaListViewModel : ViewModel() {
         chaptersRead: Int? = null,
         volumesRead: Int? = null,
         startDate: String? = null,
-        endDate: String? = null
+        endDate: String? = null,
+        numRereads: Int? = null,
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             val result = try {
-                App.api.updateUserMangaList(mangaId, status, score, chaptersRead, volumesRead, startDate, endDate)
+                App.api.updateUserMangaList(mangaId, status, score, chaptersRead, volumesRead, startDate, endDate, numRereads)
             } catch (e: Exception) {
                 null
             }
@@ -123,6 +124,6 @@ class MangaListViewModel : ViewModel() {
     }
 
     companion object {
-        private const val FIELDS = "list_status,num_chapters,media_type,status"
+        private const val FIELDS = "list_status{num_times_reread},num_chapters,media_type,status"
     }
 }

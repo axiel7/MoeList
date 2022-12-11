@@ -81,10 +81,11 @@ class AnimeListViewModel : ViewModel() {
         score: Int? = null,
         watchedEpisodes: Int? = null,
         startDate: String? = null,
-        endDate: String? = null
+        endDate: String? = null,
+        numRewatches: Int? = null,
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            val call = async { App.api.updateUserAnimeList(animeId, status, score, watchedEpisodes, startDate, endDate) }
+            val call = async { App.api.updateUserAnimeList(animeId, status, score, watchedEpisodes, startDate, endDate, numRewatches) }
             val result = try {
                 call.await()
             } catch (e: Exception) {
@@ -134,6 +135,6 @@ class AnimeListViewModel : ViewModel() {
     }
 
     companion object {
-        private const val FIELDS = "list_status,num_episodes,media_type,status"
+        private const val FIELDS = "list_status{num_times_rewatched},num_episodes,media_type,status"
     }
 }

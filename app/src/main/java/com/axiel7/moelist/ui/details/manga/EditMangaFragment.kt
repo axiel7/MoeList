@@ -3,6 +3,8 @@ package com.axiel7.moelist.ui.details.manga
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.AdapterView.OnItemClickListener
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import com.axiel7.moelist.R
@@ -13,7 +15,6 @@ import com.axiel7.moelist.ui.base.BaseBottomSheetDialogFragment
 import com.axiel7.moelist.ui.list.MangaListViewModel
 import com.axiel7.moelist.utils.DateUtils
 import com.axiel7.moelist.utils.InsetsHelper
-import com.axiel7.moelist.utils.SeasonCalendar
 import com.axiel7.moelist.utils.StringExtensions.formatListStatus
 import com.axiel7.moelist.utils.StringExtensions.formatListStatusInverted
 import com.axiel7.moelist.utils.StringExtensions.formatScore
@@ -21,10 +22,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.flow.collectLatest
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 class EditMangaFragment(
     private val myListStatus: MyMangaListStatus?,
@@ -89,12 +86,18 @@ class EditMangaFragment(
             }
         }
 
-        //Set peek height to hide delete button
-        InsetsHelper.getViewBottomHeight(
-            view as ViewGroup,
-            R.id.divider,
-            (dialog as BottomSheetDialog).behavior
-        )
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val bottomInset = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
+            //Set peek height to hide delete button
+            InsetsHelper.getViewBottomHeight(
+                view as ViewGroup,
+                R.id.divider,
+                (dialog as BottomSheetDialog).behavior,
+                offset = bottomInset.toFloat()
+            )
+
+            insets
+        }
 
         binding.applyButton.setOnClickListener {
 
@@ -124,8 +127,11 @@ class EditMangaFragment(
             val endDateCurrent = DateUtils.unixtimeToStringDate(selectedEndDate)
             val endDate = if (endDateCurrent != myListStatus?.endDate) endDateCurrent else null
 
+            val rereadsCurrent = binding.rereadField.text.toString().toIntOrNull()
+            val rereads = if (rereadsCurrent != myListStatus?.numTimesReread) rereadsCurrent else null
+
             binding.loading.show()
-            viewModel.updateList(mangaId, status, score, chapters, volumes, startDate, endDate)
+            viewModel.updateList(mangaId, status, score, chapters, volumes, startDate, endDate, rereads)
         }
 
         binding.cancelButton.setOnClickListener { dismiss() }
@@ -206,6 +212,18 @@ class EditMangaFragment(
             binding.endDateField.setText(endDatePicker.headerText)
         }
 
+        binding.minusRereadButton.setOnClickListener {
+            val inputRereads = binding.rereadField.text.toString().toIntOrNull() ?: 0
+            if (inputRereads > 0) {
+                binding.rereadField.setText((inputRereads - 1).toString())
+            }
+        }
+
+        binding.plusRereadButton.setOnClickListener {
+            val inputRereads = binding.rereadField.text.toString().toIntOrNull() ?: 0
+            binding.rereadField.setText((inputRereads + 1).toString())
+        }
+
         if (myListStatus != null) {
             syncListStatus()
         } else {
@@ -247,6 +265,7 @@ class EditMangaFragment(
         DateUtils.getLocalDateFromDateString(myListStatus?.endDate)?.let {
             binding.endDateField.setText(DateUtils.formatLocalDateToString(it))
         }
+        binding.rereadField.setText(myListStatus?.numTimesReread.toString())
     }
 
 }
