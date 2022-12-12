@@ -262,9 +262,9 @@
     <string name="english">الإنجليزية</string>
     <string name="ukrainian">الأوكرانية</string>
     <string name="language">اللغة</string>
-    <string name="sort_start_date">Start date</string>
-    <string name="japanese">Japanese</string>
-    <string name="chinese_traditional">Chinese (Traditional)</string>
+    <string name="sort_start_date">تاريخ البث</string>
+    <string name="japanese">اليابانية</string>
+    <string name="chinese_traditional">الصينية (التقليدية)</string>
     <string name="select_date">Select date</string>
     <string name="total_rereads">Total Rereads</string>
     <string name="total_rewatches">Total Rewatches</string>
