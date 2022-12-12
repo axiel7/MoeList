@@ -79,11 +79,11 @@
     <string name="manga">マンガ</string>
     <string name="anime">アニメ</string>
     <string name="one_shot">ワンショット</string>
-    <string name="manhwa">Manhwa</string>
+    <string name="manhwa">韓国の漫画</string>
     <string name="novel">小説</string>
     <string name="airing">配信中</string>
     <string name="finished">終了</string>
-    <string name="on_hiatus">On Hiatus</string>
+    <string name="on_hiatus">中断</string>
     <string name="winter">冬</string>
     <string name="spring">春</string>
     <string name="summer">夏</string>
@@ -93,16 +93,16 @@
     <string name="visual_novel">ビジュアルノベル</string>
     <string name="game">ゲーム</string>
     <string name="web_manga">Web漫画</string>
-    <string name="score_apalling">1 Appalling</string>
-    <string name="score_horrible">2 Horrible</string>
-    <string name="score_very_bad">3 Very Bad</string>
-    <string name="score_bad">4 Bad</string>
-    <string name="score_average">5 Average</string>
-    <string name="score_fine">6 Fine</string>
-    <string name="score_good">7 Good</string>
-    <string name="score_very_good">8 Very Good</string>
-    <string name="score_great">9 Great</string>
-    <string name="score_masterpiece">10 Masterpiece</string>
+    <string name="score_apalling">1 恐ろしい</string>
+    <string name="score_horrible">2 ひどい</string>
+    <string name="score_very_bad">3 とても悪い</string>
+    <string name="score_bad">4 悪い</string>
+    <string name="score_average">5 普通</string>
+    <string name="score_fine">6 そこそこ</string>
+    <string name="score_good">7 良い</string>
+    <string name="score_very_good">8 とても良い</string>
+    <string name="score_great">9 素晴らしい</string>
+    <string name="score_masterpiece">10 傑作</string>
     <string name="monday">月曜日</string>
     <string name="tuesday">火曜日</string>
     <string name="wednesday">水曜日</string>
@@ -121,7 +121,7 @@
     <string name="theme">テーマ</string>
     <string name="show_nsfw">NSFW コンテンツを表示する</string>
     <string name="nsfw_summary">私は18歳以上だと確認します。</string>
-    <string name="default_section">Default section</string>
+    <string name="default_section">デフォルトセクション</string>
     <string name="display">ディスプレー</string>
     <string name="startup">スタートアップ</string>
     <string name="account">アカウント</string>
@@ -225,8 +225,8 @@
     <string name="adaptation" tools:ignore="MissingTranslation" tools:keep="@string/adaptation">アダプテーション</string>
     <string name="open_source_licenses" tools:ignore="MissingTranslation">オープンソース ライセンス</string>
     <string name="filters" tools:ignore="MissingTranslation">フィルター</string>
-    <string name="date_format" tools:ignore="MissingTranslation">Date format</string>
-    <string name="manhua">Manhua</string>
+    <string name="date_format" tools:ignore="MissingTranslation">日付の形式</string>
+    <string name="manhua">韓国の漫画</string>
     <string name="discontinued">中止</string>
     <string name="opening">オープニング</string>
     <string name="ending">エンディング</string>
@@ -251,9 +251,9 @@
     <string name="mal_announcements">MyAnimeList お知らせ</string>
     <string name="about">について</string>
     <string name="mal_announcements_summary">MALの更新、変更、および追加。</string>
-    <string name="news_summary">Latest information about the industry.</string>
+    <string name="news_summary">業界の最新情報。</string>
     <string name="more">もっと</string>
-    <string name="something_went_wrong">Something went wrong \n (；ﾟДﾟ)</string>
+    <string name="something_went_wrong">エラーが発生しました\n (；ﾟДﾟ)</string>
     <string name="upcoming">予定</string>
     <string name="favorite">お気に入り</string>
     <string name="use_external_browser">外部ブラウザーを使用する</string>
@@ -265,7 +265,7 @@
     <string name="sort_start_date">開始日</string>
     <string name="japanese">日本語</string>
     <string name="chinese_traditional">中国語（繁体字）</string>
-    <string name="select_date">Select date</string>
-    <string name="total_rereads">Total Rereads</string>
-    <string name="total_rewatches">Total Rewatches</string>
+    <string name="select_date">日付を選択</string>
+    <string name="total_rereads">合計再販数</string>
+    <string name="total_rewatches">合計再視聴数</string>
 </resources>
