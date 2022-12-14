@@ -63,7 +63,10 @@ class AnimeListFragment : BaseFragment<FragmentListBinding>() {
                 EditAnimeFragment(
                     item.listStatus,
                     item.node.id,
-                    item.node.numEpisodes ?: 0
+                    item.node.numEpisodes ?: 0,
+                    onUpdate = { listStatus ->
+                        listStatus?.let { item.listStatus = it }
+                    }
                 ).show(parentFragmentManager, "Edit")
             },
             onPlusButtonClick = { _, item, _ ->
