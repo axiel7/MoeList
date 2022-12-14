@@ -49,7 +49,7 @@ data class MangaDetails(
     @SerialName("genres")
     val genres: List<Genre>? = null,
     @SerialName("my_list_status")
-    val myListStatus: MyMangaListStatus? = null,
+    var myListStatus: MyMangaListStatus? = null,
     @SerialName("num_volumes")
     val numVolumes: Int? = null,
     @SerialName("num_chapters")

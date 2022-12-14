@@ -45,7 +45,7 @@ data class AnimeDetails(
     @SerialName("genres")
     val genres: List<Genre>? = null,
     @SerialName("my_list_status")
-    val myListStatus: MyAnimeListStatus? = null,
+    var myListStatus: MyAnimeListStatus? = null,
     @SerialName("num_episodes")
     val numEpisodes: Int? = null,
     @SerialName("start_season")

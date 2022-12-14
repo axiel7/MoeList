@@ -190,7 +190,10 @@ class AnimeDetailsFragment : BaseFragment<FragmentDetailsBinding>() {
         bottomSheetDialog = EditAnimeFragment(
             myListStatus = animeDetails.myListStatus,
             animeId = animeDetails.id,
-            numEpisodes = animeDetails.numEpisodes ?: 0
+            numEpisodes = animeDetails.numEpisodes ?: 0,
+            onUpdate = { listStatus ->
+                listStatus?.let { animeDetails.myListStatus = it }
+            }
         )
 
         // Change FAB if entry not added

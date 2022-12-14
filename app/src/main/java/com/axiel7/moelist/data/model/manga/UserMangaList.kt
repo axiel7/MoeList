@@ -11,7 +11,7 @@ data class UserMangaList(
     @SerialName("node") @PrimaryKey
     val node: MangaNode,
     @SerialName("list_status")
-    val listStatus: MyMangaListStatus? = null,
+    var listStatus: MyMangaListStatus? = null,
     @SerialName("status")
     var status: String? = null
 )

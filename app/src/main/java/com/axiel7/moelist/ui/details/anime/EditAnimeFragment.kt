@@ -24,14 +24,15 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.flow.collectLatest
 
 class EditAnimeFragment(
-    private val myListStatus: MyAnimeListStatus?,
+    private var myListStatus: MyAnimeListStatus?,
     private val animeId: Int,
-    private val numEpisodes: Int
+    private val numEpisodes: Int,
+    private val onUpdate: (MyAnimeListStatus?) -> Unit,
 ) : BaseBottomSheetDialogFragment<BottomSheetEditAnimeBinding>() {
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> BottomSheetEditAnimeBinding
         get() = BottomSheetEditAnimeBinding::inflate
-    private val viewModel: AnimeListViewModel by viewModels()
+    private val viewModel: AnimeListViewModel by viewModels ({requireParentFragment()})
     private val statusItems: Array<String> by lazy {
         arrayOf(getString(R.string.watching),
             getString(R.string.completed),
@@ -73,7 +74,11 @@ class EditAnimeFragment(
                     if (!it.first!!.error.isNullOrEmpty() || !it.first!!.message.isNullOrEmpty()) {
                         showToast("${it.first!!.error}: ${it.first!!.message}")
                     }
-                    else dismiss()
+                    else {
+                        myListStatus = it.first
+                        onUpdate(it.first)
+                        dismiss()
+                    }
                     viewModel.consumeUpdateResponse()
                 }
                 else if (it.second == "Error") {

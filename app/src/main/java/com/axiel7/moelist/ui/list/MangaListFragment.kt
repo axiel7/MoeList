@@ -64,7 +64,10 @@ class MangaListFragment : BaseFragment<FragmentListBinding>() {
                     item.listStatus,
                     item.node.id,
                     item.node.numChapters ?: 0,
-                    item.node.numVolumes ?: 0
+                    item.node.numVolumes ?: 0,
+                    onUpdate = { listStatus ->
+                        listStatus?.let { item.listStatus = it }
+                    }
                 ).show(parentFragmentManager, "Edit")
             },
             onPlusButtonClick = { _, item, _ ->

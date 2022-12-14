@@ -192,7 +192,10 @@ class MangaDetailsFragment : BaseFragment<FragmentDetailsBinding>() {
             mangaDetails.myListStatus,
             mangaDetails.id,
             mangaDetails.numChapters ?: 0,
-            mangaDetails.numVolumes ?: 0
+            mangaDetails.numVolumes ?: 0,
+            onUpdate = { listStatus ->
+                listStatus?.let { mangaDetails.myListStatus = it }
+            }
         )
 
         // Change FAB if entry not added

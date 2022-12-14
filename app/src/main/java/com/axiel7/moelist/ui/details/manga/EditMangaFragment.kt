@@ -24,15 +24,16 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.flow.collectLatest
 
 class EditMangaFragment(
-    private val myListStatus: MyMangaListStatus?,
+    private var myListStatus: MyMangaListStatus?,
     private val mangaId: Int,
     private val numChapters: Int,
-    private val numVolumes: Int
+    private val numVolumes: Int,
+    private val onUpdate: (MyMangaListStatus?) -> Unit,
 ) : BaseBottomSheetDialogFragment<BottomSheetEditMangaBinding>() {
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> BottomSheetEditMangaBinding
         get() = BottomSheetEditMangaBinding::inflate
-    private val viewModel: MangaListViewModel by viewModels()
+    private val viewModel: MangaListViewModel by viewModels ({requireParentFragment()})
     private val statusItems: Array<String> by lazy {
         arrayOf(getString(R.string.reading),
             getString(R.string.completed),
@@ -75,7 +76,11 @@ class EditMangaFragment(
                     if (!it.first!!.error.isNullOrEmpty() || !it.first!!.message.isNullOrEmpty()) {
                         showToast("${it.first!!.error}: ${it.first!!.message}")
                     }
-                    else dismiss()
+                    else {
+                        myListStatus = it.first
+                        onUpdate(it.first)
+                        dismiss()
+                    }
                     viewModel.consumeUpdateResponse()
                 }
                 else if (it.second == "Error") {
