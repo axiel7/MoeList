@@ -11,7 +11,7 @@ data class UserAnimeList(
     @SerialName("node") @PrimaryKey
     val node: AnimeNode,
     @SerialName("list_status")
-    val listStatus: MyAnimeListStatus? = null,
+    var listStatus: MyAnimeListStatus? = null,
     @SerialName("status")
     var status: String? = null
 )

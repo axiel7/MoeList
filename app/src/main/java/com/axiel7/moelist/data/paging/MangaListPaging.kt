@@ -14,7 +14,11 @@ class MangaListPaging(
     override suspend fun load(params: LoadParams<String>): LoadResult<String, MangaList> {
         return try {
             val nextPage = params.key
-            val response = if (nextPage==null) {
+            val response = if (nextPage == null) {
+                api.getMangaList(apiParams)
+            } else if (apiParams.resetPage) {
+                apiParams.offset = 0
+                apiParams.resetPage = false
                 api.getMangaList(apiParams)
             } else {
                 api.getMangaList(nextPage)

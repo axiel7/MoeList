@@ -68,6 +68,10 @@ class AnimeListViewModel : ViewModel() {
         animeListFlow = createAnimeListFlow()
     }
 
+    fun resetAnimeListPage() {
+        params.value.resetPage = true
+    }
+
     private val _updateResponse = MutableStateFlow<Pair<MyAnimeListStatus?, String>>(null to RESPONSE_NONE)
     val updateResponse: StateFlow<Pair<MyAnimeListStatus?, String>> = _updateResponse
 
@@ -75,10 +79,13 @@ class AnimeListViewModel : ViewModel() {
         animeId: Int,
         status: String? = null,
         score: Int? = null,
-        watchedEpisodes: Int? = null
+        watchedEpisodes: Int? = null,
+        startDate: String? = null,
+        endDate: String? = null,
+        numRewatches: Int? = null,
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            val call = async { App.api.updateUserAnimeList(animeId, status, score, watchedEpisodes) }
+            val call = async { App.api.updateUserAnimeList(animeId, status, score, watchedEpisodes, startDate, endDate, numRewatches) }
             val result = try {
                 call.await()
             } catch (e: Exception) {
@@ -87,6 +94,10 @@ class AnimeListViewModel : ViewModel() {
             if (result != null) _updateResponse.value = result to RESPONSE_OK
             else _updateResponse.value = null to RESPONSE_ERROR
         }
+    }
+
+    fun consumeUpdateResponse() {
+        _updateResponse.value = null to RESPONSE_NONE
     }
 
     private val _deleteResponse = MutableStateFlow<Pair<HttpResponse?, String>>(null to RESPONSE_NONE)
@@ -124,6 +135,6 @@ class AnimeListViewModel : ViewModel() {
     }
 
     companion object {
-        private const val FIELDS = "list_status,num_episodes,media_type,status"
+        private const val FIELDS = "list_status{num_times_rewatched},num_episodes,media_type,status"
     }
 }

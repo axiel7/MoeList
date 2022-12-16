@@ -118,6 +118,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     fun search(query: String) {
         if (query.isNotBlank() && query != viewModel.query.value) {
             viewModel.setQuery(query)
+            viewModel.resetSearchPage()
             when (searchType) {
                 0 -> searchAnimeAdapter.refresh()
                 1 -> searchMangaAdapter.refresh()

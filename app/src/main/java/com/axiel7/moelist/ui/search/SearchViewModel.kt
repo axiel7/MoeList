@@ -50,6 +50,10 @@ class SearchViewModel : ViewModel() {
     }.flow
         .cachedIn(viewModelScope)
 
+    fun resetSearchPage() {
+        params.value.resetPage = true
+    }
+
     companion object {
         private const val FIELDS = "id,title,main_picture,mean,media_type,num_episodes,num_chapters,start_season"
     }

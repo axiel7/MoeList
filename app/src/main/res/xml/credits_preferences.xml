@@ -69,7 +69,7 @@
 
         <Preference
             app:key="japanese_translation"
-            app:summary="\@axiel7, \@watashibeme"
+            app:summary="\@axiel7, \@Ulong32, \@watashibeme"
             app:title="@string/japanese"/>
 
         <Preference

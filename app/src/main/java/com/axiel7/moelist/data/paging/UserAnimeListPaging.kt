@@ -14,7 +14,11 @@ class UserAnimeListPaging(
     override suspend fun load(params: LoadParams<String>): LoadResult<String, UserAnimeList> {
         return try {
             val nextPage = params.key
-            val response = if (nextPage==null) {
+            val response = if (nextPage == null) {
+                api.getUserAnimeList(apiParams)
+            } else if (apiParams.resetPage) {
+                apiParams.offset = 0
+                apiParams.resetPage = false
                 api.getUserAnimeList(apiParams)
             } else {
                 api.getUserAnimeList(nextPage)

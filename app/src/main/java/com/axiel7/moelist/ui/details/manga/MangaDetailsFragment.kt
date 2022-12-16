@@ -192,7 +192,10 @@ class MangaDetailsFragment : BaseFragment<FragmentDetailsBinding>() {
             mangaDetails.myListStatus,
             mangaDetails.id,
             mangaDetails.numChapters ?: 0,
-            mangaDetails.numVolumes ?: 0
+            mangaDetails.numVolumes ?: 0,
+            onUpdate = { listStatus ->
+                listStatus?.let { mangaDetails.myListStatus = it }
+            }
         )
 
         // Change FAB if entry not added
@@ -294,9 +297,11 @@ class MangaDetailsFragment : BaseFragment<FragmentDetailsBinding>() {
                 try {
                     translator.translate(binding.synopsis.text as String)
                         .addOnSuccessListener { translatedText ->
-                            binding.loadingTranslate.hide()
-                            binding.translateButton.text = resources.getString(R.string.translate_original)
-                            binding.synopsis.text = translatedText
+                            if (isAdded) {
+                                binding.loadingTranslate.hide()
+                                binding.translateButton.text = resources.getString(R.string.translate_original)
+                                binding.synopsis.text = translatedText
+                            }
                         }
                         .addOnFailureListener { exception ->
                             showSnackbar(exception.localizedMessage)

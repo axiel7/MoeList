@@ -190,7 +190,10 @@ class AnimeDetailsFragment : BaseFragment<FragmentDetailsBinding>() {
         bottomSheetDialog = EditAnimeFragment(
             myListStatus = animeDetails.myListStatus,
             animeId = animeDetails.id,
-            numEpisodes = animeDetails.numEpisodes ?: 0
+            numEpisodes = animeDetails.numEpisodes ?: 0,
+            onUpdate = { listStatus ->
+                listStatus?.let { animeDetails.myListStatus = it }
+            }
         )
 
         // Change FAB if entry not added
@@ -309,9 +312,11 @@ class AnimeDetailsFragment : BaseFragment<FragmentDetailsBinding>() {
                 try {
                     translator.translate(binding.synopsis.text as String)
                         .addOnSuccessListener { translatedText ->
-                            binding.loadingTranslate.hide()
-                            binding.translateButton.text = resources.getString(R.string.translate_original)
-                            binding.synopsis.text = translatedText
+                            if (isAdded) {
+                                binding.loadingTranslate.hide()
+                                binding.translateButton.text = resources.getString(R.string.translate_original)
+                                binding.synopsis.text = translatedText
+                            }
                         }
                         .addOnFailureListener { exception ->
                             showSnackbar(exception.localizedMessage)

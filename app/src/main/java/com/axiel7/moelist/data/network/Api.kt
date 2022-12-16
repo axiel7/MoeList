@@ -105,18 +105,24 @@ class Api(private val client: HttpClient) {
 
     suspend fun getUserAnimeList(url: String) : Response<List<UserAnimeList>> = client.get(url).body()
 
-    //TODO (implement: is_rewatching, priority, num_times_rewatched, rewatch_value, tags, comments)
+    //TODO (implement: is_rewatching, priority, rewatch_value, tags, comments)
     suspend fun updateUserAnimeList(
         animeId: Int,
         status: String?,
         score: Int?,
         watchedEpisodes: Int?,
+        startDate: String?,
+        endDate: String?,
+        numRewatches: Int?,
     ): MyAnimeListStatus = client.request("${MAL_API_URL}anime/$animeId/my_list_status") {
         method = HttpMethod.Patch
         setBody(FormDataContent(Parameters.build {
-            if (status != null) append("status", status)
-            if (score != null) append("score", score.toString())
-            if (watchedEpisodes != null) append("num_watched_episodes", watchedEpisodes.toString())
+            status?.let { append("status", it) }
+            score?.let { append("score", it.toString()) }
+            watchedEpisodes?.let { append("num_watched_episodes", it.toString()) }
+            startDate?.let { append("start_date", it) }
+            endDate?.let { append("end_date", it) }
+            numRewatches?.let { append("num_times_rewatched", it.toString()) }
         }))
     }.body()
 
@@ -168,20 +174,26 @@ class Api(private val client: HttpClient) {
 
     suspend fun getUserMangaList(url: String) : Response<List<UserMangaList>> = client.get(url).body()
 
-    //TODO (implement: is_rereading, priority, num_times_reread, reread_value, tags, comments)
+    //TODO (implement: is_rereading, priority, reread_value, tags, comments)
     suspend fun updateUserMangaList(
         mangaId: Int,
         status: String?,
         score: Int?,
         chaptersRead: Int?,
-        volumesRead: Int?
+        volumesRead: Int?,
+        startDate: String?,
+        endDate: String?,
+        numRereads: Int?,
     ): MyMangaListStatus = client.request("${MAL_API_URL}manga/$mangaId/my_list_status") {
         method = HttpMethod.Patch
         setBody(FormDataContent(Parameters.build {
-            if (status != null) append("status", status)
-            if (score != null) append("score", score.toString())
-            if (chaptersRead != null) append("num_chapters_read", chaptersRead.toString())
-            if (volumesRead != null) append("num_volumes_read", volumesRead.toString())
+            status?.let { append("status", it) }
+            score?.let { append("score", it.toString()) }
+            chaptersRead?.let { append("num_chapters_read", it.toString()) }
+            volumesRead?.let { append("num_volumes_read", it.toString()) }
+            startDate?.let { append("start_date", it) }
+            endDate?.let { append("end_date", it) }
+            numRereads?.let { append("num_times_reread", it.toString()) }
         }))
     }.body()
 

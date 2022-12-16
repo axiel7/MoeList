@@ -63,7 +63,10 @@ class AnimeListFragment : BaseFragment<FragmentListBinding>() {
                 EditAnimeFragment(
                     item.listStatus,
                     item.node.id,
-                    item.node.numEpisodes ?: 0
+                    item.node.numEpisodes ?: 0,
+                    onUpdate = { listStatus ->
+                        listStatus?.let { item.listStatus = it }
+                    }
                 ).show(parentFragmentManager, "Edit")
             },
             onPlusButtonClick = { _, item, _ ->
@@ -85,7 +88,10 @@ class AnimeListFragment : BaseFragment<FragmentListBinding>() {
             }
         )
 
-        binding.loading.setOnRefreshListener { adapter.refresh() }
+        binding.loading.setOnRefreshListener {
+            viewModel.resetAnimeListPage()
+            adapter.refresh()
+        }
 
         launchLifecycleStarted {
             viewModel.animeListFlow.collectLatest {
@@ -109,6 +115,7 @@ class AnimeListFragment : BaseFragment<FragmentListBinding>() {
                         showSnackbar("${it.first!!.error}: ${it.first!!.message}")
                     }
                     else {
+                        viewModel.resetAnimeListPage()
                         adapter.refresh()
                     }
                 }

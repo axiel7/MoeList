@@ -64,7 +64,10 @@ class MangaListFragment : BaseFragment<FragmentListBinding>() {
                     item.listStatus,
                     item.node.id,
                     item.node.numChapters ?: 0,
-                    item.node.numVolumes ?: 0
+                    item.node.numVolumes ?: 0,
+                    onUpdate = { listStatus ->
+                        listStatus?.let { item.listStatus = it }
+                    }
                 ).show(parentFragmentManager, "Edit")
             },
             onPlusButtonClick = { _, item, _ ->
@@ -86,7 +89,10 @@ class MangaListFragment : BaseFragment<FragmentListBinding>() {
             }
         )
 
-        binding.loading.setOnRefreshListener { adapter.refresh() }
+        binding.loading.setOnRefreshListener {
+            viewModel.resetMangaListPage()
+            adapter.refresh()
+        }
 
         launchLifecycleStarted {
             viewModel.mangaListFlow.collectLatest {
@@ -110,6 +116,7 @@ class MangaListFragment : BaseFragment<FragmentListBinding>() {
                         showSnackbar("${it.first!!.error}: ${it.first!!.message}")
                     }
                     else {
+                        viewModel.resetMangaListPage()
                         adapter.refresh()
                     }
                 }

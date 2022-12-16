@@ -66,6 +66,10 @@ class MangaListViewModel : ViewModel() {
         mangaListFlow = createMangaListFlow()
     }
 
+    fun resetMangaListPage() {
+        params.value.resetPage = true
+    }
+
     private val _updateResponse = MutableStateFlow<Pair<MyMangaListStatus?, String>>(null to RESPONSE_NONE)
     val updateResponse: StateFlow<Pair<MyMangaListStatus?, String>> = _updateResponse
 
@@ -74,17 +78,24 @@ class MangaListViewModel : ViewModel() {
         status: String? = null,
         score: Int? = null,
         chaptersRead: Int? = null,
-        volumesRead: Int? = null
+        volumesRead: Int? = null,
+        startDate: String? = null,
+        endDate: String? = null,
+        numRereads: Int? = null,
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             val result = try {
-                App.api.updateUserMangaList(mangaId, status, score, chaptersRead, volumesRead)
+                App.api.updateUserMangaList(mangaId, status, score, chaptersRead, volumesRead, startDate, endDate, numRereads)
             } catch (e: Exception) {
                 null
             }
             if (result != null) _updateResponse.value = result to RESPONSE_OK
             else _updateResponse.value = null to RESPONSE_ERROR
         }
+    }
+
+    fun consumeUpdateResponse() {
+        _updateResponse.value = null to RESPONSE_NONE
     }
 
     fun deleteEntry(mangaId: Int) {
@@ -113,6 +124,6 @@ class MangaListViewModel : ViewModel() {
     }
 
     companion object {
-        private const val FIELDS = "list_status,num_chapters,media_type,status"
+        private const val FIELDS = "list_status{num_times_reread},num_chapters,media_type,status"
     }
 }
