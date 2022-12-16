@@ -263,9 +263,9 @@
     <string name="ukrainian">Українська</string>
     <string name="language">Мова</string>
     <string name="sort_start_date">Дата початку</string>
-    <string name="japanese">Japanese</string>
-    <string name="chinese_traditional">Chinese (Traditional)</string>
-    <string name="select_date">Select date</string>
+    <string name="japanese">Японська</string>
+    <string name="chinese_traditional">Китайська (традиційна)</string>
+    <string name="select_date">Оберіть дату</string>
     <string name="total_rereads">Total Rereads</string>
     <string name="total_rewatches">Total Rewatches</string>
 </resources>

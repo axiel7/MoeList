@@ -265,7 +265,7 @@
     <string name="sort_start_date">Fecha de inicio</string>
     <string name="japanese">Japonés</string>
     <string name="chinese_traditional">Chino (Tradicional)</string>
-    <string name="select_date">Select date</string>
-    <string name="total_rereads">Total Rereads</string>
-    <string name="total_rewatches">Total Rewatches</string>
+    <string name="select_date">Seleccionar fecha</string>
+    <string name="total_rereads">Total de relecturas</string>
+    <string name="total_rewatches">Total de vuelto a ver</string>
 </resources>
