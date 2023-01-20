@@ -9,6 +9,7 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.base.BaseAdapter
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.databinding.ListItemAnimeTodayBinding
+import com.axiel7.moelist.utils.Extensions.toStringOrNull
 import com.axiel7.moelist.utils.SeasonCalendar
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -25,7 +26,8 @@ class AiringAnimeAdapter(
     override fun loadData(holder: ViewHolder, position: Int, item: AnimeSeasonal) {
         holder.binding.poster.load(item.node.mainPicture?.medium)
         holder.binding.title.text = item.node.title
-        holder.binding.score.text = "${context.getString(R.string.score_value)} ${item.node.mean}"
+        val score = item.node.mean.toStringOrNull() ?: context.getString(R.string.unknown)
+        holder.binding.score.text = "${context.getString(R.string.score_value)} $score"
 
         val startTime = item.node.broadcast?.startTime
         val weekDay = item.node.broadcast?.dayOfTheWeek
