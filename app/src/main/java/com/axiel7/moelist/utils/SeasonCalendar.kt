@@ -1,5 +1,6 @@
 package com.axiel7.moelist.utils
 
+import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.Season
 import java.util.*
 
@@ -17,13 +18,13 @@ object SeasonCalendar {
 
     val currentYear = calendar.get(Calendar.YEAR)
 
-    val currentSeason: Season get() {
+    val currentSeason: Season by lazy {
         val isWinter = winterMonths.contains(month)
         val isSpring = springMonths.contains(month)
         val isSummer = summerMonths.contains(month)
         val isFall = fallMonths.contains(month)
 
-        return when {
+        when {
             isSpring -> Season.SPRING
             isSummer -> Season.SUMMER
             isWinter -> Season.WINTER
@@ -58,4 +59,10 @@ object SeasonCalendar {
         else -> Constants.MONDAY
     }
 
+    val seasonIcon = when (currentSeason) {
+        Season.WINTER -> R.drawable.ic_winter_24
+        Season.SPRING -> R.drawable.ic_spring_24
+        Season.SUMMER -> R.drawable.ic_summer_24
+        Season.FALL -> R.drawable.ic_fall_24
+    }
 }

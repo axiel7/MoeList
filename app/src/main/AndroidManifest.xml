@@ -77,6 +77,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".uicompose.MainActivity"
+            android:exported="true"
+            android:label="Compose"/>
+
         <service
             android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
             android:enabled="false"

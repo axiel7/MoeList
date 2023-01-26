@@ -50,6 +50,9 @@ class App : Application(), ImageLoaderFactory {
         val sendAnalytics: Boolean
         get() = SharedPrefsHelpers.instance?.getBoolean("send_analytics", true) ?: true
 
+        val nsfw: Boolean
+        get() = SharedPrefsHelpers.instance?.getBoolean("nsfw", false) ?: false
+
         lateinit var animeDb: AnimeDatabase
         private lateinit var ktorClient: HttpClient
         lateinit var api: Api
