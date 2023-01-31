@@ -3,13 +3,14 @@ package com.axiel7.moelist.data.repository
 import com.axiel7.moelist.App
 import com.axiel7.moelist.data.model.ApiParams
 import com.axiel7.moelist.data.model.Response
+import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.anime.AnimeList
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
+import com.axiel7.moelist.data.model.manga.MangaDetails
 
 object AnimeRepository {
 
-    //TODAY
-    const val FIELDS_TODAY = "broadcast,mean,start_season,status"
+    const val TODAY_FIELDS = "broadcast,mean,start_season,status"
 
     suspend fun getSeasonalAnimes(
         apiParams: ApiParams,
@@ -40,4 +41,22 @@ object AnimeRepository {
             null
         }
     }
+
+    const val ANIME_DETAILS_FIELDS = "id,title,main_picture,alternative_titles,start_date,end_date," +
+            "synopsis,mean,rank,popularity,num_list_users,num_scoring_users,media_type,status,genres," +
+            "my_list_status{num_times_rewatched},num_episodes,start_season,broadcast,source," +
+            "average_episode_duration,studios,opening_themes,ending_themes,related_anime{media_type}," +
+            "related_manga{media_type}"
+
+    suspend fun getAnimeDetails(
+        animeId: Int
+    ): AnimeDetails? {
+        return try {
+            //App.animeDb.animeDetailsDao().getAnimeDetailsById(animeId)?.let { return it }
+            App.api.getAnimeDetails(animeId, ANIME_DETAILS_FIELDS)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
 }

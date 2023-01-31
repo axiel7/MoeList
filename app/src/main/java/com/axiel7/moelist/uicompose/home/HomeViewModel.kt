@@ -32,7 +32,7 @@ class HomeViewModel: BaseViewModel() {
     private val paramsToday = ApiParams(
         sort = Constants.SORT_ANIME_SCORE,
         nsfw = nsfw,
-        fields = AnimeRepository.FIELDS_TODAY,
+        fields = AnimeRepository.TODAY_FIELDS,
         limit = 500
     )
     var todayAnimes by mutableStateOf(listOf<AnimeSeasonal>())

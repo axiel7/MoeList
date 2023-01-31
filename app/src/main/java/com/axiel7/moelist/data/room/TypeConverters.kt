@@ -4,6 +4,7 @@ import androidx.room.TypeConverter
 import com.axiel7.moelist.data.model.*
 import com.axiel7.moelist.data.model.anime.*
 import com.axiel7.moelist.data.model.manga.*
+import com.axiel7.moelist.data.model.media.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json

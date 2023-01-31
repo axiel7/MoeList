@@ -3,8 +3,8 @@ package com.axiel7.moelist.ui.details.anime
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.axiel7.moelist.App
-import com.axiel7.moelist.data.model.Related
 import com.axiel7.moelist.data.model.anime.AnimeDetails
+import com.axiel7.moelist.data.model.media.Related
 import com.axiel7.moelist.utils.Constants.ERROR_SERVER
 import com.axiel7.moelist.utils.Constants.RESPONSE_ERROR
 import com.axiel7.moelist.utils.Constants.RESPONSE_NONE

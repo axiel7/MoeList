@@ -11,8 +11,8 @@ import androidx.fragment.app.viewModels
 import coil.load
 import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.RelatedsAdapter
-import com.axiel7.moelist.data.model.isManga
 import com.axiel7.moelist.data.model.manga.MangaDetails
+import com.axiel7.moelist.data.model.media.isManga
 import com.axiel7.moelist.databinding.FragmentDetailsBinding
 import com.axiel7.moelist.ui.base.BaseFragment
 import com.axiel7.moelist.ui.main.MainViewModel

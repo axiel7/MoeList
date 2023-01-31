@@ -12,7 +12,7 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.AiringAnimeAdapter
 import com.axiel7.moelist.adapter.CurrentSeasonalAdapter
 import com.axiel7.moelist.adapter.RecommendationsAdapter
-import com.axiel7.moelist.data.model.Season
+import com.axiel7.moelist.data.model.anime.Season
 import com.axiel7.moelist.databinding.FragmentHomeBinding
 import com.axiel7.moelist.ui.base.BaseFragment
 import com.axiel7.moelist.ui.main.MainViewModel

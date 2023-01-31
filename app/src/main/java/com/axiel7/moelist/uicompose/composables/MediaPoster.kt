@@ -16,23 +16,29 @@ import com.axiel7.moelist.uicompose.theme.placeholder_color
 const val MEDIA_POSTER_SMALL_HEIGHT = 140
 const val MEDIA_POSTER_SMALL_WIDTH = 100
 
+const val MEDIA_POSTER_BIG_HEIGHT = 213
+const val MEDIA_POSTER_BIG_WIDTH = 150
+
 @Composable
-fun MediaPosterSmall(url: String?) {
+fun MediaPoster(url: String?, modifier: Modifier) {
     AsyncImage(
         model = url,
         contentDescription = "poster",
         placeholder = ColorPainter(placeholder_color),
         contentScale = ContentScale.FillBounds,
-        modifier = Modifier
+        modifier = modifier
             .clip(RoundedCornerShape(8.dp))
-            .size(width = MEDIA_POSTER_SMALL_WIDTH.dp, height = MEDIA_POSTER_SMALL_HEIGHT.dp)
     )
 }
 
 @Preview
 @Composable
-fun MediaPosterSmallPreview() {
+fun MediaPosterPreview() {
     MoeListTheme {
-        MediaPosterSmall("https://cdn.myanimelist.net/images/anime/1170/124312l.jpg")
+        MediaPoster(
+            url = "https://cdn.myanimelist.net/images/anime/1170/124312l.jpg",
+            modifier = Modifier
+                .size(width = MEDIA_POSTER_SMALL_WIDTH.dp, height = MEDIA_POSTER_SMALL_HEIGHT.dp)
+        )
     }
 }

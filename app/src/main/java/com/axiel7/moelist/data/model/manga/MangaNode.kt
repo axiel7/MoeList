@@ -1,6 +1,6 @@
 package com.axiel7.moelist.data.model.manga
 
-import com.axiel7.moelist.data.model.MainPicture
+import com.axiel7.moelist.data.model.media.MainPicture
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

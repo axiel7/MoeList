@@ -34,7 +34,10 @@ fun MediaItemVertical(
             .clickable(onClick = onClick),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        MediaPosterSmall(url)
+        MediaPoster(
+            url = url,
+            modifier = Modifier.size(width = MEDIA_POSTER_SMALL_WIDTH.dp, height = MEDIA_POSTER_SMALL_HEIGHT.dp)
+        )
 
         Text(
             text = title,

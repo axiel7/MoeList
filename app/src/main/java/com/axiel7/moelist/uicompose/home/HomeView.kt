@@ -29,10 +29,7 @@ import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.anime.airingInValue
-import com.axiel7.moelist.uicompose.composables.MEDIA_ITEM_VERTICAL_HEIGHT
-import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_SMALL_HEIGHT
-import com.axiel7.moelist.uicompose.composables.MediaItemVertical
-import com.axiel7.moelist.uicompose.composables.MediaPosterSmall
+import com.axiel7.moelist.uicompose.composables.*
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.SeasonCalendar
 
@@ -105,7 +102,9 @@ fun HomeView(
                 .height(MEDIA_POSTER_SMALL_HEIGHT.dp)
         ) {
             items(viewModel.todayAnimes) {
-                AiringAnimeHorizontalItem(it, onClick = { })
+                AiringAnimeHorizontalItem(it, onClick = {
+                    navController.navigate("details/ANIME/${it.node.id}")
+                })
             }
         }
 
@@ -121,7 +120,7 @@ fun HomeView(
                     url = it.node.mainPicture?.large,
                     title = it.node.title,
                     modifier = Modifier.padding(start = 8.dp),
-                    onClick = { }
+                    onClick = { navController.navigate("details/ANIME/${it.node.id}") }
                 )
             }
         }
@@ -138,7 +137,7 @@ fun HomeView(
                     url = it.node.mainPicture?.large,
                     title = it.node.title,
                     modifier = Modifier.padding(start = 8.dp),
-                    onClick = { }
+                    onClick = { navController.navigate("details/ANIME/${it.node.id}") }
                 )
             }
         }
@@ -173,7 +172,6 @@ fun HomeCard(
                 maxLines = 1
             )
         }
-
     }
 }
 
@@ -200,11 +198,14 @@ fun AiringAnimeHorizontalItem(item: AnimeSeasonal, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .padding(start = 16.dp)
-            .sizeIn(maxWidth = 300.dp, minWidth = 200.dp)
+            .sizeIn(maxWidth = 300.dp, minWidth = 250.dp)
             .clip(RoundedCornerShape(8.dp))
             .clickable(onClick = onClick)
     ) {
-        MediaPosterSmall(url = item.node.mainPicture?.large)
+        MediaPoster(
+            url = item.node.mainPicture?.large,
+            modifier = Modifier.size(width = MEDIA_POSTER_SMALL_WIDTH.dp, height = MEDIA_POSTER_SMALL_HEIGHT.dp)
+        )
 
         Column(
             modifier = Modifier.padding(start = 16.dp)

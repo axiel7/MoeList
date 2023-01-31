@@ -13,12 +13,11 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.RelatedsAdapter
 import com.axiel7.moelist.adapter.ThemesAdapter
 import com.axiel7.moelist.data.model.anime.AnimeDetails
-import com.axiel7.moelist.data.model.isManga
+import com.axiel7.moelist.data.model.media.isManga
 import com.axiel7.moelist.databinding.FragmentDetailsBinding
 import com.axiel7.moelist.ui.base.BaseFragment
 import com.axiel7.moelist.ui.main.MainViewModel
 import com.axiel7.moelist.utils.Constants.RESPONSE_ERROR
-import com.axiel7.moelist.utils.Extensions.openCustomTab
 import com.axiel7.moelist.utils.Extensions.openLink
 import com.axiel7.moelist.utils.StringExtensions.formatGenre
 import com.axiel7.moelist.utils.StringExtensions.formatMediaType

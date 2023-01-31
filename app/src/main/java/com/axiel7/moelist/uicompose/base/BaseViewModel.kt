@@ -4,6 +4,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.axiel7.moelist.App
+import com.axiel7.moelist.utils.Extensions.toInt
 
 abstract class BaseViewModel: ViewModel() {
     var showMessage by mutableStateOf(false)
@@ -16,8 +18,8 @@ abstract class BaseViewModel: ViewModel() {
     }
 
     //protected val sharedPrefs: SharedPrefsHelpers? by lazy { SharedPrefsHelpers.instance }
-    protected val nsfw: Int by lazy {
-        //App.nsfw.toInt()
-        0
-    }
+    /*protected val nsfw: Int by lazy {
+        App.nsfw.toInt()
+    }*/
+    protected val  nsfw = 0
 }

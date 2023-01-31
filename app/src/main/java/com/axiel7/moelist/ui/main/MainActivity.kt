@@ -41,6 +41,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             startActivity(intent)
             finish()
             return
+        } else {
+            startActivity(Intent(this, com.axiel7.moelist.uicompose.MainActivity::class.java))
+            finish()
+            return
         }
 
         binding.appbarLayout.mainToolbar.setNavigationOnClickListener { navigate(R.id.action_global_hostSearchFragment) }

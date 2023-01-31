@@ -9,6 +9,7 @@ import com.axiel7.moelist.data.room.AnimeDatabase
 import com.axiel7.moelist.utils.Extensions.changeTheme
 import com.axiel7.moelist.utils.SharedPrefsHelpers
 import io.ktor.client.*
+import java.text.NumberFormat
 
 class App : Application(), ImageLoaderFactory {
 
@@ -56,5 +57,6 @@ class App : Application(), ImageLoaderFactory {
         lateinit var animeDb: AnimeDatabase
         private lateinit var ktorClient: HttpClient
         lateinit var api: Api
+        val numberFormat = NumberFormat.getInstance()
     }
 }

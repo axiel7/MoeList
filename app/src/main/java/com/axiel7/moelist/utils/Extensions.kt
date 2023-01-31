@@ -72,11 +72,16 @@ object Extensions {
             }
     }
 
-    /** Open external link by intent chooser */
+    /** Open external link by default browser or intent chooser */
     fun Context.openLink(url: String) {
         Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
-            setPackage(browserIntentPackageName())
-            startActivity(this)
+            val browser = browserIntentPackageName()
+            if (browser != null) {
+                setPackage(browser)
+                startActivity(this)
+            } else {
+                startActivity(Intent.createChooser(this, getString(R.string.view_on_mal)))
+            }
         }
     }
 
@@ -88,7 +93,7 @@ object Extensions {
             .setData(Uri.fromParts("https", "", null))
 
         val resolveInfos = packageManager.queryIntentActivities(emptyBrowserIntent, 0)
-        return (resolveInfos.find { it.isDefault } ?: resolveInfos.firstOrNull())?.activityInfo?.packageName
+        return (resolveInfos.find { it.isDefault })?.activityInfo?.packageName
     }
 
     /** Aux function with optional values */

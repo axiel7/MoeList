@@ -1,7 +1,7 @@
 package com.axiel7.moelist.utils
 
 import com.axiel7.moelist.R
-import com.axiel7.moelist.data.model.Season
+import com.axiel7.moelist.data.model.anime.Season
 import java.util.*
 
 object SeasonCalendar {

@@ -1,49 +1,52 @@
 package com.axiel7.moelist.data.model.anime
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.*
+import com.axiel7.moelist.data.model.media.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Entity @Serializable
 data class AnimeDetails(
-    @PrimaryKey @SerialName("id")
-    val id: Int = 0,
-    @SerialName("title")
-    val title: String? = null,
+    @PrimaryKey
+    override val id: Int = 0,
+    override val title: String? = null,
     @SerialName("main_picture")
-    val mainPicture: MainPicture? = null,
+    override val mainPicture: MainPicture? = null,
     @SerialName("alternative_titles")
-    val alternativeTitles: AlternativeTitles? = null,
+    override val alternativeTitles: AlternativeTitles? = null,
     @SerialName("start_date")
-    val startDate: String? = null,
+    override val startDate: String? = null,
     @SerialName("end_date")
-    val endDate: String? = null,
-    @SerialName("synopsis")
-    val synopsis: String? = null,
-    @SerialName("mean")
-    val mean: Float? = null,
-    @SerialName("rank")
-    val rank: Int? = null,
-    @SerialName("popularity")
-    val popularity: Int? = null,
+    override val endDate: String? = null,
+    override val synopsis: String? = null,
+    override val mean: Float? = null,
+    override val rank: Int? = null,
+    override val popularity: Int? = null,
     @SerialName("num_list_users")
-    val numListUsers: Int? = null,
+    override val numListUsers: Int? = null,
     @SerialName("num_scoring_users")
-    val numScoringUsers: Int? = null,
-    @SerialName("nsfw")
-    val nsfw: String? = null,
+    override val numScoringUsers: Int? = null,
+    override val nsfw: String? = null,
     @SerialName("created_at")
-    val createdAt: String? = null,
+    override val createdAt: String? = null,
     @SerialName("updated_at")
-    val updatedAt: String? = null,
+    override val updatedAt: String? = null,
     @SerialName("media_type")
-    val mediaType: String? = null,
-    @SerialName("status")
-    val status: String? = null,
-    @SerialName("genres")
-    val genres: List<Genre>? = null,
+    override val mediaType: String? = null,
+    override val status: String? = null,
+    override val genres: List<Genre>? = null,
+    override val pictures: List<MainPicture>? = null,
+    override val background: String? = null,
+    @SerialName("related_anime")
+    override val relatedAnime: List<Related>? = null,
+    @SerialName("related_manga")
+    override val relatedManga: List<Related>? = null,
+    override val recommendations: List<Recommendations>? = null,
     @SerialName("my_list_status")
     var myListStatus: MyAnimeListStatus? = null,
     @SerialName("num_episodes")
@@ -58,16 +61,6 @@ data class AnimeDetails(
     val averageEpisodeDuration: Int? = null,
     @SerialName("rating")
     val rating: String? = null,
-    @SerialName("pictures")
-    val pictures: List<MainPicture>? = null,
-    @SerialName("background")
-    val background: String? = null,
-    @SerialName("related_anime")
-    val relatedAnime: List<Related>? = null,
-    @SerialName("related_manga")
-    val relatedManga: List<Related>? = null,
-    @SerialName("recommendations")
-    val recommendations: List<Recommendations>? = null,
     @SerialName("studios")
     val studios: List<Studio>? = null,
     @SerialName("opening_themes")
@@ -76,10 +69,28 @@ data class AnimeDetails(
     val endingThemes: List<Theme>? = null,
     @SerialName("statistics")
     val statistics: Statistics? = null,
+) : BaseMediaDetails()
 
-    @SerialName("message")
-    val message: String? = null,
-    @SerialName("error")
-    val error: String? = null,
+@Composable
+fun AnimeDetails.sourceLocalized() = when (this.source) {
+    "original" -> stringResource(R.string.original)
+    "manga" -> stringResource(R.string.manga)
+    "light_novel" -> stringResource(R.string.light_novel)
+    "visual_novel" -> stringResource(R.string.visual_novel)
+    "game" -> stringResource(R.string.game)
+    "web_manga" -> stringResource(R.string.web_manga)
+    "music" -> stringResource(R.string.music)
+    "4_koma_manga" -> "4-Koma manga"
+    else -> this.source
+}
 
-    )
+@Composable
+fun AnimeDetails.seasonYearText() = "${startSeason?.season?.seasonLocalized()} ${startSeason?.year}"
+
+@Composable
+fun AnimeDetails.broadcastTimeText() =
+    "${broadcast?.dayOfTheWeek?.weekdayLocalized()} ${broadcast?.startTime} (JST)"
+
+@Composable
+fun AnimeDetails.episodeDurationLocalized() =
+    "${averageEpisodeDuration?.div(60) ?: "??"} ${stringResource(R.string.minutes_abbreviation)}."

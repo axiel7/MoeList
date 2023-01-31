@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import coil.load
 import com.axiel7.moelist.adapter.base.BaseAdapter
-import com.axiel7.moelist.data.model.Related
+import com.axiel7.moelist.data.model.media.Related
 import com.axiel7.moelist.databinding.ListItemAnimeRelatedBinding
 import com.axiel7.moelist.utils.StringExtensions.formatRelation
 
