@@ -30,8 +30,8 @@ import com.axiel7.moelist.data.model.media.*
 import com.axiel7.moelist.uicompose.composables.*
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants
+import com.axiel7.moelist.utils.Extensions.openAction
 import com.axiel7.moelist.utils.Extensions.openLink
-import com.axiel7.moelist.utils.Extensions.toStringOrNull
 import com.google.accompanist.placeholder.material.placeholder
 
 const val MEDIA_DETAILS_DESTINATION = "details/{mediaType}/{mediaId}"
@@ -265,8 +265,20 @@ fun MediaDetailsView(
             //Themes
             if (mediaType == MediaType.ANIME) {
                 InfoTitle(text = stringResource(R.string.opening))
+                viewModel.animeDetails?.openingThemes?.forEach { theme ->
+                    AnimeThemeItem(text = theme.text, onClick = {
+                        context.openAction(Constants.YOUTUBE_QUERY_URL
+                                + viewModel.buildQueryFromThemeText(theme.text))
+                    })
+                }
 
                 InfoTitle(text = stringResource(R.string.ending))
+                viewModel.animeDetails?.endingThemes?.forEach { theme ->
+                    AnimeThemeItem(text = theme.text, onClick = {
+                        context.openAction(Constants.YOUTUBE_QUERY_URL
+                                + viewModel.buildQueryFromThemeText(theme.text))
+                    })
+                }
             }
 
             //Related
@@ -283,18 +295,16 @@ fun MediaDetailsView(
 }
 
 @Composable
-fun AnimeThemesList(themes: List<Theme>) {
-    LazyColumn {
-        items(themes) {
-            Text(
-                text = it.text,
-                modifier = Modifier.clickable {  },
-                color = MaterialTheme.colorScheme.primary,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 1
-            )
-        }
-    }
+fun AnimeThemeItem(text: String, onClick: () -> Unit) {
+    Text(
+        text = text,
+        modifier = Modifier
+            .padding(horizontal = 16.dp, vertical = 4.dp)
+            .clickable(onClick = onClick),
+        color = MaterialTheme.colorScheme.primary,
+        overflow = TextOverflow.Ellipsis,
+        maxLines = 1
+    )
 }
 
 @Composable
@@ -304,7 +314,9 @@ fun MediaInfoView(
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp).then(modifier)
+        modifier = Modifier
+            .padding(horizontal = 16.dp, vertical = 4.dp)
+            .then(modifier)
     ) {
         Text(title,
             modifier = Modifier.weight(1f),

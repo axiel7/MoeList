@@ -59,6 +59,12 @@ object Extensions {
 
     fun Window.hideKeyboard() = WindowInsetsControllerCompat(this, decorView).hide(WindowInsetsCompat.Type.ime())
 
+    fun Context.openAction(uri: String) {
+        Intent(Intent.ACTION_VIEW, Uri.parse(uri)).apply {
+            startActivity(this)
+        }
+    }
+
     /** Open link in Chrome Custom Tabs */
     fun Context.openCustomTab(url: String) {
         val colors = CustomTabColorSchemeParams.Builder()

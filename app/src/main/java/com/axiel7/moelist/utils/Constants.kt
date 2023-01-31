@@ -8,6 +8,7 @@ object Constants {
     const val MOELIST_PAGELINK = "moelist://moelist.page.link/"
     const val ANIME_URL = "https://myanimelist.net/anime/"
     const val MANGA_URL = "https://myanimelist.net/manga/"
+    const val YOUTUBE_QUERY_URL = "https://www.youtube.com/results?search_query="
 
     //List Status
     const val STATUS_ALL = "all"
