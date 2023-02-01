@@ -35,7 +35,7 @@ class HomeViewModel: BaseViewModel() {
         fields = AnimeRepository.TODAY_FIELDS,
         limit = 500
     )
-    var todayAnimes by mutableStateOf(listOf<AnimeSeasonal>())
+    var todayAnimes by mutableStateOf(emptyList<AnimeSeasonal>())
     suspend fun getTodayAiringAnimes() {
         val result = AnimeRepository.getSeasonalAnimes(
             apiParams = paramsToday,
@@ -64,7 +64,7 @@ class HomeViewModel: BaseViewModel() {
         nsfw = nsfw
     )
 
-    var seasonAnimes by mutableStateOf(listOf<AnimeSeasonal>())
+    var seasonAnimes by mutableStateOf(emptyList<AnimeSeasonal>())
     suspend fun getSeasonAnimes() {
         val result = AnimeRepository.getSeasonalAnimes(
             apiParams = paramsSeasonal,
@@ -82,7 +82,7 @@ class HomeViewModel: BaseViewModel() {
         nsfw = nsfw
     )
 
-    var recommendedAnimes by mutableStateOf(listOf<AnimeList>())
+    var recommendedAnimes by mutableStateOf(emptyList<AnimeList>())
     suspend fun getRecommendedAnimes() {
         val result = AnimeRepository.getRecommendedAnimes(paramsRecommended)
         if (result?.data != null) {

@@ -2,12 +2,15 @@ package com.axiel7.moelist.uicompose.details
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.*
 import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,10 +36,12 @@ import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.Extensions.openAction
 import com.axiel7.moelist.utils.Extensions.openLink
 import com.google.accompanist.placeholder.material.placeholder
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 const val MEDIA_DETAILS_DESTINATION = "details/{mediaType}/{mediaId}"
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun MediaDetailsView(
     mediaType: MediaType,
@@ -50,247 +55,334 @@ fun MediaDetailsView(
     val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
     var maxLinesSynopsis by remember { mutableStateOf(5) }
     var iconExpand by remember { mutableStateOf(R.drawable.ic_round_keyboard_arrow_down_24) }
+    val coroutineScope = rememberCoroutineScope()
+    val modalSheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        confirmValueChange = { it != ModalBottomSheetValue.HalfExpanded },
+        skipHalfExpanded = true
+    )
 
-    Scaffold(
-        modifier = Modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
-        topBar = {
-            MediaDetailsTopAppBar(
-                navController = navController,
-                scrollBehavior = topAppBarScrollBehavior,
-                onClickMenu = {
-                    if (mediaType == MediaType.ANIME)
-                        context.openLink(Constants.ANIME_URL + mediaId)
-                    else context.openLink(Constants.MANGA_URL + mediaId)
-                }
+    ModalBottomSheetLayout(
+        sheetContent = {
+            EditSheetContent(
+                coroutineScope = coroutineScope,
+                modalBottomSheetState = modalSheetState,
+                viewModel = viewModel
             )
         },
-        floatingActionButton = {
-            ExtendedFloatingActionButton(onClick = { /*TODO*/ }) {
-                Icon(painter = painterResource(R.drawable.ic_round_edit_24), contentDescription = "edit")
-                Text(
-                    text = stringResource(R.string.edit),
-                    modifier = Modifier.padding(start = 16.dp, end = 8.dp)
-                )
-            }
-        }
+        sheetState = modalSheetState,
+        sheetBackgroundColor = MaterialTheme.colorScheme.background
     ) {
-        Column(
-            modifier = Modifier
-                .verticalScroll(scrollState)
-                .padding(it)
-                .padding(bottom = 64.dp)
-        ) {
-            Row {
-                MediaPoster(
-                    url = viewModel.basicDetails?.mainPicture?.large,
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .size(
-                            width = MEDIA_POSTER_BIG_WIDTH.dp,
-                            height = MEDIA_POSTER_BIG_HEIGHT.dp
-                        )
-                        .placeholder(visible = viewModel.isLoading)
+        Scaffold(
+            modifier = Modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
+            topBar = {
+                MediaDetailsTopAppBar(
+                    navController = navController,
+                    scrollBehavior = topAppBarScrollBehavior,
+                    onClickMenu = {
+                        if (mediaType == MediaType.ANIME)
+                            context.openLink(Constants.ANIME_URL + mediaId)
+                        else context.openLink(Constants.MANGA_URL + mediaId)
+                    }
                 )
-                Column {
+            },
+            floatingActionButton = {
+                ExtendedFloatingActionButton(onClick = {
+                    coroutineScope.launch { modalSheetState.show() }
+                }) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_round_edit_24),
+                        contentDescription = "edit"
+                    )
                     Text(
-                        text = viewModel.basicDetails?.title ?: "Loading",
-                        modifier = Modifier
-                            .padding(vertical = 8.dp)
-                            .placeholder(visible = viewModel.isLoading),
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                    TextIconHorizontal(
-                        text = viewModel.basicDetails?.mediaFormatLocalized() ?: "Loading",
-                        icon = if (mediaType == MediaType.ANIME) R.drawable.ic_round_movie_24
-                            else R.drawable.ic_round_menu_book_24,
-                        modifier = Modifier
-                            .padding(bottom = 4.dp)
-                            .placeholder(visible = viewModel.isLoading)
-                    )
-                    TextIconHorizontal(
-                        text = if (mediaType == MediaType.ANIME)
-                            viewModel.animeDetails?.durationText() ?: "Loading"
-                        else viewModel.mangaDetails?.durationText() ?: "Loading",
-                        icon = R.drawable.ic_round_timer_24,
-                        modifier = Modifier
-                            .padding(bottom = 4.dp)
-                            .placeholder(visible = viewModel.isLoading)
-                    )
-                    TextIconHorizontal(
-                        text = viewModel.basicDetails?.statusLocalized() ?: "Loading",
-                        icon = R.drawable.ic_round_rss_feed_24,
-                        modifier = Modifier
-                            .padding(bottom = 4.dp)
-                            .placeholder(visible = viewModel.isLoading)
-                    )
-                    TextIconHorizontal(
-                        text = viewModel.basicDetails?.mean.toString(),
-                        icon = R.drawable.ic_round_details_star_24,
-                        modifier = Modifier
-                            .padding(bottom = 4.dp)
-                            .placeholder(visible = viewModel.isLoading)
+                        text = stringResource(R.string.edit),
+                        modifier = Modifier.padding(start = 16.dp, end = 8.dp)
                     )
                 }
-            }//:Row
-
-            //Synopsis
-            Text(
-                text = viewModel.basicDetails?.synopsis ?: stringResource(R.string.lorem_ipsun),
-                modifier = Modifier
-                    .padding(8.dp)
-                    .placeholder(visible = viewModel.isLoading),
-                overflow = TextOverflow.Ellipsis,
-                maxLines = maxLinesSynopsis
-            )
-            IconButton(
-                onClick = {
-                    if (maxLinesSynopsis == 5) {
-                        maxLinesSynopsis = Int.MAX_VALUE
-                        iconExpand = R.drawable.ic_round_keyboard_arrow_up_24
-                    } else {
-                        maxLinesSynopsis = 5
-                        iconExpand = R.drawable.ic_round_keyboard_arrow_down_24
-                    }
-                },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Icon(painter = painterResource(iconExpand), contentDescription = "expand")
             }
-
-            //Stats
-            InfoTitle(text = stringResource(R.string.stats))
-            Row(
+        ) {
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-                    .placeholder(visible = viewModel.isLoading),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
+                    .verticalScroll(scrollState)
+                    .padding(it)
+                    .padding(bottom = 64.dp)
             ) {
-                TextIconVertical(
-                    text = viewModel.basicDetails?.rankText() ?: "",
-                    icon = R.drawable.ic_round_bar_chart_24,
-                    modifier = Modifier.clickable {  }
-                )
-                VerticalDivider(modifier = Modifier.height(32.dp))
+                Row {
+                    MediaPoster(
+                        url = viewModel.basicDetails?.mainPicture?.large,
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .size(
+                                width = MEDIA_POSTER_BIG_WIDTH.dp,
+                                height = MEDIA_POSTER_BIG_HEIGHT.dp
+                            )
+                            .placeholder(visible = viewModel.isLoading)
+                    )
+                    Column {
+                        Text(
+                            text = viewModel.basicDetails?.title ?: "Loading",
+                            modifier = Modifier
+                                .padding(vertical = 8.dp)
+                                .placeholder(visible = viewModel.isLoading),
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        TextIconHorizontal(
+                            text = viewModel.basicDetails?.mediaFormatLocalized() ?: "Loading",
+                            icon = if (mediaType == MediaType.ANIME) R.drawable.ic_round_movie_24
+                            else R.drawable.ic_round_menu_book_24,
+                            modifier = Modifier
+                                .padding(bottom = 4.dp)
+                                .placeholder(visible = viewModel.isLoading)
+                        )
+                        TextIconHorizontal(
+                            text = if (mediaType == MediaType.ANIME)
+                                viewModel.animeDetails?.durationText() ?: "Loading"
+                            else viewModel.mangaDetails?.durationText() ?: "Loading",
+                            icon = R.drawable.ic_round_timer_24,
+                            modifier = Modifier
+                                .padding(bottom = 4.dp)
+                                .placeholder(visible = viewModel.isLoading)
+                        )
+                        TextIconHorizontal(
+                            text = viewModel.basicDetails?.statusLocalized() ?: "Loading",
+                            icon = R.drawable.ic_round_rss_feed_24,
+                            modifier = Modifier
+                                .padding(bottom = 4.dp)
+                                .placeholder(visible = viewModel.isLoading)
+                        )
+                        TextIconHorizontal(
+                            text = viewModel.basicDetails?.mean.toString(),
+                            icon = R.drawable.ic_round_details_star_24,
+                            modifier = Modifier
+                                .padding(bottom = 4.dp)
+                                .placeholder(visible = viewModel.isLoading)
+                        )
+                    }
+                }//:Row
 
-                TextIconVertical(
-                    text = App.numberFormat.format(viewModel.basicDetails?.numScoringUsers ?: 0),
-                    icon = R.drawable.ic_round_thumbs_up_down_24,
-                    modifier = Modifier.clickable {  }
+                //Synopsis
+                Text(
+                    text = viewModel.basicDetails?.synopsis ?: stringResource(R.string.lorem_ipsun),
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .placeholder(visible = viewModel.isLoading),
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = maxLinesSynopsis
                 )
-                VerticalDivider(modifier = Modifier.height(32.dp))
+                IconButton(
+                    onClick = {
+                        if (maxLinesSynopsis == 5) {
+                            maxLinesSynopsis = Int.MAX_VALUE
+                            iconExpand = R.drawable.ic_round_keyboard_arrow_up_24
+                        } else {
+                            maxLinesSynopsis = 5
+                            iconExpand = R.drawable.ic_round_keyboard_arrow_down_24
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(painter = painterResource(iconExpand), contentDescription = "expand")
+                }
 
-                TextIconVertical(
-                    text = App.numberFormat.format(viewModel.basicDetails?.numListUsers ?: 0),
-                    icon = R.drawable.ic_round_group_24,
-                    modifier = Modifier.clickable {  }
-                )
-                VerticalDivider(modifier = Modifier.height(32.dp))
+                //Stats
+                InfoTitle(text = stringResource(R.string.stats))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                        .placeholder(visible = viewModel.isLoading),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    TextIconVertical(
+                        text = viewModel.basicDetails?.rankText() ?: "",
+                        icon = R.drawable.ic_round_bar_chart_24,
+                        modifier = Modifier.clickable { }
+                    )
+                    VerticalDivider(modifier = Modifier.height(32.dp))
 
-                TextIconVertical(
-                    text = "# ${viewModel.basicDetails?.popularity}",
-                    icon = R.drawable.ic_round_trending_up_24,
-                    modifier = Modifier.clickable {  }
-                )
-            }//:Row
+                    TextIconVertical(
+                        text = App.numberFormat.format(
+                            viewModel.basicDetails?.numScoringUsers ?: 0
+                        ),
+                        icon = R.drawable.ic_round_thumbs_up_down_24,
+                        modifier = Modifier.clickable { }
+                    )
+                    VerticalDivider(modifier = Modifier.height(32.dp))
 
-            //Info
-            InfoTitle(text = stringResource(R.string.more_info))
-            if (mediaType == MediaType.MANGA) {
+                    TextIconVertical(
+                        text = App.numberFormat.format(viewModel.basicDetails?.numListUsers ?: 0),
+                        icon = R.drawable.ic_round_group_24,
+                        modifier = Modifier.clickable { }
+                    )
+                    VerticalDivider(modifier = Modifier.height(32.dp))
+
+                    TextIconVertical(
+                        text = "# ${viewModel.basicDetails?.popularity}",
+                        icon = R.drawable.ic_round_trending_up_24,
+                        modifier = Modifier.clickable { }
+                    )
+                }//:Row
+
+                //Info
+                InfoTitle(text = stringResource(R.string.more_info))
+                if (mediaType == MediaType.MANGA) {
+                    MediaInfoView(
+                        title = stringResource(R.string.authors),
+                        info = "Inio Asano",
+                        modifier = Modifier.placeholder(visible = viewModel.isLoading)
+                    )
+                    MediaInfoView(
+                        title = stringResource(R.string.volumes),
+                        info = "13",
+                        modifier = Modifier.placeholder(visible = viewModel.isLoading)
+                    )
+                    Divider(modifier = Modifier.padding(vertical = 8.dp))
+                }
                 MediaInfoView(
-                    title = stringResource(R.string.authors),
-                    info = "Inio Asano",
+                    title = stringResource(R.string.synonyms),
+                    info = viewModel.basicDetails?.synonymsJoined(),
                     modifier = Modifier.placeholder(visible = viewModel.isLoading)
                 )
                 MediaInfoView(
-                    title = stringResource(R.string.volumes),
-                    info = "13",
+                    title = stringResource(R.string.jp_title),
+                    info = viewModel.basicDetails?.alternativeTitles?.ja,
                     modifier = Modifier.placeholder(visible = viewModel.isLoading)
                 )
                 Divider(modifier = Modifier.padding(vertical = 8.dp))
-            }
-            MediaInfoView(
-                title = stringResource(R.string.synonyms),
-                info = viewModel.basicDetails?.synonymsJoined(),
-                modifier = Modifier.placeholder(visible = viewModel.isLoading)
-            )
-            MediaInfoView(
-                title = stringResource(R.string.jp_title),
-                info = viewModel.basicDetails?.alternativeTitles?.ja,
-                modifier = Modifier.placeholder(visible = viewModel.isLoading)
-            )
-            Divider(modifier = Modifier.padding(vertical = 8.dp))
-            MediaInfoView(
-                title = stringResource(R.string.start_date),
-                info = viewModel.basicDetails?.startDate,
-                modifier = Modifier.placeholder(visible = viewModel.isLoading)
-            )
-            MediaInfoView(
-                title = stringResource(R.string.end_date),
-                info = viewModel.basicDetails?.endDate,
-                modifier = Modifier.placeholder(visible = viewModel.isLoading)
-            )
-            if (mediaType == MediaType.ANIME) {
                 MediaInfoView(
-                    title = stringResource(R.string.season),
-                    info = viewModel.animeDetails?.seasonYearText(),
+                    title = stringResource(R.string.start_date),
+                    info = viewModel.basicDetails?.startDate,
                     modifier = Modifier.placeholder(visible = viewModel.isLoading)
                 )
                 MediaInfoView(
-                    title = stringResource(R.string.broadcast),
-                    info = viewModel.animeDetails?.broadcastTimeText(),
+                    title = stringResource(R.string.end_date),
+                    info = viewModel.basicDetails?.endDate,
                     modifier = Modifier.placeholder(visible = viewModel.isLoading)
                 )
+                if (mediaType == MediaType.ANIME) {
+                    MediaInfoView(
+                        title = stringResource(R.string.season),
+                        info = viewModel.animeDetails?.seasonYearText(),
+                        modifier = Modifier.placeholder(visible = viewModel.isLoading)
+                    )
+                    MediaInfoView(
+                        title = stringResource(R.string.broadcast),
+                        info = viewModel.animeDetails?.broadcastTimeText(),
+                        modifier = Modifier.placeholder(visible = viewModel.isLoading)
+                    )
+                    MediaInfoView(
+                        title = stringResource(R.string.duration),
+                        info = viewModel.animeDetails?.episodeDurationLocalized(),
+                        modifier = Modifier.placeholder(visible = viewModel.isLoading)
+                    )
+                    MediaInfoView(
+                        title = stringResource(R.string.source),
+                        info = viewModel.animeDetails?.sourceLocalized(),
+                        modifier = Modifier.placeholder(visible = viewModel.isLoading)
+                    )
+                }
+                Divider(modifier = Modifier.padding(vertical = 8.dp))
                 MediaInfoView(
-                    title = stringResource(R.string.duration),
-                    info = viewModel.animeDetails?.episodeDurationLocalized(),
+                    title = stringResource(
+                        id = if (mediaType == MediaType.ANIME) R.string.studios else R.string.serialization
+                    ),
+                    info = "Toei Animation",
                     modifier = Modifier.placeholder(visible = viewModel.isLoading)
                 )
-                MediaInfoView(
-                    title = stringResource(R.string.source),
-                    info = viewModel.animeDetails?.sourceLocalized(),
-                    modifier = Modifier.placeholder(visible = viewModel.isLoading)
-                )
-            }
-            Divider(modifier = Modifier.padding(vertical = 8.dp))
-            MediaInfoView(
-                title = stringResource(
-                id = if (mediaType == MediaType.ANIME) R.string.studios else R.string.serialization),
-                info = "Toei Animation",
-                modifier = Modifier.placeholder(visible = viewModel.isLoading)
-            )
 
-            //Themes
-            if (mediaType == MediaType.ANIME) {
-                InfoTitle(text = stringResource(R.string.opening))
-                viewModel.animeDetails?.openingThemes?.forEach { theme ->
-                    AnimeThemeItem(text = theme.text, onClick = {
-                        context.openAction(Constants.YOUTUBE_QUERY_URL
-                                + viewModel.buildQueryFromThemeText(theme.text))
-                    })
+                //Themes
+                if (mediaType == MediaType.ANIME) {
+                    InfoTitle(text = stringResource(R.string.opening))
+                    viewModel.animeDetails?.openingThemes?.forEach { theme ->
+                        AnimeThemeItem(text = theme.text, onClick = {
+                            context.openAction(
+                                Constants.YOUTUBE_QUERY_URL
+                                        + viewModel.buildQueryFromThemeText(theme.text)
+                            )
+                        })
+                    }
+
+                    InfoTitle(text = stringResource(R.string.ending))
+                    viewModel.animeDetails?.endingThemes?.forEach { theme ->
+                        AnimeThemeItem(text = theme.text, onClick = {
+                            context.openAction(
+                                Constants.YOUTUBE_QUERY_URL
+                                        + viewModel.buildQueryFromThemeText(theme.text)
+                            )
+                        })
+                    }
                 }
 
-                InfoTitle(text = stringResource(R.string.ending))
-                viewModel.animeDetails?.endingThemes?.forEach { theme ->
-                    AnimeThemeItem(text = theme.text, onClick = {
-                        context.openAction(Constants.YOUTUBE_QUERY_URL
-                                + viewModel.buildQueryFromThemeText(theme.text))
-                    })
+                //Related
+                InfoTitle(text = stringResource(R.string.relateds))
+                LazyRow {
+                    items(viewModel.related) { item ->
+                        MediaItemVertical(
+                            url = item.node.mainPicture?.large,
+                            title = item.node.title,
+                            modifier = Modifier.padding(start = 8.dp),
+                            onClick = {
+                                val type = if (item.isManga()) "MANGA" else "ANIME"
+                                navController.navigate("details/$type/${item.node.id}")
+                            }
+                        )
+                    }
                 }
-            }
-
-            //Related
-            InfoTitle(text = stringResource(R.string.relateds))
-            LazyRow {
-
-            }
-        }//:Column
-    }//:Scaffold
+            }//:Column
+        }//:Scaffold
+    }
 
     LaunchedEffect(Unit) {
         viewModel.getDetails(mediaId)
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
+@Composable
+fun EditSheetContent(
+    coroutineScope: CoroutineScope,
+    modalBottomSheetState: ModalBottomSheetState,
+    viewModel: MediaDetailsViewModel,
+) {
+    var status by remember { mutableStateOf("Watching") }
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 52.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            androidx.compose.material3.TextButton(onClick = {
+                coroutineScope.launch { modalBottomSheetState.hide() }
+            }) {
+                Text(text = stringResource(R.string.cancel))
+            }
+
+            Icon(
+                painter = painterResource(R.drawable.ic_drag_pill_24dp),
+                contentDescription = stringResource(R.string.drag_pill),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+
+            androidx.compose.material3.Button(onClick = { /*TODO*/ }) {
+                Text(text = stringResource(R.string.apply))
+            }
+        }
+
+        TextFieldWithDropdown(
+            value = status,
+            onValueChange = { status = it },
+            list = listOf("Watching", "Completed"),
+            label = stringResource(R.string.status),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp, vertical = 16.dp)
+        )
     }
 }
 
@@ -373,6 +465,19 @@ fun MediaDetailsPreview() {
             mediaType = MediaType.ANIME,
             mediaId = 1,
             navController = rememberNavController()
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Preview(showBackground = true)
+@Composable
+fun EditSheetPreview() {
+    MoeListTheme {
+        EditSheetContent(
+            coroutineScope = rememberCoroutineScope(),
+            modalBottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Expanded),
+            viewModel = MediaDetailsViewModel(MediaType.ANIME)
         )
     }
 }
