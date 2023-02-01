@@ -6,7 +6,11 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetState
+import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -339,7 +343,7 @@ fun MediaDetailsView(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun EditSheetContent(
     coroutineScope: CoroutineScope,
@@ -357,7 +361,7 @@ fun EditSheetContent(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            androidx.compose.material3.TextButton(onClick = {
+            TextButton(onClick = {
                 coroutineScope.launch { modalBottomSheetState.hide() }
             }) {
                 Text(text = stringResource(R.string.cancel))
@@ -369,7 +373,7 @@ fun EditSheetContent(
                 tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
-            androidx.compose.material3.Button(onClick = { /*TODO*/ }) {
+            Button(onClick = { /*TODO*/ }) {
                 Text(text = stringResource(R.string.apply))
             }
         }
