@@ -47,6 +47,7 @@ import com.axiel7.moelist.uicompose.home.HomeViewModel
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.uicompose.userlist.UserMediaListHostView
 import com.axiel7.moelist.uicompose.userlist.UserMediaListView
+import kotlinx.coroutines.flow.collect
 
 //Destination constants
 const val ANIME_LIST_DESTINATION = "anime_list"
@@ -105,17 +106,6 @@ fun MainView() {
         ) }
     }
 
-    when (navBackStackEntry?.destination?.route) {
-        MEDIA_DETAILS_DESTINATION -> {
-            topBarState.value = false
-            bottomBarState.value = false
-        }
-        else -> {
-            topBarState.value = true
-            bottomBarState.value = true
-        }
-    }
-
     com.google.accompanist.insets.ui.Scaffold(
         topBar = {
             MainTopAppBar(
@@ -171,6 +161,21 @@ fun MainView() {
                     mediaId = navEntry.arguments?.getInt("mediaId") ?: 0,
                     navController = navController
                 )
+            }
+        }
+    }
+
+    LaunchedEffect(navBackStackEntry) {
+        snapshotFlow { navBackStackEntry?.destination }.collect {
+            when (it?.route) {
+                MEDIA_DETAILS_DESTINATION -> {
+                    topBarState.value = false
+                    bottomBarState.value = false
+                }
+                else -> {
+                    topBarState.value = true
+                    bottomBarState.value = true
+                }
             }
         }
     }
