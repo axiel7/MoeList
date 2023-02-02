@@ -3,17 +3,16 @@ package com.axiel7.moelist.uicompose.composables
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.*
 
-
 /**
  * Extension function to load more items when the bottom is reached
+ * @param buffer Tells how many items before it reaches the bottom of the list to call `onLoadMore`. This value should be >= 0
+ * @param onLoadMore The code to execute when it reaches the bottom of the list
  * @author Manav Tamboli
  */
 @Composable
 fun LazyListState.OnBottomReached(
-    // tells how many items before we reach the bottom of the list
-    // to call onLoadMore function
-    buffer : Int = 0,
-    onLoadMore : () -> Unit
+    buffer: Int = 0,
+    onLoadMore: () -> Unit
 ) {
     // Buffer must be positive.
     // Or our list will never reach the bottom.
