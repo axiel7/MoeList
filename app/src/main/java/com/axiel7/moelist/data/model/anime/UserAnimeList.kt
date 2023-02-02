@@ -2,6 +2,7 @@ package com.axiel7.moelist.data.model.anime
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.axiel7.moelist.data.model.media.BaseUserMediaList
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -9,9 +10,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class UserAnimeList(
     @SerialName("node") @PrimaryKey
-    val node: AnimeNode,
+    override val node: AnimeNode,
     @SerialName("list_status")
     var listStatus: MyAnimeListStatus? = null,
     @SerialName("status")
-    var status: String? = null
-)
+    override var status: String? = null
+) : BaseUserMediaList<AnimeNode>()

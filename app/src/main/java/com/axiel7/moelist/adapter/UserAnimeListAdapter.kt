@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import coil.load
 import com.axiel7.moelist.adapter.base.BasePagingAdapter
 import com.axiel7.moelist.data.model.anime.UserAnimeList
+import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.databinding.ListItemAnimelistBinding
 import com.axiel7.moelist.utils.StringExtensions.formatMediaType
 import com.axiel7.moelist.utils.StringExtensions.formatStatus
@@ -57,7 +58,7 @@ class UserAnimeListAdapter(
         }
         holder.binding.addOneButton.setOnClickListener { onPlusButtonClick(it, item, position) }
 
-        if (item.listStatus?.status == "watching" || item.listStatus?.isRewatching == true) {
+        if (item.listStatus?.status == ListStatus.WATCHING || item.listStatus?.isRewatching == true) {
             holder.binding.addOneButton.visibility = View.VISIBLE
             holder.binding.addOneButton.isEnabled = true
         }

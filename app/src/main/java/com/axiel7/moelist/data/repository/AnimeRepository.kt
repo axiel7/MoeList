@@ -6,6 +6,7 @@ import com.axiel7.moelist.data.model.Response
 import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.anime.AnimeList
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
+import com.axiel7.moelist.data.model.anime.UserAnimeList
 import com.axiel7.moelist.data.model.manga.MangaDetails
 
 object AnimeRepository {
@@ -59,4 +60,17 @@ object AnimeRepository {
         }
     }
 
+    const val USER_ANIME_LIST_FIELDS = "list_status{num_times_rewatched},num_episodes,media_type,status"
+
+    suspend fun getUserAnimeList(
+        apiParams: ApiParams,
+        page: String? = null
+    ): Response<List<UserAnimeList>>? {
+        return try {
+            if (page == null) App.api.getUserAnimeList(apiParams)
+            else App.api.getUserAnimeList(page)
+        } catch (e: Exception) {
+            null
+        }
+    }
 }

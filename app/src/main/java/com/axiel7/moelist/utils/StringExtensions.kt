@@ -2,6 +2,7 @@ package com.axiel7.moelist.utils
 
 import android.content.Context
 import com.axiel7.moelist.R
+import com.axiel7.moelist.data.model.media.ListStatus
 
 /** Helper functions to localize API values */
 object StringExtensions {
@@ -36,28 +37,28 @@ object StringExtensions {
             else -> this
         }
 
-    fun String?.formatListStatus(context: Context) =
+    fun ListStatus?.formatListStatus(context: Context) =
         when (this) {
-            "watching" -> context.getString(R.string.watching)
-            "reading" -> context.getString(R.string.reading)
-            "completed" -> context.getString(R.string.completed)
-            "on_hold" -> context.getString(R.string.on_hold)
-            "dropped" -> context.getString(R.string.dropped)
-            "plan_to_watch" -> context.getString(R.string.ptw)
-            "plan_to_read" -> context.getString(R.string.ptr)
-            else -> this ?: ""
+            ListStatus.WATCHING -> context.getString(R.string.watching)
+            ListStatus.READING -> context.getString(R.string.reading)
+            ListStatus.COMPLETED -> context.getString(R.string.completed)
+            ListStatus.ON_HOLD -> context.getString(R.string.on_hold)
+            ListStatus.DROPPED -> context.getString(R.string.dropped)
+            ListStatus.PTW -> context.getString(R.string.ptw)
+            ListStatus.PTR -> context.getString(R.string.ptr)
+            else -> ""
         }
 
     fun String?.formatListStatusInverted(context: Context) =
         when (this) {
-            context.getString(R.string.watching) -> "watching"
-            context.getString(R.string.reading) -> "reading"
-            context.getString(R.string.completed) -> "completed"
-            context.getString(R.string.on_hold) -> "on_hold"
-            context.getString(R.string.dropped) -> "dropped"
-            context.getString(R.string.ptw) -> "plan_to_watch"
-            context.getString(R.string.ptr) -> "plan_to_read"
-            else -> this ?: ""
+            context.getString(R.string.watching) -> ListStatus.WATCHING
+            context.getString(R.string.reading) -> ListStatus.READING
+            context.getString(R.string.completed) -> ListStatus.COMPLETED
+            context.getString(R.string.on_hold) -> ListStatus.ON_HOLD
+            context.getString(R.string.dropped) -> ListStatus.DROPPED
+            context.getString(R.string.ptw) -> ListStatus.PTW
+            context.getString(R.string.ptr) -> ListStatus.PTR
+            else -> ListStatus.COMPLETED
         }
 
     fun String.formatSeason(context: Context) =

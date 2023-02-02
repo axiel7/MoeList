@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import coil.load
 import com.axiel7.moelist.adapter.base.BasePagingAdapter
 import com.axiel7.moelist.data.model.manga.UserMangaList
+import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.databinding.ListItemMangalistBinding
 import com.axiel7.moelist.utils.StringExtensions.formatMediaType
 import com.axiel7.moelist.utils.StringExtensions.formatStatus
@@ -57,7 +58,7 @@ class UserMangaListAdapter(
         }
         holder.binding.addOneButton.setOnClickListener { onPlusButtonClick(it, item, position) }
 
-        if (item.listStatus?.status == "reading" || item.listStatus?.isRereading == true) {
+        if (item.listStatus?.status == ListStatus.READING || item.listStatus?.isRereading == true) {
             holder.binding.addOneButton.visibility = View.VISIBLE
             holder.binding.addOneButton.isEnabled = true
         }

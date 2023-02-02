@@ -132,7 +132,7 @@ fun MediaDetailsView(
                             fontWeight = FontWeight.Bold
                         )
                         TextIconHorizontal(
-                            text = viewModel.basicDetails?.mediaFormatLocalized() ?: "Loading",
+                            text = viewModel.basicDetails?.mediaType?.mediaFormatLocalized() ?: "Loading",
                             icon = if (mediaType == MediaType.ANIME) R.drawable.ic_round_movie_24
                             else R.drawable.ic_round_menu_book_24,
                             modifier = Modifier
@@ -149,7 +149,7 @@ fun MediaDetailsView(
                                 .placeholder(visible = viewModel.isLoading)
                         )
                         TextIconHorizontal(
-                            text = viewModel.basicDetails?.statusLocalized() ?: "Loading",
+                            text = viewModel.basicDetails?.status?.statusLocalized() ?: "Loading",
                             icon = R.drawable.ic_round_rss_feed_24,
                             modifier = Modifier
                                 .padding(bottom = 4.dp)

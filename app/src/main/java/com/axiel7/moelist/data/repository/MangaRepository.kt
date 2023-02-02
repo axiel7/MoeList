@@ -1,7 +1,10 @@
 package com.axiel7.moelist.data.repository
 
 import com.axiel7.moelist.App
+import com.axiel7.moelist.data.model.ApiParams
+import com.axiel7.moelist.data.model.Response
 import com.axiel7.moelist.data.model.manga.MangaDetails
+import com.axiel7.moelist.data.model.manga.UserMangaList
 
 object MangaRepository {
 
@@ -20,4 +23,17 @@ object MangaRepository {
         }
     }
 
+    const val USER_MANGA_LIST_FIELDS = "list_status{num_times_rewatched},num_episodes,media_type,status"
+
+    suspend fun getUserMangaList(
+        apiParams: ApiParams,
+        page: String? = null
+    ): Response<List<UserMangaList>>? {
+        return try {
+            if (page == null) App.api.getUserMangaList(apiParams)
+            else App.api.getUserMangaList(page)
+        } catch (e: Exception) {
+            null
+        }
+    }
 }

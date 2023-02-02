@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.MaterialSpinnerAdapter
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
+import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.databinding.BottomSheetEditMangaBinding
 import com.axiel7.moelist.ui.base.BaseBottomSheetDialogFragment
 import com.axiel7.moelist.ui.list.MangaListViewModel
@@ -115,14 +116,14 @@ class EditMangaFragment(
             val chaptersCurrent = binding.chaptersField.text.toString().toIntOrNull()
             val chapters = when {
                 chaptersCurrent != myListStatus?.numChaptersRead -> chaptersCurrent
-                status == "completed" -> numChapters
+                status == ListStatus.COMPLETED -> numChapters
                 else -> null
             }
 
             val volumesCurrent = binding.volumesField.text.toString().toIntOrNull()
             val volumes = when {
                 volumesCurrent != myListStatus?.numVolumesRead -> volumesCurrent
-                status == "completed" -> numVolumes
+                status == ListStatus.COMPLETED -> numVolumes
                 else -> null
             }
 
@@ -136,7 +137,7 @@ class EditMangaFragment(
             val rereads = if (rereadsCurrent != myListStatus?.numTimesReread) rereadsCurrent else null
 
             binding.loading.show()
-            viewModel.updateList(mangaId, status, score, chapters, volumes, startDate, endDate, rereads)
+            viewModel.updateList(mangaId, status?.value, score, chapters, volumes, startDate, endDate, rereads)
         }
 
         binding.cancelButton.setOnClickListener { dismiss() }
@@ -177,7 +178,7 @@ class EditMangaFragment(
             if (inputChapters < numChapters || numChapters == 0) {
                 binding.chaptersField.setText((inputChapters + 1).toString())
             }
-            if (myListStatus?.status == "plan_to_read" && inputChapters == 0) {
+            if (myListStatus?.status == ListStatus.PTR && inputChapters == 0) {
                 selectedStartDate?.let { selectedStartDate = MaterialDatePicker.todayInUtcMilliseconds() }
                 binding.statusField.setText(statusItems.first())
             }
@@ -193,7 +194,7 @@ class EditMangaFragment(
             if (inputVolumes < numVolumes || numVolumes == 0) {
                 binding.volumesField.setText((inputVolumes + 1).toString())
             }
-            if (myListStatus?.status == "plan_to_read" && inputVolumes == 0) {
+            if (myListStatus?.status == ListStatus.PTR && inputVolumes == 0) {
                 selectedStartDate?.let { selectedStartDate = MaterialDatePicker.todayInUtcMilliseconds() }
                 binding.statusField.setText(statusItems.first())
             }

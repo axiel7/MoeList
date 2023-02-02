@@ -10,7 +10,7 @@ import kotlinx.serialization.SerialName
 
 abstract class BaseMyListStatus : BaseResponse() {
     @SerialName("status")
-    abstract val status: String
+    abstract val status: ListStatus
     @SerialName("score")
     abstract val score: Int
     @SerialName("updated_at")
@@ -22,18 +22,6 @@ abstract class BaseMyListStatus : BaseResponse() {
 
     override var error: String? = null
     override var message: String? = null
-}
-
-@Composable
-fun BaseMyListStatus.statusLocalized() = when (this.status) {
-    "watching" -> stringResource(R.string.watching)
-    "reading" -> stringResource(R.string.reading)
-    "completed" -> stringResource(R.string.completed)
-    "on_hold" -> stringResource(R.string.on_hold)
-    "dropped" -> stringResource(R.string.dropped)
-    "plan_to_watch" -> stringResource(R.string.ptw)
-    "plan_to_read" -> stringResource(R.string.ptr)
-    else -> this.status
 }
 
 @Composable

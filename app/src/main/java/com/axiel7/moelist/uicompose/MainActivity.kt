@@ -17,7 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -37,12 +36,17 @@ import androidx.navigation.navArgument
 import coil.compose.AsyncImage
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.data.model.media.listStatusAnimeValues
+import com.axiel7.moelist.data.model.media.listStatusMangaValues
+import com.axiel7.moelist.ui.base.TabRowItem
 import com.axiel7.moelist.uicompose.details.MEDIA_DETAILS_DESTINATION
 import com.axiel7.moelist.uicompose.details.MediaDetailsView
 import com.axiel7.moelist.uicompose.home.HOME_DESTINATION
 import com.axiel7.moelist.uicompose.home.HomeView
 import com.axiel7.moelist.uicompose.home.HomeViewModel
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
+import com.axiel7.moelist.uicompose.userlist.UserMediaListHostView
+import com.axiel7.moelist.uicompose.userlist.UserMediaListView
 
 //Destination constants
 const val ANIME_LIST_DESTINATION = "anime_list"
@@ -78,6 +82,28 @@ fun MainView() {
     val topAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     val homeViewModel: HomeViewModel = viewModel()
+    val animeTabs = rememberSaveable {
+        listStatusAnimeValues().map { TabRowItem(
+            value = it,
+            title = it.value,
+            screen = { UserMediaListView(
+                mediaType = MediaType.ANIME,
+                status = it,
+                navController = navController
+            ) }
+        ) }
+    }
+    val mangaTabs = rememberSaveable {
+        listStatusMangaValues().map { TabRowItem(
+            value = it,
+            title = it.value,
+            screen = { UserMediaListView(
+                mediaType = MediaType.MANGA,
+                status = it,
+                navController = navController
+            ) }
+        ) }
+    }
 
     when (navBackStackEntry?.destination?.route) {
         MEDIA_DETAILS_DESTINATION -> {
@@ -107,9 +133,10 @@ fun MainView() {
     ) {
         NavHost(
             navController = navController,
-            startDestination = HOME_DESTINATION,
-            modifier = Modifier.padding(it)
-                .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)
+            startDestination = ANIME_LIST_DESTINATION,
+            modifier = Modifier
+                .padding(it)
+                //.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)
         ) {
             composable(HOME_DESTINATION) {
                 HomeView(
@@ -117,8 +144,20 @@ fun MainView() {
                     navController = navController
                 )
             }
-            composable(ANIME_LIST_DESTINATION) { }
-            composable(MANGA_LIST_DESTINATION) { }
+            composable(ANIME_LIST_DESTINATION) {
+                UserMediaListHostView(
+                    mediaType = MediaType.ANIME,
+                    tabRowItems = animeTabs,
+                    navController = navController
+                )
+            }
+            composable(MANGA_LIST_DESTINATION) {
+                UserMediaListHostView(
+                    mediaType = MediaType.MANGA,
+                    tabRowItems = mangaTabs,
+                    navController = navController
+                )
+            }
             composable(MORE_DESTINATION) { }
 
             composable(MEDIA_DETAILS_DESTINATION,

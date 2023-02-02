@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import com.axiel7.moelist.R
 import com.axiel7.moelist.adapter.MaterialSpinnerAdapter
 import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
+import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.databinding.BottomSheetEditAnimeBinding
 import com.axiel7.moelist.ui.base.BaseBottomSheetDialogFragment
 import com.axiel7.moelist.ui.list.AnimeListViewModel
@@ -113,7 +114,7 @@ class EditAnimeFragment(
             val episodesCurrent = binding.episodesField.text.toString().toIntOrNull()
             val episodes = when {
                 episodesCurrent != myListStatus?.numEpisodesWatched -> episodesCurrent
-                status == "completed" -> numEpisodes
+                status == ListStatus.COMPLETED -> numEpisodes
                 else -> null
             }
 
@@ -127,7 +128,7 @@ class EditAnimeFragment(
             val rewatches = if (rewatchesCurrent != myListStatus?.numTimesRewatched) rewatchesCurrent else null
 
             binding.loading.show()
-            viewModel.updateList(animeId, status, score, episodes, startDate, endDate, rewatches)
+            viewModel.updateList(animeId, status?.value, score, episodes, startDate, endDate, rewatches)
         }
 
         binding.cancelButton.setOnClickListener { dismiss() }
@@ -163,7 +164,7 @@ class EditAnimeFragment(
             val inputEpisodes = binding.episodesField.text.toString().toIntOrNull() ?: 0
             if (inputEpisodes < numEpisodes || numEpisodes == 0) {
                 binding.episodesField.setText((inputEpisodes + 1).toString())
-                if (myListStatus?.status == "plan_to_watch" && inputEpisodes == 0) {
+                if (myListStatus?.status == ListStatus.PTW && inputEpisodes == 0) {
                     selectedStartDate?.let { selectedStartDate = MaterialDatePicker.todayInUtcMilliseconds() }
                     binding.statusField.setText(statusItems.first())
                 }

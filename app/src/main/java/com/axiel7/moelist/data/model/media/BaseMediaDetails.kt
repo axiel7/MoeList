@@ -57,7 +57,7 @@ fun BaseMediaDetails.durationText() = when (this) {
 }
 
 @Composable
-fun BaseMediaDetails.mediaFormatLocalized() = when (this.mediaType) {
+fun String.mediaFormatLocalized() = when (this) {
     "tv" -> stringResource(R.string.tv)
     "ova" -> stringResource(R.string.ova)
     "ona" -> stringResource(R.string.ona)
@@ -72,11 +72,11 @@ fun BaseMediaDetails.mediaFormatLocalized() = when (this.mediaType) {
     "novel" -> stringResource(R.string.novel)
     "light_novel" -> stringResource(R.string.light_novel)
     "doujinshi" -> stringResource(R.string.doujinshi)
-    else -> this.mediaType
+    else -> this
 }
 
 @Composable
-fun BaseMediaDetails.statusLocalized() = when (this.status) {
+fun String.statusLocalized() = when (this) {
     "currently_airing" -> stringResource(R.string.airing)
     "finished_airing" -> stringResource(R.string.finished)
     "not_yet_aired" -> stringResource(R.string.not_yet_aired)
@@ -84,7 +84,7 @@ fun BaseMediaDetails.statusLocalized() = when (this.status) {
     "finished" -> stringResource(R.string.finished)
     "on_hiatus" -> stringResource(R.string.on_hiatus)
     "discontinued" -> stringResource(R.string.discontinued)
-    else -> this.status
+    else -> this
 }
 
 @Composable
