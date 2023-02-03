@@ -82,7 +82,7 @@ fun MainView() {
     val topAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     val homeViewModel: HomeViewModel = viewModel()
-    val animeTabs = rememberSaveable {
+    val animeTabs = remember {
         listStatusAnimeValues().map { TabRowItem(
             value = it,
             title = it.value,
@@ -93,7 +93,7 @@ fun MainView() {
             ) }
         ) }
     }
-    val mangaTabs = rememberSaveable {
+    val mangaTabs = remember {
         listStatusMangaValues().map { TabRowItem(
             value = it,
             title = it.value,
