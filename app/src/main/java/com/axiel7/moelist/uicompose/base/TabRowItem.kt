@@ -1,4 +1,4 @@
-package com.axiel7.moelist.ui.base
+package com.axiel7.moelist.uicompose.base
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
