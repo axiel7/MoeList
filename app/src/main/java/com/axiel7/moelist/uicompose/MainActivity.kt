@@ -44,6 +44,7 @@ import com.axiel7.moelist.uicompose.details.MediaDetailsView
 import com.axiel7.moelist.uicompose.home.HOME_DESTINATION
 import com.axiel7.moelist.uicompose.home.HomeView
 import com.axiel7.moelist.uicompose.home.HomeViewModel
+import com.axiel7.moelist.uicompose.more.MoreView
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.uicompose.userlist.UserMediaListHostView
 import com.axiel7.moelist.uicompose.userlist.UserMediaListView
@@ -147,7 +148,9 @@ fun MainView() {
                     navController = navController
                 )
             }
-            composable(MORE_DESTINATION) { }
+            composable(MORE_DESTINATION) {
+                MoreView()
+            }
 
             composable(MEDIA_DETAILS_DESTINATION,
                 arguments = listOf(

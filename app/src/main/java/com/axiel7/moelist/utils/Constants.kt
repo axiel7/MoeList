@@ -9,6 +9,10 @@ object Constants {
     const val ANIME_URL = "https://myanimelist.net/anime/"
     const val MANGA_URL = "https://myanimelist.net/manga/"
     const val YOUTUBE_QUERY_URL = "https://www.youtube.com/results?search_query="
+    const val MAL_NEWS_URL = "https://myanimelist.net/news"
+    const val MAL_ANNOUNCEMENTS_URL = "https://myanimelist.net/forum/?board=5"
+
+    const val SUPPORT_EMAIL = "contacto.axiel7@gmail.com"
 
     //List Status
     const val STATUS_ALL = "all"
