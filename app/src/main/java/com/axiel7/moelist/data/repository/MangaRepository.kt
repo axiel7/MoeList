@@ -30,8 +30,10 @@ object MangaRepository {
         page: String? = null
     ): Response<List<UserMangaList>>? {
         return try {
-            if (page == null) App.api.getUserMangaList(apiParams)
+            val result = if (page == null) App.api.getUserMangaList(apiParams)
             else App.api.getUserMangaList(page)
+            result.error?.let { BaseRepository.handleResponseError(it) }
+            return result
         } catch (e: Exception) {
             null
         }

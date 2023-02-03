@@ -7,7 +7,6 @@ import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.anime.AnimeList
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.anime.UserAnimeList
-import com.axiel7.moelist.data.model.manga.MangaDetails
 
 object AnimeRepository {
 
@@ -20,12 +19,14 @@ object AnimeRepository {
         page: String? = null
     ): Response<List<AnimeSeasonal>>? {
         return try {
-            if (page == null) App.api.getSeasonalAnime(
+            val result = if (page == null) App.api.getSeasonalAnime(
                 params = apiParams,
                 year = year,
                 season = season
             )
             else App.api.getSeasonalAnime(page)
+            result.error?.let { BaseRepository.handleResponseError(it) }
+            return result
         } catch (e: Exception) {
             null
         }
@@ -36,8 +37,10 @@ object AnimeRepository {
         page: String? = null
     ): Response<List<AnimeList>>? {
         return try {
-            if (page == null) App.api.getAnimeRecommendations(apiParams)
+            val result = if (page == null) App.api.getAnimeRecommendations(apiParams)
             else App.api.getAnimeRecommendations(page)
+            result.error?.let { BaseRepository.handleResponseError(it) }
+            return result
         } catch (e: Exception) {
             null
         }
@@ -67,8 +70,10 @@ object AnimeRepository {
         page: String? = null
     ): Response<List<UserAnimeList>>? {
         return try {
-            if (page == null) App.api.getUserAnimeList(apiParams)
+            val result = if (page == null) App.api.getUserAnimeList(apiParams)
             else App.api.getUserAnimeList(page)
+            result.error?.let { BaseRepository.handleResponseError(it) }
+            return result
         } catch (e: Exception) {
             null
         }
