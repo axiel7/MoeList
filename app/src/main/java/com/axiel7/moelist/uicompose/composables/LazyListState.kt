@@ -29,7 +29,7 @@ fun LazyListState.OnBottomReached(
         }
     }
 
-    LaunchedEffect(shouldLoadMore){
+    LaunchedEffect(shouldLoadMore) {
         snapshotFlow { shouldLoadMore.value }
             .collect { if (it) onLoadMore() }
     }

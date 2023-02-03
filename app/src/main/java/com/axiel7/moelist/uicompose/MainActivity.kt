@@ -86,23 +86,13 @@ fun MainView() {
     val animeTabs = remember {
         listStatusAnimeValues().map { TabRowItem(
             value = it,
-            title = it.value,
-            screen = { UserMediaListView(
-                mediaType = MediaType.ANIME,
-                status = it,
-                navController = navController
-            ) }
+            title = it.value
         ) }
     }
     val mangaTabs = remember {
         listStatusMangaValues().map { TabRowItem(
             value = it,
-            title = it.value,
-            screen = { UserMediaListView(
-                mediaType = MediaType.MANGA,
-                status = it,
-                navController = navController
-            ) }
+            title = it.value
         ) }
     }
 

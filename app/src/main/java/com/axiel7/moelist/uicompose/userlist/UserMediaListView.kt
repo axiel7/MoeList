@@ -16,7 +16,6 @@ import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.*
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -72,9 +71,14 @@ fun UserMediaListHostView(
 
         HorizontalPager(
             pageCount = tabRowItems.size,
-            state = pagerState
+            state = pagerState,
+            key = { tabRowItems[it].value }
         ) {
-            tabRowItems[pagerState.currentPage].screen()
+            UserMediaListView(
+                mediaType = mediaType,
+                status = tabRowItems[it].value,
+                navController = navController
+            )
         }//:Pager
     }//:Column
 }
@@ -138,12 +142,14 @@ fun UserMediaListView(
     }//:Box
 
     listState.OnBottomReached(buffer = 3) {
-        viewModel.nextPage?.let { viewModel.getUserList(it) }
+        if (!viewModel.isLoading && viewModel.hasNextPage) {
+            viewModel.getUserList(viewModel.nextPage)
+        }
     }
 
     LaunchedEffect(status) {
         viewModel.setStatus(status)
-        viewModel.getUserList()
+        if (!viewModel.isLoading) viewModel.getUserList()
     }
 }
 
@@ -251,15 +257,10 @@ fun UserMediaListItem(
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun UserMediaListHostPreview() {
-    val animeTabs = rememberSaveable {
+    val animeTabs = remember {
         listStatusAnimeValues().map { TabRowItem(
             value = it,
-            title = it.value,
-            screen = { UserMediaListView(
-                mediaType = MediaType.ANIME,
-                status = it,
-                navController = rememberNavController()
-            ) }
+            title = it.value
         ) }
     }
 

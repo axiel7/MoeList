@@ -18,8 +18,9 @@ import com.axiel7.moelist.utils.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class UserMediaListViewModel(val mediaType: MediaType): BaseViewModel() {
-
+class UserMediaListViewModel(
+    val mediaType: MediaType
+): BaseViewModel() {
 
     var listStatus by mutableStateOf<ListStatus?>(null)
     private set
@@ -49,6 +50,7 @@ class UserMediaListViewModel(val mediaType: MediaType): BaseViewModel() {
     var animeList by mutableStateOf(emptyList<UserAnimeList>())
     var mangaList by mutableStateOf(emptyList<UserMangaList>())
     var nextPage: String? = null
+    var hasNextPage = false
 
     @Suppress("UNCHECKED_CAST")
     fun getUserList(page: String? = null) {
@@ -68,6 +70,10 @@ class UserMediaListViewModel(val mediaType: MediaType): BaseViewModel() {
                     }
                 }
                 nextPage = result.paging?.next
+                hasNextPage = nextPage != null
+            } else {
+                setErrorMessage(result?.message ?: "Generic error")
+                hasNextPage = false
             }
             isLoading = false
         }
