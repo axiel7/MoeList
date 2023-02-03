@@ -191,7 +191,7 @@ fun UserMediaListItem(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "${score ?: 0}",
+                        text = if ((score ?: 0) == 0) "─" else "$score",
                         modifier = Modifier.padding(start = 8.dp, top = 4.dp, end = 2.dp, bottom = 4.dp),
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
