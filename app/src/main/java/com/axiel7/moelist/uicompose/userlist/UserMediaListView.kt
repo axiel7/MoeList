@@ -32,7 +32,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.*
-import com.axiel7.moelist.ui.base.TabRowItem
+import com.axiel7.moelist.uicompose.base.TabRowItem
 import com.axiel7.moelist.uicompose.composables.*
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import kotlinx.coroutines.launch

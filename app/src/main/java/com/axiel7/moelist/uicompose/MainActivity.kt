@@ -38,7 +38,7 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.listStatusAnimeValues
 import com.axiel7.moelist.data.model.media.listStatusMangaValues
-import com.axiel7.moelist.ui.base.TabRowItem
+import com.axiel7.moelist.uicompose.base.TabRowItem
 import com.axiel7.moelist.uicompose.details.MEDIA_DETAILS_DESTINATION
 import com.axiel7.moelist.uicompose.details.MediaDetailsView
 import com.axiel7.moelist.uicompose.home.HOME_DESTINATION
@@ -47,7 +47,6 @@ import com.axiel7.moelist.uicompose.home.HomeViewModel
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.uicompose.userlist.UserMediaListHostView
 import com.axiel7.moelist.uicompose.userlist.UserMediaListView
-import kotlinx.coroutines.flow.collect
 
 //Destination constants
 const val ANIME_LIST_DESTINATION = "anime_list"
