@@ -36,6 +36,9 @@ import com.axiel7.moelist.uicompose.composables.*
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import kotlinx.coroutines.launch
 
+const val ANIME_LIST_DESTINATION = "anime_list"
+const val MANGA_LIST_DESTINATION = "manga_list"
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun UserMediaListHostView(

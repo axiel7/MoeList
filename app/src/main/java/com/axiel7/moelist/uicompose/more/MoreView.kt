@@ -18,13 +18,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
+import com.axiel7.moelist.uicompose.SETTINGS_DESTINATION
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.Extensions.openLink
 
 @Composable
-fun MoreView() {
+fun MoreView(
+    navController: NavController
+) {
     val context = LocalContext.current
 
     Column(
@@ -61,7 +66,7 @@ fun MoreView() {
         MoreItem(
             title = stringResource(R.string.settings),
             icon = R.drawable.ic_round_settings_24,
-            onClick = { }
+            onClick = { navController.navigate(SETTINGS_DESTINATION) }
         )
 
         MoreItem(
@@ -117,14 +122,15 @@ fun MoreItem(
             )
         } else {
             Spacer(modifier = Modifier
+                .padding(16.dp)
                 .size(24.dp)
-                .padding(16.dp))
+            )
         }
 
         Column(
             modifier = if (subtitle != null)
-                Modifier.padding(vertical = 16.dp)
-                else Modifier
+                Modifier.padding(16.dp)
+                else Modifier.padding(horizontal = 16.dp)
         ) {
             Text(
                 text = title,
@@ -146,6 +152,8 @@ fun MoreItem(
 @Composable
 fun MorePreview() {
     MoeListTheme {
-        MoreView()
+        MoreView(
+            navController = rememberNavController()
+        )
     }
 }

@@ -45,14 +45,16 @@ import com.axiel7.moelist.uicompose.home.HOME_DESTINATION
 import com.axiel7.moelist.uicompose.home.HomeView
 import com.axiel7.moelist.uicompose.home.HomeViewModel
 import com.axiel7.moelist.uicompose.more.MoreView
+import com.axiel7.moelist.uicompose.more.SettingsView
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
+import com.axiel7.moelist.uicompose.userlist.ANIME_LIST_DESTINATION
+import com.axiel7.moelist.uicompose.userlist.MANGA_LIST_DESTINATION
 import com.axiel7.moelist.uicompose.userlist.UserMediaListHostView
-import com.axiel7.moelist.uicompose.userlist.UserMediaListView
 
 //Destination constants
-const val ANIME_LIST_DESTINATION = "anime_list"
-const val MANGA_LIST_DESTINATION = "manga_list"
 const val MORE_DESTINATION = "more"
+const val SETTINGS_DESTINATION = "settings"
+const val ABOUT_DESTINATION = "about"
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -139,7 +141,9 @@ fun MainView() {
                 )
             }
             composable(MORE_DESTINATION) {
-                MoreView()
+                MoreView(
+                    navController = navController
+                )
             }
 
             composable(MEDIA_DETAILS_DESTINATION,
@@ -154,13 +158,19 @@ fun MainView() {
                     navController = navController
                 )
             }
+
+            composable(SETTINGS_DESTINATION) {
+                SettingsView(
+                    navController = navController
+                )
+            }
         }
     }
 
     LaunchedEffect(navBackStackEntry) {
         snapshotFlow { navBackStackEntry?.destination }.collect {
             when (it?.route) {
-                MEDIA_DETAILS_DESTINATION -> {
+                MEDIA_DETAILS_DESTINATION, SETTINGS_DESTINATION -> {
                     topBarState.value = false
                     bottomBarState.value = false
                 }
@@ -235,7 +245,7 @@ fun BottomNavBar(
     navController: NavController,
     bottomBarState: State<Boolean>
 ) {
-    var selectedItem by remember { mutableStateOf(0) }
+    var selectedItem by remember { mutableStateOf(1) }
     
     AnimatedVisibility(
         visible = bottomBarState.value,
