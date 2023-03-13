@@ -1,5 +1,6 @@
 package com.axiel7.moelist.uicompose
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -34,6 +35,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import coil.compose.AsyncImage
+import com.axiel7.moelist.App
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.listStatusAnimeValues
@@ -44,6 +46,7 @@ import com.axiel7.moelist.uicompose.details.MediaDetailsView
 import com.axiel7.moelist.uicompose.home.HOME_DESTINATION
 import com.axiel7.moelist.uicompose.home.HomeView
 import com.axiel7.moelist.uicompose.home.HomeViewModel
+import com.axiel7.moelist.uicompose.login.LoginActivity
 import com.axiel7.moelist.uicompose.more.MORE_DESTINATION
 import com.axiel7.moelist.uicompose.more.MoreView
 import com.axiel7.moelist.uicompose.more.SETTINGS_DESTINATION
@@ -59,6 +62,12 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        if (!App.isUserLogged || App.accessToken == null || App.accessToken == "null") {
+            Intent(this, LoginActivity::class.java).apply { startActivity(this) }
+            finish()
+            return
+        }
 
         setContent {
             MoeListTheme {

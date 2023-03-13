@@ -42,8 +42,8 @@ class App : Application(), ImageLoaderFactory {
         val isUserLogged: Boolean
         get() = SharedPrefsHelpers.instance?.getBoolean("user_logged", false) ?: false
 
-        val accessToken: String
-        get() = SharedPrefsHelpers.instance?.getString("access_token", "null") ?: "null"
+        val accessToken: String?
+        get() = SharedPrefsHelpers.instance?.getString("access_token", null)
 
         val refreshToken: String
         get() = SharedPrefsHelpers.instance?.getString("refresh_token", "null") ?: "null"

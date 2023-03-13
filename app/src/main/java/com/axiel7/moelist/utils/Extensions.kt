@@ -2,6 +2,7 @@ package com.axiel7.moelist.utils
 
 import android.app.Activity
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -100,6 +101,12 @@ object Extensions {
 
         val resolveInfos = packageManager.queryIntentActivities(emptyBrowserIntent, 0)
         return (resolveInfos.find { it.isDefault })?.activityInfo?.packageName
+    }
+
+    fun Context.getActivity(): Activity? = when (this) {
+        is Activity -> this
+        is ContextWrapper -> baseContext.getActivity()
+        else -> null
     }
 
     /** Aux function with optional values */

@@ -21,5 +21,5 @@ abstract class BaseViewModel: ViewModel() {
     /*protected val nsfw: Int by lazy {
         App.nsfw.toInt()
     }*/
-    protected val  nsfw = 0
+    protected val nsfw = 0
 }

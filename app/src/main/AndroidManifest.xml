@@ -25,7 +25,7 @@
         tools:ignore="AllowBackup">
 
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name=".uicompose.MainActivity"
             android:theme="@style/Theme.MySplash"
             android:configChanges="keyboard|orientation|screenSize"
             android:exported="true">
@@ -57,7 +57,7 @@
         </activity>
 
         <activity
-            android:name=".ui.login.LoginActivity"
+            android:name=".uicompose.login.LoginActivity"
             android:label="@string/title_login"
             android:configChanges="keyboard|orientation|screenSize"
             android:launchMode="singleTop"
@@ -76,11 +76,6 @@
 
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".uicompose.MainActivity"
-            android:exported="true"
-            android:label="Compose"/>
 
         <service
             android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"

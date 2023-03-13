@@ -14,8 +14,6 @@ data class AccessToken(
     @SerialName("refresh_token")
     val refreshToken: String? = null,
 
-    @SerialName("error")
-    val error: String? = null,
-    @SerialName("message")
-    val message: String? = null,
-)
+    override var error: String? = null,
+    override var message: String? = null,
+): BaseResponse()
