@@ -7,10 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.axiel7.moelist.App
 import com.axiel7.moelist.data.model.AccessToken
 import com.axiel7.moelist.private.ClientId
-import com.axiel7.moelist.ui.login.LoginViewModel
 import com.axiel7.moelist.uicompose.base.BaseViewModel
 import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.PkceGenerator
+import com.axiel7.moelist.utils.SharedPrefsHelpers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -39,11 +39,11 @@ class LoginViewModel: BaseViewModel() {
             if (accessToken?.accessToken == null)
                 setErrorMessage("Token was null: ${accessToken?.error}: ${accessToken?.message}")
             else {
-                /*sharedPref.apply {
+                SharedPrefsHelpers.instance?.apply {
                     saveString("access_token", accessToken!!.accessToken)
                     saveString("refresh_token", accessToken!!.refreshToken)
                     saveBoolean("user_logged", true)
-                }*/
+                }
                 App.createKtorClient()
                 loginWasOk = true
             }

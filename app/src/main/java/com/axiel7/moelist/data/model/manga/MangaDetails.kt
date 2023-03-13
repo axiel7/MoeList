@@ -1,15 +1,12 @@
 package com.axiel7.moelist.data.model.manga
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.axiel7.moelist.data.model.anime.Recommendations
 import com.axiel7.moelist.data.model.media.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Entity @Serializable
+@Serializable
 data class MangaDetails(
-    @PrimaryKey
     override val id: Int = 0,
     override val title: String? = null,
     @SerialName("main_picture")

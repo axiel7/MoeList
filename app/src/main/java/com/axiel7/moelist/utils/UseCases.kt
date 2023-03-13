@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import com.axiel7.moelist.R
-import com.axiel7.moelist.ui.login.LoginActivity
+import com.axiel7.moelist.uicompose.login.LoginActivity
 
 object UseCases {
 

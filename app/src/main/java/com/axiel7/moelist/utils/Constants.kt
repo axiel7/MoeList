@@ -38,14 +38,6 @@ object Constants {
     const val SORT_MANGA_TITLE = "manga_title"
     const val SORT_MANGA_START_DATE = "manga_start_date"
 
-    //Responses
-    const val RESPONSE_OK = "ok"
-    const val RESPONSE_ERROR = "error"
-    const val RESPONSE_NONE = ""
-
-    //Errors
-    const val ERROR_SERVER = "error_server"
-
     //Weekdays
     const val MONDAY = "monday"
     const val TUESDAY = "tuesday"

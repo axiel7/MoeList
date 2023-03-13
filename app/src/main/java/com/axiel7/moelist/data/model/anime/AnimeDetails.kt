@@ -2,17 +2,14 @@ package com.axiel7.moelist.data.model.anime
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.*
 import com.axiel7.moelist.data.model.media.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Entity @Serializable
+@Serializable
 data class AnimeDetails(
-    @PrimaryKey
     override val id: Int = 0,
     override val title: String? = null,
     @SerialName("main_picture")

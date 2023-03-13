@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeNode
-import com.axiel7.moelist.utils.StringExtensions.formatRelation
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

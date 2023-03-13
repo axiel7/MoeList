@@ -4,8 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.BaseResponse
-import com.axiel7.moelist.utils.StringExtensions.formatListStatus
-import com.axiel7.moelist.utils.StringExtensions.formatScore
 import kotlinx.serialization.SerialName
 
 abstract class BaseMyListStatus : BaseResponse() {

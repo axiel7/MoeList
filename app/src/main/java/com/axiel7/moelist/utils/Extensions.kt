@@ -108,12 +108,4 @@ object Extensions {
         is ContextWrapper -> baseContext.getActivity()
         else -> null
     }
-
-    /** Aux function with optional values */
-    fun TextView.setDrawables(
-        @DrawableRes start: Int = 0,
-        @DrawableRes top: Int = 0,
-        @DrawableRes end: Int = 0,
-        @DrawableRes bottom: Int = 0
-    ) = this.setCompoundDrawablesWithIntrinsicBounds(start, top, end, bottom)
 }

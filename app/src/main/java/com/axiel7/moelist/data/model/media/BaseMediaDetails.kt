@@ -2,17 +2,12 @@ package com.axiel7.moelist.data.model.media
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import androidx.room.PrimaryKey
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.*
 import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.anime.Recommendations
 import com.axiel7.moelist.data.model.manga.MangaDetails
 import com.axiel7.moelist.utils.Extensions.toStringOrNull
-import com.axiel7.moelist.utils.StringExtensions.formatMediaType
-import com.axiel7.moelist.utils.StringExtensions.formatSource
-import com.axiel7.moelist.utils.StringExtensions.formatStatus
-import kotlinx.serialization.SerialName
 
 abstract class BaseMediaDetails : BaseResponse() {
     abstract val id: Int

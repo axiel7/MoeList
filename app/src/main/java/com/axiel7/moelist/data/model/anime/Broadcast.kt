@@ -3,7 +3,6 @@ package com.axiel7.moelist.data.model.anime
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
-import com.axiel7.moelist.utils.StringExtensions.formatWeekday
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

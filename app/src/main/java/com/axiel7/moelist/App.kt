@@ -5,7 +5,6 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import com.axiel7.moelist.data.network.Api
 import com.axiel7.moelist.data.network.KtorClient
-import com.axiel7.moelist.data.room.AnimeDatabase
 import com.axiel7.moelist.utils.Extensions.changeTheme
 import com.axiel7.moelist.utils.SharedPrefsHelpers
 import io.ktor.client.*
@@ -21,8 +20,6 @@ class App : Application(), ImageLoaderFactory {
         if (isUserLogged) {
             createKtorClient()
         }
-
-        animeDb = AnimeDatabase.getAnimeDatabase(applicationContext)
     }
     override fun newImageLoader(): ImageLoader {
         return ImageLoader.Builder(applicationContext)
@@ -54,9 +51,8 @@ class App : Application(), ImageLoaderFactory {
         val nsfw: Boolean
         get() = SharedPrefsHelpers.instance?.getBoolean("nsfw", false) ?: false
 
-        lateinit var animeDb: AnimeDatabase
         private lateinit var ktorClient: HttpClient
         lateinit var api: Api
-        val numberFormat = NumberFormat.getInstance()
+        val numberFormat: NumberFormat = NumberFormat.getInstance()
     }
 }
