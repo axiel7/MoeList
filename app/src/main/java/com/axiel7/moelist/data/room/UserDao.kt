@@ -7,7 +7,7 @@ import com.axiel7.moelist.data.model.User
 interface UserDao {
 
     @Query("SELECT * FROM user WHERE id LIKE :userId ")
-    fun getUserById(userId: Int): User
+    fun getUserById(userId: Int): User?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertUser(user: User)

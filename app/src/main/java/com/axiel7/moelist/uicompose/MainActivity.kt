@@ -44,17 +44,16 @@ import com.axiel7.moelist.uicompose.details.MediaDetailsView
 import com.axiel7.moelist.uicompose.home.HOME_DESTINATION
 import com.axiel7.moelist.uicompose.home.HomeView
 import com.axiel7.moelist.uicompose.home.HomeViewModel
+import com.axiel7.moelist.uicompose.more.MORE_DESTINATION
 import com.axiel7.moelist.uicompose.more.MoreView
+import com.axiel7.moelist.uicompose.more.SETTINGS_DESTINATION
 import com.axiel7.moelist.uicompose.more.SettingsView
+import com.axiel7.moelist.uicompose.profile.PROFILE_DESTINATION
+import com.axiel7.moelist.uicompose.profile.ProfileView
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.uicompose.userlist.ANIME_LIST_DESTINATION
 import com.axiel7.moelist.uicompose.userlist.MANGA_LIST_DESTINATION
 import com.axiel7.moelist.uicompose.userlist.UserMediaListHostView
-
-//Destination constants
-const val MORE_DESTINATION = "more"
-const val SETTINGS_DESTINATION = "settings"
-const val ABOUT_DESTINATION = "about"
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -102,7 +101,8 @@ fun MainView() {
         topBar = {
             MainTopAppBar(
                 scrollBehavior = topAppBarScrollBehavior,
-                topBarState = topBarState
+                topBarState = topBarState,
+                navController = navController
             )
         },
         bottomBar = {
@@ -164,13 +164,17 @@ fun MainView() {
                     navController = navController
                 )
             }
+
+            composable(PROFILE_DESTINATION) {
+                ProfileView(navController = navController)
+            }
         }
     }
 
     LaunchedEffect(navBackStackEntry) {
         snapshotFlow { navBackStackEntry?.destination }.collect {
             when (it?.route) {
-                MEDIA_DETAILS_DESTINATION, SETTINGS_DESTINATION -> {
+                MEDIA_DETAILS_DESTINATION, SETTINGS_DESTINATION, PROFILE_DESTINATION -> {
                     topBarState.value = false
                     bottomBarState.value = false
                 }
@@ -187,7 +191,8 @@ fun MainView() {
 @Composable
 fun MainTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
-    topBarState: State<Boolean>
+    topBarState: State<Boolean>,
+    navController: NavController
 ) {
     AnimatedVisibility(
         visible = topBarState.value,
@@ -231,7 +236,7 @@ fun MainTopAppBar(
                             .padding(horizontal = 16.dp)
                             .clip(RoundedCornerShape(100))
                             .size(32.dp)
-                            .clickable { }
+                            .clickable { navController.navigate(PROFILE_DESTINATION) }
                     )
                 }
             },

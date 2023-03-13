@@ -22,6 +22,8 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.composables.DefaultTopAppBar
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 
+const val SETTINGS_DESTINATION = "settings"
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsView(

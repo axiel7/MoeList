@@ -21,10 +21,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
-import com.axiel7.moelist.uicompose.SETTINGS_DESTINATION
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.Extensions.openLink
+
+const val MORE_DESTINATION = "more"
 
 @Composable
 fun MoreView(

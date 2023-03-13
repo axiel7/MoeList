@@ -67,4 +67,6 @@ object DateUtils {
             null
         }
     }
+
+    fun String.toISOformat(inputFormat: DateTimeFormatter) = LocalDate.parse(this, inputFormat).toString()
 }
