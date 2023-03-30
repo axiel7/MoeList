@@ -379,9 +379,9 @@ fun EditSheetContent(
         }
 
         TextFieldWithDropdown(
-            value = status,
+            options = if (viewModel.mediaType == MediaType.ANIME) listStatusAnimeValues().map { it.localized() }
+            else listStatusMangaValues().map { it.localized() },
             onValueChange = { status = it },
-            list = listOf("Watching", "Completed"),
             label = stringResource(R.string.status),
             modifier = Modifier
                 .fillMaxWidth()
