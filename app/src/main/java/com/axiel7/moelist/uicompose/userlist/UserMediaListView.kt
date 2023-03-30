@@ -75,6 +75,7 @@ fun UserMediaListHostView(
         HorizontalPager(
             pageCount = tabRowItems.size,
             state = pagerState,
+            beyondBoundsPageCount = 0,
             key = { tabRowItems[it].value }
         ) {
             UserMediaListView(
@@ -93,7 +94,7 @@ fun UserMediaListView(
     status: ListStatus,
     navController: NavController
 ) {
-    val viewModel: UserMediaListViewModel = viewModel { UserMediaListViewModel(mediaType) }
+    val viewModel: UserMediaListViewModel = viewModel(key = status.value) { UserMediaListViewModel(mediaType, status) }
     val pullRefreshState = rememberPullRefreshState(viewModel.isLoading, { viewModel.getUserList() })
     val listState = rememberLazyListState()
 
@@ -151,7 +152,6 @@ fun UserMediaListView(
     }
 
     LaunchedEffect(status) {
-        viewModel.setStatus(status)
         if (!viewModel.isLoading) viewModel.getUserList()
     }
 }

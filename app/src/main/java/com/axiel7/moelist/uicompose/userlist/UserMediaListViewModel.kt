@@ -19,15 +19,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class UserMediaListViewModel(
-    val mediaType: MediaType
+    val mediaType: MediaType,
+    listStatus: ListStatus
 ): BaseViewModel() {
-
-    var listStatus by mutableStateOf<ListStatus?>(null)
-    private set
-    fun setStatus(value: ListStatus) {
-        listStatus = value
-        params.status = value.value
-    }
 
     var listSort by mutableStateOf(
         if (mediaType == MediaType.ANIME) Constants.SORT_ANIME_TITLE
@@ -40,7 +34,7 @@ class UserMediaListViewModel(
     }
 
     private val params = ApiParams(
-        status = listStatus?.value,
+        status = listStatus.value,
         sort = listSort,
         nsfw = nsfw,
         fields = if (mediaType == MediaType.ANIME) AnimeRepository.USER_ANIME_LIST_FIELDS
