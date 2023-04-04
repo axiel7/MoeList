@@ -53,3 +53,11 @@ fun String.listStatusDelocalized() = when (this) {
     else -> ListStatus.COMPLETED
 }
 
+fun ListStatus.icon() = when (this) {
+    ListStatus.WATCHING, ListStatus.READING -> R.drawable.play_circle_outline_24
+    ListStatus.COMPLETED -> R.drawable.check_circle_outline_24
+    ListStatus.ON_HOLD -> R.drawable.pause_circle_outline_24
+    ListStatus.DROPPED -> R.drawable.delete_outline_24
+    ListStatus.PTW, ListStatus.PTR -> R.drawable.ic_round_access_time_24
+}
+
