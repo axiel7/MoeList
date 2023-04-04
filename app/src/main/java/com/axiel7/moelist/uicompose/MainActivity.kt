@@ -7,7 +7,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,7 +23,6 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -84,15 +82,12 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainView() {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val bottomBarState = rememberSaveable { (mutableStateOf(true)) }
     val topBarState = rememberSaveable { (mutableStateOf(true)) }
-
-    val topAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     val homeViewModel: HomeViewModel = viewModel()
     val animeTabs = remember {
@@ -111,7 +106,6 @@ fun MainView() {
     com.google.accompanist.insets.ui.Scaffold(
         topBar = {
             MainTopAppBar(
-                scrollBehavior = topAppBarScrollBehavior,
                 topBarState = topBarState,
                 navController = navController
             )
@@ -201,58 +195,66 @@ fun MainView() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainTopAppBar(
-    scrollBehavior: TopAppBarScrollBehavior,
     topBarState: State<Boolean>,
     navController: NavController
 ) {
+    var query by remember { mutableStateOf("") }
+    var active by remember { mutableStateOf(false) }
+
     AnimatedVisibility(
         visible = topBarState.value,
         enter = slideInVertically(initialOffsetY = { -it }),
         exit = slideOutVertically(targetOffsetY = { -it })
     ) {
-        CenterAlignedTopAppBar(
-            title = {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 12.dp)
-                        .clip(RoundedCornerShape(50))
-                        .background(MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp))
-                        .clickable { }
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            SearchBar(
+                query = query,
+                onQueryChange = { query = it },
+                onSearch = { active = false },
+                active = active,
+                onActiveChange = { active = it },
+                placeholder = { Text(text = "Search") },
+                leadingIcon = {
+                    if (active) {
+                        IconButton(onClick = { active = false }) {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_arrow_back),
+                                contentDescription = "back"
+                            )
+                        }
+                    } else {
                         Icon(
                             painter = painterResource(R.drawable.ic_round_search_24),
-                            contentDescription = "search",
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Text(
-                            text = "Search",
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            fontSize = 16.sp
+                            contentDescription = "search"
                         )
                     }
-
-                    AsyncImage(
-                        model = "",
-                        contentDescription = "profile",
-                        placeholder = painterResource(R.drawable.ic_round_account_circle_24),
-                        error = painterResource(R.drawable.ic_round_account_circle_24),
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp)
-                            .clip(RoundedCornerShape(100))
-                            .size(32.dp)
-                            .clickable { navController.navigate(PROFILE_DESTINATION) }
-                    )
+                },
+                trailingIcon = {
+                    if (!active) {
+                        AsyncImage(
+                            model = "",
+                            contentDescription = "profile",
+                            placeholder = painterResource(R.drawable.ic_round_account_circle_24),
+                            error = painterResource(R.drawable.ic_round_account_circle_24),
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp)
+                                .clip(RoundedCornerShape(100))
+                                .size(32.dp)
+                                .clickable { navController.navigate(PROFILE_DESTINATION) }
+                        )
+                    } else if (query.isNotEmpty()) {
+                        IconButton(onClick = { query = "" }) {
+                            Icon(painter = painterResource(R.drawable.ic_close), contentDescription = "delete")
+                        }
+                    }
                 }
-            },
-            scrollBehavior = scrollBehavior
-        )
+            ) {
+                Text(text = "Search view")
+            }//:SearchBar
+        }
     }
 }
 
