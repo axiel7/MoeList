@@ -121,7 +121,7 @@ class Api(private val client: HttpClient) {
             score?.let { append("score", it.toString()) }
             watchedEpisodes?.let { append("num_watched_episodes", it.toString()) }
             startDate?.let { append("start_date", it) }
-            endDate?.let { append("end_date", it) }
+            endDate?.let { append("finish_date", it) }
             numRewatches?.let { append("num_times_rewatched", it.toString()) }
         }))
     }.body()
@@ -192,7 +192,7 @@ class Api(private val client: HttpClient) {
             chaptersRead?.let { append("num_chapters_read", it.toString()) }
             volumesRead?.let { append("num_volumes_read", it.toString()) }
             startDate?.let { append("start_date", it) }
-            endDate?.let { append("end_date", it) }
+            endDate?.let { append("finish_date", it) }
             numRereads?.let { append("num_times_reread", it.toString()) }
         }))
     }.body()
