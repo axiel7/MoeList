@@ -68,6 +68,11 @@
             app:title="@string/chinese_traditional"/>
 
         <Preference
+            app:key="simplified_chinese_translation"
+            app:summary="\@bengerlorf"
+            app:title="@string/chinese_simplified"/>
+
+        <Preference
             app:key="japanese_translation"
             app:summary="\@axiel7, \@Ulong32, \@watashibeme"
             app:title="@string/japanese"/>
