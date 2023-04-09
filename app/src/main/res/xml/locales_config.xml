@@ -11,5 +11,6 @@
     <locale android:name="tr"/>
     <locale android:name="uk-rUA"/>
     <locale android:name="ja"/>
-    <locale android:name="zh-rTW"/>
+    <locale android:name="zh-Hant"/>
+    <locale android:name="zh-Hans"/>
 </locale-config>
