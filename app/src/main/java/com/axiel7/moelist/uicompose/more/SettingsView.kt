@@ -47,7 +47,8 @@ fun SettingsView(
         "tr" to "Türkçe",
         "uk-rUA" to "Українська",
         "ja" to "日本語",
-        "zh-rTW" to "中文 (繁體)",
+        "zh-Hant" to "繁體中文",
+        "zh-Hans" to "简体中文",
     )
     val sectionEntries = mapOf(
         "home" to stringResource(R.string.title_home),
