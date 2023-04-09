@@ -266,6 +266,6 @@
     <string name="japanese">Японська</string>
     <string name="chinese_traditional">Китайська (традиційна)</string>
     <string name="select_date">Оберіть дату</string>
-    <string name="total_rereads">Total Rereads</string>
-    <string name="total_rewatches">Total Rewatches</string>
+    <string name="total_rereads">Всього перечитано</string>
+    <string name="total_rewatches">Всього переглядів</string>
 </resources>
