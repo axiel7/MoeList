@@ -165,7 +165,7 @@
     <string name="api_help" tools:ignore="MissingTranslation">MyAnimeList API 幫助</string>
     <string name="translations" tools:ignore="MissingTranslation">翻譯</string>
     <string name="turkish" tools:ignore="MissingTranslation">土耳其文</string>
-    <string name="brazilian" tools:ignore="MissingTranslation">葡萄牙文（巴西）</string>
+    <string name="brazilian" tools:ignore="MissingTranslation">葡萄牙文 （巴西）</string>
     <string name="russian" tools:ignore="MissingTranslation">俄文</string>
     <string name="arabic" tools:ignore="MissingTranslation">阿拉伯文</string>
     <string name="spanish" tools:ignore="MissingTranslation">西班牙文</string>
