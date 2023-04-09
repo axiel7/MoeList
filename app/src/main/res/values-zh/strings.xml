@@ -5,18 +5,18 @@
     <string name="title_manga_list">漫画</string>
     <string name="stats">统计</string>
     <string name="more_info">详细信息</string>
-    <string name="synonyms">同义词</string>
-    <string name="jp_title">日本语 </string>
+    <string name="synonyms">别名</string>
+    <string name="jp_title">日本语</string>
     <string name="start_date">开播</string>
     <string name="end_date">完结</string>
     <string name="season">季</string>
-    <string name="broadcast">推送</string>
+    <string name="broadcast">播出时间</string>
     <string name="duration">集长</string>
     <string name="source">来源</string>
     <string name="studios">工作室</string>
     <string name="edit">编辑</string>
     <string name="authors">作者</string>
-    <string name="volumes">单行本</string>
+    <string name="volumes">卷</string>
     <string name="serialization">连载</string>
     <string name="login">登录</string>
     <string name="search_in_mal">在 MAL 中检索</string>
@@ -32,7 +32,7 @@
     <string name="reading">正在阅读</string>
     <string name="completed">已完成</string>
     <string name="on_hold">已暂停</string>
-    <string name="dropped">丢弃</string>
+    <string name="dropped">放弃</string>
     <string name="ptw">稍后观看</string>
     <string name="ptr">稍后阅读</string>
     <string name="share_app">分享 App</string>
@@ -40,7 +40,7 @@
     <string name="year">年</string>
     <string name="anime_ranking">动画排行榜</string>
     <string name="manga_ranking">漫画排行榜</string>
-    <string name="seasonal_chart">季节表</string>
+    <string name="seasonal_chart">季度表</string>
     <string name="random">随机</string>
     <string name="today">今日</string>
     <string name="nothing_today">今天什么都没有捏\n( ≧Д≦)</string>
@@ -147,7 +147,7 @@
     <string name="synopsis_icon">展开</string>
     <string name="poster">海报</string>
     <string name="moelist_banner">MoeList 横幅</string>
-    <string name="drag_pill">ドラッグピル</string>
+    <string name="drag_pill">拖动条</string>
     <string name="profile_picture">个人头像</string>
     <string name="error_not_found">未找到</string>
     <string name="relateds">关联</string>
@@ -163,7 +163,7 @@
     <string name="logo_design" tools:ignore="MissingTranslation">标志设计</string>
     <string name="general_help" tools:ignore="MissingTranslation">一般帮助</string>
     <string name="api_help" tools:ignore="MissingTranslation">MyAnimeList API 帮助</string>
-    <string name="translations" tools:ignore="MissingTranslation">翻译 </string>
+    <string name="translations" tools:ignore="MissingTranslation">翻译</string>
     <string name="turkish" tools:ignore="MissingTranslation">土耳其语</string>
     <string name="brazilian" tools:ignore="MissingTranslation">葡萄牙语（巴西）</string>
     <string name="russian" tools:ignore="MissingTranslation">俄语</string>
