@@ -268,4 +268,5 @@
     <string name="select_date">Selecionar data</string>
     <string name="total_rereads">Total Relido</string>
     <string name="total_rewatches">Total Reassistido</string>
+    <string name="chinese_simplified">Chinese (Simplified)</string>
 </resources>

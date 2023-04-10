@@ -268,4 +268,5 @@
     <string name="select_date">Seleccionar fecha</string>
     <string name="total_rereads">Total de relecturas</string>
     <string name="total_rewatches">Total de vuelto a ver</string>
+    <string name="chinese_simplified">Chino (Simplificado)</string>
 </resources>

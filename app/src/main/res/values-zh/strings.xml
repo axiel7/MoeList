@@ -268,4 +268,5 @@
     <string name="select_date">选择日期</string>
     <string name="total_rereads">重读次数</string>
     <string name="total_rewatches">重看次数</string>
+    <string name="chinese_simplified">简体中文</string>
 </resources>

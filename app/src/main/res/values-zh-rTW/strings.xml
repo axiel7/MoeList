@@ -268,4 +268,5 @@
     <string name="select_date">選擇日期</string>
     <string name="total_rereads">總重讀</string>
     <string name="total_rewatches">總重看</string>
+    <string name="chinese_simplified">Chinese (Simplified)</string>
 </resources>
