@@ -268,4 +268,5 @@
     <string name="select_date">日付を選択</string>
     <string name="total_rereads">合計再販数</string>
     <string name="total_rewatches">合計再視聴数</string>
+    <string name="chinese_simplified">Chinese (Simplified)</string>
 </resources>
