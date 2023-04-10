@@ -46,4 +46,7 @@ object Constants {
     const val FRIDAY = "friday"
     const val SATURDAY = "saturday"
     const val SUNDAY = "sunday"
+
+    //Preference keys
+    const val APP_LANGUAGE_KEY = "app_language"
 }

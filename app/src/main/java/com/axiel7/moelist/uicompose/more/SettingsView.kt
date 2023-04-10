@@ -1,6 +1,7 @@
 package com.axiel7.moelist.uicompose.more
 
 import androidx.annotation.DrawableRes
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,51 +11,28 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.os.LocaleListCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.composables.DefaultTopAppBar
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
+import com.axiel7.moelist.utils.Constants.APP_LANGUAGE_KEY
+import com.axiel7.moelist.utils.SharedPrefsHelpers
 
 const val SETTINGS_DESTINATION = "settings"
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsView(
     navController: NavController
 ) {
-    val themeEntries = mapOf(
-        "light" to stringResource(R.string.theme_light),
-        "dark" to stringResource(R.string.theme_dark),
-        "follow_system" to stringResource(R.string.theme_system)
-    )
-    val languageEntries = mapOf(
-        "follow_system" to stringResource(R.string.theme_system),
-        "en" to "English",
-        "ar-rSA" to "العربية",
-        "bg-rBG" to "Български",
-        "de" to "Deutsch",
-        "es" to "Español",
-        "fr" to "Français",
-        "pt-rBR" to "Português (Brasil)",
-        "ru-rRU" to "Русский",
-        "tr" to "Türkçe",
-        "uk-rUA" to "Українська",
-        "ja" to "日本語",
-        "zh-Hant" to "繁體中文",
-        "zh-Hans" to "简体中文",
-    )
-    val sectionEntries = mapOf(
-        "home" to stringResource(R.string.title_home),
-        "anime" to stringResource(R.string.title_anime_list),
-        "manga" to stringResource(R.string.title_manga_list)
-    )
+    val viewModel: SettingsViewModel = viewModel()
 
     Scaffold(
         topBar = {
@@ -71,7 +49,7 @@ fun SettingsView(
 
             ListPreferenceView(
                 title = stringResource(R.string.theme),
-                entriesValues = themeEntries,
+                entriesValues = viewModel.themeEntries,
                 defaultValue = "follow_system",
                 icon = R.drawable.ic_round_color_lens_24,
                 onValueChange = { }
@@ -79,17 +57,23 @@ fun SettingsView(
 
             ListPreferenceView(
                 title = stringResource(R.string.language),
-                entriesValues = languageEntries,
-                defaultValue = "follow_system",
+                entriesValues = viewModel.languageEntries,
+                defaultValue = viewModel.getSavedLanguageOption(),
                 icon = R.drawable.ic_round_language_24,
-                onValueChange = { }
+                onValueChange = {
+                    SharedPrefsHelpers.instance?.apply {
+                        saveString(APP_LANGUAGE_KEY, it)
+                        val appLocale = LocaleListCompat.forLanguageTags(it)
+                        AppCompatDelegate.setApplicationLocales(appLocale)
+                    }
+                }
             )
 
             SettingsTitle(text = stringResource(R.string.startup))
 
             ListPreferenceView(
                 title = stringResource(R.string.default_section),
-                entriesValues = sectionEntries,
+                entriesValues = viewModel.sectionEntries,
                 defaultValue = "home",
                 icon = R.drawable.ic_round_sort_24,
                 onValueChange = { }
@@ -113,7 +97,7 @@ fun SettingsTitle(text: String) {
 @Composable
 fun ListPreferenceView(
     title: String,
-    entriesValues: Map<String, String>,
+    entriesValues: Map<String, Int>,
     modifier: Modifier = Modifier,
     defaultValue: String? = null,
     @DrawableRes icon: Int? = null,
@@ -154,7 +138,7 @@ fun ListPreferenceView(
 
             if (selectedValue != null) {
                 Text(
-                    text = entriesValues[selectedValue]!!,
+                    text = stringResource(entriesValues[selectedValue]!!),
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontSize = 13.sp
                 )
@@ -181,7 +165,7 @@ fun ListPreferenceView(
                                 selected = selectedValue == entry.key,
                                 onClick = { selectedValue = entry.key }
                             )
-                            Text(text = entry.value)
+                            Text(text = stringResource(entry.value))
                         }
                     }
                 }
