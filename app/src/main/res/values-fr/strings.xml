@@ -268,4 +268,5 @@
     <string name="select_date">Choisir une date</string>
     <string name="total_rereads">Nombre de relecture</string>
     <string name="total_rewatches">Nombre de relecture</string>
+    <string name="chinese_simplified">Chinese (Simplified)</string>
 </resources>
