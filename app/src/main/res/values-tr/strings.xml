@@ -268,4 +268,5 @@
     <string name="select_date">Tarih seçin</string>
     <string name="total_rereads">Toplam Tekrar Okuma</string>
     <string name="total_rewatches">Toplam Tekrar İzleme</string>
+    <string name="chinese_simplified">Çince (Basitleştirilmiş)</string>
 </resources>
