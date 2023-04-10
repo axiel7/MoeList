@@ -62,7 +62,8 @@ class SharedPrefsHelpers {
 
     fun getString(key: String, defaultValue: String?): String? {
         return if (isKeyExists(key)) {
-            mSharedPreferences!!.getString(key, defaultValue)
+            val value = mSharedPreferences!!.getString(key, defaultValue)
+            if (value == "null") null else value
         } else defaultValue
     }
 
