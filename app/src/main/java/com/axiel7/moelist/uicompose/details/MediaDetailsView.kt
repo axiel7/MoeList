@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -31,6 +32,7 @@ import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.Extensions.openAction
 import com.axiel7.moelist.utils.Extensions.openLink
+import com.axiel7.moelist.utils.Extensions.toStringPositiveValueOrNull
 import com.google.accompanist.placeholder.material.placeholder
 import kotlinx.coroutines.launch
 
@@ -102,14 +104,16 @@ fun MediaDetailsView(
                         .placeholder(visible = viewModel.isLoading)
                 )
                 Column {
-                    Text(
-                        text = viewModel.basicDetails?.title ?: "Loading",
-                        modifier = Modifier
-                            .padding(vertical = 8.dp)
-                            .placeholder(visible = viewModel.isLoading),
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                    SelectionContainer {
+                        Text(
+                            text = viewModel.basicDetails?.title ?: "Loading",
+                            modifier = Modifier
+                                .padding(vertical = 8.dp)
+                                .placeholder(visible = viewModel.isLoading),
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                     TextIconHorizontal(
                         text = viewModel.basicDetails?.mediaType?.mediaFormatLocalized() ?: "Loading",
                         icon = if (mediaType == MediaType.ANIME) R.drawable.ic_round_movie_24
@@ -223,16 +227,20 @@ fun MediaDetailsView(
                 )
                 Divider(modifier = Modifier.padding(vertical = 8.dp))
             }
-            MediaInfoView(
-                title = stringResource(R.string.synonyms),
-                info = viewModel.basicDetails?.synonymsJoined(),
-                modifier = Modifier.placeholder(visible = viewModel.isLoading)
-            )
-            MediaInfoView(
-                title = stringResource(R.string.jp_title),
-                info = viewModel.basicDetails?.alternativeTitles?.ja,
-                modifier = Modifier.placeholder(visible = viewModel.isLoading)
-            )
+            SelectionContainer {
+                MediaInfoView(
+                    title = stringResource(R.string.synonyms),
+                    info = viewModel.basicDetails?.synonymsJoined(),
+                    modifier = Modifier.placeholder(visible = viewModel.isLoading)
+                )
+            }
+            SelectionContainer {
+                MediaInfoView(
+                    title = stringResource(R.string.jp_title),
+                    info = viewModel.basicDetails?.alternativeTitles?.ja,
+                    modifier = Modifier.placeholder(visible = viewModel.isLoading)
+                )
+            }
             Divider(modifier = Modifier.padding(vertical = 8.dp))
             MediaInfoView(
                 title = stringResource(R.string.start_date),
