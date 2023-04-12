@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        if (!App.isUserLogged || App.accessToken == null || App.accessToken == "null") {
+        if (!App.isUserLogged || App.accessToken == null) {
             Intent(this, LoginActivity::class.java).apply { startActivity(this) }
             finish()
             return

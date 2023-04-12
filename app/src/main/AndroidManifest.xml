@@ -60,6 +60,7 @@
             android:label="@string/title_login"
             android:configChanges="keyboard|orientation|screenSize"
             android:launchMode="singleTop"
+            android:theme="@style/AppTheme"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
