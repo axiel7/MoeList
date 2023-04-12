@@ -26,6 +26,7 @@ class MediaDetailsViewModel(
     var basicDetails by mutableStateOf<BaseMediaDetails?>(null)
     var animeDetails by mutableStateOf<AnimeDetails?>(null)
     var mangaDetails by mutableStateOf<MangaDetails?>(null)
+    var studioSerializationJoined by mutableStateOf<String?>(null)
     var related by mutableStateOf(emptyList<Related>())
 
     fun getDetails(mediaId: Int) {
@@ -34,9 +35,11 @@ class MediaDetailsViewModel(
             if (mediaType == MediaType.ANIME) {
                 animeDetails = AnimeRepository.getAnimeDetails(mediaId)
                 basicDetails = animeDetails
+                studioSerializationJoined = animeDetails?.studios?.joinToString { it.name }
             } else {
                 mangaDetails = MangaRepository.getMangaDetails(mediaId)
                 basicDetails = mangaDetails
+                studioSerializationJoined = mangaDetails?.serialization?.joinToString { it.node.name }
             }
             val tempRelated = mutableListOf<Related>()
             basicDetails?.relatedAnime?.let { tempRelated.addAll(it) }

@@ -215,14 +215,17 @@ fun MediaDetailsView(
             //Info
             InfoTitle(text = stringResource(R.string.more_info))
             if (mediaType == MediaType.MANGA) {
-                MediaInfoView(
-                    title = stringResource(R.string.authors),
-                    info = "Inio Asano",
-                    modifier = Modifier.placeholder(visible = viewModel.isLoading)
-                )
+                SelectionContainer {
+                    MediaInfoView(
+                        title = stringResource(R.string.authors),
+                        info = viewModel.mangaDetails?.authors
+                            ?.joinToString { "${it.node.firstName} ${it.node.lastName}" },
+                        modifier = Modifier.placeholder(visible = viewModel.isLoading)
+                    )
+                }
                 MediaInfoView(
                     title = stringResource(R.string.volumes),
-                    info = "13",
+                    info = viewModel.mangaDetails?.numVolumes.toStringPositiveValueOrNull(),
                     modifier = Modifier.placeholder(visible = viewModel.isLoading)
                 )
                 Divider(modifier = Modifier.padding(vertical = 8.dp))
@@ -275,13 +278,15 @@ fun MediaDetailsView(
                 )
             }
             Divider(modifier = Modifier.padding(vertical = 8.dp))
-            MediaInfoView(
-                title = stringResource(
-                    id = if (mediaType == MediaType.ANIME) R.string.studios else R.string.serialization
-                ),
-                info = "Toei Animation",
-                modifier = Modifier.placeholder(visible = viewModel.isLoading)
-            )
+            SelectionContainer {
+                MediaInfoView(
+                    title = stringResource(
+                        id = if (mediaType == MediaType.ANIME) R.string.studios else R.string.serialization
+                    ),
+                    info = viewModel.studioSerializationJoined,
+                    modifier = Modifier.placeholder(visible = viewModel.isLoading)
+                )
+            }
 
             //Themes
             if (mediaType == MediaType.ANIME) {
