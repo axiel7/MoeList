@@ -26,12 +26,18 @@ object Extensions {
 
     /**
      * Returns a string representation of the object.
-     * Can be called with a null receiver, in which case it returns null.
+     * Can be called with a null receiver, in which case it returns `null`.
      */
     fun Any?.toStringOrNull() : String? {
         val result = this.toString()
         return if (result == "null") null else result
     }
+
+    /**
+     * Returns a string representation of the Integer. If the Integer is `<= 0` returns `null`.
+     * Can be called with a null receiver, in which case it returns `null`.
+     */
+    fun Int?.toStringPositiveValueOrNull() = if (this == 0) null else this.toStringOrNull()
 
     fun Context.changeTheme() {
         SharedPrefsHelpers.instance?.let {

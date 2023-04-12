@@ -3,11 +3,11 @@ package com.axiel7.moelist.data.model.media
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
-import com.axiel7.moelist.data.model.*
+import com.axiel7.moelist.data.model.BaseResponse
 import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.anime.Recommendations
 import com.axiel7.moelist.data.model.manga.MangaDetails
-import com.axiel7.moelist.utils.Extensions.toStringOrNull
+import com.axiel7.moelist.utils.Extensions.toStringPositiveValueOrNull
 
 abstract class BaseMediaDetails : BaseResponse() {
     abstract val id: Int
@@ -41,14 +41,16 @@ abstract class BaseMediaDetails : BaseResponse() {
 @Composable
 fun BaseMediaDetails.durationText() = when (this) {
     is AnimeDetails -> {
-        if (numEpisodes == 0) stringResource(R.string.unknown)
-        else (numEpisodes.toStringOrNull() ?: "??") + " " + stringResource(R.string.episodes)
+        val stringValue = numEpisodes.toStringPositiveValueOrNull()
+        if (stringValue == null) stringResource(R.string.unknown)
+        else "$stringValue ${stringResource(R.string.episodes)}"
     }
     is MangaDetails -> {
-        if (numChapters == 0) stringResource(R.string.unknown)
-        else (numChapters.toStringOrNull() ?: "??") + " " + stringResource(R.string.chapters)
+        val stringValue = numChapters.toStringPositiveValueOrNull()
+        if (stringValue == null) stringResource(R.string.unknown)
+        else "$stringValue ${stringResource(R.string.chapters)}"
     }
-    else -> "??"
+    else -> stringResource(R.string.unknown)
 }
 
 @Composable
