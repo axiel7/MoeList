@@ -185,7 +185,7 @@ fun MediaDetailsView(
                 TextIconVertical(
                     text = viewModel.basicDetails?.rankText() ?: "",
                     icon = R.drawable.ic_round_bar_chart_24,
-                    modifier = Modifier.clickable { }
+                    tooltip = stringResource(R.string.top_ranked)
                 )
                 VerticalDivider(modifier = Modifier.height(32.dp))
 
@@ -194,21 +194,21 @@ fun MediaDetailsView(
                         viewModel.basicDetails?.numScoringUsers ?: 0
                     ),
                     icon = R.drawable.ic_round_thumbs_up_down_24,
-                    modifier = Modifier.clickable { }
+                    tooltip = stringResource(R.string.users_scores)
                 )
                 VerticalDivider(modifier = Modifier.height(32.dp))
 
                 TextIconVertical(
                     text = App.numberFormat.format(viewModel.basicDetails?.numListUsers ?: 0),
                     icon = R.drawable.ic_round_group_24,
-                    modifier = Modifier.clickable { }
+                    tooltip = stringResource(R.string.members)
                 )
                 VerticalDivider(modifier = Modifier.height(32.dp))
 
                 TextIconVertical(
                     text = "# ${viewModel.basicDetails?.popularity}",
                     icon = R.drawable.ic_round_trending_up_24,
-                    modifier = Modifier.clickable { }
+                    tooltip = stringResource(R.string.popularity)
                 )
             }//:Row
 
