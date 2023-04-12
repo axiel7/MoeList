@@ -73,15 +73,6 @@ fun EditMediaSheet(
                 onValueChange = { },
                 label = { Text(text = stringResource(R.string.episodes)) },
             )
-            /*TextFieldWithDropdown(
-                options = if (viewModel.mediaType == MediaType.ANIME) listStatusAnimeValues().map { it.localized() }
-                else listStatusMangaValues().map { it.localized() },
-                onValueChange = { status = it },
-                label = stringResource(R.string.status),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp, vertical = 16.dp)
-            )*/
         }//:Column
     }
 }
