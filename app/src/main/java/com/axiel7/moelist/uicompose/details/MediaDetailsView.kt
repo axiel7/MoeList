@@ -85,18 +85,18 @@ fun MediaDetailsView(
                 )
             }
         }
-    ) {
+    ) { padding ->
         Column(
             modifier = Modifier
                 .verticalScroll(scrollState)
-                .padding(it)
+                .padding(padding)
                 .padding(bottom = 64.dp)
         ) {
             Row {
                 MediaPoster(
                     url = viewModel.basicDetails?.mainPicture?.large,
                     modifier = Modifier
-                        .padding(8.dp)
+                        .padding(16.dp)
                         .size(
                             width = MEDIA_POSTER_BIG_WIDTH.dp,
                             height = MEDIA_POSTER_BIG_HEIGHT.dp
@@ -119,7 +119,7 @@ fun MediaDetailsView(
                         icon = if (mediaType == MediaType.ANIME) R.drawable.ic_round_movie_24
                         else R.drawable.ic_round_menu_book_24,
                         modifier = Modifier
-                            .padding(bottom = 4.dp)
+                            .padding(bottom = 8.dp)
                             .placeholder(visible = viewModel.isLoading)
                     )
                     TextIconHorizontal(
@@ -128,21 +128,21 @@ fun MediaDetailsView(
                         else viewModel.mangaDetails?.durationText() ?: "Loading",
                         icon = R.drawable.ic_round_timer_24,
                         modifier = Modifier
-                            .padding(bottom = 4.dp)
+                            .padding(bottom = 8.dp)
                             .placeholder(visible = viewModel.isLoading)
                     )
                     TextIconHorizontal(
                         text = viewModel.basicDetails?.status?.statusLocalized() ?: "Loading",
                         icon = R.drawable.ic_round_rss_feed_24,
                         modifier = Modifier
-                            .padding(bottom = 4.dp)
+                            .padding(bottom = 8.dp)
                             .placeholder(visible = viewModel.isLoading)
                     )
                     TextIconHorizontal(
                         text = viewModel.basicDetails?.mean.toString(),
                         icon = R.drawable.ic_round_details_star_24,
                         modifier = Modifier
-                            .padding(bottom = 4.dp)
+                            .padding(bottom = 8.dp)
                             .placeholder(visible = viewModel.isLoading)
                     )
                 }
@@ -152,7 +152,7 @@ fun MediaDetailsView(
             Text(
                 text = viewModel.basicDetails?.synopsis ?: stringResource(R.string.lorem_ipsun),
                 modifier = Modifier
-                    .padding(8.dp)
+                    .padding(horizontal = 16.dp)
                     .placeholder(visible = viewModel.isLoading),
                 overflow = TextOverflow.Ellipsis,
                 maxLines = maxLinesSynopsis
