@@ -1,6 +1,7 @@
 package com.axiel7.moelist.uicompose.userlist
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
@@ -43,8 +44,8 @@ class UserMediaListViewModel(
         else MangaRepository.USER_MANGA_LIST_FIELDS
     )
 
-    var animeList = mutableListOf<UserAnimeList>()
-    var mangaList = mutableListOf<UserMangaList>()
+    var animeList = mutableStateListOf<UserAnimeList>()
+    var mangaList = mutableStateListOf<UserMangaList>()
     var nextPage: String? = null
     var hasNextPage = false
 
@@ -58,10 +59,12 @@ class UserMediaListViewModel(
             if (result?.data != null) {
                 if (result.data.any { it.node is AnimeNode }) {
                     (result.data as List<UserAnimeList>).apply {
+                        if (page == null) animeList.clear()
                         animeList.addAll(this)
                     }
                 } else if (result.data.any { it.node is MangaNode }) {
                     (result.data as List<UserMangaList>).apply {
+                        if (page == null) mangaList.clear()
                         mangaList.addAll(this)
                     }
                 }
