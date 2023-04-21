@@ -12,6 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.*
+import com.axiel7.moelist.uicompose.composables.ClickableOutlinedTextField
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -111,17 +112,18 @@ fun EditMediaSheet(
 
             Divider(modifier = Modifier.padding(vertical = 16.dp))
 
-            OutlinedTextField(
+            ClickableOutlinedTextField(
                 value = viewModel.startDate ?: "",
-                onValueChange = { },
-                modifier = Modifier.padding(vertical = 8.dp),
-                label = { Text(text = stringResource(R.string.start_date)) }
+                onValueChange = {  },
+                label = { Text(text = stringResource(R.string.start_date)) },
+                onClick = { viewModel.openDatePicker = true }
             )
-            OutlinedTextField(
+            ClickableOutlinedTextField(
                 value = viewModel.endDate ?: "",
-                onValueChange = { },
+                onValueChange = {  },
                 modifier = Modifier.padding(vertical = 8.dp),
-                label = { Text(text = stringResource(R.string.end_date)) }
+                label = { Text(text = stringResource(R.string.end_date)) },
+                onClick = { viewModel.openDatePicker = true }
             )
 
             EditMediaProgressRow(
@@ -148,6 +150,43 @@ fun EditMediaSheet(
                 Text(text = stringResource(R.string.delete))
             }
         }//:Column
+    }//:Sheet
+
+    if (viewModel.openDatePicker) {
+        EditMediaDatePicker(viewModel = viewModel)
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun EditMediaDatePicker(
+    viewModel: MediaDetailsViewModel
+) {
+    val datePickerState = rememberDatePickerState()
+    val dateConfirmEnabled by remember {
+        derivedStateOf { datePickerState.selectedDateMillis != null }
+    }
+
+    DatePickerDialog(
+        onDismissRequest = { viewModel.openDatePicker = false },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    viewModel.openDatePicker = false
+
+                },
+                enabled = dateConfirmEnabled
+            ) {
+                Text(text = stringResource(R.string.ok))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = { viewModel.openDatePicker = false }) {
+                Text(text = stringResource(R.string.cancel))
+            }
+        }
+    ) {
+        DatePicker(state = datePickerState)
     }
 }
 

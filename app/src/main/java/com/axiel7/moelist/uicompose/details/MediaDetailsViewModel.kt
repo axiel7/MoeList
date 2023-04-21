@@ -123,6 +123,8 @@ class MediaDetailsViewModel(
         return false
     }
 
+    var openDatePicker by mutableStateOf(false)
+
     fun buildQueryFromThemeText(themeText: String): String {
         var query = themeText.replace(" ", "+")
         val size = query.length
