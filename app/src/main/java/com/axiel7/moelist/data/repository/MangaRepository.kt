@@ -4,6 +4,7 @@ import com.axiel7.moelist.App
 import com.axiel7.moelist.data.model.ApiParams
 import com.axiel7.moelist.data.model.Response
 import com.axiel7.moelist.data.model.manga.MangaDetails
+import com.axiel7.moelist.data.model.manga.MyMangaListStatus
 import com.axiel7.moelist.data.model.manga.UserMangaList
 
 object MangaRepository {
@@ -32,6 +33,25 @@ object MangaRepository {
         return try {
             val result = if (page == null) App.api.getUserMangaList(apiParams)
             else App.api.getUserMangaList(page)
+            result.error?.let { BaseRepository.handleResponseError(it) }
+            return result
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    suspend fun updateAnimeEntry(
+        mangaId: Int,
+        status: String?,
+        score: Int?,
+        chaptersRead: Int?,
+        volumesRead: Int?,
+        startDate: String?,
+        endDate: String?,
+        numRereads: Int?,
+    ): MyMangaListStatus? {
+        return try {
+            val result = App.api.updateUserMangaList(mangaId, status, score, chaptersRead, volumesRead, startDate, endDate, numRereads)
             result.error?.let { BaseRepository.handleResponseError(it) }
             return result
         } catch (e: Exception) {

@@ -6,8 +6,10 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.axiel7.moelist.data.model.ApiParams
 import com.axiel7.moelist.data.model.anime.AnimeNode
+import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
 import com.axiel7.moelist.data.model.anime.UserAnimeList
 import com.axiel7.moelist.data.model.manga.MangaNode
+import com.axiel7.moelist.data.model.manga.MyMangaListStatus
 import com.axiel7.moelist.data.model.manga.UserMangaList
 import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.data.model.media.MediaType
@@ -41,8 +43,8 @@ class UserMediaListViewModel(
         else MangaRepository.USER_MANGA_LIST_FIELDS
     )
 
-    var animeList by mutableStateOf(emptyList<UserAnimeList>())
-    var mangaList by mutableStateOf(emptyList<UserMangaList>())
+    var animeList = mutableListOf<UserAnimeList>()
+    var mangaList = mutableListOf<UserMangaList>()
     var nextPage: String? = null
     var hasNextPage = false
 
@@ -56,11 +58,11 @@ class UserMediaListViewModel(
             if (result?.data != null) {
                 if (result.data.any { it.node is AnimeNode }) {
                     (result.data as List<UserAnimeList>).apply {
-                        animeList = if (page == null) this else animeList + this
+                        animeList.addAll(this)
                     }
                 } else if (result.data.any { it.node is MangaNode }) {
                     (result.data as List<UserMangaList>).apply {
-                        mangaList = if (page == null) this else mangaList + this
+                        mangaList.addAll(this)
                     }
                 }
                 nextPage = result.paging?.next
@@ -68,6 +70,52 @@ class UserMediaListViewModel(
             } else {
                 setErrorMessage(result?.message ?: "Generic error")
                 hasNextPage = false
+            }
+            isLoading = false
+        }
+    }
+
+    fun updateListItem(
+        mediaId: Int,
+        status: String? = null,
+        score: Int? = null,
+        progress: Int? = null,
+        volumeProgress: Int? = null,
+        startDate: String? = null,
+        endDate: String? = null,
+        repeatCount: Int? = null,
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            isLoading = true
+            val result = if (mediaType == MediaType.ANIME)
+                AnimeRepository.updateAnimeEntry(
+                    animeId = mediaId,
+                    status = status,
+                    score = score,
+                    watchedEpisodes = progress,
+                    startDate = startDate,
+                    endDate = endDate,
+                    numRewatches = repeatCount
+                )
+            else MangaRepository.updateAnimeEntry(
+                mangaId = mediaId,
+                status = status,
+                score = score,
+                chaptersRead = progress,
+                volumesRead = volumeProgress,
+                startDate = startDate,
+                endDate = endDate,
+                numRereads = repeatCount
+            )
+
+            if (result != null) {
+                if (mediaType == MediaType.ANIME) {
+                    val foundIndex = animeList.indexOfFirst { it.node.id == mediaId }
+                    if (foundIndex != -1) animeList[foundIndex] = animeList[foundIndex].copy(listStatus = result as MyAnimeListStatus)
+                } else {
+                    val foundIndex = mangaList.indexOfFirst { it.node.id == mediaId }
+                    if (foundIndex != -1) mangaList[foundIndex] = mangaList[foundIndex].copy(listStatus = result as MyMangaListStatus)
+                }
             }
             isLoading = false
         }

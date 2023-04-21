@@ -6,6 +6,7 @@ import com.axiel7.moelist.data.model.Response
 import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.anime.AnimeList
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
+import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
 import com.axiel7.moelist.data.model.anime.UserAnimeList
 
 object AnimeRepository {
@@ -72,6 +73,24 @@ object AnimeRepository {
         return try {
             val result = if (page == null) App.api.getUserAnimeList(apiParams)
             else App.api.getUserAnimeList(page)
+            result.error?.let { BaseRepository.handleResponseError(it) }
+            return result
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    suspend fun updateAnimeEntry(
+        animeId: Int,
+        status: String?,
+        score: Int?,
+        watchedEpisodes: Int?,
+        startDate: String?,
+        endDate: String?,
+        numRewatches: Int?,
+    ): MyAnimeListStatus? {
+        return try {
+            val result = App.api.updateUserAnimeList(animeId, status, score, watchedEpisodes, startDate, endDate, numRewatches)
             result.error?.let { BaseRepository.handleResponseError(it) }
             return result
         } catch (e: Exception) {

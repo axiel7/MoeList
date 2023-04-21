@@ -1,5 +1,6 @@
 package com.axiel7.moelist.uicompose.userlist
 
+import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -20,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -94,6 +96,7 @@ fun UserMediaListView(
     status: ListStatus,
     navController: NavController
 ) {
+    val context = LocalContext.current
     val viewModel: UserMediaListViewModel = viewModel(key = status.value) { UserMediaListViewModel(mediaType, status) }
     val pullRefreshState = rememberPullRefreshState(viewModel.isLoading, { viewModel.getUserList() })
     val listState = rememberLazyListState()
@@ -108,7 +111,7 @@ fun UserMediaListView(
             state = listState
         ) {
             if (viewModel.mediaType == MediaType.ANIME) {
-                items(viewModel.animeList) { item ->
+                items(viewModel.animeList, key = { it.node.id }) { item ->
                     UserMediaListItem(
                         imageUrl = item.node.mainPicture?.large,
                         title = item.node.title,
@@ -120,11 +123,17 @@ fun UserMediaListView(
                         listStatus = status,
                         onClick = {
                             navController.navigate("details/ANIME/${item.node.id}")
+                        },
+                        onClickPlus = {
+                            viewModel.updateListItem(
+                                mediaId = item.node.id,
+                                progress = item.listStatus?.numEpisodesWatched?.plus(1)
+                            )
                         }
                     )
                 }
             } else {
-                items(viewModel.mangaList) { item ->
+                items(viewModel.mangaList, key = { it.node.id }) { item ->
                     UserMediaListItem(
                         imageUrl = item.node.mainPicture?.large,
                         title = item.node.title,
@@ -136,6 +145,12 @@ fun UserMediaListView(
                         listStatus = status,
                         onClick = {
                             navController.navigate("details/MANGA/${item.node.id}")
+                        },
+                        onClickPlus = {
+                            viewModel.updateListItem(
+                                mediaId = item.node.id,
+                                progress = item.listStatus?.numChaptersRead?.plus(1)
+                            )
                         }
                     )
                 }
@@ -149,6 +164,11 @@ fun UserMediaListView(
         if (!viewModel.isLoading && viewModel.hasNextPage) {
             viewModel.getUserList(viewModel.nextPage)
         }
+    }
+
+    if (viewModel.showMessage) {
+        Toast.makeText(context, viewModel.message, Toast.LENGTH_SHORT).show()
+        viewModel.showMessage = false
     }
 
     LaunchedEffect(status) {
@@ -167,7 +187,8 @@ fun UserMediaListItem(
     userProgress: Int?,
     totalProgress: Int?,
     listStatus: ListStatus,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onClickPlus: () -> Unit,
 ) {
     OutlinedCard(
         onClick = onClick,
@@ -239,7 +260,7 @@ fun UserMediaListItem(
                         )
 
                         if (listStatus == ListStatus.WATCHING || listStatus == ListStatus.READING) {
-                            OutlinedButton(onClick = { /*TODO*/ }) {
+                            OutlinedButton(onClick = onClickPlus) {
                                 Text(text = stringResource(R.string.plus_one))
                             }
                         }
@@ -289,7 +310,8 @@ fun UserMediaListItemPreview() {
             userProgress = 4,
             totalProgress = 24,
             listStatus = ListStatus.WATCHING,
-            onClick = { }
+            onClick = { },
+            onClickPlus = { }
         )
     }
 }
