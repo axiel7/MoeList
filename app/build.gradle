@@ -16,7 +16,7 @@ android {
         archivesBaseName = "moelist-v$versionName"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        resConfigs 'en', 'ar-rSA', 'bg-rBG', 'de', 'es', 'fr', 'pt-rBR', 'ru-rRU', 'tr', 'uk-rUA', 'ja', 'zh-rTW'
+        resourceConfigurations += ['en', 'ar-rSA', 'bg-rBG', 'de', 'es', 'fr', 'pt-rBR', 'ru-rRU', 'tr', 'uk-rUA', 'ja', 'zh-rTW']
         vectorDrawables {
             useSupportLibrary true
         }
