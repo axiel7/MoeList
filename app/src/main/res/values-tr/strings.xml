@@ -52,7 +52,7 @@
     <string name="rewatched">Tekrar İzleme</string>
     <string name="view_profile_mal">Profili Mal \'de görüntüle</string>
     <string name="airing_in">%s saat sonra yayınlanacak</string>
-    <string name="score_value">Puan:</string>
+    <string name="score_value">Puan: %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 CH</string>

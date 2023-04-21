@@ -52,7 +52,7 @@
     <string name="rewatched">Vueltos a ver</string>
     <string name="view_profile_mal">Ver perfil en MAL</string>
     <string name="airing_in">Emisión en %sh</string>
-    <string name="score_value">Puntuación:</string>
+    <string name="score_value">Puntuación: %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 CAP</string>

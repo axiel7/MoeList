@@ -7,6 +7,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.axiel7.moelist.R
@@ -32,11 +33,13 @@ fun EditMediaSheet(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp, bottom = 52.dp),
+                .padding(bottom = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 TextButton(onClick = {
@@ -53,7 +56,7 @@ fun EditMediaSheet(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp, vertical = 16.dp),
+                    .padding(16.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -68,12 +71,125 @@ fun EditMediaSheet(
                 }
             }
 
-            OutlinedTextField(
-                value = "0",
-                onValueChange = { },
-                label = { Text(text = stringResource(R.string.episodes)) },
+            EditMediaProgressRow(
+                label = if (viewModel.mediaType == MediaType.ANIME) stringResource(R.string.episodes)
+                else stringResource(R.string.chapters),
+                progress = viewModel.progress,
+                modifier = Modifier.padding(horizontal = 16.dp),
+                totalProgress = viewModel.basicDetails?.totalDuration(),
+                onValueChange = { viewModel.onChangeProgress(it.toIntOrNull()) },
+                onMinusClick = { viewModel.onChangeProgress(viewModel.progress - 1) },
+                onPlusClick = { viewModel.onChangeProgress(viewModel.progress + 1) }
             )
+
+            if (viewModel.mediaType == MediaType.MANGA) {
+                EditMediaProgressRow(
+                    label = stringResource(R.string.volumes),
+                    progress = viewModel.volumeProgress,
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    totalProgress = viewModel.mangaDetails?.numVolumes,
+                    onValueChange = { viewModel.onChangeVolumeProgress(it.toIntOrNull()) },
+                    onMinusClick = { viewModel.onChangeVolumeProgress(viewModel.volumeProgress - 1) },
+                    onPlusClick = { viewModel.onChangeVolumeProgress(viewModel.volumeProgress + 1) }
+                )
+            }
+
+            Text(
+                text = stringResource(R.string.score_value).format(viewModel.score.scoreText()),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp, start = 16.dp, end = 16.dp),
+                fontWeight = FontWeight.Bold
+            )
+            Slider(
+                value = viewModel.score.toFloat(),
+                onValueChange = { viewModel.score = it.toInt() },
+                modifier = Modifier.padding(horizontal = 16.dp),
+                valueRange = 0f..10f,
+                steps = 10
+            )
+
+            Divider(modifier = Modifier.padding(vertical = 16.dp))
+
+            OutlinedTextField(
+                value = viewModel.startDate ?: "",
+                onValueChange = { },
+                modifier = Modifier.padding(vertical = 8.dp),
+                label = { Text(text = stringResource(R.string.start_date)) }
+            )
+            OutlinedTextField(
+                value = viewModel.endDate ?: "",
+                onValueChange = { },
+                modifier = Modifier.padding(vertical = 8.dp),
+                label = { Text(text = stringResource(R.string.end_date)) }
+            )
+
+            EditMediaProgressRow(
+                label = stringResource(if (viewModel.mediaType == MediaType.ANIME) R.string.total_rewatches
+                else R.string.total_rereads),
+                progress = viewModel.repeatCount,
+                modifier = Modifier.padding(16.dp),
+                totalProgress = null,
+                onValueChange = { viewModel.onChangeRepeatCount(it.toIntOrNull()) },
+                onMinusClick = { viewModel.onChangeRepeatCount(viewModel.repeatCount - 1) },
+                onPlusClick = { viewModel.onChangeRepeatCount(viewModel.repeatCount + 1) }
+            )
+
+            Button(
+                onClick = { /*TODO*/ },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 32.dp, vertical = 16.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.errorContainer,
+                    contentColor = MaterialTheme.colorScheme.error
+                )
+            ) {
+                Text(text = stringResource(R.string.delete))
+            }
         }//:Column
+    }
+}
+
+@Composable
+fun EditMediaProgressRow(
+    label: String,
+    progress: Int,
+    modifier: Modifier,
+    totalProgress: Int?,
+    onValueChange: (String) -> Unit,
+    onMinusClick: () -> Unit,
+    onPlusClick: () -> Unit,
+) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        OutlinedButton(
+            onClick = onMinusClick,
+            modifier = Modifier.weight(1f)
+        ) {
+            Text(text = stringResource(R.string.minus_one))
+        }
+        OutlinedTextField(
+            value = progress.toString(),
+            onValueChange = onValueChange,
+            modifier = Modifier
+                .weight(2f)
+                .padding(horizontal = 16.dp),
+            label = { Text(text = label) },
+            suffix = {
+                totalProgress?.let { Text(text = "/$it") }
+            }
+        )
+
+        OutlinedButton(
+            onClick = onPlusClick,
+            modifier = Modifier.weight(1f)
+        ) {
+            Text(text = stringResource(R.string.plus_one))
+        }
     }
 }
 

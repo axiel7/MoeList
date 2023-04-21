@@ -52,7 +52,7 @@
     <string name="rewatched">Znovu Shlédnuto</string>
     <string name="view_profile_mal">Zobrazit profil na MAL</string>
     <string name="airing_in">Vysílání za %sh</string>
-    <string name="score_value">Skóre:</string>
+    <string name="score_value">Skóre: %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 Kap</string>

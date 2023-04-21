@@ -52,7 +52,7 @@
     <string name="rewatched">أعدت مشاهدته</string>
     <string name="view_profile_mal">عرض الملفّ الشخصي على MAL</string>
     <string name="airing_in">سيبث في %s س</string>
-    <string name="score_value">التقييم:</string>
+    <string name="score_value">التقييم: %s</string>
     <string name="plus_one">1+</string>
     <string name="minus_one">-1</string>
     <string name="plus_one_chapter">1+ فصل</string>

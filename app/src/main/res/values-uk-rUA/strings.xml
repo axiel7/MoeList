@@ -52,7 +52,7 @@
     <string name="rewatched">Переглянуто знову</string>
     <string name="view_profile_mal">Переглянути профіль на MAL</string>
     <string name="airing_in">Трансляція через %s год</string>
-    <string name="score_value">Оцінка:</string>
+    <string name="score_value">Оцінка: %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 РОЗ</string>

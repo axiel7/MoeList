@@ -52,7 +52,7 @@
     <string name="rewatched">見直しました</string>
     <string name="view_profile_mal">MALでプロファイルを表示</string>
     <string name="airing_in">%s時間で配信中</string>
-    <string name="score_value">スコア：</string>
+    <string name="score_value">スコア： %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 章</string>

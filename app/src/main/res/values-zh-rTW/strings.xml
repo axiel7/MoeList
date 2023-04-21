@@ -52,7 +52,7 @@
     <string name="rewatched">重看</string>
     <string name="view_profile_mal">在 MAL 上查看個人資料</string>
     <string name="airing_in">%s小時後播出</string>
-    <string name="score_value">分數:</string>
+    <string name="score_value">分數: %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 章</string>

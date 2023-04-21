@@ -52,7 +52,7 @@
     <string name="rewatched">Wiederholt</string>
     <string name="view_profile_mal">Profil auf MAL ansehen</string>
     <string name="airing_in">Läuft in %sh</string>
-    <string name="score_value">Bewertung:</string>
+    <string name="score_value">Bewertung: %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 KP</string>

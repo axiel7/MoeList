@@ -53,10 +53,7 @@ fun MediaDetailsView(
     var maxLinesSynopsis by remember { mutableStateOf(5) }
     var iconExpand by remember { mutableStateOf(R.drawable.ic_round_keyboard_arrow_down_24) }
     val coroutineScope = rememberCoroutineScope()
-    val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true,
-        confirmValueChange = { it != SheetValue.PartiallyExpanded }
-    )
+    val sheetState = rememberModalBottomSheetState()
 
     Scaffold(
         modifier = Modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
@@ -73,7 +70,7 @@ fun MediaDetailsView(
         },
         floatingActionButton = {
             ExtendedFloatingActionButton(onClick = {
-                coroutineScope.launch { sheetState.expand() }
+                coroutineScope.launch { sheetState.show() }
             }) {
                 Icon(
                     painter = painterResource(R.drawable.ic_round_edit_24),

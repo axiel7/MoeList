@@ -53,6 +53,15 @@ fun BaseMediaDetails.durationText() = when (this) {
     else -> stringResource(R.string.unknown)
 }
 
+/**
+ * @return the total num of episodes or chapters
+ */
+fun BaseMediaDetails.totalDuration() = when (this) {
+    is AnimeDetails -> numEpisodes
+    is MangaDetails -> numChapters
+    else -> null
+}
+
 @Composable
 fun String.mediaFormatLocalized() = when (this) {
     "tv" -> stringResource(R.string.tv)

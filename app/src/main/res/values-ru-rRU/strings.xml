@@ -52,7 +52,7 @@
     <string name="rewatched">Пересмотрено</string>
     <string name="view_profile_mal">Посмотреть профиль на MAL</string>
     <string name="airing_in">Выйдет через %s ч.</string>
-    <string name="score_value">Оценка:</string>
+    <string name="score_value">Оценка: %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 ГЛ</string>
