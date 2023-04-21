@@ -165,7 +165,8 @@ fun HomeCard(
             modifier = Modifier.padding(12.dp)
         ) {
             Icon(imageVector = ImageVector.vectorResource(icon), contentDescription = text)
-            Text(text,
+            Text(
+                text = text,
                 modifier = Modifier.padding(start = 8.dp),
                 fontSize = 14.sp,
                 overflow = TextOverflow.Ellipsis,
@@ -210,15 +211,18 @@ fun AiringAnimeHorizontalItem(item: AnimeSeasonal, onClick: () -> Unit) {
         Column(
             modifier = Modifier.padding(start = 16.dp)
         ) {
-            Text(text = item.node.title,
+            Text(
+                text = item.node.title,
                 fontSize = 18.sp,
                 maxLines = 2,
                 modifier = Modifier.padding(bottom = 4.dp)
             )
-            Text(text = item.airingInValue(),
+            Text(
+                text = item.airingInValue(),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(bottom = 4.dp))
-            Text(text = stringResource(R.string.score_value) + item.node.mean,
+            Text(
+                text = stringResource(R.string.score_value).format(item.node.mean),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
