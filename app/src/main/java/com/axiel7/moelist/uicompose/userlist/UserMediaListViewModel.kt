@@ -100,7 +100,7 @@ class UserMediaListViewModel(
                     endDate = endDate,
                     numRewatches = repeatCount
                 )
-            else MangaRepository.updateAnimeEntry(
+            else MangaRepository.updateMangaEntry(
                 mangaId = mediaId,
                 status = status,
                 score = score,

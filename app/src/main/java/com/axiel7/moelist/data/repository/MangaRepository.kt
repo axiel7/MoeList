@@ -40,7 +40,7 @@ object MangaRepository {
         }
     }
 
-    suspend fun updateAnimeEntry(
+    suspend fun updateMangaEntry(
         mangaId: Int,
         status: String?,
         score: Int?,
