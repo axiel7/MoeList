@@ -18,6 +18,10 @@ abstract class BaseMyListStatus : BaseResponse() {
     @SerialName("end_date")
     abstract val endDate: String?
 
+    abstract val progress: Int?
+    abstract val repeatCount: Int?
+    abstract val isRepeating: Boolean
+
     override var error: String? = null
     override var message: String? = null
 }

@@ -26,6 +26,7 @@ import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.*
+import com.axiel7.moelist.data.model.manga.MangaDetails
 import com.axiel7.moelist.data.model.media.*
 import com.axiel7.moelist.uicompose.composables.*
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
@@ -70,7 +71,7 @@ fun MediaDetailsView(
         },
         floatingActionButton = {
             ExtendedFloatingActionButton(onClick = {
-                coroutineScope.launch { sheetState.show() }
+                if (viewModel.mediaDetails != null) coroutineScope.launch { sheetState.show() }
             }) {
                 Icon(
                     painter = painterResource(R.drawable.ic_round_edit_24),
@@ -91,7 +92,7 @@ fun MediaDetailsView(
         ) {
             Row {
                 MediaPoster(
-                    url = viewModel.basicDetails?.mainPicture?.large,
+                    url = viewModel.mediaDetails?.mainPicture?.large,
                     modifier = Modifier
                         .padding(16.dp)
                         .size(
@@ -103,7 +104,7 @@ fun MediaDetailsView(
                 Column {
                     SelectionContainer {
                         Text(
-                            text = viewModel.basicDetails?.title ?: "Loading",
+                            text = viewModel.mediaDetails?.title ?: "Loading",
                             modifier = Modifier
                                 .padding(vertical = 8.dp)
                                 .placeholder(visible = viewModel.isLoading),
@@ -112,7 +113,7 @@ fun MediaDetailsView(
                         )
                     }
                     TextIconHorizontal(
-                        text = viewModel.basicDetails?.mediaType?.mediaFormatLocalized() ?: "Loading",
+                        text = viewModel.mediaDetails?.mediaType?.mediaFormatLocalized() ?: "Loading",
                         icon = if (mediaType == MediaType.ANIME) R.drawable.ic_round_movie_24
                         else R.drawable.ic_round_menu_book_24,
                         modifier = Modifier
@@ -120,23 +121,21 @@ fun MediaDetailsView(
                             .placeholder(visible = viewModel.isLoading)
                     )
                     TextIconHorizontal(
-                        text = if (mediaType == MediaType.ANIME)
-                            viewModel.animeDetails?.durationText() ?: "Loading"
-                        else viewModel.mangaDetails?.durationText() ?: "Loading",
+                        text = viewModel.mediaDetails?.durationText() ?: "Loading",
                         icon = R.drawable.ic_round_timer_24,
                         modifier = Modifier
                             .padding(bottom = 8.dp)
                             .placeholder(visible = viewModel.isLoading)
                     )
                     TextIconHorizontal(
-                        text = viewModel.basicDetails?.status?.statusLocalized() ?: "Loading",
+                        text = viewModel.mediaDetails?.status?.statusLocalized() ?: "Loading",
                         icon = R.drawable.ic_round_rss_feed_24,
                         modifier = Modifier
                             .padding(bottom = 8.dp)
                             .placeholder(visible = viewModel.isLoading)
                     )
                     TextIconHorizontal(
-                        text = viewModel.basicDetails?.mean.toString(),
+                        text = viewModel.mediaDetails?.mean.toString(),
                         icon = R.drawable.ic_round_details_star_24,
                         modifier = Modifier
                             .padding(bottom = 8.dp)
@@ -147,7 +146,7 @@ fun MediaDetailsView(
 
             //Synopsis
             Text(
-                text = viewModel.basicDetails?.synopsis ?: stringResource(R.string.lorem_ipsun),
+                text = viewModel.mediaDetails?.synopsis ?: stringResource(R.string.lorem_ipsun),
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .placeholder(visible = viewModel.isLoading),
@@ -180,7 +179,7 @@ fun MediaDetailsView(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 TextIconVertical(
-                    text = viewModel.basicDetails?.rankText() ?: "",
+                    text = viewModel.mediaDetails?.rankText() ?: "",
                     icon = R.drawable.ic_round_bar_chart_24,
                     tooltip = stringResource(R.string.top_ranked)
                 )
@@ -188,7 +187,7 @@ fun MediaDetailsView(
 
                 TextIconVertical(
                     text = App.numberFormat.format(
-                        viewModel.basicDetails?.numScoringUsers ?: 0
+                        viewModel.mediaDetails?.numScoringUsers ?: 0
                     ),
                     icon = R.drawable.ic_round_thumbs_up_down_24,
                     tooltip = stringResource(R.string.users_scores)
@@ -196,14 +195,14 @@ fun MediaDetailsView(
                 VerticalDivider(modifier = Modifier.height(32.dp))
 
                 TextIconVertical(
-                    text = App.numberFormat.format(viewModel.basicDetails?.numListUsers ?: 0),
+                    text = App.numberFormat.format(viewModel.mediaDetails?.numListUsers ?: 0),
                     icon = R.drawable.ic_round_group_24,
                     tooltip = stringResource(R.string.members)
                 )
                 VerticalDivider(modifier = Modifier.height(32.dp))
 
                 TextIconVertical(
-                    text = "# ${viewModel.basicDetails?.popularity}",
+                    text = "# ${viewModel.mediaDetails?.popularity}",
                     icon = R.drawable.ic_round_trending_up_24,
                     tooltip = stringResource(R.string.popularity)
                 )
@@ -215,14 +214,14 @@ fun MediaDetailsView(
                 SelectionContainer {
                     MediaInfoView(
                         title = stringResource(R.string.authors),
-                        info = viewModel.mangaDetails?.authors
+                        info = (viewModel.mediaDetails as? MangaDetails)?.authors
                             ?.joinToString { "${it.node.firstName} ${it.node.lastName}" },
                         modifier = Modifier.placeholder(visible = viewModel.isLoading)
                     )
                 }
                 MediaInfoView(
                     title = stringResource(R.string.volumes),
-                    info = viewModel.mangaDetails?.numVolumes.toStringPositiveValueOrNull(),
+                    info = (viewModel.mediaDetails as? MangaDetails)?.numVolumes.toStringPositiveValueOrNull(),
                     modifier = Modifier.placeholder(visible = viewModel.isLoading)
                 )
                 Divider(modifier = Modifier.padding(vertical = 8.dp))
@@ -230,47 +229,47 @@ fun MediaDetailsView(
             SelectionContainer {
                 MediaInfoView(
                     title = stringResource(R.string.synonyms),
-                    info = viewModel.basicDetails?.synonymsJoined(),
+                    info = viewModel.mediaDetails?.synonymsJoined(),
                     modifier = Modifier.placeholder(visible = viewModel.isLoading)
                 )
             }
             SelectionContainer {
                 MediaInfoView(
                     title = stringResource(R.string.jp_title),
-                    info = viewModel.basicDetails?.alternativeTitles?.ja,
+                    info = viewModel.mediaDetails?.alternativeTitles?.ja,
                     modifier = Modifier.placeholder(visible = viewModel.isLoading)
                 )
             }
             Divider(modifier = Modifier.padding(vertical = 8.dp))
             MediaInfoView(
                 title = stringResource(R.string.start_date),
-                info = viewModel.basicDetails?.startDate,
+                info = viewModel.mediaDetails?.startDate,
                 modifier = Modifier.placeholder(visible = viewModel.isLoading)
             )
             MediaInfoView(
                 title = stringResource(R.string.end_date),
-                info = viewModel.basicDetails?.endDate,
+                info = viewModel.mediaDetails?.endDate,
                 modifier = Modifier.placeholder(visible = viewModel.isLoading)
             )
             if (mediaType == MediaType.ANIME) {
                 MediaInfoView(
                     title = stringResource(R.string.season),
-                    info = viewModel.animeDetails?.seasonYearText(),
+                    info = (viewModel.mediaDetails as? AnimeDetails)?.seasonYearText(),
                     modifier = Modifier.placeholder(visible = viewModel.isLoading)
                 )
                 MediaInfoView(
                     title = stringResource(R.string.broadcast),
-                    info = viewModel.animeDetails?.broadcastTimeText(),
+                    info = (viewModel.mediaDetails as? AnimeDetails)?.broadcastTimeText(),
                     modifier = Modifier.placeholder(visible = viewModel.isLoading)
                 )
                 MediaInfoView(
                     title = stringResource(R.string.duration),
-                    info = viewModel.animeDetails?.episodeDurationLocalized(),
+                    info = (viewModel.mediaDetails as? AnimeDetails)?.episodeDurationLocalized(),
                     modifier = Modifier.placeholder(visible = viewModel.isLoading)
                 )
                 MediaInfoView(
                     title = stringResource(R.string.source),
-                    info = viewModel.animeDetails?.sourceLocalized(),
+                    info = (viewModel.mediaDetails as? AnimeDetails)?.sourceLocalized(),
                     modifier = Modifier.placeholder(visible = viewModel.isLoading)
                 )
             }
@@ -288,7 +287,7 @@ fun MediaDetailsView(
             //Themes
             if (mediaType == MediaType.ANIME) {
                 InfoTitle(text = stringResource(R.string.opening))
-                viewModel.animeDetails?.openingThemes?.forEach { theme ->
+                (viewModel.mediaDetails as? AnimeDetails)?.openingThemes?.forEach { theme ->
                     AnimeThemeItem(text = theme.text, onClick = {
                         context.openAction(
                             Constants.YOUTUBE_QUERY_URL
@@ -298,7 +297,7 @@ fun MediaDetailsView(
                 }
 
                 InfoTitle(text = stringResource(R.string.ending))
-                viewModel.animeDetails?.endingThemes?.forEach { theme ->
+                (viewModel.mediaDetails as? AnimeDetails)?.endingThemes?.forEach { theme ->
                     AnimeThemeItem(text = theme.text, onClick = {
                         context.openAction(
                             Constants.YOUTUBE_QUERY_URL

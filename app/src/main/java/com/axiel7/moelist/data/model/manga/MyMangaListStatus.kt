@@ -13,12 +13,12 @@ data class MyMangaListStatus (
     override val startDate: String? = null,
     override val endDate: String? = null,
     @SerialName("num_chapters_read")
-    val numChaptersRead: Int = 0,
+    override val progress: Int?,
     @SerialName("num_volumes_read")
     val numVolumesRead: Int = 0,
     @SerialName("is_rereading")
-    val isRereading: Boolean = false,
+    override val isRepeating: Boolean = false,
     @SerialName("num_times_reread")
-    val numTimesReread: Int = 0,
+    override val repeatCount: Int? = 0,
 
 ) : BaseMyListStatus()

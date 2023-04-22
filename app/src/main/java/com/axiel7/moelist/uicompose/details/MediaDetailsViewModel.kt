@@ -1,16 +1,13 @@
 package com.axiel7.moelist.uicompose.details
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.axiel7.moelist.data.model.anime.AnimeDetails
-import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
 import com.axiel7.moelist.data.model.manga.MangaDetails
-import com.axiel7.moelist.data.model.manga.MyMangaListStatus
 import com.axiel7.moelist.data.model.media.BaseMediaDetails
-import com.axiel7.moelist.data.model.media.BaseMyListStatus
-import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.Related
 import com.axiel7.moelist.data.repository.AnimeRepository
@@ -27,30 +24,23 @@ class MediaDetailsViewModel(
         isLoading = true
     }
 
-    var basicDetails by mutableStateOf<BaseMediaDetails?>(null)
-    var animeDetails by mutableStateOf<AnimeDetails?>(null)
-    var mangaDetails by mutableStateOf<MangaDetails?>(null)
+    var mediaDetails by mutableStateOf<BaseMediaDetails?>(null)
     var studioSerializationJoined by mutableStateOf<String?>(null)
-    var related by mutableStateOf(emptyList<Related>())
+    var related = mutableStateListOf<Related>()
 
     fun getDetails(mediaId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             isLoading = true
             if (mediaType == MediaType.ANIME) {
-                animeDetails = AnimeRepository.getAnimeDetails(mediaId)
-                basicDetails = animeDetails
-                studioSerializationJoined = animeDetails?.studios?.joinToString { it.name }
-                animeDetails?.myListStatus?.let { setEditVariables(it) }
+                mediaDetails = AnimeRepository.getAnimeDetails(mediaId)
+                studioSerializationJoined = (mediaDetails as? AnimeDetails?)?.studios?.joinToString { it.name }
             } else {
-                mangaDetails = MangaRepository.getMangaDetails(mediaId)
-                basicDetails = mangaDetails
-                studioSerializationJoined = mangaDetails?.serialization?.joinToString { it.node.name }
-                mangaDetails?.myListStatus?.let { setEditVariables(it) }
+                mediaDetails = MangaRepository.getMangaDetails(mediaId)
+                studioSerializationJoined = (mediaDetails as? MangaDetails?)?.serialization?.joinToString { it.node.name }
             }
-            val tempRelated = mutableListOf<Related>()
-            basicDetails?.relatedAnime?.let { tempRelated.addAll(it) }
-            basicDetails?.relatedManga?.let { tempRelated.addAll(it) }
-            related = tempRelated
+            related.clear()
+            mediaDetails?.relatedAnime?.let { related.addAll(it) }
+            mediaDetails?.relatedManga?.let { related.addAll(it) }
             isLoading = false
         }
     }

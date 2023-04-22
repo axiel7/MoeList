@@ -34,6 +34,8 @@ abstract class BaseMediaDetails : BaseResponse() {
     abstract val relatedManga: List<Related>?
     abstract val recommendations: List<Recommendations>?
 
+    abstract val myListStatus: BaseMyListStatus?
+
     override var error: String? = null
     override var message: String? = null
 }

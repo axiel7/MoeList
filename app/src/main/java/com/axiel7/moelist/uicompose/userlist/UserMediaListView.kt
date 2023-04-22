@@ -118,7 +118,7 @@ fun UserMediaListView(
                         score = item.listStatus?.score,
                         mediaFormat = item.node.mediaType,
                         mediaStatus = item.node.status,
-                        userProgress = item.listStatus?.numEpisodesWatched,
+                        userProgress = item.listStatus?.progress,
                         totalProgress = item.node.numEpisodes,
                         listStatus = status,
                         onClick = {
@@ -127,7 +127,7 @@ fun UserMediaListView(
                         onClickPlus = {
                             viewModel.updateListItem(
                                 mediaId = item.node.id,
-                                progress = item.listStatus?.numEpisodesWatched?.plus(1)
+                                progress = item.listStatus?.progress?.plus(1)
                             )
                         }
                     )
@@ -140,7 +140,7 @@ fun UserMediaListView(
                         score = item.listStatus?.score,
                         mediaFormat = item.node.mediaType,
                         mediaStatus = item.node.status,
-                        userProgress = item.listStatus?.numChaptersRead,
+                        userProgress = item.listStatus?.progress,
                         totalProgress = item.node.numChapters,
                         listStatus = status,
                         onClick = {
@@ -149,7 +149,7 @@ fun UserMediaListView(
                         onClickPlus = {
                             viewModel.updateListItem(
                                 mediaId = item.node.id,
-                                progress = item.listStatus?.numChaptersRead?.plus(1)
+                                progress = item.listStatus?.progress?.plus(1)
                             )
                         }
                     )

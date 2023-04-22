@@ -13,10 +13,10 @@ data class MyAnimeListStatus (
     override val startDate: String? = null,
     override val endDate: String? = null,
     @SerialName("num_episodes_watched")
-    val numEpisodesWatched: Int = 0,
+    override val progress: Int? = 0,
     @SerialName("is_rewatching")
-    val isRewatching: Boolean = false,
+    override val isRepeating: Boolean = false,
     @SerialName("num_times_rewatched")
-    val numTimesRewatched: Int = 0,
+    override val repeatCount: Int? = 0,
 
 ) : BaseMyListStatus()
