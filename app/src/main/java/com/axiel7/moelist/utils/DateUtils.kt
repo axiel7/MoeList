@@ -4,6 +4,7 @@ import java.time.DateTimeException
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -39,6 +40,17 @@ object DateUtils {
     }
 
     /**
+     * @return the date in LocalDate, null if fails
+     */
+    fun getLocalDateFromMillis(millis: Long): LocalDate? {
+        return try {
+            Instant.ofEpochMilli(millis).atZone(ZoneId.systemDefault()).toLocalDate()
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    /**
      * @return the date in unixtime, null if fails
      */
     fun getTimeInMillisFromDateString(
@@ -69,4 +81,6 @@ object DateUtils {
     }
 
     fun String.toISOformat(inputFormat: DateTimeFormatter) = LocalDate.parse(this, inputFormat).toString()
+
+    fun LocalDate.toEpochMillis() = this.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli()
 }
