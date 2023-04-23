@@ -81,8 +81,8 @@
     <string name="one_shot">ワンショット</string>
     <string name="manhwa">韓国の漫画</string>
     <string name="novel">小説</string>
-    <string name="airing">配信中</string>
-    <string name="finished">終了</string>
+    <string name="airing" comment="the status &quot;airing&quot; of an anime">配信中</string>
+    <string name="finished" comment="the status &quot;finished&quot; of an anime/manga">終了</string>
     <string name="on_hiatus">中断</string>
     <string name="winter">冬</string>
     <string name="spring">春</string>
@@ -111,7 +111,7 @@
     <string name="saturday">土曜日</string>
     <string name="sunday">日曜日</string>
     <string name="not_yet_aired">まだ配信していません</string>
-    <string name="publishing">公開中</string>
+    <string name="publishing" comment="the status &quot;publishing&quot; of a manga">公開中</string>
     <string name="all">すべて</string>
     <string name="popular">人気</string>
     <string name="added_ptr">プランニングに追加しました</string>
@@ -268,5 +268,5 @@
     <string name="select_date">日付を選択</string>
     <string name="total_rereads">合計再販数</string>
     <string name="total_rewatches">合計再視聴数</string>
-    <string name="chinese_simplified">Chinese (Simplified)</string>
+    <string name="chinese_simplified">中国語（簡体字）</string>
 </resources>
