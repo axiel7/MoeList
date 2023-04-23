@@ -242,7 +242,13 @@ fun UserMediaListItem(
                         maxLines = 2
                     )
                     Text(
-                        text = "${mediaFormat?.mediaFormatLocalized()} • ${mediaStatus?.statusLocalized()}",
+                        text = buildString {
+                            append(mediaFormat?.mediaFormatLocalized())
+                            if (mediaStatus == "currently_airing") {
+                                append(" • ")
+                                append(mediaStatus.statusLocalized())
+                            }
+                        },
                         modifier = Modifier.padding(horizontal = 16.dp)
                     )
                 }
