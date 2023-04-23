@@ -244,7 +244,7 @@ fun UserMediaListItem(
                     Text(
                         text = buildString {
                             append(mediaFormat?.mediaFormatLocalized())
-                            if (mediaStatus == "currently_airing") {
+                            if (mediaStatus?.startsWith("currently") == true) {
                                 append(" • ")
                                 append(mediaStatus.statusLocalized())
                             }
