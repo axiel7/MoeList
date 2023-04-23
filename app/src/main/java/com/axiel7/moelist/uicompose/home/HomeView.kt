@@ -69,15 +69,15 @@ fun HomeView(
             }
             item {
                 HomeCard(
-                    text = "Seasonal Chart",
-                    icon = SeasonCalendar.seasonIcon,
+                    text = "Calendar",
+                    icon = R.drawable.ic_round_event_24,
                     onClick = { },
                 )
             }
             item {
                 HomeCard(
-                    text = "Calendar",
-                    icon = R.drawable.ic_round_event_24,
+                    text = "Seasonal Chart",
+                    icon = SeasonCalendar.seasonIcon,
                     onClick = { },
                 )
             }
