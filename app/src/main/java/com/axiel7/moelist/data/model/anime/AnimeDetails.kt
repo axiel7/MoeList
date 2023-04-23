@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.*
+import com.axiel7.moelist.data.model.manga.RelatedManga
 import com.axiel7.moelist.data.model.media.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -40,10 +41,10 @@ data class AnimeDetails(
     override val pictures: List<MainPicture>? = null,
     override val background: String? = null,
     @SerialName("related_anime")
-    override val relatedAnime: List<Related>? = null,
+    override val relatedAnime: List<RelatedAnime>? = null,
     @SerialName("related_manga")
-    override val relatedManga: List<Related>? = null,
-    override val recommendations: List<Recommendations>? = null,
+    override val relatedManga: List<RelatedManga>? = null,
+    override val recommendations: List<Recommendations<AnimeNode>>? = null,
     @SerialName("my_list_status")
     override var myListStatus: MyAnimeListStatus? = null,
     @SerialName("num_episodes")

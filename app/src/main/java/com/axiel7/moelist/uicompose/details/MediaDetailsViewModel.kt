@@ -6,10 +6,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.axiel7.moelist.data.model.anime.AnimeDetails
+import com.axiel7.moelist.data.model.anime.Recommendations
+import com.axiel7.moelist.data.model.anime.RelatedAnime
 import com.axiel7.moelist.data.model.manga.MangaDetails
+import com.axiel7.moelist.data.model.manga.RelatedManga
 import com.axiel7.moelist.data.model.media.BaseMediaDetails
+import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.MediaType
-import com.axiel7.moelist.data.model.media.Related
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.data.repository.MangaRepository
 import com.axiel7.moelist.uicompose.base.BaseViewModel
@@ -26,8 +29,11 @@ class MediaDetailsViewModel(
 
     var mediaDetails by mutableStateOf<BaseMediaDetails?>(null)
     var studioSerializationJoined by mutableStateOf<String?>(null)
-    var related = mutableStateListOf<Related>()
+    var relatedAnime = mutableStateListOf<RelatedAnime>()
+    var relatedManga = mutableStateListOf<RelatedManga>()
+    var recommendations = mutableStateListOf<Recommendations<BaseMediaNode>>()
 
+    @Suppress("UNCHECKED_CAST")
     fun getDetails(mediaId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             isLoading = true
@@ -38,9 +44,13 @@ class MediaDetailsViewModel(
                 mediaDetails = MangaRepository.getMangaDetails(mediaId)
                 studioSerializationJoined = (mediaDetails as? MangaDetails?)?.serialization?.joinToString { it.node.name }
             }
-            related.clear()
-            mediaDetails?.relatedAnime?.let { related.addAll(it) }
-            mediaDetails?.relatedManga?.let { related.addAll(it) }
+            relatedAnime.clear()
+            mediaDetails?.relatedAnime?.let { relatedAnime.addAll(it) }
+            relatedManga.clear()
+            mediaDetails?.relatedManga?.let { relatedManga.addAll(it) }
+            recommendations.clear()
+            (mediaDetails?.recommendations as? List<Recommendations<BaseMediaNode>>)
+                ?.let { recommendations.addAll(it) }
             isLoading = false
         }
     }

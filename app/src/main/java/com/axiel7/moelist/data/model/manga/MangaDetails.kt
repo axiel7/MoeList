@@ -1,6 +1,7 @@
 package com.axiel7.moelist.data.model.manga
 
 import com.axiel7.moelist.data.model.anime.Recommendations
+import com.axiel7.moelist.data.model.anime.RelatedAnime
 import com.axiel7.moelist.data.model.media.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -37,10 +38,10 @@ data class MangaDetails(
     override val pictures: List<MainPicture>? = null,
     override val background: String? = null,
     @SerialName("related_anime")
-    override val relatedAnime: List<Related>? = null,
+    override val relatedAnime: List<RelatedAnime>? = null,
     @SerialName("related_manga")
-    override val relatedManga: List<Related>? = null,
-    override val recommendations: List<Recommendations>? = null,
+    override val relatedManga: List<RelatedManga>? = null,
+    override val recommendations: List<Recommendations<MangaNode>>? = null,
     @SerialName("my_list_status")
     override var myListStatus: MyMangaListStatus? = null,
     @SerialName("num_volumes")

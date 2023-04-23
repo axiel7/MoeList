@@ -6,7 +6,9 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.BaseResponse
 import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.anime.Recommendations
+import com.axiel7.moelist.data.model.anime.RelatedAnime
 import com.axiel7.moelist.data.model.manga.MangaDetails
+import com.axiel7.moelist.data.model.manga.RelatedManga
 import com.axiel7.moelist.utils.Extensions.toStringPositiveValueOrNull
 
 abstract class BaseMediaDetails : BaseResponse() {
@@ -30,9 +32,9 @@ abstract class BaseMediaDetails : BaseResponse() {
     abstract val genres: List<Genre>?
     abstract val pictures: List<MainPicture>?
     abstract val background: String?
-    abstract val relatedAnime: List<Related>?
-    abstract val relatedManga: List<Related>?
-    abstract val recommendations: List<Recommendations>?
+    abstract val relatedAnime: List<RelatedAnime>?
+    abstract val relatedManga: List<RelatedManga>?
+    abstract val recommendations: List<Recommendations<*>>?
 
     abstract val myListStatus: BaseMyListStatus?
 

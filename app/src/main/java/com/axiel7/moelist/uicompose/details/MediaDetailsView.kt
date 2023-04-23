@@ -321,17 +321,48 @@ fun MediaDetailsView(
             }
 
             //Related
-            if (viewModel.related.isNotEmpty()) {
-                InfoTitle(text = stringResource(R.string.relateds))
+            if (viewModel.relatedAnime.isNotEmpty()) {
+                InfoTitle(text = stringResource(R.string.related_anime))
                 LazyRow {
-                    items(viewModel.related) { item ->
+                    items(viewModel.relatedAnime) { item ->
                         MediaItemVertical(
                             url = item.node.mainPicture?.large,
                             title = item.node.title,
                             modifier = Modifier.padding(start = 8.dp),
                             onClick = {
-                                val type = if (item.isManga()) "MANGA" else "ANIME"
-                                navController.navigate("details/$type/${item.node.id}")
+                                navController.navigate("details/ANIME/${item.node.id}")
+                            }
+                        )
+                    }
+                }
+            }
+            if (viewModel.relatedManga.isNotEmpty()) {
+                InfoTitle(text = stringResource(R.string.related_manga))
+                LazyRow {
+                    items(viewModel.relatedManga) { item ->
+                        MediaItemVertical(
+                            url = item.node.mainPicture?.large,
+                            title = item.node.title,
+                            modifier = Modifier.padding(start = 8.dp),
+                            onClick = {
+                                navController.navigate("details/MANGA/${item.node.id}")
+                            }
+                        )
+                    }
+                }
+            }
+
+            //Recommendations
+            if (viewModel.recommendations.isNotEmpty()) {
+                InfoTitle(text = stringResource(R.string.recommendations))
+                LazyRow {
+                    items(viewModel.recommendations) { item ->
+                        MediaItemVertical(
+                            url = item.node.mainPicture?.large,
+                            title = item.node.title,
+                            modifier = Modifier.padding(start = 8.dp),
+                            onClick = {
+                                navController.navigate("details/${mediaType.value}${item.node.id}")
                             }
                         )
                     }
