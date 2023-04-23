@@ -321,18 +321,20 @@ fun MediaDetailsView(
             }
 
             //Related
-            InfoTitle(text = stringResource(R.string.relateds))
-            LazyRow {
-                items(viewModel.related) { item ->
-                    MediaItemVertical(
-                        url = item.node.mainPicture?.large,
-                        title = item.node.title,
-                        modifier = Modifier.padding(start = 8.dp),
-                        onClick = {
-                            val type = if (item.isManga()) "MANGA" else "ANIME"
-                            navController.navigate("details/$type/${item.node.id}")
-                        }
-                    )
+            if (viewModel.related.isNotEmpty()) {
+                InfoTitle(text = stringResource(R.string.relateds))
+                LazyRow {
+                    items(viewModel.related) { item ->
+                        MediaItemVertical(
+                            url = item.node.mainPicture?.large,
+                            title = item.node.title,
+                            modifier = Modifier.padding(start = 8.dp),
+                            onClick = {
+                                val type = if (item.isManga()) "MANGA" else "ANIME"
+                                navController.navigate("details/$type/${item.node.id}")
+                            }
+                        )
+                    }
                 }
             }
         }//:Column
