@@ -33,13 +33,15 @@ import java.time.format.FormatStyle
 fun EditMediaSheet(
     coroutineScope: CoroutineScope,
     sheetState: SheetState,
-    viewModel: EditMediaViewModel,
     detailsViewModel: MediaDetailsViewModel
 ) {
     val context = LocalContext.current
-    val statusValues = if (viewModel.mediaType == MediaType.ANIME) listStatusAnimeValues() else listStatusMangaValues()
+    val statusValues = if (detailsViewModel.mediaType == MediaType.ANIME) listStatusAnimeValues() else listStatusMangaValues()
     var selectedStatus by remember { mutableStateOf(statusValues[0]) }
     val datePickerState = rememberDatePickerState()
+    val viewModel: EditMediaViewModel = viewModel {
+        EditMediaViewModel(mediaDetails = detailsViewModel.mediaDetails!!)
+    }
 
     ModalBottomSheet(
         sheetState = sheetState,
@@ -192,14 +194,16 @@ fun EditMediaSheet(
         viewModel.showMessage = false
     }
 
-    LaunchedEffect(viewModel.mediaDetails) {
-        when (viewModel.mediaDetails) {
-            is AnimeDetails -> viewModel.mediaDetails.myListStatus?.let { viewModel.setEditVariables(it) }
-            is MangaDetails -> viewModel.mediaDetails.myListStatus?.let { viewModel.setEditVariables(it) }
+    LaunchedEffect(detailsViewModel.mediaDetails) {
+        when (detailsViewModel.mediaDetails) {
+            is AnimeDetails -> (detailsViewModel.mediaDetails as AnimeDetails).myListStatus
+                ?.let { viewModel.setEditVariables(it) }
+            is MangaDetails -> (detailsViewModel.mediaDetails as MangaDetails).myListStatus
+                ?.let { viewModel.setEditVariables(it) }
         }
     }
 
-    LaunchedEffect(viewModel.myListStatus) {
+    LaunchedEffect(viewModel.updateSuccess) {
         if (viewModel.updateSuccess) {
             when (detailsViewModel.mediaDetails) {
                 is AnimeDetails ->
@@ -210,6 +214,7 @@ fun EditMediaSheet(
                         ?.copy(myListStatus = viewModel.myListStatus as? MyMangaListStatus)
             }
             viewModel.updateSuccess = false
+            coroutineScope.launch { sheetState.hide() }
         }
     }
 }
@@ -324,7 +329,6 @@ fun EditMediaSheetPreview() {
         EditMediaSheet(
             coroutineScope = rememberCoroutineScope(),
             sheetState = rememberModalBottomSheetState(),
-            viewModel = EditMediaViewModel(AnimeDetails()),
             detailsViewModel = viewModel()
         )
     }

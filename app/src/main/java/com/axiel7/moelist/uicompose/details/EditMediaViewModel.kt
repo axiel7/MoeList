@@ -25,7 +25,7 @@ class EditMediaViewModel(
 ): BaseViewModel() {
 
     val mediaType = if (mediaDetails is AnimeDetails) MediaType.ANIME else MediaType.MANGA
-    var myListStatus = mediaDetails.myListStatus
+    var myListStatus: BaseMyListStatus? = null
 
     var status by mutableStateOf(if (mediaDetails is AnimeDetails) ListStatus.PTW else ListStatus.PTR)
     var progress by mutableStateOf(0)
@@ -36,6 +36,7 @@ class EditMediaViewModel(
     var repeatCount by mutableStateOf(0)
 
     fun setEditVariables(myListStatus: BaseMyListStatus) {
+        this.myListStatus = myListStatus
         status = myListStatus.status
         score = myListStatus.score
         myListStatus.startDate?.let { startDate = DateUtils.getLocalDateFromDateString(it) }
