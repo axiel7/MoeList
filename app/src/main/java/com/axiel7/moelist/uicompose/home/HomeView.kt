@@ -37,9 +37,9 @@ const val HOME_DESTINATION = "home"
 
 @Composable
 fun HomeView(
+    viewModel: HomeViewModel,
     navController: NavController
 ) {
-    val viewModel: HomeViewModel = viewModel()
     val scrollState = rememberScrollState()
 
     Column(
@@ -235,6 +235,7 @@ fun HomePreview() {
     MoeListTheme {
         Surface {
             HomeView(
+                viewModel = viewModel(),
                 navController = rememberNavController()
             )
         }
