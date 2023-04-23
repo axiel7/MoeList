@@ -37,9 +37,9 @@ const val HOME_DESTINATION = "home"
 
 @Composable
 fun HomeView(
-    viewModel: HomeViewModel,
     navController: NavController
 ) {
+    val viewModel: HomeViewModel = viewModel()
     val scrollState = rememberScrollState()
 
     Column(
@@ -101,7 +101,7 @@ fun HomeView(
                 .padding(vertical = 8.dp)
                 .height(MEDIA_POSTER_SMALL_HEIGHT.dp)
         ) {
-            items(viewModel.todayAnimes) {
+            items(viewModel.todayAnimes, key = { it.node.id }) {
                 AiringAnimeHorizontalItem(it, onClick = {
                     navController.navigate("details/ANIME/${it.node.id}")
                 })
@@ -115,7 +115,7 @@ fun HomeView(
                 .padding(vertical = 12.dp)
                 .height(MEDIA_ITEM_VERTICAL_HEIGHT.dp)
         ) {
-            items(viewModel.seasonAnimes) {
+            items(viewModel.seasonAnimes, key = { it.node.id }) {
                 MediaItemVertical(
                     url = it.node.mainPicture?.large,
                     title = it.node.title,
@@ -132,7 +132,7 @@ fun HomeView(
                 .padding(vertical = 12.dp)
                 .height(MEDIA_ITEM_VERTICAL_HEIGHT.dp)
         ) {
-            items(viewModel.recommendedAnimes) {
+            items(viewModel.recommendedAnimes, key = { it.node.id }) {
                 MediaItemVertical(
                     url = it.node.mainPicture?.large,
                     title = it.node.title,
@@ -143,7 +143,7 @@ fun HomeView(
         }
     }
 
-    LaunchedEffect(viewModel) {
+    LaunchedEffect(Unit) {
         viewModel.initRequestChain()
     }
 }
@@ -235,8 +235,7 @@ fun HomePreview() {
     MoeListTheme {
         Surface {
             HomeView(
-                navController = rememberNavController(),
-                viewModel = viewModel()
+                navController = rememberNavController()
             )
         }
     }

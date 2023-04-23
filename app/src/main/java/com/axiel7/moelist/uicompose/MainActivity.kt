@@ -89,7 +89,6 @@ fun MainView() {
     val bottomBarState = rememberSaveable { (mutableStateOf(true)) }
     val topBarState = rememberSaveable { (mutableStateOf(true)) }
 
-    val homeViewModel: HomeViewModel = viewModel()
     val animeTabs = remember {
         listStatusAnimeValues().map { TabRowItem(
             value = it,
@@ -127,7 +126,6 @@ fun MainView() {
         ) {
             composable(HOME_DESTINATION) {
                 HomeView(
-                    viewModel = homeViewModel,
                     navController = navController
                 )
             }
