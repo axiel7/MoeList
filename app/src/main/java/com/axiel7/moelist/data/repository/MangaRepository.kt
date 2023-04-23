@@ -6,6 +6,7 @@ import com.axiel7.moelist.data.model.Response
 import com.axiel7.moelist.data.model.manga.MangaDetails
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
 import com.axiel7.moelist.data.model.manga.UserMangaList
+import io.ktor.http.HttpStatusCode
 
 object MangaRepository {
 
@@ -56,6 +57,17 @@ object MangaRepository {
             return result
         } catch (e: Exception) {
             null
+        }
+    }
+
+    suspend fun deleteMangaEntry(
+        mangaId: Int
+    ): Boolean {
+        return try {
+            val result = App.api.deleteMangaEntry(mangaId)
+            return result.status == HttpStatusCode.OK
+        } catch (e: Exception) {
+            false
         }
     }
 }

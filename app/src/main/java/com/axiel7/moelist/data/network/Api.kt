@@ -199,7 +199,7 @@ class Api(private val client: HttpClient) {
 
     suspend fun deleteMangaEntry(
         mangaId: Int
-    ): Unit = client.delete("${MAL_API_URL}manga/$mangaId/my_list_status").body()
+    ): HttpResponse = client.delete("${MAL_API_URL}manga/$mangaId/my_list_status")
 
     suspend fun getMangaDetails(
         mangaId: Int,

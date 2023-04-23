@@ -140,13 +140,29 @@ class EditMediaViewModel(
                 )
 
             if (result != null && result.error == null) {
-                updateSuccess = true
                 myListStatus = result
+                updateSuccess = true
             } else {
                 updateSuccess = false
                 result?.message?.let { setErrorMessage(it) }
             }
 
+            isLoading = false
+        }
+    }
+
+    var openDeleteDialog by mutableStateOf(false)
+
+    fun deleteEntry() {
+        viewModelScope.launch(Dispatchers.IO) {
+            isLoading = true
+            val result = if (mediaType == MediaType.ANIME)
+                AnimeRepository.deleteAnimeEntry(mediaDetails.id)
+            else
+                MangaRepository.deleteMangaEntry(mediaDetails.id)
+
+            if (result) myListStatus = null
+            updateSuccess = result
             isLoading = false
         }
     }

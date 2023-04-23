@@ -65,6 +65,10 @@ fun EditMediaSheet(
                     Text(text = stringResource(R.string.cancel))
                 }
 
+                if (viewModel.isLoading) {
+                    CircularProgressIndicator(modifier = Modifier.size(24.dp))
+                }
+
                 Button(onClick = { viewModel.updateListItem() }) {
                     Text(text = stringResource(R.string.apply))
                 }
@@ -162,7 +166,7 @@ fun EditMediaSheet(
             )
 
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { viewModel.openDeleteDialog = true },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 32.dp, vertical = 16.dp),
@@ -187,6 +191,10 @@ fun EditMediaSheet(
                 }
             }
         )
+    }
+
+    if (viewModel.openDeleteDialog) {
+        DeleteMediaEntryDialog(viewModel = viewModel)
     }
 
     if (viewModel.showMessage) {
@@ -217,6 +225,30 @@ fun EditMediaSheet(
             coroutineScope.launch { sheetState.hide() }
         }
     }
+}
+
+@Composable
+fun DeleteMediaEntryDialog(viewModel: EditMediaViewModel) {
+    AlertDialog(
+        onDismissRequest = { viewModel.openDeleteDialog = false },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    viewModel.deleteEntry()
+                    viewModel.openDeleteDialog = false
+                }
+            ) {
+                Text(text = stringResource(R.string.ok))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = { viewModel.openDeleteDialog = false }) {
+                Text(text = stringResource(R.string.cancel))
+            }
+        },
+        title = { Text(text = stringResource(R.string.delete)) },
+        text = { Text(text = stringResource(R.string.delete_confirmation)) }
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

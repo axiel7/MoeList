@@ -8,6 +8,7 @@ import com.axiel7.moelist.data.model.anime.AnimeList
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
 import com.axiel7.moelist.data.model.anime.UserAnimeList
+import io.ktor.http.HttpStatusCode
 
 object AnimeRepository {
 
@@ -95,6 +96,17 @@ object AnimeRepository {
             return result
         } catch (e: Exception) {
             null
+        }
+    }
+
+    suspend fun deleteAnimeEntry(
+        animeId: Int
+    ): Boolean {
+        return try {
+            val result = App.api.deleteAnimeEntry(animeId)
+            return result.status == HttpStatusCode.OK
+        } catch (e: Exception) {
+            false
         }
     }
 }
