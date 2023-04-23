@@ -362,7 +362,7 @@ fun MediaDetailsView(
                             title = item.node.title,
                             modifier = Modifier.padding(start = 8.dp),
                             onClick = {
-                                navController.navigate("details/${mediaType.value}${item.node.id}")
+                                navController.navigate("details/${mediaType.value}/${item.node.id}")
                             }
                         )
                     }
