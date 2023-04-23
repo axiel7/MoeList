@@ -123,7 +123,7 @@ fun MainView() {
     ) {
         NavHost(
             navController = navController,
-            startDestination = ANIME_LIST_DESTINATION,
+            startDestination = HOME_DESTINATION,
             modifier = Modifier
                 .padding(it)
                 //.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)

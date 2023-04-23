@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -45,53 +46,41 @@ fun HomeView(
     Column(
         modifier = Modifier.verticalScroll(scrollState)
     ) {
-        // Cards
-        Row(
+        // Chips
+        LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 4.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly
+                .padding(top = 10.dp),
+            contentPadding = PaddingValues(8.dp)
         ) {
-            HomeCard(
-                text = "Anime Ranking",
-                icon = R.drawable.ic_round_movie_24,
-                onClick = { },
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(top = 16.dp, bottom = 8.dp, start = 16.dp, end = 4.dp)
-            )
-            HomeCard(
-                text = "Manga Ranking",
-                icon = R.drawable.ic_round_menu_book_24,
-                onClick = { },
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(top = 16.dp, bottom = 8.dp, start = 4.dp, end = 16.dp)
-            )
-        }
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 4.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            HomeCard(
-                text = "Seasonal Chart",
-                icon = SeasonCalendar.seasonIcon,
-                onClick = { },
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(top = 4.dp, bottom = 8.dp, start = 16.dp, end = 4.dp)
-            )
-            HomeCard(
-                text = "Calendar",
-                icon = R.drawable.ic_round_event_24,
-                onClick = { },
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(top = 4.dp, bottom = 8.dp, start = 4.dp, end = 16.dp)
-            )
+            item {
+                HomeCard(
+                    text = "Anime Ranking",
+                    icon = R.drawable.ic_round_movie_24,
+                    onClick = { },
+                )
+            }
+            item {
+                HomeCard(
+                    text = "Manga Ranking",
+                    icon = R.drawable.ic_round_menu_book_24,
+                    onClick = { },
+                )
+            }
+            item {
+                HomeCard(
+                    text = "Seasonal Chart",
+                    icon = SeasonCalendar.seasonIcon,
+                    onClick = { },
+                )
+            }
+            item {
+                HomeCard(
+                    text = "Calendar",
+                    icon = R.drawable.ic_round_event_24,
+                    onClick = { },
+                )
+            }
         }
 
         // Airing
@@ -112,7 +101,7 @@ fun HomeView(
         HeaderHorizontalList(stringResource(R.string.this_season), onClick = { })
         LazyRow(
             modifier = Modifier
-                .padding(vertical = 12.dp)
+                .padding(top = 12.dp)
                 .height(MEDIA_ITEM_VERTICAL_HEIGHT.dp)
         ) {
             items(viewModel.seasonAnimes, key = { it.node.id }) {
@@ -148,32 +137,30 @@ fun HomeView(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeCard(
     text: String,
     @DrawableRes icon: Int,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
 ) {
-    Card(
+    AssistChip(
         onClick = onClick,
-        modifier = modifier
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(12.dp)
-        ) {
-            Icon(imageVector = ImageVector.vectorResource(icon), contentDescription = text)
+        modifier = Modifier.height(36.dp).padding(start = 8.dp),
+        label = {
             Text(
                 text = text,
-                modifier = Modifier.padding(start = 8.dp),
-                fontSize = 14.sp,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
             )
+        },
+        leadingIcon = {
+            Icon(
+                painter = painterResource(icon),
+                contentDescription = text,
+                modifier = Modifier.size(18.dp)
+            )
         }
-    }
+    )
 }
 
 @Composable
