@@ -144,6 +144,19 @@ fun MediaDetailsView(
                 }
             }//:Row
 
+            //Genres
+            LazyRow {
+                viewModel.mediaDetails?.genres?.let { genres ->
+                    items(genres) {
+                        AssistChip(
+                            onClick = { },
+                            label = { Text(text = it.nameLocalized()) },
+                            modifier = Modifier.padding(start = 8.dp)
+                        )
+                    }
+                }
+            }
+
             //Synopsis
             Text(
                 text = viewModel.mediaDetails?.synopsis ?: stringResource(R.string.lorem_ipsun),

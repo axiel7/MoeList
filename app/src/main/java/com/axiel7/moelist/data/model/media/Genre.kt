@@ -15,7 +15,7 @@ data class Genre(
 )
 
 @Composable
-fun String.genreLocalized() = when (this) {
+fun Genre.nameLocalized() = when (this.name) {
     "Action" -> stringResource(R.string.genre_action)
     "Adventure" -> stringResource(R.string.genre_adventure)
     "Cars" -> stringResource(R.string.genre_cars)
@@ -59,5 +59,5 @@ fun String.genreLocalized() = when (this) {
     "Vampire" -> stringResource(R.string.genre_vampire)
     "Yaoi" -> stringResource(R.string.genre_yaoi)
     "Yuri" -> stringResource(R.string.genre_yuri)
-    else -> this
+    else -> this.name
 }
