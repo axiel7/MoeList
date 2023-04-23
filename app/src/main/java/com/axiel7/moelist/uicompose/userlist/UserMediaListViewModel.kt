@@ -53,21 +53,20 @@ class UserMediaListViewModel(
     fun getUserList(page: String? = null) {
         viewModelScope.launch(Dispatchers.IO) {
             isLoading = page == null //show indicator on 1st load
-            val result = if (mediaType == MediaType.ANIME) AnimeRepository.getUserAnimeList(params, page)
-            else MangaRepository.getUserMangaList(params, page)
+            val result = if (mediaType == MediaType.ANIME)
+                AnimeRepository.getUserAnimeList(params, page)
+            else
+                MangaRepository.getUserMangaList(params, page)
 
             if (result?.data != null) {
-                if (result.data.any { it.node is AnimeNode }) {
-                    (result.data as List<UserAnimeList>).apply {
-                        if (page == null) animeList.clear()
-                        animeList.addAll(this)
-                    }
-                } else if (result.data.any { it.node is MangaNode }) {
-                    (result.data as List<UserMangaList>).apply {
-                        if (page == null) mangaList.clear()
-                        mangaList.addAll(this)
-                    }
+                if (mediaType == MediaType.ANIME) {
+                    if (page == null) animeList.clear()
+                    (result.data as? List<UserAnimeList>)?.let { animeList.addAll(it) }
+                } else {
+                    if (page == null) mangaList.clear()
+                    (result.data as? List<UserMangaList>)?.let { mangaList.addAll(it) }
                 }
+
                 nextPage = result.paging?.next
                 hasNextPage = nextPage != null
             } else {

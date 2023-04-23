@@ -4,6 +4,7 @@ import com.axiel7.moelist.App
 import com.axiel7.moelist.data.model.ApiParams
 import com.axiel7.moelist.data.model.Response
 import com.axiel7.moelist.data.model.manga.MangaDetails
+import com.axiel7.moelist.data.model.manga.MangaList
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
 import com.axiel7.moelist.data.model.manga.UserMangaList
 import io.ktor.http.HttpStatusCode
@@ -68,6 +69,20 @@ object MangaRepository {
             return result.status == HttpStatusCode.OK
         } catch (e: Exception) {
             false
+        }
+    }
+
+    suspend fun searchManga(
+        apiParams: ApiParams,
+        page: String? = null
+    ): Response<List<MangaList>>? {
+        return try {
+            val result = if (page == null) App.api.getMangaList(apiParams)
+            else App.api.getMangaList(page)
+            result.error?.let { BaseRepository.handleResponseError(it) }
+            return result
+        } catch (e: Exception) {
+            null
         }
     }
 }

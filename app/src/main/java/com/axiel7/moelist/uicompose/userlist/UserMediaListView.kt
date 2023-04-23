@@ -15,7 +15,6 @@ import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.*
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,12 +55,7 @@ fun UserMediaListHostView(
             selectedTabIndex = pagerState.currentPage,
             edgePadding = 16.dp,
             indicator = { tabPositions ->
-                TabRowDefaults.Indicator(
-                    modifier = Modifier
-                        .tabIndicatorOffset(tabPositions[pagerState.currentPage])
-                        .clip(RoundedCornerShape(topStartPercent = 100, topEndPercent = 100)),
-                    height = 3.dp,
-                )
+                RoundedTabRowIndicator(tabPositions[pagerState.currentPage])
             }
         ) {
             tabRowItems.forEachIndexed { index, item ->
@@ -190,7 +184,7 @@ fun UserMediaListItem(
     onClick: () -> Unit,
     onClickPlus: () -> Unit,
 ) {
-    OutlinedCard(
+    Card(
         onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
@@ -237,6 +231,7 @@ fun UserMediaListItem(
                         text = title,
                         modifier = Modifier
                             .padding(horizontal = 16.dp, vertical = 8.dp),
+                        color = MaterialTheme.colorScheme.onSurface,
                         fontSize = 17.sp,
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 2

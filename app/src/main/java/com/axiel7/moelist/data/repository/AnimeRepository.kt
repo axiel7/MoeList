@@ -109,4 +109,20 @@ object AnimeRepository {
             false
         }
     }
+
+    const val SEARCH_FIELDS = "id,title,main_picture,mean,media_type,num_episodes,num_chapters,start_season"
+
+    suspend fun searchAnime(
+        apiParams: ApiParams,
+        page: String? = null
+    ): Response<List<AnimeList>>? {
+        return try {
+            val result = if (page == null) App.api.getAnimeList(apiParams)
+            else App.api.getAnimeList(page)
+            result.error?.let { BaseRepository.handleResponseError(it) }
+            return result
+        } catch (e: Exception) {
+            null
+        }
+    }
 }

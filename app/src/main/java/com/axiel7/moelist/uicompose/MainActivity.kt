@@ -52,6 +52,7 @@ import com.axiel7.moelist.uicompose.more.SETTINGS_DESTINATION
 import com.axiel7.moelist.uicompose.more.SettingsView
 import com.axiel7.moelist.uicompose.profile.PROFILE_DESTINATION
 import com.axiel7.moelist.uicompose.profile.ProfileView
+import com.axiel7.moelist.uicompose.search.SearchView
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.uicompose.userlist.ANIME_LIST_DESTINATION
 import com.axiel7.moelist.uicompose.userlist.MANGA_LIST_DESTINATION
@@ -108,6 +109,7 @@ fun MainView() {
         topBar = {
             MainTopAppBar(
                 topBarState = topBarState,
+                bottomBarState = bottomBarState,
                 navController = navController
             )
         },
@@ -197,6 +199,7 @@ fun MainView() {
 @Composable
 fun MainTopAppBar(
     topBarState: State<Boolean>,
+    bottomBarState: MutableState<Boolean>,
     navController: NavController
 ) {
     var query by remember { mutableStateOf("") }
@@ -216,11 +219,21 @@ fun MainTopAppBar(
                 onQueryChange = { query = it },
                 onSearch = { active = false },
                 active = active,
-                onActiveChange = { active = it },
+                onActiveChange = {
+                    bottomBarState.value = !it
+                    active = it
+                    if (!active) query = ""
+                },
                 placeholder = { Text(text = "Search") },
                 leadingIcon = {
                     if (active) {
-                        IconButton(onClick = { active = false }) {
+                        IconButton(
+                            onClick = {
+                                active = false
+                                bottomBarState.value = true
+                                query = ""
+                            }
+                        ) {
                             Icon(
                                 painter = painterResource(R.drawable.ic_arrow_back),
                                 contentDescription = "back"
@@ -253,7 +266,10 @@ fun MainTopAppBar(
                     }
                 }
             ) {
-                Text(text = "Search view")
+                SearchView(
+                    query = query,
+                    navController = navController
+                )
             }//:SearchBar
         }
     }
