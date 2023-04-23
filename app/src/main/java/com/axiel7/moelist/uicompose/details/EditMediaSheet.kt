@@ -25,6 +25,7 @@ import com.axiel7.moelist.utils.DateUtils
 import com.axiel7.moelist.utils.DateUtils.toEpochMillis
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
@@ -37,10 +38,12 @@ fun EditMediaSheet(
 ) {
     val context = LocalContext.current
     val statusValues = if (detailsViewModel.mediaType == MediaType.ANIME) listStatusAnimeValues() else listStatusMangaValues()
-    var selectedStatus by remember { mutableStateOf(statusValues[0]) }
     val datePickerState = rememberDatePickerState()
     val viewModel: EditMediaViewModel = viewModel {
         EditMediaViewModel(mediaDetails = detailsViewModel.mediaDetails!!)
+    }
+    val isNewEntry by remember {
+        derivedStateOf { detailsViewModel.mediaDetails?.myListStatus == null }
     }
 
     ModalBottomSheet(
@@ -70,7 +73,7 @@ fun EditMediaSheet(
                 }
 
                 Button(onClick = { viewModel.updateListItem() }) {
-                    Text(text = stringResource(R.string.apply))
+                    Text(text = stringResource(if (isNewEntry) R.string.add else R.string.apply))
                 }
             }
 
@@ -84,9 +87,12 @@ fun EditMediaSheet(
                 statusValues.forEach { status ->
                     StatusItem(
                         status = status,
-                        selectedStatus = selectedStatus,
+                        selectedStatus = viewModel.status,
                         onClick = {
-                            selectedStatus = status
+                            viewModel.status = status
+                            if (isNewEntry && status.isCurrent()) {
+                                viewModel.startDate = LocalDate.now()
+                            }
                         }
                     )
                 }
@@ -170,6 +176,7 @@ fun EditMediaSheet(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 32.dp, vertical = 16.dp),
+                enabled = !isNewEntry,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.errorContainer,
                     contentColor = MaterialTheme.colorScheme.error
@@ -331,7 +338,7 @@ fun EditMediaProgressRow(
 @Composable
 fun StatusItem(
     status: ListStatus,
-    selectedStatus: ListStatus,
+    selectedStatus: ListStatus?,
     onClick: () -> Unit
 ) {
     val tooltipState = remember { PlainTooltipState() }

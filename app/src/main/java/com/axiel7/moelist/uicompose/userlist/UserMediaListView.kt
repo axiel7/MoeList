@@ -265,7 +265,7 @@ fun UserMediaListItem(
                             text = "${userProgress ?: 0}/${totalProgress ?: 0}",
                         )
 
-                        if (listStatus == ListStatus.WATCHING || listStatus == ListStatus.READING) {
+                        if (listStatus.isCurrent()) {
                             OutlinedButton(onClick = onClickPlus) {
                                 Text(text = stringResource(R.string.plus_one))
                             }

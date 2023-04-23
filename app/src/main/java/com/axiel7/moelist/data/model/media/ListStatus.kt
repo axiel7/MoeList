@@ -30,6 +30,10 @@ fun listStatusAnimeValues() =
 fun listStatusMangaValues() =
     arrayOf(ListStatus.READING, ListStatus.PTR, ListStatus.COMPLETED, ListStatus.ON_HOLD, ListStatus.DROPPED)
 
+fun ListStatus.isCurrent() = this == ListStatus.WATCHING || this == ListStatus.READING
+
+fun ListStatus.isPlanning() = this == ListStatus.PTW || this == ListStatus.PTR
+
 @Composable
 fun ListStatus.localized() = when (this) {
     ListStatus.WATCHING -> stringResource(R.string.watching)

@@ -27,7 +27,7 @@ class EditMediaViewModel(
     val mediaType = if (mediaDetails is AnimeDetails) MediaType.ANIME else MediaType.MANGA
     var myListStatus: BaseMyListStatus? = null
 
-    var status by mutableStateOf(if (mediaDetails is AnimeDetails) ListStatus.PTW else ListStatus.PTR)
+    var status by mutableStateOf<ListStatus?>(null)
     var progress by mutableStateOf(0)
     var volumeProgress by mutableStateOf(0)
     var score by mutableStateOf(0)
@@ -100,8 +100,8 @@ class EditMediaViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             isLoading = true
 
-            val statusValue = if (status.value != myListStatus?.status?.value)
-                status.value else null
+            val statusValue = if (status?.value != myListStatus?.status?.value)
+                status?.value else null
             val scoreValue = if (score != myListStatus?.score)
                 score else null
             val progressValue = if (progress != myListStatus?.progress)
