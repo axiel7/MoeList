@@ -81,8 +81,8 @@
     <string name="one_shot">Ваншот</string>
     <string name="manhwa">Манхва</string>
     <string name="novel">Новела</string>
-    <string name="airing">Виходить</string>
-    <string name="finished">Завершено</string>
+    <string name="airing" comment="the status &quot;airing&quot; of an anime">Виходить</string>
+    <string name="finished" comment="the status &quot;finished&quot; of an anime/manga">Завершено</string>
     <string name="on_hiatus">Призупинено</string>
     <string name="winter">Зима</string>
     <string name="spring">Весна</string>
@@ -111,7 +111,7 @@
     <string name="saturday">Субота</string>
     <string name="sunday">Неділя</string>
     <string name="not_yet_aired">Ще не вийшло</string>
-    <string name="publishing">Публікується</string>
+    <string name="publishing" comment="the status &quot;publishing&quot; of a manga">Публікується</string>
     <string name="all">Усі</string>
     <string name="popular">Популярні</string>
     <string name="added_ptr">Додано до запланованих</string>
@@ -268,5 +268,5 @@
     <string name="select_date">Оберіть дату</string>
     <string name="total_rereads">Всього перечитано</string>
     <string name="total_rewatches">Всього переглядів</string>
-    <string name="chinese_simplified">Chinese (Simplified)</string>
+    <string name="chinese_simplified">Китайська (спрощена)</string>
 </resources>
