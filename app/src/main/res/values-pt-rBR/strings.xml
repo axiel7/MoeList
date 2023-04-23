@@ -81,8 +81,8 @@
     <string name="one_shot">One Shot</string>
     <string name="manhwa">Manhwa</string>
     <string name="novel">Novel</string>
-    <string name="airing">Em Exibição</string>
-    <string name="finished">Finalizado</string>
+    <string name="airing" comment="the status &quot;airing&quot; of an anime">Em Exibição</string>
+    <string name="finished" comment="the status &quot;finished&quot; of an anime/manga">Finalizado</string>
     <string name="on_hiatus">Em Hiato</string>
     <string name="winter">Inverno</string>
     <string name="spring">Primavera</string>
@@ -111,7 +111,7 @@
     <string name="saturday">Sábado</string>
     <string name="sunday">Domingo</string>
     <string name="not_yet_aired">Ainda Não Exibido</string>
-    <string name="publishing">Em Publicação</string>
+    <string name="publishing" comment="the status &quot;publishing&quot; of a manga">Em Publicação</string>
     <string name="all">Todos</string>
     <string name="popular">Popular</string>
     <string name="added_ptr">Adicionado em Planejo Ler</string>
@@ -268,5 +268,5 @@
     <string name="select_date">Selecionar data</string>
     <string name="total_rereads">Total Relido</string>
     <string name="total_rewatches">Total Reassistido</string>
-    <string name="chinese_simplified">Chinese (Simplified)</string>
+    <string name="chinese_simplified">Chinês (Simplificado)</string>
 </resources>
