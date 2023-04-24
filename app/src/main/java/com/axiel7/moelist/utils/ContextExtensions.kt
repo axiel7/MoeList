@@ -6,7 +6,6 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
@@ -16,29 +15,6 @@ object ContextExtensions {
 
     fun Context.showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-
-    fun Context.changeTheme() {
-        SharedPrefsHelpers.instance?.let {
-            when (it.getString("theme", "follow_system")) {
-                "light" -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    setTheme(R.style.AppTheme)
-                }
-                "dark" -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    setTheme(R.style.AppTheme)
-                }
-                "follow_system" -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                    setTheme(R.style.AppTheme)
-                }
-                else -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                    setTheme(R.style.AppTheme)
-                }
-            }
-        }
     }
 
     fun Context.openAction(uri: String) {

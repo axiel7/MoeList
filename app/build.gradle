@@ -76,8 +76,8 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.10.0'
 
     implementation 'androidx.browser:browser:1.5.0'
-    implementation 'androidx.preference:preference-ktx:1.2.0'
-    
+    implementation 'androidx.datastore:datastore-preferences:1.0.0'
+
     implementation 'androidx.core:core-splashscreen:1.0.0'
 
     //Compose

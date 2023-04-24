@@ -1,12 +1,16 @@
 package com.axiel7.moelist.data.repository
 
-import com.axiel7.moelist.utils.SharedPrefsHelpers
+import androidx.datastore.preferences.core.edit
+import com.axiel7.moelist.App
+import com.axiel7.moelist.utils.PreferencesDataStore.ACCESS_TOKEN_PREFERENCE_KEY
 
 object BaseRepository {
-    fun handleResponseError(error: String) {
+    suspend fun handleResponseError(error: String) {
         when (error) {
             "invalid_token" -> {
-                SharedPrefsHelpers.instance?.deleteValue("access_token")
+                App.dataStore?.edit {
+                    it[ACCESS_TOKEN_PREFERENCE_KEY] = ""
+                }
             }
         }
     }

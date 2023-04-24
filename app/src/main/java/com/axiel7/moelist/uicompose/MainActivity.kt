@@ -2,12 +2,13 @@ package com.axiel7.moelist.uicompose
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -17,10 +18,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -57,26 +58,52 @@ import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.uicompose.userlist.ANIME_LIST_DESTINATION
 import com.axiel7.moelist.uicompose.userlist.MANGA_LIST_DESTINATION
 import com.axiel7.moelist.uicompose.userlist.UserMediaListHostView
+import com.axiel7.moelist.utils.PreferencesDataStore.ACCESS_TOKEN_PREFERENCE_KEY
+import com.axiel7.moelist.utils.PreferencesDataStore.NSFW_PREFERENCE_KEY
+import com.axiel7.moelist.utils.PreferencesDataStore.THEME_PREFERENCE_KEY
+import com.axiel7.moelist.utils.PreferencesDataStore.defaultPreferencesDataStore
+import com.axiel7.moelist.utils.PreferencesDataStore.rememberPreference
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        if (!App.isUserLogged || App.accessToken == null) {
-            Intent(this, LoginActivity::class.java).apply { startActivity(this) }
-            finish()
-            return
+        var token: String? = null
+        CoroutineScope(Dispatchers.Default).launch {
+            withContext(Dispatchers.Default) {
+                val tokenPref = defaultPreferencesDataStore.data.first {
+                    it[ACCESS_TOKEN_PREFERENCE_KEY] != null
+                }
+                token = tokenPref[ACCESS_TOKEN_PREFERENCE_KEY]
+                if (!token.isNullOrEmpty()) App.createKtorClient(token!!)
+            }
         }
-
         setContent {
-            MoeListTheme {
+            val context = LocalContext.current
+            val themePreference by rememberPreference(THEME_PREFERENCE_KEY, "follow_system")
+
+            MoeListTheme(
+                darkTheme = if (themePreference == "follow_system") isSystemInDarkTheme() else themePreference == "dark"
+            ) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     MainView()
+                }
+            }
+
+            LaunchedEffect(token) {
+                if (token.isNullOrEmpty()) {
+                    Intent(context, LoginActivity::class.java).apply { startActivity(this) }
+                    finish()
                 }
             }
         }
@@ -90,7 +117,8 @@ fun MainView() {
     val bottomBarState = rememberSaveable { (mutableStateOf(true)) }
     val topBarState = rememberSaveable { (mutableStateOf(true)) }
 
-    val homeViewModel: HomeViewModel = viewModel()
+    val nsfwPreference by rememberPreference(NSFW_PREFERENCE_KEY, 0)
+    val homeViewModel: HomeViewModel = viewModel { HomeViewModel(nsfw = nsfwPreference) }
 
     val animeTabs = remember {
         listStatusAnimeValues().map { TabRowItem(
@@ -331,7 +359,7 @@ fun BottomNavBar(
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true, device = Devices.DEFAULT)
+@Preview(showBackground = true)
 @Composable
 fun MainPreview() {
     MoeListTheme {

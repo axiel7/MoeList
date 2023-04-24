@@ -1,6 +1,5 @@
 package com.axiel7.moelist.uicompose.more
 
-import androidx.appcompat.app.AppCompatDelegate
 import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.base.BaseViewModel
 
@@ -34,15 +33,4 @@ class SettingsViewModel: BaseViewModel() {
         "zh-Hant" to R.string.chinese_traditional_native,
         "zh-Hans" to R.string.chinese_simplified_native,
     )
-
-    fun getSavedLanguageOption(): String {
-        val appLocales = AppCompatDelegate.getApplicationLocales()
-        if (appLocales.size() > 1) return "follow_system"
-        val locale = appLocales[0]?.toLanguageTag()
-        val founds = languageEntries.keys.filter { locale?.startsWith(it) == true }
-
-        return if (founds.isEmpty()) "follow_system"
-        else if (founds.size == 1) founds[0]
-        else founds.find { languageEntries.keys.contains(it) } ?: "follow_system"
-    }
 }

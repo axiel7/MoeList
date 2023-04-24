@@ -16,6 +16,7 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -37,6 +38,8 @@ import com.axiel7.moelist.uicompose.composables.MediaItemDetailed
 import com.axiel7.moelist.uicompose.composables.OnBottomReached
 import com.axiel7.moelist.uicompose.composables.RoundedTabRowIndicator
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
+import com.axiel7.moelist.utils.PreferencesDataStore.NSFW_PREFERENCE_KEY
+import com.axiel7.moelist.utils.PreferencesDataStore.rememberPreference
 import com.axiel7.moelist.utils.StringExtensions.toStringOrNull
 import kotlinx.coroutines.launch
 
@@ -91,7 +94,8 @@ fun SearchResultList(
     mediaType: MediaType,
     navController: NavController
 ) {
-    val viewModel: SearchViewModel = viewModel(key = mediaType.value)
+    val nsfwPreference by rememberPreference(NSFW_PREFERENCE_KEY, 0)
+    val viewModel: SearchViewModel = viewModel(key = mediaType.value) { SearchViewModel(nsfwPreference) }
     val listState = rememberLazyListState()
 
     LazyColumn(

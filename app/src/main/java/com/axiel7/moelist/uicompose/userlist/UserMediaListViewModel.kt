@@ -6,10 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.axiel7.moelist.data.model.ApiParams
-import com.axiel7.moelist.data.model.anime.AnimeNode
 import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
 import com.axiel7.moelist.data.model.anime.UserAnimeList
-import com.axiel7.moelist.data.model.manga.MangaNode
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
 import com.axiel7.moelist.data.model.manga.UserMangaList
 import com.axiel7.moelist.data.model.media.ListStatus
@@ -23,7 +21,8 @@ import kotlinx.coroutines.launch
 
 class UserMediaListViewModel(
     val mediaType: MediaType,
-    listStatus: ListStatus
+    listStatus: ListStatus,
+    nsfw: Int
 ): BaseViewModel() {
 
     var listSort by mutableStateOf(

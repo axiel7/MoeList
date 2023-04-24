@@ -156,6 +156,7 @@ fun LoginView(
             context.startActivity(this)
             context.getActivity()?.finish()
         }
+        viewModel.loginWasOk = false
     }
 
     if (viewModel.showMessage) {

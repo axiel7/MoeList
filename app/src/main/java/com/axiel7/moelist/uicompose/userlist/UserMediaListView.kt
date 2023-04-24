@@ -1,6 +1,5 @@
 package com.axiel7.moelist.uicompose.userlist
 
-import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -36,6 +35,8 @@ import com.axiel7.moelist.uicompose.base.TabRowItem
 import com.axiel7.moelist.uicompose.composables.*
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
+import com.axiel7.moelist.utils.PreferencesDataStore
+import com.axiel7.moelist.utils.PreferencesDataStore.NSFW_PREFERENCE_KEY
 import kotlinx.coroutines.launch
 
 const val ANIME_LIST_DESTINATION = "anime_list"
@@ -92,7 +93,10 @@ fun UserMediaListView(
     navController: NavController
 ) {
     val context = LocalContext.current
-    val viewModel: UserMediaListViewModel = viewModel(key = status.value) { UserMediaListViewModel(mediaType, status) }
+    val nsfwPreference by PreferencesDataStore.rememberPreference(NSFW_PREFERENCE_KEY, 0)
+    val viewModel: UserMediaListViewModel = viewModel(key = status.value) {
+        UserMediaListViewModel(mediaType, status, nsfwPreference)
+    }
     val pullRefreshState = rememberPullRefreshState(viewModel.isLoading, { viewModel.getUserList() })
     val listState = rememberLazyListState()
 

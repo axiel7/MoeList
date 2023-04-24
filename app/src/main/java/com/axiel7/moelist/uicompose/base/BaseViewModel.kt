@@ -14,10 +14,4 @@ abstract class BaseViewModel: ViewModel() {
         showMessage = true
         this.message = message
     }
-
-    //protected val sharedPrefs: SharedPrefsHelpers? by lazy { SharedPrefsHelpers.instance }
-    /*protected val nsfw: Int by lazy {
-        App.nsfw.toInt()
-    }*/
-    protected val nsfw = 0
 }

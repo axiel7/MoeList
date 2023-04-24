@@ -13,7 +13,9 @@ import com.axiel7.moelist.utils.SeasonCalendar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class HomeViewModel: BaseViewModel() {
+class HomeViewModel(
+    nsfw: Int
+): BaseViewModel() {
 
     fun initRequestChain() {
         viewModelScope.launch(Dispatchers.IO) {
