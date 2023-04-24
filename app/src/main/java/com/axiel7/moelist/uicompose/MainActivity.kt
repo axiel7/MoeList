@@ -39,7 +39,10 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.listStatusAnimeValues
 import com.axiel7.moelist.data.model.media.listStatusMangaValues
+import com.axiel7.moelist.uicompose.base.StringArrayNavType
 import com.axiel7.moelist.uicompose.base.TabRowItem
+import com.axiel7.moelist.uicompose.details.FULL_POSTER_DESTINATION
+import com.axiel7.moelist.uicompose.details.FullPosterView
 import com.axiel7.moelist.uicompose.details.MEDIA_DETAILS_DESTINATION
 import com.axiel7.moelist.uicompose.details.MediaDetailsView
 import com.axiel7.moelist.uicompose.home.HOME_DESTINATION
@@ -66,6 +69,8 @@ import com.axiel7.moelist.utils.PreferencesDataStore.THEME_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.defaultPreferencesDataStore
 import com.axiel7.moelist.utils.PreferencesDataStore.getValueSync
 import com.axiel7.moelist.utils.PreferencesDataStore.rememberPreference
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -112,6 +117,7 @@ fun MainView(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val bottomBarState = rememberSaveable { (mutableStateOf(true)) }
     val topBarState = rememberSaveable { (mutableStateOf(true)) }
+    val stringArrayType = remember { StringArrayNavType() }
 
     val homeViewModel: HomeViewModel = viewModel()
 
@@ -196,6 +202,17 @@ fun MainView(
                 )
             }
 
+            composable(FULL_POSTER_DESTINATION,
+                arguments = listOf(
+                    navArgument("pictures") { type = stringArrayType }
+                )
+            ) { navEntry ->
+                FullPosterView(
+                    pictures = navEntry.arguments?.getStringArray("pictures") ?: emptyArray(),
+                    navController = navController
+                )
+            }
+
             composable(SETTINGS_DESTINATION) {
                 SettingsView(
                     navController = navController
@@ -211,7 +228,8 @@ fun MainView(
     LaunchedEffect(navBackStackEntry) {
         snapshotFlow { navBackStackEntry?.destination }.collect {
             when (it?.route) {
-                MEDIA_DETAILS_DESTINATION, SETTINGS_DESTINATION, PROFILE_DESTINATION -> {
+                MEDIA_DETAILS_DESTINATION, SETTINGS_DESTINATION, PROFILE_DESTINATION,
+                FULL_POSTER_DESTINATION -> {
                     topBarState.value = false
                     bottomBarState.value = false
                 }

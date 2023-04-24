@@ -1,5 +1,6 @@
 package com.axiel7.moelist.uicompose.details
 
+import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -36,6 +37,8 @@ import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
 import com.google.accompanist.placeholder.material.placeholder
 import kotlinx.coroutines.launch
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 const val MEDIA_DETAILS_DESTINATION = "details/{mediaType}/{mediaId}"
 
@@ -100,6 +103,11 @@ fun MediaDetailsView(
                             height = MEDIA_POSTER_BIG_HEIGHT.dp
                         )
                         .placeholder(visible = viewModel.isLoading)
+                        .clickable {
+                            navController.navigate(
+                                "full_poster/${Uri.encode(Json.encodeToString(viewModel.picturesUrls))}"
+                            )
+                        }
                 )
                 Column {
                     SelectionContainer {

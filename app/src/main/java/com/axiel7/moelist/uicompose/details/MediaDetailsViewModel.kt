@@ -32,6 +32,7 @@ class MediaDetailsViewModel(
     var relatedAnime = mutableStateListOf<RelatedAnime>()
     var relatedManga = mutableStateListOf<RelatedManga>()
     var recommendations = mutableStateListOf<Recommendations<BaseMediaNode>>()
+    var picturesUrls = emptyArray<String>()
 
     @Suppress("UNCHECKED_CAST")
     fun getDetails(mediaId: Int) {
@@ -51,6 +52,9 @@ class MediaDetailsViewModel(
             recommendations.clear()
             (mediaDetails?.recommendations as? List<Recommendations<BaseMediaNode>>)
                 ?.let { recommendations.addAll(it) }
+
+            picturesUrls = arrayOf(mediaDetails?.mainPicture?.large ?: "")
+                .plus(mediaDetails?.pictures?.map { it.large }?.toTypedArray() ?: emptyArray())
             isLoading = false
         }
     }

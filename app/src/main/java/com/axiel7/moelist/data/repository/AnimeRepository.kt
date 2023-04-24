@@ -48,7 +48,7 @@ object AnimeRepository {
         }
     }
 
-    const val ANIME_DETAILS_FIELDS = "id,title,main_picture,alternative_titles,start_date,end_date," +
+    const val ANIME_DETAILS_FIELDS = "id,title,main_picture,pictures,alternative_titles,start_date,end_date," +
             "synopsis,mean,rank,popularity,num_list_users,num_scoring_users,media_type,status,genres," +
             "my_list_status{num_times_rewatched},num_episodes,start_season,broadcast,source," +
             "average_episode_duration,studios,opening_themes,ending_themes,related_anime{media_type}," +
