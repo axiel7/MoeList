@@ -197,7 +197,6 @@ fun ListPreferenceView(
     onValueChange: (String) -> Unit
 ) {
     var openDialog by remember { mutableStateOf(false) }
-    //var selectedValue = remember { mutableStateOf(preferenceValue) }
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -220,7 +219,7 @@ fun ListPreferenceView(
         }
 
         Column(
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier.padding(16.dp)
         ) {
             Text(
                 text = title,
