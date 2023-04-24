@@ -2,6 +2,7 @@ package com.axiel7.moelist.uicompose.search
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.viewModelScope
+import com.axiel7.moelist.App
 import com.axiel7.moelist.data.model.ApiParams
 import com.axiel7.moelist.data.model.media.BaseMediaList
 import com.axiel7.moelist.data.model.media.MediaType
@@ -11,12 +12,10 @@ import com.axiel7.moelist.uicompose.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SearchViewModel(
-    nsfw: Int
-): BaseViewModel() {
+class SearchViewModel: BaseViewModel() {
 
     private val params = ApiParams(
-        nsfw = nsfw,
+        nsfw = App.nsfw,
         fields = AnimeRepository.SEARCH_FIELDS
     )
     var nextPage: String? = null

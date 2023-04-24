@@ -93,9 +93,8 @@ fun UserMediaListView(
     navController: NavController
 ) {
     val context = LocalContext.current
-    val nsfwPreference by PreferencesDataStore.rememberPreference(NSFW_PREFERENCE_KEY, 0)
     val viewModel: UserMediaListViewModel = viewModel(key = status.value) {
-        UserMediaListViewModel(mediaType, status, nsfwPreference)
+        UserMediaListViewModel(mediaType, status)
     }
     val pullRefreshState = rememberPullRefreshState(viewModel.isLoading, { viewModel.getUserList() })
     val listState = rememberLazyListState()

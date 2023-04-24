@@ -2,6 +2,7 @@ package com.axiel7.moelist.uicompose.home
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.viewModelScope
+import com.axiel7.moelist.App
 import com.axiel7.moelist.data.model.ApiParams
 import com.axiel7.moelist.data.model.anime.AnimeList
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
@@ -13,9 +14,7 @@ import com.axiel7.moelist.utils.SeasonCalendar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class HomeViewModel(
-    nsfw: Int
-): BaseViewModel() {
+class HomeViewModel: BaseViewModel() {
 
     fun initRequestChain() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -31,7 +30,7 @@ class HomeViewModel(
 
     private val paramsToday = ApiParams(
         sort = Constants.SORT_ANIME_SCORE,
-        nsfw = nsfw,
+        nsfw = App.nsfw,
         fields = AnimeRepository.TODAY_FIELDS,
         limit = 500
     )
@@ -62,7 +61,7 @@ class HomeViewModel(
 
     private val paramsSeasonal = ApiParams(
         sort = Constants.SORT_ANIME_START_DATE,
-        nsfw = nsfw
+        nsfw = App.nsfw
     )
 
     var seasonAnimes = mutableStateListOf<AnimeSeasonal>()
@@ -81,7 +80,7 @@ class HomeViewModel(
     }
 
     private val paramsRecommended = ApiParams(
-        nsfw = nsfw
+        nsfw = App.nsfw
     )
 
     var recommendedAnimes = mutableStateListOf<AnimeList>()

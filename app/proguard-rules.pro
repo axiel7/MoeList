@@ -30,5 +30,6 @@
 -keepattributes *Annotation*, InnerClasses
 -keep,includedescriptorclasses class com.axiel7.moelist.**$$serializer { *; }
 
--keep public class * extends androidx.preference.Preference
--keep public class * extends androidx.preference.PreferenceFragmentCompat
+-keepclassmembers class * extends androidx.datastore.preferences.protobuf.GeneratedMessageLite {
+    <fields>;
+}

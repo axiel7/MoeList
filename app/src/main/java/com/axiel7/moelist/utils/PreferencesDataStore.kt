@@ -7,13 +7,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
+import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 object PreferencesDataStore {
 
@@ -21,8 +24,16 @@ object PreferencesDataStore {
     val NSFW_PREFERENCE_KEY = intPreferencesKey("nsfw")
     val LANG_PREFERENCE_KEY = stringPreferencesKey("lang")
     val THEME_PREFERENCE_KEY = stringPreferencesKey("theme")
+    val LAST_TAB_PREFERENCE_KEY = intPreferencesKey("last_tab")
 
     val Context.defaultPreferencesDataStore by preferencesDataStore(name = "default")
+
+    /**
+     * Gets the value by blocking the main thread
+     */
+    fun <T> DataStore<Preferences>.getValueSync(
+        key: Preferences.Key<T>
+    ) = runBlocking { data.first() }[key]
 
     @Composable
     fun <T> rememberPreference(

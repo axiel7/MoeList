@@ -37,5 +37,6 @@ class App : Application(), ImageLoaderFactory {
         lateinit var api: Api
         val numberFormat: NumberFormat = NumberFormat.getInstance()
         var dataStore: DataStore<Preferences>? = null
+        var nsfw = 0
     }
 }

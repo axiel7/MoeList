@@ -59,14 +59,17 @@ import com.axiel7.moelist.uicompose.userlist.ANIME_LIST_DESTINATION
 import com.axiel7.moelist.uicompose.userlist.MANGA_LIST_DESTINATION
 import com.axiel7.moelist.uicompose.userlist.UserMediaListHostView
 import com.axiel7.moelist.utils.PreferencesDataStore.ACCESS_TOKEN_PREFERENCE_KEY
+import com.axiel7.moelist.utils.PreferencesDataStore.LAST_TAB_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.NSFW_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.THEME_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.defaultPreferencesDataStore
+import com.axiel7.moelist.utils.PreferencesDataStore.getValueSync
 import com.axiel7.moelist.utils.PreferencesDataStore.rememberPreference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class MainActivity : ComponentActivity() {
@@ -75,18 +78,18 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        var token: String? = null
-        CoroutineScope(Dispatchers.Default).launch {
-            withContext(Dispatchers.Default) {
-                val tokenPref = defaultPreferencesDataStore.data.first {
-                    it[ACCESS_TOKEN_PREFERENCE_KEY] != null
-                }
-                token = tokenPref[ACCESS_TOKEN_PREFERENCE_KEY]
-                if (!token.isNullOrEmpty()) App.createKtorClient(token!!)
-            }
+        val token = defaultPreferencesDataStore.getValueSync(ACCESS_TOKEN_PREFERENCE_KEY)
+        if (token != null) App.createKtorClient(token)
+        else {
+            Intent(this, LoginActivity::class.java).apply { startActivity(this) }
+            finish()
         }
+        val lastTabOpened = defaultPreferencesDataStore.getValueSync(LAST_TAB_PREFERENCE_KEY)
+        defaultPreferencesDataStore.getValueSync(NSFW_PREFERENCE_KEY)?.let {
+            App.nsfw = it
+        }
+
         setContent {
-            val context = LocalContext.current
             val themePreference by rememberPreference(THEME_PREFERENCE_KEY, "follow_system")
 
             MoeListTheme(
@@ -96,14 +99,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainView()
-                }
-            }
-
-            LaunchedEffect(token) {
-                if (token.isNullOrEmpty()) {
-                    Intent(context, LoginActivity::class.java).apply { startActivity(this) }
-                    finish()
+                    MainView(
+                        lastTabOpened = lastTabOpened ?: 0
+                    )
                 }
             }
         }
@@ -111,14 +109,15 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainView() {
+fun MainView(
+    lastTabOpened: Int
+) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val bottomBarState = rememberSaveable { (mutableStateOf(true)) }
     val topBarState = rememberSaveable { (mutableStateOf(true)) }
 
-    val nsfwPreference by rememberPreference(NSFW_PREFERENCE_KEY, 0)
-    val homeViewModel: HomeViewModel = viewModel { HomeViewModel(nsfw = nsfwPreference) }
+    val homeViewModel: HomeViewModel = viewModel()
 
     val animeTabs = remember {
         listStatusAnimeValues().map { TabRowItem(
@@ -144,14 +143,20 @@ fun MainView() {
         bottomBar = {
             BottomNavBar(
                 navController = navController,
-                bottomBarState = bottomBarState
+                bottomBarState = bottomBarState,
+                lastTabOpened = lastTabOpened
             )
         },
         backgroundColor = MaterialTheme.colorScheme.background
     ) {
         NavHost(
             navController = navController,
-            startDestination = HOME_DESTINATION,
+            startDestination = when (lastTabOpened) {
+                1 -> ANIME_LIST_DESTINATION
+                2 -> MANGA_LIST_DESTINATION
+                3 -> MORE_DESTINATION
+                else -> HOME_DESTINATION
+            },
             modifier = Modifier
                 .padding(it)
                 //.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)
@@ -306,9 +311,10 @@ fun MainTopAppBar(
 @Composable
 fun BottomNavBar(
     navController: NavController,
-    bottomBarState: State<Boolean>
+    bottomBarState: State<Boolean>,
+    lastTabOpened: Int
 ) {
-    var selectedItem by remember { mutableStateOf(1) }
+    var selectedItem by rememberPreference(LAST_TAB_PREFERENCE_KEY, lastTabOpened)
     
     AnimatedVisibility(
         visible = bottomBarState.value,
@@ -363,6 +369,8 @@ fun BottomNavBar(
 @Composable
 fun MainPreview() {
     MoeListTheme {
-        MainView()
+        MainView(
+            lastTabOpened = 0
+        )
     }
 }
