@@ -47,7 +47,7 @@
     <string name="this_season">Този сезон</string>
     <string name="recommendations">Препоръки</string>
     <string name="username">Потребителско име</string>
-    <string name="total_entries">Общо:</string>
+    <string name="total_entries">Общо: %s</string>
     <string name="mean_score">Средна Стойност</string>
     <string name="rewatched">Повторно изгледано</string>
     <string name="view_profile_mal">Преглед на профила в MAL</string>
@@ -239,7 +239,7 @@
     <string name="full_story">Цяла история</string>
     <string name="theme_black">Черно</string>
     <string name="aired_ago">Излъчен %s преди</string>
-    <string name="anime_stats">Аниме\nСтатистики</string>
+    <string name="anime_stats">Аниме Статистики</string>
     <string name="delete_confirmation">Сигурни ли сте, че искате да изтриете това?</string>
     <string name="bulgarian">Български</string>
     <string name="log_in_again">Влезте отново</string>

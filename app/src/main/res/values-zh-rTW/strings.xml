@@ -47,7 +47,7 @@
     <string name="this_season">這一季</string>
     <string name="recommendations">推薦</string>
     <string name="username">使用者名稱</string>
-    <string name="total_entries">總計:</string>
+    <string name="total_entries">總計：%s</string>
     <string name="mean_score">平均分數</string>
     <string name="rewatched">重看</string>
     <string name="view_profile_mal">在 MAL 上查看個人資料</string>
@@ -239,7 +239,7 @@
     <string name="full_story">整個故事</string>
     <string name="theme_black">黑色</string>
     <string name="aired_ago">%s小時前播出</string>
-    <string name="anime_stats">動漫\n統計</string>
+    <string name="anime_stats">動漫統計</string>
     <string name="delete_confirmation">您確定要刪除此條目嗎？</string>
     <string name="bulgarian">保加利亞文</string>
     <string name="log_in_again">請重新登入</string>

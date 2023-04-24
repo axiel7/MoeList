@@ -47,7 +47,7 @@
     <string name="this_season">Cette saison</string>
     <string name="recommendations">Recommandations</string>
     <string name="username">Nom d\'utilisateur</string>
-    <string name="total_entries">Total:</string>
+    <string name="total_entries">Total: %s</string>
     <string name="mean_score">Score moyen</string>
     <string name="rewatched">Revu</string>
     <string name="view_profile_mal">Voir le profil sur MAL</string>
@@ -239,7 +239,7 @@
     <string name="full_story">Histoire complète</string>
     <string name="theme_black">Noir</string>
     <string name="aired_ago">Diffusion il y a %sh</string>
-    <string name="anime_stats">Stats\nd\'animes</string>
+    <string name="anime_stats">Stats d\'animes</string>
     <string name="delete_confirmation">Souhaitez-vous vraiment supprimer cette entrée ?</string>
     <string name="bulgarian">Bulgare</string>
     <string name="log_in_again">Veuillez vous connecter à nouveau</string>

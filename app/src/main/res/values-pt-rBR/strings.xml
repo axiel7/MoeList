@@ -47,7 +47,7 @@
     <string name="this_season">Esta Temporada</string>
     <string name="recommendations">Recomendações</string>
     <string name="username">Nome de usuário</string>
-    <string name="total_entries">Total:</string>
+    <string name="total_entries">Total: %s</string>
     <string name="mean_score">Nota Média</string>
     <string name="rewatched">Reassistido</string>
     <string name="view_profile_mal">Ver perfil no MAL</string>
@@ -239,7 +239,7 @@
     <string name="full_story">História completa</string>
     <string name="theme_black">Preto</string>
     <string name="aired_ago">Exibido há %sh</string>
-    <string name="anime_stats">Estatísticas de\nAnimes</string>
+    <string name="anime_stats">Estatísticas de Animes</string>
     <string name="delete_confirmation">Tem certeza que deseja excluir essa entrada?</string>
     <string name="bulgarian">Búlgaro</string>
     <string name="log_in_again">Por favor, faça login novamente</string>

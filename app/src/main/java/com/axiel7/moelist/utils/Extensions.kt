@@ -39,6 +39,10 @@ object Extensions {
      */
     fun Int?.toStringPositiveValueOrNull() = if (this == 0) null else this.toStringOrNull()
 
+    fun Int?.toStringOrZero() = this?.toString() ?: "0"
+
+    fun Float?.toStringOrZero() = this?.toString() ?: "0.0"
+
     fun Context.changeTheme() {
         SharedPrefsHelpers.instance?.let {
             when (it.getString("theme", "follow_system")) {

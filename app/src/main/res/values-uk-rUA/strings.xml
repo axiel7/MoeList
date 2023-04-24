@@ -47,7 +47,7 @@
     <string name="this_season">Цей сезон</string>
     <string name="recommendations">Рекомендації</string>
     <string name="username">Ім\'я користувача</string>
-    <string name="total_entries">Усього:</string>
+    <string name="total_entries">Усього: %s</string>
     <string name="mean_score">Середній бал</string>
     <string name="rewatched">Переглянуто знову</string>
     <string name="view_profile_mal">Переглянути профіль на MAL</string>
@@ -239,7 +239,7 @@
     <string name="full_story">Повна історія</string>
     <string name="theme_black">Чорна</string>
     <string name="aired_ago">Транслювалося %s год тому</string>
-    <string name="anime_stats">Аніме\nСтатистика</string>
+    <string name="anime_stats">Аніме Статистика</string>
     <string name="delete_confirmation">Ви дійсно бажаєте видалити цей запис?</string>
     <string name="bulgarian">Болгарська</string>
     <string name="log_in_again">Будь ласка, увійдіть ще раз</string>

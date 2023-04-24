@@ -1,9 +1,17 @@
 package com.axiel7.moelist.uicompose.profile
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
-import androidx.compose.material3.*
+import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -22,11 +30,14 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.composables.DefaultTopAppBar
+import com.axiel7.moelist.uicompose.composables.HorizontalStatsBar
 import com.axiel7.moelist.uicompose.composables.TextIconHorizontal
+import com.axiel7.moelist.uicompose.composables.TextIconVertical
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.DateUtils.toISOformat
 import com.axiel7.moelist.utils.Extensions.openLink
+import com.axiel7.moelist.utils.Extensions.toStringOrZero
 import com.google.accompanist.placeholder.material.placeholder
 import java.time.format.DateTimeFormatter
 
@@ -104,6 +115,49 @@ fun ProfileView(navController: NavController) {
 
             Divider(modifier = Modifier.padding(vertical = 16.dp))
 
+            //Stats
+            Text(
+                text = stringResource(R.string.anime_stats),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            )
+            HorizontalStatsBar(
+                stats = viewModel.animeStats
+            )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                TextIconVertical(
+                    text = viewModel.user?.animeStatistics?.numDays.toStringOrZero(),
+                    icon = R.drawable.ic_round_event_24,
+                    tooltip = stringResource(R.string.days)
+                )
+                TextIconVertical(
+                    text = viewModel.user?.animeStatistics?.numEpisodes.toStringOrZero(),
+                    icon = R.drawable.play_circle_outline_24,
+                    tooltip = stringResource(R.string.episodes)
+                )
+                TextIconVertical(
+                    text = viewModel.user?.animeStatistics?.meanScore.toStringOrZero(),
+                    icon = R.drawable.ic_round_details_star_24,
+                    tooltip = stringResource(R.string.mean_score)
+                )
+                TextIconVertical(
+                    text = viewModel.user?.animeStatistics?.numTimesRewatched.toStringOrZero(),
+                    icon = R.drawable.round_repeat_24,
+                    tooltip = stringResource(R.string.rewatched)
+                )
+            }
+
+            Divider(modifier = Modifier.padding(vertical = 16.dp))
+
             TextButton(
                 onClick = { context.openLink(Constants.MAL_PROFILE_URL + viewModel.user?.name) }
             ) {
@@ -120,7 +174,7 @@ fun ProfileView(navController: NavController) {
     }
 }
 
-@Preview(showSystemUi = true, showBackground = true)
+@Preview(showBackground = true)
 @Composable
 fun ProfilePreview() {
     MoeListTheme {

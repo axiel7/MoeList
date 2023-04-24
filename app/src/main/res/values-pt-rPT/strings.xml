@@ -47,7 +47,7 @@
     <string name="this_season">This Season</string>
     <string name="recommendations">Recommendations</string>
     <string name="username">Username</string>
-    <string name="total_entries">Total:</string>
+    <string name="total_entries">Total: %s</string>
     <string name="mean_score">Mean Score</string>
     <string name="rewatched">Rewatched</string>
     <string name="view_profile_mal">View profile on MAL</string>
@@ -239,7 +239,7 @@
     <string name="full_story">Full story</string>
     <string name="theme_black">Black</string>
     <string name="aired_ago">Aired %sh ago</string>
-    <string name="anime_stats">Anime\nStats</string>
+    <string name="anime_stats">Anime Stats</string>
     <string name="delete_confirmation">Are you sure you want to delete this entry?</string>
     <string name="bulgarian">Bulgarian</string>
     <string name="log_in_again">Please log in again</string>
