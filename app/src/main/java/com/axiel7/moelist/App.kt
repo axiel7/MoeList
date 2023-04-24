@@ -5,7 +5,7 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import com.axiel7.moelist.data.network.Api
 import com.axiel7.moelist.data.network.KtorClient
-import com.axiel7.moelist.utils.Extensions.changeTheme
+import com.axiel7.moelist.utils.ContextExtensions.changeTheme
 import com.axiel7.moelist.utils.SharedPrefsHelpers
 import io.ktor.client.*
 import java.text.NumberFormat

@@ -21,6 +21,7 @@ import com.axiel7.moelist.data.model.manga.MyMangaListStatus
 import com.axiel7.moelist.data.model.media.*
 import com.axiel7.moelist.uicompose.composables.ClickableOutlinedTextField
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
+import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.DateUtils
 import com.axiel7.moelist.utils.DateUtils.toEpochMillis
 import kotlinx.coroutines.CoroutineScope
@@ -205,7 +206,7 @@ fun EditMediaSheet(
     }
 
     if (viewModel.showMessage) {
-        Toast.makeText(context, viewModel.message, Toast.LENGTH_SHORT).show()
+        context.showToast(viewModel.message)
         viewModel.showMessage = false
     }
 

@@ -35,9 +35,9 @@ import com.axiel7.moelist.uicompose.composables.TextIconHorizontal
 import com.axiel7.moelist.uicompose.composables.TextIconVertical
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants
+import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.DateUtils.toISOformat
-import com.axiel7.moelist.utils.Extensions.openLink
-import com.axiel7.moelist.utils.Extensions.toStringOrZero
+import com.axiel7.moelist.utils.NumExtensions.toStringOrZero
 import com.google.accompanist.placeholder.material.placeholder
 import java.time.format.DateTimeFormatter
 

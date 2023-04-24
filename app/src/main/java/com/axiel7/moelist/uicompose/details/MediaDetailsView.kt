@@ -31,9 +31,9 @@ import com.axiel7.moelist.data.model.media.*
 import com.axiel7.moelist.uicompose.composables.*
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants
-import com.axiel7.moelist.utils.Extensions.openAction
-import com.axiel7.moelist.utils.Extensions.openLink
-import com.axiel7.moelist.utils.Extensions.toStringPositiveValueOrNull
+import com.axiel7.moelist.utils.ContextExtensions.openAction
+import com.axiel7.moelist.utils.ContextExtensions.openLink
+import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
 import com.google.accompanist.placeholder.material.placeholder
 import kotlinx.coroutines.launch
 

@@ -9,7 +9,7 @@ import com.axiel7.moelist.data.model.anime.Recommendations
 import com.axiel7.moelist.data.model.anime.RelatedAnime
 import com.axiel7.moelist.data.model.manga.MangaDetails
 import com.axiel7.moelist.data.model.manga.RelatedManga
-import com.axiel7.moelist.utils.Extensions.toStringPositiveValueOrNull
+import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
 
 abstract class BaseMediaDetails : BaseResponse() {
     abstract val id: Int

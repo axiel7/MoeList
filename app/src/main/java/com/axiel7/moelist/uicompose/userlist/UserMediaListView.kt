@@ -35,6 +35,7 @@ import com.axiel7.moelist.data.model.media.*
 import com.axiel7.moelist.uicompose.base.TabRowItem
 import com.axiel7.moelist.uicompose.composables.*
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
+import com.axiel7.moelist.utils.ContextExtensions.showToast
 import kotlinx.coroutines.launch
 
 const val ANIME_LIST_DESTINATION = "anime_list"
@@ -161,7 +162,7 @@ fun UserMediaListView(
     }
 
     if (viewModel.showMessage) {
-        Toast.makeText(context, viewModel.message, Toast.LENGTH_SHORT).show()
+        context.showToast(viewModel.message)
         viewModel.showMessage = false
     }
 

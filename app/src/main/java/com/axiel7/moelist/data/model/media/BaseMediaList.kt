@@ -5,7 +5,7 @@ import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeList
 import com.axiel7.moelist.data.model.manga.MangaList
-import com.axiel7.moelist.utils.Extensions.toStringPositiveValueOrNull
+import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
 
 abstract class BaseMediaList {
     abstract val node: BaseMediaNode

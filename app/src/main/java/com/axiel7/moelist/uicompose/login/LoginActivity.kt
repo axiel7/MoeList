@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -27,8 +26,9 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.MainActivity
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants
-import com.axiel7.moelist.utils.Extensions.getActivity
-import com.axiel7.moelist.utils.Extensions.openCustomTab
+import com.axiel7.moelist.utils.ContextExtensions.getActivity
+import com.axiel7.moelist.utils.ContextExtensions.openCustomTab
+import com.axiel7.moelist.utils.ContextExtensions.showToast
 
 class LoginActivity: AppCompatActivity() {
 
@@ -86,7 +86,7 @@ fun LoginView(
                 try {
                     context.startActivity(this)
                 } catch (e: ActivityNotFoundException) {
-                    Toast.makeText(context, "No app found for this action", Toast.LENGTH_SHORT).show()
+                    context.showToast("No app found for this action")
                 }
             }
         } else context.openCustomTab(viewModel.loginUrl)
@@ -159,7 +159,7 @@ fun LoginView(
     }
 
     if (viewModel.showMessage) {
-        Toast.makeText(context, viewModel.message, Toast.LENGTH_SHORT).show()
+        context.showToast(viewModel.message)
         viewModel.showMessage = false
     }
 }

@@ -4,44 +4,19 @@ import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
-import android.view.Window
-import android.widget.TextView
-import androidx.annotation.DrawableRes
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import com.axiel7.moelist.R
 
-object Extensions {
+object ContextExtensions {
 
-    /**
-     * @return if true 1 else 0
-     */
-    fun Boolean?.toInt(): Int = if (this == true) 1 else 0
-
-    /**
-     * Returns a string representation of the object.
-     * Can be called with a null receiver, in which case it returns `null`.
-     */
-    fun Any?.toStringOrNull() : String? {
-        val result = this.toString()
-        return if (result == "null") null else result
+    fun Context.showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
-
-    /**
-     * Returns a string representation of the Integer. If the Integer is `<= 0` returns `null`.
-     * Can be called with a null receiver, in which case it returns `null`.
-     */
-    fun Int?.toStringPositiveValueOrNull() = if (this == 0) null else this.toStringOrNull()
-
-    fun Int?.toStringOrZero() = this?.toString() ?: "0"
-
-    fun Float?.toStringOrZero() = this?.toString() ?: "0.0"
 
     fun Context.changeTheme() {
         SharedPrefsHelpers.instance?.let {
@@ -65,10 +40,6 @@ object Extensions {
             }
         }
     }
-
-    fun Window.showKeyboard() = WindowInsetsControllerCompat(this, decorView).show(WindowInsetsCompat.Type.ime())
-
-    fun Window.hideKeyboard() = WindowInsetsControllerCompat(this, decorView).hide(WindowInsetsCompat.Type.ime())
 
     fun Context.openAction(uri: String) {
         Intent(Intent.ACTION_VIEW, Uri.parse(uri)).apply {

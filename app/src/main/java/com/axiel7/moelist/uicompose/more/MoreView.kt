@@ -23,7 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants
-import com.axiel7.moelist.utils.Extensions.openLink
+import com.axiel7.moelist.utils.ContextExtensions.openLink
 
 const val MORE_DESTINATION = "more"
 
