@@ -4,13 +4,14 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.datastore.preferences.core.edit
 import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.login.LoginActivity
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.PreferencesDataStore.ACCESS_TOKEN_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.defaultPreferencesDataStore
-import java.util.Locale
 
 object UseCases {
 
@@ -32,12 +33,9 @@ object UseCases {
         context.showToast(context.getString(R.string.copied))
     }
 
-    fun Context.changeLocale(language: String): Context? {
-        val locale = Locale(language)
-        Locale.setDefault(locale)
-        val configuration = resources.configuration
-        configuration.setLocale(locale)
-        configuration.setLayoutDirection(locale)
-        return createConfigurationContext(configuration)
+    fun changeLocale(language: String) {
+        val appLocale = if (language == "follow_system") LocaleListCompat.getEmptyLocaleList()
+            else LocaleListCompat.forLanguageTags(language)
+        AppCompatDelegate.setApplicationLocales(appLocale)
     }
 }

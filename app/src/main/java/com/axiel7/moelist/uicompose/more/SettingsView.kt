@@ -41,12 +41,11 @@ import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.composables.DefaultTopAppBar
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
-import com.axiel7.moelist.utils.ContextExtensions.getActivity
 import com.axiel7.moelist.utils.PreferencesDataStore.LANG_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.NSFW_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.THEME_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.rememberPreference
-import com.axiel7.moelist.utils.UseCases.changeLocale
+import com.axiel7.moelist.utils.UseCases
 
 const val SETTINGS_DESTINATION = "settings"
 
@@ -55,7 +54,6 @@ fun SettingsView(
     navController: NavController
 ) {
     val viewModel: SettingsViewModel = viewModel()
-    val context = LocalContext.current
     val langPreference = rememberPreference(LANG_PREFERENCE_KEY, "follow_system")
     val themePreference = rememberPreference(THEME_PREFERENCE_KEY, "follow_system")
     val nsfwPreference = rememberPreference(NSFW_PREFERENCE_KEY, false)
@@ -90,8 +88,7 @@ fun SettingsView(
                 icon = R.drawable.ic_round_language_24,
                 onValueChange = { value ->
                     langPreference.value = value
-                    context.changeLocale(value)
-                    context.getActivity()?.recreate()
+                    UseCases.changeLocale(value)
                 }
             )
 
