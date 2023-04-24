@@ -1,5 +1,7 @@
 package com.axiel7.moelist.uicompose
 
+import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -59,6 +61,7 @@ import com.axiel7.moelist.uicompose.userlist.MANGA_LIST_DESTINATION
 import com.axiel7.moelist.uicompose.userlist.UserMediaListHostView
 import com.axiel7.moelist.utils.NumExtensions.toInt
 import com.axiel7.moelist.utils.PreferencesDataStore.ACCESS_TOKEN_PREFERENCE_KEY
+import com.axiel7.moelist.utils.PreferencesDataStore.LANG_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.LAST_TAB_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.NSFW_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.PROFILE_PICTURE_PREFERENCE_KEY
@@ -66,6 +69,7 @@ import com.axiel7.moelist.utils.PreferencesDataStore.THEME_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.defaultPreferencesDataStore
 import com.axiel7.moelist.utils.PreferencesDataStore.getValueSync
 import com.axiel7.moelist.utils.PreferencesDataStore.rememberPreference
+import com.axiel7.moelist.utils.UseCases.changeLocale
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,6 +105,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun attachBaseContext(newBase: Context?) {
+        val lang = defaultPreferencesDataStore.getValueSync(LANG_PREFERENCE_KEY) ?: "en"
+        super.attachBaseContext(ContextWrapper(newBase?.changeLocale(lang)))
     }
 }
 
@@ -254,7 +263,7 @@ fun MainTopAppBar(
                     active = it
                     if (!active) query = ""
                 },
-                placeholder = { Text(text = "Search") },
+                placeholder = { Text(text = stringResource(R.string.search)) },
                 leadingIcon = {
                     if (active) {
                         IconButton(
