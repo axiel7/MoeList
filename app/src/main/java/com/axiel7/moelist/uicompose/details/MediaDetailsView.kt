@@ -97,7 +97,7 @@ fun MediaDetailsView(
                 MediaPoster(
                     url = viewModel.mediaDetails?.mainPicture?.large,
                     modifier = Modifier
-                        .padding(16.dp)
+                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
                         .size(
                             width = MEDIA_POSTER_BIG_WIDTH.dp,
                             height = MEDIA_POSTER_BIG_HEIGHT.dp
@@ -114,7 +114,7 @@ fun MediaDetailsView(
                         Text(
                             text = viewModel.mediaDetails?.title ?: "Loading",
                             modifier = Modifier
-                                .padding(vertical = 8.dp)
+                                .padding(bottom = 8.dp)
                                 .placeholder(visible = viewModel.isLoading),
                             fontSize = 22.sp,
                             fontWeight = FontWeight.Bold
