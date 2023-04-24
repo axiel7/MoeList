@@ -63,7 +63,7 @@ fun ProfileView(navController: NavController) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 AsyncImage(
-                    model = viewModel.user?.picture,
+                    model = viewModel.profilePictureUrl,
                     contentDescription = "profile",
                     placeholder = painterResource(R.drawable.ic_round_account_circle_24),
                     error = painterResource(R.drawable.ic_round_account_circle_24),

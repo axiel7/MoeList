@@ -26,6 +26,7 @@ object PreferencesDataStore {
     val LANG_PREFERENCE_KEY = stringPreferencesKey("lang")
     val THEME_PREFERENCE_KEY = stringPreferencesKey("theme")
     val LAST_TAB_PREFERENCE_KEY = intPreferencesKey("last_tab")
+    val PROFILE_PICTURE_PREFERENCE_KEY = stringPreferencesKey("profile_picture")
 
     val Context.defaultPreferencesDataStore by preferencesDataStore(name = "default")
 

@@ -61,6 +61,7 @@ import com.axiel7.moelist.utils.NumExtensions.toInt
 import com.axiel7.moelist.utils.PreferencesDataStore.ACCESS_TOKEN_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.LAST_TAB_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.NSFW_PREFERENCE_KEY
+import com.axiel7.moelist.utils.PreferencesDataStore.PROFILE_PICTURE_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.THEME_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.defaultPreferencesDataStore
 import com.axiel7.moelist.utils.PreferencesDataStore.getValueSync
@@ -232,6 +233,7 @@ fun MainTopAppBar(
 ) {
     var query by remember { mutableStateOf("") }
     var active by remember { mutableStateOf(false) }
+    val profilePictureUrl by rememberPreference(PROFILE_PICTURE_PREFERENCE_KEY, "")
 
     AnimatedVisibility(
         visible = topBarState.value,
@@ -277,7 +279,7 @@ fun MainTopAppBar(
                 trailingIcon = {
                     if (!active) {
                         AsyncImage(
-                            model = "",
+                            model = profilePictureUrl,
                             contentDescription = "profile",
                             placeholder = painterResource(R.drawable.ic_round_account_circle_24),
                             error = painterResource(R.drawable.ic_round_account_circle_24),
