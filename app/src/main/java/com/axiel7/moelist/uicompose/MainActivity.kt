@@ -18,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -58,6 +57,7 @@ import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.uicompose.userlist.ANIME_LIST_DESTINATION
 import com.axiel7.moelist.uicompose.userlist.MANGA_LIST_DESTINATION
 import com.axiel7.moelist.uicompose.userlist.UserMediaListHostView
+import com.axiel7.moelist.utils.NumExtensions.toInt
 import com.axiel7.moelist.utils.PreferencesDataStore.ACCESS_TOKEN_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.LAST_TAB_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.NSFW_PREFERENCE_KEY
@@ -65,12 +65,6 @@ import com.axiel7.moelist.utils.PreferencesDataStore.THEME_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.defaultPreferencesDataStore
 import com.axiel7.moelist.utils.PreferencesDataStore.getValueSync
 import com.axiel7.moelist.utils.PreferencesDataStore.rememberPreference
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,11 +80,12 @@ class MainActivity : ComponentActivity() {
         }
         val lastTabOpened = defaultPreferencesDataStore.getValueSync(LAST_TAB_PREFERENCE_KEY)
         defaultPreferencesDataStore.getValueSync(NSFW_PREFERENCE_KEY)?.let {
-            App.nsfw = it
+            App.nsfw = it.toInt()
         }
+        val theme = defaultPreferencesDataStore.getValueSync(THEME_PREFERENCE_KEY) ?: "follow_system"
 
         setContent {
-            val themePreference by rememberPreference(THEME_PREFERENCE_KEY, "follow_system")
+            val themePreference by rememberPreference(THEME_PREFERENCE_KEY, theme)
 
             MoeListTheme(
                 darkTheme = if (themePreference == "follow_system") isSystemInDarkTheme() else themePreference == "dark"

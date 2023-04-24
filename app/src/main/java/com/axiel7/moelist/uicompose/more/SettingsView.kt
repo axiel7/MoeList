@@ -17,9 +17,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -54,9 +56,9 @@ fun SettingsView(
 ) {
     val viewModel: SettingsViewModel = viewModel()
     val context = LocalContext.current
-    var langPreference by rememberPreference(LANG_PREFERENCE_KEY, "follow_system")
-    var themePreference by rememberPreference(THEME_PREFERENCE_KEY, "follow_system")
-    var nsfwPreference by rememberPreference(NSFW_PREFERENCE_KEY, 0)
+    val langPreference = rememberPreference(LANG_PREFERENCE_KEY, "follow_system")
+    val themePreference = rememberPreference(THEME_PREFERENCE_KEY, "follow_system")
+    val nsfwPreference = rememberPreference(NSFW_PREFERENCE_KEY, false)
 
     Scaffold(
         topBar = {
@@ -74,37 +76,35 @@ fun SettingsView(
             ListPreferenceView(
                 title = stringResource(R.string.theme),
                 entriesValues = viewModel.themeEntries,
-                defaultValue = themePreference,
+                preferenceValue = themePreference,
                 icon = R.drawable.ic_round_color_lens_24,
                 onValueChange = { value ->
-                    if (value != null) {
-                        themePreference = value
-                    }
+                    themePreference.value = value
                 }
             )
 
             ListPreferenceView(
                 title = stringResource(R.string.language),
                 entriesValues = viewModel.languageEntries,
-                defaultValue = langPreference,
+                preferenceValue = langPreference,
                 icon = R.drawable.ic_round_language_24,
                 onValueChange = { value ->
-                    if (value != null) {
-                        langPreference = value
-                        context.changeLocale(value)
-                        context.getActivity()?.recreate()
-                    }
+                    langPreference.value = value
+                    context.changeLocale(value)
+                    context.getActivity()?.recreate()
                 }
             )
 
-            SettingsTitle(text = stringResource(R.string.startup))
+            SettingsTitle(text = stringResource(R.string.content))
 
-            ListPreferenceView(
-                title = stringResource(R.string.default_section),
-                entriesValues = viewModel.sectionEntries,
-                defaultValue = "home",
-                icon = R.drawable.ic_round_sort_24,
-                onValueChange = { }
+            SwitchPreferenceView(
+                title = stringResource(R.string.show_nsfw),
+                subtitle = stringResource(R.string.nsfw_summary),
+                preferenceValue = nsfwPreference,
+                icon = R.drawable.no_adult_content_24,
+                onValueChange = { value ->
+                    nsfwPreference.value = value
+                }
             )
         }
     }
@@ -123,16 +123,84 @@ fun SettingsTitle(text: String) {
 }
 
 @Composable
+fun SwitchPreferenceView(
+    title: String,
+    modifier: Modifier = Modifier,
+    subtitle: String? = null,
+    preferenceValue: MutableState<Boolean>,
+    @DrawableRes icon: Int? = null,
+    onValueChange: (Boolean) -> Unit
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable {
+                preferenceValue.value = !preferenceValue.value
+                onValueChange(preferenceValue.value)
+            },
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if (icon != null) {
+                Icon(
+                    painter = painterResource(icon),
+                    contentDescription = "",
+                    modifier = Modifier.padding(16.dp),
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            } else {
+                Spacer(modifier = Modifier
+                    .padding(16.dp)
+                    .size(24.dp)
+                )
+            }
+
+            Column(
+                modifier = if (subtitle != null)
+                    Modifier.padding(16.dp)
+                else Modifier.padding(horizontal = 16.dp)
+            ) {
+                Text(
+                    text = title,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+
+                if (subtitle != null) {
+                    Text(
+                        text = subtitle,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontSize = 13.sp
+                    )
+                }
+            }//: Column
+        }//: Row
+
+        Switch(
+            checked = preferenceValue.value,
+            onCheckedChange = {
+                preferenceValue.value = it
+                onValueChange(it)
+            },
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
+    }//: Row
+}
+
+@Composable
 fun ListPreferenceView(
     title: String,
     entriesValues: Map<String, Int>,
     modifier: Modifier = Modifier,
-    defaultValue: String? = null,
+    preferenceValue: MutableState<String>,
     @DrawableRes icon: Int? = null,
-    onValueChange: (String?) -> Unit
+    onValueChange: (String) -> Unit
 ) {
     var openDialog by remember { mutableStateOf(false) }
-    var selectedValue by remember { mutableStateOf(defaultValue) }
+    //var selectedValue = remember { mutableStateOf(preferenceValue) }
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -155,22 +223,18 @@ fun ListPreferenceView(
         }
 
         Column(
-            modifier = if (selectedValue != null)
-                Modifier.padding(16.dp)
-            else Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier.padding(horizontal = 16.dp)
         ) {
             Text(
                 text = title,
                 color = MaterialTheme.colorScheme.onSurface
             )
 
-            if (selectedValue != null) {
-                Text(
-                    text = stringResource(entriesValues[selectedValue]!!),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontSize = 13.sp
-                )
-            }
+            Text(
+                text = stringResource(entriesValues[preferenceValue.value]!!),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                fontSize = 13.sp
+            )
         }
     }
 
@@ -186,12 +250,12 @@ fun ListPreferenceView(
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clickable { selectedValue = entry.key },
+                                .clickable { preferenceValue.value = entry.key },
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             RadioButton(
-                                selected = selectedValue == entry.key,
-                                onClick = { selectedValue = entry.key }
+                                selected = preferenceValue.value == entry.key,
+                                onClick = { preferenceValue.value = entry.key }
                             )
                             Text(text = stringResource(entry.value))
                         }
@@ -201,7 +265,7 @@ fun ListPreferenceView(
             confirmButton = {
                 TextButton(onClick = {
                     openDialog = false
-                    onValueChange(selectedValue)
+                    onValueChange(preferenceValue.value)
                 }) {
                     Text(text = stringResource(R.string.ok))
                 }
@@ -210,7 +274,7 @@ fun ListPreferenceView(
     }
 }
 
-@Preview(showSystemUi = true, showBackground = true)
+@Preview(showBackground = true)
 @Composable
 fun SettingsPreview() {
     MoeListTheme {

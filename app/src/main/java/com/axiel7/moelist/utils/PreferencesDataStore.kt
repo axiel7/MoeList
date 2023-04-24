@@ -9,6 +9,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -21,7 +22,7 @@ import kotlinx.coroutines.runBlocking
 object PreferencesDataStore {
 
     val ACCESS_TOKEN_PREFERENCE_KEY = stringPreferencesKey("access_token")
-    val NSFW_PREFERENCE_KEY = intPreferencesKey("nsfw")
+    val NSFW_PREFERENCE_KEY = booleanPreferencesKey("nsfw")
     val LANG_PREFERENCE_KEY = stringPreferencesKey("lang")
     val THEME_PREFERENCE_KEY = stringPreferencesKey("theme")
     val LAST_TAB_PREFERENCE_KEY = intPreferencesKey("last_tab")
