@@ -27,10 +27,10 @@ object UseCases {
         showToast(getString(R.string.log_in_again))
     }
 
-    fun String.copyToClipBoard(context: Context) {
-        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
-        clipboard?.setPrimaryClip(ClipData.newPlainText("title", this))
-        context.showToast(context.getString(R.string.copied))
+    fun Context.copyToClipBoard(text: String) {
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
+        clipboard?.setPrimaryClip(ClipData.newPlainText("title", text))
+        showToast(getString(R.string.copied))
     }
 
     fun changeLocale(language: String) {

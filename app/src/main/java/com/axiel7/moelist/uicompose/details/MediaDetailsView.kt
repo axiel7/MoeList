@@ -35,6 +35,7 @@ import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.ContextExtensions.openAction
 import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
+import com.axiel7.moelist.utils.UseCases.copyToClipBoard
 import com.google.accompanist.placeholder.material.placeholder
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
@@ -176,19 +177,36 @@ fun MediaDetailsView(
                 overflow = TextOverflow.Ellipsis,
                 maxLines = maxLinesSynopsis
             )
-            IconButton(
-                onClick = {
-                    if (maxLinesSynopsis == 5) {
-                        maxLinesSynopsis = Int.MAX_VALUE
-                        iconExpand = R.drawable.ic_round_keyboard_arrow_up_24
-                    } else {
-                        maxLinesSynopsis = 5
-                        iconExpand = R.drawable.ic_round_keyboard_arrow_down_24
-                    }
-                },
-                modifier = Modifier.fillMaxWidth()
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(painter = painterResource(iconExpand), contentDescription = "expand")
+                Spacer(modifier = Modifier.size(48.dp))
+
+                IconButton(
+                    onClick = {
+                        if (maxLinesSynopsis == 5) {
+                            maxLinesSynopsis = Int.MAX_VALUE
+                            iconExpand = R.drawable.ic_round_keyboard_arrow_up_24
+                        } else {
+                            maxLinesSynopsis = 5
+                            iconExpand = R.drawable.ic_round_keyboard_arrow_down_24
+                        }
+                    }
+                ) {
+                    Icon(painter = painterResource(iconExpand), contentDescription = "expand")
+                }
+
+                IconButton(
+                    onClick = {
+                        viewModel.mediaDetails?.synopsis?.let { context.copyToClipBoard(it) }
+                    }
+                ) {
+                    Icon(painter = painterResource(R.drawable.round_content_copy_24), contentDescription = "copy")
+                }
             }
 
             //Stats
