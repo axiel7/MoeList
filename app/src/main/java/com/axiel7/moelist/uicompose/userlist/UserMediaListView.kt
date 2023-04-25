@@ -35,8 +35,6 @@ import com.axiel7.moelist.uicompose.base.TabRowItem
 import com.axiel7.moelist.uicompose.composables.*
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
-import com.axiel7.moelist.utils.PreferencesDataStore
-import com.axiel7.moelist.utils.PreferencesDataStore.NSFW_PREFERENCE_KEY
 import kotlinx.coroutines.launch
 
 const val ANIME_LIST_DESTINATION = "anime_list"
@@ -106,10 +104,14 @@ fun UserMediaListView(
     ) {
         LazyColumn(
             modifier = Modifier.fillMaxHeight(),
-            state = listState
+            state = listState,
+            contentPadding = PaddingValues(vertical = 8.dp)
         ) {
             if (viewModel.mediaType == MediaType.ANIME) {
-                items(viewModel.animeList, key = { it.node.id }) { item ->
+                items(viewModel.animeList,
+                    key = { it.node.id },
+                    contentType = { it.node }
+                ) { item ->
                     UserMediaListItem(
                         imageUrl = item.node.mainPicture?.large,
                         title = item.node.title,
@@ -131,7 +133,10 @@ fun UserMediaListView(
                     )
                 }
             } else {
-                items(viewModel.mangaList, key = { it.node.id }) { item ->
+                items(viewModel.mangaList,
+                    key = { it.node.id },
+                    contentType = { it.node }
+                ) { item ->
                     UserMediaListItem(
                         imageUrl = item.node.mainPicture?.large,
                         title = item.node.title,
@@ -169,8 +174,9 @@ fun UserMediaListView(
         viewModel.showMessage = false
     }
 
-    LaunchedEffect(status) {
-        if (!viewModel.isLoading) viewModel.getUserList()
+    LaunchedEffect(Unit) {
+        if (!viewModel.isLoading && viewModel.nextPage == null)
+            viewModel.getUserList()
     }
 }
 
