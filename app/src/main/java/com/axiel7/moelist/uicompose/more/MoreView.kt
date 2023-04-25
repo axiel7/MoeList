@@ -73,7 +73,9 @@ fun MoreView(
         MoreItem(
             title = stringResource(R.string.about),
             icon = R.drawable.ic_info,
-            onClick = { }
+            onClick = {
+                navController.navigate(ABOUT_DESTINATION)
+            }
         )
 
         MoreItem(

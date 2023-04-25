@@ -49,6 +49,10 @@ import com.axiel7.moelist.uicompose.home.HOME_DESTINATION
 import com.axiel7.moelist.uicompose.home.HomeView
 import com.axiel7.moelist.uicompose.home.HomeViewModel
 import com.axiel7.moelist.uicompose.login.LoginActivity
+import com.axiel7.moelist.uicompose.more.ABOUT_DESTINATION
+import com.axiel7.moelist.uicompose.more.AboutView
+import com.axiel7.moelist.uicompose.more.CREDITS_DESTINATION
+import com.axiel7.moelist.uicompose.more.CreditsView
 import com.axiel7.moelist.uicompose.more.MORE_DESTINATION
 import com.axiel7.moelist.uicompose.more.MoreView
 import com.axiel7.moelist.uicompose.more.SETTINGS_DESTINATION
@@ -189,6 +193,10 @@ fun MainView(
                 )
             }
 
+            composable(ABOUT_DESTINATION) { AboutView(navController = navController) }
+
+            composable(CREDITS_DESTINATION) { CreditsView(navController = navController) }
+
             composable(MEDIA_DETAILS_DESTINATION,
                 arguments = listOf(
                     navArgument("mediaType") { type = NavType.StringType },
@@ -228,14 +236,13 @@ fun MainView(
     LaunchedEffect(navBackStackEntry) {
         snapshotFlow { navBackStackEntry?.destination }.collect {
             when (it?.route) {
-                MEDIA_DETAILS_DESTINATION, SETTINGS_DESTINATION, PROFILE_DESTINATION,
-                FULL_POSTER_DESTINATION -> {
-                    topBarState.value = false
-                    bottomBarState.value = false
-                }
-                else -> {
+                HOME_DESTINATION, ANIME_LIST_DESTINATION, MANGA_LIST_DESTINATION, MORE_DESTINATION -> {
                     topBarState.value = true
                     bottomBarState.value = true
+                }
+                else -> {
+                    topBarState.value = false
+                    bottomBarState.value = false
                 }
             }
         }

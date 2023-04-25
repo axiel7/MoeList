@@ -14,6 +14,10 @@ object Constants {
     const val MAL_PROFILE_URL = "https://myanimelist.net/profile/"
 
     const val SUPPORT_EMAIL = "contacto.axiel7@gmail.com"
+    const val DISCORD_SERVER_URL = "https://discord.gg/CTv3WdfxHh"
+    const val GITHUB_REPO_URL = "https://github.com/axiel7/MoeList"
+    const val LOGO_CREDIT_URL = "https://instagram.com/danielvd_art"
+    const val GENERAL_HELP_CREDIT_URL = "https://github.com/Jeluchu"
 
     //List Status
     const val STATUS_ALL = "all"

@@ -13,6 +13,7 @@ import com.axiel7.moelist.uicompose.theme.MoeListTheme
 @Composable
 fun DefaultTopAppBar(
     title: String,
+    scrollBehavior: TopAppBarScrollBehavior? = null,
     navController: NavController
 ) {
     TopAppBar(
@@ -21,10 +22,12 @@ fun DefaultTopAppBar(
             IconButton(onClick = { navController.popBackStack() }) {
                 Icon(painter = painterResource(R.drawable.ic_arrow_back), contentDescription = "back")
             }
-        }
+        },
+        scrollBehavior = scrollBehavior
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun DefaultTopAppBarPreview() {
