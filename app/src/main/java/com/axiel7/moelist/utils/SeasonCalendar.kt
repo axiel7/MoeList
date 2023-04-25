@@ -2,7 +2,9 @@ package com.axiel7.moelist.utils
 
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.Season
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
+import java.util.TimeZone
 
 object SeasonCalendar {
     private val calendar: Calendar by lazy {
