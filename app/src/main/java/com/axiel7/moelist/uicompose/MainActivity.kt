@@ -74,6 +74,7 @@ import com.axiel7.moelist.utils.PreferencesDataStore.defaultPreferencesDataStore
 import com.axiel7.moelist.utils.PreferencesDataStore.getValueSync
 import com.axiel7.moelist.utils.PreferencesDataStore.rememberPreference
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -235,7 +236,7 @@ fun MainView(
     }
 
     LaunchedEffect(navBackStackEntry) {
-        snapshotFlow { navBackStackEntry?.destination }.collect {
+        snapshotFlow { navBackStackEntry?.destination }.collectLatest {
             when (it?.route) {
                 HOME_DESTINATION, ANIME_LIST_DESTINATION, MANGA_LIST_DESTINATION, MORE_DESTINATION -> {
                     topBarState.value = true
