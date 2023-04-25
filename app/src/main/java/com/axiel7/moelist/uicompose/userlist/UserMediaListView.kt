@@ -2,6 +2,7 @@ package com.axiel7.moelist.uicompose.userlist
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -33,6 +34,7 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.*
 import com.axiel7.moelist.uicompose.base.TabRowItem
 import com.axiel7.moelist.uicompose.composables.*
+import com.axiel7.moelist.uicompose.details.EditMediaSheet
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import kotlinx.coroutines.launch
@@ -83,7 +85,7 @@ fun UserMediaListHostView(
     }//:Column
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun UserMediaListView(
     mediaType: MediaType,
@@ -96,6 +98,8 @@ fun UserMediaListView(
     }
     val pullRefreshState = rememberPullRefreshState(viewModel.isLoading, { viewModel.getUserList() })
     val listState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
+    val sheetState = rememberModalBottomSheetState()
 
     Box(
         modifier = Modifier
@@ -124,6 +128,12 @@ fun UserMediaListView(
                         onClick = {
                             navController.navigate("details/ANIME/${item.node.id}")
                         },
+                        onLongClick = {
+                              coroutineScope.launch {
+                                  viewModel.onItemSelected(item)
+                                  sheetState.show()
+                              }
+                        },
                         onClickPlus = {
                             viewModel.updateListItem(
                                 mediaId = item.node.id,
@@ -148,6 +158,12 @@ fun UserMediaListView(
                         listStatus = status,
                         onClick = {
                             navController.navigate("details/MANGA/${item.node.id}")
+                        },
+                        onLongClick = {
+                              coroutineScope.launch {
+                                  viewModel.onItemSelected(item)
+                                  sheetState.show()
+                              }
                         },
                         onClickPlus = {
                             viewModel.updateListItem(
@@ -175,6 +191,14 @@ fun UserMediaListView(
         }
     }
 
+    if (sheetState.isVisible) {
+        EditMediaSheet(
+            coroutineScope = coroutineScope,
+            sheetState = sheetState,
+            mediaViewModel = viewModel
+        )
+    }
+
     if (viewModel.showMessage) {
         context.showToast(viewModel.message)
         viewModel.showMessage = false
@@ -186,7 +210,7 @@ fun UserMediaListView(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun UserMediaListItem(
     imageUrl: String?,
@@ -198,13 +222,14 @@ fun UserMediaListItem(
     totalProgress: Int?,
     listStatus: ListStatus,
     onClick: () -> Unit,
+    onLongClick: () -> Unit,
     onClickPlus: () -> Unit,
 ) {
     Card(
-        onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .combinedClickable(onLongClick = onLongClick, onClick = onClick),
     ) {
         Row(
             modifier = Modifier.height(MEDIA_POSTER_SMALL_HEIGHT.dp)
@@ -329,6 +354,7 @@ fun UserMediaListItemPreview() {
             totalProgress = 24,
             listStatus = ListStatus.WATCHING,
             onClick = { },
+            onLongClick = { },
             onClickPlus = { }
         )
     }

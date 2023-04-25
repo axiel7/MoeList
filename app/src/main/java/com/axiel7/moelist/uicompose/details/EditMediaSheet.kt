@@ -1,6 +1,5 @@
 package com.axiel7.moelist.uicompose.details
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -14,11 +13,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.R
-import com.axiel7.moelist.data.model.anime.AnimeDetails
-import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
-import com.axiel7.moelist.data.model.manga.MangaDetails
-import com.axiel7.moelist.data.model.manga.MyMangaListStatus
+import com.axiel7.moelist.data.model.manga.MangaNode
 import com.axiel7.moelist.data.model.media.*
+import com.axiel7.moelist.uicompose.base.BaseMediaViewModel
 import com.axiel7.moelist.uicompose.composables.ClickableOutlinedTextField
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
@@ -35,16 +32,19 @@ import java.time.format.FormatStyle
 fun EditMediaSheet(
     coroutineScope: CoroutineScope,
     sheetState: SheetState,
-    detailsViewModel: MediaDetailsViewModel
+    mediaViewModel: BaseMediaViewModel
 ) {
     val context = LocalContext.current
-    val statusValues = if (detailsViewModel.mediaType == MediaType.ANIME) listStatusAnimeValues() else listStatusMangaValues()
+    val statusValues = if (mediaViewModel.mediaType == MediaType.ANIME) listStatusAnimeValues() else listStatusMangaValues()
     val datePickerState = rememberDatePickerState()
     val viewModel: EditMediaViewModel = viewModel {
-        EditMediaViewModel(mediaDetails = detailsViewModel.mediaDetails!!)
+        EditMediaViewModel(
+            mediaType = mediaViewModel.mediaType,
+            mediaInfo = mediaViewModel.mediaInfo
+        )
     }
     val isNewEntry by remember {
-        derivedStateOf { detailsViewModel.mediaDetails?.myListStatus == null }
+        derivedStateOf { mediaViewModel.myListStatus == null }
     }
 
     ModalBottomSheet(
@@ -104,7 +104,7 @@ fun EditMediaSheet(
                 else stringResource(R.string.chapters),
                 progress = viewModel.progress,
                 modifier = Modifier.padding(horizontal = 16.dp),
-                totalProgress = viewModel.mediaDetails.totalDuration(),
+                totalProgress = viewModel.mediaInfo?.totalDuration(),
                 onValueChange = { viewModel.onChangeProgress(it.toIntOrNull()) },
                 onMinusClick = { viewModel.onChangeProgress(viewModel.progress - 1) },
                 onPlusClick = { viewModel.onChangeProgress(viewModel.progress + 1) }
@@ -115,7 +115,7 @@ fun EditMediaSheet(
                     label = stringResource(R.string.volumes),
                     progress = viewModel.volumeProgress,
                     modifier = Modifier.padding(horizontal = 16.dp),
-                    totalProgress = (viewModel.mediaDetails as MangaDetails).numVolumes,
+                    totalProgress = (viewModel.mediaInfo as MangaNode).numVolumes,
                     onValueChange = { viewModel.onChangeVolumeProgress(it.toIntOrNull()) },
                     onMinusClick = { viewModel.onChangeVolumeProgress(viewModel.volumeProgress - 1) },
                     onPlusClick = { viewModel.onChangeVolumeProgress(viewModel.volumeProgress + 1) }
@@ -210,25 +210,16 @@ fun EditMediaSheet(
         viewModel.showMessage = false
     }
 
-    LaunchedEffect(detailsViewModel.mediaDetails) {
-        when (detailsViewModel.mediaDetails) {
-            is AnimeDetails -> (detailsViewModel.mediaDetails as AnimeDetails).myListStatus
-                ?.let { viewModel.setEditVariables(it) }
-            is MangaDetails -> (detailsViewModel.mediaDetails as MangaDetails).myListStatus
-                ?.let { viewModel.setEditVariables(it) }
+    LaunchedEffect(mediaViewModel.mediaInfo) {
+        viewModel.mediaInfo = mediaViewModel.mediaInfo
+        mediaViewModel.myListStatus?.let {
+            viewModel.setEditVariables(it)
         }
     }
 
     LaunchedEffect(viewModel.updateSuccess) {
         if (viewModel.updateSuccess) {
-            when (detailsViewModel.mediaDetails) {
-                is AnimeDetails ->
-                    detailsViewModel.mediaDetails = (detailsViewModel.mediaDetails as? AnimeDetails)
-                        ?.copy(myListStatus = viewModel.myListStatus as? MyAnimeListStatus)
-                is MangaDetails ->
-                    detailsViewModel.mediaDetails = (detailsViewModel.mediaDetails as? MangaDetails)
-                        ?.copy(myListStatus = viewModel.myListStatus as? MyMangaListStatus)
-            }
+            mediaViewModel.myListStatus = viewModel.myListStatus
             viewModel.updateSuccess = false
             coroutineScope.launch { sheetState.hide() }
         }
@@ -369,7 +360,7 @@ fun EditMediaSheetPreview() {
         EditMediaSheet(
             coroutineScope = rememberCoroutineScope(),
             sheetState = rememberModalBottomSheetState(),
-            detailsViewModel = viewModel()
+            mediaViewModel = viewModel { MediaDetailsViewModel(MediaType.ANIME) }
         )
     }
 }

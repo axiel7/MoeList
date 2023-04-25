@@ -4,16 +4,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import com.axiel7.moelist.data.model.anime.AnimeDetails
-import com.axiel7.moelist.data.model.manga.MangaDetails
+import com.axiel7.moelist.data.model.anime.AnimeNode
+import com.axiel7.moelist.data.model.manga.MangaNode
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
-import com.axiel7.moelist.data.model.media.BaseMediaDetails
+import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseMyListStatus
 import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.data.repository.MangaRepository
-import com.axiel7.moelist.uicompose.base.BaseViewModel
+import com.axiel7.moelist.uicompose.base.BaseMediaViewModel
 import com.axiel7.moelist.utils.DateUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,11 +21,11 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class EditMediaViewModel(
-    val mediaDetails: BaseMediaDetails
-): BaseViewModel() {
+    override val mediaType: MediaType,
+    override var mediaInfo: BaseMediaNode?
+): BaseMediaViewModel() {
 
-    val mediaType = if (mediaDetails is AnimeDetails) MediaType.ANIME else MediaType.MANGA
-    var myListStatus: BaseMyListStatus? = null
+    override var myListStatus: BaseMyListStatus? = null
 
     var status by mutableStateOf<ListStatus?>(null)
     var progress by mutableStateOf(0)
@@ -49,9 +49,9 @@ class EditMediaViewModel(
 
     fun onChangeProgress(value: Int?): Boolean {
         if (value != null && value >= 0) {
-            val topLimit = when (mediaDetails) {
-                is AnimeDetails -> mediaDetails.numEpisodes
-                is MangaDetails -> mediaDetails.numChapters
+            val topLimit = when (mediaInfo) {
+                is AnimeNode -> (mediaInfo as AnimeNode).numEpisodes
+                is MangaNode -> (mediaInfo as MangaNode).numChapters
                 else -> null
             }
 
@@ -69,7 +69,7 @@ class EditMediaViewModel(
 
     fun onChangeVolumeProgress(value: Int?): Boolean {
         if (value != null && value >= 0) {
-            val topLimit = (mediaDetails as? MangaDetails)?.numVolumes
+            val topLimit = (mediaInfo as? MangaNode)?.numVolumes
 
             if (topLimit == null || topLimit <= 0) {
                 volumeProgress = value
@@ -98,6 +98,7 @@ class EditMediaViewModel(
 
     fun updateListItem() {
         viewModelScope.launch(Dispatchers.IO) {
+            if (mediaInfo == null) return@launch
             isLoading = true
 
             val statusValue = if (status?.value != myListStatus?.status?.value)
@@ -119,7 +120,7 @@ class EditMediaViewModel(
 
             val result = if (mediaType == MediaType.ANIME)
                 AnimeRepository.updateAnimeEntry(
-                    animeId = mediaDetails.id,
+                    animeId = mediaInfo!!.id,
                     status = statusValue,
                     score = scoreValue,
                     watchedEpisodes = progressValue,
@@ -129,7 +130,7 @@ class EditMediaViewModel(
                 )
             else
                 MangaRepository.updateMangaEntry(
-                    mangaId = mediaDetails.id,
+                    mangaId = mediaInfo!!.id,
                     status = statusValue,
                     score = scoreValue,
                     chaptersRead = progressValue,
@@ -155,11 +156,12 @@ class EditMediaViewModel(
 
     fun deleteEntry() {
         viewModelScope.launch(Dispatchers.IO) {
+            if (mediaInfo == null) return@launch
             isLoading = true
             val result = if (mediaType == MediaType.ANIME)
-                AnimeRepository.deleteAnimeEntry(mediaDetails.id)
+                AnimeRepository.deleteAnimeEntry(mediaInfo!!.id)
             else
-                MangaRepository.deleteMangaEntry(mediaDetails.id)
+                MangaRepository.deleteMangaEntry(mediaInfo!!.id)
 
             if (result) myListStatus = null
             updateSuccess = result

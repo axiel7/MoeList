@@ -9,7 +9,7 @@ data class UserMangaList(
     @SerialName("node")
     override val node: MangaNode,
     @SerialName("list_status")
-    var listStatus: MyMangaListStatus? = null,
+    override var listStatus: MyMangaListStatus? = null,
     @SerialName("status")
     override var status: String? = null
 ) : BaseUserMediaList<MangaNode>()

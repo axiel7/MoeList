@@ -1,5 +1,6 @@
 package com.axiel7.moelist.uicompose.userlist
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -11,19 +12,21 @@ import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
 import com.axiel7.moelist.data.model.anime.UserAnimeList
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
 import com.axiel7.moelist.data.model.manga.UserMangaList
+import com.axiel7.moelist.data.model.media.BaseMyListStatus
+import com.axiel7.moelist.data.model.media.BaseUserMediaList
 import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.data.repository.MangaRepository
-import com.axiel7.moelist.uicompose.base.BaseViewModel
+import com.axiel7.moelist.uicompose.base.BaseMediaViewModel
 import com.axiel7.moelist.utils.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class UserMediaListViewModel(
-    val mediaType: MediaType,
+    override val mediaType: MediaType,
     listStatus: ListStatus
-): BaseViewModel() {
+): BaseMediaViewModel() {
 
     var listSort by mutableStateOf(
         if (mediaType == MediaType.ANIME) Constants.SORT_ANIME_TITLE
@@ -43,6 +46,22 @@ class UserMediaListViewModel(
         else MangaRepository.USER_MANGA_LIST_FIELDS
     )
 
+    var selectedItem by mutableStateOf<BaseUserMediaList<*>?>(null)
+    override var myListStatus by object : MutableState<BaseMyListStatus?> {
+        override var value: BaseMyListStatus?
+            get() = selectedItem?.listStatus
+            set(value) {
+                when (value) {
+                    is MyAnimeListStatus -> selectedItem =
+                        (selectedItem as? UserAnimeList)?.copy(listStatus = value)
+                    is MyMangaListStatus -> selectedItem =
+                        (selectedItem as? UserMangaList)?.copy(listStatus = value)
+                }
+                onMediaItemStatusChanged(value)
+            }
+        override fun component1(): BaseMyListStatus? = value
+        override fun component2(): (BaseMyListStatus?) -> Unit = { value = it }
+    }
     var animeList = mutableStateListOf<UserAnimeList>()
     var mangaList = mutableStateListOf<UserMangaList>()
     var nextPage: String? = null
@@ -113,12 +132,35 @@ class UserMediaListViewModel(
                 if (mediaType == MediaType.ANIME) {
                     val foundIndex = animeList.indexOfFirst { it.node.id == mediaId }
                     if (foundIndex != -1) animeList[foundIndex] = animeList[foundIndex].copy(listStatus = result as MyAnimeListStatus)
-                } else {
+                } else if (mediaType == MediaType.MANGA) {
                     val foundIndex = mangaList.indexOfFirst { it.node.id == mediaId }
                     if (foundIndex != -1) mangaList[foundIndex] = mangaList[foundIndex].copy(listStatus = result as MyMangaListStatus)
                 }
             }
             isLoading = false
+        }
+    }
+
+    fun onItemSelected(item: BaseUserMediaList<*>) {
+        selectedItem = item
+        mediaInfo = item.node
+    }
+
+    private fun onMediaItemStatusChanged(myListStatus: BaseMyListStatus?) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (myListStatus != null && selectedItem != null) {
+                if (mediaType == MediaType.ANIME) {
+                    val foundIndex = animeList.indexOfFirst { it.node.id == selectedItem!!.node.id }
+                    if (foundIndex != -1) {
+                        animeList[foundIndex] = animeList[foundIndex].copy(listStatus = myListStatus as MyAnimeListStatus)
+                    }
+                } else if (mediaType == MediaType.MANGA) {
+                    val foundIndex = mangaList.indexOfFirst { it.node.id == selectedItem!!.node.id }
+                    if (foundIndex != -1) {
+                        mangaList[foundIndex] = mangaList[foundIndex].copy(listStatus = myListStatus as MyMangaListStatus)
+                    }
+                }
+            }
         }
     }
 }

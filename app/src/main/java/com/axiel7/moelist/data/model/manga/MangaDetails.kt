@@ -54,3 +54,16 @@ data class MangaDetails(
     val serialization: List<Serialization>? = null,
 
 ) : BaseMediaDetails()
+
+fun MangaDetails.toMangaNode() = MangaNode(
+    id = id,
+    title = title ?: "",
+    mainPicture = mainPicture,
+    startDate = startDate,
+    numVolumes = numVolumes,
+    numChapters = numChapters,
+    numListUsers = numListUsers,
+    mediaType = mediaType,
+    status = status,
+    mean = mean,
+)

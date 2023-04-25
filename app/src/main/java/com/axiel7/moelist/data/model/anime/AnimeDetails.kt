@@ -69,6 +69,18 @@ data class AnimeDetails(
     val statistics: Statistics? = null,
 ) : BaseMediaDetails()
 
+fun AnimeDetails.toAnimeNode() = AnimeNode(
+    id = id,
+    title = title ?: "",
+    mainPicture = mainPicture,
+    startSeason = startSeason,
+    numEpisodes = numEpisodes,
+    numListUsers = numListUsers,
+    mediaType = mediaType,
+    status = status,
+    mean = mean,
+)
+
 @Composable
 fun AnimeDetails.sourceLocalized() = when (this.source) {
     "original" -> stringResource(R.string.original)

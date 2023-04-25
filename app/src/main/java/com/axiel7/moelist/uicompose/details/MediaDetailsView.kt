@@ -398,7 +398,7 @@ fun MediaDetailsView(
         EditMediaSheet(
             coroutineScope = coroutineScope,
             sheetState = sheetState,
-            detailsViewModel = viewModel
+            mediaViewModel = viewModel
         )
     }
 
