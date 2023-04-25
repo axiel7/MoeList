@@ -115,7 +115,7 @@ fun MediaDetailsView(
                         Text(
                             text = viewModel.mediaDetails?.title ?: "Loading",
                             modifier = Modifier
-                                .padding(bottom = 8.dp)
+                                .padding(bottom = 8.dp, end = 8.dp)
                                 .placeholder(visible = viewModel.isLoading),
                             fontSize = 22.sp,
                             fontWeight = FontWeight.Bold
