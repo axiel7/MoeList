@@ -19,16 +19,6 @@ object Constants {
     const val LOGO_CREDIT_URL = "https://instagram.com/danielvd_art"
     const val GENERAL_HELP_CREDIT_URL = "https://github.com/Jeluchu"
 
-    //List Status
-    const val STATUS_ALL = "all"
-    const val STATUS_WATCHING = "watching"
-    const val STATUS_COMPLETED = "completed"
-    const val STATUS_ON_HOLD = "on_hold"
-    const val STATUS_DROPPED = "dropped"
-    const val STATUS_PTW = "plan_to_watch"
-    const val STATUS_PTR = "plan_to_read"
-    const val STATUS_READING = "reading"
-
     // Anime/Manga Status
     const val STATUS_AIRING = "currently_airing"
 
@@ -50,7 +40,4 @@ object Constants {
     const val FRIDAY = "friday"
     const val SATURDAY = "saturday"
     const val SUNDAY = "sunday"
-
-    //Preference keys
-    const val APP_LANGUAGE_KEY = "app_language"
 }
