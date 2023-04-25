@@ -44,8 +44,11 @@ fun MediaItemDetailed(
         Row(
             modifier = Modifier.height(MEDIA_POSTER_SMALL_HEIGHT.dp)
         ) {
-            MediaPoster(url = imageUrl, modifier = Modifier
-                .size(width = MEDIA_POSTER_SMALL_WIDTH.dp, height = MEDIA_POSTER_SMALL_HEIGHT.dp)
+            MediaPoster(
+                url = imageUrl,
+                showShadow = false,
+                modifier = Modifier
+                    .size(width = MEDIA_POSTER_SMALL_WIDTH.dp, height = MEDIA_POSTER_SMALL_HEIGHT.dp)
             )
 
             Column(

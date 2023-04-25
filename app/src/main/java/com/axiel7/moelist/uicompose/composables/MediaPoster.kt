@@ -1,10 +1,12 @@
 package com.axiel7.moelist.uicompose.composables
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,18 +22,26 @@ const val MEDIA_POSTER_BIG_HEIGHT = 213
 const val MEDIA_POSTER_BIG_WIDTH = 150
 
 @Composable
-fun MediaPoster(url: String?, modifier: Modifier) {
+fun MediaPoster(
+    url: String?,
+    showShadow: Boolean = true,
+    modifier: Modifier
+) {
     AsyncImage(
         model = url,
         contentDescription = "poster",
         placeholder = ColorPainter(placeholder_color),
         contentScale = ContentScale.FillBounds,
-        modifier = modifier
-            .clip(RoundedCornerShape(8.dp))
+        modifier = modifier.then(
+            if (showShadow) Modifier
+                .padding(start = 4.dp, top = 2.dp, end = 4.dp, bottom = 8.dp)
+                .shadow(4.dp, shape = RoundedCornerShape(8.dp))
+            else Modifier
+        ).clip(RoundedCornerShape(8.dp))
     )
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun MediaPosterPreview() {
     MoeListTheme {
