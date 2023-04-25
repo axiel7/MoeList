@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 
-const val MEDIA_ITEM_VERTICAL_HEIGHT = 205
+const val MEDIA_ITEM_VERTICAL_HEIGHT = 200
 
 @Composable
 fun MediaItemVertical(

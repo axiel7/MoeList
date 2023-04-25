@@ -91,7 +91,7 @@ fun MediaDetailsView(
             modifier = Modifier
                 .verticalScroll(scrollState)
                 .padding(padding)
-                .padding(bottom = 64.dp)
+                .padding(bottom = 68.dp)
         ) {
             Row {
                 MediaPoster(
@@ -301,42 +301,49 @@ fun MediaDetailsView(
                         id = if (mediaType == MediaType.ANIME) R.string.studios else R.string.serialization
                     ),
                     info = viewModel.studioSerializationJoined,
-                    modifier = Modifier.placeholder(visible = viewModel.isLoading)
+                    modifier = Modifier
+                        .placeholder(visible = viewModel.isLoading)
+                        .padding(bottom = 8.dp)
                 )
             }
 
             //Themes
             if (mediaType == MediaType.ANIME) {
-                InfoTitle(text = stringResource(R.string.opening))
-                (viewModel.mediaDetails as? AnimeDetails)?.openingThemes?.forEach { theme ->
-                    AnimeThemeItem(text = theme.text, onClick = {
-                        context.openAction(
-                            Constants.YOUTUBE_QUERY_URL
-                                    + viewModel.buildQueryFromThemeText(theme.text)
-                        )
-                    })
+                (viewModel.mediaDetails as? AnimeDetails)?.openingThemes?.let { themes ->
+                    InfoTitle(text = stringResource(R.string.opening))
+                    themes.forEach { theme ->
+                        AnimeThemeItem(text = theme.text, onClick = {
+                            context.openAction(
+                                Constants.YOUTUBE_QUERY_URL + viewModel.buildQueryFromThemeText(theme.text)
+                            )
+                        })
+                    }
                 }
 
-                InfoTitle(text = stringResource(R.string.ending))
-                (viewModel.mediaDetails as? AnimeDetails)?.endingThemes?.forEach { theme ->
-                    AnimeThemeItem(text = theme.text, onClick = {
-                        context.openAction(
-                            Constants.YOUTUBE_QUERY_URL
-                                    + viewModel.buildQueryFromThemeText(theme.text)
-                        )
-                    })
+                (viewModel.mediaDetails as? AnimeDetails)?.endingThemes?.let { themes ->
+                    InfoTitle(text = stringResource(R.string.ending))
+                    themes.forEach { theme ->
+                        AnimeThemeItem(text = theme.text, onClick = {
+                            context.openAction(
+                                Constants.YOUTUBE_QUERY_URL + viewModel.buildQueryFromThemeText(theme.text)
+                            )
+                        })
+                    }
                 }
             }
 
             //Related
             if (viewModel.relatedAnime.isNotEmpty()) {
                 InfoTitle(text = stringResource(R.string.related_anime))
-                LazyRow {
+                LazyRow(
+                    modifier = Modifier.padding(top = 8.dp),
+                    contentPadding = PaddingValues(horizontal = 16.dp)
+                ) {
                     items(viewModel.relatedAnime) { item ->
                         MediaItemVertical(
                             url = item.node.mainPicture?.large,
                             title = item.node.title,
-                            modifier = Modifier.padding(start = 8.dp),
+                            modifier = Modifier.padding(end = 8.dp),
                             onClick = {
                                 navController.navigate("details/ANIME/${item.node.id}")
                             }
@@ -346,12 +353,15 @@ fun MediaDetailsView(
             }
             if (viewModel.relatedManga.isNotEmpty()) {
                 InfoTitle(text = stringResource(R.string.related_manga))
-                LazyRow {
+                LazyRow(
+                    modifier = Modifier.padding(top = 8.dp),
+                    contentPadding = PaddingValues(horizontal = 16.dp)
+                ) {
                     items(viewModel.relatedManga) { item ->
                         MediaItemVertical(
                             url = item.node.mainPicture?.large,
                             title = item.node.title,
-                            modifier = Modifier.padding(start = 8.dp),
+                            modifier = Modifier.padding(end = 8.dp),
                             onClick = {
                                 navController.navigate("details/MANGA/${item.node.id}")
                             }
@@ -363,12 +373,15 @@ fun MediaDetailsView(
             //Recommendations
             if (viewModel.recommendations.isNotEmpty()) {
                 InfoTitle(text = stringResource(R.string.recommendations))
-                LazyRow {
+                LazyRow(
+                    modifier = Modifier.padding(top = 8.dp),
+                    contentPadding = PaddingValues(horizontal = 16.dp)
+                ) {
                     items(viewModel.recommendations) { item ->
                         MediaItemVertical(
                             url = item.node.mainPicture?.large,
                             title = item.node.title,
-                            modifier = Modifier.padding(start = 8.dp),
+                            modifier = Modifier.padding(end = 8.dp),
                             onClick = {
                                 navController.navigate("details/${mediaType.value}/${item.node.id}")
                             }
