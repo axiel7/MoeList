@@ -291,7 +291,7 @@ fun MainTopAppBar(
                     active = it
                     if (!active) query = ""
                 },
-                modifier = Modifier.padding(bottom = 4.dp),
+                modifier = Modifier.padding(start = 4.dp, end = 4.dp, bottom = 4.dp),
                 placeholder = { Text(text = stringResource(R.string.search)) },
                 leadingIcon = {
                     if (active) {
@@ -364,7 +364,7 @@ fun BottomNavBar(
                 selected = selectedItem == 0,
                 onClick = {
                     selectedItem = 0
-                    navController.navigate(HOME_DESTINATION)
+                    navController.navigate(HOME_DESTINATION) { launchSingleTop = true }
                 }
             )
 
@@ -374,7 +374,7 @@ fun BottomNavBar(
                 selected = selectedItem == 1,
                 onClick = {
                     selectedItem = 1
-                    navController.navigate(ANIME_LIST_DESTINATION)
+                    navController.navigate(ANIME_LIST_DESTINATION) { launchSingleTop = true }
                 }
             )
 
@@ -384,7 +384,7 @@ fun BottomNavBar(
                 selected = selectedItem == 2,
                 onClick = {
                     selectedItem = 2
-                    navController.navigate(MANGA_LIST_DESTINATION)
+                    navController.navigate(MANGA_LIST_DESTINATION) { launchSingleTop = true }
                 }
             )
 
@@ -394,7 +394,7 @@ fun BottomNavBar(
                 selected = selectedItem == 3,
                 onClick = {
                     selectedItem = 3
-                    navController.navigate(MORE_DESTINATION)
+                    navController.navigate(MORE_DESTINATION) { launchSingleTop = true }
                 }
             )
         }
