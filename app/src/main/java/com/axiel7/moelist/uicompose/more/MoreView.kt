@@ -10,6 +10,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -24,6 +25,8 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.ContextExtensions.openLink
+import com.axiel7.moelist.utils.UseCases.logOut
+import kotlinx.coroutines.launch
 
 const val MORE_DESTINATION = "more"
 
@@ -32,6 +35,7 @@ fun MoreView(
     navController: NavController
 ) {
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -96,7 +100,9 @@ fun MoreView(
             title = stringResource(R.string.logout),
             subtitle = stringResource(R.string.logout_summary),
             icon = R.drawable.ic_round_power_settings_new_24,
-            onClick = { }
+            onClick = {
+                coroutineScope.launch { context.logOut() }
+            }
         )
     }
 }
