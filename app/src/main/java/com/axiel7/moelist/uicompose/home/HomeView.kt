@@ -97,6 +97,13 @@ fun HomeView(
                     onClick = { },
                 )
             }
+            item {
+                HomeCard(
+                    text = stringResource(R.string.random),
+                    icon = R.drawable.ic_round_casino_24,
+                    onClick = { }
+                )
+            }
         }
 
         // Airing
