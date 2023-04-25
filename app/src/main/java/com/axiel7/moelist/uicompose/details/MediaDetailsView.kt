@@ -421,7 +421,7 @@ fun MediaDetailsView(
     }
 
     LaunchedEffect(Unit) {
-        viewModel.getDetails(mediaId)
+        if (viewModel.mediaDetails == null) viewModel.getDetails(mediaId)
     }
 }
 
