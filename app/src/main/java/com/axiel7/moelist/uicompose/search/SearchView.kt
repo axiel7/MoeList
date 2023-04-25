@@ -4,11 +4,13 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
@@ -98,7 +100,25 @@ fun SearchResultList(
         modifier = Modifier.fillMaxHeight(),
         state = listState
     ) {
-        items(viewModel.mediaList) {
+        item {
+            if (viewModel.mediaList.isEmpty()) {
+                if (viewModel.isLoading)
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .size(24.dp)
+                    )
+                else if (query.isNotBlank())
+                    Text(
+                        text = stringResource(R.string.no_results),
+                        modifier = Modifier.padding(16.dp)
+                    )
+            }
+        }
+        items(viewModel.mediaList,
+            key = { it.node.id },
+            contentType = { it.node }
+        ) {
             MediaItemDetailed(
                 title = it.node.title,
                 imageUrl = it.node.mainPicture?.large,
