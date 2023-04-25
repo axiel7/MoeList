@@ -71,28 +71,28 @@ fun HomeView(
         ) {
             item {
                 HomeCard(
-                    text = "Anime Ranking",
+                    text = stringResource(R.string.anime_ranking),
                     icon = R.drawable.ic_round_movie_24,
                     onClick = { },
                 )
             }
             item {
                 HomeCard(
-                    text = "Manga Ranking",
+                    text = stringResource(R.string.manga_ranking),
                     icon = R.drawable.ic_round_menu_book_24,
                     onClick = { },
                 )
             }
             item {
                 HomeCard(
-                    text = "Calendar",
+                    text = stringResource(R.string.calendar),
                     icon = R.drawable.ic_round_event_24,
                     onClick = { },
                 )
             }
             item {
                 HomeCard(
-                    text = "Seasonal Chart",
+                    text = stringResource(R.string.seasonal_chart),
                     icon = SeasonCalendar.seasonIcon,
                     onClick = { },
                 )
@@ -161,7 +161,9 @@ fun HomeCard(
 ) {
     AssistChip(
         onClick = onClick,
-        modifier = Modifier.height(36.dp).padding(start = 8.dp),
+        modifier = Modifier
+            .height(36.dp)
+            .padding(start = 8.dp),
         label = {
             Text(
                 text = text,
