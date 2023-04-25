@@ -153,7 +153,9 @@ fun MediaDetailsView(
             }//:Row
 
             //Genres
-            LazyRow {
+            LazyRow(
+                contentPadding = PaddingValues(horizontal = 8.dp)
+            ) {
                 viewModel.mediaDetails?.genres?.let { genres ->
                     items(genres) {
                         AssistChip(

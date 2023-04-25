@@ -160,7 +160,13 @@ fun UserMediaListView(
             }
         }
 
-        PullRefreshIndicator(viewModel.isLoading, pullRefreshState, Modifier.align(Alignment.TopCenter))
+        PullRefreshIndicator(
+            refreshing = viewModel.isLoading,
+            state = pullRefreshState,
+            modifier = Modifier
+                .padding(8.dp)
+                .align(Alignment.TopCenter)
+        )
     }//:Box
 
     listState.OnBottomReached(buffer = 3) {
@@ -208,6 +214,7 @@ fun UserMediaListItem(
             ) {
                 MediaPoster(
                     url = imageUrl,
+                    showShadow = false,
                     modifier = Modifier
                         .size(width = MEDIA_POSTER_SMALL_WIDTH.dp, height = MEDIA_POSTER_SMALL_HEIGHT.dp)
                 )
