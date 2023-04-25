@@ -73,8 +73,9 @@ import com.axiel7.moelist.utils.PreferencesDataStore.THEME_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.defaultPreferencesDataStore
 import com.axiel7.moelist.utils.PreferencesDataStore.getValueSync
 import com.axiel7.moelist.utils.PreferencesDataStore.rememberPreference
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -256,7 +257,9 @@ fun MainTopAppBar(
     bottomBarState: MutableState<Boolean>,
     navController: NavController
 ) {
+    val coroutineScope = rememberCoroutineScope()
     var query by remember { mutableStateOf("") }
+    val performSearch = remember { mutableStateOf(false) }
     var active by remember { mutableStateOf(false) }
     val profilePictureUrl by rememberPreference(PROFILE_PICTURE_PREFERENCE_KEY, "")
 
@@ -271,14 +274,24 @@ fun MainTopAppBar(
         ) {
             SearchBar(
                 query = query,
-                onQueryChange = { query = it },
-                onSearch = { active = false },
+                onQueryChange = {
+                    query = it
+                    coroutineScope.launch {
+                        delay(1000)
+                        performSearch.value = true
+                    }
+                },
+                onSearch = {
+                    performSearch.value = true
+                    active = false
+                },
                 active = active,
                 onActiveChange = {
                     bottomBarState.value = !it
                     active = it
                     if (!active) query = ""
                 },
+                modifier = Modifier.padding(bottom = 4.dp),
                 placeholder = { Text(text = stringResource(R.string.search)) },
                 leadingIcon = {
                     if (active) {
@@ -323,6 +336,7 @@ fun MainTopAppBar(
             ) {
                 SearchView(
                     query = query,
+                    performSearch = performSearch,
                     navController = navController
                 )
             }//:SearchBar

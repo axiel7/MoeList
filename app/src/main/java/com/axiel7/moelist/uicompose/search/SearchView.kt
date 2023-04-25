@@ -18,6 +18,9 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -51,6 +54,7 @@ val searchTabRowItems = listOf(
 @Composable
 fun SearchView(
     query: String,
+    performSearch: State<Boolean>,
     navController: NavController
 ) {
     val pagerState = rememberPagerState()
@@ -80,6 +84,7 @@ fun SearchView(
         ) {
             SearchResultList(
                 query = query,
+                performSearch = performSearch,
                 mediaType = searchTabRowItems[it].value,
                 navController = navController
             )
@@ -90,6 +95,7 @@ fun SearchView(
 @Composable
 fun SearchResultList(
     query: String,
+    performSearch: State<Boolean>,
     mediaType: MediaType,
     navController: NavController
 ) {
@@ -175,7 +181,7 @@ fun SearchResultList(
     }
 
     LaunchedEffect(query) {
-        if (query.isNotBlank())
+        if (query.isNotBlank() && performSearch.value)
             viewModel.search(
                 mediaType = mediaType,
                 query = query
@@ -189,6 +195,7 @@ fun SearchPreview() {
     MoeListTheme {
         SearchView(
             query = "one",
+            performSearch = remember { mutableStateOf(false) },
             navController = rememberNavController()
         )
     }
