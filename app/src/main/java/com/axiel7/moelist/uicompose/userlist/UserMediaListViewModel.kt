@@ -66,6 +66,7 @@ class UserMediaListViewModel(
     var mangaList = mutableStateListOf<UserMangaList>()
     var nextPage: String? = null
     var hasNextPage = false
+    var loadedAllPages = false
 
     @Suppress("UNCHECKED_CAST")
     fun getUserList(page: String? = null) {
@@ -87,6 +88,7 @@ class UserMediaListViewModel(
 
                 nextPage = result.paging?.next
                 hasNextPage = nextPage != null
+                loadedAllPages = page != null && nextPage == null
             } else {
                 setErrorMessage(result?.message ?: "Generic error")
                 hasNextPage = false

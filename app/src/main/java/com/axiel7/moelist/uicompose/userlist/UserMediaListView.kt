@@ -205,7 +205,7 @@ fun UserMediaListView(
     }
 
     LaunchedEffect(Unit) {
-        if (!viewModel.isLoading && viewModel.nextPage == null)
+        if (!viewModel.isLoading && viewModel.nextPage == null && !viewModel.loadedAllPages)
             viewModel.getUserList()
     }
 }
