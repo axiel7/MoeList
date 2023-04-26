@@ -37,6 +37,7 @@ import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.ContextExtensions.openAction
 import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
+import com.axiel7.moelist.utils.StringExtensions.toNavArgument
 import com.axiel7.moelist.utils.UseCases.copyToClipBoard
 import com.google.accompanist.placeholder.material.placeholder
 import kotlinx.coroutines.launch
@@ -108,7 +109,7 @@ fun MediaDetailsView(
                         .placeholder(visible = viewModel.isLoading)
                         .clickable {
                             navController.navigate(
-                                "full_poster/${Uri.encode(Json.encodeToString(viewModel.picturesUrls))}"
+                                "full_poster/${viewModel.picturesUrls.toNavArgument()}"
                             )
                         }
                 )

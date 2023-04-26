@@ -41,6 +41,7 @@ import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.DateUtils.toISOformat
 import com.axiel7.moelist.utils.NumExtensions.toStringOrZero
+import com.axiel7.moelist.utils.StringExtensions.toNavArgument
 import com.google.accompanist.placeholder.material.placeholder
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -80,7 +81,7 @@ fun ProfileView(navController: NavController) {
                         .placeholder(visible = viewModel.isLoading)
                         .clickable {
                             navController.navigate(
-                                "full_poster/${Uri.encode(Json.encodeToString(arrayOf(viewModel.profilePictureUrl)))}"
+                                "full_poster/${arrayOf(viewModel.profilePictureUrl).toNavArgument()}"
                             )
                         }
                 )

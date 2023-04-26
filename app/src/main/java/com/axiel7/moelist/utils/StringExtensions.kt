@@ -1,5 +1,10 @@
 package com.axiel7.moelist.utils
 
+import android.net.Uri
+import com.axiel7.moelist.utils.StringExtensions.toNavArgument
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+
 object StringExtensions {
     /**
      * Returns a string representation of the object.
@@ -9,4 +14,7 @@ object StringExtensions {
         val result = this.toString()
         return if (result == "null") null else result
     }
+
+    fun Array<String>.toNavArgument(): String = Uri.encode(Json.encodeToString(this))
+    fun Array<String?>.toNavArgument(): String = this.filterNotNull().toTypedArray().toNavArgument()
 }
