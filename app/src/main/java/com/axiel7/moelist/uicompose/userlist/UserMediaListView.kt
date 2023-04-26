@@ -46,11 +46,17 @@ const val MANGA_LIST_DESTINATION = "manga_list"
 @Composable
 fun UserMediaListHostView(
     mediaType: MediaType,
-    tabRowItems: List<TabRowItem<ListStatus>>,
     navController: NavController
 ) {
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
+    val tabRowItems = remember {
+        (if (mediaType == MediaType.ANIME) listStatusAnimeValues() else listStatusMangaValues())
+            .map { TabRowItem(
+                value = it,
+                title = it.value
+            ) }
+    }
 
     Column {
         ScrollableTabRow(

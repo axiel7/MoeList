@@ -37,10 +37,7 @@ import coil.compose.AsyncImage
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
-import com.axiel7.moelist.data.model.media.listStatusAnimeValues
-import com.axiel7.moelist.data.model.media.listStatusMangaValues
 import com.axiel7.moelist.uicompose.base.StringArrayNavType
-import com.axiel7.moelist.uicompose.base.TabRowItem
 import com.axiel7.moelist.uicompose.details.FULL_POSTER_DESTINATION
 import com.axiel7.moelist.uicompose.details.FullPosterView
 import com.axiel7.moelist.uicompose.details.MEDIA_DETAILS_DESTINATION
@@ -59,6 +56,8 @@ import com.axiel7.moelist.uicompose.more.SETTINGS_DESTINATION
 import com.axiel7.moelist.uicompose.more.SettingsView
 import com.axiel7.moelist.uicompose.profile.PROFILE_DESTINATION
 import com.axiel7.moelist.uicompose.profile.ProfileView
+import com.axiel7.moelist.uicompose.ranking.MEDIA_RANKING_DESTINATION
+import com.axiel7.moelist.uicompose.ranking.MediaRankingView
 import com.axiel7.moelist.uicompose.search.SearchView
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.uicompose.userlist.ANIME_LIST_DESTINATION
@@ -73,9 +72,7 @@ import com.axiel7.moelist.utils.PreferencesDataStore.THEME_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.defaultPreferencesDataStore
 import com.axiel7.moelist.utils.PreferencesDataStore.getValueSync
 import com.axiel7.moelist.utils.PreferencesDataStore.rememberPreference
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -126,19 +123,6 @@ fun MainView(
 
     val homeViewModel: HomeViewModel = viewModel()
 
-    val animeTabs = remember {
-        listStatusAnimeValues().map { TabRowItem(
-            value = it,
-            title = it.value
-        ) }
-    }
-    val mangaTabs = remember {
-        listStatusMangaValues().map { TabRowItem(
-            value = it,
-            title = it.value
-        ) }
-    }
-
     com.google.accompanist.insets.ui.Scaffold(
         topBar = {
             MainTopAppBar(
@@ -187,17 +171,17 @@ fun MainView(
             composable(ANIME_LIST_DESTINATION) {
                 UserMediaListHostView(
                     mediaType = MediaType.ANIME,
-                    tabRowItems = animeTabs,
                     navController = navController
                 )
             }
+
             composable(MANGA_LIST_DESTINATION) {
                 UserMediaListHostView(
                     mediaType = MediaType.MANGA,
-                    tabRowItems = mangaTabs,
                     navController = navController
                 )
             }
+
             composable(MORE_DESTINATION) {
                 MoreView(
                     navController = navController
@@ -267,7 +251,6 @@ fun MainTopAppBar(
     bottomBarState: MutableState<Boolean>,
     navController: NavController
 ) {
-    val coroutineScope = rememberCoroutineScope()
     var query by remember { mutableStateOf("") }
     val performSearch = remember { mutableStateOf(false) }
     var active by remember { mutableStateOf(false) }
