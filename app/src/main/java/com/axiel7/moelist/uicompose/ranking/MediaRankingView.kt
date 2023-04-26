@@ -12,13 +12,13 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -37,11 +37,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
-import com.axiel7.moelist.data.model.anime.AnimeNode
-import com.axiel7.moelist.data.model.anime.AnimeRanking
-import com.axiel7.moelist.data.model.anime.seasonYearText
-import com.axiel7.moelist.data.model.manga.MangaNode
-import com.axiel7.moelist.data.model.manga.MangaRanking
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.RankingType
 import com.axiel7.moelist.data.model.media.durationText
@@ -104,7 +99,10 @@ fun MediaRankingView(
                 edgePadding = 8.dp,
                 indicator = { tabPositions ->
                     RoundedTabRowIndicator(tabPositions[pagerState.currentPage])
-                }
+                },
+                // TODO: use default when width is fixed upstream
+                // https://issuetracker.google.com/issues/242879624
+                divider = { }
             ) {
                 tabRowItems.forEachIndexed { index, tabRowItem ->
                         Tab(
@@ -114,6 +112,7 @@ fun MediaRankingView(
                         )
                     }
             }
+            Divider()
 
             HorizontalPager(
                 pageCount = tabRowItems.size,
