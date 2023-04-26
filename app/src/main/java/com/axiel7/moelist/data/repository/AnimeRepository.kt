@@ -5,9 +5,11 @@ import com.axiel7.moelist.data.model.ApiParams
 import com.axiel7.moelist.data.model.Response
 import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.anime.AnimeList
+import com.axiel7.moelist.data.model.anime.AnimeRanking
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
 import com.axiel7.moelist.data.model.anime.UserAnimeList
+import com.axiel7.moelist.data.model.media.RankingType
 import io.ktor.http.HttpStatusCode
 
 object AnimeRepository {
@@ -119,6 +121,23 @@ object AnimeRepository {
         return try {
             val result = if (page == null) App.api.getAnimeList(apiParams)
             else App.api.getAnimeList(page)
+            result.error?.let { BaseRepository.handleResponseError(it) }
+            return result
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    const val RANKING_FIELDS = "mean,media_type,num_episodes,num_chapters,num_list_users"
+
+    suspend fun getAnimeRanking(
+        rankingType: RankingType,
+        apiParams: ApiParams,
+        page: String? = null
+    ): Response<List<AnimeRanking>>? {
+        return try {
+            val result = if (page == null) App.api.getAnimeRanking(apiParams, rankingType.value)
+            else App.api.getAnimeRanking(page)
             result.error?.let { BaseRepository.handleResponseError(it) }
             return result
         } catch (e: Exception) {

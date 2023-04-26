@@ -96,13 +96,13 @@ fun AnimeDetails.sourceLocalized() = when (this.source) {
 }
 
 @Composable
-fun AnimeDetails.seasonYearText() = buildString {
-    if (startSeason?.season != null) {
-        append(startSeason.season.seasonLocalized())
+fun StartSeason?.seasonYearText() = buildString {
+    if (this@seasonYearText?.season != null) {
+        append(season.seasonLocalized())
         append(" ")
     }
-    if (startSeason?.year != null) {
-        append(startSeason.year)
+    if (this@seasonYearText?.year != null) {
+        append(year)
     }
     else append(stringResource(R.string.unknown))
 }

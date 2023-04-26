@@ -73,14 +73,18 @@ fun HomeView(
                 HomeCard(
                     text = stringResource(R.string.anime_ranking),
                     icon = R.drawable.ic_round_movie_24,
-                    onClick = { },
+                    onClick = {
+                        navController.navigate("ranking/ANIME")
+                    },
                 )
             }
             item {
                 HomeCard(
                     text = stringResource(R.string.manga_ranking),
                     icon = R.drawable.ic_round_menu_book_24,
-                    onClick = { },
+                    onClick = {
+                        navController.navigate("ranking/MANGA")
+                    },
                 )
             }
             item {

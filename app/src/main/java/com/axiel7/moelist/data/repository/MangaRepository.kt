@@ -5,8 +5,10 @@ import com.axiel7.moelist.data.model.ApiParams
 import com.axiel7.moelist.data.model.Response
 import com.axiel7.moelist.data.model.manga.MangaDetails
 import com.axiel7.moelist.data.model.manga.MangaList
+import com.axiel7.moelist.data.model.manga.MangaRanking
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
 import com.axiel7.moelist.data.model.manga.UserMangaList
+import com.axiel7.moelist.data.model.media.RankingType
 import io.ktor.http.HttpStatusCode
 
 object MangaRepository {
@@ -79,6 +81,21 @@ object MangaRepository {
         return try {
             val result = if (page == null) App.api.getMangaList(apiParams)
             else App.api.getMangaList(page)
+            result.error?.let { BaseRepository.handleResponseError(it) }
+            return result
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    suspend fun getMangaRanking(
+        rankingType: RankingType,
+        apiParams: ApiParams,
+        page: String? = null
+    ): Response<List<MangaRanking>>? {
+        return try {
+            val result = if (page == null) App.api.getMangaRanking(apiParams, rankingType.value)
+            else App.api.getMangaRanking(page)
             result.error?.let { BaseRepository.handleResponseError(it) }
             return result
         } catch (e: Exception) {

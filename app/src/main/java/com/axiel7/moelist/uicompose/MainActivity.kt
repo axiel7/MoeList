@@ -174,6 +174,16 @@ fun MainView(
                     navController = navController
                 )
             }
+
+            composable(MEDIA_RANKING_DESTINATION,
+                arguments = listOf(navArgument("mediaType") { type = NavType.StringType })
+            ) { navEntry ->
+                MediaRankingView(
+                    mediaType = MediaType.valueOf(navEntry.arguments?.getString("mediaType") ?: "ANIME"),
+                    navController = navController
+                )
+            }
+
             composable(ANIME_LIST_DESTINATION) {
                 UserMediaListHostView(
                     mediaType = MediaType.ANIME,
