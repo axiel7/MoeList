@@ -1,7 +1,9 @@
 package com.axiel7.moelist.uicompose.details
 
 import android.net.Uri
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -43,7 +45,7 @@ import kotlinx.serialization.json.Json
 
 const val MEDIA_DETAILS_DESTINATION = "details/{mediaType}/{mediaId}"
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun MediaDetailsView(
     mediaType: MediaType,
@@ -111,16 +113,20 @@ fun MediaDetailsView(
                         }
                 )
                 Column {
-                    SelectionContainer {
-                        Text(
-                            text = viewModel.mediaDetails?.title ?: "Loading",
-                            modifier = Modifier
-                                .padding(bottom = 8.dp, end = 8.dp)
-                                .placeholder(visible = viewModel.isLoading),
-                            fontSize = 22.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
+                    Text(
+                        text = viewModel.mediaDetails?.title ?: "Loading",
+                        modifier = Modifier
+                            .padding(bottom = 8.dp, end = 8.dp)
+                            .placeholder(visible = viewModel.isLoading)
+                            .combinedClickable(
+                                onLongClick = {
+                                    viewModel.mediaDetails?.title?.let { context.copyToClipBoard(it) }
+                                },
+                                onClick = { }
+                            ),
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.Bold
+                    )
                     TextIconHorizontal(
                         text = viewModel.mediaDetails?.mediaType?.mediaFormatLocalized() ?: "Loading",
                         icon = if (mediaType == MediaType.ANIME) R.drawable.ic_round_movie_24
