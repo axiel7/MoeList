@@ -238,7 +238,7 @@ fun AiringAnimeHorizontalItem(item: AnimeSeasonal, onClick: () -> Unit) {
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(bottom = 4.dp))
             Text(
-                text = stringResource(R.string.score_value).format(item.node.mean),
+                text = stringResource(R.string.score_value).format(item.node.mean ?: "??"),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
