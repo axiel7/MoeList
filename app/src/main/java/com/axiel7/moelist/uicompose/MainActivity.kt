@@ -283,7 +283,6 @@ fun MainTopAppBar(
                 },
                 onSearch = {
                     performSearch.value = true
-                    active = false
                 },
                 active = active,
                 onActiveChange = {
