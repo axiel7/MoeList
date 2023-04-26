@@ -85,22 +85,50 @@ fun AnimeDetails.toAnimeNode() = AnimeNode(
 fun AnimeDetails.sourceLocalized() = when (this.source) {
     "original" -> stringResource(R.string.original)
     "manga" -> stringResource(R.string.manga)
+    "novel" -> stringResource(R.string.novel)
     "light_novel" -> stringResource(R.string.light_novel)
     "visual_novel" -> stringResource(R.string.visual_novel)
     "game" -> stringResource(R.string.game)
     "web_manga" -> stringResource(R.string.web_manga)
     "music" -> stringResource(R.string.music)
-    "4_koma_manga" -> "4-Koma manga"
+    "4_koma_manga" -> "4-Koma ${stringResource(R.string.manga)}"
     else -> this.source
 }
 
 @Composable
-fun AnimeDetails.seasonYearText() = "${startSeason?.season?.seasonLocalized()} ${startSeason?.year}"
+fun AnimeDetails.seasonYearText() = buildString {
+    if (startSeason?.season != null) {
+        append(startSeason.season.seasonLocalized())
+        append(" ")
+    }
+    if (startSeason?.year != null) {
+        append(startSeason.year)
+    }
+    else append(stringResource(R.string.unknown))
+}
 
 @Composable
-fun AnimeDetails.broadcastTimeText() =
-    "${broadcast?.dayOfTheWeek?.weekdayLocalized()} ${broadcast?.startTime} (JST)"
+fun AnimeDetails.broadcastTimeText() = buildString {
+    if (broadcast?.dayOfTheWeek != null) {
+        append(broadcast.dayOfTheWeek.weekdayLocalized())
+        append(" ")
+        if (broadcast.startTime != null) {
+            append(broadcast.startTime)
+            append(" (JST)")
+        }
+    }
+    else append(stringResource(R.string.unknown))
+}
 
 @Composable
 fun AnimeDetails.episodeDurationLocalized() =
-    "${averageEpisodeDuration?.div(60) ?: "??"} ${stringResource(R.string.minutes_abbreviation)}."
+    if (averageEpisodeDuration != null && averageEpisodeDuration > 0) {
+        if (averageEpisodeDuration >= 60) {
+            if (averageEpisodeDuration >= 3600) {
+                "${averageEpisodeDuration / 3600} ${stringResource(R.string.hour_abbreviation)}"
+            }
+            else "${averageEpisodeDuration / 60} ${stringResource(R.string.minutes_abbreviation)}"
+        }
+        else "<1 ${stringResource(R.string.minutes_abbreviation)}"
+    }
+    else stringResource(R.string.unknown)
