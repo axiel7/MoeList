@@ -81,7 +81,7 @@ fun ProfileView(navController: NavController) {
                         .placeholder(visible = viewModel.isLoading)
                         .clickable {
                             navController.navigate(
-                                "full_poster/${arrayOf(viewModel.profilePictureUrl).toNavArgument()}"
+                                "full_poster/${arrayOf(viewModel.profilePictureUrl ?: "").toNavArgument()}"
                             )
                         }
                 )

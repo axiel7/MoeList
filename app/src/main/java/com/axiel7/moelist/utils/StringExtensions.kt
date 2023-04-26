@@ -16,5 +16,4 @@ object StringExtensions {
     }
 
     fun Array<String>.toNavArgument(): String = Uri.encode(Json.encodeToString(this))
-    fun Array<String?>.toNavArgument(): String = this.filterNotNull().toTypedArray().toNavArgument()
 }
