@@ -276,10 +276,6 @@ fun MainTopAppBar(
                 query = query,
                 onQueryChange = {
                     query = it
-                    coroutineScope.launch {
-                        delay(1000)
-                        performSearch.value = true
-                    }
                 },
                 onSearch = {
                     performSearch.value = true

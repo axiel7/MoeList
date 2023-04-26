@@ -18,6 +18,7 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -54,7 +55,7 @@ val searchTabRowItems = listOf(
 @Composable
 fun SearchView(
     query: String,
-    performSearch: State<Boolean>,
+    performSearch: MutableState<Boolean>,
     navController: NavController
 ) {
     val pagerState = rememberPagerState()
@@ -95,7 +96,7 @@ fun SearchView(
 @Composable
 fun SearchResultList(
     query: String,
-    performSearch: State<Boolean>,
+    performSearch: MutableState<Boolean>,
     mediaType: MediaType,
     navController: NavController
 ) {
@@ -114,7 +115,7 @@ fun SearchResultList(
                             .padding(16.dp)
                             .size(24.dp)
                     )
-                else if (query.isNotBlank())
+                else if (query.isNotBlank() && performSearch.value)
                     Text(
                         text = stringResource(R.string.no_results),
                         modifier = Modifier.padding(16.dp)
@@ -180,12 +181,13 @@ fun SearchResultList(
         }
     }
 
-    LaunchedEffect(query) {
+    LaunchedEffect(query, performSearch.value) {
         if (query.isNotBlank() && performSearch.value)
             viewModel.search(
                 mediaType = mediaType,
                 query = query
             )
+        performSearch.value = false
     }
 }
 
