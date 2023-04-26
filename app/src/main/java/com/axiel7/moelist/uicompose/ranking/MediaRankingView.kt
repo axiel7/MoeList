@@ -69,7 +69,7 @@ fun MediaRankingView(
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
     val tabRowItems = remember {
-        (if (mediaType == MediaType.ANIME) rankingAnimeValues() else rankingMangaValues())
+        (if (mediaType == MediaType.ANIME) rankingAnimeValues else rankingMangaValues)
             .map {
                 TabRowItem(value = it, title = it.value)
             }

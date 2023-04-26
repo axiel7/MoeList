@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.viewModelScope
 import com.axiel7.moelist.App
 import com.axiel7.moelist.data.model.ApiParams
@@ -16,11 +17,13 @@ import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseMyListStatus
 import com.axiel7.moelist.data.model.media.BaseUserMediaList
 import com.axiel7.moelist.data.model.media.ListStatus
+import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.data.repository.MangaRepository
 import com.axiel7.moelist.uicompose.base.BaseMediaViewModel
-import com.axiel7.moelist.utils.Constants
+import com.axiel7.moelist.utils.PreferencesDataStore.ANIME_LIST_SORT_PREFERENCE
+import com.axiel7.moelist.utils.PreferencesDataStore.MANGA_LIST_SORT_PREFERENCE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -30,18 +33,28 @@ class UserMediaListViewModel(
 ): BaseMediaViewModel() {
 
     var listSort by mutableStateOf(
-        if (mediaType == MediaType.ANIME) Constants.SORT_ANIME_TITLE
-        else Constants.SORT_MANGA_TITLE
+        if (mediaType == MediaType.ANIME) App.animeListSort
+        else App.mangaListSort
     )
-    private set
-    fun setSort(value: String) {
-        listSort = value
-        params.sort = value
+        private set
+
+    fun setSort(value: MediaSort) {
+        viewModelScope.launch(Dispatchers.IO) {
+            App.dataStore?.edit {
+                if (mediaType == MediaType.ANIME) it[ANIME_LIST_SORT_PREFERENCE] = value.value
+                else it[MANGA_LIST_SORT_PREFERENCE] = value.value
+            }
+            nextPage = null
+            hasNextPage = false
+            loadedAllPages = false
+            listSort = value
+        }
     }
+    var openSortDialog by mutableStateOf(false)
 
     private val params = ApiParams(
         status = listStatus.value,
-        sort = listSort,
+        sort = listSort.value,
         nsfw = App.nsfw,
         fields = if (mediaType == MediaType.ANIME) AnimeRepository.USER_ANIME_LIST_FIELDS
         else MangaRepository.USER_MANGA_LIST_FIELDS
@@ -71,6 +84,7 @@ class UserMediaListViewModel(
     fun getUserList(page: String? = null) {
         viewModelScope.launch(Dispatchers.IO) {
             isLoading = page == null //show indicator on 1st load
+            params.sort = listSort.value
             val result = if (mediaType == MediaType.ANIME)
                 AnimeRepository.getUserAnimeList(params, page)
             else

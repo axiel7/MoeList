@@ -29,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -197,6 +198,7 @@ fun ListPreferenceView(
     @DrawableRes icon: Int? = null,
     onValueChange: (String) -> Unit
 ) {
+    val configuration = LocalConfiguration.current
     var openDialog by remember { mutableStateOf(false) }
     Row(
         modifier = modifier
@@ -241,7 +243,9 @@ fun ListPreferenceView(
             title = { Text(text = title) },
             text = {
                 LazyColumn(
-                    modifier = Modifier.sizeIn(maxHeight = 500.dp)
+                    modifier = Modifier.sizeIn(
+                        maxHeight = (configuration.screenHeightDp - 48).dp
+                    )
                 ) {
                     items(entriesValues.entries.toList()) { entry ->
                         Row(

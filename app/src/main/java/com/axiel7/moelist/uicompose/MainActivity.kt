@@ -36,6 +36,7 @@ import androidx.navigation.navArgument
 import coil.compose.AsyncImage
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
+import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.uicompose.base.StringArrayNavType
 import com.axiel7.moelist.uicompose.calendar.CALENDAR_DESTINATION
@@ -67,7 +68,9 @@ import com.axiel7.moelist.uicompose.userlist.MANGA_LIST_DESTINATION
 import com.axiel7.moelist.uicompose.userlist.UserMediaListHostView
 import com.axiel7.moelist.utils.NumExtensions.toInt
 import com.axiel7.moelist.utils.PreferencesDataStore.ACCESS_TOKEN_PREFERENCE_KEY
+import com.axiel7.moelist.utils.PreferencesDataStore.ANIME_LIST_SORT_PREFERENCE
 import com.axiel7.moelist.utils.PreferencesDataStore.LAST_TAB_PREFERENCE_KEY
+import com.axiel7.moelist.utils.PreferencesDataStore.MANGA_LIST_SORT_PREFERENCE
 import com.axiel7.moelist.utils.PreferencesDataStore.NSFW_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.PROFILE_PICTURE_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.THEME_PREFERENCE_KEY
@@ -93,6 +96,12 @@ class MainActivity : AppCompatActivity() {
             App.nsfw = it.toInt()
         }
         val theme = defaultPreferencesDataStore.getValueSync(THEME_PREFERENCE_KEY) ?: "follow_system"
+        defaultPreferencesDataStore.getValueSync(ANIME_LIST_SORT_PREFERENCE)?.let {
+            App.animeListSort = MediaSort.forValue(it)
+        }
+        defaultPreferencesDataStore.getValueSync(MANGA_LIST_SORT_PREFERENCE)?.let {
+            App.mangaListSort = MediaSort.forValue(it)
+        }
 
         setContent {
             val themePreference by rememberPreference(THEME_PREFERENCE_KEY, theme)

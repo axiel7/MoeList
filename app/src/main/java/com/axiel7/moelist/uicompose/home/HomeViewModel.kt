@@ -6,6 +6,7 @@ import com.axiel7.moelist.App
 import com.axiel7.moelist.data.model.ApiParams
 import com.axiel7.moelist.data.model.anime.AnimeList
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
+import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.uicompose.base.BaseViewModel
 import com.axiel7.moelist.utils.Constants
@@ -26,7 +27,7 @@ class HomeViewModel: BaseViewModel() {
     }
 
     private val paramsToday = ApiParams(
-        sort = Constants.SORT_ANIME_SCORE,
+        sort = MediaSort.ANIME_SCORE.value,
         nsfw = App.nsfw,
         fields = AnimeRepository.TODAY_FIELDS,
         limit = 300
@@ -57,7 +58,7 @@ class HomeViewModel: BaseViewModel() {
     }
 
     private val paramsSeasonal = ApiParams(
-        sort = Constants.SORT_ANIME_START_DATE,
+        sort = MediaSort.ANIME_START_DATE.value,
         nsfw = App.nsfw
     )
 

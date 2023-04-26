@@ -2,10 +2,12 @@ package com.axiel7.moelist.uicompose.userlist
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -20,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -53,7 +56,7 @@ fun UserMediaListHostView(
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
     val tabRowItems = remember {
-        (if (mediaType == MediaType.ANIME) listStatusAnimeValues() else listStatusMangaValues())
+        (if (mediaType == MediaType.ANIME) listStatusAnimeValues else listStatusMangaValues)
             .map { TabRowItem(
                 value = it,
                 title = it.value
@@ -115,10 +118,23 @@ fun UserMediaListView(
             .pullRefresh(pullRefreshState)
     ) {
         LazyColumn(
-            modifier = Modifier.fillMaxHeight(),
+            modifier = Modifier.fillMaxWidth(),
             state = listState,
             contentPadding = PaddingValues(vertical = 8.dp)
         ) {
+            item {
+                AssistChip(
+                    onClick = { viewModel.openSortDialog = true },
+                    label = { Text(text = viewModel.listSort.localized()) },
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_round_sort_24),
+                            contentDescription = stringResource(R.string.sort_by)
+                        )
+                    }
+                )
+            }
             items(viewModel.mediaList,
                 key = { it.node.id },
                 contentType = { it.node }
@@ -170,6 +186,10 @@ fun UserMediaListView(
         }
     }
 
+    if (viewModel.openSortDialog) {
+        MediaListSortDialog(viewModel = viewModel)
+    }
+
     if (sheetState.isVisible) {
         EditMediaSheet(
             coroutineScope = coroutineScope,
@@ -183,7 +203,7 @@ fun UserMediaListView(
         viewModel.showMessage = false
     }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(viewModel.listSort) {
         if (!viewModel.isLoading && viewModel.nextPage == null && !viewModel.loadedAllPages)
             viewModel.getUserList()
     }
@@ -298,6 +318,58 @@ fun UserMediaListItem(
             }//:Column
         }//:Row
     }//:Card
+}
+
+@Composable
+fun MediaListSortDialog(
+    viewModel: UserMediaListViewModel
+) {
+    val configuration = LocalConfiguration.current
+    val sortOptions = remember {
+        if (viewModel.mediaType == MediaType.ANIME) animeListSortItems else mangaListSortItems
+    }
+    var selectedIndex by remember {
+        mutableStateOf(sortOptions.indexOf(viewModel.listSort))
+    }
+    AlertDialog(
+        onDismissRequest = { viewModel.openSortDialog = false },
+        confirmButton = {
+            TextButton(onClick = {
+                viewModel.setSort(sortOptions[selectedIndex])
+                viewModel.openSortDialog = false
+            }) {
+                Text(text = stringResource(R.string.ok))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = { viewModel.openSortDialog = false }) {
+                Text(text = stringResource(R.string.cancel))
+            }
+        },
+        title = { Text(text = stringResource(R.string.sort_by)) },
+        text = {
+            LazyColumn(
+                modifier = Modifier.sizeIn(
+                    maxHeight = (configuration.screenHeightDp - 48).dp
+                )
+            ) {
+                itemsIndexed(sortOptions) { index, sort ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { selectedIndex = index },
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        RadioButton(
+                            selected = selectedIndex == index,
+                            onClick = { selectedIndex = index }
+                        )
+                        Text(text = sort.localized())
+                    }
+                }
+            }
+        }
+    )
 }
 
 @Preview(showSystemUi = true, showBackground = true)

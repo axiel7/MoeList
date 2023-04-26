@@ -37,7 +37,7 @@ fun EditMediaSheet(
     mediaViewModel: BaseMediaViewModel
 ) {
     val context = LocalContext.current
-    val statusValues = if (mediaViewModel.mediaType == MediaType.ANIME) listStatusAnimeValues() else listStatusMangaValues()
+    val statusValues = if (mediaViewModel.mediaType == MediaType.ANIME) listStatusAnimeValues else listStatusMangaValues
     val datePickerState = rememberDatePickerState()
     val viewModel: EditMediaViewModel = viewModel {
         EditMediaViewModel(

@@ -13,10 +13,10 @@ enum class RankingType(val value: String) {
     UPCOMING("upcoming")
 }
 
-fun rankingAnimeValues() =
+val rankingAnimeValues get() =
     arrayOf(RankingType.SCORE, RankingType.POPULARITY, RankingType.FAVORITE, RankingType.UPCOMING)
 
-fun rankingMangaValues() =
+val rankingMangaValues get() =
     arrayOf(RankingType.SCORE, RankingType.POPULARITY, RankingType.FAVORITE)
 
 @Composable

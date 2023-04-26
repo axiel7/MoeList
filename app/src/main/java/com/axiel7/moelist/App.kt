@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import coil.ImageLoader
 import coil.ImageLoaderFactory
+import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.network.Api
 import com.axiel7.moelist.data.network.KtorClient
 import com.axiel7.moelist.utils.PreferencesDataStore.defaultPreferencesDataStore
@@ -38,5 +39,7 @@ class App : Application(), ImageLoaderFactory {
         val numberFormat: NumberFormat = NumberFormat.getInstance()
         var dataStore: DataStore<Preferences>? = null
         var nsfw = 0
+        var animeListSort = MediaSort.ANIME_TITLE
+        var mangaListSort = MediaSort.MANGA_TITLE
     }
 }

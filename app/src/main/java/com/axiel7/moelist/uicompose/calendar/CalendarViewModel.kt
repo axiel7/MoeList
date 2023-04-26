@@ -7,10 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.axiel7.moelist.App
 import com.axiel7.moelist.data.model.ApiParams
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
+import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.numeric
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.uicompose.base.BaseViewModel
-import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.SeasonCalendar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 class CalendarViewModel: BaseViewModel() {
 
     private val params = ApiParams(
-        sort = Constants.SORT_ANIME_NUM_USERS,
+        sort = MediaSort.ANIME_NUM_USERS.value,
         nsfw = App.nsfw,
         fields = AnimeRepository.CALENDAR_FIELDS,
         limit = 300

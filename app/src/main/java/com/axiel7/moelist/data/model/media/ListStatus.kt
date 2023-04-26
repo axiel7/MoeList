@@ -24,10 +24,10 @@ enum class ListStatus(val value: String) {
     DROPPED("dropped")
 }
 
-fun listStatusAnimeValues() =
+val listStatusAnimeValues get() =
     arrayOf(ListStatus.WATCHING, ListStatus.PTW, ListStatus.COMPLETED, ListStatus.ON_HOLD, ListStatus.DROPPED)
 
-fun listStatusMangaValues() =
+val listStatusMangaValues get() =
     arrayOf(ListStatus.READING, ListStatus.PTR, ListStatus.COMPLETED, ListStatus.ON_HOLD, ListStatus.DROPPED)
 
 fun ListStatus.isCurrent() = this == ListStatus.WATCHING || this == ListStatus.READING
