@@ -88,11 +88,12 @@ fun ProfileView(navController: NavController) {
                     )
 
                     viewModel.user?.location?.let { location ->
-                        TextIconHorizontal(
-                            text = location,
-                            icon = R.drawable.ic_round_location_on_24,
-                            modifier = Modifier.padding(bottom = 8.dp)
-                        )
+                        if (location.isNotBlank())
+                            TextIconHorizontal(
+                                text = location,
+                                icon = R.drawable.ic_round_location_on_24,
+                                modifier = Modifier.padding(bottom = 8.dp)
+                            )
                     }
 
                     viewModel.user?.birthday?.let { birthday ->
