@@ -31,6 +31,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
+import com.axiel7.moelist.data.model.anime.AnimeNode
+import com.axiel7.moelist.data.model.manga.MangaNode
 import com.axiel7.moelist.data.model.media.*
 import com.axiel7.moelist.uicompose.base.TabRowItem
 import com.axiel7.moelist.uicompose.composables.*
@@ -117,68 +119,39 @@ fun UserMediaListView(
             state = listState,
             contentPadding = PaddingValues(vertical = 8.dp)
         ) {
-            if (viewModel.mediaType == MediaType.ANIME) {
-                items(viewModel.animeList,
-                    key = { it.node.id },
-                    contentType = { it.node }
-                ) { item ->
-                    UserMediaListItem(
-                        imageUrl = item.node.mainPicture?.large,
-                        title = item.node.title,
-                        score = item.listStatus?.score,
-                        mediaFormat = item.node.mediaType,
-                        mediaStatus = item.node.status,
-                        userProgress = item.listStatus?.progress,
-                        totalProgress = item.node.numEpisodes,
-                        listStatus = status,
-                        onClick = {
-                            navController.navigate("details/ANIME/${item.node.id}")
-                        },
-                        onLongClick = {
-                              coroutineScope.launch {
-                                  viewModel.onItemSelected(item)
-                                  sheetState.show()
-                              }
-                        },
-                        onClickPlus = {
-                            viewModel.updateListItem(
-                                mediaId = item.node.id,
-                                progress = item.listStatus?.progress?.plus(1)
-                            )
+            items(viewModel.mediaList,
+                key = { it.node.id },
+                contentType = { it.node }
+            ) { item ->
+                UserMediaListItem(
+                    imageUrl = item.node.mainPicture?.large,
+                    title = item.node.title,
+                    score = item.listStatus?.score,
+                    mediaFormat = item.node.mediaType,
+                    mediaStatus = item.node.status,
+                    userProgress = item.listStatus?.progress,
+                    totalProgress = when (item.node) {
+                        is AnimeNode -> (item.node as AnimeNode).numEpisodes
+                        is MangaNode -> (item.node as MangaNode).numChapters
+                        else -> null
+                    },
+                    listStatus = status,
+                    onClick = {
+                        navController.navigate("details/${mediaType.value}/${item.node.id}")
+                    },
+                    onLongClick = {
+                        coroutineScope.launch {
+                            viewModel.onItemSelected(item)
+                            sheetState.show()
                         }
-                    )
-                }
-            } else {
-                items(viewModel.mangaList,
-                    key = { it.node.id },
-                    contentType = { it.node }
-                ) { item ->
-                    UserMediaListItem(
-                        imageUrl = item.node.mainPicture?.large,
-                        title = item.node.title,
-                        score = item.listStatus?.score,
-                        mediaFormat = item.node.mediaType,
-                        mediaStatus = item.node.status,
-                        userProgress = item.listStatus?.progress,
-                        totalProgress = item.node.numChapters,
-                        listStatus = status,
-                        onClick = {
-                            navController.navigate("details/MANGA/${item.node.id}")
-                        },
-                        onLongClick = {
-                              coroutineScope.launch {
-                                  viewModel.onItemSelected(item)
-                                  sheetState.show()
-                              }
-                        },
-                        onClickPlus = {
-                            viewModel.updateListItem(
-                                mediaId = item.node.id,
-                                progress = item.listStatus?.progress?.plus(1)
-                            )
-                        }
-                    )
-                }
+                    },
+                    onClickPlus = {
+                        viewModel.updateListItem(
+                            mediaId = item.node.id,
+                            progress = item.listStatus?.progress?.plus(1)
+                        )
+                    }
+                )
             }
         }
 
@@ -330,17 +303,9 @@ fun UserMediaListItem(
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun UserMediaListHostPreview() {
-    val animeTabs = remember {
-        listStatusAnimeValues().map { TabRowItem(
-            value = it,
-            title = it.value
-        ) }
-    }
-
     MoeListTheme {
         UserMediaListHostView(
             mediaType = MediaType.ANIME,
-            tabRowItems = animeTabs,
             navController = rememberNavController()
         )
     }

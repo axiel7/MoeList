@@ -12,6 +12,7 @@ import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
 import com.axiel7.moelist.data.model.anime.UserAnimeList
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
 import com.axiel7.moelist.data.model.manga.UserMangaList
+import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseMyListStatus
 import com.axiel7.moelist.data.model.media.BaseUserMediaList
 import com.axiel7.moelist.data.model.media.ListStatus
@@ -62,13 +63,11 @@ class UserMediaListViewModel(
         override fun component1(): BaseMyListStatus? = value
         override fun component2(): (BaseMyListStatus?) -> Unit = { value = it }
     }
-    var animeList = mutableStateListOf<UserAnimeList>()
-    var mangaList = mutableStateListOf<UserMangaList>()
+    var mediaList = mutableStateListOf<BaseUserMediaList<out BaseMediaNode>>()
     var nextPage: String? = null
     var hasNextPage = false
     var loadedAllPages = false
 
-    @Suppress("UNCHECKED_CAST")
     fun getUserList(page: String? = null) {
         viewModelScope.launch(Dispatchers.IO) {
             isLoading = page == null //show indicator on 1st load
@@ -78,13 +77,8 @@ class UserMediaListViewModel(
                 MangaRepository.getUserMangaList(params, page)
 
             if (result?.data != null) {
-                if (mediaType == MediaType.ANIME) {
-                    if (page == null) animeList.clear()
-                    (result.data as? List<UserAnimeList>)?.let { animeList.addAll(it) }
-                } else {
-                    if (page == null) mangaList.clear()
-                    (result.data as? List<UserMangaList>)?.let { mangaList.addAll(it) }
-                }
+                if (page == null) mediaList.clear()
+                mediaList.addAll(result.data)
 
                 nextPage = result.paging?.next
                 hasNextPage = nextPage != null
@@ -131,12 +125,15 @@ class UserMediaListViewModel(
             )
 
             if (result != null) {
-                if (mediaType == MediaType.ANIME) {
-                    val foundIndex = animeList.indexOfFirst { it.node.id == mediaId }
-                    if (foundIndex != -1) animeList[foundIndex] = animeList[foundIndex].copy(listStatus = result as MyAnimeListStatus)
-                } else if (mediaType == MediaType.MANGA) {
-                    val foundIndex = mangaList.indexOfFirst { it.node.id == mediaId }
-                    if (foundIndex != -1) mangaList[foundIndex] = mangaList[foundIndex].copy(listStatus = result as MyMangaListStatus)
+                val foundIndex = mediaList.indexOfFirst { it.node.id == mediaId }
+                if (foundIndex != -1) {
+                    if (mediaType == MediaType.ANIME) {
+                        mediaList[foundIndex] = (mediaList[foundIndex] as UserAnimeList)
+                            .copy(listStatus = result as MyAnimeListStatus)
+                    } else if (mediaType == MediaType.MANGA) {
+                        mediaList[foundIndex] = (mediaList[foundIndex] as UserMangaList)
+                            .copy(listStatus = result as MyMangaListStatus)
+                    }
                 }
             }
             isLoading = false
@@ -151,15 +148,15 @@ class UserMediaListViewModel(
     private fun onMediaItemStatusChanged(myListStatus: BaseMyListStatus?) {
         viewModelScope.launch(Dispatchers.IO) {
             if (myListStatus != null && selectedItem != null) {
-                if (mediaType == MediaType.ANIME) {
-                    val foundIndex = animeList.indexOfFirst { it.node.id == selectedItem!!.node.id }
-                    if (foundIndex != -1) {
-                        animeList[foundIndex] = animeList[foundIndex].copy(listStatus = myListStatus as MyAnimeListStatus)
+                val foundIndex = mediaList.indexOfFirst { it.node.id == selectedItem!!.node.id }
+                if (foundIndex != -1) {
+                    if (mediaType == MediaType.ANIME) {
+                        mediaList[foundIndex] = (mediaList[foundIndex] as UserAnimeList)
+                            .copy(listStatus = myListStatus as MyAnimeListStatus)
                     }
-                } else if (mediaType == MediaType.MANGA) {
-                    val foundIndex = mangaList.indexOfFirst { it.node.id == selectedItem!!.node.id }
-                    if (foundIndex != -1) {
-                        mangaList[foundIndex] = mangaList[foundIndex].copy(listStatus = myListStatus as MyMangaListStatus)
+                    else if (mediaType == MediaType.MANGA) {
+                        mediaList[foundIndex] = (mediaList[foundIndex] as UserMangaList)
+                            .copy(listStatus = myListStatus as MyMangaListStatus)
                     }
                 }
             }
