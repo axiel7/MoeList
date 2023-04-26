@@ -38,6 +38,8 @@ import com.axiel7.moelist.App
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.uicompose.base.StringArrayNavType
+import com.axiel7.moelist.uicompose.calendar.CALENDAR_DESTINATION
+import com.axiel7.moelist.uicompose.calendar.CalendarView
 import com.axiel7.moelist.uicompose.details.FULL_POSTER_DESTINATION
 import com.axiel7.moelist.uicompose.details.FullPosterView
 import com.axiel7.moelist.uicompose.details.MEDIA_DETAILS_DESTINATION
@@ -167,6 +169,8 @@ fun MainView(
                     navController = navController
                 )
             }
+
+            composable(CALENDAR_DESTINATION) { CalendarView(navController = navController) }
 
             composable(ANIME_LIST_DESTINATION) {
                 UserMediaListHostView(

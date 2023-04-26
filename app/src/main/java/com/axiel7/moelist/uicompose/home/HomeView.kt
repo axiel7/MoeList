@@ -91,7 +91,9 @@ fun HomeView(
                 HomeCard(
                     text = stringResource(R.string.calendar),
                     icon = R.drawable.ic_round_event_24,
-                    onClick = { },
+                    onClick = {
+                        navController.navigate("calendar")
+                    },
                 )
             }
             item {

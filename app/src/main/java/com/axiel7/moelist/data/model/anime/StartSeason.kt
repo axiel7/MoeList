@@ -8,5 +8,5 @@ data class StartSeason (
     @SerialName("year")
     var year: Int,
     @SerialName("season")
-    var season: String
+    var season: Season
 )

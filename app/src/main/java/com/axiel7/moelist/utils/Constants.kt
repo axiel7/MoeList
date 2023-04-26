@@ -31,13 +31,4 @@ object Constants {
     const val SORT_UPDATED = "list_updated_at"
     const val SORT_MANGA_TITLE = "manga_title"
     const val SORT_MANGA_START_DATE = "manga_start_date"
-
-    //Weekdays
-    const val MONDAY = "monday"
-    const val TUESDAY = "tuesday"
-    const val WEDNESDAY = "wednesday"
-    const val THURSDAY = "thursday"
-    const val FRIDAY = "friday"
-    const val SATURDAY = "saturday"
-    const val SUNDAY = "sunday"
 }

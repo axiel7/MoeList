@@ -8,6 +8,7 @@ import com.axiel7.moelist.data.model.anime.AnimeList
 import com.axiel7.moelist.data.model.anime.AnimeRanking
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
+import com.axiel7.moelist.data.model.anime.Season
 import com.axiel7.moelist.data.model.anime.UserAnimeList
 import com.axiel7.moelist.data.model.media.RankingType
 import io.ktor.http.HttpStatusCode
@@ -15,18 +16,19 @@ import io.ktor.http.HttpStatusCode
 object AnimeRepository {
 
     const val TODAY_FIELDS = "broadcast,mean,start_season,status"
+    const val CALENDAR_FIELDS = "broadcast,mean,start_season,status,media_type,num_episodes"
 
     suspend fun getSeasonalAnimes(
         apiParams: ApiParams,
         year: Int,
-        season: String,
+        season: Season,
         page: String? = null
     ): Response<List<AnimeSeasonal>>? {
         return try {
             val result = if (page == null) App.api.getSeasonalAnime(
                 params = apiParams,
                 year = year,
-                season = season
+                season = season.value
             )
             else App.api.getSeasonalAnime(page)
             result.error?.let { BaseRepository.handleResponseError(it) }

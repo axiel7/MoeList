@@ -24,7 +24,7 @@ class KtorClient(private val authToken: String?) {
 
         install(ContentNegotiation) {
             json(Json {
-                prettyPrint = true
+                coerceInputValues = true
                 isLenient = true
                 ignoreUnknownKeys = true
             })

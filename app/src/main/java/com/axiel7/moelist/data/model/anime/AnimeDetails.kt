@@ -110,7 +110,7 @@ fun StartSeason?.seasonYearText() = buildString {
 @Composable
 fun AnimeDetails.broadcastTimeText() = buildString {
     if (broadcast?.dayOfTheWeek != null) {
-        append(broadcast.dayOfTheWeek.weekdayLocalized())
+        append(broadcast.dayOfTheWeek.localized())
         append(" ")
         if (broadcast.startTime != null) {
             append(broadcast.startTime)
