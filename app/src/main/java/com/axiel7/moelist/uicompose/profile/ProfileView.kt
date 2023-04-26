@@ -1,5 +1,7 @@
 package com.axiel7.moelist.uicompose.profile
 
+import android.net.Uri
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -40,6 +42,8 @@ import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.DateUtils.toISOformat
 import com.axiel7.moelist.utils.NumExtensions.toStringOrZero
 import com.google.accompanist.placeholder.material.placeholder
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import java.time.format.DateTimeFormatter
 
 const val PROFILE_DESTINATION = "profile"
@@ -74,6 +78,11 @@ fun ProfileView(navController: NavController) {
                         .clip(RoundedCornerShape(100))
                         .size(100.dp)
                         .placeholder(visible = viewModel.isLoading)
+                        .clickable {
+                            navController.navigate(
+                                "full_poster/${Uri.encode(Json.encodeToString(arrayOf(viewModel.profilePictureUrl)))}"
+                            )
+                        }
                 )
 
                 Column {
@@ -173,7 +182,7 @@ fun ProfileView(navController: NavController) {
     }//:Scaffold
     
     LaunchedEffect(Unit) {
-        viewModel.getMyUser()
+        if (viewModel.user == null) viewModel.getMyUser()
     }
 }
 
