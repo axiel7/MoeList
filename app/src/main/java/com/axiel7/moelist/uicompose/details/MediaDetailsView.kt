@@ -274,12 +274,17 @@ fun MediaDetailsView(
                 )
                 Divider(modifier = Modifier.padding(vertical = 8.dp))
             }
-            SelectionContainer {
-                MediaInfoView(
-                    title = stringResource(R.string.synonyms),
-                    info = viewModel.mediaDetails?.synonymsJoined(),
-                    modifier = Modifier.placeholder(visible = viewModel.isLoading)
-                )
+            viewModel.mediaDetails?.synonymsJoined()?.let { synonyms ->
+                SelectionContainer {
+                    MediaInfoView(
+                        title = stringResource(R.string.synonyms),
+                        info = synonyms,
+                        modifier = Modifier.placeholder(visible = viewModel.isLoading)
+                    )
+                }
+            }
+            viewModel.mediaDetails?.alternativeTitles?.ja?.let {
+
             }
             SelectionContainer {
                 MediaInfoView(
@@ -302,7 +307,7 @@ fun MediaDetailsView(
             if (mediaType == MediaType.ANIME) {
                 MediaInfoView(
                     title = stringResource(R.string.season),
-                    info = (viewModel.mediaDetails as? AnimeDetails)?.seasonYearText(),
+                    info = (viewModel.mediaDetails as? AnimeDetails)?.startSeason.seasonYearText(),
                     modifier = Modifier.placeholder(visible = viewModel.isLoading)
                 )
                 MediaInfoView(

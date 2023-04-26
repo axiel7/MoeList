@@ -33,16 +33,19 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeList
+import com.axiel7.moelist.data.model.anime.seasonYearText
 import com.axiel7.moelist.data.model.manga.MangaList
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.durationText
 import com.axiel7.moelist.data.model.media.localized
 import com.axiel7.moelist.data.model.media.mediaFormatLocalized
+import com.axiel7.moelist.data.model.media.totalDuration
 import com.axiel7.moelist.uicompose.base.TabRowItem
 import com.axiel7.moelist.uicompose.composables.MediaItemDetailed
 import com.axiel7.moelist.uicompose.composables.OnBottomReached
 import com.axiel7.moelist.uicompose.composables.RoundedTabRowIndicator
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
+import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
 import com.axiel7.moelist.utils.StringExtensions.toStringOrNull
 import kotlinx.coroutines.launch
 
@@ -131,14 +134,19 @@ fun SearchResultList(
                 imageUrl = it.node.mainPicture?.large,
                 subtitle1 = {
                     Text(
-                        text = "${it.node.mediaType?.mediaFormatLocalized()} (${it.durationText()})",
+                        text = buildString {
+                            append(it.node.mediaType?.mediaFormatLocalized())
+                            if (it.node.totalDuration().toStringPositiveValueOrNull() != null) {
+                                append(" (${it.node.durationText()})")
+                            }
+                        },
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 },
                 subtitle2 = {
                     Text(
                         text = when (it) {
-                            is AnimeList -> it.node.startSeason?.year?.toStringOrNull() ?: stringResource(R.string.unknown)
+                            is AnimeList -> it.node.startSeason.seasonYearText()
                             is MangaList -> it.node.startDate ?: stringResource(R.string.unknown)
                             else -> stringResource(R.string.unknown)
                         },
@@ -147,7 +155,7 @@ fun SearchResultList(
                 },
                 subtitle3 = {
                     Icon(
-                        painter = painterResource(R.drawable.ic_round_star_24),
+                        painter = painterResource(R.drawable.ic_round_details_star_24),
                         contentDescription = "star",
                         modifier = Modifier.padding(end = 4.dp),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
