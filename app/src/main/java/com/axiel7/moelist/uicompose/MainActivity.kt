@@ -16,6 +16,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -122,6 +123,7 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainView(
     lastTabOpened: Int
@@ -129,10 +131,15 @@ fun MainView(
     val navController = rememberNavController()
     val bottomBarState = remember { mutableStateOf(true) }
     val stringArrayType = remember { StringArrayNavType() }
+    val topAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(
+        rememberTopAppBarState()
+    )
 
     com.google.accompanist.insets.ui.Scaffold(
+        modifier = Modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
         topBar = {
             MainTopAppBar(
+                scrollBehavior = topAppBarScrollBehavior,
                 bottomBarState = bottomBarState,
                 navController = navController
             )
@@ -241,6 +248,7 @@ fun MainView(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainTopAppBar(
+    scrollBehavior: TopAppBarScrollBehavior,
     bottomBarState: MutableState<Boolean>,
     navController: NavController
 ) {
@@ -264,74 +272,77 @@ fun MainTopAppBar(
         enter = slideInVertically(initialOffsetY = { -it }),
         exit = slideOutVertically(targetOffsetY = { -it })
     ) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            SearchBar(
-                query = query,
-                onQueryChange = {
-                    query = it
-                },
-                onSearch = {
-                    performSearch.value = true
-                },
-                active = active,
-                onActiveChange = {
-                    bottomBarState.value = !it
-                    active = it
-                    if (!active) query = ""
-                },
-                modifier = Modifier.padding(start = 4.dp, end = 4.dp, bottom = 4.dp),
-                placeholder = { Text(text = stringResource(R.string.search)) },
-                leadingIcon = {
-                    if (active) {
-                        IconButton(
-                            onClick = {
-                                active = false
-                                bottomBarState.value = true
-                                query = ""
+        TopAppBar(
+            title = {
+                SearchBar(
+                    query = query,
+                    onQueryChange = {
+                        query = it
+                    },
+                    onSearch = {
+                        performSearch.value = true
+                    },
+                    active = active,
+                    onActiveChange = {
+                        bottomBarState.value = !it
+                        active = it
+                        if (!active) query = ""
+                    },
+                    modifier = Modifier.padding(horizontal = 4.dp),
+                    placeholder = { Text(text = stringResource(R.string.search)) },
+                    leadingIcon = {
+                        if (active) {
+                            IconButton(
+                                onClick = {
+                                    active = false
+                                    bottomBarState.value = true
+                                    query = ""
+                                }
+                            ) {
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_arrow_back),
+                                    contentDescription = "back"
+                                )
                             }
-                        ) {
+                        } else {
                             Icon(
-                                painter = painterResource(R.drawable.ic_arrow_back),
-                                contentDescription = "back"
+                                painter = painterResource(R.drawable.ic_round_search_24),
+                                contentDescription = "search"
                             )
                         }
-                    } else {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_round_search_24),
-                            contentDescription = "search"
-                        )
-                    }
-                },
-                trailingIcon = {
-                    if (!active) {
-                        AsyncImage(
-                            model = profilePictureUrl,
-                            contentDescription = "profile",
-                            placeholder = painterResource(R.drawable.ic_round_account_circle_24),
-                            error = painterResource(R.drawable.ic_round_account_circle_24),
-                            modifier = Modifier
-                                .padding(horizontal = 16.dp)
-                                .clip(RoundedCornerShape(100))
-                                .size(32.dp)
-                                .clickable { navController.navigate(PROFILE_DESTINATION) }
-                        )
-                    } else if (query.isNotEmpty()) {
-                        IconButton(onClick = { query = "" }) {
-                            Icon(painter = painterResource(R.drawable.ic_close), contentDescription = "delete")
+                    },
+                    trailingIcon = {
+                        if (!active) {
+                            AsyncImage(
+                                model = profilePictureUrl,
+                                contentDescription = "profile",
+                                placeholder = painterResource(R.drawable.ic_round_account_circle_24),
+                                error = painterResource(R.drawable.ic_round_account_circle_24),
+                                modifier = Modifier
+                                    .padding(horizontal = 16.dp)
+                                    .clip(RoundedCornerShape(100))
+                                    .size(32.dp)
+                                    .clickable { navController.navigate(PROFILE_DESTINATION) }
+                            )
+                        } else if (query.isNotEmpty()) {
+                            IconButton(onClick = { query = "" }) {
+                                Icon(painter = painterResource(R.drawable.ic_close), contentDescription = "delete")
+                            }
                         }
                     }
-                }
-            ) {
-                SearchView(
-                    query = query,
-                    performSearch = performSearch,
-                    navController = navController
-                )
-            }//:SearchBar
-        }
+                ) {
+                    SearchView(
+                        query = query,
+                        performSearch = performSearch,
+                        navController = navController
+                    )
+                }//:SearchBar
+            },
+            colors = TopAppBarDefaults.topAppBarColors(
+                scrolledContainerColor = MaterialTheme.colorScheme.background
+            ),
+            scrollBehavior = scrollBehavior
+        )
     }
 }
 
