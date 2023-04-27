@@ -47,7 +47,9 @@ import com.axiel7.moelist.uicompose.calendar.CALENDAR_DESTINATION
 import com.axiel7.moelist.uicompose.composables.MEDIA_ITEM_VERTICAL_HEIGHT
 import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_SMALL_HEIGHT
 import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_SMALL_WIDTH
+import com.axiel7.moelist.uicompose.composables.MediaItemDetailedPlaceholder
 import com.axiel7.moelist.uicompose.composables.MediaItemVertical
+import com.axiel7.moelist.uicompose.composables.MediaItemVerticalPlaceholder
 import com.axiel7.moelist.uicompose.composables.MediaPoster
 import com.axiel7.moelist.uicompose.season.SEASON_CHART_DESTINATION
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
@@ -122,12 +124,24 @@ fun HomeView(
         LazyRow(
             modifier = Modifier
                 .padding(vertical = 8.dp)
-                .height(MEDIA_POSTER_SMALL_HEIGHT.dp)
+                .height(MEDIA_POSTER_SMALL_HEIGHT.dp),
+            contentPadding = PaddingValues(horizontal = 8.dp)
         ) {
-            items(viewModel.todayAnimes, key = { it.node.id }) {
-                AiringAnimeHorizontalItem(it, onClick = {
-                    navController.navigate("details/ANIME/${it.node.id}")
-                })
+            if (viewModel.isLoading) {
+                items(5) {
+                    MediaItemDetailedPlaceholder()
+                }
+            }
+            else items(viewModel.todayAnimes,
+                key = { it.node.id },
+                contentType = { it.node }
+            ) {
+                AiringAnimeHorizontalItem(
+                    item = it,
+                    onClick = {
+                        navController.navigate("details/ANIME/${it.node.id}")
+                    }
+                )
             }
         }
 
@@ -139,13 +153,22 @@ fun HomeView(
         LazyRow(
             modifier = Modifier
                 .padding(top = 12.dp)
-                .height(MEDIA_ITEM_VERTICAL_HEIGHT.dp)
+                .height(MEDIA_ITEM_VERTICAL_HEIGHT.dp),
+            contentPadding = PaddingValues(horizontal = 8.dp)
         ) {
-            items(viewModel.seasonAnimes, key = { it.node.id }) {
+            if (viewModel.isLoading) {
+                items(10) {
+                    MediaItemVerticalPlaceholder()
+                }
+            }
+            else items(viewModel.seasonAnimes,
+                key = { it.node.id },
+                contentType = { it.node }
+            ) {
                 MediaItemVertical(
                     url = it.node.mainPicture?.large,
                     title = it.node.title,
-                    modifier = Modifier.padding(start = 8.dp),
+                    modifier = Modifier.padding(end = 8.dp),
                     onClick = { navController.navigate("details/ANIME/${it.node.id}") }
                 )
             }
@@ -156,13 +179,22 @@ fun HomeView(
         LazyRow(
             modifier = Modifier
                 .padding(vertical = 12.dp)
-                .height(MEDIA_ITEM_VERTICAL_HEIGHT.dp)
+                .height(MEDIA_ITEM_VERTICAL_HEIGHT.dp),
+            contentPadding = PaddingValues(horizontal = 8.dp)
         ) {
-            items(viewModel.recommendedAnimes, key = { it.node.id }) {
+            if (viewModel.isLoading) {
+                items(10) {
+                    MediaItemVerticalPlaceholder()
+                }
+            }
+            else items(viewModel.recommendedAnimes,
+                key = { it.node.id },
+                contentType = { it.node }
+            ) {
                 MediaItemVertical(
                     url = it.node.mainPicture?.large,
                     title = it.node.title,
-                    modifier = Modifier.padding(start = 8.dp),
+                    modifier = Modifier.padding(end = 8.dp),
                     onClick = { navController.navigate("details/ANIME/${it.node.id}") }
                 )
             }
@@ -224,7 +256,7 @@ fun HeaderHorizontalList(text: String, onClick: () -> Unit) {
 fun AiringAnimeHorizontalItem(item: AnimeSeasonal, onClick: () -> Unit) {
     Row(
         modifier = Modifier
-            .padding(start = 16.dp)
+            .padding(horizontal = 8.dp)
             .sizeIn(maxWidth = 300.dp, minWidth = 250.dp)
             .clip(RoundedCornerShape(8.dp))
             .clickable(onClick = onClick)

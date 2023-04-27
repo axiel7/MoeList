@@ -135,7 +135,7 @@ fun MediaItemDetailedPlaceholder() {
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
             Text(
-                text = "This is a placeholder text, the content is loading",
+                text = "This is a placeholder text",
                 modifier = Modifier.placeholder(
                     visible = true,
                     highlight = PlaceholderHighlight.fade()
