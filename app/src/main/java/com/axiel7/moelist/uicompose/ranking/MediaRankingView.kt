@@ -11,7 +11,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -48,6 +47,7 @@ import com.axiel7.moelist.data.model.media.totalDuration
 import com.axiel7.moelist.uicompose.base.TabRowItem
 import com.axiel7.moelist.uicompose.composables.DefaultTopAppBar
 import com.axiel7.moelist.uicompose.composables.MediaItemDetailed
+import com.axiel7.moelist.uicompose.composables.MediaItemDetailedPlaceholder
 import com.axiel7.moelist.uicompose.composables.OnBottomReached
 import com.axiel7.moelist.uicompose.composables.RoundedTabRowIndicator
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
@@ -146,11 +146,11 @@ fun MediaRankingListView(
         state = listState
     ) {
         if (viewModel.mediaList.isEmpty() && viewModel.isLoading) {
-            item {
-                CircularProgressIndicator(modifier = Modifier.padding(8.dp))
+            items(10) {
+                MediaItemDetailedPlaceholder()
             }
         }
-        items(
+        else items(
             viewModel.mediaList,
             key = { it.node.id },
             contentType = { it.node }

@@ -42,6 +42,7 @@ import com.axiel7.moelist.data.model.media.mediaFormatLocalized
 import com.axiel7.moelist.data.model.media.totalDuration
 import com.axiel7.moelist.uicompose.base.TabRowItem
 import com.axiel7.moelist.uicompose.composables.MediaItemDetailed
+import com.axiel7.moelist.uicompose.composables.MediaItemDetailedPlaceholder
 import com.axiel7.moelist.uicompose.composables.OnBottomReached
 import com.axiel7.moelist.uicompose.composables.RoundedTabRowIndicator
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
@@ -110,22 +111,20 @@ fun SearchResultList(
         modifier = Modifier.fillMaxHeight(),
         state = listState
     ) {
-        item {
-            if (viewModel.mediaList.isEmpty()) {
-                if (viewModel.isLoading)
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .size(24.dp)
-                    )
-                else if (query.isNotBlank() && performSearch.value)
+        if (viewModel.mediaList.isEmpty()) {
+            if (viewModel.isLoading)
+                items(10) {
+                    MediaItemDetailedPlaceholder()
+                }
+            else if (query.isNotBlank() && performSearch.value)
+                item {
                     Text(
                         text = stringResource(R.string.no_results),
                         modifier = Modifier.padding(16.dp)
                     )
-            }
+                }
         }
-        items(viewModel.mediaList,
+        else items(viewModel.mediaList,
             key = { it.node.id },
             contentType = { it.node }
         ) {
