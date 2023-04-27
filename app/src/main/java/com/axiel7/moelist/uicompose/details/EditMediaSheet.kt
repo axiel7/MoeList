@@ -7,7 +7,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -19,6 +18,7 @@ import com.axiel7.moelist.data.model.manga.MangaNode
 import com.axiel7.moelist.data.model.media.*
 import com.axiel7.moelist.uicompose.base.BaseMediaViewModel
 import com.axiel7.moelist.uicompose.composables.ClickableOutlinedTextField
+import com.axiel7.moelist.uicompose.composables.SelectableIconToggleButton
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.DateUtils
@@ -88,9 +88,11 @@ fun EditMediaSheet(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 statusValues.forEach { status ->
-                    StatusItem(
-                        status = status,
-                        selectedStatus = viewModel.status,
+                    SelectableIconToggleButton(
+                        icon = status.icon(),
+                        tooltipText = status.localized(),
+                        value = status,
+                        selectedValue = viewModel.status,
                         onClick = {
                             viewModel.status = status
                             if (isNewEntry && status.isCurrent()) {
@@ -325,32 +327,6 @@ fun EditMediaProgressRow(
             modifier = Modifier.weight(1f)
         ) {
             Text(text = stringResource(R.string.plus_one))
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun StatusItem(
-    status: ListStatus,
-    selectedStatus: ListStatus?,
-    onClick: () -> Unit
-) {
-    val tooltipState = remember { PlainTooltipState() }
-    val scope = rememberCoroutineScope()
-
-    PlainTooltipBox(
-        tooltip = { Text(status.localized()) },
-        tooltipState = tooltipState
-    ) {
-        FilledIconToggleButton(
-            checked = status == selectedStatus,
-            onCheckedChange = {
-                scope.launch { tooltipState.show() }
-                onClick()
-            }
-        ) {
-            Icon(painter = painterResource(status.icon()), contentDescription = "")
         }
     }
 }

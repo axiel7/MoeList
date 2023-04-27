@@ -62,6 +62,8 @@ import com.axiel7.moelist.uicompose.profile.ProfileView
 import com.axiel7.moelist.uicompose.ranking.MEDIA_RANKING_DESTINATION
 import com.axiel7.moelist.uicompose.ranking.MediaRankingView
 import com.axiel7.moelist.uicompose.search.SearchView
+import com.axiel7.moelist.uicompose.season.SEASON_CHART_DESTINATION
+import com.axiel7.moelist.uicompose.season.SeasonChartView
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.uicompose.userlist.ANIME_LIST_DESTINATION
 import com.axiel7.moelist.uicompose.userlist.MANGA_LIST_DESTINATION
@@ -180,6 +182,8 @@ fun MainView(
             }
 
             composable(CALENDAR_DESTINATION) { CalendarView(navController = navController) }
+
+            composable(SEASON_CHART_DESTINATION) { SeasonChartView(navController = navController) }
 
             composable(ANIME_LIST_DESTINATION) {
                 UserMediaListHostView(

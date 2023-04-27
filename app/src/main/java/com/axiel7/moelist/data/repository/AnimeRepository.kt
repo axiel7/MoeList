@@ -17,6 +17,7 @@ object AnimeRepository {
 
     const val TODAY_FIELDS = "broadcast,mean,start_season,status"
     const val CALENDAR_FIELDS = "broadcast,mean,start_season,status,media_type,num_episodes"
+    const val SEASONAL_FIELDS = "start_season,broadcast,num_episodes,media_type,mean"
 
     suspend fun getSeasonalAnimes(
         apiParams: ApiParams,

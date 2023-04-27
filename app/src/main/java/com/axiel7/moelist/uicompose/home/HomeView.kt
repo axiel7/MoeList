@@ -42,11 +42,14 @@ import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.anime.airingInValue
+import com.axiel7.moelist.data.model.anime.icon
+import com.axiel7.moelist.uicompose.calendar.CALENDAR_DESTINATION
 import com.axiel7.moelist.uicompose.composables.MEDIA_ITEM_VERTICAL_HEIGHT
 import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_SMALL_HEIGHT
 import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_SMALL_WIDTH
 import com.axiel7.moelist.uicompose.composables.MediaItemVertical
 import com.axiel7.moelist.uicompose.composables.MediaPoster
+import com.axiel7.moelist.uicompose.season.SEASON_CHART_DESTINATION
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.SeasonCalendar
 
@@ -92,15 +95,17 @@ fun HomeView(
                     text = stringResource(R.string.calendar),
                     icon = R.drawable.ic_round_event_24,
                     onClick = {
-                        navController.navigate("calendar")
+                        navController.navigate(CALENDAR_DESTINATION)
                     },
                 )
             }
             item {
                 HomeCard(
                     text = stringResource(R.string.seasonal_chart),
-                    icon = SeasonCalendar.seasonIcon,
-                    onClick = { },
+                    icon = SeasonCalendar.currentSeason.icon(),
+                    onClick = {
+                        navController.navigate(SEASON_CHART_DESTINATION)
+                    },
                 )
             }
             item {
@@ -127,7 +132,10 @@ fun HomeView(
         }
 
         // This Season
-        HeaderHorizontalList(stringResource(R.string.this_season), onClick = { })
+        HeaderHorizontalList(
+            text = stringResource(R.string.this_season),
+            onClick = { navController.navigate(SEASON_CHART_DESTINATION) }
+        )
         LazyRow(
             modifier = Modifier
                 .padding(top = 12.dp)

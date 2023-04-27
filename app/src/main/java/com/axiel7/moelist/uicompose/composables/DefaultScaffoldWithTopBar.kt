@@ -8,16 +8,14 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
-import com.axiel7.moelist.R
-import com.axiel7.moelist.data.model.media.MediaType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DefaultScaffoldWithTopBar(
     title: String,
     navController: NavController,
+    floatingActionButton: @Composable (() -> Unit) = {},
     content: @Composable (PaddingValues) -> Unit
 ) {
     val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
@@ -32,6 +30,7 @@ fun DefaultScaffoldWithTopBar(
                 navController = navController
             )
         },
+        floatingActionButton = floatingActionButton,
         content = content
     )
 }

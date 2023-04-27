@@ -1,6 +1,5 @@
 package com.axiel7.moelist.utils
 
-import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.Season
 import com.axiel7.moelist.data.model.anime.StartSeason
 import com.axiel7.moelist.data.model.media.WeekDay
@@ -54,12 +53,5 @@ object SeasonCalendar {
         7 -> WeekDay.SATURDAY
         1 -> WeekDay.SUNDAY
         else -> WeekDay.MONDAY
-    }
-
-    val seasonIcon = when (currentSeason) {
-        Season.WINTER -> R.drawable.ic_winter_24
-        Season.SPRING -> R.drawable.ic_spring_24
-        Season.SUMMER -> R.drawable.ic_summer_24
-        Season.FALL -> R.drawable.ic_fall_24
     }
 }

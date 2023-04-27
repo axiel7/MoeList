@@ -96,18 +96,6 @@ fun AnimeDetails.sourceLocalized() = when (this.source) {
 }
 
 @Composable
-fun StartSeason?.seasonYearText() = buildString {
-    if (this@seasonYearText?.season != null) {
-        append(season.seasonLocalized())
-        append(" ")
-    }
-    if (this@seasonYearText?.year != null) {
-        append(year)
-    }
-    else append(stringResource(R.string.unknown))
-}
-
-@Composable
 fun AnimeDetails.broadcastTimeText() = buildString {
     if (broadcast?.dayOfTheWeek != null) {
         append(broadcast.dayOfTheWeek.localized())

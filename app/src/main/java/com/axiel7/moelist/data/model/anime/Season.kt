@@ -19,9 +19,16 @@ enum class Season(val value: String) {
 }
 
 @Composable
-fun Season.seasonLocalized() = when (this) {
+fun Season.localized() = when (this) {
     Season.WINTER -> stringResource(R.string.winter)
     Season.SPRING -> stringResource(R.string.spring)
     Season.SUMMER -> stringResource(R.string.summer)
     Season.FALL -> stringResource(R.string.fall)
+}
+
+fun Season.icon() = when (this) {
+    Season.WINTER -> R.drawable.ic_winter_24
+    Season.SPRING -> R.drawable.ic_spring_24
+    Season.SUMMER -> R.drawable.ic_summer_24
+    Season.FALL -> R.drawable.ic_fall_24
 }
