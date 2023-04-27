@@ -13,20 +13,18 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -38,6 +36,7 @@ import com.axiel7.moelist.App
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.uicompose.base.BottomDestination
 import com.axiel7.moelist.uicompose.base.StringArrayNavType
 import com.axiel7.moelist.uicompose.calendar.CALENDAR_DESTINATION
 import com.axiel7.moelist.uicompose.calendar.CalendarView
@@ -79,7 +78,6 @@ import com.axiel7.moelist.utils.PreferencesDataStore.THEME_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.defaultPreferencesDataStore
 import com.axiel7.moelist.utils.PreferencesDataStore.getValueSync
 import com.axiel7.moelist.utils.PreferencesDataStore.rememberPreference
-import kotlinx.coroutines.flow.collectLatest
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -129,9 +127,7 @@ fun MainView(
     lastTabOpened: Int
 ) {
     val navController = rememberNavController()
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val bottomBarState = rememberSaveable { (mutableStateOf(true)) }
-    val topBarState = rememberSaveable { (mutableStateOf(true)) }
+    val bottomBarState = remember { mutableStateOf(true) }
     val stringArrayType = remember { StringArrayNavType() }
 
     val homeViewModel: HomeViewModel = viewModel()
@@ -139,7 +135,6 @@ fun MainView(
     com.google.accompanist.insets.ui.Scaffold(
         topBar = {
             MainTopAppBar(
-                topBarState = topBarState,
                 bottomBarState = bottomBarState,
                 navController = navController
             )
@@ -244,37 +239,31 @@ fun MainView(
             }
         }
     }
-
-    LaunchedEffect(navBackStackEntry) {
-        snapshotFlow { navBackStackEntry?.destination }.collectLatest {
-            when (it?.route) {
-                HOME_DESTINATION, ANIME_LIST_DESTINATION, MANGA_LIST_DESTINATION, MORE_DESTINATION -> {
-                    topBarState.value = true
-                    bottomBarState.value = true
-                }
-                else -> {
-                    topBarState.value = false
-                    bottomBarState.value = false
-                }
-            }
-        }
-    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainTopAppBar(
-    topBarState: State<Boolean>,
     bottomBarState: MutableState<Boolean>,
     navController: NavController
 ) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val isVisible by remember {
+        derivedStateOf {
+            when (navBackStackEntry?.destination?.route) {
+                HOME_DESTINATION, ANIME_LIST_DESTINATION, MANGA_LIST_DESTINATION, MORE_DESTINATION,
+                null -> true
+                else -> false
+            }
+        }
+    }
     var query by remember { mutableStateOf("") }
     val performSearch = remember { mutableStateOf(false) }
     var active by remember { mutableStateOf(false) }
     val profilePictureUrl by rememberPreference(PROFILE_PICTURE_PREFERENCE_KEY, "")
 
     AnimatedVisibility(
-        visible = topBarState.value,
+        visible = isVisible,
         enter = slideInVertically(initialOffsetY = { -it }),
         exit = slideOutVertically(targetOffsetY = { -it })
     ) {
@@ -349,59 +338,54 @@ fun MainTopAppBar(
     }
 }
 
+private val bottomDestinations = listOf(
+    BottomDestination.Home,
+    BottomDestination.AnimeList,
+    BottomDestination.MangaList,
+    BottomDestination.More
+)
+
 @Composable
 fun BottomNavBar(
     navController: NavController,
     bottomBarState: State<Boolean>,
     lastTabOpened: Int
 ) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val isVisible by remember {
+        derivedStateOf {
+            when (navBackStackEntry?.destination?.route) {
+                HOME_DESTINATION, ANIME_LIST_DESTINATION, MANGA_LIST_DESTINATION, MORE_DESTINATION,
+                null -> bottomBarState.value
+                else -> false
+            }
+        }
+    }
     var selectedItem by rememberPreference(LAST_TAB_PREFERENCE_KEY, lastTabOpened)
     
     AnimatedVisibility(
-        visible = bottomBarState.value,
+        visible = isVisible,
         enter = slideInVertically(initialOffsetY = { it }),
         exit = slideOutVertically(targetOffsetY = { it })
     ) {
         NavigationBar {
-            NavigationBarItem(
-                icon = { Icon(imageVector = ImageVector.vectorResource(R.drawable.ic_outline_home_24), contentDescription = stringResource(id = R.string.title_home)) },
-                label = { Text(stringResource(id = R.string.title_home)) },
-                selected = selectedItem == 0,
-                onClick = {
-                    selectedItem = 0
-                    navController.navigate(HOME_DESTINATION) { launchSingleTop = true }
-                }
-            )
-
-            NavigationBarItem(
-                icon = { Icon(imageVector = ImageVector.vectorResource(R.drawable.ic_outline_local_movies_24), contentDescription = stringResource(id = R.string.title_anime_list)) },
-                label = { Text(stringResource(id = R.string.title_anime_list)) },
-                selected = selectedItem == 1,
-                onClick = {
-                    selectedItem = 1
-                    navController.navigate(ANIME_LIST_DESTINATION) { launchSingleTop = true }
-                }
-            )
-
-            NavigationBarItem(
-                icon = { Icon(imageVector = ImageVector.vectorResource(R.drawable.ic_outline_book_24), contentDescription = stringResource(id = R.string.title_manga_list)) },
-                label = { Text(stringResource(id = R.string.title_manga_list)) },
-                selected = selectedItem == 2,
-                onClick = {
-                    selectedItem = 2
-                    navController.navigate(MANGA_LIST_DESTINATION) { launchSingleTop = true }
-                }
-            )
-
-            NavigationBarItem(
-                icon = { Icon(imageVector = ImageVector.vectorResource(R.drawable.ic_more_horizontal), contentDescription = stringResource(id = R.string.more)) },
-                label = { Text(stringResource(id = R.string.more)) },
-                selected = selectedItem == 3,
-                onClick = {
-                    selectedItem = 3
-                    navController.navigate(MORE_DESTINATION) { launchSingleTop = true }
-                }
-            )
+            bottomDestinations.forEachIndexed { index, dest ->
+                NavigationBarItem(
+                    icon = { Icon(painter = painterResource(dest.icon), contentDescription = stringResource(dest.title)) },
+                    label = { Text(text = stringResource(dest.title)) },
+                    selected = selectedItem == index,
+                    onClick = {
+                        selectedItem = index
+                        navController.navigate(dest.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    }
+                )
+            }
         }
     }
 }
