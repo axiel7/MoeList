@@ -130,8 +130,6 @@ fun MainView(
     val bottomBarState = remember { mutableStateOf(true) }
     val stringArrayType = remember { StringArrayNavType() }
 
-    val homeViewModel: HomeViewModel = viewModel()
-
     com.google.accompanist.insets.ui.Scaffold(
         topBar = {
             MainTopAppBar(
@@ -162,7 +160,6 @@ fun MainView(
         ) {
             composable(HOME_DESTINATION) {
                 HomeView(
-                    viewModel = homeViewModel,
                     navController = navController
                 )
             }
