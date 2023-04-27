@@ -45,6 +45,7 @@ import com.axiel7.moelist.data.model.media.rankingAnimeValues
 import com.axiel7.moelist.data.model.media.rankingMangaValues
 import com.axiel7.moelist.data.model.media.totalDuration
 import com.axiel7.moelist.uicompose.base.TabRowItem
+import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopBar
 import com.axiel7.moelist.uicompose.composables.DefaultTopAppBar
 import com.axiel7.moelist.uicompose.composables.MediaItemDetailed
 import com.axiel7.moelist.uicompose.composables.MediaItemDetailedPlaceholder
@@ -57,15 +58,12 @@ import kotlinx.coroutines.launch
 
 const val MEDIA_RANKING_DESTINATION = "ranking/{mediaType}"
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MediaRankingView(
     mediaType: MediaType,
     navController: NavController
 ) {
-    val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        rememberTopAppBarState()
-    )
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
     val tabRowItems = remember {
@@ -75,18 +73,12 @@ fun MediaRankingView(
             }
     }
 
-    Scaffold(
-        modifier = Modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
-        topBar = {
-            DefaultTopAppBar(
-                title = stringResource(
-                    if (mediaType == MediaType.ANIME) R.string.anime_ranking
-                    else R.string.manga_ranking
-                ),
-                scrollBehavior = topAppBarScrollBehavior,
-                navController = navController
-            )
-        }
+    DefaultScaffoldWithTopBar(
+        title = stringResource(
+            if (mediaType == MediaType.ANIME) R.string.anime_ranking
+            else R.string.manga_ranking
+        ),
+        navController = navController,
     ) { padding ->
         Column(
             modifier = Modifier

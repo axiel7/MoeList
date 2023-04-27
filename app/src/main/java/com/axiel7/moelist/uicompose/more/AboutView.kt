@@ -17,6 +17,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.BuildConfig
 import com.axiel7.moelist.R
+import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopBar
 import com.axiel7.moelist.uicompose.composables.DefaultTopAppBar
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants.DISCORD_SERVER_URL
@@ -26,20 +27,16 @@ import com.axiel7.moelist.utils.ContextExtensions.showToast
 
 const val ABOUT_DESTINATION = "about"
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutView(
     navController: NavController
 ) {
     val context = LocalContext.current
     var versionClicks by remember { mutableStateOf(0) }
-    Scaffold(
-        topBar = {
-            DefaultTopAppBar(
-                title = stringResource(R.string.about),
-                navController = navController
-            )
-        }
+
+    DefaultScaffoldWithTopBar(
+        title = stringResource(R.string.about),
+        navController = navController
     ) {
         Column(
             modifier = Modifier.padding(it)

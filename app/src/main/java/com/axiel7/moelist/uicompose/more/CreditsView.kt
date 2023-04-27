@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
+import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopBar
 import com.axiel7.moelist.uicompose.composables.DefaultTopAppBar
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants.GENERAL_HELP_CREDIT_URL
@@ -41,25 +42,16 @@ val translationsCredits = mapOf(
     R.string.spanish to "@axiel7",
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreditsView(
     navController: NavController
 ) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()
-    val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        rememberTopAppBarState()
-    )
-    Scaffold(
-        modifier = Modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
-        topBar = {
-            DefaultTopAppBar(
-                title = stringResource(R.string.credits),
-                scrollBehavior = topAppBarScrollBehavior,
-                navController = navController
-            )
-        }
+
+    DefaultScaffoldWithTopBar(
+        title = stringResource(R.string.credits),
+        navController = navController
     ) {
         Column(
             modifier = Modifier

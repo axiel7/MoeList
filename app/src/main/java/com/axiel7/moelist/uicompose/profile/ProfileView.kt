@@ -1,6 +1,5 @@
 package com.axiel7.moelist.uicompose.profile
 
-import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,9 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -32,7 +29,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.axiel7.moelist.R
-import com.axiel7.moelist.uicompose.composables.DefaultTopAppBar
+import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopBar
 import com.axiel7.moelist.uicompose.composables.HorizontalStatsBar
 import com.axiel7.moelist.uicompose.composables.TextIconHorizontal
 import com.axiel7.moelist.uicompose.composables.TextIconVertical
@@ -43,23 +40,19 @@ import com.axiel7.moelist.utils.DateUtils.toISOformat
 import com.axiel7.moelist.utils.NumExtensions.toStringOrZero
 import com.axiel7.moelist.utils.StringExtensions.toNavArgument
 import com.google.accompanist.placeholder.material.placeholder
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import java.time.format.DateTimeFormatter
 
 const val PROFILE_DESTINATION = "profile"
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileView(navController: NavController) {
 
     val context = LocalContext.current
     val viewModel: ProfileViewModel = viewModel()
 
-    Scaffold(
-        topBar = {
-            DefaultTopAppBar(title = stringResource(R.string.title_profile), navController = navController)
-        }
+    DefaultScaffoldWithTopBar(
+        title = stringResource(R.string.title_profile),
+        navController = navController
     ) {
         Column(
             modifier = Modifier.padding(it),

@@ -35,6 +35,7 @@ import com.axiel7.moelist.data.model.media.durationText
 import com.axiel7.moelist.data.model.media.localized
 import com.axiel7.moelist.data.model.media.mediaFormatLocalized
 import com.axiel7.moelist.data.model.media.totalDuration
+import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopBar
 import com.axiel7.moelist.uicompose.composables.DefaultTopAppBar
 import com.axiel7.moelist.uicompose.composables.MediaItemDetailed
 import com.axiel7.moelist.uicompose.composables.MediaItemDetailedPlaceholder
@@ -46,26 +47,18 @@ import kotlinx.coroutines.launch
 
 const val CALENDAR_DESTINATION = "calendar"
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CalendarView(
     navController: NavController
 ) {
     val viewModel: CalendarViewModel = viewModel()
-    val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        rememberTopAppBarState()
-    )
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
     
-    Scaffold(
-        modifier = Modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
-        topBar = {
-            DefaultTopAppBar(
-                title = stringResource(R.string.calendar),
-                navController = navController 
-            )
-        }
+    DefaultScaffoldWithTopBar(
+        title = stringResource(R.string.calendar),
+        navController = navController
     ) {
         Column(
             modifier = Modifier.padding(it)
