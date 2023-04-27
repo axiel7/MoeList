@@ -371,7 +371,10 @@ fun BottomNavBar(
         NavigationBar {
             bottomDestinations.forEachIndexed { index, dest ->
                 NavigationBarItem(
-                    icon = { Icon(painter = painterResource(dest.icon), contentDescription = stringResource(dest.title)) },
+                    icon = { Icon(
+                        painter = painterResource(if (selectedItem == index) dest.iconSelected else dest.icon),
+                        contentDescription = stringResource(dest.title))
+                    },
                     label = { Text(text = stringResource(dest.title)) },
                     selected = selectedItem == index,
                     onClick = {
