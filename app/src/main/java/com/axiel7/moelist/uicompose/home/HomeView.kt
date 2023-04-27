@@ -43,6 +43,7 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.anime.airingInValue
 import com.axiel7.moelist.data.model.anime.icon
+import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.uicompose.calendar.CALENDAR_DESTINATION
 import com.axiel7.moelist.uicompose.composables.MEDIA_ITEM_VERTICAL_HEIGHT
 import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_SMALL_HEIGHT
@@ -55,6 +56,7 @@ import com.axiel7.moelist.uicompose.composables.SmallScoreIndicator
 import com.axiel7.moelist.uicompose.season.SEASON_CHART_DESTINATION
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.SeasonCalendar
+import kotlin.random.Random
 
 const val HOME_DESTINATION = "home"
 
@@ -115,7 +117,12 @@ fun HomeView(
                 HomeCard(
                     text = stringResource(R.string.random),
                     icon = R.drawable.ic_round_casino_24,
-                    onClick = { }
+                    onClick = {
+                        val type = if (Random.nextBoolean()) MediaType.ANIME.value
+                        else MediaType.MANGA.value
+                        val id = Random.nextInt(from = 0, until = 6000)
+                        navController.navigate("details/$type/$id")
+                    }
                 )
             }
         }
