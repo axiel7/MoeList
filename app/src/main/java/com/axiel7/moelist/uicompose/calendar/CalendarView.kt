@@ -34,6 +34,7 @@ import com.axiel7.moelist.data.model.media.WeekDay
 import com.axiel7.moelist.data.model.media.durationText
 import com.axiel7.moelist.data.model.media.localized
 import com.axiel7.moelist.data.model.media.mediaFormatLocalized
+import com.axiel7.moelist.data.model.media.numeric
 import com.axiel7.moelist.data.model.media.totalDuration
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopBar
 import com.axiel7.moelist.uicompose.composables.DefaultTopAppBar
@@ -42,10 +43,11 @@ import com.axiel7.moelist.uicompose.composables.MediaItemDetailedPlaceholder
 import com.axiel7.moelist.uicompose.composables.RoundedTabRowIndicator
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
+import com.axiel7.moelist.utils.SeasonCalendar
 import com.axiel7.moelist.utils.StringExtensions.toStringOrNull
 import kotlinx.coroutines.launch
 
-const val CALENDAR_DESTINATION = "calendar"
+const val CALENDAR_DESTINATION = "calendar/{day}"
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -53,7 +55,7 @@ fun CalendarView(
     navController: NavController
 ) {
     val viewModel: CalendarViewModel = viewModel()
-    val pagerState = rememberPagerState()
+    val pagerState = rememberPagerState(initialPage = SeasonCalendar.currentWeekday.numeric() - 1)
     val coroutineScope = rememberCoroutineScope()
     
     DefaultScaffoldWithTopBar(

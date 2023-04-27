@@ -121,7 +121,10 @@ fun HomeView(
         }
 
         // Airing
-        HeaderHorizontalList(stringResource(R.string.today), onClick = { })
+        HeaderHorizontalList(
+            text = stringResource(R.string.today),
+            onClick = { navController.navigate(CALENDAR_DESTINATION) }
+        )
         LazyRow(
             modifier = Modifier
                 .padding(top = 8.dp)
