@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SuggestionChip
+import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -30,6 +32,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopBar
+import com.axiel7.moelist.uicompose.composables.DonutChart
 import com.axiel7.moelist.uicompose.composables.HorizontalStatsBar
 import com.axiel7.moelist.uicompose.composables.TextIconHorizontal
 import com.axiel7.moelist.uicompose.composables.TextIconVertical
@@ -53,9 +56,9 @@ fun ProfileView(navController: NavController) {
     DefaultScaffoldWithTopBar(
         title = stringResource(R.string.title_profile),
         navController = navController
-    ) {
+    ) { padding ->
         Column(
-            modifier = Modifier.padding(it),
+            modifier = Modifier.padding(padding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(
@@ -130,9 +133,34 @@ fun ProfileView(navController: NavController) {
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
             )
-            HorizontalStatsBar(
-                stats = viewModel.animeStats
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                DonutChart(
+                    stats = viewModel.animeStats,
+                    centerContent = {
+                        Text(text = stringResource(R.string.total_entries)
+                            .format(viewModel.animeStats.sumOf { it.value.toInt() })
+                        )
+                    }
+                )
+
+                Column {
+                    viewModel.animeStats.forEach {
+                        SuggestionChip(
+                            onClick = { },
+                            label = { Text(text = stringResource(it.title)) },
+                            modifier = Modifier.padding(horizontal = 8.dp),
+                            icon = { Text(text = String.format("%.0f", it.value)) },
+                            border = SuggestionChipDefaults.suggestionChipBorder(
+                                borderColor = it.color
+                            )
+                        )
+                    }
+                }
+            }
 
             Row(
                 modifier = Modifier

@@ -26,12 +26,12 @@ class ProfileViewModel : BaseViewModel() {
     }
 
     var user by mutableStateOf<User?>(null)
-    var animeStats = mutableStateOf(listOf(
-        Stat(title = R.string.watching, value = 0.0, color = Color(red = 0, green = 200, blue = 83)),
-        Stat(title = R.string.completed, value = 0.0, color = Color(red = 92, green = 107, blue = 192)),
-        Stat(title = R.string.on_hold, value = 0.0, color = Color(red = 255, green = 213, blue = 0)),
-        Stat(title = R.string.dropped, value = 0.0, color = Color(red = 213, green = 0, blue = 0)),
-        Stat(title = R.string.ptw, value = 0.0, color = Color(red = 158, green = 158, blue = 158)),
+    var animeStats by mutableStateOf(listOf(
+        Stat(title = R.string.watching, value = 0f, color = Color(red = 0, green = 200, blue = 83)),
+        Stat(title = R.string.completed, value = 0f, color = Color(red = 92, green = 107, blue = 192)),
+        Stat(title = R.string.on_hold, value = 0f, color = Color(red = 255, green = 213, blue = 0)),
+        Stat(title = R.string.dropped, value = 0f, color = Color(red = 213, green = 0, blue = 0)),
+        Stat(title = R.string.ptw, value = 0f, color = Color(red = 158, green = 158, blue = 158)),
     ))
     var profilePictureUrl by mutableStateOf<String?>(null)
 
@@ -42,12 +42,12 @@ class ProfileViewModel : BaseViewModel() {
 
             user?.animeStatistics?.let { stats ->
                 val tempStatList = mutableListOf<Stat>()
-                tempStatList.add(animeStats.value[0].copy(value = stats.numItemsWatching?.toDouble() ?: 0.0))
-                tempStatList.add(animeStats.value[1].copy(value = stats.numItemsCompleted?.toDouble() ?: 0.0))
-                tempStatList.add(animeStats.value[2].copy(value = stats.numItemsOnHold?.toDouble() ?: 0.0))
-                tempStatList.add(animeStats.value[3].copy(value = stats.numItemsDropped?.toDouble() ?: 0.0))
-                tempStatList.add(animeStats.value[4].copy(value = stats.numItemsPlanToWatch?.toDouble() ?: 0.0))
-                animeStats.value = tempStatList
+                tempStatList.add(animeStats[0].copy(value = stats.numItemsWatching?.toFloat() ?: 0f))
+                tempStatList.add(animeStats[1].copy(value = stats.numItemsCompleted?.toFloat() ?: 0f))
+                tempStatList.add(animeStats[2].copy(value = stats.numItemsOnHold?.toFloat() ?: 0f))
+                tempStatList.add(animeStats[3].copy(value = stats.numItemsDropped?.toFloat() ?: 0f))
+                tempStatList.add(animeStats[4].copy(value = stats.numItemsPlanToWatch?.toFloat() ?: 0f))
+                animeStats = tempStatList
             }
             if (user?.picture != null && user?.picture != profilePictureUrl) {
                 App.dataStore?.edit {

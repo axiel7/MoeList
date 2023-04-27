@@ -5,6 +5,6 @@ import androidx.compose.ui.graphics.Color
 
 data class Stat(
     @StringRes val title: Int,
-    val value: Double,
+    val value: Float,
     val color: Color,
 )
