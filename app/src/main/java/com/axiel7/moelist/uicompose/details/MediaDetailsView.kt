@@ -55,10 +55,14 @@ fun MediaDetailsView(
 
     val scrollState = rememberScrollState()
     val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
-    var maxLinesSynopsis by remember { mutableStateOf(5) }
-    var iconExpand by remember { mutableStateOf(R.drawable.ic_round_keyboard_arrow_down_24) }
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
+
+    var maxLinesSynopsis by remember { mutableStateOf(5) }
+    var iconExpand by remember { mutableStateOf(R.drawable.ic_round_keyboard_arrow_down_24) }
+    val isNewEntry by remember {
+        derivedStateOf { viewModel.mediaDetails?.myListStatus == null }
+    }
 
     Scaffold(
         modifier = Modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
@@ -78,11 +82,12 @@ fun MediaDetailsView(
                 if (viewModel.mediaDetails != null) coroutineScope.launch { sheetState.show() }
             }) {
                 Icon(
-                    painter = painterResource(R.drawable.ic_round_edit_24),
+                    painter = painterResource(if (isNewEntry) R.drawable.ic_round_add_24
+                            else R.drawable.ic_round_edit_24),
                     contentDescription = "edit"
                 )
                 Text(
-                    text = stringResource(R.string.edit),
+                    text = stringResource(if (isNewEntry) R.string.add else R.string.edit),
                     modifier = Modifier.padding(start = 16.dp, end = 8.dp)
                 )
             }
