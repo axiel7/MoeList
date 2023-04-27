@@ -51,6 +51,7 @@ import com.axiel7.moelist.uicompose.composables.MediaItemDetailedPlaceholder
 import com.axiel7.moelist.uicompose.composables.MediaItemVertical
 import com.axiel7.moelist.uicompose.composables.MediaItemVerticalPlaceholder
 import com.axiel7.moelist.uicompose.composables.MediaPoster
+import com.axiel7.moelist.uicompose.composables.SmallScoreIndicator
 import com.axiel7.moelist.uicompose.season.SEASON_CHART_DESTINATION
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.SeasonCalendar
@@ -123,8 +124,8 @@ fun HomeView(
         HeaderHorizontalList(stringResource(R.string.today), onClick = { })
         LazyRow(
             modifier = Modifier
-                .padding(vertical = 8.dp)
-                .height(MEDIA_POSTER_SMALL_HEIGHT.dp),
+                .padding(top = 8.dp)
+                .sizeIn(minHeight = MEDIA_POSTER_SMALL_HEIGHT.dp),
             contentPadding = PaddingValues(horizontal = 8.dp)
         ) {
             if (viewModel.isLoading) {
@@ -152,9 +153,9 @@ fun HomeView(
         )
         LazyRow(
             modifier = Modifier
-                .padding(top = 12.dp)
-                .height(MEDIA_ITEM_VERTICAL_HEIGHT.dp),
-            contentPadding = PaddingValues(horizontal = 8.dp)
+                .padding(top = 8.dp)
+                .sizeIn(minHeight = MEDIA_ITEM_VERTICAL_HEIGHT.dp),
+            contentPadding = PaddingValues(horizontal = 16.dp)
         ) {
             if (viewModel.isLoading) {
                 items(10) {
@@ -169,6 +170,12 @@ fun HomeView(
                     url = it.node.mainPicture?.large,
                     title = it.node.title,
                     modifier = Modifier.padding(end = 8.dp),
+                    subtitle = {
+                        SmallScoreIndicator(
+                            score = it.node.mean,
+                            fontSize = 13.sp
+                        )
+                    },
                     onClick = { navController.navigate("details/ANIME/${it.node.id}") }
                 )
             }
@@ -178,9 +185,9 @@ fun HomeView(
         HeaderHorizontalList(stringResource(R.string.recommendations), onClick = { })
         LazyRow(
             modifier = Modifier
-                .padding(vertical = 12.dp)
-                .height(MEDIA_ITEM_VERTICAL_HEIGHT.dp),
-            contentPadding = PaddingValues(horizontal = 8.dp)
+                .padding(vertical = 8.dp)
+                .sizeIn(minHeight = MEDIA_ITEM_VERTICAL_HEIGHT.dp),
+            contentPadding = PaddingValues(horizontal = 16.dp)
         ) {
             if (viewModel.isLoading) {
                 items(10) {
@@ -195,6 +202,12 @@ fun HomeView(
                     url = it.node.mainPicture?.large,
                     title = it.node.title,
                     modifier = Modifier.padding(end = 8.dp),
+                    subtitle = {
+                        SmallScoreIndicator(
+                            score = it.node.mean,
+                            fontSize = 13.sp
+                        )
+                    },
                     onClick = { navController.navigate("details/ANIME/${it.node.id}") }
                 )
             }
@@ -246,7 +259,7 @@ fun HeaderHorizontalList(text: String, onClick: () -> Unit) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            Text(text, fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
             Icon(imageVector = ImageVector.vectorResource(R.drawable.ic_round_arrow_forward_24), contentDescription = text)
         }
     }
@@ -278,10 +291,10 @@ fun AiringAnimeHorizontalItem(item: AnimeSeasonal, onClick: () -> Unit) {
             Text(
                 text = item.airingInValue(),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(bottom = 4.dp))
-            Text(
-                text = stringResource(R.string.score_value).format(item.node.mean ?: "??"),
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(bottom = 8.dp))
+
+            SmallScoreIndicator(
+                score = item.node.mean
             )
         }
     }

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -29,29 +30,42 @@ const val MEDIA_ITEM_VERTICAL_HEIGHT = 200
 fun MediaItemVertical(
     url: String?,
     title: String,
+    modifier: Modifier = Modifier,
+    subtitle: @Composable (() -> Unit)? = null,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
+            .width(MEDIA_POSTER_SMALL_WIDTH.dp)
+            .sizeIn(
+                minHeight = MEDIA_ITEM_VERTICAL_HEIGHT.dp
+            )
             .clip(RoundedCornerShape(8.dp))
-            .size(width = (MEDIA_POSTER_SMALL_WIDTH + 8).dp, height = MEDIA_ITEM_VERTICAL_HEIGHT.dp)
             .clickable(onClick = onClick),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.Start
     ) {
         MediaPoster(
             url = url,
-            modifier = Modifier.size(width = MEDIA_POSTER_SMALL_WIDTH.dp, height = MEDIA_POSTER_SMALL_HEIGHT.dp)
+            modifier = Modifier
+                .size(
+                    width = MEDIA_POSTER_SMALL_WIDTH.dp,
+                    height = MEDIA_POSTER_SMALL_HEIGHT.dp
+                )
         )
 
         Text(
             text = title,
-            modifier = Modifier.padding(top = 8.dp),
+            modifier = Modifier
+                .padding(top = 8.dp, bottom = 4.dp),
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontSize = 15.sp,
             overflow = TextOverflow.Ellipsis,
             maxLines = 2
         )
+
+        if (subtitle != null) {
+            subtitle()
+        }
     }
 }
 
@@ -102,6 +116,12 @@ fun MediaItemVerticalPreview() {
             MediaItemVertical(
                 url = null,
                 title = "This is a very large anime title that should serve as a preview example",
+                subtitle = {
+                    SmallScoreIndicator(
+                        score = 8.34f,
+                        fontSize = 13.sp
+                    )
+                },
                 onClick = {}
             )
         }
