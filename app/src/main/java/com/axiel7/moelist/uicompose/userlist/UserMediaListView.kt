@@ -123,7 +123,7 @@ fun UserMediaListView(
             .pullRefresh(pullRefreshState)
     ) {
         LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxSize(),
             state = listState,
             contentPadding = PaddingValues(vertical = 8.dp)
         ) {
@@ -314,7 +314,7 @@ fun MediaListSortDialog(
     )
 }
 
-@Preview(showSystemUi = true, showBackground = true)
+@Preview(showBackground = true)
 @Composable
 fun UserMediaListHostPreview() {
     MoeListTheme {
