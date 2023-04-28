@@ -38,7 +38,9 @@ import com.axiel7.moelist.uicompose.composables.TextIconVertical
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.ContextExtensions.openLink
-import com.axiel7.moelist.utils.DateUtils.toISOformat
+import com.axiel7.moelist.utils.DateUtils.deduceDateFormat
+import com.axiel7.moelist.utils.DateUtils.parseDate
+import com.axiel7.moelist.utils.DateUtils.toLocalized
 import com.axiel7.moelist.utils.NumExtensions.toStringOrZero
 import com.axiel7.moelist.utils.StringExtensions.toNavArgument
 import com.google.accompanist.placeholder.material.placeholder
@@ -103,7 +105,9 @@ fun ProfileView(navController: NavController) {
 
                     viewModel.user?.birthday?.let { birthday ->
                         TextIconHorizontal(
-                            text = birthday,
+                            text = birthday.parseDate(
+                                inputFormat = birthday.deduceDateFormat()
+                            ).toLocalized(),
                             icon = R.drawable.ic_round_cake_24,
                             modifier = Modifier.padding(bottom = 8.dp)
                         )
@@ -111,7 +115,7 @@ fun ProfileView(navController: NavController) {
 
                     TextIconHorizontal(
                         text = if (viewModel.user?.joinedAt != null)
-                            viewModel.user?.joinedAt!!.toISOformat(DateTimeFormatter.ISO_DATE_TIME)
+                            viewModel.user?.joinedAt!!.parseDate(DateTimeFormatter.ISO_DATE_TIME).toLocalized()
                         else "Loading...",
                         icon = R.drawable.ic_round_access_time_24,
                         modifier = Modifier

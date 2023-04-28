@@ -23,11 +23,10 @@ import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.DateUtils
 import com.axiel7.moelist.utils.DateUtils.toEpochMillis
+import com.axiel7.moelist.utils.DateUtils.toLocalized
 import com.axiel7.moelist.utils.StringExtensions.toStringOrEmpty
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -141,7 +140,7 @@ fun EditMediaSheet(
             Divider(modifier = Modifier.padding(vertical = 16.dp))
 
             ClickableOutlinedTextField(
-                value = viewModel.startDate?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)) ?: "",
+                value = viewModel.startDate.toLocalized(),
                 onValueChange = {  },
                 label = { Text(text = stringResource(R.string.start_date)) },
                 onClick = {
@@ -151,7 +150,7 @@ fun EditMediaSheet(
                 }
             )
             ClickableOutlinedTextField(
-                value = viewModel.endDate?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)) ?: "",
+                value = viewModel.endDate.toLocalized(),
                 onValueChange = {  },
                 modifier = Modifier.padding(vertical = 8.dp),
                 label = { Text(text = stringResource(R.string.end_date)) },

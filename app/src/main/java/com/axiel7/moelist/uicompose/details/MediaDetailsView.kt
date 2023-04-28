@@ -35,6 +35,9 @@ import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.ContextExtensions.openAction
 import com.axiel7.moelist.utils.ContextExtensions.openLink
+import com.axiel7.moelist.utils.DateUtils.deduceDateFormat
+import com.axiel7.moelist.utils.DateUtils.parseDate
+import com.axiel7.moelist.utils.DateUtils.toLocalized
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
 import com.axiel7.moelist.utils.StringExtensions.toNavArgument
 import com.axiel7.moelist.utils.UseCases.copyToClipBoard
@@ -285,9 +288,6 @@ fun MediaDetailsView(
                     )
                 }
             }
-            viewModel.mediaDetails?.alternativeTitles?.ja?.let {
-
-            }
             SelectionContainer {
                 MediaInfoView(
                     title = stringResource(R.string.jp_title),
@@ -298,12 +298,20 @@ fun MediaDetailsView(
             Divider(modifier = Modifier.padding(vertical = 8.dp))
             MediaInfoView(
                 title = stringResource(R.string.start_date),
-                info = viewModel.mediaDetails?.startDate,
+                info = viewModel.mediaDetails?.startDate?.let {
+                    it.parseDate(
+                        inputFormat = it.deduceDateFormat()
+                    ).toLocalized()
+                },
                 modifier = Modifier.placeholder(visible = viewModel.isLoading)
             )
             MediaInfoView(
                 title = stringResource(R.string.end_date),
-                info = viewModel.mediaDetails?.endDate,
+                info = viewModel.mediaDetails?.endDate?.let {
+                    it.parseDate(
+                        inputFormat = it.deduceDateFormat()
+                    ).toLocalized()
+                },
                 modifier = Modifier.placeholder(visible = viewModel.isLoading)
             )
             if (mediaType == MediaType.ANIME) {

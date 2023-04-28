@@ -7,6 +7,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import java.time.format.FormatStyle
 import java.util.TimeZone
 
@@ -80,7 +81,29 @@ object DateUtils {
         }
     }
 
-    fun String.toISOformat(inputFormat: DateTimeFormatter) = LocalDate.parse(this, inputFormat).toString()
+    fun LocalDate?.toLocalized(
+        style: FormatStyle = FormatStyle.MEDIUM
+    ): String = try {
+        this?.format(DateTimeFormatter.ofLocalizedDate(style)) ?: ""
+    } catch (e: DateTimeException) {
+        ""
+    }
+
+    fun String.deduceDateFormat(): DateTimeFormatter = when (this.count { it == '-' }) {
+        0 -> DateTimeFormatter.ofPattern("uuuu")
+        1 -> DateTimeFormatter.ofPattern("MM-uuuu")
+        else -> DateTimeFormatter.ISO_LOCAL_DATE
+    }
+
+    fun String.parseDate(
+        inputFormat: DateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE
+    ): LocalDate? = try {
+        LocalDate.parse(this, inputFormat)
+    } catch (e: DateTimeParseException) {
+        null
+    }
+
+    fun String.toIsoFormat(inputFormat: DateTimeFormatter) = LocalDate.parse(this, inputFormat).toString()
 
     fun LocalDate.toEpochMillis() = this.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli()
 }
