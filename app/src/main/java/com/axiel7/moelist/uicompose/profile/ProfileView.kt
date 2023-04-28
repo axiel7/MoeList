@@ -33,7 +33,6 @@ import coil.compose.AsyncImage
 import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopBar
 import com.axiel7.moelist.uicompose.composables.DonutChart
-import com.axiel7.moelist.uicompose.composables.HorizontalStatsBar
 import com.axiel7.moelist.uicompose.composables.TextIconHorizontal
 import com.axiel7.moelist.uicompose.composables.TextIconVertical
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
