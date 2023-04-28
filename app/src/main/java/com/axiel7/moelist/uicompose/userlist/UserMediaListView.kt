@@ -123,7 +123,9 @@ fun UserMediaListView(
             .pullRefresh(pullRefreshState)
     ) {
         LazyColumn(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.TopStart),
             state = listState,
             contentPadding = PaddingValues(vertical = 8.dp)
         ) {
