@@ -25,7 +25,6 @@ import com.axiel7.moelist.utils.DateUtils
 import com.axiel7.moelist.utils.DateUtils.toEpochMillis
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
@@ -94,10 +93,7 @@ fun EditMediaSheet(
                         value = status,
                         selectedValue = viewModel.status,
                         onClick = {
-                            viewModel.status = status
-                            if (isNewEntry && status.isCurrent()) {
-                                viewModel.startDate = LocalDate.now()
-                            }
+                            viewModel.onChangeStatus(status, isNewEntry)
                         }
                     )
                 }

@@ -11,6 +11,9 @@ import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseMyListStatus
 import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.data.model.media.isCurrent
+import com.axiel7.moelist.data.model.media.isPlanning
+import com.axiel7.moelist.data.model.media.totalDuration
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.data.repository.MangaRepository
 import com.axiel7.moelist.uicompose.base.BaseMediaViewModel
@@ -47,40 +50,52 @@ class EditMediaViewModel(
         repeatCount = myListStatus.repeatCount ?: 0
     }
 
-    fun onChangeProgress(value: Int?): Boolean {
-        if (value != null && value >= 0) {
-            val topLimit = when (mediaInfo) {
-                is AnimeNode -> (mediaInfo as AnimeNode).numEpisodes
-                is MangaNode -> (mediaInfo as MangaNode).numChapters
-                else -> null
-            }
-
-            if (topLimit == null || topLimit <= 0) {
-                progress = value
-                return true
-            }
-            else if (value <= topLimit) {
-                progress = value
-                return true
+    fun onChangeStatus(value: ListStatus, isNewEntry: Boolean = false) {
+        status = value
+        if (isNewEntry && value.isCurrent()) {
+            startDate = LocalDate.now()
+        }
+        else if (value == ListStatus.COMPLETED) {
+            endDate = LocalDate.now()
+            progress = mediaInfo?.totalDuration() ?: 0
+            if (mediaInfo is MangaNode) {
+                volumeProgress = (mediaInfo as MangaNode).numVolumes ?: 0
             }
         }
-        return false
     }
 
-    fun onChangeVolumeProgress(value: Int?): Boolean {
-        if (value != null && value >= 0) {
-            val topLimit = (mediaInfo as? MangaNode)?.numVolumes
-
-            if (topLimit == null || topLimit <= 0) {
-                volumeProgress = value
-                return true
-            }
-            else if (value <= topLimit) {
-                volumeProgress = value
-                return true
+    fun onChangeProgress(value: Int?) {
+        if (canChangeProgressTo(value, progressLimit)) {
+            progress = value ?: 0
+            if (status.isPlanning()) {
+                status = if (mediaType == MediaType.ANIME) ListStatus.WATCHING else ListStatus.READING
             }
         }
-        return false
+    }
+
+    private val progressLimit = when (mediaInfo) {
+        is AnimeNode -> (mediaInfo as AnimeNode).numEpisodes
+        is MangaNode -> (mediaInfo as MangaNode).numChapters
+        else -> null
+    }
+
+    private fun canChangeProgressTo(value: Int?, limit: Int?) = when {
+        value == null -> true
+        value < 0 -> false
+        value == 0 -> true
+        limit == null -> true
+        limit <= 0 -> true
+        value <= limit -> true
+        else -> false
+    }
+
+    fun onChangeVolumeProgress(value: Int?) {
+        if (canChangeProgressTo(value, (mediaInfo as? MangaNode)?.numVolumes)) {
+            volumeProgress = value ?: 0
+            if (status == ListStatus.PTR) {
+                status = ListStatus.READING
+            }
+        }
     }
 
     fun onChangeRepeatCount(value: Int?): Boolean {
