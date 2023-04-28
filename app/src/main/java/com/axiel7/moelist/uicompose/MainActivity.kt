@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -23,7 +22,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
@@ -38,6 +36,7 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.uicompose.base.BottomDestination
+import com.axiel7.moelist.uicompose.base.ListMode
 import com.axiel7.moelist.uicompose.base.StringArrayNavType
 import com.axiel7.moelist.uicompose.calendar.CALENDAR_DESTINATION
 import com.axiel7.moelist.uicompose.calendar.CalendarView
@@ -47,7 +46,6 @@ import com.axiel7.moelist.uicompose.details.MEDIA_DETAILS_DESTINATION
 import com.axiel7.moelist.uicompose.details.MediaDetailsView
 import com.axiel7.moelist.uicompose.home.HOME_DESTINATION
 import com.axiel7.moelist.uicompose.home.HomeView
-import com.axiel7.moelist.uicompose.home.HomeViewModel
 import com.axiel7.moelist.uicompose.login.LoginActivity
 import com.axiel7.moelist.uicompose.more.ABOUT_DESTINATION
 import com.axiel7.moelist.uicompose.more.AboutView
@@ -72,6 +70,7 @@ import com.axiel7.moelist.utils.NumExtensions.toInt
 import com.axiel7.moelist.utils.PreferencesDataStore.ACCESS_TOKEN_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.ANIME_LIST_SORT_PREFERENCE
 import com.axiel7.moelist.utils.PreferencesDataStore.LAST_TAB_PREFERENCE_KEY
+import com.axiel7.moelist.utils.PreferencesDataStore.LIST_DISPLAY_MODE_PREFERENCE
 import com.axiel7.moelist.utils.PreferencesDataStore.MANGA_LIST_SORT_PREFERENCE
 import com.axiel7.moelist.utils.PreferencesDataStore.NSFW_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.PROFILE_PICTURE_PREFERENCE_KEY
@@ -98,10 +97,13 @@ class MainActivity : AppCompatActivity() {
         }
         val theme = defaultPreferencesDataStore.getValueSync(THEME_PREFERENCE_KEY) ?: "follow_system"
         defaultPreferencesDataStore.getValueSync(ANIME_LIST_SORT_PREFERENCE)?.let {
-            App.animeListSort = MediaSort.forValue(it)
+            MediaSort.forValue(it)?.let { sort -> App.animeListSort = sort }
         }
         defaultPreferencesDataStore.getValueSync(MANGA_LIST_SORT_PREFERENCE)?.let {
-            App.mangaListSort = MediaSort.forValue(it)
+            MediaSort.forValue(it)?.let { sort -> App.mangaListSort = sort }
+        }
+        defaultPreferencesDataStore.getValueSync(LIST_DISPLAY_MODE_PREFERENCE)?.let {
+            ListMode.forValue(it)?.let { mode -> App.listDisplayMode = mode }
         }
 
         setContent {
@@ -161,9 +163,7 @@ fun MainView(
                 3 -> MORE_DESTINATION
                 else -> HOME_DESTINATION
             },
-            modifier = Modifier
-                .padding(it)
-                //.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)
+            modifier = Modifier.padding(it)
         ) {
             composable(HOME_DESTINATION) {
                 HomeView(

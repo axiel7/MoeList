@@ -40,10 +40,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
+import com.axiel7.moelist.uicompose.base.ListMode
+import com.axiel7.moelist.uicompose.base.stringRes
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopBar
 import com.axiel7.moelist.uicompose.composables.DefaultTopAppBar
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.PreferencesDataStore.LANG_PREFERENCE_KEY
+import com.axiel7.moelist.utils.PreferencesDataStore.LIST_DISPLAY_MODE_PREFERENCE
 import com.axiel7.moelist.utils.PreferencesDataStore.NSFW_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.THEME_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.rememberPreference
@@ -59,13 +62,14 @@ fun SettingsView(
     val langPreference = rememberPreference(LANG_PREFERENCE_KEY, "follow_system")
     val themePreference = rememberPreference(THEME_PREFERENCE_KEY, "follow_system")
     val nsfwPreference = rememberPreference(NSFW_PREFERENCE_KEY, false)
+    val listModePreference = rememberPreference(LIST_DISPLAY_MODE_PREFERENCE, ListMode.STANDARD.value)
 
     DefaultScaffoldWithTopBar(
         title = stringResource(R.string.settings),
         navController = navController
-    ) {
+    ) { padding ->
         Column(
-            modifier = Modifier.padding(it)
+            modifier = Modifier.padding(padding)
         ) {
             SettingsTitle(text = stringResource(R.string.display))
 
@@ -87,6 +91,16 @@ fun SettingsView(
                 onValueChange = { value ->
                     langPreference.value = value
                     UseCases.changeLocale(value)
+                }
+            )
+
+            ListPreferenceView(
+                title = stringResource(R.string.list_style),
+                entriesValues = viewModel.listModeEntries,
+                preferenceValue = listModePreference,
+                icon = R.drawable.round_format_list_bulleted_24,
+                onValueChange = { value ->
+                    ListMode.forValue(value)?.value?.let { listModePreference.value = it }
                 }
             )
 

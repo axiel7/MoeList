@@ -29,6 +29,7 @@ object PreferencesDataStore {
     val PROFILE_PICTURE_PREFERENCE_KEY = stringPreferencesKey("profile_picture")
     val ANIME_LIST_SORT_PREFERENCE = stringPreferencesKey("anime_list_sort")
     val MANGA_LIST_SORT_PREFERENCE = stringPreferencesKey("manga_list_sort")
+    val LIST_DISPLAY_MODE_PREFERENCE = stringPreferencesKey("list_display_mode")
 
     val Context.defaultPreferencesDataStore by preferencesDataStore(name = "default")
 

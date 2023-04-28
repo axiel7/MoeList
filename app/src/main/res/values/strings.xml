@@ -290,4 +290,8 @@
     <string name="related_anime">Related Anime</string>
     <string name="related_manga">Related Manga</string>
     <string name="content">Content</string>
+    <string name="list_mode_standard">Standard</string>
+    <string name="list_mode_compact">Compact</string>
+    <string name="list_mode_minimal">Minimal</string>
+    <string name="list_style">List style</string>
 </resources>

@@ -8,6 +8,7 @@ import coil.ImageLoaderFactory
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.network.Api
 import com.axiel7.moelist.data.network.KtorClient
+import com.axiel7.moelist.uicompose.base.ListMode
 import com.axiel7.moelist.utils.PreferencesDataStore.defaultPreferencesDataStore
 import io.ktor.client.HttpClient
 import java.text.NumberFormat
@@ -41,5 +42,6 @@ class App : Application(), ImageLoaderFactory {
         var nsfw = 0
         var animeListSort = MediaSort.ANIME_TITLE
         var mangaListSort = MediaSort.MANGA_TITLE
+        var listDisplayMode = ListMode.STANDARD
     }
 }

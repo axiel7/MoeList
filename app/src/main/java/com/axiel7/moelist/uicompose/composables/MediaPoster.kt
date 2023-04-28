@@ -15,6 +15,9 @@ import coil.compose.AsyncImage
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.uicompose.theme.placeholder_color
 
+const val MEDIA_POSTER_COMPACT_HEIGHT = 100
+const val MEDIA_POSTER_COMPACT_WIDTH = 100
+
 const val MEDIA_POSTER_SMALL_HEIGHT = 140
 const val MEDIA_POSTER_SMALL_WIDTH = 100
 
@@ -25,13 +28,14 @@ const val MEDIA_POSTER_BIG_WIDTH = 150
 fun MediaPoster(
     url: String?,
     showShadow: Boolean = true,
+    contentScale: ContentScale = ContentScale.FillBounds,
     modifier: Modifier
 ) {
     AsyncImage(
         model = url,
         contentDescription = "poster",
         placeholder = ColorPainter(placeholder_color),
-        contentScale = ContentScale.FillBounds,
+        contentScale = contentScale,
         modifier = modifier.then(
             if (showShadow) Modifier
                 .padding(start = 4.dp, top = 2.dp, end = 4.dp, bottom = 8.dp)

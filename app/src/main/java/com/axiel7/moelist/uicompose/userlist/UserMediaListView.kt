@@ -33,15 +33,19 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.axiel7.moelist.App
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeNode
 import com.axiel7.moelist.data.model.manga.MangaNode
 import com.axiel7.moelist.data.model.media.*
+import com.axiel7.moelist.uicompose.base.ListMode
 import com.axiel7.moelist.uicompose.base.TabRowItem
 import com.axiel7.moelist.uicompose.composables.*
 import com.axiel7.moelist.uicompose.details.EditMediaSheet
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
+import com.axiel7.moelist.utils.PreferencesDataStore.LIST_DISPLAY_MODE_PREFERENCE
+import com.axiel7.moelist.utils.PreferencesDataStore.rememberPreference
 import kotlinx.coroutines.launch
 
 const val ANIME_LIST_DESTINATION = "anime_list"
@@ -111,6 +115,7 @@ fun UserMediaListView(
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
+    val listDisplayMode by rememberPreference(LIST_DISPLAY_MODE_PREFERENCE, App.listDisplayMode.value)
 
     Box(
         modifier = Modifier
@@ -139,35 +144,83 @@ fun UserMediaListView(
                 key = { it.node.id },
                 contentType = { it.node }
             ) { item ->
-                UserMediaListItem(
-                    imageUrl = item.node.mainPicture?.large,
-                    title = item.node.title,
-                    score = item.listStatus?.score,
-                    mediaFormat = item.node.mediaType,
-                    mediaStatus = item.node.status,
-                    userProgress = item.listStatus?.progress,
-                    totalProgress = when (item.node) {
-                        is AnimeNode -> (item.node as AnimeNode).numEpisodes
-                        is MangaNode -> (item.node as MangaNode).numChapters
-                        else -> null
-                    },
-                    listStatus = status,
-                    onClick = {
-                        navController.navigate("details/${mediaType.value}/${item.node.id}")
-                    },
-                    onLongClick = {
-                        coroutineScope.launch {
-                            viewModel.onItemSelected(item)
-                            sheetState.show()
-                        }
-                    },
-                    onClickPlus = {
-                        viewModel.updateListItem(
-                            mediaId = item.node.id,
-                            progress = item.listStatus?.progress?.plus(1)
+                when (listDisplayMode) {
+                    ListMode.STANDARD.value -> {
+                        StandardUserMediaListItem(
+                            imageUrl = item.node.mainPicture?.large,
+                            title = item.node.title,
+                            score = item.listStatus?.score,
+                            mediaFormat = item.node.mediaType,
+                            mediaStatus = item.node.status,
+                            userProgress = item.listStatus?.progress,
+                            totalProgress = item.node.totalDuration(),
+                            listStatus = status,
+                            onClick = {
+                                navController.navigate("details/${mediaType.value}/${item.node.id}")
+                            },
+                            onLongClick = {
+                                coroutineScope.launch {
+                                    viewModel.onItemSelected(item)
+                                    sheetState.show()
+                                }
+                            },
+                            onClickPlus = {
+                                viewModel.updateListItem(
+                                    mediaId = item.node.id,
+                                    progress = item.listStatus?.progress?.plus(1)
+                                )
+                            }
                         )
                     }
-                )
+                    ListMode.COMPACT.value -> {
+                        CompactUserMediaListItem(
+                            imageUrl = item.node.mainPicture?.large,
+                            title = item.node.title,
+                            score = item.listStatus?.score,
+                            userProgress = item.listStatus?.progress,
+                            totalProgress = item.node.totalDuration(),
+                            listStatus = status,
+                            onClick = {
+                                navController.navigate("details/${mediaType.value}/${item.node.id}")
+                            },
+                            onLongClick = {
+                                coroutineScope.launch {
+                                    viewModel.onItemSelected(item)
+                                    sheetState.show()
+                                }
+                            },
+                            onClickPlus = {
+                                viewModel.updateListItem(
+                                    mediaId = item.node.id,
+                                    progress = item.listStatus?.progress?.plus(1)
+                                )
+                            }
+                        )
+                    }
+                    ListMode.MINIMAL.value -> {
+                        MinimalUserMediaListItem(
+                            title = item.node.title,
+                            userProgress = item.listStatus?.progress,
+                            totalProgress = item.node.totalDuration(),
+                            listStatus = status,
+                            onClick = {
+                                navController.navigate("details/${mediaType.value}/${item.node.id}")
+                            },
+                            onLongClick = {
+                                coroutineScope.launch {
+                                    viewModel.onItemSelected(item)
+                                    sheetState.show()
+                                }
+                            },
+                            onClickPlus = {
+                                viewModel.updateListItem(
+                                    mediaId = item.node.id,
+                                    progress = item.listStatus?.progress?.plus(1)
+                                )
+                            }
+                        )
+                    }
+                }
             }
         }
 
@@ -207,117 +260,6 @@ fun UserMediaListView(
         if (!viewModel.isLoading && viewModel.nextPage == null && !viewModel.loadedAllPages)
             viewModel.getUserList()
     }
-}
-
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun UserMediaListItem(
-    imageUrl: String?,
-    title: String,
-    score: Int?,
-    mediaFormat: String?,
-    mediaStatus: String?,
-    userProgress: Int?,
-    totalProgress: Int?,
-    listStatus: ListStatus,
-    onClick: () -> Unit,
-    onLongClick: () -> Unit,
-    onClickPlus: () -> Unit,
-) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            .combinedClickable(onLongClick = onLongClick, onClick = onClick),
-    ) {
-        Row(
-            modifier = Modifier.height(MEDIA_POSTER_SMALL_HEIGHT.dp)
-        ) {
-            Box(
-                contentAlignment = Alignment.BottomStart
-            ) {
-                MediaPoster(
-                    url = imageUrl,
-                    showShadow = false,
-                    modifier = Modifier
-                        .size(width = MEDIA_POSTER_SMALL_WIDTH.dp, height = MEDIA_POSTER_SMALL_HEIGHT.dp)
-                )
-
-                Row(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(topEnd = 8.dp))
-                        .background(MaterialTheme.colorScheme.primaryContainer),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = if ((score ?: 0) == 0) "─" else "$score",
-                        modifier = Modifier.padding(start = 8.dp, top = 4.dp, end = 2.dp, bottom = 4.dp),
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
-                    Icon(
-                        painter = painterResource(R.drawable.ic_round_star_24),
-                        contentDescription = "star",
-                        modifier = Modifier.padding(end = 4.dp),
-                        tint = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
-                }
-            }
-
-            Column(
-                modifier = Modifier.fillMaxHeight(),
-                verticalArrangement = Arrangement.SpaceBetween
-            ) {
-                Column {
-                    Text(
-                        text = title,
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp, vertical = 8.dp),
-                        color = MaterialTheme.colorScheme.onSurface,
-                        fontSize = 17.sp,
-                        overflow = TextOverflow.Ellipsis,
-                        maxLines = 2
-                    )
-                    Text(
-                        text = buildString {
-                            append(mediaFormat?.mediaFormatLocalized())
-                            if (mediaStatus?.startsWith("currently") == true) {
-                                append(" • ")
-                                append(mediaStatus.statusLocalized())
-                            }
-                        },
-                        modifier = Modifier.padding(horizontal = 16.dp)
-                    )
-                }
-
-                Column {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 16.dp, end = 16.dp, bottom = 4.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.Bottom
-                    ) {
-                        Text(
-                            text = "${userProgress ?: 0}/${totalProgress ?: 0}",
-                        )
-
-                        if (listStatus.isCurrent()) {
-                            OutlinedButton(onClick = onClickPlus) {
-                                Text(text = stringResource(R.string.plus_one))
-                            }
-                        }
-                    }
-
-                    LinearProgressIndicator(
-                        progress = calculateProgressBarValue(userProgress, totalProgress),
-                        modifier = Modifier.fillMaxWidth(),
-                        color = MaterialTheme.colorScheme.primary,
-                        trackColor = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }//:Column
-        }//:Row
-    }//:Card
 }
 
 @Composable
@@ -379,26 +321,6 @@ fun UserMediaListHostPreview() {
         UserMediaListHostView(
             mediaType = MediaType.ANIME,
             navController = rememberNavController()
-        )
-    }
-}
-
-@Preview
-@Composable
-fun UserMediaListItemPreview() {
-    MoeListTheme {
-        UserMediaListItem(
-            imageUrl = null,
-            title = "This is a large anime or manga title",
-            score = null,
-            mediaFormat = "tv",
-            mediaStatus = "currently_airing",
-            userProgress = 4,
-            totalProgress = 24,
-            listStatus = ListStatus.WATCHING,
-            onClick = { },
-            onLongClick = { },
-            onClickPlus = { }
         )
     }
 }

@@ -2,6 +2,8 @@ package com.axiel7.moelist.uicompose.more
 
 import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.base.BaseViewModel
+import com.axiel7.moelist.uicompose.base.ListMode
+import com.axiel7.moelist.uicompose.base.stringRes
 
 class SettingsViewModel: BaseViewModel() {
 
@@ -33,4 +35,6 @@ class SettingsViewModel: BaseViewModel() {
         "zh-Hant" to R.string.chinese_traditional_native,
         "zh-Hans" to R.string.chinese_simplified_native,
     )
+
+    val listModeEntries = ListMode.values().associate { it.value to it.stringRes }
 }

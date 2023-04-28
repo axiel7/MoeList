@@ -19,7 +19,7 @@ enum class MediaSort(val value: String) {
     }
 
     companion object {
-        fun forValue(value: String) = values().first { it.value == value }
+        fun forValue(value: String) = values().firstOrNull { it.value == value }
     }
 }
 
