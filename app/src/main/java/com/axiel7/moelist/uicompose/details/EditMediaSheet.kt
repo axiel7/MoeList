@@ -23,6 +23,7 @@ import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.DateUtils
 import com.axiel7.moelist.utils.DateUtils.toEpochMillis
+import com.axiel7.moelist.utils.StringExtensions.toStringOrEmpty
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.format.DateTimeFormatter
@@ -106,8 +107,8 @@ fun EditMediaSheet(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 totalProgress = viewModel.mediaInfo?.totalDuration(),
                 onValueChange = { viewModel.onChangeProgress(it.toIntOrNull()) },
-                onMinusClick = { viewModel.onChangeProgress(viewModel.progress - 1) },
-                onPlusClick = { viewModel.onChangeProgress(viewModel.progress + 1) }
+                onMinusClick = { viewModel.onChangeProgress(viewModel.progress?.minus(1)) },
+                onPlusClick = { viewModel.onChangeProgress(viewModel.progress?.plus(1)) }
             )
 
             if (viewModel.mediaType == MediaType.MANGA) {
@@ -117,8 +118,8 @@ fun EditMediaSheet(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     totalProgress = (viewModel.mediaInfo as MangaNode).numVolumes,
                     onValueChange = { viewModel.onChangeVolumeProgress(it.toIntOrNull()) },
-                    onMinusClick = { viewModel.onChangeVolumeProgress(viewModel.volumeProgress - 1) },
-                    onPlusClick = { viewModel.onChangeVolumeProgress(viewModel.volumeProgress + 1) }
+                    onMinusClick = { viewModel.onChangeVolumeProgress(viewModel.volumeProgress?.minus(1)) },
+                    onPlusClick = { viewModel.onChangeVolumeProgress(viewModel.volumeProgress?.plus(1)) }
                 )
             }
 
@@ -287,7 +288,7 @@ fun EditMediaDatePicker(
 @Composable
 fun EditMediaProgressRow(
     label: String,
-    progress: Int,
+    progress: Int?,
     modifier: Modifier,
     totalProgress: Int?,
     onValueChange: (String) -> Unit,
@@ -306,7 +307,7 @@ fun EditMediaProgressRow(
             Text(text = stringResource(R.string.minus_one))
         }
         OutlinedTextField(
-            value = progress.toString(),
+            value = progress.toStringOrEmpty(),
             onValueChange = onValueChange,
             modifier = Modifier
                 .weight(2f)

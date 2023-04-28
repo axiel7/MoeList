@@ -31,8 +31,8 @@ class EditMediaViewModel(
     override var myListStatus: BaseMyListStatus? = null
 
     var status by mutableStateOf(if (mediaType == MediaType.ANIME) ListStatus.PTW else ListStatus.PTR)
-    var progress by mutableStateOf(0)
-    var volumeProgress by mutableStateOf(0)
+    var progress by mutableStateOf<Int?>(0)
+    var volumeProgress by mutableStateOf<Int?>(0)
     var score by mutableStateOf(0)
     var startDate by mutableStateOf<LocalDate?>(null)
     var endDate by mutableStateOf<LocalDate?>(null)
@@ -66,7 +66,7 @@ class EditMediaViewModel(
 
     fun onChangeProgress(value: Int?) {
         if (canChangeProgressTo(value, progressLimit)) {
-            progress = value ?: 0
+            progress = value
             if (status.isPlanning()) {
                 status = if (mediaType == MediaType.ANIME) ListStatus.WATCHING else ListStatus.READING
             }
@@ -91,7 +91,7 @@ class EditMediaViewModel(
 
     fun onChangeVolumeProgress(value: Int?) {
         if (canChangeProgressTo(value, (mediaInfo as? MangaNode)?.numVolumes)) {
-            volumeProgress = value ?: 0
+            volumeProgress = value
             if (status == ListStatus.PTR) {
                 status = ListStatus.READING
             }
