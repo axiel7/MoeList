@@ -81,8 +81,8 @@
     <string name="one_shot">Един път</string>
     <string name="manhwa">Manhwa</string>
     <string name="novel">Роман</string>
-    <string name="airing">Поветряване</string>
-    <string name="finished">Завършено</string>
+    <string name="airing" comment="the status &quot;airing&quot; of an anime">Поветряване</string>
+    <string name="finished" comment="the status &quot;finished&quot; of an anime/manga">Завършено</string>
     <string name="on_hiatus">На Хиатус</string>
     <string name="winter">Зима</string>
     <string name="spring">Пролет</string>
@@ -111,7 +111,7 @@
     <string name="saturday">Събота</string>
     <string name="sunday">Неделя</string>
     <string name="not_yet_aired">Все още неизлъчено</string>
-    <string name="publishing">Публикуване</string>
+    <string name="publishing" comment="the status &quot;publishing&quot; of a manga">Публикуване</string>
     <string name="all">Всички</string>
     <string name="popular">Популярни</string>
     <string name="added_ptr">Добавено в Планирано за Гледане</string>
