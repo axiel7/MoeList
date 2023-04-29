@@ -150,7 +150,7 @@ object DateUtils {
                 } else stringResource(R.string.num_months).format(months)
             } else stringResource(R.string.num_weeks).format(weeks)
         }
-        else if (days >= 1) return "%s days".format(days)
+        else if (days >= 1) return stringResource(R.string.num_days).format(days)
         else {
             val hours = this / 3600
             return if (hours >= 1) "$hours ${stringResource(R.string.hour_abbreviation)}"
