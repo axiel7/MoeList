@@ -86,7 +86,7 @@ fun MediaRankingView(
                 indicator = { tabPositions ->
                     RoundedTabRowIndicator(tabPositions[pagerState.currentPage])
                 },
-                // TODO: use default when width is fixed upstream
+                //TODO: use default when width is fixed upstream
                 // https://issuetracker.google.com/issues/242879624
                 divider = { }
             ) {

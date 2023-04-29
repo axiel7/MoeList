@@ -40,6 +40,7 @@ import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.DateUtils.parseDateAndLocalize
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
 import com.axiel7.moelist.utils.StringExtensions.toNavArgument
+import com.axiel7.moelist.utils.StringExtensions.toStringOrNull
 import com.axiel7.moelist.utils.UseCases.copyToClipBoard
 import com.google.accompanist.placeholder.material.placeholder
 import kotlinx.coroutines.launch
@@ -157,7 +158,7 @@ fun MediaDetailsView(
                             .placeholder(visible = viewModel.isLoading)
                     )
                     TextIconHorizontal(
-                        text = viewModel.mediaDetails?.mean.toString(),
+                        text = viewModel.mediaDetails?.mean.toStringOrNull() ?: "??",
                         icon = R.drawable.ic_round_details_star_24,
                         modifier = Modifier
                             .padding(bottom = 8.dp)
