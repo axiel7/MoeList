@@ -9,7 +9,6 @@ Another unofficial Android MAL client
 [<img alt="Google Play" height="80" src="https://play.google.com/intl/en_US/badges/images/generic/en_badge_web_generic.png"/>](https://play.google.com/store/apps/details?id=com.axiel7.moelist)
 [<img alt="Google Play" height="80" src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"/>](https://apt.izzysoft.de/fdroid/index/apk/com.axiel7.moelist)
 
-### ⚠️ I'm currently rewriting the app on Jetpack Compose, no new features will be added in a while.
 Follow the development on the official Discord server:
 
 [![Discord Banner 3](https://discordapp.com/api/guilds/741059285122940928/widget.png?style=banner3)](https://discord.gg/CTv3WdfxHh)
@@ -50,9 +49,6 @@ Follow the development on the official Discord server:
 
 **Libraries used:**
 * [Material Components](https://github.com/material-components/material-components-android)
-* [Room](https://developer.android.com/topic/libraries/architecture/room)
-* [Paging](https://developer.android.com/topic/libraries/architecture/paging/v3-overview)
 * [Ktor](https://ktor.io/)
+* [DataStore](https://developer.android.com/topic/libraries/architecture/datastore)
 * [Coil](https://github.com/coil-kt/coil)
-* [ML Kit Translate](https://developers.google.com/ml-kit/language/translation/android)
-* [Donut](https://github.com/futuredapp/donut)
