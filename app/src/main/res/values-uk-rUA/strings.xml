@@ -47,12 +47,12 @@
     <string name="this_season">Цей сезон</string>
     <string name="recommendations">Рекомендації</string>
     <string name="username">Ім\'я користувача</string>
-    <string name="total_entries">Усього:</string>
+    <string name="total_entries">Усього: %s</string>
     <string name="mean_score">Середній бал</string>
     <string name="rewatched">Переглянуто знову</string>
     <string name="view_profile_mal">Переглянути профіль на MAL</string>
-    <string name="airing_in">Трансляція через %s год</string>
-    <string name="score_value">Оцінка:</string>
+    <string name="airing_in">Трансляція через %s</string>
+    <string name="score_value">Оцінка: %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 РОЗ</string>
@@ -81,8 +81,8 @@
     <string name="one_shot">Ваншот</string>
     <string name="manhwa">Манхва</string>
     <string name="novel">Новела</string>
-    <string name="airing" comment="the status &quot;airing&quot; of an anime">Виходить</string>
-    <string name="finished" comment="the status &quot;finished&quot; of an anime/manga">Завершено</string>
+    <string name="airing">Виходить</string>
+    <string name="finished">Завершено</string>
     <string name="on_hiatus">Призупинено</string>
     <string name="winter">Зима</string>
     <string name="spring">Весна</string>
@@ -111,7 +111,7 @@
     <string name="saturday">Субота</string>
     <string name="sunday">Неділя</string>
     <string name="not_yet_aired">Ще не вийшло</string>
-    <string name="publishing" comment="the status &quot;publishing&quot; of a manga">Публікується</string>
+    <string name="publishing">Публікується</string>
     <string name="all">Усі</string>
     <string name="popular">Популярні</string>
     <string name="added_ptr">Додано до запланованих</string>
@@ -238,8 +238,8 @@
     <string name="minutes_abbreviation">хв</string>
     <string name="full_story">Повна історія</string>
     <string name="theme_black">Чорна</string>
-    <string name="aired_ago">Транслювалося %s год тому</string>
-    <string name="anime_stats">Аніме\nСтатистика</string>
+    <string name="aired_ago">Транслювалося %s тому</string>
+    <string name="anime_stats">Аніме Статистика</string>
     <string name="delete_confirmation">Ви дійсно бажаєте видалити цей запис?</string>
     <string name="bulgarian">Болгарська</string>
     <string name="log_in_again">Будь ласка, увійдіть ще раз</string>
@@ -269,4 +269,14 @@
     <string name="total_rereads">Всього перечитано</string>
     <string name="total_rewatches">Всього переглядів</string>
     <string name="chinese_simplified">Китайська (спрощена)</string>
+    <string name="related_anime">Related Anime</string>
+    <string name="related_manga">Related Manga</string>
+    <string name="content">Content</string>
+    <string name="list_mode_standard">Standard</string>
+    <string name="list_mode_compact">Compact</string>
+    <string name="list_mode_minimal">Minimal</string>
+    <string name="list_style">List style</string>
+    <string name="num_years">%s years</string>
+    <string name="num_months">%s months</string>
+    <string name="num_weeks">%s weeks</string>
 </resources>
