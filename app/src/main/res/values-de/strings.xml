@@ -47,12 +47,12 @@
     <string name="this_season">Diese Saison</string>
     <string name="recommendations">Empfehlungen</string>
     <string name="username">Benutzername</string>
-    <string name="total_entries">Gesamt:</string>
+    <string name="total_entries">Gesamt: %s</string>
     <string name="mean_score">Durchschnitt</string>
     <string name="rewatched">Wiederholt</string>
     <string name="view_profile_mal">Profil auf MAL ansehen</string>
-    <string name="airing_in">Läuft in %sh</string>
-    <string name="score_value">Bewertung:</string>
+    <string name="airing_in">Läuft in %s</string>
+    <string name="score_value">Bewertung: %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 KP</string>
@@ -81,8 +81,8 @@
     <string name="one_shot">One Shot</string>
     <string name="manhwa">Manhwa</string>
     <string name="novel">Roman</string>
-    <string name="airing" comment="the status &quot;airing&quot; of an anime">Am Laufen</string>
-    <string name="finished" comment="the status &quot;finished&quot; of an anime/manga">Abgeschlossen</string>
+    <string name="airing">Am Laufen</string>
+    <string name="finished">Abgeschlossen</string>
     <string name="on_hiatus">Pausiert</string>
     <string name="winter">Winter</string>
     <string name="spring">Frühling</string>
@@ -111,7 +111,7 @@
     <string name="saturday">Samstag</string>
     <string name="sunday">Sonntag</string>
     <string name="not_yet_aired">Noch nicht Veröffentlicht</string>
-    <string name="publishing" comment="the status &quot;publishing&quot; of a manga">Am Laufen</string>
+    <string name="publishing">Am Laufen</string>
     <string name="all">Alle</string>
     <string name="popular">Beliebt</string>
     <string name="added_ptr">Zu Geplant zu Lesen hinzugefügt</string>
@@ -238,8 +238,8 @@
     <string name="minutes_abbreviation">min</string>
     <string name="full_story">Vollständige Geschichte</string>
     <string name="theme_black">Schwarz</string>
-    <string name="aired_ago">Lief vor %sh</string>
-    <string name="anime_stats">Anime\nStatistik</string>
+    <string name="aired_ago">Lief vor %s</string>
+    <string name="anime_stats">Anime Statistik</string>
     <string name="delete_confirmation">Bist Du sicher, dass Du diesen Eintrag löschen möchtest?</string>
     <string name="bulgarian">Bulgarisch</string>
     <string name="log_in_again">Bitte melde dich erneut an</string>
@@ -268,5 +268,15 @@
     <string name="select_date">Datum auswählen</string>
     <string name="total_rereads">Gesamte Neulesungen</string>
     <string name="total_rewatches">Gesamte Aufrufe</string>
-    <string name="chinese_simplified">Chinesisch (Vereinfacht)</string>
+    <string name="chinese_simplified">Chinese (Simplified)</string>
+    <string name="related_anime">Related Anime</string>
+    <string name="related_manga">Related Manga</string>
+    <string name="content">Content</string>
+    <string name="list_mode_standard">Standard</string>
+    <string name="list_mode_compact">Compact</string>
+    <string name="list_mode_minimal">Minimal</string>
+    <string name="list_style">List style</string>
+    <string name="num_years">%s years</string>
+    <string name="num_months">%s months</string>
+    <string name="num_weeks">%s weeks</string>
 </resources>
