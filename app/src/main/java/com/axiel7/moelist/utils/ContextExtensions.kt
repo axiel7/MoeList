@@ -1,14 +1,18 @@
 package com.axiel7.moelist.utils
 
 import android.app.Activity
+import android.content.ActivityNotFoundException
+import android.content.ComponentName
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.widget.Toast
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
+import androidx.core.os.LocaleListCompat
 import com.axiel7.moelist.R
 
 object ContextExtensions {
@@ -64,5 +68,30 @@ object ContextExtensions {
         is Activity -> this
         is ContextWrapper -> baseContext.getActivity()
         else -> null
+    }
+
+    fun getCurrentLanguageTag() = LocaleListCompat.getAdjustedDefault()[0]?.toLanguageTag()
+
+    fun Context.openInGoogleTranslate(text: String) {
+        try {
+            Intent(Intent.ACTION_SEND).apply {
+                putExtra(Intent.EXTRA_TEXT, text)
+                putExtra("key_text_input", text)
+                putExtra("key_text_output", "")
+                putExtra("key_language_from", "en")
+                putExtra("key_language_to", getCurrentLanguageTag())
+                putExtra("key_suggest_translation", "")
+                putExtra("key_from_floating_window", false)
+                component = ComponentName(
+                    "com.google.android.apps.translate",
+                    "com.google.android.apps.translate.TranslateActivity"
+                )
+                startActivity(this)
+            }
+        } catch (e: ActivityNotFoundException) {
+            showToast("Google Translate not installed")
+        } catch (e: Exception) {
+            Log.d("translate", e.toString())
+        }
     }
 }

@@ -33,7 +33,9 @@ import com.axiel7.moelist.data.model.media.*
 import com.axiel7.moelist.uicompose.composables.*
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants
+import com.axiel7.moelist.utils.ContextExtensions.getCurrentLanguageTag
 import com.axiel7.moelist.utils.ContextExtensions.openAction
+import com.axiel7.moelist.utils.ContextExtensions.openInGoogleTranslate
 import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.DateUtils.deduceDateFormat
 import com.axiel7.moelist.utils.DateUtils.parseDate
@@ -66,6 +68,7 @@ fun MediaDetailsView(
     val isNewEntry by remember {
         derivedStateOf { viewModel.mediaDetails?.myListStatus == null }
     }
+    val isCurrentLanguageEn = remember { getCurrentLanguageTag()?.startsWith("en") }
 
     Scaffold(
         modifier = Modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
@@ -196,7 +199,17 @@ fun MediaDetailsView(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Spacer(modifier = Modifier.size(48.dp))
+                if (isCurrentLanguageEn == false) {
+                    IconButton(onClick = {
+                        viewModel.mediaDetails?.synopsis?.let { context.openInGoogleTranslate(it) }
+                    }) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_outline_translate_24),
+                            contentDescription = stringResource(R.string.translate)
+                        )
+                    }
+                }
+                else Spacer(modifier = Modifier.size(48.dp))
 
                 IconButton(
                     onClick = {
