@@ -47,12 +47,12 @@
     <string name="this_season">Esta Temporada</string>
     <string name="recommendations">Recomendações</string>
     <string name="username">Nome de usuário</string>
-    <string name="total_entries">Total:</string>
+    <string name="total_entries">Total: %s</string>
     <string name="mean_score">Nota Média</string>
     <string name="rewatched">Reassistido</string>
     <string name="view_profile_mal">Ver perfil no MAL</string>
-    <string name="airing_in">Exibição em %sh</string>
-    <string name="score_value">Nota:</string>
+    <string name="airing_in">Exibição em %s</string>
+    <string name="score_value">Nota: %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 CAP</string>
@@ -81,8 +81,8 @@
     <string name="one_shot">One Shot</string>
     <string name="manhwa">Manhwa</string>
     <string name="novel">Novel</string>
-    <string name="airing" comment="the status &quot;airing&quot; of an anime">Em Exibição</string>
-    <string name="finished" comment="the status &quot;finished&quot; of an anime/manga">Finalizado</string>
+    <string name="airing">Em Exibição</string>
+    <string name="finished">Finalizado</string>
     <string name="on_hiatus">Em Hiato</string>
     <string name="winter">Inverno</string>
     <string name="spring">Primavera</string>
@@ -111,7 +111,7 @@
     <string name="saturday">Sábado</string>
     <string name="sunday">Domingo</string>
     <string name="not_yet_aired">Ainda Não Exibido</string>
-    <string name="publishing" comment="the status &quot;publishing&quot; of a manga">Em Publicação</string>
+    <string name="publishing">Em Publicação</string>
     <string name="all">Todos</string>
     <string name="popular">Popular</string>
     <string name="added_ptr">Adicionado em Planejo Ler</string>
@@ -238,8 +238,8 @@
     <string name="minutes_abbreviation">min</string>
     <string name="full_story">História completa</string>
     <string name="theme_black">Preto</string>
-    <string name="aired_ago">Exibido há %sh</string>
-    <string name="anime_stats">Estatísticas de\nAnimes</string>
+    <string name="aired_ago">Exibido há %s</string>
+    <string name="anime_stats">Estatísticas de Animes</string>
     <string name="delete_confirmation">Tem certeza que deseja excluir essa entrada?</string>
     <string name="bulgarian">Búlgaro</string>
     <string name="log_in_again">Por favor, faça login novamente</string>
@@ -268,5 +268,15 @@
     <string name="select_date">Selecionar data</string>
     <string name="total_rereads">Total Relido</string>
     <string name="total_rewatches">Total Reassistido</string>
-    <string name="chinese_simplified">Chinês (Simplificado)</string>
+    <string name="chinese_simplified">Chinese (Simplified)</string>
+    <string name="related_anime">Related Anime</string>
+    <string name="related_manga">Related Manga</string>
+    <string name="content">Content</string>
+    <string name="list_mode_standard">Standard</string>
+    <string name="list_mode_compact">Compact</string>
+    <string name="list_mode_minimal">Minimal</string>
+    <string name="list_style">List style</string>
+    <string name="num_years">%s years</string>
+    <string name="num_months">%s months</string>
+    <string name="num_weeks">%s weeks</string>
 </resources>
