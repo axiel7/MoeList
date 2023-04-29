@@ -11,8 +11,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
@@ -22,7 +24,9 @@ import kotlinx.coroutines.launch
 fun TextIconHorizontal(
     text: String,
     @DrawableRes icon: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colorScheme.onSurfaceVariant,
+    fontSize: TextUnit = TextUnit.Unspecified
 ) {
     Row(
         modifier = modifier,
@@ -32,12 +36,13 @@ fun TextIconHorizontal(
             painter = painterResource(icon),
             contentDescription = text,
             modifier = Modifier.padding(end = 4.dp),
-            tint = MaterialTheme.colorScheme.onSurfaceVariant
+            tint = color
         )
         Text(
             text = text,
             modifier = Modifier.padding(horizontal = 4.dp),
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = color,
+            fontSize = fontSize
         )
     }
 }
@@ -47,6 +52,8 @@ fun TextIconVertical(
     text: String,
     @DrawableRes icon: Int,
     modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colorScheme.onSurfaceVariant,
+    fontSize: TextUnit = TextUnit.Unspecified
 ) {
     Column(
         modifier = modifier,
@@ -56,12 +63,13 @@ fun TextIconVertical(
             painter = painterResource(icon),
             contentDescription = text,
             modifier = Modifier.padding(4.dp),
-            tint = MaterialTheme.colorScheme.onSurfaceVariant
+            tint = color
         )
         Text(
             text = text,
             modifier = Modifier.padding(horizontal = 4.dp),
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = color,
+            fontSize = fontSize
         )
     }
 }

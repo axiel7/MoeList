@@ -94,7 +94,7 @@ fun StandardUserMediaListItem(
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                     Icon(
-                        painter = painterResource(R.drawable.ic_round_star_24),
+                        painter = painterResource(R.drawable.ic_round_star_16),
                         contentDescription = "star",
                         modifier = Modifier.padding(end = 4.dp),
                         tint = MaterialTheme.colorScheme.onPrimaryContainer
@@ -211,7 +211,7 @@ fun CompactUserMediaListItem(
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                     Icon(
-                        painter = painterResource(R.drawable.ic_round_star_24),
+                        painter = painterResource(R.drawable.ic_round_star_16),
                         contentDescription = "star",
                         modifier = Modifier.padding(end = 4.dp),
                         tint = MaterialTheme.colorScheme.onPrimaryContainer

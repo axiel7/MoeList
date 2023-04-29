@@ -29,7 +29,7 @@ fun SmallScoreIndicator(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            painter = painterResource(R.drawable.ic_round_star_24),
+            painter = painterResource(R.drawable.ic_round_star_16),
             contentDescription = stringResource(R.string.mean_score),
             tint = MaterialTheme.colorScheme.outline
         )

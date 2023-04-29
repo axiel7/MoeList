@@ -102,7 +102,7 @@ fun MediaDetailsView(
             modifier = Modifier
                 .verticalScroll(scrollState)
                 .padding(padding)
-                .padding(bottom = 68.dp)
+                .padding(bottom = 88.dp)
         ) {
             Row {
                 MediaPoster(
@@ -442,6 +442,14 @@ fun MediaDetailsView(
                             url = item.node.mainPicture?.large,
                             title = item.node.title,
                             modifier = Modifier.padding(end = 8.dp),
+                            subtitle = {
+                                TextIconHorizontal(
+                                    text = App.numberFormat.format(item.numRecommendations),
+                                    icon = R.drawable.ic_round_thumbs_up_down_16,
+                                    color = MaterialTheme.colorScheme.outline,
+                                    fontSize = 13.sp
+                                )
+                            },
                             onClick = {
                                 navController.navigate("details/${mediaType.value}/${item.node.id}")
                             }
