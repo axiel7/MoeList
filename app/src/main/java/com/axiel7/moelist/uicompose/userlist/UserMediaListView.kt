@@ -199,6 +199,7 @@ fun UserMediaListView(
                             title = item.node.title,
                             userProgress = item.listStatus?.progress,
                             totalProgress = item.node.totalDuration(),
+                            broadcast = (item.node as? AnimeNode)?.broadcast,
                             listStatus = status,
                             onClick = {
                                 navController.navigate("details/${mediaType.value}/${item.node.id}")

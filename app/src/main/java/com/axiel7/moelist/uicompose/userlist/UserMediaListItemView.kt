@@ -270,6 +270,7 @@ fun MinimalUserMediaListItem(
     title: String,
     userProgress: Int?,
     totalProgress: Int?,
+    broadcast: Broadcast?,
     listStatus: ListStatus,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
@@ -298,8 +299,15 @@ fun MinimalUserMediaListItem(
                     color = MaterialTheme.colorScheme.onSurface,
                     fontSize = 17.sp,
                     overflow = TextOverflow.Ellipsis,
-                    maxLines = 2
+                    maxLines = if (broadcast != null) 1 else 2
                 )
+
+                if (broadcast != null) {
+                    Text(
+                        text = broadcast.airingInString(),
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
 
                 Text(
                     text = "${userProgress ?: 0}/${totalProgress ?: 0}",
@@ -363,6 +371,7 @@ fun MinimalUserMediaListItemPreview() {
             title = "This is a very very very very large anime or manga title",
             userProgress = 4,
             totalProgress = 12,
+            broadcast = Broadcast(WeekDay.SUNDAY, "12:00"),
             listStatus = ListStatus.WATCHING,
             onClick = { },
             onLongClick = { },
