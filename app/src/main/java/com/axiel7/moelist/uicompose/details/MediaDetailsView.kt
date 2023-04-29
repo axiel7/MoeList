@@ -37,9 +37,7 @@ import com.axiel7.moelist.utils.ContextExtensions.getCurrentLanguageTag
 import com.axiel7.moelist.utils.ContextExtensions.openAction
 import com.axiel7.moelist.utils.ContextExtensions.openInGoogleTranslate
 import com.axiel7.moelist.utils.ContextExtensions.openLink
-import com.axiel7.moelist.utils.DateUtils.deduceDateFormat
-import com.axiel7.moelist.utils.DateUtils.parseDate
-import com.axiel7.moelist.utils.DateUtils.toLocalized
+import com.axiel7.moelist.utils.DateUtils.parseDateAndLocalize
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
 import com.axiel7.moelist.utils.StringExtensions.toNavArgument
 import com.axiel7.moelist.utils.UseCases.copyToClipBoard
@@ -311,20 +309,12 @@ fun MediaDetailsView(
             Divider(modifier = Modifier.padding(vertical = 8.dp))
             MediaInfoView(
                 title = stringResource(R.string.start_date),
-                info = viewModel.mediaDetails?.startDate?.let {
-                    it.parseDate(
-                        inputFormat = it.deduceDateFormat()
-                    ).toLocalized()
-                },
+                info = viewModel.mediaDetails?.startDate?.parseDateAndLocalize(),
                 modifier = Modifier.placeholder(visible = viewModel.isLoading)
             )
             MediaInfoView(
                 title = stringResource(R.string.end_date),
-                info = viewModel.mediaDetails?.endDate?.let {
-                    it.parseDate(
-                        inputFormat = it.deduceDateFormat()
-                    ).toLocalized()
-                },
+                info = viewModel.mediaDetails?.endDate?.parseDateAndLocalize(),
                 modifier = Modifier.placeholder(visible = viewModel.isLoading)
             )
             if (mediaType == MediaType.ANIME) {

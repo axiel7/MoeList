@@ -94,17 +94,35 @@ object DateUtils {
         ""
     }
 
-    fun String.deduceDateFormat(): DateTimeFormatter = when (this.count { it == '-' }) {
-        0 -> DateTimeFormatter.ofPattern("uuuu")
-        1 -> DateTimeFormatter.ofPattern("MM-uuuu")
-        else -> DateTimeFormatter.ISO_LOCAL_DATE
-    }
-
     fun String.parseDate(
         inputFormat: DateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE
     ): LocalDate? = try {
         LocalDate.parse(this, inputFormat)
     } catch (e: DateTimeParseException) {
+        null
+    }
+
+    fun String.parseDateAndLocalize(
+        inputFormat: DateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE,
+        style: FormatStyle = FormatStyle.MEDIUM
+    ): String? = try {
+        when (this.count { it == '-' }) {
+            0 -> this //only the year (2007)
+            1 -> { //year and month (2007-11)
+                this
+                //TODO: replace with the following code when the bug
+                // https://bugs.openjdk.org/browse/JDK-8168532 is fixed
+                //YearMonth.parse(this)
+                //    ?.format(DateTimeFormatter.ofLocalizedDate(style))
+            }
+            else -> {
+                LocalDate.parse(this, inputFormat)
+                    ?.format(DateTimeFormatter.ofLocalizedDate(style))
+            }
+        }
+    } catch (e: DateTimeParseException) {
+        null
+    } catch (e: DateTimeException) {
         null
     }
 
