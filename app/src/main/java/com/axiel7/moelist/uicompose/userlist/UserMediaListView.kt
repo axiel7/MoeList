@@ -175,6 +175,7 @@ fun UserMediaListView(
                             score = item.listStatus?.score,
                             userProgress = item.listStatus?.progress,
                             totalProgress = item.node.totalDuration(),
+                            mediaStatus = item.node.status,
                             broadcast = (item.node as? AnimeNode)?.broadcast,
                             listStatus = status,
                             onClick = {
@@ -199,6 +200,7 @@ fun UserMediaListView(
                             title = item.node.title,
                             userProgress = item.listStatus?.progress,
                             totalProgress = item.node.totalDuration(),
+                            mediaStatus = item.node.status,
                             broadcast = (item.node as? AnimeNode)?.broadcast,
                             listStatus = status,
                             onClick = {
