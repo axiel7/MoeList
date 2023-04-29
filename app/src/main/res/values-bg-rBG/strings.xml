@@ -47,12 +47,12 @@
     <string name="this_season">Този сезон</string>
     <string name="recommendations">Препоръки</string>
     <string name="username">Потребителско име</string>
-    <string name="total_entries">Общо:</string>
+    <string name="total_entries">Общо: %s</string>
     <string name="mean_score">Средна Стойност</string>
     <string name="rewatched">Повторно изгледано</string>
     <string name="view_profile_mal">Преглед на профила в MAL</string>
-    <string name="airing_in">Поветряване в %sh</string>
-    <string name="score_value">Резултат:</string>
+    <string name="airing_in">Поветряване в %s</string>
+    <string name="score_value">Резултат: %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 CH</string>
@@ -81,8 +81,8 @@
     <string name="one_shot">Един път</string>
     <string name="manhwa">Manhwa</string>
     <string name="novel">Роман</string>
-    <string name="airing" comment="the status &quot;airing&quot; of an anime">Поветряване</string>
-    <string name="finished" comment="the status &quot;finished&quot; of an anime/manga">Завършено</string>
+    <string name="airing">Поветряване</string>
+    <string name="finished">Завършено</string>
     <string name="on_hiatus">На Хиатус</string>
     <string name="winter">Зима</string>
     <string name="spring">Пролет</string>
@@ -111,7 +111,7 @@
     <string name="saturday">Събота</string>
     <string name="sunday">Неделя</string>
     <string name="not_yet_aired">Все още неизлъчено</string>
-    <string name="publishing" comment="the status &quot;publishing&quot; of a manga">Публикуване</string>
+    <string name="publishing">Публикуване</string>
     <string name="all">Всички</string>
     <string name="popular">Популярни</string>
     <string name="added_ptr">Добавено в Планирано за Гледане</string>
@@ -239,7 +239,7 @@
     <string name="full_story">Цяла история</string>
     <string name="theme_black">Черно</string>
     <string name="aired_ago">Излъчен %s преди</string>
-    <string name="anime_stats">Аниме\nСтатистики</string>
+    <string name="anime_stats">Аниме Статистики</string>
     <string name="delete_confirmation">Сигурни ли сте, че искате да изтриете това?</string>
     <string name="bulgarian">Български</string>
     <string name="log_in_again">Влезте отново</string>
@@ -269,4 +269,14 @@
     <string name="total_rereads">Total Rereads</string>
     <string name="total_rewatches">Total Rewatches</string>
     <string name="chinese_simplified">Chinese (Simplified)</string>
+    <string name="related_anime">Related Anime</string>
+    <string name="related_manga">Related Manga</string>
+    <string name="content">Content</string>
+    <string name="list_mode_standard">Standard</string>
+    <string name="list_mode_compact">Compact</string>
+    <string name="list_mode_minimal">Minimal</string>
+    <string name="list_style">List style</string>
+    <string name="num_years">%s years</string>
+    <string name="num_months">%s months</string>
+    <string name="num_weeks">%s weeks</string>
 </resources>
