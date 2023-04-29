@@ -46,7 +46,7 @@ data class AnimeDetails(
     override val relatedManga: List<RelatedManga>? = null,
     override val recommendations: List<Recommendations<AnimeNode>>? = null,
     @SerialName("my_list_status")
-    override var myListStatus: MyAnimeListStatus? = null,
+    override val myListStatus: MyAnimeListStatus? = null,
     @SerialName("num_episodes")
     val numEpisodes: Int? = null,
     @SerialName("start_season")

@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 
 abstract class BaseResponse {
     @SerialName("error")
-    abstract var error: String?
+    abstract val error: String?
     @SerialName("message")
-    abstract var message: String?
+    abstract val message: String?
 }

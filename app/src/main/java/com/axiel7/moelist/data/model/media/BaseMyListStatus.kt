@@ -22,8 +22,8 @@ abstract class BaseMyListStatus : BaseResponse() {
     abstract val repeatCount: Int?
     abstract val isRepeating: Boolean
 
-    override var error: String? = null
-    override var message: String? = null
+    override val error: String? = null
+    override val message: String? = null
 }
 
 @Composable

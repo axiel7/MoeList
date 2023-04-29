@@ -43,7 +43,7 @@ data class MangaDetails(
     override val relatedManga: List<RelatedManga>? = null,
     override val recommendations: List<Recommendations<MangaNode>>? = null,
     @SerialName("my_list_status")
-    override var myListStatus: MyMangaListStatus? = null,
+    override val myListStatus: MyMangaListStatus? = null,
     @SerialName("num_volumes")
     val numVolumes: Int? = null,
     @SerialName("num_chapters")

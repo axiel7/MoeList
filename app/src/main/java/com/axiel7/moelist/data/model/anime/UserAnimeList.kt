@@ -9,7 +9,7 @@ data class UserAnimeList(
     @SerialName("node")
     override val node: AnimeNode,
     @SerialName("list_status")
-    override var listStatus: MyAnimeListStatus? = null,
+    override val listStatus: MyAnimeListStatus? = null,
     @SerialName("status")
-    override var status: String? = null
+    override val status: String? = null
 ) : BaseUserMediaList<AnimeNode>()

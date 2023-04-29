@@ -38,8 +38,8 @@ abstract class BaseMediaDetails : BaseResponse() {
 
     abstract val myListStatus: BaseMyListStatus?
 
-    override var error: String? = null
-    override var message: String? = null
+    override val error: String? = null
+    override val message: String? = null
 }
 
 @Composable

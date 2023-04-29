@@ -23,6 +23,6 @@ data class User(
     @SerialName("anime_statistics")
     val animeStatistics: UserAnimeStatistics? = null,
 
-    override var message: String? = null,
-    override var error: String? = null,
+    override val message: String? = null,
+    override val error: String? = null,
 ) : BaseResponse()

@@ -13,6 +13,6 @@ data class MangaRanking(
     @SerialName("ranking")
     override val ranking: Ranking? = null,
     @SerialName("ranking_type")
-    override var rankingType: RankingType? = null,
+    override val rankingType: RankingType? = null,
 ): BaseRanking()
 

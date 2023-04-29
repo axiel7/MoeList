@@ -9,9 +9,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class StartSeason (
     @SerialName("year")
-    var year: Int,
+    val year: Int,
     @SerialName("season")
-    var season: Season
+    val season: Season
 )
 
 @Composable
