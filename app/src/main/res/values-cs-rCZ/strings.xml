@@ -81,8 +81,8 @@
     <string name="one_shot">Jednorázové</string>
     <string name="manhwa">Manhwa</string>
     <string name="novel">Román</string>
-    <string name="airing">Ve Vysílání</string>
-    <string name="finished">Dokončeno</string>
+    <string name="airing" comment="the status &quot;airing&quot; of an anime">Ve Vysílání</string>
+    <string name="finished" comment="the status &quot;finished&quot; of an anime/manga">Dokončeno</string>
     <string name="on_hiatus">Pozastaveno</string>
     <string name="winter">Zima</string>
     <string name="spring">Jaro</string>
@@ -111,7 +111,7 @@
     <string name="saturday">Sobota</string>
     <string name="sunday">Neděle</string>
     <string name="not_yet_aired">Ještě Nevysíláno</string>
-    <string name="publishing">Publikováno</string>
+    <string name="publishing" comment="the status &quot;publishing&quot; of a manga">Publikováno</string>
     <string name="all">Vše</string>
     <string name="popular">Populární</string>
     <string name="added_ptr">Přidáno do Plánu Čtení</string>
