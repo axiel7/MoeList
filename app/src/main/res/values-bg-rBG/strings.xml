@@ -51,7 +51,7 @@
     <string name="mean_score">Средна Стойност</string>
     <string name="rewatched">Повторно изгледано</string>
     <string name="view_profile_mal">Преглед на профила в MAL</string>
-    <string name="airing_in">Поветряване в %sh</string>
+    <string name="airing_in">Поветряване в %s</string>
     <string name="score_value">Резултат: %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>

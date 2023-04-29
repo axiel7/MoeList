@@ -51,7 +51,7 @@
     <string name="mean_score">Средний балл</string>
     <string name="rewatched">Пересмотрено</string>
     <string name="view_profile_mal">Посмотреть профиль на MAL</string>
-    <string name="airing_in">Выйдет через %s ч.</string>
+    <string name="airing_in">Выйдет через %s</string>
     <string name="score_value">Оценка: %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
@@ -238,7 +238,7 @@
     <string name="minutes_abbreviation">мин</string>
     <string name="full_story">Полная история</string>
     <string name="theme_black">Чёрная</string>
-    <string name="aired_ago">Вышло %s ч. назад</string>
+    <string name="aired_ago">Вышло %s назад</string>
     <string name="anime_stats">Аниме Статистика</string>
     <string name="delete_confirmation">Вы уверены, что хотите удалить эту запись?</string>
     <string name="bulgarian">Болгарский</string>

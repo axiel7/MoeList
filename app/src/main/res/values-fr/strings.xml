@@ -51,7 +51,7 @@
     <string name="mean_score">Score moyen</string>
     <string name="rewatched">Revu</string>
     <string name="view_profile_mal">Voir le profil sur MAL</string>
-    <string name="airing_in">Diffusion dans %sh</string>
+    <string name="airing_in">Diffusion dans %s</string>
     <string name="score_value">Score: %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
@@ -238,7 +238,7 @@
     <string name="minutes_abbreviation">min</string>
     <string name="full_story">Histoire complète</string>
     <string name="theme_black">Noir</string>
-    <string name="aired_ago">Diffusion il y a %sh</string>
+    <string name="aired_ago">Diffusion il y a %s</string>
     <string name="anime_stats">Stats d\'animes</string>
     <string name="delete_confirmation">Souhaitez-vous vraiment supprimer cette entrée ?</string>
     <string name="bulgarian">Bulgare</string>

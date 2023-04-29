@@ -1,6 +1,10 @@
 package com.axiel7.moelist.utils
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.axiel7.moelist.R
 import java.time.DateTimeException
+import java.time.DayOfWeek
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -9,6 +13,7 @@ import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.time.format.FormatStyle
+import java.time.temporal.TemporalAdjusters
 import java.util.TimeZone
 
 object DateUtils {
@@ -106,4 +111,35 @@ object DateUtils {
     fun String.toIsoFormat(inputFormat: DateTimeFormatter) = LocalDate.parse(this, inputFormat).toString()
 
     fun LocalDate.toEpochMillis() = this.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli()
+
+    fun LocalDate.getNextDayOfWeek(dayOfWeek: DayOfWeek) = with(TemporalAdjusters.nextOrSame(dayOfWeek))
+
+    /**
+     * Converts seconds to years, months, weeks, days, hours or minutes.
+     * Depending if there is enough time.
+     * Eg. If days greater than 1 and less than 6, returns "x days"
+     */
+    @Composable
+    fun Long.secondsToLegibleText(): String {
+        val days = this / 86400
+        if (days > 6) {
+            val weeks = this / 604800
+            return if (weeks > 4) {
+                val months = this / 2629746
+                if (months > 12) {
+                    val years = this / 31556952
+                    stringResource(R.string.num_years).format(years)
+                } else stringResource(R.string.num_months).format(months)
+            } else stringResource(R.string.num_weeks).format(weeks)
+        }
+        else if (days >= 1) return "%s days".format(days)
+        else {
+            val hours = this / 3600
+            return if (hours >= 1) "$hours ${stringResource(R.string.hour_abbreviation)}"
+            else {
+                val minutes = (this % 3600) / 60
+                "$minutes ${stringResource(R.string.minutes_abbreviation)}"
+            }
+        }
+    }
 }

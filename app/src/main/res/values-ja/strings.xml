@@ -51,7 +51,7 @@
     <string name="mean_score">平均スコア</string>
     <string name="rewatched">見直しました</string>
     <string name="view_profile_mal">MALでプロファイルを表示</string>
-    <string name="airing_in">%s時間で配信中</string>
+    <string name="airing_in">%sで配信中</string>
     <string name="score_value">スコア： %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
@@ -238,7 +238,7 @@
     <string name="minutes_abbreviation">分</string>
     <string name="full_story">全物語</string>
     <string name="theme_black">ブラック</string>
-    <string name="aired_ago">%s時間前</string>
+    <string name="aired_ago">%s前</string>
     <string name="anime_stats">アニメの統計</string>
     <string name="delete_confirmation">このエントリーを削除してもよろしいですか？</string>
     <string name="bulgarian">ブルガリア語</string>

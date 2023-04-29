@@ -19,10 +19,12 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -31,7 +33,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.axiel7.moelist.R
+import com.axiel7.moelist.data.model.anime.Broadcast
+import com.axiel7.moelist.data.model.anime.airingInString
 import com.axiel7.moelist.data.model.media.ListStatus
+import com.axiel7.moelist.data.model.media.WeekDay
 import com.axiel7.moelist.data.model.media.calculateProgressBarValue
 import com.axiel7.moelist.data.model.media.isCurrent
 import com.axiel7.moelist.data.model.media.mediaFormatLocalized
@@ -50,6 +55,7 @@ fun StandardUserMediaListItem(
     score: Int?,
     mediaFormat: String?,
     mediaStatus: String?,
+    broadcast: Broadcast?,
     userProgress: Int?,
     totalProgress: Int?,
     listStatus: ListStatus,
@@ -112,13 +118,19 @@ fun StandardUserMediaListItem(
                     )
                     Text(
                         text = buildString {
-                            append(mediaFormat?.mediaFormatLocalized())
-                            if (mediaStatus?.startsWith("currently") == true) {
-                                append(" • ")
-                                append(mediaStatus.statusLocalized())
+                            if (broadcast != null) {
+                                append(broadcast.airingInString())
+                            } else {
+                                append(mediaFormat?.mediaFormatLocalized())
+                                if (mediaStatus?.startsWith("currently") == true) {
+                                    append(" • ")
+                                    append(mediaStatus.statusLocalized())
+                                }
                             }
                         },
-                        modifier = Modifier.padding(horizontal = 16.dp)
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        color = if (broadcast != null) MaterialTheme.colorScheme.primary
+                        else MaterialTheme.colorScheme.onSurface
                     )
                 }//:Column
 
@@ -303,6 +315,7 @@ fun StandardUserMediaListItemPreview() {
             score = null,
             mediaFormat = "tv",
             mediaStatus = "currently_airing",
+            broadcast = Broadcast(WeekDay.SUNDAY, "12:00"),
             userProgress = 4,
             totalProgress = 24,
             listStatus = ListStatus.WATCHING,

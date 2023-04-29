@@ -15,6 +15,8 @@ data class AnimeNode(
     override val mainPicture: MainPicture? = null,
     @SerialName("start_season")
     val startSeason: StartSeason? = null,
+    @SerialName("broadcast")
+    val broadcast: Broadcast? = null,
     @SerialName("num_episodes")
     val numEpisodes: Int? = null,
     @SerialName("num_list_users")

@@ -51,7 +51,7 @@
     <string name="mean_score">平均分數</string>
     <string name="rewatched">重看</string>
     <string name="view_profile_mal">在 MAL 上查看個人資料</string>
-    <string name="airing_in">%s小時後播出</string>
+    <string name="airing_in">%s後播出</string>
     <string name="score_value">分數: %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
@@ -238,7 +238,7 @@
     <string name="minutes_abbreviation">分鐘</string>
     <string name="full_story">整個故事</string>
     <string name="theme_black">黑色</string>
-    <string name="aired_ago">%s小時前播出</string>
+    <string name="aired_ago">%s前播出</string>
     <string name="anime_stats">動漫統計</string>
     <string name="delete_confirmation">您確定要刪除此條目嗎？</string>
     <string name="bulgarian">保加利亞文</string>

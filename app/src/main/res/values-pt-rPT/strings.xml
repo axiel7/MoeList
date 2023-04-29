@@ -51,7 +51,7 @@
     <string name="mean_score">Mean Score</string>
     <string name="rewatched">Rewatched</string>
     <string name="view_profile_mal">View profile on MAL</string>
-    <string name="airing_in">Airing in %sh</string>
+    <string name="airing_in">Airing in %s</string>
     <string name="score_value">Score: %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
@@ -238,7 +238,7 @@
     <string name="minutes_abbreviation">min</string>
     <string name="full_story">Full story</string>
     <string name="theme_black">Black</string>
-    <string name="aired_ago">Aired %sh ago</string>
+    <string name="aired_ago">Aired %s ago</string>
     <string name="anime_stats">Anime Stats</string>
     <string name="delete_confirmation">Are you sure you want to delete this entry?</string>
     <string name="bulgarian">Bulgarian</string>

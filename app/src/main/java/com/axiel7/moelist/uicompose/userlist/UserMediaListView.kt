@@ -29,6 +29,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
+import com.axiel7.moelist.data.model.anime.AnimeNode
 import com.axiel7.moelist.data.model.media.*
 import com.axiel7.moelist.uicompose.base.ListMode
 import com.axiel7.moelist.uicompose.base.TabRowItem
@@ -146,6 +147,7 @@ fun UserMediaListView(
                             score = item.listStatus?.score,
                             mediaFormat = item.node.mediaType,
                             mediaStatus = item.node.status,
+                            broadcast = (item.node as? AnimeNode)?.broadcast,
                             userProgress = item.listStatus?.progress,
                             totalProgress = item.node.totalDuration(),
                             listStatus = status,

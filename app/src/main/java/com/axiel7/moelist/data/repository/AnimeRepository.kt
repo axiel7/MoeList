@@ -70,7 +70,7 @@ object AnimeRepository {
         }
     }
 
-    const val USER_ANIME_LIST_FIELDS = "list_status{num_times_rewatched},num_episodes,media_type,status"
+    const val USER_ANIME_LIST_FIELDS = "list_status{num_times_rewatched},num_episodes,media_type,status,broadcast"
 
     suspend fun getUserAnimeList(
         apiParams: ApiParams,

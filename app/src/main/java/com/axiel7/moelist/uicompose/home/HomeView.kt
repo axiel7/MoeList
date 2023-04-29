@@ -41,7 +41,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
-import com.axiel7.moelist.data.model.anime.airingInValue
+import com.axiel7.moelist.data.model.anime.airingInString
 import com.axiel7.moelist.data.model.anime.icon
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.uicompose.calendar.CALENDAR_DESTINATION
@@ -299,9 +299,10 @@ fun AiringAnimeHorizontalItem(item: AnimeSeasonal, onClick: () -> Unit) {
                 modifier = Modifier.padding(bottom = 4.dp)
             )
             Text(
-                text = item.airingInValue(),
+                text = item.node.broadcast?.airingInString() ?: "",
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(bottom = 8.dp))
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
 
             SmallScoreIndicator(
                 score = item.node.mean

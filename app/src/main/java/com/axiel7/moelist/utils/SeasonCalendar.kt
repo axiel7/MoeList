@@ -3,6 +3,7 @@ package com.axiel7.moelist.utils
 import com.axiel7.moelist.data.model.anime.Season
 import com.axiel7.moelist.data.model.anime.StartSeason
 import com.axiel7.moelist.data.model.media.WeekDay
+import java.time.ZoneId
 import java.util.Calendar
 import java.util.Locale
 import java.util.TimeZone
@@ -54,4 +55,6 @@ object SeasonCalendar {
         1 -> WeekDay.SUNDAY
         else -> WeekDay.MONDAY
     }
+
+    val japanZoneId: ZoneId = ZoneId.of("Asia/Tokyo")
 }
