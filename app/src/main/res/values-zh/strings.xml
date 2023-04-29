@@ -81,8 +81,8 @@
     <string name="one_shot">独立篇</string>
     <string name="manhwa">韩漫</string>
     <string name="novel">小说</string>
-    <string name="airing">正在播出</string>
-    <string name="finished">完结</string>
+    <string name="airing" comment="the status &quot;airing&quot; of an anime">正在播出</string>
+    <string name="finished" comment="the status &quot;finished&quot; of an anime/manga">完结</string>
     <string name="on_hiatus">中断</string>
     <string name="winter">1月番</string>
     <string name="spring">4月番</string>
@@ -111,7 +111,7 @@
     <string name="saturday">星期六</string>
     <string name="sunday">星期天</string>
     <string name="not_yet_aired">尚未播出</string>
-    <string name="publishing">正在发表</string>
+    <string name="publishing" comment="the status &quot;publishing&quot; of a manga">正在发表</string>
     <string name="all">全部</string>
     <string name="popular">人气</string>
     <string name="added_ptr">添加到稍后阅读</string>
