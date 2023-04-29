@@ -297,4 +297,5 @@
     <string name="num_years">%s years</string>
     <string name="num_months">%s months</string>
     <string name="num_weeks">%s weeks</string>
+    <string name="open_mal_links_in_the_app">Open MAL links in the app</string>
 </resources>

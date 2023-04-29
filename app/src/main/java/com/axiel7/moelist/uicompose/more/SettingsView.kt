@@ -120,7 +120,7 @@ fun SettingsView(
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 PlainPreferenceView(
-                    title = "Open MAL links in the app",
+                    title = stringResource(R.string.open_mal_links_in_the_app),
                     icon = R.drawable.ic_open_in_browser,
                     onClick = {
                         Intent(Settings.ACTION_APP_OPEN_BY_DEFAULT_SETTINGS,
