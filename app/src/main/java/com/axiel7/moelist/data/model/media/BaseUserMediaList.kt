@@ -11,6 +11,6 @@ fun calculateProgressBarValue(
     totalProgress: Int?
 ): Float {
     val total = totalProgress ?: 0
-    return if (total == 0) 1f
+    return if (total == 0) 0f
     else (currentProgress ?: 0).div(total.toFloat())
 }
