@@ -101,4 +101,8 @@ fun String.statusLocalized() = when (this) {
 fun BaseMediaDetails.rankText() = if (rank == null) "N/A" else "#$rank"
 
 @Composable
-fun BaseMediaDetails.synonymsJoined() = this.alternativeTitles?.synonyms?.joinToString(",\n")
+fun BaseMediaDetails.synonymsJoined(): String? {
+    val joined = alternativeTitles?.synonyms?.joinToString(",\n")
+    return if (joined?.isNotBlank() == true) joined
+    else null
+}
