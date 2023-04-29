@@ -47,12 +47,12 @@
     <string name="this_season">這一季</string>
     <string name="recommendations">推薦</string>
     <string name="username">使用者名稱</string>
-    <string name="total_entries">總計:</string>
+    <string name="total_entries">總計：%s</string>
     <string name="mean_score">平均分數</string>
     <string name="rewatched">重看</string>
     <string name="view_profile_mal">在 MAL 上查看個人資料</string>
-    <string name="airing_in">%s小時後播出</string>
-    <string name="score_value">分數:</string>
+    <string name="airing_in">%s後播出</string>
+    <string name="score_value">分數: %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 章</string>
@@ -81,8 +81,8 @@
     <string name="one_shot">單篇</string>
     <string name="manhwa">韓漫</string>
     <string name="novel">小說</string>
-    <string name="airing" comment="the status &quot;airing&quot; of an anime">正在播出</string>
-    <string name="finished" comment="the status &quot;finished&quot; of an anime/manga">完成</string>
+    <string name="airing">正在播出</string>
+    <string name="finished">完成</string>
     <string name="on_hiatus">中斷</string>
     <string name="winter">冬季</string>
     <string name="spring">春季</string>
@@ -111,7 +111,7 @@
     <string name="saturday">週六</string>
     <string name="sunday">週日</string>
     <string name="not_yet_aired">尚未播出</string>
-    <string name="publishing" comment="the status &quot;publishing&quot; of a manga">正在發表</string>
+    <string name="publishing">正在發表</string>
     <string name="all">全部</string>
     <string name="popular">熱門</string>
     <string name="added_ptr">新增到稍後閱讀</string>
@@ -238,8 +238,8 @@
     <string name="minutes_abbreviation">分鐘</string>
     <string name="full_story">整個故事</string>
     <string name="theme_black">黑色</string>
-    <string name="aired_ago">%s小時前播出</string>
-    <string name="anime_stats">動漫\n統計</string>
+    <string name="aired_ago">%s前播出</string>
+    <string name="anime_stats">動漫統計</string>
     <string name="delete_confirmation">您確定要刪除此條目嗎？</string>
     <string name="bulgarian">保加利亞文</string>
     <string name="log_in_again">請重新登入</string>
@@ -268,5 +268,15 @@
     <string name="select_date">選擇日期</string>
     <string name="total_rereads">總重讀</string>
     <string name="total_rewatches">總重看</string>
-    <string name="chinese_simplified">中文 (簡體)</string>
+    <string name="chinese_simplified">Chinese (Simplified)</string>
+    <string name="related_anime">Related Anime</string>
+    <string name="related_manga">Related Manga</string>
+    <string name="content">Content</string>
+    <string name="list_mode_standard">Standard</string>
+    <string name="list_mode_compact">Compact</string>
+    <string name="list_mode_minimal">Minimal</string>
+    <string name="list_style">List style</string>
+    <string name="num_years">%s years</string>
+    <string name="num_months">%s months</string>
+    <string name="num_weeks">%s weeks</string>
 </resources>
