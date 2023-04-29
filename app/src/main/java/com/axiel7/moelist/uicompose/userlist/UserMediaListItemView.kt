@@ -118,7 +118,7 @@ fun StandardUserMediaListItem(
                     )
                     Text(
                         text = buildString {
-                            if (broadcast != null) {
+                            if (broadcast != null && mediaStatus == "currently_airing") {
                                 append(broadcast.airingInString())
                             } else {
                                 append(mediaFormat?.mediaFormatLocalized())
@@ -172,6 +172,7 @@ fun CompactUserMediaListItem(
     imageUrl: String?,
     title: String,
     score: Int?,
+    mediaStatus: String?,
     userProgress: Int?,
     totalProgress: Int?,
     broadcast: Broadcast?,
@@ -231,10 +232,10 @@ fun CompactUserMediaListItem(
                     color = MaterialTheme.colorScheme.onSurface,
                     fontSize = 17.sp,
                     overflow = TextOverflow.Ellipsis,
-                    maxLines = if (broadcast != null) 1 else 2
+                    maxLines = if (broadcast != null && mediaStatus == "currently_airing") 1 else 2
                 )
 
-                if (broadcast != null) {
+                if (broadcast != null && mediaStatus == "currently_airing") {
                     Text(
                         text = broadcast.airingInString(),
                         modifier = Modifier.padding(horizontal = 16.dp),
@@ -270,6 +271,7 @@ fun MinimalUserMediaListItem(
     title: String,
     userProgress: Int?,
     totalProgress: Int?,
+    mediaStatus: String?,
     broadcast: Broadcast?,
     listStatus: ListStatus,
     onClick: () -> Unit,
@@ -299,10 +301,10 @@ fun MinimalUserMediaListItem(
                     color = MaterialTheme.colorScheme.onSurface,
                     fontSize = 17.sp,
                     overflow = TextOverflow.Ellipsis,
-                    maxLines = if (broadcast != null) 1 else 2
+                    maxLines = if (broadcast != null && mediaStatus == "currently_airing") 1 else 2
                 )
 
-                if (broadcast != null) {
+                if (broadcast != null && mediaStatus == "currently_airing") {
                     Text(
                         text = broadcast.airingInString(),
                         color = MaterialTheme.colorScheme.primary
@@ -352,6 +354,7 @@ fun CompactUserMediaListItemPreview() {
             imageUrl = null,
             title = "This is a very very very very large anime or manga title",
             score = null,
+            mediaStatus = "currently_airing",
             userProgress = 4,
             totalProgress = 12,
             broadcast = Broadcast(WeekDay.SUNDAY, "12:00"),
@@ -371,6 +374,7 @@ fun MinimalUserMediaListItemPreview() {
             title = "This is a very very very very large anime or manga title",
             userProgress = 4,
             totalProgress = 12,
+            mediaStatus = "currently_airing",
             broadcast = Broadcast(WeekDay.SUNDAY, "12:00"),
             listStatus = ListStatus.WATCHING,
             onClick = { },
