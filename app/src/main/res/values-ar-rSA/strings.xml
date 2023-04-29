@@ -47,12 +47,12 @@
     <string name="this_season">هذا الموسم</string>
     <string name="recommendations">التوصيات</string>
     <string name="username">اسم المستخدم</string>
-    <string name="total_entries">الإجمالي:</string>
+    <string name="total_entries">الإجمالي: %s</string>
     <string name="mean_score">متوسط التقييم</string>
     <string name="rewatched">أعدت مشاهدته</string>
     <string name="view_profile_mal">عرض الملفّ الشخصي على MAL</string>
-    <string name="airing_in">سيبث في %s س</string>
-    <string name="score_value">التقييم:</string>
+    <string name="airing_in">سيبث في %s</string>
+    <string name="score_value">التقييم: %s</string>
     <string name="plus_one">1+</string>
     <string name="minus_one">-1</string>
     <string name="plus_one_chapter">1+ فصل</string>
@@ -81,8 +81,8 @@
     <string name="one_shot">ون شوت</string>
     <string name="manhwa">مانهوا</string>
     <string name="novel">رواية</string>
-    <string name="airing" comment="the status &quot;airing&quot; of an anime">يبث</string>
-    <string name="finished" comment="the status &quot;finished&quot; of an anime/manga">منتهي</string>
+    <string name="airing">يبث</string>
+    <string name="finished">منتهي</string>
     <string name="on_hiatus">متوقف</string>
     <string name="winter">الشتاء</string>
     <string name="spring">الربيع</string>
@@ -111,7 +111,7 @@
     <string name="saturday">السبت</string>
     <string name="sunday">الأحد</string>
     <string name="not_yet_aired">لم يبث بعد</string>
-    <string name="publishing" comment="the status &quot;publishing&quot; of a manga">لا زالت تنشر</string>
+    <string name="publishing">لا زالت تنشر</string>
     <string name="all">الكل</string>
     <string name="popular">الأكثر شعبية</string>
     <string name="added_ptr">إضافة إلى قائمة أخطط قرائتة</string>
@@ -238,8 +238,8 @@
     <string name="minutes_abbreviation">دقيقة</string>
     <string name="full_story">القصة الكاملة</string>
     <string name="theme_black">أسود</string>
-    <string name="aired_ago">تم بثه منذ %s س</string>
-    <string name="anime_stats">إحصائيات\nالأنيمي</string>
+    <string name="aired_ago">تم بثه منذ %s</string>
+    <string name="anime_stats">إحصائيات الأنيمي</string>
     <string name="delete_confirmation">هل أنت متأكد أنك تريد حذف هذا المدخل؟</string>
     <string name="bulgarian">البلغارية</string>
     <string name="log_in_again">الرجاء تسجيل الدخول مرة أخرى</string>
@@ -269,4 +269,14 @@
     <string name="total_rereads">Total Rereads</string>
     <string name="total_rewatches">Total Rewatches</string>
     <string name="chinese_simplified">Chinese (Simplified)</string>
+    <string name="related_anime">Related Anime</string>
+    <string name="related_manga">Related Manga</string>
+    <string name="content">Content</string>
+    <string name="list_mode_standard">Standard</string>
+    <string name="list_mode_compact">Compact</string>
+    <string name="list_mode_minimal">Minimal</string>
+    <string name="list_style">List style</string>
+    <string name="num_years">%s years</string>
+    <string name="num_months">%s months</string>
+    <string name="num_weeks">%s weeks</string>
 </resources>
