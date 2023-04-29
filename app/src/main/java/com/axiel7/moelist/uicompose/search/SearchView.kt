@@ -122,7 +122,6 @@ fun SearchResultList(
                 }
         }
         else items(viewModel.mediaList,
-            key = { it.node.id },
             contentType = { it.node }
         ) {
             MediaItemDetailed(
@@ -186,12 +185,13 @@ fun SearchResultList(
     }
 
     LaunchedEffect(query, performSearch.value) {
-        if (query.isNotBlank() && performSearch.value)
+        if (query.isNotBlank() && performSearch.value) {
             viewModel.search(
                 mediaType = mediaType,
                 query = query
             )
-        performSearch.value = false
+            performSearch.value = false
+        }
     }
 }
 
