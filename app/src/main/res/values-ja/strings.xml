@@ -7,12 +7,12 @@
     <string name="more_info">詳細</string>
     <string name="synonyms">同義語</string>
     <string name="jp_title">日本語</string>
-    <string name="start_date">公開日</string>
+    <string name="start_date">開始日</string>
     <string name="end_date">終了日</string>
     <string name="season">季節</string>
     <string name="broadcast">配信</string>
-    <string name="duration">放送時間</string>
-    <string name="source">原作</string>
+    <string name="duration">期間</string>
+    <string name="source">ソース</string>
     <string name="studios">スタジオ</string>
     <string name="edit">編集</string>
     <string name="authors">作者</string>
@@ -28,13 +28,13 @@
     <string name="episodes">話</string>
     <string name="delete">削除する</string>
     <string name="chapters">章</string>
-    <string name="watching">視聴中</string>
+    <string name="watching">見ています</string>
     <string name="reading">読んでいます</string>
-    <string name="completed">完了</string>
+    <string name="completed">完成</string>
     <string name="on_hold">保留</string>
-    <string name="dropped">視聴を中断</string>
-    <string name="ptw">視聴予定</string>
-    <string name="ptr">視聴予定</string>
+    <string name="dropped">ドロップ</string>
+    <string name="ptw">プランニング</string>
+    <string name="ptr">プランニング</string>
     <string name="share_app">アプリを共有する</string>
     <string name="settings">設定</string>
     <string name="year">年</string>
@@ -44,15 +44,15 @@
     <string name="random">ランダム</string>
     <string name="today">今日</string>
     <string name="nothing_today">今日は何もありません\n( ≧Д≦)</string>
-    <string name="this_season">今シーズン</string>
+    <string name="this_season">今シーズンの</string>
     <string name="recommendations">おすすめ</string>
     <string name="username">ユーザー名</string>
-    <string name="total_entries">合計：</string>
+    <string name="total_entries">合計：%s</string>
     <string name="mean_score">平均スコア</string>
     <string name="rewatched">見直しました</string>
     <string name="view_profile_mal">MALでプロファイルを表示</string>
-    <string name="airing_in">%s時間後に配信</string>
-    <string name="score_value">スコア：</string>
+    <string name="airing_in">%sで配信中</string>
+    <string name="score_value">スコア： %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 章</string>
@@ -68,7 +68,7 @@
     <string name="error_delete_entry">エントリの削除エラー</string>
     <string name="updated">更新</string>
     <string name="error_updating_list">リストの更新中にエラー</string>
-    <string name="added_ptw">視聴予定に追加しました</string>
+    <string name="added_ptw">プランニングに追加しました</string>
     <string name="no_changes">変更なし</string>
     <string name="tv">テレビ</string>
     <string name="ova">OVA</string>
@@ -81,8 +81,8 @@
     <string name="one_shot">ワンショット</string>
     <string name="manhwa">韓国の漫画</string>
     <string name="novel">小説</string>
-    <string name="airing" comment="the status &quot;airing&quot; of an anime">配信中</string>
-    <string name="finished" comment="the status &quot;finished&quot; of an anime/manga">終了</string>
+    <string name="airing">配信中</string>
+    <string name="finished">終了</string>
     <string name="on_hiatus">中断</string>
     <string name="winter">冬</string>
     <string name="spring">春</string>
@@ -111,15 +111,15 @@
     <string name="saturday">土曜日</string>
     <string name="sunday">日曜日</string>
     <string name="not_yet_aired">まだ配信していません</string>
-    <string name="publishing" comment="the status &quot;publishing&quot; of a manga">公開中</string>
+    <string name="publishing">公開中</string>
     <string name="all">すべて</string>
     <string name="popular">人気</string>
-    <string name="added_ptr">視聴予定に追加しました</string>
+    <string name="added_ptr">プランニングに追加しました</string>
     <string name="days">日間</string>
     <string name="login_error">ログインエラー</string>
     <string name="search">検索</string>
     <string name="theme">テーマ</string>
-    <string name="show_nsfw">アダルトコンテンツを表示する</string>
+    <string name="show_nsfw">NSFW コンテンツを表示する</string>
     <string name="nsfw_summary">私は18歳以上だと確認します。</string>
     <string name="default_section">デフォルトセクション</string>
     <string name="display">ディスプレー</string>
@@ -153,7 +153,7 @@
     <string name="relateds">関連</string>
     <string name="view_on_mal">MALで表示</string>
     <string name="share">分け合う</string>
-    <string name="sort_title">作品名</string>
+    <string name="sort_title">件名</string>
     <string name="sort_score">スコア</string>
     <string name="sort_last_updated">最終更新日</string>
     <string name="sort" tools:ignore="MissingTranslation">並び替え</string>
@@ -238,8 +238,8 @@
     <string name="minutes_abbreviation">分</string>
     <string name="full_story">全物語</string>
     <string name="theme_black">ブラック</string>
-    <string name="aired_ago">%s時間前</string>
-    <string name="anime_stats">アニメ\nの統計</string>
+    <string name="aired_ago">%s前</string>
+    <string name="anime_stats">アニメの統計</string>
     <string name="delete_confirmation">このエントリーを削除してもよろしいですか？</string>
     <string name="bulgarian">ブルガリア語</string>
     <string name="log_in_again">もう一度ログインしてください</string>
@@ -249,12 +249,12 @@
     <string name="search_manga">漫画を検索</string>
     <string name="anime_manga_news"><![CDATA[アニメ＆マンガニュース]]></string>
     <string name="mal_announcements">MyAnimeList お知らせ</string>
-    <string name="about">アプリについて</string>
+    <string name="about">について</string>
     <string name="mal_announcements_summary">MALの更新、変更、および追加。</string>
     <string name="news_summary">業界の最新情報。</string>
     <string name="more">もっと</string>
     <string name="something_went_wrong">エラーが発生しました\n (；ﾟДﾟ)</string>
-    <string name="upcoming">近日公開</string>
+    <string name="upcoming">予定</string>
     <string name="favorite">お気に入り</string>
     <string name="use_external_browser">外部ブラウザーを使用する</string>
     <string name="help">ヘルプ</string>
@@ -268,5 +268,15 @@
     <string name="select_date">日付を選択</string>
     <string name="total_rereads">合計再販数</string>
     <string name="total_rewatches">合計再視聴数</string>
-    <string name="chinese_simplified">中国語（簡体字）</string>
+    <string name="chinese_simplified">Chinese (Simplified)</string>
+    <string name="related_anime">Related Anime</string>
+    <string name="related_manga">Related Manga</string>
+    <string name="content">Content</string>
+    <string name="list_mode_standard">Standard</string>
+    <string name="list_mode_compact">Compact</string>
+    <string name="list_mode_minimal">Minimal</string>
+    <string name="list_style">List style</string>
+    <string name="num_years">%s years</string>
+    <string name="num_months">%s months</string>
+    <string name="num_weeks">%s weeks</string>
 </resources>
