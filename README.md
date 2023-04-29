@@ -49,6 +49,7 @@ Follow the development on the official Discord server:
 
 **Libraries used:**
 * [Material Components](https://github.com/material-components/material-components-android)
+* [Jetpack Compose](https://developer.android.com/jetpack/compose)
 * [Ktor](https://ktor.io/)
 * [DataStore](https://developer.android.com/topic/libraries/architecture/datastore)
 * [Coil](https://github.com/coil-kt/coil)
