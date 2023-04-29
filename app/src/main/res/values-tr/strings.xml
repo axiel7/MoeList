@@ -47,12 +47,12 @@
     <string name="this_season">Bu Sezon</string>
     <string name="recommendations">Tavsiyeler</string>
     <string name="username">Kullanıcı Adı</string>
-    <string name="total_entries">Toplam:</string>
+    <string name="total_entries">Toplam: %s</string>
     <string name="mean_score">Ortalama Puan</string>
     <string name="rewatched">Tekrar İzleme</string>
     <string name="view_profile_mal">Profili Mal \'de görüntüle</string>
-    <string name="airing_in">%s saat sonra yayınlanacak</string>
-    <string name="score_value">Puan:</string>
+    <string name="airing_in">%s sonra yayınlanacak</string>
+    <string name="score_value">Puan: %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 CH</string>
@@ -81,8 +81,8 @@
     <string name="one_shot">Tek Seferlik</string>
     <string name="manhwa">Manhwa</string>
     <string name="novel">Roman</string>
-    <string name="airing" comment="the status &quot;airing&quot; of an anime">Yayınlanıyor</string>
-    <string name="finished" comment="the status &quot;finished&quot; of an anime/manga">Tamamlandı</string>
+    <string name="airing">Yayınlanıyor</string>
+    <string name="finished">Tamamlandı</string>
     <string name="on_hiatus">Ara verdi</string>
     <string name="winter">Kış</string>
     <string name="spring">Bahar</string>
@@ -111,7 +111,7 @@
     <string name="saturday">Cumartesi</string>
     <string name="sunday">Pazar</string>
     <string name="not_yet_aired">Henüz Yayınlanmadı</string>
-    <string name="publishing" comment="the status &quot;publishing&quot; of a manga">Yayınlanıyor</string>
+    <string name="publishing">Yayınlanıyor</string>
     <string name="all">Tümü</string>
     <string name="popular">Popüler</string>
     <string name="added_ptr">Okumak İstenenlere Eklendi</string>
@@ -238,8 +238,8 @@
     <string name="minutes_abbreviation">dakika</string>
     <string name="full_story">Tüm hikaye</string>
     <string name="theme_black">Siyah</string>
-    <string name="aired_ago">%s saat önce yayınlandı</string>
-    <string name="anime_stats">Anime\nİstatistikleri</string>
+    <string name="aired_ago">%s önce yayınlandı</string>
+    <string name="anime_stats">Anime İstatistikleri</string>
     <string name="delete_confirmation">Bu girdiyi silmek istediğinize emin misiniz?</string>
     <string name="bulgarian">Bulgarca</string>
     <string name="log_in_again">Lütfen tekrar giriş yapın</string>
@@ -269,4 +269,14 @@
     <string name="total_rereads">Toplam Tekrar Okuma</string>
     <string name="total_rewatches">Toplam Tekrar İzleme</string>
     <string name="chinese_simplified">Çince (Basitleştirilmiş)</string>
+    <string name="related_anime">Related Anime</string>
+    <string name="related_manga">Related Manga</string>
+    <string name="content">Content</string>
+    <string name="list_mode_standard">Standard</string>
+    <string name="list_mode_compact">Compact</string>
+    <string name="list_mode_minimal">Minimal</string>
+    <string name="list_style">List style</string>
+    <string name="num_years">%s years</string>
+    <string name="num_months">%s months</string>
+    <string name="num_weeks">%s weeks</string>
 </resources>
