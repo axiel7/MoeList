@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import androidx.datastore.preferences.core.edit
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
@@ -78,6 +79,9 @@ import com.axiel7.moelist.utils.PreferencesDataStore.THEME_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.defaultPreferencesDataStore
 import com.axiel7.moelist.utils.PreferencesDataStore.getValueSync
 import com.axiel7.moelist.utils.PreferencesDataStore.rememberPreference
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,7 +95,27 @@ class MainActivity : AppCompatActivity() {
             Intent(this, LoginActivity::class.java).apply { startActivity(this) }
             finish()
         }
-        val lastTabOpened = defaultPreferencesDataStore.getValueSync(LAST_TAB_PREFERENCE_KEY)
+        var lastTabOpened: Int? = null
+        when (intent.action) {
+            "home" -> {
+                lastTabOpened = 0
+            }
+            "anime" -> {
+                lastTabOpened = 1
+            }
+            "manga" -> {
+                lastTabOpened = 2
+            }
+        }
+        if (lastTabOpened == null) lastTabOpened = defaultPreferencesDataStore.getValueSync(LAST_TAB_PREFERENCE_KEY)
+        else {
+            CoroutineScope(Dispatchers.IO).launch {
+                defaultPreferencesDataStore.edit {
+                    it[LAST_TAB_PREFERENCE_KEY] = lastTabOpened
+                }
+            }
+        }
+
         defaultPreferencesDataStore.getValueSync(NSFW_PREFERENCE_KEY)?.let {
             App.nsfw = it.toInt()
         }

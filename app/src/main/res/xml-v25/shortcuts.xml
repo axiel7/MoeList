@@ -30,14 +30,4 @@
             android:targetClass="com.axiel7.moelist.uicompose.MainActivity"
             android:targetPackage="com.axiel7.moelist" />
     </shortcut>
-    <shortcut
-        android:enabled="true"
-        android:icon="@drawable/shortcut_profile"
-        android:shortcutId="profile_shortcut"
-        android:shortcutShortLabel="@string/title_profile">
-        <intent
-            android:action="profile"
-            android:targetClass="com.axiel7.moelist.uicompose.MainActivity"
-            android:targetPackage="com.axiel7.moelist" />
-    </shortcut>
 </shortcuts>
