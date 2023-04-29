@@ -161,14 +161,7 @@ fun SearchResultList(
                     )
                 },
                 onClick = {
-                    when (it) {
-                        is AnimeList -> {
-                            navController.navigate("details/ANIME/${it.node.id}")
-                        }
-                        is MangaList -> {
-                            navController.navigate("details/MANGA/${it.node.id}")
-                        }
-                    }
+                    navController.navigate("details/${mediaType.value}/${it.node.id}")
                 }
             )
         }

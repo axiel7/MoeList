@@ -5,8 +5,12 @@ import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
 
 enum class MediaType(val value: String) {
-    ANIME("ANIME"),
-    MANGA("MANGA")
+    ANIME("anime"),
+    MANGA("manga");
+
+    companion object {
+        fun forValue(value: String) = values().firstOrNull { it.value == value }
+    }
 }
 
 @Composable

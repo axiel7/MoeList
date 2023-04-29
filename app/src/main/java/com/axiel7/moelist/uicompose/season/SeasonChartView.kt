@@ -127,7 +127,7 @@ fun SeasonChartView(
                         )
                     },
                     onClick = {
-                        navController.navigate("details/ANIME/${item.node.id}")
+                        navController.navigate("details/anime/${item.node.id}")
                     }
                 )
             }

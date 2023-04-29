@@ -398,7 +398,7 @@ fun MediaDetailsView(
                                 )
                             },
                             onClick = {
-                                navController.navigate("details/ANIME/${item.node.id}")
+                                navController.navigate("details/anime/${item.node.id}")
                             }
                         )
                     }
@@ -423,7 +423,7 @@ fun MediaDetailsView(
                                 )
                             },
                             onClick = {
-                                navController.navigate("details/MANGA/${item.node.id}")
+                                navController.navigate("details/manga/${item.node.id}")
                             }
                         )
                     }

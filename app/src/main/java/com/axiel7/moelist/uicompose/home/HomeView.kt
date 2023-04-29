@@ -150,7 +150,7 @@ fun HomeView(
                 AiringAnimeHorizontalItem(
                     item = it,
                     onClick = {
-                        navController.navigate("details/ANIME/${it.node.id}")
+                        navController.navigate("details/anime/${it.node.id}")
                     }
                 )
             }
@@ -186,7 +186,7 @@ fun HomeView(
                             fontSize = 13.sp
                         )
                     },
-                    onClick = { navController.navigate("details/ANIME/${it.node.id}") }
+                    onClick = { navController.navigate("details/anime/${it.node.id}") }
                 )
             }
         }
@@ -218,7 +218,7 @@ fun HomeView(
                             fontSize = 13.sp
                         )
                     },
-                    onClick = { navController.navigate("details/ANIME/${it.node.id}") }
+                    onClick = { navController.navigate("details/anime/${it.node.id}") }
                 )
             }
         }

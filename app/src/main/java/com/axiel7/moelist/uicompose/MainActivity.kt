@@ -31,6 +31,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import coil.compose.AsyncImage
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
@@ -231,10 +232,14 @@ fun MainView(
                 arguments = listOf(
                     navArgument("mediaType") { type = NavType.StringType },
                     navArgument("mediaId") { type = NavType.IntType }
+                ),
+                deepLinks = listOf(
+                    navDeepLink { uriPattern = "https://myanimelist.net/{mediaType}/{mediaId}" }
                 )
             ) { navEntry ->
                 MediaDetailsView(
-                    mediaType = MediaType.valueOf(navEntry.arguments?.getString("mediaType") ?: "ANIME"),
+                    mediaType = navEntry.arguments?.getString("mediaType")
+                        ?.let { mediaType -> MediaType.forValue(mediaType) } ?: MediaType.ANIME,
                     mediaId = navEntry.arguments?.getInt("mediaId") ?: 0,
                     navController = navController
                 )
