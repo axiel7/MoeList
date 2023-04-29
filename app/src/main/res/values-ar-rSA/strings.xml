@@ -81,8 +81,8 @@
     <string name="one_shot">ون شوت</string>
     <string name="manhwa">مانهوا</string>
     <string name="novel">رواية</string>
-    <string name="airing">يبث</string>
-    <string name="finished">منتهي</string>
+    <string name="airing" comment="the status &quot;airing&quot; of an anime">يبث</string>
+    <string name="finished" comment="the status &quot;finished&quot; of an anime/manga">منتهي</string>
     <string name="on_hiatus">متوقف</string>
     <string name="winter">الشتاء</string>
     <string name="spring">الربيع</string>
@@ -111,7 +111,7 @@
     <string name="saturday">السبت</string>
     <string name="sunday">الأحد</string>
     <string name="not_yet_aired">لم يبث بعد</string>
-    <string name="publishing">لا زالت تنشر</string>
+    <string name="publishing" comment="the status &quot;publishing&quot; of a manga">لا زالت تنشر</string>
     <string name="all">الكل</string>
     <string name="popular">الأكثر شعبية</string>
     <string name="added_ptr">إضافة إلى قائمة أخطط قرائتة</string>
