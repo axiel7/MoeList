@@ -174,6 +174,7 @@ fun CompactUserMediaListItem(
     score: Int?,
     userProgress: Int?,
     totalProgress: Int?,
+    broadcast: Broadcast?,
     listStatus: ListStatus,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
@@ -230,8 +231,16 @@ fun CompactUserMediaListItem(
                     color = MaterialTheme.colorScheme.onSurface,
                     fontSize = 17.sp,
                     overflow = TextOverflow.Ellipsis,
-                    maxLines = 2
+                    maxLines = if (broadcast != null) 1 else 2
                 )
+
+                if (broadcast != null) {
+                    Text(
+                        text = broadcast.airingInString(),
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
 
                 Row(
                     modifier = Modifier
@@ -337,6 +346,7 @@ fun CompactUserMediaListItemPreview() {
             score = null,
             userProgress = 4,
             totalProgress = 12,
+            broadcast = Broadcast(WeekDay.SUNDAY, "12:00"),
             listStatus = ListStatus.WATCHING,
             onClick = { },
             onLongClick = { },
