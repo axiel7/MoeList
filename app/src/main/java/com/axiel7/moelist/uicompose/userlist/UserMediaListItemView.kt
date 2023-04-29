@@ -157,7 +157,8 @@ fun StandardUserMediaListItem(
                         progress = calculateProgressBarValue(userProgress, totalProgress),
                         modifier = Modifier.fillMaxWidth(),
                         color = MaterialTheme.colorScheme.primary,
-                        trackColor = MaterialTheme.colorScheme.onSurfaceVariant
+                        trackColor = MaterialTheme.colorScheme.surfaceColorAtElevation(94.dp),
+                        strokeCap = StrokeCap.Round
                     )
                 }//:Column
             }//:Column
