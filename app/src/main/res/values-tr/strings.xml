@@ -81,8 +81,8 @@
     <string name="one_shot">Tek Seferlik</string>
     <string name="manhwa">Manhwa</string>
     <string name="novel">Roman</string>
-    <string name="airing">Yayınlanıyor</string>
-    <string name="finished">Tamamlandı</string>
+    <string name="airing" comment="the status &quot;airing&quot; of an anime">Yayınlanıyor</string>
+    <string name="finished" comment="the status &quot;finished&quot; of an anime/manga">Tamamlandı</string>
     <string name="on_hiatus">Ara verdi</string>
     <string name="winter">Kış</string>
     <string name="spring">Bahar</string>
@@ -111,7 +111,7 @@
     <string name="saturday">Cumartesi</string>
     <string name="sunday">Pazar</string>
     <string name="not_yet_aired">Henüz Yayınlanmadı</string>
-    <string name="publishing">Yayınlanıyor</string>
+    <string name="publishing" comment="the status &quot;publishing&quot; of a manga">Yayınlanıyor</string>
     <string name="all">Tümü</string>
     <string name="popular">Popüler</string>
     <string name="added_ptr">Okumak İstenenlere Eklendi</string>
