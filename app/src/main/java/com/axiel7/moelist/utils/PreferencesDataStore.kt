@@ -32,6 +32,7 @@ object PreferencesDataStore {
     val LIST_DISPLAY_MODE_PREFERENCE = stringPreferencesKey("list_display_mode")
 
     val Context.defaultPreferencesDataStore by preferencesDataStore(name = "default")
+    val Context.notificationsDataStore by preferencesDataStore(name = "notifications")
 
     /**
      * Gets the value by blocking the main thread

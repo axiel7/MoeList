@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -37,13 +38,18 @@ import com.axiel7.moelist.utils.ContextExtensions.getCurrentLanguageTag
 import com.axiel7.moelist.utils.ContextExtensions.openAction
 import com.axiel7.moelist.utils.ContextExtensions.openInGoogleTranslate
 import com.axiel7.moelist.utils.ContextExtensions.openLink
+import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.DateUtils.parseDateAndLocalize
+import com.axiel7.moelist.utils.NotificationWorker
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
+import com.axiel7.moelist.utils.PreferencesDataStore.defaultPreferencesDataStore
 import com.axiel7.moelist.utils.StringExtensions.toNavArgument
 import com.axiel7.moelist.utils.StringExtensions.toStringOrNull
 import com.axiel7.moelist.utils.UseCases.copyToClipBoard
 import com.google.accompanist.placeholder.material.placeholder
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.time.LocalTime
 
 const val MEDIA_DETAILS_DESTINATION = "details/{mediaType}/{mediaId}"
 
@@ -73,12 +79,38 @@ fun MediaDetailsView(
         modifier = Modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
         topBar = {
             MediaDetailsTopAppBar(
+                mediaDetails = viewModel.mediaDetails,
                 navController = navController,
                 scrollBehavior = topAppBarScrollBehavior,
-                onClickMenu = {
+                onClickViewOn = {
                     if (mediaType == MediaType.ANIME)
                         context.openLink(Constants.ANIME_URL + mediaId)
                     else context.openLink(Constants.MANGA_URL + mediaId)
+                },
+                onClickNotification = { enable ->
+                    (viewModel.mediaDetails as? AnimeDetails)?.let { details ->
+                        if (enable && details.broadcast?.dayOfTheWeek != null
+                            && details.broadcast.startTime != null) {
+                            coroutineScope.launch {
+                                NotificationWorker.scheduleAiringAnimeNotification(
+                                    context = context,
+                                    title = details.title ?: "",
+                                    animeId = details.id,
+                                    weekDay = details.broadcast.dayOfTheWeek,
+                                    jpHour = LocalTime.parse(details.broadcast.startTime)
+                                )
+                                context.showToast("Notification enabled")
+                            }
+                        } else {
+                            coroutineScope.launch {
+                                NotificationWorker.removeAiringAnimeNotification(
+                                    context = context,
+                                    animeId = details.id
+                                )
+                                context.showToast("Notification disabled")
+                            }
+                        }
+                    }
                 }
             )
         },
@@ -521,10 +553,21 @@ fun InfoTitle(text: String) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MediaDetailsTopAppBar(
+    mediaDetails: BaseMediaDetails?,
     navController: NavController,
     scrollBehavior: TopAppBarScrollBehavior,
-    onClickMenu: () -> Unit
+    onClickNotification: (enable: Boolean) -> Unit,
+    onClickViewOn: () -> Unit
 ) {
+    val context = LocalContext.current
+    val savedForNotification by remember {
+        context.defaultPreferencesDataStore.data.map {
+            if (mediaDetails?.id != null)
+                it[stringPreferencesKey(mediaDetails.id.toString())]
+            else null
+        }
+    }.collectAsState(initial = null)
+
     TopAppBar(
         title = { Text(stringResource(R.string.title_details)) },
         navigationIcon = {
@@ -533,7 +576,20 @@ fun MediaDetailsTopAppBar(
             }
         },
         actions = {
-            IconButton(onClick = onClickMenu) {
+            if (mediaDetails is AnimeDetails && mediaDetails.status == "currently_airing") {
+                IconButton(onClick = {
+                    onClickNotification(savedForNotification == null)
+                }) {
+                    Icon(
+                        painter = painterResource(
+                            if (savedForNotification != null) R.drawable.round_notifications_active_24
+                            else R.drawable.round_notifications_off_24
+                        ),
+                        contentDescription = "notification"
+                    )
+                }
+            }
+            IconButton(onClick = onClickViewOn) {
                 Icon(
                     painter = painterResource(R.drawable.ic_open_in_browser),
                     contentDescription = stringResource(R.string.view_on_mal)
