@@ -48,12 +48,12 @@
     <string name="this_season">This Season</string>
     <string name="recommendations">Recommendations</string>
     <string name="username">Username</string>
-    <string name="total_entries">Total:</string>
+    <string name="total_entries">Total: %s</string>
     <string name="mean_score">Mean Score</string>
     <string name="rewatched">Rewatched</string>
     <string name="view_profile_mal">View profile on MAL</string>
-    <string name="airing_in">Airing in %sh</string>
-    <string name="score_value">Score:</string>
+    <string name="airing_in">Airing in %s</string>
+    <string name="score_value">Score: %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 CH</string>
@@ -242,8 +242,8 @@
     <string name="minutes_abbreviation">min</string>
     <string name="full_story">Full story</string>
     <string name="theme_black">Black</string>
-    <string name="aired_ago">Aired %sh ago</string>
-    <string name="anime_stats">Anime\nStats</string>
+    <string name="aired_ago">Aired %s ago</string>
+    <string name="anime_stats">Anime Stats</string>
     <string name="delete_confirmation">Are you sure you want to delete this entry?</string>
     <string name="bulgarian">Bulgarian</string>
     <string name="log_in_again">Please log in again</string>
@@ -274,4 +274,27 @@
     <string name="total_rereads">Total Rereads</string>
     <string name="total_rewatches">Total Rewatches</string>
     <string name="chinese_simplified">Chinese (Simplified)</string>
+    <string name="english_native" translatable="false">English</string>
+    <string name="arabic_native" translatable="false">العربية</string>
+    <string name="bulgarian_native" translatable="false">Български</string>
+    <string name="german_native" translatable="false">Deutsch</string>
+    <string name="spanish_native" translatable="false">Español</string>
+    <string name="french_native" translatable="false">Français</string>
+    <string name="brazilian_native" translatable="false">Português (Brasil)</string>
+    <string name="russian_native" translatable="false">Русский</string>
+    <string name="turkish_native" translatable="false">Türkçe</string>
+    <string name="ukrainian_native" translatable="false">Українська</string>
+    <string name="japanese_native" translatable="false">日本語</string>
+    <string name="chinese_traditional_native" translatable="false">繁體中文</string>
+    <string name="chinese_simplified_native" translatable="false">简体中文</string>
+    <string name="related_anime">Related Anime</string>
+    <string name="related_manga">Related Manga</string>
+    <string name="content">Content</string>
+    <string name="list_mode_standard">Standard</string>
+    <string name="list_mode_compact">Compact</string>
+    <string name="list_mode_minimal">Minimal</string>
+    <string name="list_style">List style</string>
+    <string name="num_years">%s years</string>
+    <string name="num_months">%s months</string>
+    <string name="num_weeks">%s weeks</string>
 </resources>

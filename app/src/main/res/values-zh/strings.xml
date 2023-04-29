@@ -47,12 +47,12 @@
     <string name="this_season">当季</string>
     <string name="recommendations">推荐</string>
     <string name="username">用户名</string>
-    <string name="total_entries">总计：</string>
+    <string name="total_entries">总计：%s</string>
     <string name="mean_score">平均分</string>
     <string name="rewatched">重看</string>
     <string name="view_profile_mal">在 MAL 中查看个人档案</string>
-    <string name="airing_in">%s小时后播出</string>
-    <string name="score_value">分数：</string>
+    <string name="airing_in">%s后播出</string>
+    <string name="score_value">分数： %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 章</string>
@@ -238,8 +238,8 @@
     <string name="minutes_abbreviation">分</string>
     <string name="full_story">完整故事</string>
     <string name="theme_black">黑色</string>
-    <string name="aired_ago">%s小时前</string>
-    <string name="anime_stats">动画\nの统计</string>
+    <string name="aired_ago">%s前</string>
+    <string name="anime_stats">动画の统计</string>
     <string name="delete_confirmation">您确定删除此条目吗？</string>
     <string name="bulgarian">保加利亚语</string>
     <string name="log_in_again">请重新登入</string>
@@ -268,5 +268,4 @@
     <string name="select_date">选择日期</string>
     <string name="total_rereads">重读次数</string>
     <string name="total_rewatches">重看次数</string>
-    <string name="chinese_simplified">简体中文</string>
 </resources>

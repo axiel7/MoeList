@@ -1,95 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/md_theme_light_primary</item>
-        <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
-        <item name="colorPrimaryContainer">@color/md_theme_light_primaryContainer</item>
-        <item name="colorOnPrimaryContainer">@color/md_theme_light_onPrimaryContainer</item>
-        <item name="colorSecondary">@color/md_theme_light_secondary</item>
-        <item name="colorOnSecondary">@color/md_theme_light_onSecondary</item>
-        <item name="colorSecondaryContainer">@color/md_theme_light_secondaryContainer</item>
-        <item name="colorOnSecondaryContainer">@color/md_theme_light_onSecondaryContainer</item>
-        <item name="colorTertiary">@color/md_theme_light_tertiary</item>
-        <item name="colorOnTertiary">@color/md_theme_light_onTertiary</item>
-        <item name="colorTertiaryContainer">@color/md_theme_light_tertiaryContainer</item>
-        <item name="colorOnTertiaryContainer">@color/md_theme_light_onTertiaryContainer</item>
-        <item name="colorError">@color/md_theme_light_error</item>
-        <item name="colorOnError">@color/md_theme_light_onError</item>
-        <item name="colorErrorContainer">@color/md_theme_light_errorContainer</item>
-        <item name="colorOnErrorContainer">@color/md_theme_light_onErrorContainer</item>
-        <item name="android:colorBackground">@color/md_theme_light_background</item>
-        <item name="colorOnBackground">@color/md_theme_light_onBackground</item>
-        <item name="colorSurface">@color/md_theme_light_surface</item>
-        <item name="colorOnSurface">@color/md_theme_light_onSurface</item>
-        <item name="colorSurfaceVariant">@color/md_theme_light_surfaceVariant</item>
-        <item name="colorOnSurfaceVariant">@color/md_theme_light_onSurfaceVariant</item>
-        <item name="colorOutline">@color/md_theme_light_outline</item>
-        <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
-        <item name="colorOnSurfaceInverse">@color/md_theme_light_inverseOnSurface</item>
-        <item name="colorPrimaryInverse">@color/md_theme_light_inversePrimary</item>
-
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:statusBarColor">?attr/colorSurface</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:windowLightStatusBar">true</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
-        <item name="android:windowActivityTransitions">true</item>
-        <item name="android:windowContentTransitions">true</item>
-        <item name="android:textColor">?attr/colorControlNormal</item>
-        <item name="materialCardViewStyle">@style/CardView.Elevated</item>
-        <item name="switchStyle">@style/Widget.Material3.CompoundButton.Switch</item>
-    </style>
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar"/>
 
     <style name="Theme.MySplash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">?attr/colorSurface</item>
+        <item name="windowSplashScreenBackground">?android:colorBackground</item>
         <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>
         <item name="postSplashScreenTheme">@style/AppTheme</item>
-    </style>
-
-    <!-- Rounded ImageView -->
-    <style name="circleImageView" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">5dp</item>
-    </style>
-
-    <!-- tab layout style -->
-    <style name="Theme.Widget.Tabs" parent="Widget.Material3.TabLayout">
-        <item name="tabGravity">start</item>
-        <item name="tabInlineLabel">true</item>
-        <item name="tabMode">auto</item>
-    </style>
-
-    <!-- CardView -->
-    <style name="CardView.Elevated" parent="Widget.Material3.CardView.Elevated">
-        <item name="android:clickable">true</item>
-        <item name="android:focusable">true</item>
-    </style>
-
-    <!-- TextView -->
-    <style name="Text.Option" parent="Text.Clickable">
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:padding">16dp</item>
-        <item name="android:drawablePadding">16dp</item>
-    </style>
-
-    <style name="Text.Clickable" parent="TextAppearance.AppCompat">
-        <item name="android:background">?attr/selectableItemBackground</item>
-        <item name="android:clickable">true</item>
-        <item name="android:focusable">true</item>
-    </style>
-
-    <style name="Text.Clickable.Borderless" parent="TextAppearance.AppCompat">
-        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
-        <item name="android:clickable">true</item>
-        <item name="android:focusable">true</item>
-    </style>
-
-    <!-- ImageView -->
-    <style name="Image.Clickable" parent="ThemeOverlay.Material3">
-        <item name="android:background">?attr/selectableItemBackground</item>
-        <item name="android:clickable">true</item>
-        <item name="android:focusable">true</item>
     </style>
 
 </resources>

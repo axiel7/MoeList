@@ -47,12 +47,12 @@
     <string name="this_season">Bu Sezon</string>
     <string name="recommendations">Tavsiyeler</string>
     <string name="username">Kullanıcı Adı</string>
-    <string name="total_entries">Toplam:</string>
+    <string name="total_entries">Toplam: %s</string>
     <string name="mean_score">Ortalama Puan</string>
     <string name="rewatched">Tekrar İzleme</string>
     <string name="view_profile_mal">Profili Mal \'de görüntüle</string>
-    <string name="airing_in">%s saat sonra yayınlanacak</string>
-    <string name="score_value">Puan:</string>
+    <string name="airing_in">%s sonra yayınlanacak</string>
+    <string name="score_value">Puan: %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 CH</string>
@@ -238,8 +238,8 @@
     <string name="minutes_abbreviation">dakika</string>
     <string name="full_story">Tüm hikaye</string>
     <string name="theme_black">Siyah</string>
-    <string name="aired_ago">%s saat önce yayınlandı</string>
-    <string name="anime_stats">Anime\nİstatistikleri</string>
+    <string name="aired_ago">%s önce yayınlandı</string>
+    <string name="anime_stats">Anime İstatistikleri</string>
     <string name="delete_confirmation">Bu girdiyi silmek istediğinize emin misiniz?</string>
     <string name="bulgarian">Bulgarca</string>
     <string name="log_in_again">Lütfen tekrar giriş yapın</string>

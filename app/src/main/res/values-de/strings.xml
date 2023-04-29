@@ -47,12 +47,12 @@
     <string name="this_season">Diese Saison</string>
     <string name="recommendations">Empfehlungen</string>
     <string name="username">Benutzername</string>
-    <string name="total_entries">Gesamt:</string>
+    <string name="total_entries">Gesamt: %s</string>
     <string name="mean_score">Durchschnitt</string>
     <string name="rewatched">Wiederholt</string>
     <string name="view_profile_mal">Profil auf MAL ansehen</string>
-    <string name="airing_in">Läuft in %sh</string>
-    <string name="score_value">Bewertung:</string>
+    <string name="airing_in">Läuft in %s</string>
+    <string name="score_value">Bewertung: %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 KP</string>
@@ -238,8 +238,8 @@
     <string name="minutes_abbreviation">min</string>
     <string name="full_story">Vollständige Geschichte</string>
     <string name="theme_black">Schwarz</string>
-    <string name="aired_ago">Lief vor %sh</string>
-    <string name="anime_stats">Anime\nStatistik</string>
+    <string name="aired_ago">Lief vor %s</string>
+    <string name="anime_stats">Anime Statistik</string>
     <string name="delete_confirmation">Bist Du sicher, dass Du diesen Eintrag löschen möchtest?</string>
     <string name="bulgarian">Bulgarisch</string>
     <string name="log_in_again">Bitte melde dich erneut an</string>

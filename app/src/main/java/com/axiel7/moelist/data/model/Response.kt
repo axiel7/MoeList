@@ -9,8 +9,6 @@ data class Response<T>(
     val data: T? = null,
     @SerialName("paging")
     val paging: Paging? = null,
-    @SerialName("error")
-    val error: String? = null,
-    @SerialName("message")
-    val message: String? = null
-)
+    override val error: String? = null,
+    override val message: String? = null,
+) : BaseResponse()

@@ -47,12 +47,12 @@
     <string name="this_season">Esta Temporada</string>
     <string name="recommendations">Recomendaciones</string>
     <string name="username">Usuario</string>
-    <string name="total_entries">Total:</string>
+    <string name="total_entries">Total: %s</string>
     <string name="mean_score">Puntuación Media</string>
     <string name="rewatched">Vueltos a ver</string>
     <string name="view_profile_mal">Ver perfil en MAL</string>
-    <string name="airing_in">Emisión en %sh</string>
-    <string name="score_value">Puntuación:</string>
+    <string name="airing_in">Emisión en %s</string>
+    <string name="score_value">Puntuación: %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
     <string name="plus_one_chapter">+1 CAP</string>
@@ -238,8 +238,8 @@
     <string name="minutes_abbreviation">min</string>
     <string name="full_story">Historia completa</string>
     <string name="theme_black">Negro</string>
-    <string name="aired_ago">Emitido hace %sh</string>
-    <string name="anime_stats">Estadísticas de\nAnime</string>
+    <string name="aired_ago">Emitido hace %s</string>
+    <string name="anime_stats">Estadísticas de Anime</string>
     <string name="delete_confirmation">¿Estás seguro de que quieres eliminar esta entrada?</string>
     <string name="bulgarian">Búlgaro</string>
     <string name="log_in_again">Por favor inicia sesión de nuevo</string>

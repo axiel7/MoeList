@@ -1,9 +1,10 @@
 package com.axiel7.moelist.data.model.manga
 
+import com.axiel7.moelist.data.model.media.BaseMediaList
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class MangaList(
-    val node: MangaNode
-)
+    override val node: MangaNode
+): BaseMediaList()
 
