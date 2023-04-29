@@ -390,6 +390,13 @@ fun MediaDetailsView(
                             url = item.node.mainPicture?.large,
                             title = item.node.title,
                             modifier = Modifier.padding(end = 8.dp),
+                            subtitle = {
+                                Text(
+                                    text = item.relationLocalized(),
+                                    color = MaterialTheme.colorScheme.outline,
+                                    fontSize = 13.sp
+                                )
+                            },
                             onClick = {
                                 navController.navigate("details/ANIME/${item.node.id}")
                             }
@@ -408,6 +415,13 @@ fun MediaDetailsView(
                             url = item.node.mainPicture?.large,
                             title = item.node.title,
                             modifier = Modifier.padding(end = 8.dp),
+                            subtitle = {
+                                Text(
+                                    text = item.relationLocalized(),
+                                    color = MaterialTheme.colorScheme.outline,
+                                    fontSize = 13.sp
+                                )
+                            },
                             onClick = {
                                 navController.navigate("details/MANGA/${item.node.id}")
                             }
