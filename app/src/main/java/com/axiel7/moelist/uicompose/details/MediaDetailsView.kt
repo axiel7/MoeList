@@ -500,6 +500,11 @@ fun MediaDetailsView(
         )
     }
 
+    if (viewModel.showMessage) {
+        context.showToast(viewModel.message)
+        viewModel.showMessage = false
+    }
+
     LaunchedEffect(Unit) {
         if (viewModel.mediaDetails == null) viewModel.getDetails(mediaId)
     }

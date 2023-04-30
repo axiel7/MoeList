@@ -77,7 +77,9 @@ class MediaDetailsViewModel(
 
             picturesUrls = arrayOf(mediaDetails?.mainPicture?.large ?: "")
                 .plus(mediaDetails?.pictures?.map { it.large }?.toTypedArray() ?: emptyArray())
-            isLoading = false
+
+            if (mediaDetails == null) setErrorMessage("Unable to reach server")
+            else isLoading = false
         }
     }
 
