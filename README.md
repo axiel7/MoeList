@@ -52,4 +52,5 @@ Follow the development on the official Discord server:
 * [Jetpack Compose](https://developer.android.com/jetpack/compose)
 * [Ktor](https://ktor.io/)
 * [DataStore](https://developer.android.com/topic/libraries/architecture/datastore)
+* [WorkManager](https://developer.android.com/jetpack/androidx/releases/work)
 * [Coil](https://github.com/coil-kt/coil)
