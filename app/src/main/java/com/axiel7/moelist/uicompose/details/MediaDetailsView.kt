@@ -42,7 +42,7 @@ import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.DateUtils.parseDateAndLocalize
 import com.axiel7.moelist.utils.NotificationWorker
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
-import com.axiel7.moelist.utils.PreferencesDataStore.defaultPreferencesDataStore
+import com.axiel7.moelist.utils.PreferencesDataStore.notificationsDataStore
 import com.axiel7.moelist.utils.StringExtensions.toNavArgument
 import com.axiel7.moelist.utils.StringExtensions.toStringOrNull
 import com.axiel7.moelist.utils.UseCases.copyToClipBoard
@@ -79,7 +79,7 @@ fun MediaDetailsView(
         modifier = Modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
         topBar = {
             MediaDetailsTopAppBar(
-                mediaDetails = viewModel.mediaDetails,
+                viewModel = viewModel,
                 navController = navController,
                 scrollBehavior = topAppBarScrollBehavior,
                 onClickViewOn = {
@@ -558,20 +558,19 @@ fun InfoTitle(text: String) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MediaDetailsTopAppBar(
-    mediaDetails: BaseMediaDetails?,
+    viewModel: MediaDetailsViewModel,
     navController: NavController,
     scrollBehavior: TopAppBarScrollBehavior,
     onClickNotification: (enable: Boolean) -> Unit,
     onClickViewOn: () -> Unit
 ) {
     val context = LocalContext.current
-    val savedForNotification = remember {
-        context.defaultPreferencesDataStore.data.map {
-            if (mediaDetails?.id != null)
-                it[stringPreferencesKey(mediaDetails.id.toString())]
-            else null
+    val savedForNotification = if (viewModel.mediaDetails?.id != null) remember {
+        context.notificationsDataStore.data.map {
+            it[stringPreferencesKey(viewModel.mediaDetails!!.id.toString())]
         }
     }.collectAsState(initial = null)
+    else remember { mutableStateOf(null) }
 
     TopAppBar(
         title = { Text(stringResource(R.string.title_details)) },
@@ -581,7 +580,9 @@ fun MediaDetailsTopAppBar(
             }
         },
         actions = {
-            if (mediaDetails is AnimeDetails && mediaDetails.status == "currently_airing") {
+            if (viewModel.mediaDetails is AnimeDetails
+                && viewModel.mediaDetails!!.status == "currently_airing"
+            ) {
                 IconButton(onClick = {
                     onClickNotification(savedForNotification.value == null)
                 }) {

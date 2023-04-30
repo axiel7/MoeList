@@ -1,5 +1,6 @@
 package com.axiel7.moelist.uicompose.more
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -13,7 +14,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -23,7 +23,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.datastore.preferences.core.edit
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
@@ -31,8 +30,6 @@ import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopBar
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.NotificationWorker
 import com.axiel7.moelist.utils.PreferencesDataStore.notificationsDataStore
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 const val NOTIFICATIONS_DESTINATION = "notifications"
@@ -66,18 +63,27 @@ fun NotificationsView(
                 )
             }
         }
-    ) {
+    ) { padding ->
         LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .padding(padding)
+                .fillMaxWidth(),
             contentPadding = PaddingValues(8.dp)
         ) {
             items(notifications.value?.asMap()?.keys?.toTypedArray() ?: emptyArray()) { key ->
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceAround,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            navController.navigate("details/anime/$key")
+                        },
+                    horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = notifications.value?.get(key) as? String ?: "")
+                    Text(
+                        text = notifications.value?.get(key) as? String ?: "",
+                        modifier = Modifier.padding(horizontal = 8.dp)
+                    )
                     IconButton(onClick = {
                         coroutineScope.launch {
                             NotificationWorker.removeAiringAnimeNotification(
