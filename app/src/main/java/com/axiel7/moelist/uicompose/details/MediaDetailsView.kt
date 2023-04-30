@@ -560,7 +560,7 @@ fun MediaDetailsTopAppBar(
     onClickViewOn: () -> Unit
 ) {
     val context = LocalContext.current
-    val savedForNotification by remember {
+    val savedForNotification = remember {
         context.defaultPreferencesDataStore.data.map {
             if (mediaDetails?.id != null)
                 it[stringPreferencesKey(mediaDetails.id.toString())]
@@ -578,11 +578,11 @@ fun MediaDetailsTopAppBar(
         actions = {
             if (mediaDetails is AnimeDetails && mediaDetails.status == "currently_airing") {
                 IconButton(onClick = {
-                    onClickNotification(savedForNotification == null)
+                    onClickNotification(savedForNotification.value == null)
                 }) {
                     Icon(
                         painter = painterResource(
-                            if (savedForNotification != null) R.drawable.round_notifications_active_24
+                            if (savedForNotification.value != null) R.drawable.round_notifications_active_24
                             else R.drawable.round_notifications_off_24
                         ),
                         contentDescription = "notification"

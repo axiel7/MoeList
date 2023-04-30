@@ -116,6 +116,13 @@ class NotificationWorker(
                 it.remove(stringPreferencesKey(animeId.toString()))
             }
         }
+
+        suspend fun removeAllNotifications(context: Context) {
+            WorkManager.getInstance(context).cancelAllWork()
+            context.notificationsDataStore.edit {
+                it.clear()
+            }
+        }
     }
 }
 

@@ -76,6 +76,12 @@ fun MoreView(
         Divider()
 
         MoreItem(
+            title = stringResource(R.string.notifications),
+            icon = R.drawable.round_notifications_24,
+            onClick = { navController.navigate(NOTIFICATIONS_DESTINATION) }
+        )
+
+        MoreItem(
             title = stringResource(R.string.settings),
             icon = R.drawable.ic_round_settings_24,
             onClick = { navController.navigate(SETTINGS_DESTINATION) }

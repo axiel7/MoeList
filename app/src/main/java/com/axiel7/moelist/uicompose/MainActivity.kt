@@ -56,6 +56,8 @@ import com.axiel7.moelist.uicompose.more.CREDITS_DESTINATION
 import com.axiel7.moelist.uicompose.more.CreditsView
 import com.axiel7.moelist.uicompose.more.MORE_DESTINATION
 import com.axiel7.moelist.uicompose.more.MoreView
+import com.axiel7.moelist.uicompose.more.NOTIFICATIONS_DESTINATION
+import com.axiel7.moelist.uicompose.more.NotificationsView
 import com.axiel7.moelist.uicompose.more.SETTINGS_DESTINATION
 import com.axiel7.moelist.uicompose.more.SettingsView
 import com.axiel7.moelist.uicompose.profile.PROFILE_DESTINATION
@@ -227,6 +229,10 @@ fun MainView(
                 MoreView(
                     navController = navController
                 )
+            }
+
+            composable(NOTIFICATIONS_DESTINATION) {
+                NotificationsView(navController = navController)
             }
 
             composable(ABOUT_DESTINATION) { AboutView(navController = navController) }
