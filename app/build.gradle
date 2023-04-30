@@ -94,6 +94,7 @@ dependencies {
     implementation "com.google.accompanist:accompanist-insets-ui:$accompanistVersion"
     implementation "com.google.accompanist:accompanist-placeholder-material:$accompanistVersion"
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion"
+    implementation "com.google.accompanist:accompanist-permissions:$accompanistVersion"
 
     //Test
     testImplementation "junit:junit:4.13.2"

@@ -1,5 +1,6 @@
 package com.axiel7.moelist.uicompose.details
 
+import android.os.Build
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
@@ -46,6 +47,10 @@ import com.axiel7.moelist.utils.PreferencesDataStore.notificationsDataStore
 import com.axiel7.moelist.utils.StringExtensions.toNavArgument
 import com.axiel7.moelist.utils.StringExtensions.toStringOrNull
 import com.axiel7.moelist.utils.UseCases.copyToClipBoard
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionStatus
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.placeholder.material.placeholder
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -53,7 +58,9 @@ import java.time.LocalTime
 
 const val MEDIA_DETAILS_DESTINATION = "details/{mediaType}/{mediaId}"
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class,
+    ExperimentalPermissionsApi::class
+)
 @Composable
 fun MediaDetailsView(
     mediaType: MediaType,
@@ -74,6 +81,11 @@ fun MediaDetailsView(
         derivedStateOf { viewModel.mediaDetails?.myListStatus == null }
     }
     val isCurrentLanguageEn = remember { getCurrentLanguageTag()?.startsWith("en") }
+    val notificationPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        rememberPermissionState(
+            android.Manifest.permission.POST_NOTIFICATIONS
+        )
+    } else null
 
     Scaffold(
         modifier = Modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
@@ -90,16 +102,23 @@ fun MediaDetailsView(
                 onClickNotification = { enable ->
                     (viewModel.mediaDetails as? AnimeDetails)?.let { details ->
                         if (enable && details.broadcast?.dayOfTheWeek != null
-                            && details.broadcast.startTime != null) {
-                            coroutineScope.launch {
-                                NotificationWorker.scheduleAiringAnimeNotification(
-                                    context = context,
-                                    title = details.title ?: "",
-                                    animeId = details.id,
-                                    weekDay = details.broadcast.dayOfTheWeek,
-                                    jpHour = LocalTime.parse(details.broadcast.startTime)
-                                )
-                                context.showToast("Notification enabled")
+                            && details.broadcast.startTime != null
+                        ) {
+                            if (notificationPermission == null
+                                || notificationPermission.status.isGranted
+                            ) {
+                                coroutineScope.launch {
+                                    NotificationWorker.scheduleAiringAnimeNotification(
+                                        context = context,
+                                        title = details.title ?: "",
+                                        animeId = details.id,
+                                        weekDay = details.broadcast.dayOfTheWeek,
+                                        jpHour = LocalTime.parse(details.broadcast.startTime)
+                                    )
+                                    context.showToast("Notification enabled")
+                                }
+                            } else {
+                                notificationPermission.launchPermissionRequest()
                             }
                         } else {
                             coroutineScope.launch {
