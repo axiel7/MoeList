@@ -30,6 +30,9 @@ import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeNode
+import com.axiel7.moelist.data.model.manga.MyMangaListStatus
+import com.axiel7.moelist.data.model.manga.UserMangaList
+import com.axiel7.moelist.data.model.manga.isUsingVolumeProgress
 import com.axiel7.moelist.data.model.media.*
 import com.axiel7.moelist.uicompose.base.ListMode
 import com.axiel7.moelist.uicompose.base.TabRowItem
@@ -145,11 +148,13 @@ fun UserMediaListView(
                             imageUrl = item.node.mainPicture?.large,
                             title = item.node.title,
                             score = item.listStatus?.score,
+                            mediaType = mediaType,
                             mediaFormat = item.node.mediaType,
                             mediaStatus = item.node.status,
                             broadcast = (item.node as? AnimeNode)?.broadcast,
-                            userProgress = item.listStatus?.progress,
-                            totalProgress = item.node.totalDuration(),
+                            userProgress = item.userProgress(),
+                            totalProgress = item.totalProgress(),
+                            isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress() ?: false,
                             listStatus = status,
                             onClick = {
                                 navController.navigate("details/${mediaType.value}/${item.node.id}")
@@ -161,9 +166,12 @@ fun UserMediaListView(
                                 }
                             },
                             onClickPlus = {
+                                val isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress() ?: false
                                 viewModel.updateListItem(
                                     mediaId = item.node.id,
-                                    progress = item.listStatus?.progress?.plus(1)
+                                    progress = if (!isVolumeProgress) item.listStatus?.progress?.plus(1) else null,
+                                    volumeProgress = if (isVolumeProgress) (item.listStatus as? MyMangaListStatus)
+                                        ?.numVolumesRead?.plus(1) else null
                                 )
                             }
                         )
@@ -173,8 +181,10 @@ fun UserMediaListView(
                             imageUrl = item.node.mainPicture?.large,
                             title = item.node.title,
                             score = item.listStatus?.score,
-                            userProgress = item.listStatus?.progress,
-                            totalProgress = item.node.totalDuration(),
+                            mediaType = mediaType,
+                            userProgress = item.userProgress(),
+                            totalProgress = item.totalProgress(),
+                            isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress() ?: false,
                             mediaStatus = item.node.status,
                             broadcast = (item.node as? AnimeNode)?.broadcast,
                             listStatus = status,
@@ -188,9 +198,12 @@ fun UserMediaListView(
                                 }
                             },
                             onClickPlus = {
+                                val isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress() ?: false
                                 viewModel.updateListItem(
                                     mediaId = item.node.id,
-                                    progress = item.listStatus?.progress?.plus(1)
+                                    progress = if (!isVolumeProgress) item.listStatus?.progress?.plus(1) else null,
+                                    volumeProgress = if (isVolumeProgress) (item.listStatus as? MyMangaListStatus)
+                                        ?.numVolumesRead?.plus(1) else null
                                 )
                             }
                         )
@@ -198,8 +211,10 @@ fun UserMediaListView(
                     ListMode.MINIMAL.value -> {
                         MinimalUserMediaListItem(
                             title = item.node.title,
-                            userProgress = item.listStatus?.progress,
-                            totalProgress = item.node.totalDuration(),
+                            mediaType = mediaType,
+                            userProgress = item.userProgress(),
+                            totalProgress = item.totalProgress(),
+                            isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress() ?: false,
                             mediaStatus = item.node.status,
                             broadcast = (item.node as? AnimeNode)?.broadcast,
                             listStatus = status,
@@ -213,9 +228,12 @@ fun UserMediaListView(
                                 }
                             },
                             onClickPlus = {
+                                val isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress() ?: false
                                 viewModel.updateListItem(
                                     mediaId = item.node.id,
-                                    progress = item.listStatus?.progress?.plus(1)
+                                    progress = if (!isVolumeProgress) item.listStatus?.progress?.plus(1) else null,
+                                    volumeProgress = if (isVolumeProgress) (item.listStatus as? MyMangaListStatus)
+                                        ?.numVolumesRead?.plus(1) else null
                                 )
                             }
                         )

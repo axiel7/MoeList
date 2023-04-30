@@ -22,3 +22,5 @@ data class MyMangaListStatus (
     override val repeatCount: Int? = 0,
 
 ) : BaseMyListStatus()
+
+fun MyMangaListStatus.isUsingVolumeProgress() = numVolumesRead > 0 && (progress == null || progress == 0)

@@ -36,6 +36,7 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.Broadcast
 import com.axiel7.moelist.data.model.anime.airingInString
 import com.axiel7.moelist.data.model.media.ListStatus
+import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.WeekDay
 import com.axiel7.moelist.data.model.media.calculateProgressBarValue
 import com.axiel7.moelist.data.model.media.isCurrent
@@ -53,11 +54,13 @@ fun StandardUserMediaListItem(
     imageUrl: String?,
     title: String,
     score: Int?,
+    mediaType: MediaType,
     mediaFormat: String?,
     mediaStatus: String?,
     broadcast: Broadcast?,
     userProgress: Int?,
     totalProgress: Int?,
+    isVolumeProgress: Boolean,
     listStatus: ListStatus,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
@@ -143,7 +146,17 @@ fun StandardUserMediaListItem(
                         verticalAlignment = Alignment.Bottom
                     ) {
                         Text(
-                            text = "${userProgress ?: 0}/${totalProgress ?: 0}",
+                            text = buildString {
+                                append("${userProgress ?: 0}/${totalProgress ?: 0}")
+                                if (mediaType == MediaType.MANGA) {
+                                    append(" ")
+                                    if (isVolumeProgress) {
+                                        append(stringResource(R.string.volumes).lowercase())
+                                    } else {
+                                        append(stringResource(R.string.chapters).lowercase())
+                                    }
+                                }
+                            },
                         )
 
                         if (listStatus.isCurrent()) {
@@ -172,9 +185,11 @@ fun CompactUserMediaListItem(
     imageUrl: String?,
     title: String,
     score: Int?,
+    mediaType: MediaType,
     mediaStatus: String?,
     userProgress: Int?,
     totalProgress: Int?,
+    isVolumeProgress: Boolean,
     broadcast: Broadcast?,
     listStatus: ListStatus,
     onClick: () -> Unit,
@@ -251,7 +266,17 @@ fun CompactUserMediaListItem(
                     verticalAlignment = Alignment.Bottom
                 ) {
                     Text(
-                        text = "${userProgress ?: 0}/${totalProgress ?: 0}",
+                        text = buildString {
+                            append("${userProgress ?: 0}/${totalProgress ?: 0}")
+                            if (mediaType == MediaType.MANGA) {
+                                append(" ")
+                                if (isVolumeProgress) {
+                                    append(stringResource(R.string.volumes).lowercase())
+                                } else {
+                                    append(stringResource(R.string.chapters).lowercase())
+                                }
+                            }
+                        },
                     )
 
                     if (listStatus.isCurrent()) {
@@ -269,8 +294,10 @@ fun CompactUserMediaListItem(
 @Composable
 fun MinimalUserMediaListItem(
     title: String,
+    mediaType: MediaType,
     userProgress: Int?,
     totalProgress: Int?,
+    isVolumeProgress: Boolean,
     mediaStatus: String?,
     broadcast: Broadcast?,
     listStatus: ListStatus,
@@ -312,7 +339,17 @@ fun MinimalUserMediaListItem(
                 }
 
                 Text(
-                    text = "${userProgress ?: 0}/${totalProgress ?: 0}",
+                    text = buildString {
+                        append("${userProgress ?: 0}/${totalProgress ?: 0}")
+                        if (mediaType == MediaType.MANGA) {
+                            append(" ")
+                            if (isVolumeProgress) {
+                                append(stringResource(R.string.volumes).lowercase())
+                            } else {
+                                append(stringResource(R.string.chapters).lowercase())
+                            }
+                        }
+                    },
                 )
             }//:Column
 
@@ -333,11 +370,13 @@ fun StandardUserMediaListItemPreview() {
             imageUrl = null,
             title = "This is a large anime or manga title",
             score = null,
+            mediaType = MediaType.ANIME,
             mediaFormat = "tv",
             mediaStatus = "currently_airing",
             broadcast = Broadcast(WeekDay.SUNDAY, "12:00"),
             userProgress = 4,
             totalProgress = 24,
+            isVolumeProgress = true,
             listStatus = ListStatus.WATCHING,
             onClick = { },
             onLongClick = { },
@@ -354,9 +393,11 @@ fun CompactUserMediaListItemPreview() {
             imageUrl = null,
             title = "This is a very very very very large anime or manga title",
             score = null,
+            mediaType = MediaType.MANGA,
             mediaStatus = "currently_airing",
             userProgress = 4,
             totalProgress = 12,
+            isVolumeProgress = true,
             broadcast = Broadcast(WeekDay.SUNDAY, "12:00"),
             listStatus = ListStatus.WATCHING,
             onClick = { },
@@ -372,8 +413,10 @@ fun MinimalUserMediaListItemPreview() {
     MoeListTheme {
         MinimalUserMediaListItem(
             title = "This is a very very very very large anime or manga title",
+            mediaType = MediaType.MANGA,
             userProgress = 4,
             totalProgress = 12,
+            isVolumeProgress = false,
             mediaStatus = "currently_airing",
             broadcast = Broadcast(WeekDay.SUNDAY, "12:00"),
             listStatus = ListStatus.WATCHING,
