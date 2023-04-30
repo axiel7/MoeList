@@ -87,11 +87,6 @@
                 android:value="true" />
         </service>
 
-        <service
-            android:name=".utils.NotificationWorker"
-            android:exported="false"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-
     </application>
 
 </manifest>
