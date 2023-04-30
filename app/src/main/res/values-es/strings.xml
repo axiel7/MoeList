@@ -279,6 +279,8 @@
     <string name="num_years">%s años</string>
     <string name="num_months">%s meses</string>
     <string name="num_weeks">%s semanas</string>
-    <string name="open_mal_links_in_the_app">Open MAL links in the app</string>
-    <string name="num_days">%s days</string>
+    <string name="open_mal_links_in_the_app">Abrir enlaces de MAL en la aplicación</string>
+    <string name="num_days">%s días</string>
+    <string name="notifications">Notifications</string>
+    <string name="delete_all">Delete all</string>
 </resources>
