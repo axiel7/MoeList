@@ -48,10 +48,8 @@ import com.axiel7.moelist.utils.StringExtensions.toNavArgument
 import com.axiel7.moelist.utils.StringExtensions.toStringOrNull
 import com.axiel7.moelist.utils.UseCases.copyToClipBoard
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
-import com.google.accompanist.placeholder.material.placeholder
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.time.LocalTime
@@ -164,7 +162,7 @@ fun MediaDetailsView(
                             width = MEDIA_POSTER_BIG_WIDTH.dp,
                             height = MEDIA_POSTER_BIG_HEIGHT.dp
                         )
-                        .placeholder(visible = viewModel.isLoading)
+                        .defaultPlaceholder(visible = viewModel.isLoading)
                         .clickable {
                             navController.navigate(
                                 "full_poster/${viewModel.picturesUrls.toNavArgument()}"
@@ -176,7 +174,7 @@ fun MediaDetailsView(
                         text = viewModel.mediaDetails?.title ?: "Loading",
                         modifier = Modifier
                             .padding(bottom = 8.dp, end = 8.dp)
-                            .placeholder(visible = viewModel.isLoading)
+                            .defaultPlaceholder(visible = viewModel.isLoading)
                             .combinedClickable(
                                 onLongClick = {
                                     viewModel.mediaDetails?.title?.let { context.copyToClipBoard(it) }
@@ -192,28 +190,28 @@ fun MediaDetailsView(
                         else R.drawable.ic_round_menu_book_24,
                         modifier = Modifier
                             .padding(bottom = 8.dp)
-                            .placeholder(visible = viewModel.isLoading)
+                            .defaultPlaceholder(visible = viewModel.isLoading)
                     )
                     TextIconHorizontal(
                         text = viewModel.mediaDetails?.durationText() ?: "Loading",
                         icon = R.drawable.ic_round_timer_24,
                         modifier = Modifier
                             .padding(bottom = 8.dp)
-                            .placeholder(visible = viewModel.isLoading)
+                            .defaultPlaceholder(visible = viewModel.isLoading)
                     )
                     TextIconHorizontal(
                         text = viewModel.mediaDetails?.status?.statusLocalized() ?: "Loading",
                         icon = R.drawable.ic_round_rss_feed_24,
                         modifier = Modifier
                             .padding(bottom = 8.dp)
-                            .placeholder(visible = viewModel.isLoading)
+                            .defaultPlaceholder(visible = viewModel.isLoading)
                     )
                     TextIconHorizontal(
                         text = viewModel.mediaDetails?.mean.toStringOrNull() ?: "??",
                         icon = R.drawable.ic_round_details_star_24,
                         modifier = Modifier
                             .padding(bottom = 8.dp)
-                            .placeholder(visible = viewModel.isLoading)
+                            .defaultPlaceholder(visible = viewModel.isLoading)
                     )
                 }
             }//:Row
@@ -238,7 +236,7 @@ fun MediaDetailsView(
                 text = viewModel.mediaDetails?.synopsis ?: stringResource(R.string.lorem_ipsun),
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
-                    .placeholder(visible = viewModel.isLoading),
+                    .defaultPlaceholder(visible = viewModel.isLoading),
                 overflow = TextOverflow.Ellipsis,
                 maxLines = maxLinesSynopsis
             )
@@ -290,7 +288,7 @@ fun MediaDetailsView(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)
-                    .placeholder(visible = viewModel.isLoading),
+                    .defaultPlaceholder(visible = viewModel.isLoading),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -332,13 +330,13 @@ fun MediaDetailsView(
                         title = stringResource(R.string.authors),
                         info = (viewModel.mediaDetails as? MangaDetails)?.authors
                             ?.joinToString { "${it.node.firstName} ${it.node.lastName}" },
-                        modifier = Modifier.placeholder(visible = viewModel.isLoading)
+                        modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
                     )
                 }
                 MediaInfoView(
                     title = stringResource(R.string.volumes),
                     info = (viewModel.mediaDetails as? MangaDetails)?.numVolumes.toStringPositiveValueOrNull(),
-                    modifier = Modifier.placeholder(visible = viewModel.isLoading)
+                    modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
                 )
                 Divider(modifier = Modifier.padding(vertical = 8.dp))
             }
@@ -347,7 +345,7 @@ fun MediaDetailsView(
                     MediaInfoView(
                         title = stringResource(R.string.synonyms),
                         info = synonyms,
-                        modifier = Modifier.placeholder(visible = viewModel.isLoading)
+                        modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
                     )
                 }
             }
@@ -355,40 +353,40 @@ fun MediaDetailsView(
                 MediaInfoView(
                     title = stringResource(R.string.jp_title),
                     info = viewModel.mediaDetails?.alternativeTitles?.ja,
-                    modifier = Modifier.placeholder(visible = viewModel.isLoading)
+                    modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
                 )
             }
             Divider(modifier = Modifier.padding(vertical = 8.dp))
             MediaInfoView(
                 title = stringResource(R.string.start_date),
                 info = viewModel.mediaDetails?.startDate?.parseDateAndLocalize(),
-                modifier = Modifier.placeholder(visible = viewModel.isLoading)
+                modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
             )
             MediaInfoView(
                 title = stringResource(R.string.end_date),
                 info = viewModel.mediaDetails?.endDate?.parseDateAndLocalize(),
-                modifier = Modifier.placeholder(visible = viewModel.isLoading)
+                modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
             )
             if (mediaType == MediaType.ANIME) {
                 MediaInfoView(
                     title = stringResource(R.string.season),
                     info = (viewModel.mediaDetails as? AnimeDetails)?.startSeason.seasonYearText(),
-                    modifier = Modifier.placeholder(visible = viewModel.isLoading)
+                    modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
                 )
                 MediaInfoView(
                     title = stringResource(R.string.broadcast),
                     info = (viewModel.mediaDetails as? AnimeDetails)?.broadcastTimeText(),
-                    modifier = Modifier.placeholder(visible = viewModel.isLoading)
+                    modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
                 )
                 MediaInfoView(
                     title = stringResource(R.string.duration),
                     info = (viewModel.mediaDetails as? AnimeDetails)?.episodeDurationLocalized(),
-                    modifier = Modifier.placeholder(visible = viewModel.isLoading)
+                    modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
                 )
                 MediaInfoView(
                     title = stringResource(R.string.source),
                     info = (viewModel.mediaDetails as? AnimeDetails)?.sourceLocalized(),
-                    modifier = Modifier.placeholder(visible = viewModel.isLoading)
+                    modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
                 )
             }
             Divider(modifier = Modifier.padding(vertical = 8.dp))
@@ -399,7 +397,7 @@ fun MediaDetailsView(
                     ),
                     info = viewModel.studioSerializationJoined,
                     modifier = Modifier
-                        .placeholder(visible = viewModel.isLoading)
+                        .defaultPlaceholder(visible = viewModel.isLoading)
                         .padding(bottom = 8.dp)
                 )
             }

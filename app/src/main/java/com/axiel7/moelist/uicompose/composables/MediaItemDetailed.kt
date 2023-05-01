@@ -28,9 +28,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
-import com.google.accompanist.placeholder.PlaceholderHighlight
-import com.google.accompanist.placeholder.material.fade
-import com.google.accompanist.placeholder.material.placeholder
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -122,10 +119,7 @@ fun MediaItemDetailedPlaceholder() {
                     height = MEDIA_POSTER_SMALL_HEIGHT.dp
                 )
                 .clip(RoundedCornerShape(8.dp))
-                .placeholder(
-                    visible = true,
-                    highlight = PlaceholderHighlight.fade()
-                )
+                .defaultPlaceholder(visible = true)
         )
 
         Column(
@@ -136,10 +130,7 @@ fun MediaItemDetailedPlaceholder() {
         ) {
             Text(
                 text = "This is a placeholder text",
-                modifier = Modifier.placeholder(
-                    visible = true,
-                    highlight = PlaceholderHighlight.fade()
-                ),
+                modifier = Modifier.defaultPlaceholder(visible = true),
                 fontSize = 17.sp,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
@@ -147,26 +138,17 @@ fun MediaItemDetailedPlaceholder() {
 
             Text(
                 text = "This is a placeholder",
-                modifier = Modifier.placeholder(
-                    visible = true,
-                    highlight = PlaceholderHighlight.fade()
-                )
+                modifier = Modifier.defaultPlaceholder(visible = true)
             )
 
             Text(
                 text = "Placeholder",
-                modifier = Modifier.placeholder(
-                    visible = true,
-                    highlight = PlaceholderHighlight.fade()
-                )
+                modifier = Modifier.defaultPlaceholder(visible = true)
             )
 
             Text(
                 text = "Placeholder",
-                modifier = Modifier.placeholder(
-                    visible = true,
-                    highlight = PlaceholderHighlight.fade()
-                )
+                modifier = Modifier.defaultPlaceholder(visible = true)
             )
         }
     }

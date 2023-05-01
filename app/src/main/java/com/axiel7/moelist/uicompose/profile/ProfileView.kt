@@ -35,13 +35,13 @@ import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopBar
 import com.axiel7.moelist.uicompose.composables.DonutChart
 import com.axiel7.moelist.uicompose.composables.TextIconHorizontal
 import com.axiel7.moelist.uicompose.composables.TextIconVertical
+import com.axiel7.moelist.uicompose.composables.defaultPlaceholder
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.DateUtils.parseDateAndLocalize
 import com.axiel7.moelist.utils.NumExtensions.toStringOrZero
 import com.axiel7.moelist.utils.StringExtensions.toNavArgument
-import com.google.accompanist.placeholder.material.placeholder
 import java.time.format.DateTimeFormatter
 
 const val PROFILE_DESTINATION = "profile"
@@ -73,7 +73,7 @@ fun ProfileView(navController: NavController) {
                         .padding(16.dp)
                         .clip(RoundedCornerShape(100))
                         .size(100.dp)
-                        .placeholder(visible = viewModel.isLoading)
+                        .defaultPlaceholder(visible = viewModel.isLoading)
                         .clickable {
                             navController.navigate(
                                 "full_poster/${arrayOf(viewModel.profilePictureUrl ?: "").toNavArgument()}"
@@ -86,7 +86,7 @@ fun ProfileView(navController: NavController) {
                         text = viewModel.user?.name ?: "Loading...",
                         modifier = Modifier
                             .padding(vertical = 8.dp)
-                            .placeholder(visible = viewModel.isLoading),
+                            .defaultPlaceholder(visible = viewModel.isLoading),
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold
@@ -118,7 +118,7 @@ fun ProfileView(navController: NavController) {
                         icon = R.drawable.ic_round_access_time_24,
                         modifier = Modifier
                             .padding(bottom = 8.dp)
-                            .placeholder(visible = viewModel.isLoading)
+                            .defaultPlaceholder(visible = viewModel.isLoading)
                     )
                 }
             }//:Row

@@ -20,9 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
-import com.google.accompanist.placeholder.PlaceholderHighlight
-import com.google.accompanist.placeholder.material.fade
-import com.google.accompanist.placeholder.material.placeholder
 
 const val MEDIA_ITEM_VERTICAL_HEIGHT = 200
 
@@ -86,21 +83,14 @@ fun MediaItemVerticalPlaceholder() {
                     width = MEDIA_POSTER_SMALL_WIDTH.dp,
                     height = MEDIA_POSTER_SMALL_HEIGHT.dp
                 )
-                .placeholder(
-                    visible = true,
-                    highlight = PlaceholderHighlight.fade()
-                )
+                .defaultPlaceholder(visible = true)
         )
 
         Text(
             text = "This is a placeholder",
             modifier = Modifier
                 .padding(top = 8.dp)
-                .placeholder(
-                    visible = true,
-                    highlight = PlaceholderHighlight.fade()
-                )
-            ,
+                .defaultPlaceholder(visible = true),
             fontSize = 15.sp,
             overflow = TextOverflow.Ellipsis,
             maxLines = 2
