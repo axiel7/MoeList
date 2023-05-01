@@ -146,7 +146,8 @@ fun ProfileView(navController: NavController) {
             Divider(modifier = Modifier.padding(vertical = 16.dp))
 
             TextButton(
-                onClick = { context.openLink(Constants.MAL_PROFILE_URL + viewModel.user?.name) }
+                onClick = { context.openLink(Constants.MAL_PROFILE_URL + viewModel.user?.name) },
+                modifier = Modifier.padding(bottom = 16.dp)
             ) {
                 Text(
                     text = stringResource(R.string.view_profile_mal),
