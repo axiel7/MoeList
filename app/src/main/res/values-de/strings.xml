@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="title_home">Start</string>
     <string name="title_anime_list">Anime</string>
     <string name="title_manga_list">Manga</string>
@@ -156,76 +156,76 @@
     <string name="sort_title">Titel</string>
     <string name="sort_score">Wertung</string>
     <string name="sort_last_updated">Zuletzt aktualisiert</string>
-    <string name="sort" tools:ignore="MissingTranslation">Sortieren</string>
-    <string name="sort_by" tools:ignore="MissingTranslation">Sortieren nach</string>
-    <string name="ok" tools:ignore="MissingTranslation">OK</string>
-    <string name="support" tools:ignore="MissingTranslation">Unterstützung</string>
-    <string name="logo_design" tools:ignore="MissingTranslation">Logo design</string>
-    <string name="general_help" tools:ignore="MissingTranslation">Allgemeine Hilfe</string>
-    <string name="api_help" tools:ignore="MissingTranslation">MyAnimeList API Hilfe</string>
-    <string name="translations" tools:ignore="MissingTranslation">Übersetzungen</string>
-    <string name="turkish" tools:ignore="MissingTranslation">Türkisch</string>
-    <string name="brazilian" tools:ignore="MissingTranslation">Brasilianisch</string>
-    <string name="russian" tools:ignore="MissingTranslation">Russisch</string>
-    <string name="arabic" tools:ignore="MissingTranslation">Arabisch</string>
-    <string name="spanish" tools:ignore="MissingTranslation">Spanisch</string>
-    <string name="genre_action" tools:ignore="MissingTranslation">Action</string>
-    <string name="genre_adventure" tools:ignore="MissingTranslation">Abenteuer</string>
-    <string name="genre_cars" tools:ignore="MissingTranslation">Autos</string>
-    <string name="genre_comedy" tools:ignore="MissingTranslation">Komödie</string>
-    <string name="genre_dementia" tools:ignore="MissingTranslation">Demenz</string>
-    <string name="genre_demons" tools:ignore="MissingTranslation">Dämonen</string>
-    <string name="genre_drama" tools:ignore="MissingTranslation">Drama</string>
-    <string name="genre_ecchi" tools:ignore="MissingTranslation" tools:keep="@string/genre_ecchi">Ecchi</string>
-    <string name="genre_fantasy" tools:ignore="MissingTranslation">Fantasie</string>
-    <string name="genre_game" tools:ignore="MissingTranslation">Spiel</string>
-    <string name="genre_harem" tools:ignore="MissingTranslation">Harem</string>
-    <string name="genre_hentai" tools:ignore="MissingTranslation">Hentai</string>
-    <string name="genre_historical" tools:ignore="MissingTranslation">Historisch</string>
-    <string name="genre_horror" tools:ignore="MissingTranslation">Horror</string>
-    <string name="genre_josei" tools:ignore="MissingTranslation">Josei</string>
-    <string name="genre_kids" tools:ignore="MissingTranslation">Kinder</string>
-    <string name="genre_magic" tools:ignore="MissingTranslation">Magie</string>
-    <string name="genre_martial_arts" tools:ignore="MissingTranslation">Kampfsport</string>
-    <string name="genre_mecha" tools:ignore="MissingTranslation">Mecha</string>
-    <string name="genre_military" tools:ignore="MissingTranslation">Militär</string>
-    <string name="genre_music" tools:ignore="MissingTranslation">Musik</string>
-    <string name="genre_mystery" tools:ignore="MissingTranslation">Geheimnis</string>
-    <string name="genre_parody" tools:ignore="MissingTranslation">Parodie</string>
-    <string name="genre_police" tools:ignore="MissingTranslation">Polizei</string>
-    <string name="genre_psychological" tools:ignore="MissingTranslation">Psychologisch</string>
-    <string name="genre_romance" tools:ignore="MissingTranslation">Romantik</string>
-    <string name="genre_samurai" tools:ignore="MissingTranslation">Samurai</string>
-    <string name="genre_school" tools:ignore="MissingTranslation">Schule</string>
-    <string name="genre_sci_fi" tools:ignore="MissingTranslation">Sci-Fi</string>
-    <string name="genre_seinen" tools:ignore="MissingTranslation">Seinen</string>
-    <string name="genre_shoujo" tools:ignore="MissingTranslation">Shoujo</string>
-    <string name="genre_shoujo_ai" tools:ignore="MissingTranslation">Shoujo Ai</string>
-    <string name="genre_shounen" tools:ignore="MissingTranslation">Shounen</string>
-    <string name="genre_shounen_ai" tools:ignore="MissingTranslation">Shounen Ai</string>
-    <string name="genre_slice_of_life" tools:ignore="MissingTranslation">Slice of Life</string>
-    <string name="genre_space" tools:ignore="MissingTranslation">Weltall</string>
-    <string name="genre_sports" tools:ignore="MissingTranslation">Sport</string>
-    <string name="genre_superpower" tools:ignore="MissingTranslation">Superkräfte</string>
-    <string name="genre_supernatural" tools:ignore="MissingTranslation">Übernatürlich</string>
-    <string name="genre_thriller" tools:ignore="MissingTranslation">Thriller</string>
-    <string name="genre_vampire" tools:ignore="MissingTranslation">Vampir</string>
-    <string name="genre_yaoi" tools:ignore="MissingTranslation">Yaoi</string>
-    <string name="genre_yuri" tools:ignore="MissingTranslation">Yuri</string>
-    <string name="relation_prequel" tools:ignore="MissingTranslation">Prequel</string>
-    <string name="relation_sequel" tools:ignore="MissingTranslation">Sequel</string>
-    <string name="relation_summary" tools:ignore="MissingTranslation">Zusammenfassung</string>
-    <string name="relation_alternative_version" tools:ignore="MissingTranslation">Alternative Version</string>
-    <string name="relation_other" tools:ignore="MissingTranslation" tools:keep="@string/relation_other">Andere</string>
-    <string name="relation_side_story" tools:ignore="MissingTranslation">Nebengeschichte</string>
-    <string name="relation_alternative_setting" tools:ignore="MissingTranslation">Alternative Einstellung</string>
-    <string name="relation_spin_off" tools:ignore="MissingTranslation">Spin-off</string>
-    <string name="translate" tools:ignore="MissingTranslation">Übersetzen</string>
-    <string name="translate_original" tools:ignore="MissingTranslation">Original anzeigen</string>
-    <string name="adaptation" tools:ignore="MissingTranslation" tools:keep="@string/adaptation">Anpassung</string>
-    <string name="open_source_licenses" tools:ignore="MissingTranslation">Open Source Lizenzen</string>
-    <string name="filters" tools:ignore="MissingTranslation">Filter</string>
-    <string name="date_format" tools:ignore="MissingTranslation">Datumsformat</string>
+    <string name="sort">Sortieren</string>
+    <string name="sort_by">Sortieren nach</string>
+    <string name="ok">OK</string>
+    <string name="support">Unterstützung</string>
+    <string name="logo_design">Logo design</string>
+    <string name="general_help">Allgemeine Hilfe</string>
+    <string name="api_help">MyAnimeList API Hilfe</string>
+    <string name="translations">Übersetzungen</string>
+    <string name="turkish">Türkisch</string>
+    <string name="brazilian">Brasilianisch</string>
+    <string name="russian">Russisch</string>
+    <string name="arabic">Arabisch</string>
+    <string name="spanish">Spanisch</string>
+    <string name="genre_action">Action</string>
+    <string name="genre_adventure">Abenteuer</string>
+    <string name="genre_cars">Autos</string>
+    <string name="genre_comedy">Komödie</string>
+    <string name="genre_dementia">Demenz</string>
+    <string name="genre_demons">Dämonen</string>
+    <string name="genre_drama">Drama</string>
+    <string name="genre_ecchi">Ecchi</string>
+    <string name="genre_fantasy">Fantasie</string>
+    <string name="genre_game">Spiel</string>
+    <string name="genre_harem">Harem</string>
+    <string name="genre_hentai">Hentai</string>
+    <string name="genre_historical">Historisch</string>
+    <string name="genre_horror">Horror</string>
+    <string name="genre_josei">Josei</string>
+    <string name="genre_kids">Kinder</string>
+    <string name="genre_magic">Magie</string>
+    <string name="genre_martial_arts">Kampfsport</string>
+    <string name="genre_mecha">Mecha</string>
+    <string name="genre_military">Militär</string>
+    <string name="genre_music">Musik</string>
+    <string name="genre_mystery">Geheimnis</string>
+    <string name="genre_parody">Parodie</string>
+    <string name="genre_police">Polizei</string>
+    <string name="genre_psychological">Psychologisch</string>
+    <string name="genre_romance">Romantik</string>
+    <string name="genre_samurai">Samurai</string>
+    <string name="genre_school">Schule</string>
+    <string name="genre_sci_fi">Sci-Fi</string>
+    <string name="genre_seinen">Seinen</string>
+    <string name="genre_shoujo">Shoujo</string>
+    <string name="genre_shoujo_ai">Shoujo Ai</string>
+    <string name="genre_shounen">Shounen</string>
+    <string name="genre_shounen_ai">Shounen Ai</string>
+    <string name="genre_slice_of_life">Slice of Life</string>
+    <string name="genre_space">Weltall</string>
+    <string name="genre_sports">Sport</string>
+    <string name="genre_superpower">Superkräfte</string>
+    <string name="genre_supernatural">Übernatürlich</string>
+    <string name="genre_thriller">Thriller</string>
+    <string name="genre_vampire">Vampir</string>
+    <string name="genre_yaoi">Yaoi</string>
+    <string name="genre_yuri">Yuri</string>
+    <string name="relation_prequel">Prequel</string>
+    <string name="relation_sequel">Sequel</string>
+    <string name="relation_summary">Zusammenfassung</string>
+    <string name="relation_alternative_version">Alternative Version</string>
+    <string name="relation_other">Andere</string>
+    <string name="relation_side_story">Nebengeschichte</string>
+    <string name="relation_alternative_setting">Alternative Einstellung</string>
+    <string name="relation_spin_off">Spin-off</string>
+    <string name="translate">Übersetzen</string>
+    <string name="translate_original">Original anzeigen</string>
+    <string name="adaptation">Anpassung</string>
+    <string name="open_source_licenses">Open Source Lizenzen</string>
+    <string name="filters">Filter</string>
+    <string name="date_format">Datumsformat</string>
     <string name="manhua">Manhua</string>
     <string name="discontinued">Eingestellt</string>
     <string name="opening">Openings</string>

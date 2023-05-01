@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="title_home">الصفحة الرئيسية</string>
     <string name="title_anime_list">الأنيمي</string>
     <string name="title_manga_list">المانغا</string>
@@ -156,76 +156,76 @@
     <string name="sort_title">العنوان</string>
     <string name="sort_score">التقييم</string>
     <string name="sort_last_updated">آخر تحديث</string>
-    <string name="sort" tools:ignore="MissingTranslation">ترتيب</string>
-    <string name="sort_by" tools:ignore="MissingTranslation">ترتيب حسب</string>
-    <string name="ok" tools:ignore="MissingTranslation">حسنًا</string>
-    <string name="support" tools:ignore="MissingTranslation">المساعدون</string>
-    <string name="logo_design" tools:ignore="MissingTranslation">تصميم الشعار</string>
-    <string name="general_help" tools:ignore="MissingTranslation">المساعدة العامة</string>
-    <string name="api_help" tools:ignore="MissingTranslation">المستعدة ب(MyAnimeList API)</string>
-    <string name="translations" tools:ignore="MissingTranslation">المترجمون</string>
-    <string name="turkish" tools:ignore="MissingTranslation">التركية</string>
-    <string name="brazilian" tools:ignore="MissingTranslation">البرازيلية</string>
-    <string name="russian" tools:ignore="MissingTranslation">الروسية</string>
-    <string name="arabic" tools:ignore="MissingTranslation">العربية</string>
-    <string name="spanish" tools:ignore="MissingTranslation">الإسبانية</string>
-    <string name="genre_action" tools:ignore="MissingTranslation">أكشن</string>
-    <string name="genre_adventure" tools:ignore="MissingTranslation">مغامرة</string>
-    <string name="genre_cars" tools:ignore="MissingTranslation">سيارات</string>
-    <string name="genre_comedy" tools:ignore="MissingTranslation">كوميديا</string>
-    <string name="genre_dementia" tools:ignore="MissingTranslation">الخرف</string>
-    <string name="genre_demons" tools:ignore="MissingTranslation">شياطين</string>
-    <string name="genre_drama" tools:ignore="MissingTranslation">دراما</string>
-    <string name="genre_ecchi" tools:ignore="MissingTranslation" tools:keep="@string/genre_ecchi">Ecchi</string>
-    <string name="genre_fantasy" tools:ignore="MissingTranslation">الخيال</string>
-    <string name="genre_game" tools:ignore="MissingTranslation">لعبة</string>
-    <string name="genre_harem" tools:ignore="MissingTranslation">Harem</string>
-    <string name="genre_hentai" tools:ignore="MissingTranslation">Hentai</string>
-    <string name="genre_historical" tools:ignore="MissingTranslation">تاريخي</string>
-    <string name="genre_horror" tools:ignore="MissingTranslation">رعب</string>
-    <string name="genre_josei" tools:ignore="MissingTranslation">Josei</string>
-    <string name="genre_kids" tools:ignore="MissingTranslation">الأطفال</string>
-    <string name="genre_magic" tools:ignore="MissingTranslation">سحر</string>
-    <string name="genre_martial_arts" tools:ignore="MissingTranslation">الفنون القتالية</string>
-    <string name="genre_mecha" tools:ignore="MissingTranslation">ميكا</string>
-    <string name="genre_military" tools:ignore="MissingTranslation">عسكري</string>
-    <string name="genre_music" tools:ignore="MissingTranslation">موسيقى</string>
-    <string name="genre_mystery" tools:ignore="MissingTranslation">غموض</string>
-    <string name="genre_parody" tools:ignore="MissingTranslation">محاكاة ساخرة</string>
-    <string name="genre_police" tools:ignore="MissingTranslation">شرطة</string>
-    <string name="genre_psychological" tools:ignore="MissingTranslation">بسيكولوجية</string>
-    <string name="genre_romance" tools:ignore="MissingTranslation">رومانسي</string>
-    <string name="genre_samurai" tools:ignore="MissingTranslation">ساموراي</string>
-    <string name="genre_school" tools:ignore="MissingTranslation">مدرسة</string>
-    <string name="genre_sci_fi" tools:ignore="MissingTranslation">خيال علمي</string>
-    <string name="genre_seinen" tools:ignore="MissingTranslation">Seinen</string>
-    <string name="genre_shoujo" tools:ignore="MissingTranslation">Shoujo</string>
-    <string name="genre_shoujo_ai" tools:ignore="MissingTranslation">Shoujo Ai</string>
-    <string name="genre_shounen" tools:ignore="MissingTranslation">Shounen</string>
-    <string name="genre_shounen_ai" tools:ignore="MissingTranslation">Shounen Ai</string>
-    <string name="genre_slice_of_life" tools:ignore="MissingTranslation">شريحة حياة</string>
-    <string name="genre_space" tools:ignore="MissingTranslation">فضاء</string>
-    <string name="genre_sports" tools:ignore="MissingTranslation">رياضي</string>
-    <string name="genre_superpower" tools:ignore="MissingTranslation">قوة خارقة</string>
-    <string name="genre_supernatural" tools:ignore="MissingTranslation">خارق للطبيعة</string>
-    <string name="genre_thriller" tools:ignore="MissingTranslation">إثارة</string>
-    <string name="genre_vampire" tools:ignore="MissingTranslation">مصاصي الدماء</string>
-    <string name="genre_yaoi" tools:ignore="MissingTranslation">ياوي</string>
-    <string name="genre_yuri" tools:ignore="MissingTranslation">اليوري</string>
-    <string name="relation_prequel" tools:ignore="MissingTranslation">بادئة</string>
-    <string name="relation_sequel" tools:ignore="MissingTranslation">التكملة</string>
-    <string name="relation_summary" tools:ignore="MissingTranslation">الملخص</string>
-    <string name="relation_alternative_version" tools:ignore="MissingTranslation">النسخة البديلة</string>
-    <string name="relation_other" tools:ignore="MissingTranslation" tools:keep="@string/relation_other">فئات أخرى</string>
-    <string name="relation_side_story" tools:ignore="MissingTranslation">قصة جانبية</string>
-    <string name="relation_alternative_setting" tools:ignore="MissingTranslation">التصنيفات الأخرى</string>
-    <string name="relation_spin_off" tools:ignore="MissingTranslation">منتج جانبي</string>
-    <string name="translate" tools:ignore="MissingTranslation">ترجم</string>
-    <string name="translate_original" tools:ignore="MissingTranslation">إظهار النص الأصلي</string>
-    <string name="adaptation" tools:ignore="MissingTranslation" tools:keep="@string/adaptation">نسخة الأنيمي/المانغا</string>
-    <string name="open_source_licenses" tools:ignore="MissingTranslation">تراخيص التطبيق (مفتوحة المصدر)</string>
-    <string name="filters" tools:ignore="MissingTranslation">تصفيه</string>
-    <string name="date_format" tools:ignore="MissingTranslation">صيغة التاريخ</string>
+    <string name="sort">ترتيب</string>
+    <string name="sort_by">ترتيب حسب</string>
+    <string name="ok">حسنًا</string>
+    <string name="support">المساعدون</string>
+    <string name="logo_design">تصميم الشعار</string>
+    <string name="general_help">المساعدة العامة</string>
+    <string name="api_help">المستعدة ب(MyAnimeList API)</string>
+    <string name="translations">المترجمون</string>
+    <string name="turkish">التركية</string>
+    <string name="brazilian">البرازيلية</string>
+    <string name="russian">الروسية</string>
+    <string name="arabic">العربية</string>
+    <string name="spanish">الإسبانية</string>
+    <string name="genre_action">أكشن</string>
+    <string name="genre_adventure">مغامرة</string>
+    <string name="genre_cars">سيارات</string>
+    <string name="genre_comedy">كوميديا</string>
+    <string name="genre_dementia">الخرف</string>
+    <string name="genre_demons">شياطين</string>
+    <string name="genre_drama">دراما</string>
+    <string name="genre_ecchi">Ecchi</string>
+    <string name="genre_fantasy">الخيال</string>
+    <string name="genre_game">لعبة</string>
+    <string name="genre_harem">Harem</string>
+    <string name="genre_hentai">Hentai</string>
+    <string name="genre_historical">تاريخي</string>
+    <string name="genre_horror">رعب</string>
+    <string name="genre_josei">Josei</string>
+    <string name="genre_kids">الأطفال</string>
+    <string name="genre_magic">سحر</string>
+    <string name="genre_martial_arts">الفنون القتالية</string>
+    <string name="genre_mecha">ميكا</string>
+    <string name="genre_military">عسكري</string>
+    <string name="genre_music">موسيقى</string>
+    <string name="genre_mystery">غموض</string>
+    <string name="genre_parody">محاكاة ساخرة</string>
+    <string name="genre_police">شرطة</string>
+    <string name="genre_psychological">بسيكولوجية</string>
+    <string name="genre_romance">رومانسي</string>
+    <string name="genre_samurai">ساموراي</string>
+    <string name="genre_school">مدرسة</string>
+    <string name="genre_sci_fi">خيال علمي</string>
+    <string name="genre_seinen">Seinen</string>
+    <string name="genre_shoujo">Shoujo</string>
+    <string name="genre_shoujo_ai">Shoujo Ai</string>
+    <string name="genre_shounen">Shounen</string>
+    <string name="genre_shounen_ai">Shounen Ai</string>
+    <string name="genre_slice_of_life">شريحة حياة</string>
+    <string name="genre_space">فضاء</string>
+    <string name="genre_sports">رياضي</string>
+    <string name="genre_superpower">قوة خارقة</string>
+    <string name="genre_supernatural">خارق للطبيعة</string>
+    <string name="genre_thriller">إثارة</string>
+    <string name="genre_vampire">مصاصي الدماء</string>
+    <string name="genre_yaoi">ياوي</string>
+    <string name="genre_yuri">اليوري</string>
+    <string name="relation_prequel">بادئة</string>
+    <string name="relation_sequel">التكملة</string>
+    <string name="relation_summary">الملخص</string>
+    <string name="relation_alternative_version">النسخة البديلة</string>
+    <string name="relation_other">فئات أخرى</string>
+    <string name="relation_side_story">قصة جانبية</string>
+    <string name="relation_alternative_setting">التصنيفات الأخرى</string>
+    <string name="relation_spin_off">منتج جانبي</string>
+    <string name="translate">ترجم</string>
+    <string name="translate_original">إظهار النص الأصلي</string>
+    <string name="adaptation">نسخة الأنيمي/المانغا</string>
+    <string name="open_source_licenses">تراخيص التطبيق (مفتوحة المصدر)</string>
+    <string name="filters">تصفيه</string>
+    <string name="date_format">صيغة التاريخ</string>
     <string name="manhua">المانهوا</string>
     <string name="discontinued">توقف البث</string>
     <string name="opening">اغنية المقدمة</string>
