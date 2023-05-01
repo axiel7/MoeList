@@ -117,6 +117,7 @@ fun UserMediaListView(
         modifier = Modifier
             .clipToBounds()
             .pullRefresh(pullRefreshState)
+            .fillMaxSize()
     ) {
         LazyColumn(
             modifier = Modifier
