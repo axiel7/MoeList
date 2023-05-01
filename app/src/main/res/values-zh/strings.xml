@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="title_home">首页</string>
     <string name="title_anime_list">动画</string>
     <string name="title_manga_list">漫画</string>
@@ -156,76 +156,76 @@
     <string name="sort_title">标题</string>
     <string name="sort_score">分数</string>
     <string name="sort_last_updated">最近更新</string>
-    <string name="sort" tools:ignore="MissingTranslation">排序</string>
-    <string name="sort_by" tools:ignore="MissingTranslation">排序依据</string>
-    <string name="ok" tools:ignore="MissingTranslation">确定</string>
-    <string name="support" tools:ignore="MissingTranslation">支援</string>
-    <string name="logo_design" tools:ignore="MissingTranslation">标志设计</string>
-    <string name="general_help" tools:ignore="MissingTranslation">一般帮助</string>
-    <string name="api_help" tools:ignore="MissingTranslation">MyAnimeList API 帮助</string>
-    <string name="translations" tools:ignore="MissingTranslation">翻译</string>
-    <string name="turkish" tools:ignore="MissingTranslation">土耳其语</string>
-    <string name="brazilian" tools:ignore="MissingTranslation">葡萄牙语（巴西）</string>
-    <string name="russian" tools:ignore="MissingTranslation">俄语</string>
-    <string name="arabic" tools:ignore="MissingTranslation">阿拉伯语</string>
-    <string name="spanish" tools:ignore="MissingTranslation">西班牙语</string>
-    <string name="genre_action" tools:ignore="MissingTranslation">动作</string>
-    <string name="genre_adventure" tools:ignore="MissingTranslation">冒险</string>
-    <string name="genre_cars" tools:ignore="MissingTranslation">车</string>
-    <string name="genre_comedy" tools:ignore="MissingTranslation">喜剧</string>
-    <string name="genre_dementia" tools:ignore="MissingTranslation">失智症</string>
-    <string name="genre_demons" tools:ignore="MissingTranslation">恶魔</string>
-    <string name="genre_drama" tools:ignore="MissingTranslation">剧集</string>
-    <string name="genre_ecchi" tools:ignore="MissingTranslation" tools:keep="@string/genre_ecchi">色情</string>
-    <string name="genre_fantasy" tools:ignore="MissingTranslation">幻想</string>
-    <string name="genre_game" tools:ignore="MissingTranslation">游戏</string>
-    <string name="genre_harem" tools:ignore="MissingTranslation">后宫</string>
-    <string name="genre_hentai" tools:ignore="MissingTranslation">变态</string>
-    <string name="genre_historical" tools:ignore="MissingTranslation">历史</string>
-    <string name="genre_horror" tools:ignore="MissingTranslation">恐怖</string>
-    <string name="genre_josei" tools:ignore="MissingTranslation">女性向</string>
-    <string name="genre_kids" tools:ignore="MissingTranslation">子供向</string>
-    <string name="genre_magic" tools:ignore="MissingTranslation">魔法</string>
-    <string name="genre_martial_arts" tools:ignore="MissingTranslation">武术</string>
-    <string name="genre_mecha" tools:ignore="MissingTranslation">机甲</string>
-    <string name="genre_military" tools:ignore="MissingTranslation">军事</string>
-    <string name="genre_music" tools:ignore="MissingTranslation">音乐</string>
-    <string name="genre_mystery" tools:ignore="MissingTranslation">悬疑</string>
-    <string name="genre_parody" tools:ignore="MissingTranslation">恶搞</string>
-    <string name="genre_police" tools:ignore="MissingTranslation">警察</string>
-    <string name="genre_psychological" tools:ignore="MissingTranslation">心理</string>
-    <string name="genre_romance" tools:ignore="MissingTranslation">浪漫</string>
-    <string name="genre_samurai" tools:ignore="MissingTranslation">武士</string>
-    <string name="genre_school" tools:ignore="MissingTranslation">学校</string>
-    <string name="genre_sci_fi" tools:ignore="MissingTranslation">科幻</string>
-    <string name="genre_seinen" tools:ignore="MissingTranslation">青年</string>
-    <string name="genre_shoujo" tools:ignore="MissingTranslation">少女</string>
-    <string name="genre_shoujo_ai" tools:ignore="MissingTranslation">少女爱情</string>
-    <string name="genre_shounen" tools:ignore="MissingTranslation">少年</string>
-    <string name="genre_shounen_ai" tools:ignore="MissingTranslation">少年爱情</string>
-    <string name="genre_slice_of_life" tools:ignore="MissingTranslation">日常</string>
-    <string name="genre_space" tools:ignore="MissingTranslation">太空</string>
-    <string name="genre_sports" tools:ignore="MissingTranslation">运动</string>
-    <string name="genre_superpower" tools:ignore="MissingTranslation">超能力</string>
-    <string name="genre_supernatural" tools:ignore="MissingTranslation">超自然</string>
-    <string name="genre_thriller" tools:ignore="MissingTranslation">惊悚</string>
-    <string name="genre_vampire" tools:ignore="MissingTranslation">吸血鬼</string>
-    <string name="genre_yaoi" tools:ignore="MissingTranslation">击剑</string>
-    <string name="genre_yuri" tools:ignore="MissingTranslation">百合</string>
-    <string name="relation_prequel" tools:ignore="MissingTranslation">前传</string>
-    <string name="relation_sequel" tools:ignore="MissingTranslation">续作</string>
-    <string name="relation_summary" tools:ignore="MissingTranslation">摘要</string>
-    <string name="relation_alternative_version" tools:ignore="MissingTranslation">替代版本</string>
-    <string name="relation_other" tools:ignore="MissingTranslation" tools:keep="@string/relation_other">其他</string>
-    <string name="relation_side_story" tools:ignore="MissingTranslation">番外篇</string>
-    <string name="relation_alternative_setting" tools:ignore="MissingTranslation">替代设置</string>
-    <string name="relation_spin_off" tools:ignore="MissingTranslation">衍生作品</string>
-    <string name="translate" tools:ignore="MissingTranslation">翻译</string>
-    <string name="translate_original" tools:ignore="MissingTranslation">查看原文</string>
-    <string name="adaptation" tools:ignore="MissingTranslation" tools:keep="@string/adaptation">改编</string>
-    <string name="open_source_licenses" tools:ignore="MissingTranslation">开放源码授权</string>
-    <string name="filters" tools:ignore="MissingTranslation">筛选</string>
-    <string name="date_format" tools:ignore="MissingTranslation">日期格式</string>
+    <string name="sort">排序</string>
+    <string name="sort_by">排序依据</string>
+    <string name="ok">确定</string>
+    <string name="support">支援</string>
+    <string name="logo_design">标志设计</string>
+    <string name="general_help">一般帮助</string>
+    <string name="api_help">MyAnimeList API 帮助</string>
+    <string name="translations">翻译</string>
+    <string name="turkish">土耳其语</string>
+    <string name="brazilian">葡萄牙语（巴西）</string>
+    <string name="russian">俄语</string>
+    <string name="arabic">阿拉伯语</string>
+    <string name="spanish">西班牙语</string>
+    <string name="genre_action">动作</string>
+    <string name="genre_adventure">冒险</string>
+    <string name="genre_cars">车</string>
+    <string name="genre_comedy">喜剧</string>
+    <string name="genre_dementia">失智症</string>
+    <string name="genre_demons">恶魔</string>
+    <string name="genre_drama">剧集</string>
+    <string name="genre_ecchi">色情</string>
+    <string name="genre_fantasy">幻想</string>
+    <string name="genre_game">游戏</string>
+    <string name="genre_harem">后宫</string>
+    <string name="genre_hentai">变态</string>
+    <string name="genre_historical">历史</string>
+    <string name="genre_horror">恐怖</string>
+    <string name="genre_josei">女性向</string>
+    <string name="genre_kids">子供向</string>
+    <string name="genre_magic">魔法</string>
+    <string name="genre_martial_arts">武术</string>
+    <string name="genre_mecha">机甲</string>
+    <string name="genre_military">军事</string>
+    <string name="genre_music">音乐</string>
+    <string name="genre_mystery">悬疑</string>
+    <string name="genre_parody">恶搞</string>
+    <string name="genre_police">警察</string>
+    <string name="genre_psychological">心理</string>
+    <string name="genre_romance">浪漫</string>
+    <string name="genre_samurai">武士</string>
+    <string name="genre_school">学校</string>
+    <string name="genre_sci_fi">科幻</string>
+    <string name="genre_seinen">青年</string>
+    <string name="genre_shoujo">少女</string>
+    <string name="genre_shoujo_ai">少女爱情</string>
+    <string name="genre_shounen">少年</string>
+    <string name="genre_shounen_ai">少年爱情</string>
+    <string name="genre_slice_of_life">日常</string>
+    <string name="genre_space">太空</string>
+    <string name="genre_sports">运动</string>
+    <string name="genre_superpower">超能力</string>
+    <string name="genre_supernatural">超自然</string>
+    <string name="genre_thriller">惊悚</string>
+    <string name="genre_vampire">吸血鬼</string>
+    <string name="genre_yaoi">击剑</string>
+    <string name="genre_yuri">百合</string>
+    <string name="relation_prequel">前传</string>
+    <string name="relation_sequel">续作</string>
+    <string name="relation_summary">摘要</string>
+    <string name="relation_alternative_version">替代版本</string>
+    <string name="relation_other">其他</string>
+    <string name="relation_side_story">番外篇</string>
+    <string name="relation_alternative_setting">替代设置</string>
+    <string name="relation_spin_off">衍生作品</string>
+    <string name="translate">翻译</string>
+    <string name="translate_original">查看原文</string>
+    <string name="adaptation">改编</string>
+    <string name="open_source_licenses">开放源码授权</string>
+    <string name="filters">筛选</string>
+    <string name="date_format">日期格式</string>
     <string name="manhua">韩漫</string>
     <string name="discontinued">停止</string>
     <string name="opening">OP</string>
@@ -283,4 +283,5 @@
     <string name="num_days">%s days</string>
     <string name="notifications">Notifications</string>
     <string name="delete_all">Delete all</string>
+    <string name="manga_stats">Manga Stats</string>
 </resources>
