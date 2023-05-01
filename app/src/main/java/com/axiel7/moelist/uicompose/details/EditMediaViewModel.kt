@@ -80,12 +80,12 @@ class EditMediaViewModel(
     }
 
     private fun canChangeProgressTo(value: Int?, limit: Int?) = when {
-        value == null -> true
-        value < 0 -> false
-        value == 0 -> true
-        limit == null -> true
-        limit <= 0 -> true
-        value <= limit -> true
+        value == null -> true //allow to set empty
+        value < 0 -> false //progress must be positive
+        value == 0 -> true //allow set to 0
+        limit == null -> true //no limitations
+        limit <= 0 -> true //no limitations
+        value <= limit -> true //progress must be below total
         else -> false
     }
 
