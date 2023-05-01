@@ -57,9 +57,9 @@ class EditMediaViewModel(
         }
         else if (value == ListStatus.COMPLETED) {
             endDate = LocalDate.now()
-            progress = mediaInfo?.totalDuration() ?: 0
+            mediaInfo?.totalDuration()?.let { if (it > 0) progress = it }
             if (mediaInfo is MangaNode) {
-                volumeProgress = (mediaInfo as MangaNode).numVolumes ?: 0
+                (mediaInfo as? MangaNode)?.numVolumes?.let { if (it > 0) volumeProgress = it }
             }
         }
     }
