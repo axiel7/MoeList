@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="title_home">Начало</string>
     <string name="title_anime_list">Аниме</string>
     <string name="title_manga_list">Манга</string>
@@ -156,76 +156,76 @@
     <string name="sort_title">Заглавие</string>
     <string name="sort_score">Резултат</string>
     <string name="sort_last_updated">Последно обновление</string>
-    <string name="sort" tools:ignore="MissingTranslation">Сортиране</string>
-    <string name="sort_by" tools:ignore="MissingTranslation">Сортирай по</string>
-    <string name="ok" tools:ignore="MissingTranslation">Добре</string>
-    <string name="support" tools:ignore="MissingTranslation">Поддръжка</string>
-    <string name="logo_design" tools:ignore="MissingTranslation">Дизайн на логото</string>
-    <string name="general_help" tools:ignore="MissingTranslation">Обща помощ</string>
-    <string name="api_help" tools:ignore="MissingTranslation">MyAnimeList API помощ</string>
-    <string name="translations" tools:ignore="MissingTranslation">Преводи</string>
-    <string name="turkish" tools:ignore="MissingTranslation">Турски</string>
-    <string name="brazilian" tools:ignore="MissingTranslation">Бразилски</string>
-    <string name="russian" tools:ignore="MissingTranslation">Руски</string>
-    <string name="arabic" tools:ignore="MissingTranslation">Арабски</string>
-    <string name="spanish" tools:ignore="MissingTranslation">Испански</string>
-    <string name="genre_action" tools:ignore="MissingTranslation">Действие</string>
-    <string name="genre_adventure" tools:ignore="MissingTranslation">Приключение</string>
-    <string name="genre_cars" tools:ignore="MissingTranslation">Коли</string>
-    <string name="genre_comedy" tools:ignore="MissingTranslation">Комедия</string>
-    <string name="genre_dementia" tools:ignore="MissingTranslation">Деменция</string>
-    <string name="genre_demons" tools:ignore="MissingTranslation">Демони</string>
-    <string name="genre_drama" tools:ignore="MissingTranslation">Драма</string>
-    <string name="genre_ecchi" tools:ignore="MissingTranslation" tools:keep="@string/genre_ecchi">Ecchi</string>
-    <string name="genre_fantasy" tools:ignore="MissingTranslation">Фентъзи</string>
-    <string name="genre_game" tools:ignore="MissingTranslation">Игра</string>
-    <string name="genre_harem" tools:ignore="MissingTranslation">Харем</string>
-    <string name="genre_hentai" tools:ignore="MissingTranslation">Хентай</string>
-    <string name="genre_historical" tools:ignore="MissingTranslation">Исторически</string>
-    <string name="genre_horror" tools:ignore="MissingTranslation">Ужаси</string>
-    <string name="genre_josei" tools:ignore="MissingTranslation">Джосей</string>
-    <string name="genre_kids" tools:ignore="MissingTranslation">Деца</string>
-    <string name="genre_magic" tools:ignore="MissingTranslation">Магия</string>
-    <string name="genre_martial_arts" tools:ignore="MissingTranslation">Бойни изкуства</string>
-    <string name="genre_mecha" tools:ignore="MissingTranslation">Механично</string>
-    <string name="genre_military" tools:ignore="MissingTranslation">Военни</string>
-    <string name="genre_music" tools:ignore="MissingTranslation">Музика</string>
-    <string name="genre_mystery" tools:ignore="MissingTranslation">Мистерия</string>
-    <string name="genre_parody" tools:ignore="MissingTranslation">Пародия</string>
-    <string name="genre_police" tools:ignore="MissingTranslation">Полиция</string>
-    <string name="genre_psychological" tools:ignore="MissingTranslation">Психологически</string>
-    <string name="genre_romance" tools:ignore="MissingTranslation">Романтичен</string>
-    <string name="genre_samurai" tools:ignore="MissingTranslation">Самурай</string>
-    <string name="genre_school" tools:ignore="MissingTranslation">Училище</string>
-    <string name="genre_sci_fi" tools:ignore="MissingTranslation">Sci-Fi</string>
-    <string name="genre_seinen" tools:ignore="MissingTranslation">Сейнен</string>
-    <string name="genre_shoujo" tools:ignore="MissingTranslation">Шоуджо</string>
-    <string name="genre_shoujo_ai" tools:ignore="MissingTranslation">Шоуджо Ай</string>
-    <string name="genre_shounen" tools:ignore="MissingTranslation">Шоунен</string>
-    <string name="genre_shounen_ai" tools:ignore="MissingTranslation">Шоунен Ай</string>
-    <string name="genre_slice_of_life" tools:ignore="MissingTranslation">Парче от Живота</string>
-    <string name="genre_space" tools:ignore="MissingTranslation">Космос</string>
-    <string name="genre_sports" tools:ignore="MissingTranslation">Спорт</string>
-    <string name="genre_superpower" tools:ignore="MissingTranslation">Супер Сила</string>
-    <string name="genre_supernatural" tools:ignore="MissingTranslation">Свръхестествени</string>
-    <string name="genre_thriller" tools:ignore="MissingTranslation">Трилър</string>
-    <string name="genre_vampire" tools:ignore="MissingTranslation">Вампири</string>
-    <string name="genre_yaoi" tools:ignore="MissingTranslation">Яой</string>
-    <string name="genre_yuri" tools:ignore="MissingTranslation">Yuri</string>
-    <string name="relation_prequel" tools:ignore="MissingTranslation">Предистория</string>
-    <string name="relation_sequel" tools:ignore="MissingTranslation">Последица</string>
-    <string name="relation_summary" tools:ignore="MissingTranslation">Кратко описание</string>
-    <string name="relation_alternative_version" tools:ignore="MissingTranslation">Алтернативна версия</string>
-    <string name="relation_other" tools:ignore="MissingTranslation" tools:keep="@string/relation_other">Други</string>
-    <string name="relation_side_story" tools:ignore="MissingTranslation">Странична история</string>
-    <string name="relation_alternative_setting" tools:ignore="MissingTranslation">Алтернативна настройка</string>
-    <string name="relation_spin_off" tools:ignore="MissingTranslation">Спин-оф</string>
-    <string name="translate" tools:ignore="MissingTranslation">Преведи</string>
-    <string name="translate_original" tools:ignore="MissingTranslation">Покажи оригинала</string>
-    <string name="adaptation" tools:ignore="MissingTranslation" tools:keep="@string/adaptation">Адаптиране</string>
-    <string name="open_source_licenses" tools:ignore="MissingTranslation">Отвори лицензите на източника</string>
-    <string name="filters" tools:ignore="MissingTranslation">Филтри</string>
-    <string name="date_format" tools:ignore="MissingTranslation">Формат на датата</string>
+    <string name="sort">Сортиране</string>
+    <string name="sort_by">Сортирай по</string>
+    <string name="ok">Добре</string>
+    <string name="support">Поддръжка</string>
+    <string name="logo_design">Дизайн на логото</string>
+    <string name="general_help">Обща помощ</string>
+    <string name="api_help">MyAnimeList API помощ</string>
+    <string name="translations">Преводи</string>
+    <string name="turkish">Турски</string>
+    <string name="brazilian">Бразилски</string>
+    <string name="russian">Руски</string>
+    <string name="arabic">Арабски</string>
+    <string name="spanish">Испански</string>
+    <string name="genre_action">Действие</string>
+    <string name="genre_adventure">Приключение</string>
+    <string name="genre_cars">Коли</string>
+    <string name="genre_comedy">Комедия</string>
+    <string name="genre_dementia">Деменция</string>
+    <string name="genre_demons">Демони</string>
+    <string name="genre_drama">Драма</string>
+    <string name="genre_ecchi">Ecchi</string>
+    <string name="genre_fantasy">Фентъзи</string>
+    <string name="genre_game">Игра</string>
+    <string name="genre_harem">Харем</string>
+    <string name="genre_hentai">Хентай</string>
+    <string name="genre_historical">Исторически</string>
+    <string name="genre_horror">Ужаси</string>
+    <string name="genre_josei">Джосей</string>
+    <string name="genre_kids">Деца</string>
+    <string name="genre_magic">Магия</string>
+    <string name="genre_martial_arts">Бойни изкуства</string>
+    <string name="genre_mecha">Механично</string>
+    <string name="genre_military">Военни</string>
+    <string name="genre_music">Музика</string>
+    <string name="genre_mystery">Мистерия</string>
+    <string name="genre_parody">Пародия</string>
+    <string name="genre_police">Полиция</string>
+    <string name="genre_psychological">Психологически</string>
+    <string name="genre_romance">Романтичен</string>
+    <string name="genre_samurai">Самурай</string>
+    <string name="genre_school">Училище</string>
+    <string name="genre_sci_fi">Sci-Fi</string>
+    <string name="genre_seinen">Сейнен</string>
+    <string name="genre_shoujo">Шоуджо</string>
+    <string name="genre_shoujo_ai">Шоуджо Ай</string>
+    <string name="genre_shounen">Шоунен</string>
+    <string name="genre_shounen_ai">Шоунен Ай</string>
+    <string name="genre_slice_of_life">Парче от Живота</string>
+    <string name="genre_space">Космос</string>
+    <string name="genre_sports">Спорт</string>
+    <string name="genre_superpower">Супер Сила</string>
+    <string name="genre_supernatural">Свръхестествени</string>
+    <string name="genre_thriller">Трилър</string>
+    <string name="genre_vampire">Вампири</string>
+    <string name="genre_yaoi">Яой</string>
+    <string name="genre_yuri">Yuri</string>
+    <string name="relation_prequel">Предистория</string>
+    <string name="relation_sequel">Последица</string>
+    <string name="relation_summary">Кратко описание</string>
+    <string name="relation_alternative_version">Алтернативна версия</string>
+    <string name="relation_other">Други</string>
+    <string name="relation_side_story">Странична история</string>
+    <string name="relation_alternative_setting">Алтернативна настройка</string>
+    <string name="relation_spin_off">Спин-оф</string>
+    <string name="translate">Преведи</string>
+    <string name="translate_original">Покажи оригинала</string>
+    <string name="adaptation">Адаптиране</string>
+    <string name="open_source_licenses">Отвори лицензите на източника</string>
+    <string name="filters">Филтри</string>
+    <string name="date_format">Формат на датата</string>
     <string name="manhua">Манхуа</string>
     <string name="discontinued">Прекратено</string>
     <string name="opening">Отваряне на теми</string>
@@ -283,4 +283,5 @@
     <string name="num_days">%s days</string>
     <string name="notifications">Notifications</string>
     <string name="delete_all">Delete all</string>
+    <string name="manga_stats">Manga Stats</string>
 </resources>
