@@ -49,7 +49,7 @@ class HomeViewModel: BaseViewModel() {
                     && anime.node.status == Constants.STATUS_AIRING
                 ) { tempList.add(anime) }
             }
-            tempList.sortByDescending { it.node.broadcast?.startTime }
+            tempList.sortByDescending { "${it.node.mean ?: ""}${it.node.broadcast?.startTime}" }
             todayAnimes.clear()
             todayAnimes.addAll(tempList)
         } else {
