@@ -27,7 +27,7 @@ class ProfileViewModel : BaseViewModel() {
     }
 
     var user by mutableStateOf<User?>(null)
-    var animeStats by mutableStateOf(listOf(
+    var animeStats = mutableStateOf(listOf(
         Stat(title = R.string.watching, value = 0f, color = Color(red = 0, green = 200, blue = 83)),
         Stat(title = R.string.completed, value = 0f, color = Color(red = 92, green = 107, blue = 192)),
         Stat(title = R.string.on_hold, value = 0f, color = Color(red = 255, green = 213, blue = 0)),
@@ -43,12 +43,12 @@ class ProfileViewModel : BaseViewModel() {
 
             user?.animeStatistics?.let { stats ->
                 val tempStatList = mutableListOf<Stat>()
-                tempStatList.add(animeStats[0].copy(value = stats.numItemsWatching?.toFloat() ?: 0f))
-                tempStatList.add(animeStats[1].copy(value = stats.numItemsCompleted?.toFloat() ?: 0f))
-                tempStatList.add(animeStats[2].copy(value = stats.numItemsOnHold?.toFloat() ?: 0f))
-                tempStatList.add(animeStats[3].copy(value = stats.numItemsDropped?.toFloat() ?: 0f))
-                tempStatList.add(animeStats[4].copy(value = stats.numItemsPlanToWatch?.toFloat() ?: 0f))
-                animeStats = tempStatList
+                tempStatList.add(animeStats.value[0].copy(value = stats.numItemsWatching?.toFloat() ?: 0f))
+                tempStatList.add(animeStats.value[1].copy(value = stats.numItemsCompleted?.toFloat() ?: 0f))
+                tempStatList.add(animeStats.value[2].copy(value = stats.numItemsOnHold?.toFloat() ?: 0f))
+                tempStatList.add(animeStats.value[3].copy(value = stats.numItemsDropped?.toFloat() ?: 0f))
+                tempStatList.add(animeStats.value[4].copy(value = stats.numItemsPlanToWatch?.toFloat() ?: 0f))
+                animeStats.value = tempStatList
             }
             if (user?.picture != null && user?.picture != profilePictureUrl) {
                 App.dataStore?.edit {
@@ -57,13 +57,13 @@ class ProfileViewModel : BaseViewModel() {
                 profilePictureUrl = user!!.picture!!
             }
 
-            getUserMangaStats()
-
             isLoading = false
+
+            getUserMangaStats()
         }
     }
 
-    var mangaStats by mutableStateOf(listOf(
+    var mangaStats = mutableStateOf(listOf(
         Stat(title = R.string.reading, value = 0f, color = Color(red = 0, green = 200, blue = 83)),
         Stat(title = R.string.completed, value = 0f, color = Color(red = 92, green = 107, blue = 192)),
         Stat(title = R.string.on_hold, value = 0f, color = Color(red = 255, green = 213, blue = 0)),
@@ -78,12 +78,12 @@ class ProfileViewModel : BaseViewModel() {
 
         result?.data?.manga?.let { stats ->
             val tempStatList = mutableListOf<Stat>()
-            tempStatList.add(mangaStats[0].copy(value = stats.current.toFloat()))
-            tempStatList.add(mangaStats[1].copy(value = stats.completed.toFloat()))
-            tempStatList.add(mangaStats[2].copy(value = stats.onHold.toFloat()))
-            tempStatList.add(mangaStats[3].copy(value = stats.dropped.toFloat()))
-            tempStatList.add(mangaStats[4].copy(value = stats.planned.toFloat()))
-            mangaStats = tempStatList
+            tempStatList.add(mangaStats.value[0].copy(value = stats.current.toFloat()))
+            tempStatList.add(mangaStats.value[1].copy(value = stats.completed.toFloat()))
+            tempStatList.add(mangaStats.value[2].copy(value = stats.onHold.toFloat()))
+            tempStatList.add(mangaStats.value[3].copy(value = stats.dropped.toFloat()))
+            tempStatList.add(mangaStats.value[4].copy(value = stats.planned.toFloat()))
+            mangaStats.value = tempStatList
             userMangaStats = stats
         }
     }

@@ -185,8 +185,8 @@ fun UserStatsView(
             centerContent = {
                 Text(text = stringResource(R.string.total_entries).format(
                     if (mediaType == MediaType.ANIME)
-                        viewModel.animeStats.sumOf { it.value.toInt() }
-                    else viewModel.mangaStats.sumOf { it.value.toInt() }
+                        viewModel.animeStats.value.sumOf { it.value.toInt() }
+                    else viewModel.mangaStats.value.sumOf { it.value.toInt() }
                     )
                 )
             }
@@ -194,7 +194,7 @@ fun UserStatsView(
 
         Column {
             (if (mediaType == MediaType.ANIME) viewModel.animeStats else viewModel.mangaStats)
-                .forEach {
+                .value.forEach {
                 SuggestionChip(
                     onClick = { },
                     label = { Text(text = stringResource(it.title)) },
