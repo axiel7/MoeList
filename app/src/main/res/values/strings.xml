@@ -301,4 +301,5 @@
     <string name="num_days">%s days</string>
     <string name="notifications">Notifications</string>
     <string name="delete_all">Delete all</string>
+    <string name="manga_stats">Manga Stats</string>
 </resources>

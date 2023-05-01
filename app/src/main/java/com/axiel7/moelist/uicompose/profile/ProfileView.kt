@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SuggestionChip
@@ -31,6 +33,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.axiel7.moelist.R
+import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopBar
 import com.axiel7.moelist.uicompose.composables.DonutChart
 import com.axiel7.moelist.uicompose.composables.TextIconHorizontal
@@ -48,16 +51,18 @@ const val PROFILE_DESTINATION = "profile"
 
 @Composable
 fun ProfileView(navController: NavController) {
-
     val context = LocalContext.current
     val viewModel: ProfileViewModel = viewModel()
+    val scrollState = rememberScrollState()
 
     DefaultScaffoldWithTopBar(
         title = stringResource(R.string.title_profile),
         navController = navController
     ) { padding ->
         Column(
-            modifier = Modifier.padding(padding),
+            modifier = Modifier
+                .padding(padding)
+                .verticalScroll(scrollState),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(
@@ -126,70 +131,17 @@ fun ProfileView(navController: NavController) {
             Divider(modifier = Modifier.padding(vertical = 16.dp))
 
             //Stats
-            Text(
-                text = stringResource(R.string.anime_stats),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
+            UserStatsView(
+                viewModel = viewModel,
+                mediaType = MediaType.ANIME
             )
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                DonutChart(
-                    stats = viewModel.animeStats,
-                    centerContent = {
-                        Text(text = stringResource(R.string.total_entries)
-                            .format(viewModel.animeStats.sumOf { it.value.toInt() })
-                        )
-                    }
-                )
 
-                Column {
-                    viewModel.animeStats.forEach {
-                        SuggestionChip(
-                            onClick = { },
-                            label = { Text(text = stringResource(it.title)) },
-                            modifier = Modifier.padding(horizontal = 8.dp),
-                            icon = { Text(text = String.format("%.0f", it.value)) },
-                            border = SuggestionChipDefaults.suggestionChipBorder(
-                                borderColor = it.color
-                            )
-                        )
-                    }
-                }
-            }
+            Divider(modifier = Modifier.padding(vertical = 16.dp))
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp),
-                horizontalArrangement = Arrangement.SpaceAround
-            ) {
-                TextIconVertical(
-                    text = viewModel.user?.animeStatistics?.numDays.toStringOrZero(),
-                    icon = R.drawable.ic_round_event_24,
-                    tooltip = stringResource(R.string.days)
-                )
-                TextIconVertical(
-                    text = viewModel.user?.animeStatistics?.numEpisodes.toStringOrZero(),
-                    icon = R.drawable.play_circle_outline_24,
-                    tooltip = stringResource(R.string.episodes)
-                )
-                TextIconVertical(
-                    text = viewModel.user?.animeStatistics?.meanScore.toStringOrZero(),
-                    icon = R.drawable.ic_round_details_star_24,
-                    tooltip = stringResource(R.string.mean_score)
-                )
-                TextIconVertical(
-                    text = viewModel.user?.animeStatistics?.numTimesRewatched.toStringOrZero(),
-                    icon = R.drawable.round_repeat_24,
-                    tooltip = stringResource(R.string.rewatched)
-                )
-            }
+            UserStatsView(
+                viewModel = viewModel,
+                mediaType = MediaType.MANGA
+            )
 
             Divider(modifier = Modifier.padding(vertical = 16.dp))
 
@@ -206,6 +158,103 @@ fun ProfileView(navController: NavController) {
     
     LaunchedEffect(Unit) {
         if (viewModel.user == null) viewModel.getMyUser()
+    }
+}
+
+@Composable
+fun UserStatsView(
+    viewModel: ProfileViewModel,
+    mediaType: MediaType
+) {
+    Text(
+        text = if (mediaType == MediaType.ANIME) stringResource(R.string.anime_stats)
+        else stringResource(R.string.manga_stats),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        fontSize = 18.sp,
+        fontWeight = FontWeight.Bold
+    )
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        DonutChart(
+            stats = if (mediaType == MediaType.ANIME) viewModel.animeStats else viewModel.mangaStats,
+            centerContent = {
+                Text(text = stringResource(R.string.total_entries).format(
+                    if (mediaType == MediaType.ANIME)
+                        viewModel.animeStats.sumOf { it.value.toInt() }
+                    else viewModel.mangaStats.sumOf { it.value.toInt() }
+                    )
+                )
+            }
+        )
+
+        Column {
+            (if (mediaType == MediaType.ANIME) viewModel.animeStats else viewModel.mangaStats)
+                .forEach {
+                SuggestionChip(
+                    onClick = { },
+                    label = { Text(text = stringResource(it.title)) },
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    icon = { Text(text = String.format("%.0f", it.value)) },
+                    border = SuggestionChipDefaults.suggestionChipBorder(
+                        borderColor = it.color
+                    )
+                )
+            }
+        }
+    }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp),
+        horizontalArrangement = Arrangement.SpaceAround
+    ) {
+        TextIconVertical(
+            text = if (mediaType == MediaType.ANIME)
+                viewModel.user?.animeStatistics?.numDays.toStringOrZero()
+            else viewModel.userMangaStats?.days.toStringOrZero(),
+            icon = R.drawable.ic_round_event_24,
+            tooltip = stringResource(R.string.days)
+        )
+        if (mediaType == MediaType.ANIME) {
+            TextIconVertical(
+                text = viewModel.user?.animeStatistics?.numEpisodes.toStringOrZero(),
+                icon = R.drawable.play_circle_outline_24,
+                tooltip = stringResource(R.string.episodes)
+            )
+        } else {
+            TextIconVertical(
+                text = viewModel.userMangaStats?.chaptersRead.toStringOrZero(),
+                icon = R.drawable.ic_round_menu_book_24,
+                tooltip = stringResource(R.string.chapters)
+            )
+            TextIconVertical(
+                text = viewModel.userMangaStats?.volumesRead.toStringOrZero(),
+                icon = R.drawable.ic_outline_book_24,
+                tooltip = stringResource(R.string.volumes)
+            )
+        }
+
+        TextIconVertical(
+            text = if (mediaType == MediaType.ANIME)
+                viewModel.user?.animeStatistics?.meanScore.toStringOrZero()
+            else viewModel.userMangaStats?.meanScore.toStringOrZero(),
+            icon = R.drawable.ic_round_details_star_24,
+            tooltip = stringResource(R.string.mean_score)
+        )
+        TextIconVertical(
+            text = if (mediaType == MediaType.ANIME)
+                viewModel.user?.animeStatistics?.numTimesRewatched.toStringOrZero()
+            else viewModel.userMangaStats?.repeat.toStringOrZero(),
+            icon = R.drawable.round_repeat_24,
+            tooltip = if (mediaType == MediaType.ANIME) stringResource(R.string.rewatched)
+            else stringResource(R.string.total_rereads)
+        )
     }
 }
 

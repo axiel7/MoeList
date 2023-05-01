@@ -12,6 +12,7 @@ object Constants {
     const val MAL_NEWS_URL = "https://myanimelist.net/news"
     const val MAL_ANNOUNCEMENTS_URL = "https://myanimelist.net/forum/?board=5"
     const val MAL_PROFILE_URL = "https://myanimelist.net/profile/"
+    const val JIKAN_API_URL = "https://api.jikan.moe/v4/"
 
     const val SUPPORT_EMAIL = "contacto.axiel7@gmail.com"
     const val DISCORD_SERVER_URL = "https://discord.gg/CTv3WdfxHh"

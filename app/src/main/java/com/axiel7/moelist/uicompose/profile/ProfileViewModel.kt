@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.viewModelScope
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
+import com.axiel7.moelist.data.model.MangaStats
 import com.axiel7.moelist.data.model.User
 import com.axiel7.moelist.data.model.media.Stat
 import com.axiel7.moelist.data.repository.UserRepository
@@ -56,7 +57,34 @@ class ProfileViewModel : BaseViewModel() {
                 profilePictureUrl = user!!.picture!!
             }
 
+            getUserMangaStats()
+
             isLoading = false
+        }
+    }
+
+    var mangaStats by mutableStateOf(listOf(
+        Stat(title = R.string.reading, value = 0f, color = Color(red = 0, green = 200, blue = 83)),
+        Stat(title = R.string.completed, value = 0f, color = Color(red = 92, green = 107, blue = 192)),
+        Stat(title = R.string.on_hold, value = 0f, color = Color(red = 255, green = 213, blue = 0)),
+        Stat(title = R.string.dropped, value = 0f, color = Color(red = 213, green = 0, blue = 0)),
+        Stat(title = R.string.ptr, value = 0f, color = Color(red = 158, green = 158, blue = 158)),
+    ))
+    var userMangaStats by mutableStateOf<MangaStats?>(null)
+
+    private suspend fun getUserMangaStats() {
+        if (user?.name == null) return
+        val result = UserRepository.getUserStats(username = user!!.name!!)
+
+        result?.data?.manga?.let { stats ->
+            val tempStatList = mutableListOf<Stat>()
+            tempStatList.add(mangaStats[0].copy(value = stats.current.toFloat()))
+            tempStatList.add(mangaStats[1].copy(value = stats.completed.toFloat()))
+            tempStatList.add(mangaStats[2].copy(value = stats.onHold.toFloat()))
+            tempStatList.add(mangaStats[3].copy(value = stats.dropped.toFloat()))
+            tempStatList.add(mangaStats[4].copy(value = stats.planned.toFloat()))
+            mangaStats = tempStatList
+            userMangaStats = stats
         }
     }
 }

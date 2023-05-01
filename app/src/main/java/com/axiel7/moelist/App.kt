@@ -7,6 +7,7 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.network.Api
+import com.axiel7.moelist.data.network.JikanApi
 import com.axiel7.moelist.data.network.KtorClient
 import com.axiel7.moelist.uicompose.base.ListMode
 import com.axiel7.moelist.utils.PreferencesDataStore.defaultPreferencesDataStore
@@ -19,6 +20,7 @@ class App : Application(), ImageLoaderFactory {
         super.onCreate()
 
         dataStore = defaultPreferencesDataStore
+
     }
     override fun newImageLoader(): ImageLoader {
         return ImageLoader.Builder(applicationContext)
@@ -33,10 +35,12 @@ class App : Application(), ImageLoaderFactory {
         fun createKtorClient(accessToken: String) {
             ktorClient = KtorClient(accessToken).ktorHttpClient
             api = Api(ktorClient)
+            jikanApi = JikanApi(ktorClient)
         }
 
         private lateinit var ktorClient: HttpClient
         lateinit var api: Api
+        lateinit var jikanApi: JikanApi
         val numberFormat: NumberFormat = NumberFormat.getInstance()
         var dataStore: DataStore<Preferences>? = null
         var nsfw = 0
