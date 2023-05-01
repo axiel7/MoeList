@@ -281,6 +281,6 @@
     <string name="num_weeks">%s semanas</string>
     <string name="open_mal_links_in_the_app">Abrir enlaces de MAL en la aplicación</string>
     <string name="num_days">%s días</string>
-    <string name="notifications">Notifications</string>
-    <string name="delete_all">Delete all</string>
+    <string name="notifications">Notificaciones</string>
+    <string name="delete_all">Borrar todos</string>
 </resources>
