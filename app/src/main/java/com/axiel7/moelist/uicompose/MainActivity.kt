@@ -26,6 +26,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -105,6 +106,8 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
         var lastTabOpened: Int? = null
+        var mediaId: Int? = null
+        var mediaType: String? = null
         when (intent.action) {
             "home" -> {
                 lastTabOpened = 0
@@ -114,6 +117,10 @@ class MainActivity : AppCompatActivity() {
             }
             "manga" -> {
                 lastTabOpened = 2
+            }
+            "details" -> {
+                mediaId = intent.getIntExtra("media_id", 0)
+                mediaType = intent.getStringExtra("media_type")
             }
         }
         if (lastTabOpened == null) lastTabOpened = defaultPreferencesDataStore.getValueSync(LAST_TAB_PREFERENCE_KEY)
@@ -141,6 +148,7 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             val themePreference by rememberPreference(THEME_PREFERENCE_KEY, theme)
+            val navController = rememberNavController()
 
             MoeListTheme(
                 darkTheme = if (themePreference == "follow_system") isSystemInDarkTheme() else themePreference == "dark"
@@ -150,8 +158,15 @@ class MainActivity : AppCompatActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     MainView(
+                        navController = navController,
                         lastTabOpened = lastTabOpened ?: 0
                     )
+                }
+            }
+
+            LaunchedEffect(mediaId) {
+                if (mediaId != null && mediaId != 0) {
+                    navController.navigate("details/$mediaType/$mediaId")
                 }
             }
         }
@@ -160,9 +175,9 @@ class MainActivity : AppCompatActivity() {
 
 @Composable
 fun MainView(
+    navController: NavHostController,
     lastTabOpened: Int
 ) {
-    val navController = rememberNavController()
     val bottomBarState = remember { mutableStateOf(true) }
     val stringArrayType = remember { StringArrayNavType() }
 
@@ -441,6 +456,7 @@ fun BottomNavBar(
 fun MainPreview() {
     MoeListTheme {
         MainView(
+            navController = rememberNavController(),
             lastTabOpened = 0
         )
     }

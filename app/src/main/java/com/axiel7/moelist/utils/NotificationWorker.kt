@@ -3,13 +3,16 @@ package com.axiel7.moelist.utils
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.TaskStackBuilder
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.work.CoroutineWorker
@@ -21,6 +24,7 @@ import androidx.work.WorkerParameters
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.WeekDay
 import com.axiel7.moelist.data.model.media.numeric
+import com.axiel7.moelist.uicompose.MainActivity
 import com.axiel7.moelist.utils.DateUtils.getNextDayOfWeek
 import com.axiel7.moelist.utils.PreferencesDataStore.notificationsDataStore
 import java.time.DayOfWeek
@@ -42,11 +46,26 @@ class NotificationWorker(
         val animeTitle = inputData.getString("anime_title")
         val animeId = inputData.getInt("anime_id", 1)
 
+        val resultPendingIntent = TaskStackBuilder.create(applicationContext).run {
+            // Add the intent, which inflates the back stack
+            addNextIntentWithParentStack(
+                Intent(applicationContext, MainActivity::class.java).apply {
+                    action = "details"
+                    putExtra("media_id", animeId)
+                    putExtra("media_type", "anime")
+                }
+            )
+            // Get the PendingIntent containing the entire back stack
+            getPendingIntent(0,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+        }
+
         val builder = NotificationCompat.Builder(applicationContext, AIRING_ANIME_CHANNEL_ID)
             .setContentTitle(applicationContext.getString(R.string.airing))
             .setContentText(animeTitle ?: "")
             .setSmallIcon(R.drawable.ic_moelist_logo_white)
             .setAutoCancel(true)
+            .setContentIntent(resultPendingIntent)
 
         // Show the notification
         with(NotificationManagerCompat.from(applicationContext)) {
@@ -54,13 +73,6 @@ class NotificationWorker(
                     Manifest.permission.POST_NOTIFICATIONS
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
                 return Result.failure()
             }
             notify(animeId, builder.build())
