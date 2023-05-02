@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -25,6 +26,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -184,11 +186,14 @@ fun UserStatsView(
         DonutChart(
             stats = if (mediaType == MediaType.ANIME) viewModel.animeStats else viewModel.mangaStats,
             centerContent = {
-                Text(text = stringResource(R.string.total_entries).format(
+                Text(
+                    text = stringResource(R.string.total_entries).format(
                     if (mediaType == MediaType.ANIME)
                         viewModel.animeStats.value.sumOf { it.value.toInt() }
                     else viewModel.mangaStats.value.sumOf { it.value.toInt() }
-                    )
+                    ),
+                    modifier = Modifier.width(100.dp),
+                    textAlign = TextAlign.Center
                 )
             }
         )
