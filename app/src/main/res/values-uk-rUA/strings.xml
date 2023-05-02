@@ -283,5 +283,5 @@
     <string name="num_days">%s днів</string>
     <string name="notifications">Сповіщення</string>
     <string name="delete_all">Видалити все</string>
-    <string name="manga_stats">Manga Stats</string>
+    <string name="manga_stats">Статистика манґи</string>
 </resources>
