@@ -1,6 +1,7 @@
 package com.axiel7.moelist.uicompose.home
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,13 +14,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.staggeredgrid.LazyHorizontalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AssistChip
+import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -71,60 +80,48 @@ fun HomeView(
         modifier = Modifier.verticalScroll(scrollState)
     ) {
         // Chips
-        LazyRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 10.dp),
-            contentPadding = PaddingValues(8.dp)
+        Row(
+            modifier = Modifier.padding(top = 10.dp, start = 8.dp, end = 16.dp)
         ) {
-            item {
-                HomeCard(
-                    text = stringResource(R.string.anime_ranking),
-                    icon = R.drawable.ic_round_movie_24,
-                    onClick = {
-                        navController.navigate("ranking/ANIME")
-                    },
-                )
-            }
-            item {
-                HomeCard(
-                    text = stringResource(R.string.manga_ranking),
-                    icon = R.drawable.ic_round_menu_book_24,
-                    onClick = {
-                        navController.navigate("ranking/MANGA")
-                    },
-                )
-            }
-            item {
-                HomeCard(
-                    text = stringResource(R.string.calendar),
-                    icon = R.drawable.ic_round_event_24,
-                    onClick = {
-                        navController.navigate(CALENDAR_DESTINATION)
-                    },
-                )
-            }
-            item {
-                HomeCard(
-                    text = stringResource(R.string.seasonal_chart),
-                    icon = SeasonCalendar.currentSeason.icon(),
-                    onClick = {
-                        navController.navigate(SEASON_CHART_DESTINATION)
-                    },
-                )
-            }
-            item {
-                HomeCard(
-                    text = stringResource(R.string.random),
-                    icon = R.drawable.ic_round_casino_24,
-                    onClick = {
-                        val type = if (Random.nextBoolean()) MediaType.ANIME.value
-                        else MediaType.MANGA.value
-                        val id = Random.nextInt(from = 0, until = 6000)
-                        navController.navigate("details/$type/$id")
-                    }
-                )
-            }
+            HomeCard(
+                text = stringResource(R.string.anime_ranking),
+                icon = R.drawable.ic_round_movie_24,
+                modifier = Modifier.weight(1f),
+                onClick = {
+                    navController.navigate("ranking/ANIME")
+                },
+            )
+
+            HomeCard(
+                text = stringResource(R.string.manga_ranking),
+                icon = R.drawable.ic_round_menu_book_24,
+                modifier = Modifier.weight(1f),
+                onClick = {
+                    navController.navigate("ranking/MANGA")
+                },
+            )
+        }
+
+        Row(
+            modifier = Modifier.padding(top = 10.dp, start = 8.dp, end = 16.dp)
+        ) {
+            HomeCard(
+                text = stringResource(R.string.seasonal_chart),
+                icon = SeasonCalendar.currentSeason.icon(),
+                modifier = Modifier.weight(1f),
+                onClick = {
+                    navController.navigate(SEASON_CHART_DESTINATION)
+                },
+            )
+
+            HomeCard(
+                text = stringResource(R.string.calendar),
+                icon = R.drawable.ic_round_event_24,
+                modifier = Modifier.weight(1f),
+                onClick = {
+                    navController.navigate(CALENDAR_DESTINATION)
+                },
+            )
         }
 
         // Airing
@@ -222,6 +219,36 @@ fun HomeView(
                 )
             }
         }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            //Random
+            OutlinedButton(
+                onClick = {
+                    val type = if (Random.nextBoolean()) MediaType.ANIME.value
+                    else MediaType.MANGA.value
+                    val id = Random.nextInt(from = 0, until = 6000)
+                    navController.navigate("details/$type/$id")
+                }
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_round_casino_24),
+                    contentDescription = stringResource(R.string.random),
+                    modifier = Modifier
+                        .padding(end = 8.dp)
+                        .size(18.dp)
+                )
+                Text(
+                    text = stringResource(R.string.random),
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1
+                )
+            }
+        }
     }
 
     LaunchedEffect(Unit) {
@@ -233,28 +260,26 @@ fun HomeView(
 fun HomeCard(
     text: String,
     @DrawableRes icon: Int,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
-    AssistChip(
+    FilledTonalButton(
         onClick = onClick,
-        modifier = Modifier
-            .height(36.dp)
-            .padding(start = 8.dp),
-        label = {
-            Text(
-                text = text,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 1
-            )
-        },
-        leadingIcon = {
-            Icon(
-                painter = painterResource(icon),
-                contentDescription = text,
-                modifier = Modifier.size(18.dp)
-            )
-        }
-    )
+        modifier = modifier.padding(start = 8.dp)
+    ) {
+        Icon(
+            painter = painterResource(icon),
+            contentDescription = text,
+            modifier = Modifier
+                .padding(end = 8.dp)
+                .size(18.dp)
+        )
+        Text(
+            text = text,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1
+        )
+    }
 }
 
 @Composable
