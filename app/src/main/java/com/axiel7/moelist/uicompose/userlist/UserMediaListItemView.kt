@@ -21,6 +21,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -66,6 +67,7 @@ fun StandardUserMediaListItem(
     onLongClick: () -> Unit,
     onClickPlus: () -> Unit,
 ) {
+    val isAiring = remember { broadcast != null && mediaStatus == "currently_airing" }
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -120,19 +122,10 @@ fun StandardUserMediaListItem(
                         maxLines = 2
                     )
                     Text(
-                        text = buildString {
-                            if (broadcast != null && mediaStatus == "currently_airing") {
-                                append(broadcast.airingInString())
-                            } else {
-                                append(mediaFormat?.mediaFormatLocalized())
-                                if (mediaStatus?.startsWith("currently") == true) {
-                                    append(" • ")
-                                    append(mediaStatus.statusLocalized())
-                                }
-                            }
-                        },
+                        text = if (isAiring) broadcast!!.airingInString()
+                            else mediaFormat?.mediaFormatLocalized() ?: "",
                         modifier = Modifier.padding(horizontal = 16.dp),
-                        color = if (broadcast != null) MaterialTheme.colorScheme.primary
+                        color = if (isAiring) MaterialTheme.colorScheme.primary
                         else MaterialTheme.colorScheme.onSurface
                     )
                 }//:Column
@@ -196,6 +189,7 @@ fun CompactUserMediaListItem(
     onLongClick: () -> Unit,
     onClickPlus: () -> Unit,
 ) {
+    val isAiring = remember { broadcast != null && mediaStatus == "currently_airing" }
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -247,12 +241,12 @@ fun CompactUserMediaListItem(
                     color = MaterialTheme.colorScheme.onSurface,
                     fontSize = 17.sp,
                     overflow = TextOverflow.Ellipsis,
-                    maxLines = if (broadcast != null && mediaStatus == "currently_airing") 1 else 2
+                    maxLines = if (isAiring) 1 else 2
                 )
 
-                if (broadcast != null && mediaStatus == "currently_airing") {
+                if (isAiring) {
                     Text(
-                        text = broadcast.airingInString(),
+                        text = broadcast!!.airingInString(),
                         modifier = Modifier.padding(horizontal = 16.dp),
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -305,6 +299,7 @@ fun MinimalUserMediaListItem(
     onLongClick: () -> Unit,
     onClickPlus: () -> Unit,
 ) {
+    val isAiring = remember { broadcast != null && mediaStatus == "currently_airing" }
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -328,12 +323,12 @@ fun MinimalUserMediaListItem(
                     color = MaterialTheme.colorScheme.onSurface,
                     fontSize = 17.sp,
                     overflow = TextOverflow.Ellipsis,
-                    maxLines = if (broadcast != null && mediaStatus == "currently_airing") 1 else 2
+                    maxLines = if (isAiring) 1 else 2
                 )
 
-                if (broadcast != null && mediaStatus == "currently_airing") {
+                if (isAiring) {
                     Text(
-                        text = broadcast.airingInString(),
+                        text = broadcast!!.airingInString(),
                         color = MaterialTheme.colorScheme.primary
                     )
                 }
