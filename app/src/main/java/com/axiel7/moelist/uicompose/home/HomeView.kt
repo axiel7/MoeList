@@ -1,7 +1,6 @@
 package com.axiel7.moelist.uicompose.home
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,23 +13,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.staggeredgrid.LazyHorizontalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AssistChip
-import androidx.compose.material3.FilledTonalButton
-import androidx.compose.material3.FilledTonalIconButton
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -256,6 +251,7 @@ fun HomeView(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeCard(
     text: String,
@@ -263,22 +259,35 @@ fun HomeCard(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
-    FilledTonalButton(
+    Card(
         onClick = onClick,
-        modifier = modifier.padding(start = 8.dp)
+        modifier = modifier.padding(start = 8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp)
+        )
     ) {
-        Icon(
-            painter = painterResource(icon),
-            contentDescription = text,
+        Row(
             modifier = Modifier
-                .padding(end = 8.dp)
-                .size(18.dp)
-        )
-        Text(
-            text = text,
-            overflow = TextOverflow.Ellipsis,
-            maxLines = 1
-        )
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .height(40.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                painter = painterResource(icon),
+                contentDescription = text,
+                modifier = Modifier
+                    .padding(end = 8.dp)
+                    .size(18.dp),
+                tint = MaterialTheme.colorScheme.primary
+            )
+            Text(
+                text = text,
+                fontSize = 15.sp,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 2,
+                lineHeight = 15.sp
+            )
+        }
     }
 }
 
