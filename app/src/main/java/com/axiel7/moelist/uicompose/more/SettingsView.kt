@@ -42,10 +42,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.axiel7.moelist.App
 import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.base.ListMode
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopBar
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
+import com.axiel7.moelist.utils.NumExtensions.toInt
 import com.axiel7.moelist.utils.PreferencesDataStore.LANG_PREFERENCE_KEY
 import com.axiel7.moelist.utils.PreferencesDataStore.LIST_DISPLAY_MODE_PREFERENCE
 import com.axiel7.moelist.utils.PreferencesDataStore.NSFW_PREFERENCE_KEY
@@ -115,6 +117,7 @@ fun SettingsView(
                 icon = R.drawable.no_adult_content_24,
                 onValueChange = { value ->
                     nsfwPreference.value = value
+                    App.nsfw = value.toInt()
                 }
             )
 
