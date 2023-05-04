@@ -28,7 +28,7 @@ object MangaRepository {
         }
     }
 
-    const val USER_MANGA_LIST_FIELDS = "list_status{num_times_rewatched},num_episodes,media_type,status"
+    const val USER_MANGA_LIST_FIELDS = "list_status{num_times_reread},num_chapters,num_volumes,media_type,status"
 
     suspend fun getUserMangaList(
         apiParams: ApiParams,
