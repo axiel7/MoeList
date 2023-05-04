@@ -339,7 +339,7 @@ fun MainTopAppBar(
                     active = it
                     if (!active) query = ""
                 },
-                modifier = if (!active) Modifier.padding(start = 4.dp, end = 4.dp, bottom = 4.dp)
+                modifier = if (!active) Modifier.padding(start = 8.dp, end = 8.dp, bottom = 4.dp)
                 else Modifier,
                 placeholder = { Text(text = stringResource(R.string.search)) },
                 leadingIcon = {
