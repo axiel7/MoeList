@@ -29,7 +29,10 @@ class SearchViewModel: BaseViewModel() {
         page: String? = null
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            isLoading = page == null //show indicator on 1st load
+            if (page == null) {
+                mediaList.clear()
+                isLoading = true
+            }
             params.q = query
             val result = if (mediaType == MediaType.ANIME)
                 AnimeRepository.searchAnime(params, page)
@@ -37,7 +40,6 @@ class SearchViewModel: BaseViewModel() {
                 MangaRepository.searchManga(params, page)
 
             if (result?.data != null) {
-                if (page == null) mediaList.clear()
                 mediaList.addAll(result.data)
 
                 nextPage = result.paging?.next
