@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
-import com.axiel7.moelist.utils.StringExtensions.toStringOrNull
+import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrUnknown
 
 @Composable
 fun SmallScoreIndicator(
@@ -34,7 +34,7 @@ fun SmallScoreIndicator(
             tint = MaterialTheme.colorScheme.outline
         )
         Text(
-            text = score.toStringOrNull() ?: "??",
+            text = score.toStringPositiveValueOrUnknown(),
             modifier = Modifier.padding(horizontal = 4.dp),
             color = MaterialTheme.colorScheme.outline,
             fontSize = fontSize

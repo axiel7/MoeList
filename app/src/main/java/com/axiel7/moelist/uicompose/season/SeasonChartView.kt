@@ -49,7 +49,7 @@ import com.axiel7.moelist.uicompose.composables.OnBottomReached
 import com.axiel7.moelist.uicompose.composables.SelectableIconToggleButton
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
-import com.axiel7.moelist.utils.StringExtensions.toStringOrNull
+import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrUnknown
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -110,7 +110,7 @@ fun SeasonChartView(
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Text(
-                            text = item.node.mean?.toStringOrNull() ?: "??",
+                            text = item.node.mean.toStringPositiveValueOrUnknown(),
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     },

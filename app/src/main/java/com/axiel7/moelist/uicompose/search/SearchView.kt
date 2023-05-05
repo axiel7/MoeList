@@ -39,7 +39,7 @@ import com.axiel7.moelist.uicompose.composables.MediaItemDetailedPlaceholder
 import com.axiel7.moelist.uicompose.composables.OnBottomReached
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
-import com.axiel7.moelist.utils.StringExtensions.toStringOrNull
+import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrUnknown
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -130,7 +130,7 @@ fun SearchView(
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
-                        text = it.node.mean?.toStringOrNull() ?: "??",
+                        text = it.node.mean.toStringPositiveValueOrUnknown(),
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 },

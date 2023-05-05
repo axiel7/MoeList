@@ -47,7 +47,7 @@ import com.axiel7.moelist.uicompose.composables.OnBottomReached
 import com.axiel7.moelist.uicompose.composables.RoundedTabRowIndicator
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
-import com.axiel7.moelist.utils.StringExtensions.toStringOrNull
+import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrUnknown
 import kotlinx.coroutines.launch
 
 const val MEDIA_RANKING_DESTINATION = "ranking/{mediaType}"
@@ -169,7 +169,7 @@ fun MediaRankingListView(
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
-                        text = item.node.mean?.toStringOrNull() ?: "??",
+                        text = item.node.mean.toStringPositiveValueOrUnknown(),
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 },

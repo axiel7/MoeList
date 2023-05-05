@@ -37,6 +37,7 @@ import com.axiel7.moelist.uicompose.composables.MediaItemDetailedPlaceholder
 import com.axiel7.moelist.uicompose.composables.RoundedTabRowIndicator
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
+import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrUnknown
 import com.axiel7.moelist.utils.SeasonCalendar
 import com.axiel7.moelist.utils.StringExtensions.toStringOrNull
 import kotlinx.coroutines.launch
@@ -110,7 +111,7 @@ fun CalendarView(
                                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                                 Text(
-                                    text = item.node.mean?.toStringOrNull() ?: "??",
+                                    text = item.node.mean.toStringPositiveValueOrUnknown(),
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             },

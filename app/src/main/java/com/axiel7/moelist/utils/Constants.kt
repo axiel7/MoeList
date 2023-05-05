@@ -22,4 +22,6 @@ object Constants {
 
     // Anime/Manga Status
     const val STATUS_AIRING = "currently_airing"
+
+    const val UNKNOWN_CHAR = "─"
 }

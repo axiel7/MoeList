@@ -42,12 +42,13 @@ import com.axiel7.moelist.data.model.media.WeekDay
 import com.axiel7.moelist.data.model.media.calculateProgressBarValue
 import com.axiel7.moelist.data.model.media.isCurrent
 import com.axiel7.moelist.data.model.media.mediaFormatLocalized
-import com.axiel7.moelist.data.model.media.statusLocalized
 import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_COMPACT_HEIGHT
 import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_SMALL_HEIGHT
 import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_SMALL_WIDTH
 import com.axiel7.moelist.uicompose.composables.MediaPoster
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
+import com.axiel7.moelist.utils.Constants
+import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrUnknown
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -94,7 +95,7 @@ fun StandardUserMediaListItem(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = if ((score ?: 0) == 0) "─" else "$score",
+                        text = if ((score ?: 0) == 0) Constants.UNKNOWN_CHAR else "$score",
                         modifier = Modifier.padding(start = 8.dp, top = 4.dp, end = 2.dp, bottom = 4.dp),
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
@@ -140,7 +141,7 @@ fun StandardUserMediaListItem(
                     ) {
                         Text(
                             text = buildString {
-                                append("${userProgress ?: 0}/${totalProgress ?: 0}")
+                                append("${userProgress ?: 0}/${totalProgress.toStringPositiveValueOrUnknown()}")
                                 if (mediaType == MediaType.MANGA) {
                                     append(" ")
                                     if (isVolumeProgress) {
@@ -217,7 +218,7 @@ fun CompactUserMediaListItem(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = if ((score ?: 0) == 0) "─" else "$score",
+                        text = if ((score ?: 0) == 0) Constants.UNKNOWN_CHAR else "$score",
                         modifier = Modifier.padding(start = 8.dp, top = 4.dp, end = 2.dp, bottom = 4.dp),
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
@@ -261,7 +262,7 @@ fun CompactUserMediaListItem(
                 ) {
                     Text(
                         text = buildString {
-                            append("${userProgress ?: 0}/${totalProgress ?: 0}")
+                            append("${userProgress ?: 0}/${totalProgress.toStringPositiveValueOrUnknown()}")
                             if (mediaType == MediaType.MANGA) {
                                 append(" ")
                                 if (isVolumeProgress) {
@@ -335,7 +336,7 @@ fun MinimalUserMediaListItem(
 
                 Text(
                     text = buildString {
-                        append("${userProgress ?: 0}/${totalProgress ?: 0}")
+                        append("${userProgress ?: 0}/${totalProgress.toStringPositiveValueOrUnknown()}")
                         if (mediaType == MediaType.MANGA) {
                             append(" ")
                             if (isVolumeProgress) {
