@@ -60,7 +60,10 @@ fun SearchView(
             Row {
                 FilterChip(
                     selected = mediaType == MediaType.ANIME,
-                    onClick = { mediaType = MediaType.ANIME },
+                    onClick = {
+                        mediaType = MediaType.ANIME
+                        performSearch.value = true
+                    },
                     label = { Text(text = stringResource(R.string.anime)) },
                     modifier = Modifier.padding(start = 8.dp),
                     leadingIcon = {
@@ -71,7 +74,10 @@ fun SearchView(
                 )
                 FilterChip(
                     selected = mediaType == MediaType.MANGA,
-                    onClick = { mediaType = MediaType.MANGA },
+                    onClick = {
+                        mediaType = MediaType.MANGA
+                        performSearch.value = true
+                    },
                     label = { Text(text = stringResource(R.string.manga)) },
                     modifier = Modifier.padding(start = 8.dp),
                     leadingIcon = {
@@ -157,6 +163,7 @@ fun SearchView(
                 mediaType = mediaType,
                 query = query
             )
+            performSearch.value = false
         }
     }
 }
