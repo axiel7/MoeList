@@ -1,7 +1,11 @@
 package com.axiel7.moelist.uicompose.home
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.FlingBehavior
+import androidx.compose.foundation.gestures.snapping.SnapFlingBehavior
+import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +18,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -66,6 +71,7 @@ import kotlin.random.Random
 
 const val HOME_DESTINATION = "home"
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeView(
     navController: NavController
@@ -73,6 +79,9 @@ fun HomeView(
     val context = LocalContext.current
     val viewModel: HomeViewModel = viewModel()
     val scrollState = rememberScrollState()
+    val airingListState = rememberLazyListState()
+    val seasonListState = rememberLazyListState()
+    val recommendListState = rememberLazyListState()
 
     Column(
         modifier = Modifier.verticalScroll(scrollState)
@@ -131,7 +140,9 @@ fun HomeView(
             modifier = Modifier
                 .padding(top = 8.dp)
                 .sizeIn(minHeight = MEDIA_POSTER_SMALL_HEIGHT.dp),
-            contentPadding = PaddingValues(horizontal = 8.dp)
+            state = airingListState,
+            contentPadding = PaddingValues(horizontal = 8.dp),
+            flingBehavior = rememberSnapFlingBehavior(lazyListState = airingListState)
         ) {
             if (viewModel.isLoading) {
                 items(5) {
@@ -160,7 +171,9 @@ fun HomeView(
             modifier = Modifier
                 .padding(top = 8.dp)
                 .sizeIn(minHeight = MEDIA_ITEM_VERTICAL_HEIGHT.dp),
-            contentPadding = PaddingValues(horizontal = 16.dp)
+            state = seasonListState,
+            contentPadding = PaddingValues(horizontal = 16.dp),
+            flingBehavior = rememberSnapFlingBehavior(lazyListState = seasonListState)
         ) {
             if (viewModel.isLoading) {
                 items(10) {
@@ -192,7 +205,9 @@ fun HomeView(
             modifier = Modifier
                 .padding(vertical = 8.dp)
                 .sizeIn(minHeight = MEDIA_ITEM_VERTICAL_HEIGHT.dp),
-            contentPadding = PaddingValues(horizontal = 16.dp)
+            state = recommendListState,
+            contentPadding = PaddingValues(horizontal = 16.dp),
+            flingBehavior = rememberSnapFlingBehavior(lazyListState = recommendListState)
         ) {
             if (viewModel.isLoading) {
                 items(10) {
