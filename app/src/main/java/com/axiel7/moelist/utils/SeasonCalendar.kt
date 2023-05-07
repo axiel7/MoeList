@@ -1,7 +1,12 @@
 package com.axiel7.moelist.utils
 
-import com.axiel7.moelist.data.model.Season
-import java.util.*
+import com.axiel7.moelist.data.model.anime.Season
+import com.axiel7.moelist.data.model.anime.StartSeason
+import com.axiel7.moelist.data.model.media.WeekDay
+import java.time.ZoneId
+import java.util.Calendar
+import java.util.Locale
+import java.util.TimeZone
 
 object SeasonCalendar {
     private val calendar: Calendar by lazy {
@@ -17,45 +22,39 @@ object SeasonCalendar {
 
     val currentYear = calendar.get(Calendar.YEAR)
 
-    val currentSeason: Season get() {
-        val isWinter = winterMonths.contains(month)
-        val isSpring = springMonths.contains(month)
-        val isSummer = summerMonths.contains(month)
-        val isFall = fallMonths.contains(month)
-
-        return when {
-            isSpring -> Season.SPRING
-            isSummer -> Season.SUMMER
-            isWinter -> Season.WINTER
-            isFall -> Season.FALL
-            else -> Season.SPRING
-        }
+    val currentSeason = when {
+        springMonths.contains(month) -> Season.SPRING
+        summerMonths.contains(month) -> Season.SUMMER
+        winterMonths.contains(month) -> Season.WINTER
+        fallMonths.contains(month) -> Season.FALL
+        else -> Season.SPRING
     }
 
-    val currentSeasonStr get() = currentSeason.name.lowercase()
+    val currentStartSeason = StartSeason(currentYear, currentSeason)
 
     val currentWeekday = when(weekDay) {
-        2 -> Constants.MONDAY
-        3 -> Constants.TUESDAY
-        4 -> Constants.WEDNESDAY
-        5 -> Constants.THURSDAY
-        6 -> Constants.FRIDAY
-        7 -> Constants.SATURDAY
-        1 -> Constants.SUNDAY
-        else -> Constants.MONDAY
+        2 -> WeekDay.MONDAY
+        3 -> WeekDay.TUESDAY
+        4 -> WeekDay.WEDNESDAY
+        5 -> WeekDay.THURSDAY
+        6 -> WeekDay.FRIDAY
+        7 -> WeekDay.SATURDAY
+        1 -> WeekDay.SUNDAY
+        else -> WeekDay.MONDAY
     }
 
-    val currentJapanHour = jpCalendar.get(Calendar.HOUR_OF_DAY)
+    val currentJapanHour get() = jpCalendar.get(Calendar.HOUR_OF_DAY)
 
     val currentJapanWeekday = when(jpCalendar.get(Calendar.DAY_OF_WEEK)) {
-        2 -> Constants.MONDAY
-        3 -> Constants.TUESDAY
-        4 -> Constants.WEDNESDAY
-        5 -> Constants.THURSDAY
-        6 -> Constants.FRIDAY
-        7 -> Constants.SATURDAY
-        1 -> Constants.SUNDAY
-        else -> Constants.MONDAY
+        2 -> WeekDay.MONDAY
+        3 -> WeekDay.TUESDAY
+        4 -> WeekDay.WEDNESDAY
+        5 -> WeekDay.THURSDAY
+        6 -> WeekDay.FRIDAY
+        7 -> WeekDay.SATURDAY
+        1 -> WeekDay.SUNDAY
+        else -> WeekDay.MONDAY
     }
 
+    val japanZoneId: ZoneId = ZoneId.of("Asia/Tokyo")
 }

@@ -4,16 +4,31 @@ import com.axiel7.moelist.data.model.AccessToken
 import com.axiel7.moelist.data.model.ApiParams
 import com.axiel7.moelist.data.model.Response
 import com.axiel7.moelist.data.model.User
-import com.axiel7.moelist.data.model.anime.*
-import com.axiel7.moelist.data.model.manga.*
+import com.axiel7.moelist.data.model.anime.AnimeDetails
+import com.axiel7.moelist.data.model.anime.AnimeList
+import com.axiel7.moelist.data.model.anime.AnimeRanking
+import com.axiel7.moelist.data.model.anime.AnimeSeasonal
+import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
+import com.axiel7.moelist.data.model.anime.UserAnimeList
+import com.axiel7.moelist.data.model.manga.MangaDetails
+import com.axiel7.moelist.data.model.manga.MangaList
+import com.axiel7.moelist.data.model.manga.MangaRanking
+import com.axiel7.moelist.data.model.manga.MyMangaListStatus
+import com.axiel7.moelist.data.model.manga.UserMangaList
 import com.axiel7.moelist.utils.Constants.MAL_API_URL
 import com.axiel7.moelist.utils.Constants.MAL_OAUTH2_URL
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.request.*
-import io.ktor.client.request.forms.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.delete
+import io.ktor.client.request.forms.FormDataContent
+import io.ktor.client.request.get
+import io.ktor.client.request.parameter
+import io.ktor.client.request.post
+import io.ktor.client.request.request
+import io.ktor.client.request.setBody
+import io.ktor.client.statement.HttpResponse
+import io.ktor.http.HttpMethod
+import io.ktor.http.Parameters
 
 class Api(private val client: HttpClient) {
 
@@ -199,7 +214,7 @@ class Api(private val client: HttpClient) {
 
     suspend fun deleteMangaEntry(
         mangaId: Int
-    ): Unit = client.delete("${MAL_API_URL}manga/$mangaId/my_list_status").body()
+    ): HttpResponse = client.delete("${MAL_API_URL}manga/$mangaId/my_list_status")
 
     suspend fun getMangaDetails(
         mangaId: Int,

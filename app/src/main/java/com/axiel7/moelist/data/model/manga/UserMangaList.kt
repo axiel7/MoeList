@@ -1,17 +1,15 @@
 package com.axiel7.moelist.data.model.manga
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import com.axiel7.moelist.data.model.media.BaseUserMediaList
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Entity
 @Serializable
 data class UserMangaList(
-    @SerialName("node") @PrimaryKey
-    val node: MangaNode,
+    @SerialName("node")
+    override val node: MangaNode,
     @SerialName("list_status")
-    var listStatus: MyMangaListStatus? = null,
+    override val listStatus: MyMangaListStatus? = null,
     @SerialName("status")
-    var status: String? = null
-)
+    override val status: String? = null
+) : BaseUserMediaList<MangaNode>()

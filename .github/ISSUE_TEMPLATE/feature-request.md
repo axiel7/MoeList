@@ -7,6 +7,8 @@ assignees: ''
 
 ---
 
+[READ]: # (Please be aware that some feature are not possible due to the official API limitations)
+
 **Request (required)**
 Describe the feature you want to be implemented.
 

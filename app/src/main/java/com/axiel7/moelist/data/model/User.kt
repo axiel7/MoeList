@@ -1,14 +1,11 @@
 package com.axiel7.moelist.data.model
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.axiel7.moelist.data.model.anime.UserAnimeStatistics
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Entity @Serializable
+@Serializable
 data class User(
-    @PrimaryKey
     @SerialName("id")
     val id: Int = 0,
     @SerialName("name")
@@ -26,8 +23,6 @@ data class User(
     @SerialName("anime_statistics")
     val animeStatistics: UserAnimeStatistics? = null,
 
-    @SerialName("message")
-    val message: String? = null,
-    @SerialName("error")
-    val error: String? = null,
-)
+    override val message: String? = null,
+    override val error: String? = null,
+) : BaseResponse()
