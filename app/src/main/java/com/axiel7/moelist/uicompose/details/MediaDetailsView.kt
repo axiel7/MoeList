@@ -517,9 +517,11 @@ fun MediaDetailsView(
         )
     }
 
-    if (viewModel.showMessage) {
-        context.showToast(viewModel.message)
-        viewModel.showMessage = false
+    LaunchedEffect(viewModel.message) {
+        if (viewModel.showMessage) {
+            context.showToast(viewModel.message)
+            viewModel.showMessage = false
+        }
     }
 
     LaunchedEffect(Unit) {

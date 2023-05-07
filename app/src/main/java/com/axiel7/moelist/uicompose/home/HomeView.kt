@@ -32,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -59,6 +60,7 @@ import com.axiel7.moelist.uicompose.composables.MediaPoster
 import com.axiel7.moelist.uicompose.composables.SmallScoreIndicator
 import com.axiel7.moelist.uicompose.season.SEASON_CHART_DESTINATION
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
+import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.SeasonCalendar
 import kotlin.random.Random
 
@@ -68,6 +70,7 @@ const val HOME_DESTINATION = "home"
 fun HomeView(
     navController: NavController
 ) {
+    val context = LocalContext.current
     val viewModel: HomeViewModel = viewModel()
     val scrollState = rememberScrollState()
 
@@ -243,6 +246,13 @@ fun HomeView(
                     maxLines = 1
                 )
             }
+        }
+    }
+
+    LaunchedEffect(viewModel.message) {
+        if (viewModel.showMessage) {
+            context.showToast(viewModel.message)
+            viewModel.showMessage = false
         }
     }
 

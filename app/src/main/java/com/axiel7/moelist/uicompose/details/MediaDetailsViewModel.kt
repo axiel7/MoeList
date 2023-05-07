@@ -79,6 +79,7 @@ class MediaDetailsViewModel(
                 .plus(mediaDetails?.pictures?.map { it.large }?.toTypedArray() ?: emptyArray())
 
             if (mediaDetails == null) setErrorMessage("Unable to reach server")
+            else if (mediaDetails!!.error != null) setErrorMessage(mediaDetails!!.message ?: "Generic error")
             else isLoading = false
         }
     }

@@ -44,6 +44,7 @@ import com.axiel7.moelist.uicompose.composables.defaultPlaceholder
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.ContextExtensions.openLink
+import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.DateUtils.parseDateAndLocalize
 import com.axiel7.moelist.utils.NumExtensions.toStringOrZero
 import com.axiel7.moelist.utils.StringExtensions.toNavArgument
@@ -158,6 +159,13 @@ fun ProfileView(navController: NavController) {
             }
         }//:Column
     }//:Scaffold
+
+    LaunchedEffect(viewModel.message) {
+        if (viewModel.showMessage) {
+            context.showToast(viewModel.message)
+            viewModel.showMessage = false
+        }
+    }
     
     LaunchedEffect(Unit) {
         if (viewModel.user == null) viewModel.getMyUser()

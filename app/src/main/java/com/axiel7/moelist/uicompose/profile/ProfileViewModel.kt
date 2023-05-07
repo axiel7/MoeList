@@ -41,6 +41,10 @@ class ProfileViewModel : BaseViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             user = UserRepository.getMyUser()
 
+            if (user == null || user?.message != null) {
+                setErrorMessage(user?.message ?: "Generic error")
+            }
+
             user?.animeStatistics?.let { stats ->
                 val tempStatList = mutableListOf<Stat>()
                 tempStatList.add(animeStats.value[0].copy(value = stats.numItemsWatching?.toFloat() ?: 0f))

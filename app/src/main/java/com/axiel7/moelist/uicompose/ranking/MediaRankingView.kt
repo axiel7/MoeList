@@ -22,6 +22,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -46,6 +47,7 @@ import com.axiel7.moelist.uicompose.composables.MediaItemDetailedPlaceholder
 import com.axiel7.moelist.uicompose.composables.OnBottomReached
 import com.axiel7.moelist.uicompose.composables.RoundedTabRowIndicator
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
+import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrUnknown
 import kotlinx.coroutines.launch
@@ -122,6 +124,7 @@ fun MediaRankingListView(
     rankingType: RankingType,
     navController: NavController,
 ) {
+    val context = LocalContext.current
     val viewModel: MediaRankingViewModel = viewModel(key = rankingType.value) {
         MediaRankingViewModel(mediaType, rankingType)
     }
@@ -195,6 +198,13 @@ fun MediaRankingListView(
     listState.OnBottomReached(buffer = 3) {
         if (!viewModel.isLoading && viewModel.hasNextPage) {
             viewModel.getRanking(viewModel.nextPage)
+        }
+    }
+
+    LaunchedEffect(viewModel.message) {
+        if (viewModel.showMessage) {
+            context.showToast(viewModel.message)
+            viewModel.showMessage = false
         }
     }
 

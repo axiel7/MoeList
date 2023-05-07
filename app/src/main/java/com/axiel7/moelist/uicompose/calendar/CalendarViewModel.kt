@@ -45,12 +45,16 @@ class CalendarViewModel: BaseViewModel() {
                 season = SeasonCalendar.currentSeason
             )
 
-            result?.data?.forEach { anime ->
-                anime.node.broadcast?.dayOfTheWeek?.let { day ->
-                    weekAnime[day.numeric() - 1].add(anime)
+            if (result?.data == null || result.message != null) {
+                setErrorMessage(result?.message ?: "Generic error")
+            } else {
+                result.data.forEach { anime ->
+                    anime.node.broadcast?.dayOfTheWeek?.let { day ->
+                        weekAnime[day.numeric() - 1].add(anime)
+                    }
                 }
+                weekAnime = weekAnime.copyOf()
             }
-            weekAnime = weekAnime.copyOf()
             isLoading = false
         }
     }
