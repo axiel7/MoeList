@@ -28,7 +28,7 @@ const val MEDIA_POSTER_BIG_WIDTH = 150
 fun MediaPoster(
     url: String?,
     showShadow: Boolean = true,
-    contentScale: ContentScale = ContentScale.FillBounds,
+    contentScale: ContentScale = ContentScale.Crop,
     modifier: Modifier
 ) {
     AsyncImage(
