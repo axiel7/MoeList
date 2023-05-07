@@ -269,4 +269,19 @@
     <string name="total_rereads">合計再販数</string>
     <string name="total_rewatches">合計再視聴数</string>
     <string name="chinese_simplified">Chinese (Simplified)</string>
+    <string name="related_anime">関連するアニメ</string>
+    <string name="related_manga">関連するマンガ</string>
+    <string name="content">コンテンツ</string>
+    <string name="list_mode_standard">スタンダード</string>
+    <string name="list_mode_compact">コンパクト</string>
+    <string name="list_mode_minimal">ミニマル</string>
+    <string name="list_style">リストスタイル</string>
+    <string name="num_years">%s年</string>
+    <string name="num_months">%sヵ月</string>
+    <string name="num_weeks">%s週間</string>
+    <string name="open_mal_links_in_the_app">MALリンクをアプリで開く</string>
+    <string name="num_days">%s日</string>
+    <string name="notifications">通知</string>
+    <string name="delete_all">すべて削除</string>
+    <string name="manga_stats">マンガの統計</string>
 </resources>

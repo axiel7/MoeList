@@ -61,8 +61,8 @@
     <string name="unknown">Невідомо</string>
     <string name="top_ranked">Місце в топі</string>
     <string name="members">В списках</string>
-    <string name="users_scores">Оцінка користувачів</string>
-    <string name="popularity">Популярність</string>
+    <string name="users_scores">Оцінки користувачів</string>
+    <string name="popularity">За популярністю</string>
     <string name="deleted">Видалено</string>
     <string name="error_server">Помилка підключення до сервера</string>
     <string name="error_delete_entry">Помилка видалення запису</string>
@@ -154,7 +154,7 @@
     <string name="view_on_mal">Переглянути на MAL</string>
     <string name="share">Поділитися</string>
     <string name="sort_title">Назва</string>
-    <string name="sort_score">Оцінка</string>
+    <string name="sort_score">За оцінкою</string>
     <string name="sort_last_updated">Востаннє оновлено</string>
     <string name="sort">Сортування</string>
     <string name="sort_by">Сортувати за</string>
@@ -254,8 +254,8 @@
     <string name="news_summary">Остання інформація про фендом.</string>
     <string name="more">Більше</string>
     <string name="something_went_wrong">Щось пішло не так \n (；ﾟДﾟ)</string>
-    <string name="upcoming">Незабаром</string>
-    <string name="favorite">Обране</string>
+    <string name="upcoming">Найочікуваніші</string>
+    <string name="favorite">Вибрані</string>
     <string name="use_external_browser">Використовувати зовнішній браузер</string>
     <string name="help">Допомога</string>
     <string name="calendar">Календар</string>
@@ -268,4 +268,20 @@
     <string name="select_date">Оберіть дату</string>
     <string name="total_rereads">Всього перечитано</string>
     <string name="total_rewatches">Всього переглядів</string>
+    <string name="chinese_simplified">Китайська (спрощена)</string>
+    <string name="related_anime">Пов\'язані аніме</string>
+    <string name="related_manga">Пов\'язана манґа</string>
+    <string name="content">Вміст</string>
+    <string name="list_mode_standard">Стандартний</string>
+    <string name="list_mode_compact">Компактний</string>
+    <string name="list_mode_minimal">Мінімальний</string>
+    <string name="list_style">Стиль списку</string>
+    <string name="num_years">%s років</string>
+    <string name="num_months">%s місяців</string>
+    <string name="num_weeks">%s тижнів</string>
+    <string name="open_mal_links_in_the_app">Відкрити MAL посилання у додатку</string>
+    <string name="num_days">%s днів</string>
+    <string name="notifications">Сповіщення</string>
+    <string name="delete_all">Видалити все</string>
+    <string name="manga_stats">Статистика манґи</string>
 </resources>

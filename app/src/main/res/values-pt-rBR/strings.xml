@@ -269,4 +269,19 @@
     <string name="total_rereads">Total Relido</string>
     <string name="total_rewatches">Total Reassistido</string>
     <string name="chinese_simplified">Chinese (Simplified)</string>
+    <string name="related_anime">Anime Relacionado</string>
+    <string name="related_manga">Mangá Relacionado</string>
+    <string name="content">Conteúdo</string>
+    <string name="list_mode_standard">Padrão</string>
+    <string name="list_mode_compact">Compacto</string>
+    <string name="list_mode_minimal">Mínimo</string>
+    <string name="list_style">Estilo da lista</string>
+    <string name="num_years">%s anos</string>
+    <string name="num_months">%s meses</string>
+    <string name="num_weeks">%s semanas</string>
+    <string name="open_mal_links_in_the_app">Abrir links do MAL no app</string>
+    <string name="num_days">%s dias</string>
+    <string name="notifications">Notificações</string>
+    <string name="delete_all">Excluir todas</string>
+    <string name="manga_stats">Estatísticas de Mangás</string>
 </resources>
