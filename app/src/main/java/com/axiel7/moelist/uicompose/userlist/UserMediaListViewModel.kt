@@ -22,8 +22,8 @@ import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.data.repository.MangaRepository
 import com.axiel7.moelist.uicompose.base.BaseMediaViewModel
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_LIST_SORT_PREFERENCE
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_LIST_SORT_PREFERENCE
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_LIST_SORT_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_LIST_SORT_PREFERENCE_KEY
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -41,8 +41,8 @@ class UserMediaListViewModel(
     fun setSort(value: MediaSort) {
         viewModelScope.launch(Dispatchers.IO) {
             App.dataStore?.edit {
-                if (mediaType == MediaType.ANIME) it[ANIME_LIST_SORT_PREFERENCE] = value.value
-                else it[MANGA_LIST_SORT_PREFERENCE] = value.value
+                if (mediaType == MediaType.ANIME) it[ANIME_LIST_SORT_PREFERENCE_KEY] = value.value
+                else it[MANGA_LIST_SORT_PREFERENCE_KEY] = value.value
             }
             nextPage = null
             hasNextPage = false

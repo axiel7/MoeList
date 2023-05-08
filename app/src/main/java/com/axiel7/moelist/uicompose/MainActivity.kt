@@ -74,10 +74,10 @@ import com.axiel7.moelist.uicompose.userlist.MANGA_LIST_DESTINATION
 import com.axiel7.moelist.uicompose.userlist.UserMediaListHostView
 import com.axiel7.moelist.utils.NumExtensions.toInt
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.ACCESS_TOKEN_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_LIST_SORT_PREFERENCE
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_LIST_SORT_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.LAST_TAB_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.LIST_DISPLAY_MODE_PREFERENCE
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_LIST_SORT_PREFERENCE
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.LIST_DISPLAY_MODE_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_LIST_SORT_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.NSFW_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.PROFILE_PICTURE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.THEME_PREFERENCE_KEY
@@ -136,13 +136,13 @@ class MainActivity : AppCompatActivity() {
             App.nsfw = it.toInt()
         }
         val theme = defaultPreferencesDataStore.getValueSync(THEME_PREFERENCE_KEY) ?: "follow_system"
-        defaultPreferencesDataStore.getValueSync(ANIME_LIST_SORT_PREFERENCE)?.let {
+        defaultPreferencesDataStore.getValueSync(ANIME_LIST_SORT_PREFERENCE_KEY)?.let {
             MediaSort.forValue(it)?.let { sort -> App.animeListSort = sort }
         }
-        defaultPreferencesDataStore.getValueSync(MANGA_LIST_SORT_PREFERENCE)?.let {
+        defaultPreferencesDataStore.getValueSync(MANGA_LIST_SORT_PREFERENCE_KEY)?.let {
             MediaSort.forValue(it)?.let { sort -> App.mangaListSort = sort }
         }
-        defaultPreferencesDataStore.getValueSync(LIST_DISPLAY_MODE_PREFERENCE)?.let {
+        defaultPreferencesDataStore.getValueSync(LIST_DISPLAY_MODE_PREFERENCE_KEY)?.let {
             ListMode.forValue(it)?.let { mode -> App.listDisplayMode = mode }
         }
 

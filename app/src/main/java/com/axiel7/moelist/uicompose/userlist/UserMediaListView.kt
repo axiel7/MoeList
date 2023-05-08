@@ -40,7 +40,7 @@ import com.axiel7.moelist.uicompose.composables.*
 import com.axiel7.moelist.uicompose.details.EditMediaSheet
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.LIST_DISPLAY_MODE_PREFERENCE
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.LIST_DISPLAY_MODE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.rememberPreference
 import kotlinx.coroutines.launch
 
@@ -111,7 +111,7 @@ fun UserMediaListView(
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
-    val listDisplayMode by rememberPreference(LIST_DISPLAY_MODE_PREFERENCE, App.listDisplayMode.value)
+    val listDisplayMode by rememberPreference(LIST_DISPLAY_MODE_PREFERENCE_KEY, App.listDisplayMode.value)
 
     Box(
         modifier = Modifier
