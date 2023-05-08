@@ -29,7 +29,7 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopBar
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.NotificationWorker
-import com.axiel7.moelist.utils.PreferencesDataStore.notificationsDataStore
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.notificationsDataStore
 import kotlinx.coroutines.launch
 
 const val NOTIFICATIONS_DESTINATION = "notifications"

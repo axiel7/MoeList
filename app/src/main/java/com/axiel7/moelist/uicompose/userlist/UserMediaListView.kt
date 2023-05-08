@@ -40,8 +40,8 @@ import com.axiel7.moelist.uicompose.composables.*
 import com.axiel7.moelist.uicompose.details.EditMediaSheet
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
-import com.axiel7.moelist.utils.PreferencesDataStore.LIST_DISPLAY_MODE_PREFERENCE
-import com.axiel7.moelist.utils.PreferencesDataStore.rememberPreference
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.LIST_DISPLAY_MODE_PREFERENCE
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.rememberPreference
 import kotlinx.coroutines.launch
 
 const val ANIME_LIST_DESTINATION = "anime_list"

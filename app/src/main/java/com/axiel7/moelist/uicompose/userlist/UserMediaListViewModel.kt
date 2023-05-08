@@ -22,8 +22,8 @@ import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.data.repository.MangaRepository
 import com.axiel7.moelist.uicompose.base.BaseMediaViewModel
-import com.axiel7.moelist.utils.PreferencesDataStore.ANIME_LIST_SORT_PREFERENCE
-import com.axiel7.moelist.utils.PreferencesDataStore.MANGA_LIST_SORT_PREFERENCE
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_LIST_SORT_PREFERENCE
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_LIST_SORT_PREFERENCE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

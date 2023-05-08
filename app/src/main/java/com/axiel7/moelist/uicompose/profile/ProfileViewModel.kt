@@ -13,7 +13,7 @@ import com.axiel7.moelist.data.model.User
 import com.axiel7.moelist.data.model.media.Stat
 import com.axiel7.moelist.data.repository.UserRepository
 import com.axiel7.moelist.uicompose.base.BaseViewModel
-import com.axiel7.moelist.utils.PreferencesDataStore.PROFILE_PICTURE_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.PROFILE_PICTURE_PREFERENCE_KEY
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch

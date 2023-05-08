@@ -1,4 +1,4 @@
-package com.axiel7.moelist.utils
+package com.axiel7.moelist.data.datastore
 
 import android.content.Context
 import androidx.compose.runtime.Composable

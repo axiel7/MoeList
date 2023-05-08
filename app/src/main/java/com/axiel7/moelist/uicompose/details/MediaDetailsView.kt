@@ -43,7 +43,7 @@ import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.DateUtils.parseDateAndLocalize
 import com.axiel7.moelist.utils.NotificationWorker
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
-import com.axiel7.moelist.utils.PreferencesDataStore.notificationsDataStore
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.notificationsDataStore
 import com.axiel7.moelist.utils.StringExtensions.toNavArgument
 import com.axiel7.moelist.utils.StringExtensions.toStringOrNull
 import com.axiel7.moelist.utils.UseCases.copyToClipBoard

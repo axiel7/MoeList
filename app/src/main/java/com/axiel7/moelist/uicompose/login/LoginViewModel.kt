@@ -13,7 +13,7 @@ import com.axiel7.moelist.private.ClientId
 import com.axiel7.moelist.uicompose.base.BaseViewModel
 import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.PkceGenerator
-import com.axiel7.moelist.utils.PreferencesDataStore.ACCESS_TOKEN_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.ACCESS_TOKEN_PREFERENCE_KEY
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
