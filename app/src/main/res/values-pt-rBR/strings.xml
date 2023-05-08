@@ -284,4 +284,5 @@
     <string name="notifications">Notificações</string>
     <string name="delete_all">Excluir todas</string>
     <string name="manga_stats">Estatísticas de Mangás</string>
+    <string name="last_used">Last used</string>
 </resources>
