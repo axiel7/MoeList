@@ -44,15 +44,16 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.LANG_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.LIST_DISPLAY_MODE_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.NSFW_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.START_TAB_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.THEME_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.rememberPreference
 import com.axiel7.moelist.uicompose.base.ListMode
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopBar
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.NumExtensions.toInt
-import com.axiel7.moelist.utils.PreferencesDataStore.LANG_PREFERENCE_KEY
-import com.axiel7.moelist.utils.PreferencesDataStore.LIST_DISPLAY_MODE_PREFERENCE
-import com.axiel7.moelist.utils.PreferencesDataStore.NSFW_PREFERENCE_KEY
-import com.axiel7.moelist.utils.PreferencesDataStore.THEME_PREFERENCE_KEY
-import com.axiel7.moelist.utils.PreferencesDataStore.rememberPreference
 import com.axiel7.moelist.utils.UseCases
 
 const val SETTINGS_DESTINATION = "settings"
@@ -66,7 +67,8 @@ fun SettingsView(
     val langPreference = rememberPreference(LANG_PREFERENCE_KEY, "follow_system")
     val themePreference = rememberPreference(THEME_PREFERENCE_KEY, "follow_system")
     val nsfwPreference = rememberPreference(NSFW_PREFERENCE_KEY, false)
-    val listModePreference = rememberPreference(LIST_DISPLAY_MODE_PREFERENCE, ListMode.STANDARD.value)
+    val listModePreference = rememberPreference(LIST_DISPLAY_MODE_PREFERENCE_KEY, ListMode.STANDARD.value)
+    val startTabPreference = rememberPreference(START_TAB_PREFERENCE_KEY, "last_used")
 
     DefaultScaffoldWithTopBar(
         title = stringResource(R.string.settings),
@@ -95,6 +97,16 @@ fun SettingsView(
                 onValueChange = { value ->
                     langPreference.value = value
                     UseCases.changeLocale(value)
+                }
+            )
+
+            ListPreferenceView(
+                title = stringResource(R.string.default_section),
+                entriesValues = viewModel.startTabEntries,
+                preferenceValue = startTabPreference,
+                icon = R.drawable.ic_round_home_24,
+                onValueChange = { value ->
+                    startTabPreference.value = value
                 }
             )
 

@@ -13,12 +13,6 @@ class SettingsViewModel: BaseViewModel() {
         "follow_system" to R.string.theme_system
     )
 
-    val sectionEntries = mapOf(
-        "home" to R.string.title_home,
-        "anime" to R.string.title_anime_list,
-        "manga" to R.string.title_manga_list
-    )
-
     val languageEntries = mapOf(
         "follow_system" to R.string.theme_system,
         "en" to R.string.english_native,
@@ -37,4 +31,12 @@ class SettingsViewModel: BaseViewModel() {
     )
 
     val listModeEntries = ListMode.values().associate { it.value to it.stringRes }
+
+    val startTabEntries = mapOf(
+        "last_used" to R.string.last_used,
+        "home" to R.string.title_home,
+        "anime" to R.string.title_anime_list,
+        "manga" to R.string.title_manga_list,
+        "more" to R.string.more
+    )
 }

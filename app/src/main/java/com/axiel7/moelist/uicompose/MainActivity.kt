@@ -80,10 +80,12 @@ import com.axiel7.moelist.data.datastore.PreferencesDataStore.LIST_DISPLAY_MODE_
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_LIST_SORT_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.NSFW_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.PROFILE_PICTURE_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.START_TAB_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.THEME_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.defaultPreferencesDataStore
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.getValueSync
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.rememberPreference
+import com.axiel7.moelist.uicompose.base.BottomDestination.Companion.toBottomDestinationIndex
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -99,32 +101,27 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             defaultPreferencesDataStore.data.first()
         }
+        //get necessary preferences while on splashscreen
+
         val token = defaultPreferencesDataStore.getValueSync(ACCESS_TOKEN_PREFERENCE_KEY)
         if (token != null) App.createKtorClient(token)
         else {
             Intent(this, LoginActivity::class.java).apply { startActivity(this) }
             finish()
         }
-        var lastTabOpened: Int? = null
+
+        val startTab = defaultPreferencesDataStore.getValueSync(START_TAB_PREFERENCE_KEY)
+        var lastTabOpened = intent.action?.toBottomDestinationIndex() ?: startTab?.toBottomDestinationIndex()
         var mediaId: Int? = null
         var mediaType: String? = null
-        when (intent.action) {
-            "home" -> {
-                lastTabOpened = 0
-            }
-            "anime" -> {
-                lastTabOpened = 1
-            }
-            "manga" -> {
-                lastTabOpened = 2
-            }
-            "details" -> {
-                mediaId = intent.getIntExtra("media_id", 0)
-                mediaType = intent.getStringExtra("media_type")
-            }
+        if (intent.action == "details") {
+            mediaId = intent.getIntExtra("media_id", 0)
+            mediaType = intent.getStringExtra("media_type")
         }
-        if (lastTabOpened == null) lastTabOpened = defaultPreferencesDataStore.getValueSync(LAST_TAB_PREFERENCE_KEY)
-        else {
+        if (lastTabOpened == null) {
+            lastTabOpened = defaultPreferencesDataStore.getValueSync(LAST_TAB_PREFERENCE_KEY)
+        }
+        else { // opened from intent or start tab setting
             CoroutineScope(Dispatchers.IO).launch {
                 defaultPreferencesDataStore.edit {
                     it[LAST_TAB_PREFERENCE_KEY] = lastTabOpened

@@ -38,4 +38,14 @@ sealed class BottomDestination(
         icon = R.drawable.ic_more_horizontal,
         iconSelected = R.drawable.ic_more_horizontal
     )
+
+    companion object {
+        fun String.toBottomDestinationIndex() = when (this) {
+            "home" -> 0
+            "anime" -> 1
+            "manga" -> 2
+            "more" -> 3
+            else -> null
+        }
+    }
 }
