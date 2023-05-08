@@ -42,8 +42,8 @@ class EditMediaViewModel(
         this.myListStatus = myListStatus
         status = myListStatus.status
         score = myListStatus.score
-        myListStatus.startDate?.let { startDate = DateUtils.getLocalDateFromDateString(it) }
-        myListStatus.endDate?.let { endDate = DateUtils.getLocalDateFromDateString(it) }
+        startDate = DateUtils.getLocalDateFromDateString(myListStatus.startDate)
+        endDate = DateUtils.getLocalDateFromDateString(myListStatus.endDate)
 
         progress = myListStatus.progress ?: 0
         (myListStatus as? MyMangaListStatus)?.numVolumesRead?.let { volumeProgress = it }

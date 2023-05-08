@@ -9,8 +9,11 @@ import kotlinx.serialization.Serializable
 data class MyAnimeListStatus (
     override val status: ListStatus,
     override val score: Int = 0,
+    @SerialName("updated_at")
     override val updatedAt: String? = null,
+    @SerialName("start_date")
     override val startDate: String? = null,
+    @SerialName("end_date")
     override val endDate: String? = null,
     @SerialName("num_episodes_watched")
     override val progress: Int? = 0,
