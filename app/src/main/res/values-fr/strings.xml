@@ -262,7 +262,7 @@
     <string name="english">Anglais</string>
     <string name="ukrainian">Ukrainien</string>
     <string name="language">Langage</string>
-    <string name="sort_start_date">Date de début</string>
+    <string name="sort_start_date">Date de début </string>
     <string name="japanese">Japonais</string>
     <string name="chinese_traditional">Chinois (Traditionnel)</string>
     <string name="select_date">Choisir une date</string>
@@ -284,4 +284,5 @@
     <string name="notifications">Notifications</string>
     <string name="delete_all">Supprimer tout</string>
     <string name="manga_stats">Statistiques de Mangas</string>
+    <string name="last_used">Last used</string>
 </resources>
