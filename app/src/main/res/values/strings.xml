@@ -277,9 +277,11 @@
     <string name="english_native" translatable="false">English</string>
     <string name="arabic_native" translatable="false">العربية</string>
     <string name="bulgarian_native" translatable="false">Български</string>
+    <string name="czech_native" translatable="false">Česky</string>
     <string name="german_native" translatable="false">Deutsch</string>
     <string name="spanish_native" translatable="false">Español</string>
     <string name="french_native" translatable="false">Français</string>
+    <string name="portuguese_native" translatable="false">Português</string>
     <string name="brazilian_native" translatable="false">Português (Brasil)</string>
     <string name="russian_native" translatable="false">Русский</string>
     <string name="turkish_native" translatable="false">Türkçe</string>
@@ -303,4 +305,5 @@
     <string name="delete_all">Delete all</string>
     <string name="manga_stats">Manga Stats</string>
     <string name="last_used">Last used</string>
+    <string name="czech">Czech</string>
 </resources>

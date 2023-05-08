@@ -29,6 +29,7 @@ val translationsCredits = mapOf(
     R.string.arabic to "@sakugaky, @WhiteCanvas, @Comikazie",
     R.string.german to "@Secresa, @MaximilianGT500",
     R.string.bulgarian to "@itzlighter",
+    R.string.czech to "@J4kub07",
     R.string.french to "@mamanamgae, @frosqh",
     R.string.chinese_traditional to "@jhih_yu_lin",
     R.string.chinese_simplified to "@bengerlorf",
