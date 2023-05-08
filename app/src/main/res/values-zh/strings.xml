@@ -6,10 +6,10 @@
     <string name="stats">统计</string>
     <string name="more_info">详细信息</string>
     <string name="synonyms">别名</string>
-    <string name="jp_title">日本语</string>
-    <string name="start_date">开播</string>
-    <string name="end_date">完结</string>
-    <string name="season">季</string>
+    <string name="jp_title">日文名</string>
+    <string name="start_date">放映日期</string>
+    <string name="end_date">完结日期</string>
+    <string name="season">季度</string>
     <string name="broadcast">播出时间</string>
     <string name="duration">集长</string>
     <string name="source">来源</string>
@@ -239,7 +239,7 @@
     <string name="full_story">完整故事</string>
     <string name="theme_black">黑色</string>
     <string name="aired_ago">%s前</string>
-    <string name="anime_stats">动画の统计</string>
+    <string name="anime_stats">动漫统计</string>
     <string name="delete_confirmation">您确定删除此条目吗？</string>
     <string name="bulgarian">保加利亚语</string>
     <string name="log_in_again">请重新登入</string>
@@ -269,4 +269,20 @@
     <string name="total_rereads">重读次数</string>
     <string name="total_rewatches">重看次数</string>
     <string name="chinese_simplified">简体中文</string>
+    <string name="related_anime">相关动漫</string>
+    <string name="related_manga">相关漫画</string>
+    <string name="content">内容</string>
+    <string name="list_mode_standard">标准</string>
+    <string name="list_mode_compact">紧凑</string>
+    <string name="list_mode_minimal">极简</string>
+    <string name="list_style">列表样式</string>
+    <string name="num_years">%s 年</string>
+    <string name="num_months">%s 月</string>
+    <string name="num_weeks">%s 周</string>
+    <string name="open_mal_links_in_the_app">在应用中打开 MAL 链接</string>
+    <string name="num_days">%s 天</string>
+    <string name="notifications">通知</string>
+    <string name="delete_all">全部删除</string>
+    <string name="manga_stats">Manga Stats</string>
+    <string name="last_used">Last used</string>
 </resources>
