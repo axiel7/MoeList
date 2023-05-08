@@ -3,14 +3,16 @@
     <locale android:name="en"/>
     <locale android:name="ar-rSA"/>
     <locale android:name="bg-rBG"/>
+    <locale android:name="cs-rCZ"/>
     <locale android:name="de"/>
     <locale android:name="es"/>
     <locale android:name="fr"/>
+    <locale android:name="ja"/>
     <locale android:name="pt-rBR"/>
+    <locale android:name="pt-rPT"/>
     <locale android:name="ru-rRU"/>
     <locale android:name="tr"/>
     <locale android:name="uk-rUA"/>
-    <locale android:name="ja"/>
     <locale android:name="zh-Hant"/>
     <locale android:name="zh-Hans"/>
 </locale-config>
