@@ -239,7 +239,7 @@
     <string name="full_story">Vollständige Geschichte</string>
     <string name="theme_black">Schwarz</string>
     <string name="aired_ago">Lief vor %s</string>
-    <string name="anime_stats">Anime Statistik</string>
+    <string name="anime_stats">Anime-Statistiken</string>
     <string name="delete_confirmation">Bist Du sicher, dass Du diesen Eintrag löschen möchtest?</string>
     <string name="bulgarian">Bulgarisch</string>
     <string name="log_in_again">Bitte melde dich erneut an</string>
@@ -279,9 +279,10 @@
     <string name="num_years">%s Jahre</string>
     <string name="num_months">%s Monate</string>
     <string name="num_weeks">%s Wochen</string>
-    <string name="open_mal_links_in_the_app">Open MAL links in the app</string>
+    <string name="open_mal_links_in_the_app">MAL-Links in der App öffnen</string>
     <string name="num_days">%s Tage</string>
-    <string name="notifications">Notifications</string>
-    <string name="delete_all">Delete all</string>
-    <string name="manga_stats">Manga Stats</string>
+    <string name="notifications">Benachrichtigungen</string>
+    <string name="delete_all">Alle löschen</string>
+    <string name="manga_stats">Manga-Statistiken</string>
+    <string name="last_used">Last used</string>
 </resources>
