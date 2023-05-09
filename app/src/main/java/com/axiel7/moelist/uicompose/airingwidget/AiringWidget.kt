@@ -49,7 +49,12 @@ class AiringWidget : GlanceAppWidget() {
                     }
                 }
                 is AiringInfo.Available -> {
-                    AppWidgetColumn {
+                    if (airingInfo.animeList.isEmpty()) {
+                        AppWidgetBox(contentAlignment = Alignment.Center) {
+                            Text(text = stringResource(R.string.nothing_today))
+                        }
+                    }
+                    else AppWidgetColumn {
                         LazyColumn {
                             items(airingInfo.animeList) { item ->
                                 Column(
