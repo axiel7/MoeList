@@ -1,5 +1,6 @@
 package com.axiel7.moelist.data.model.anime
 
+import android.text.format.DateFormat
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
@@ -18,7 +19,6 @@ import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 import java.util.Locale
 import kotlin.math.absoluteValue
 
@@ -51,7 +51,9 @@ fun Broadcast.airingInString() = if (startTime != null && dayOfTheWeek != null) 
 } else ""
 
 fun Broadcast.nextAiringDayFormatted() =
-    dateTimeUntilNextBroadcast()?.format(DateTimeFormatter.ofPattern("EE, d MMM HH:mm"))
+    dateTimeUntilNextBroadcast()?.format(DateTimeFormatter.ofPattern(
+        DateFormat.getBestDateTimePattern(Locale.getDefault(), "EE, d MMM HH:mm")
+    ))
 
 fun Broadcast.secondsUntilNextBroadcast() =
     dateTimeUntilNextBroadcast()?.toEpochSecond(ZoneOffset.UTC) ?: 0
