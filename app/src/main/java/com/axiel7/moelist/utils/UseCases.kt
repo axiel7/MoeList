@@ -17,7 +17,7 @@ object UseCases {
 
     suspend fun Context.logOut() {
         defaultPreferencesDataStore.edit {
-            it[ACCESS_TOKEN_PREFERENCE_KEY] = ""
+            it.remove(ACCESS_TOKEN_PREFERENCE_KEY)
         }
         Intent(this, LoginActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
