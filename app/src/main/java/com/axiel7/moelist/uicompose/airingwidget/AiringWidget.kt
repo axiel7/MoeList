@@ -29,9 +29,9 @@ import com.axiel7.moelist.data.model.anime.nextAiringDayFormatted
 import com.axiel7.moelist.uicompose.MainActivity
 import com.axiel7.moelist.uicompose.theme.AppWidgetBox
 import com.axiel7.moelist.uicompose.theme.AppWidgetColumn
-import com.axiel7.moelist.uicompose.theme.stringResource
 import com.axiel7.moelist.uicompose.theme.GlanceTheme
 import com.axiel7.moelist.uicompose.theme.WidgetTheme
+import com.axiel7.moelist.uicompose.theme.stringResource
 
 class AiringWidget : GlanceAppWidget() {
 

@@ -8,10 +8,10 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.datastore.preferences.core.edit
 import com.axiel7.moelist.R
-import com.axiel7.moelist.uicompose.login.LoginActivity
-import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.ACCESS_TOKEN_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.defaultPreferencesDataStore
+import com.axiel7.moelist.uicompose.login.LoginActivity
+import com.axiel7.moelist.utils.ContextExtensions.showToast
 
 object UseCases {
 

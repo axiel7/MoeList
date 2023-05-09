@@ -10,7 +10,6 @@ import androidx.glance.state.GlanceStateDefinition
 import com.axiel7.moelist.data.model.anime.AnimeNode
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import java.io.File
 import java.io.InputStream

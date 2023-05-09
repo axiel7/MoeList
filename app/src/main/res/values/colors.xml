@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <color name="colorMoeList">#5c6bc0</color>
     <color name="colorPlaceHolder">#dedede</color>
 

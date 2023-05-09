@@ -5,12 +5,12 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import coil.ImageLoader
 import coil.ImageLoaderFactory
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.defaultPreferencesDataStore
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.network.Api
 import com.axiel7.moelist.data.network.JikanApi
 import com.axiel7.moelist.data.network.KtorClient
 import com.axiel7.moelist.uicompose.base.ListMode
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.defaultPreferencesDataStore
 import io.ktor.client.HttpClient
 import java.text.NumberFormat
 

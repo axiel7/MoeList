@@ -22,11 +22,11 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.axiel7.moelist.R
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.notificationsDataStore
 import com.axiel7.moelist.data.model.media.WeekDay
 import com.axiel7.moelist.data.model.media.numeric
 import com.axiel7.moelist.uicompose.MainActivity
 import com.axiel7.moelist.utils.DateUtils.getNextDayOfWeek
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.notificationsDataStore
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalDateTime
