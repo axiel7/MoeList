@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 class ProfileViewModel : BaseViewModel() {
 
     init {
+        isLoading = true
         App.dataStore?.data?.map {
             profilePictureUrl = it[PROFILE_PICTURE_PREFERENCE_KEY]
         }
@@ -63,10 +64,13 @@ class ProfileViewModel : BaseViewModel() {
 
             isLoading = false
 
+            isLoadingManga = true
             getUserMangaStats()
+            isLoadingManga = false
         }
     }
 
+    var isLoadingManga by mutableStateOf(true)
     var mangaStats = mutableStateOf(listOf(
         Stat(title = R.string.reading, value = 0f, color = Color(red = 0, green = 200, blue = 83)),
         Stat(title = R.string.completed, value = 0f, color = Color(red = 92, green = 107, blue = 192)),
