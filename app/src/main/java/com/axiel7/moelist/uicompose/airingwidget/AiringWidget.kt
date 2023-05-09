@@ -53,7 +53,7 @@ class AiringWidget : GlanceAppWidget() {
                                     Text(
                                         text = item.title,
                                         style = TextStyle(
-                                            color = GlanceTheme.colors.onPrimaryContainer
+                                            color = GlanceTheme.colors.onSurfaceVariant
                                         ),
                                         maxLines = 1
                                     )
@@ -61,7 +61,7 @@ class AiringWidget : GlanceAppWidget() {
                                         text = item.broadcast!!.nextAiringDayFormatted()
                                             ?: stringResource(R.string.unknown),
                                         style = TextStyle(
-                                            color = GlanceTheme.colors.primary
+                                            color = GlanceTheme.colors.onPrimaryContainer
                                         ),
                                         maxLines = 1
                                     )
