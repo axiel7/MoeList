@@ -96,7 +96,7 @@ class AiringWidget : GlanceAppWidget() {
                             modifier = GlanceModifier.padding(bottom = 8.dp)
                         )
                         Button(
-                            text = "Refresh",
+                            text = stringResource(R.string.refresh),
                             onClick = actionRunCallback<UpdateAiringInfoAction>()
                         )
                     }
