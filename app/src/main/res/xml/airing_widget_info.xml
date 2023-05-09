@@ -5,7 +5,7 @@
     android:minHeight="80dp"
     android:initialLayout="@layout/widget_loading"
     android:previewLayout="@layout/airing_widget_preview"
-    android:previewImage="@mipmap/ic_launcher_round"
+    android:previewImage="@drawable/airing_widget_preview"
     android:resizeMode="vertical|horizontal"
     android:targetCellWidth="5"
     android:targetCellHeight="2"
