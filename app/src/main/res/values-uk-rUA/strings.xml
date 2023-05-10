@@ -274,4 +274,7 @@
     <string name="notifications">Сповіщення</string>
     <string name="delete_all">Видалити все</string>
     <string name="manga_stats">Статистика манґи</string>
+    <string name="last_used">Останній раз використано</string>
+    <string name="czech">Чеська</string>
+    <string name="refresh">Оновити</string>
 </resources>

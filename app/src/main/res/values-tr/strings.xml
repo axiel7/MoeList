@@ -175,7 +175,7 @@
     <string name="genre_hentai">Hentai</string>
     <string name="genre_historical">Tarihsel</string>
     <string name="genre_horror">Korku</string>
-    <string name="genre_josei">Josei</string>
+    <string name="genre_josei">Kadın</string>
     <string name="genre_kids">Çocuk</string>
     <string name="genre_magic">Büyü</string>
     <string name="genre_martial_arts">Dövüş Sanatları</string>
@@ -190,8 +190,8 @@
     <string name="genre_samurai">Samuray</string>
     <string name="genre_school">Okul</string>
     <string name="genre_sci_fi">Bilim Kurgu</string>
-    <string name="genre_seinen">Seinen</string>
-    <string name="genre_shoujo">Shoujo</string>
+    <string name="genre_seinen">Yetişkin</string>
+    <string name="genre_shoujo">Genç Kızlar</string>
     <string name="genre_shoujo_ai">Shoujo Ai</string>
     <string name="genre_shounen">Shounen</string>
     <string name="genre_shounen_ai">Shounen Ai</string>
@@ -204,8 +204,8 @@
     <string name="genre_vampire">Vampir</string>
     <string name="genre_yaoi">Yaoi</string>
     <string name="genre_yuri">Yuri</string>
-    <string name="relation_prequel">Prequel</string>
-    <string name="relation_sequel">Sequel</string>
+    <string name="relation_prequel">Öncesi</string>
+    <string name="relation_sequel">Devam Serisi</string>
     <string name="relation_summary">Özet</string>
     <string name="relation_alternative_version">Alternatif versiyon</string>
     <string name="relation_other">Diğer</string>
@@ -216,7 +216,7 @@
     <string name="translate_original">Orjinali göster</string>
     <string name="adaptation">Uyarlama</string>
     <string name="filters">Filtreler</string>
-    <string name="manhua">Manhua</string>
+    <string name="manhua">Çin - Çizgi Roman</string>
     <string name="discontinued">Durduruldu</string>
     <string name="opening">Açılış Müzikleri</string>
     <string name="ending">Jenerik Müzikleri</string>
@@ -274,4 +274,7 @@
     <string name="notifications">Bildirimler</string>
     <string name="delete_all">Tümünü sil</string>
     <string name="manga_stats">Manga İstatikleri</string>
+    <string name="last_used">Son kullanım</string>
+    <string name="czech">Çekce</string>
+    <string name="refresh">Yenile</string>
 </resources>
