@@ -148,7 +148,9 @@ class MainActivity : AppCompatActivity() {
             val navController = rememberNavController()
 
             MoeListTheme(
-                darkTheme = if (themePreference == "follow_system") isSystemInDarkTheme() else themePreference == "dark"
+                darkTheme = if (themePreference == "follow_system") isSystemInDarkTheme()
+                else themePreference == "dark" || themePreference == "black",
+                amoledColors = themePreference == "black"
             ) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),

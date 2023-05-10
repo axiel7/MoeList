@@ -8,9 +8,10 @@ import com.axiel7.moelist.uicompose.base.stringRes
 class SettingsViewModel: BaseViewModel() {
 
     val themeEntries = mapOf(
+        "follow_system" to R.string.theme_system,
         "light" to R.string.theme_light,
         "dark" to R.string.theme_dark,
-        "follow_system" to R.string.theme_system
+        "black" to R.string.theme_black
     )
 
     val languageEntries = mapOf(

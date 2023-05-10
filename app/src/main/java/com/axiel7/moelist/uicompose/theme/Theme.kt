@@ -2,6 +2,7 @@ package com.axiel7.moelist.uicompose.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -79,19 +80,28 @@ private val DarkColors = darkColorScheme(
     scrim = md_theme_dark_scrim,
 )
 
+private fun ColorScheme.toAmoled() = this.copy(
+    background = md_theme_black_background,
+    surface = md_theme_black_background,
+)
+
 @Composable
 fun MoeListTheme(
   darkTheme: Boolean = isSystemInDarkTheme(),
   dynamicColor: Boolean = true,
+  amoledColors: Boolean = false,
   content: @Composable () -> Unit
 ) {
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            if (darkTheme) dynamicDarkColorScheme(context).let {
+                return@let if (amoledColors) it.toAmoled() else it
+            }
+            else dynamicLightColorScheme(context)
         }
 
-        darkTheme -> DarkColors
+        darkTheme -> if (amoledColors) DarkColors.toAmoled() else DarkColors
         else -> LightColors
     }
     val view = LocalView.current
