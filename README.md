@@ -17,15 +17,18 @@ Follow the development on the official Discord server:
 ![screenshots](https://axiel7.github.io/assets/moelist.254cc042a48d2c6a011015a0c2ffa390.png)
 
 # Features
+* Airing Anime notifications
+* Airing Anime Widget
 * Manage your Anime/Manga list
-* View Anime/Manga details
+* Anime/Manga details
 * Related Anime/Manga
+* Anime/Manga recommendations
 * Search Anime/Manga
-* Seasonal Anime
-* Anime recommendations
+* Seasonal Anime Calendar
+* Search Anime by season
 * Anime/Manga top charts
-* View your profile and anime stats
-* Light/Dark theme
+* View your profile and your Anime/Manga stats
+* Light/Dark theme and Android 12 dynamic color
 * NSFW toggle
 
 **Coming soon**
@@ -33,7 +36,7 @@ Follow the development on the official Discord server:
 
 **Not possible due to API limitations:**
 * Reviews
-* Favorites Anime/manga
+* Favorites Anime/Manga
 * View/add friends
 * View others userlists
 * MyAnimeList notifications/messages
