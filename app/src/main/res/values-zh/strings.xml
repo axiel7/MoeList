@@ -283,7 +283,8 @@
     <string name="num_days">%s 天</string>
     <string name="notifications">通知</string>
     <string name="delete_all">全部删除</string>
-    <string name="manga_stats">Manga Stats</string>
+    <string name="manga_stats">漫画统计</string>
     <string name="last_used">Last used</string>
-    <string name="czech">Czech</string>
+    <string name="czech">捷克语</string>
+    <string name="refresh">刷新</string>
 </resources>
