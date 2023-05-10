@@ -29,6 +29,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.notificationsDataStore
 import com.axiel7.moelist.data.model.anime.*
 import com.axiel7.moelist.data.model.manga.MangaDetails
 import com.axiel7.moelist.data.model.media.*
@@ -43,7 +44,6 @@ import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.DateUtils.parseDateAndLocalize
 import com.axiel7.moelist.utils.NotificationWorker
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.notificationsDataStore
 import com.axiel7.moelist.utils.StringExtensions.toNavArgument
 import com.axiel7.moelist.utils.StringExtensions.toStringOrNull
 import com.axiel7.moelist.utils.UseCases.copyToClipBoard

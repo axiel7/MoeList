@@ -11,8 +11,8 @@ android {
         applicationId "com.axiel7.moelist"
         minSdk 23
         targetSdk 33
-        versionCode 98
-        versionName "3.0"
+        versionCode 99
+        versionName "3.1"
         archivesBaseName = "moelist-v$versionName"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -84,11 +84,13 @@ dependencies {
     //Compose
     //def composeBom = platform('androidx.compose:compose-bom:2023.01.00')
     implementation 'androidx.compose.material3:material3:1.1.0-rc01'
-    implementation 'androidx.compose.ui:ui-tooling-preview:1.4.2'
-    debugImplementation 'androidx.compose.ui:ui-tooling:1.4.2'
+    implementation 'androidx.compose.ui:ui-tooling-preview:1.4.3'
+    debugImplementation 'androidx.compose.ui:ui-tooling:1.4.3'
     implementation 'androidx.activity:activity-compose:1.7.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1'
     implementation 'androidx.navigation:navigation-compose:2.5.3'
+
+    implementation "androidx.glance:glance-appwidget:1.0.0-alpha05"
 
     def accompanistVersion = '0.30.1'
     implementation "com.google.accompanist:accompanist-insets-ui:$accompanistVersion"

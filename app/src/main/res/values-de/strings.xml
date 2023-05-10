@@ -19,7 +19,6 @@
     <string name="volumes">Bände</string>
     <string name="serialization">Serialisierung</string>
     <string name="login">Anmelden</string>
-    <string name="search_in_mal">Suche in MAL</string>
     <string name="no_results">Kein Ergebnis</string>
     <string name="title_profile">Profil</string>
     <string name="cancel">Abbrechen</string>
@@ -35,7 +34,6 @@
     <string name="dropped">Abgebrochen</string>
     <string name="ptw">Geplant zu Schauen</string>
     <string name="ptr">Geplant zu Lesen</string>
-    <string name="share_app">App teilen</string>
     <string name="settings">Einstellungen</string>
     <string name="year">Jahr</string>
     <string name="anime_ranking">Anime Rangliste</string>
@@ -123,7 +121,6 @@
     <string name="nsfw_summary">Ich bestätige, dass ich über 18 Jahre alt bin.</string>
     <string name="default_section">Standardbereich</string>
     <string name="display">Anzeigen</string>
-    <string name="startup">Beim Starten</string>
     <string name="account">Benutzerkonto</string>
     <string name="logout">Abmelden</string>
     <string name="logout_summary">Nur von MoeList abmelden, nicht von MAL.</string>
@@ -140,15 +137,10 @@
     <string name="title_login">Anmelden</string>
     <string name="title_details">Details</string>
     <string name="title_search">Suche</string>
-    <string name="title_poster">Bild</string>
     <string name="title_settings">Einstellungen</string>
     <string name="title_ranking">Ranking</string>
     <string name="title_seasonal">Saisonal</string>
     <string name="synopsis_icon">Synopse erweitern</string>
-    <string name="poster">Poster</string>
-    <string name="moelist_banner">MoeList banner</string>
-    <string name="drag_pill">Ziehe Pille</string>
-    <string name="profile_picture">Profilbild</string>
     <string name="error_not_found">Nicht gefunden</string>
     <string name="relateds">Verwandt</string>
     <string name="view_on_mal">Auf MAL ansehen</string>
@@ -223,9 +215,7 @@
     <string name="translate">Übersetzen</string>
     <string name="translate_original">Original anzeigen</string>
     <string name="adaptation">Anpassung</string>
-    <string name="open_source_licenses">Open Source Lizenzen</string>
     <string name="filters">Filter</string>
-    <string name="date_format">Datumsformat</string>
     <string name="manhua">Manhua</string>
     <string name="discontinued">Eingestellt</string>
     <string name="opening">Openings</string>

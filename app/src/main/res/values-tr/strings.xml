@@ -19,7 +19,6 @@
     <string name="volumes">Cilt</string>
     <string name="serialization">Serileştirme</string>
     <string name="login">Giriş</string>
-    <string name="search_in_mal">MAL \'de ara</string>
     <string name="no_results">Sonuç bulunamadı</string>
     <string name="title_profile">Profil</string>
     <string name="cancel">İptal</string>
@@ -35,7 +34,6 @@
     <string name="dropped">Bırakıldı</string>
     <string name="ptw">İzlenecek</string>
     <string name="ptr">Okunacak</string>
-    <string name="share_app">Uygulamayı paylaş</string>
     <string name="settings">Ayarlar</string>
     <string name="year">Yıl</string>
     <string name="anime_ranking">Anime Sıralaması</string>
@@ -123,7 +121,6 @@
     <string name="nsfw_summary">18 yaş üzeri olduğumu onaylıyorum.</string>
     <string name="default_section">Varsayılan bölüm</string>
     <string name="display">Görüntüle</string>
-    <string name="startup">Başlangıç</string>
     <string name="account">Hesap</string>
     <string name="logout">Çıkış Yap</string>
     <string name="logout_summary">MAL \'den değil, MoeList \'den çıkış yap.</string>
@@ -140,15 +137,10 @@
     <string name="title_login">Oturum aç</string>
     <string name="title_details">Ayrıntılar</string>
     <string name="title_search">Ara</string>
-    <string name="title_poster">Görsel</string>
     <string name="title_settings">Ayarlar</string>
     <string name="title_ranking">Sıralama</string>
     <string name="title_seasonal">Sezonluk</string>
     <string name="synopsis_icon">Özeti genişlet</string>
-    <string name="poster">Poster</string>
-    <string name="moelist_banner">MoeList başlığı</string>
-    <string name="drag_pill">Sürükle</string>
-    <string name="profile_picture">Profil fotoğrafı</string>
     <string name="error_not_found">Bulunamadı</string>
     <string name="relateds">Bağlantılı</string>
     <string name="view_on_mal">MAL \'de göster</string>
@@ -223,9 +215,7 @@
     <string name="translate">Tercüme et</string>
     <string name="translate_original">Orjinali göster</string>
     <string name="adaptation">Uyarlama</string>
-    <string name="open_source_licenses">Açık Kaynak Lisanslar</string>
     <string name="filters">Filtreler</string>
-    <string name="date_format">Tarih formatı</string>
     <string name="manhua">Çin - Çizgi Roman</string>
     <string name="discontinued">Durduruldu</string>
     <string name="opening">Açılış Müzikleri</string>

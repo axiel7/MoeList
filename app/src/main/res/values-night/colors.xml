@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Material3 colors -->
+    <!-- Auto-Generated from Material Theme Builder -->
+    <color name="md_theme_primary">#BAC3FF</color>
+    <color name="md_theme_onPrimary">#15267B</color>
+    <color name="md_theme_primaryContainer">#2F3F92</color>
+    <color name="md_theme_onPrimaryContainer">#DEE0FF</color>
+    <color name="md_theme_secondary">#C3C5DD</color>
+    <color name="md_theme_onSecondary">#2C2F42</color>
+    <color name="md_theme_secondaryContainer">#434659</color>
+    <color name="md_theme_onSecondaryContainer">#DFE1F9</color>
+    <color name="md_theme_tertiary">#BAC3FF</color>
+    <color name="md_theme_onTertiary">#15267B</color>
+    <color name="md_theme_tertiaryContainer">#2F3F92</color>
+    <color name="md_theme_onTertiaryContainer">#DEE0FF</color>
+    <color name="md_theme_error">#FFB4AB</color>
+    <color name="md_theme_errorContainer">#93000A</color>
+    <color name="md_theme_onError">#690005</color>
+    <color name="md_theme_onErrorContainer">#FFDAD6</color>
+    <color name="md_theme_background">#1B1B1F</color>
+    <color name="md_theme_onBackground">#E4E1E6</color>
+    <color name="md_theme_surface">#1B1B1F</color>
+    <color name="md_theme_onSurface">#E4E1E6</color>
+    <color name="md_theme_surfaceVariant">#46464F</color>
+    <color name="md_theme_onSurfaceVariant">#C6C5D0</color>
+    <color name="md_theme_outline">#90909A</color>
+    <color name="md_theme_inverseOnSurface">#1B1B1F</color>
+    <color name="md_theme_inverseSurface">#E4E1E6</color>
+    <color name="md_theme_inversePrimary">#4858AB</color>
+    <color name="md_theme_shadow">#000000</color>
+    <color name="md_theme_surfaceTint">#BAC3FF</color>
+    <color name="md_theme_surfaceTintColor">#BAC3FF</color>
+</resources>

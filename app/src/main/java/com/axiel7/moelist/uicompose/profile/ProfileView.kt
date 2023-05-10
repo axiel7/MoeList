@@ -136,14 +136,16 @@ fun ProfileView(navController: NavController) {
             //Stats
             UserStatsView(
                 viewModel = viewModel,
-                mediaType = MediaType.ANIME
+                mediaType = MediaType.ANIME,
+                isLoading = viewModel.isLoading
             )
 
             Divider(modifier = Modifier.padding(vertical = 16.dp))
 
             UserStatsView(
                 viewModel = viewModel,
-                mediaType = MediaType.MANGA
+                mediaType = MediaType.MANGA,
+                isLoading = viewModel.isLoadingManga
             )
 
             Divider(modifier = Modifier.padding(vertical = 16.dp))
@@ -175,7 +177,8 @@ fun ProfileView(navController: NavController) {
 @Composable
 fun UserStatsView(
     viewModel: ProfileViewModel,
-    mediaType: MediaType
+    mediaType: MediaType,
+    isLoading: Boolean
 ) {
     Text(
         text = if (mediaType == MediaType.ANIME) stringResource(R.string.anime_stats)
@@ -200,20 +203,27 @@ fun UserStatsView(
                         viewModel.animeStats.value.sumOf { it.value.toInt() }
                     else viewModel.mangaStats.value.sumOf { it.value.toInt() }
                     ),
-                    modifier = Modifier.width(100.dp),
+                    modifier = Modifier
+                        .width(100.dp)
+                        .defaultPlaceholder(visible = isLoading),
                     textAlign = TextAlign.Center
                 )
             }
         )
 
         Column {
-            (if (mediaType == MediaType.ANIME) viewModel.animeStats else viewModel.mangaStats)
-                .value.forEach {
+            (if (mediaType == MediaType.ANIME) viewModel.animeStats else viewModel.mangaStats).value
+                .forEach {
                 SuggestionChip(
                     onClick = { },
                     label = { Text(text = stringResource(it.title)) },
                     modifier = Modifier.padding(horizontal = 8.dp),
-                    icon = { Text(text = String.format("%.0f", it.value)) },
+                    icon = {
+                        Text(
+                            text = String.format("%.0f", it.value),
+                            modifier = Modifier.defaultPlaceholder(visible = isLoading)
+                        )
+                    },
                     border = SuggestionChipDefaults.suggestionChipBorder(
                         borderColor = it.color
                     )
@@ -233,24 +243,28 @@ fun UserStatsView(
                 viewModel.user?.animeStatistics?.numDays.toStringOrZero()
             else viewModel.userMangaStats?.days.toStringOrZero(),
             icon = R.drawable.ic_round_event_24,
-            tooltip = stringResource(R.string.days)
+            tooltip = stringResource(R.string.days),
+            isLoading = isLoading
         )
         if (mediaType == MediaType.ANIME) {
             TextIconVertical(
                 text = viewModel.user?.animeStatistics?.numEpisodes.toStringOrZero(),
                 icon = R.drawable.play_circle_outline_24,
-                tooltip = stringResource(R.string.episodes)
+                tooltip = stringResource(R.string.episodes),
+                isLoading = isLoading
             )
         } else {
             TextIconVertical(
                 text = viewModel.userMangaStats?.chaptersRead.toStringOrZero(),
                 icon = R.drawable.ic_round_menu_book_24,
-                tooltip = stringResource(R.string.chapters)
+                tooltip = stringResource(R.string.chapters),
+                isLoading = isLoading
             )
             TextIconVertical(
                 text = viewModel.userMangaStats?.volumesRead.toStringOrZero(),
                 icon = R.drawable.ic_outline_book_24,
-                tooltip = stringResource(R.string.volumes)
+                tooltip = stringResource(R.string.volumes),
+                isLoading = isLoading
             )
         }
 
@@ -259,7 +273,8 @@ fun UserStatsView(
                 viewModel.user?.animeStatistics?.meanScore.toStringOrZero()
             else viewModel.userMangaStats?.meanScore.toStringOrZero(),
             icon = R.drawable.ic_round_details_star_24,
-            tooltip = stringResource(R.string.mean_score)
+            tooltip = stringResource(R.string.mean_score),
+            isLoading = isLoading
         )
         TextIconVertical(
             text = if (mediaType == MediaType.ANIME)
@@ -267,7 +282,8 @@ fun UserStatsView(
             else viewModel.userMangaStats?.repeat.toStringOrZero(),
             icon = R.drawable.round_repeat_24,
             tooltip = if (mediaType == MediaType.ANIME) stringResource(R.string.rewatched)
-            else stringResource(R.string.total_rereads)
+            else stringResource(R.string.total_rereads),
+            isLoading = isLoading
         )
     }
 }

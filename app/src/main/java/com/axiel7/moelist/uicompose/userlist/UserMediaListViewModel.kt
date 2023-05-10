@@ -8,6 +8,8 @@ import androidx.compose.runtime.setValue
 import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.viewModelScope
 import com.axiel7.moelist.App
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_LIST_SORT_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_LIST_SORT_PREFERENCE_KEY
 import com.axiel7.moelist.data.model.ApiParams
 import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
 import com.axiel7.moelist.data.model.anime.UserAnimeList
@@ -22,8 +24,6 @@ import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.data.repository.MangaRepository
 import com.axiel7.moelist.uicompose.base.BaseMediaViewModel
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_LIST_SORT_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_LIST_SORT_PREFERENCE_KEY
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

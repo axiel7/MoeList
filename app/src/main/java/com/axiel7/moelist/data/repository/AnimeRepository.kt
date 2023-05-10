@@ -5,12 +5,18 @@ import com.axiel7.moelist.data.model.ApiParams
 import com.axiel7.moelist.data.model.Response
 import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.anime.AnimeList
+import com.axiel7.moelist.data.model.anime.AnimeNode
 import com.axiel7.moelist.data.model.anime.AnimeRanking
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
 import com.axiel7.moelist.data.model.anime.Season
 import com.axiel7.moelist.data.model.anime.UserAnimeList
+import com.axiel7.moelist.data.model.anime.secondsUntilNextBroadcast
+import com.axiel7.moelist.data.model.media.ListStatus
+import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.RankingType
+import com.axiel7.moelist.data.network.Api
+import com.axiel7.moelist.data.network.KtorClient
 import io.ktor.http.HttpStatusCode
 
 object AnimeRepository {
@@ -143,6 +149,30 @@ object AnimeRepository {
             else App.api.getAnimeRanking(page)
             result.error?.let { BaseRepository.handleResponseError(it) }
             return result
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    // widget
+    suspend fun getAiringAnimeOnList(
+        token: String
+    ): List<AnimeNode>? {
+        return try {
+            val api = Api(KtorClient(token).ktorHttpClient)
+            val result: Response<List<UserAnimeList>> = api.getUserAnimeList(
+                ApiParams(
+                    status = ListStatus.WATCHING.value,
+                    sort = MediaSort.UPDATED.value,
+                    nsfw = App.nsfw,
+                    fields = "status,broadcast",
+                )
+            )
+            result.error?.let { BaseRepository.handleResponseError(it) }
+
+            return result.data?.map { it.node }
+                ?.filter { it.broadcast != null && it.status == "currently_airing" }
+                ?.sortedBy { it.broadcast!!.secondsUntilNextBroadcast() }
         } catch (e: Exception) {
             null
         }

@@ -19,7 +19,6 @@
     <string name="volumes">単行本</string>
     <string name="serialization">連載</string>
     <string name="login">ログイン</string>
-    <string name="search_in_mal">MALで検索</string>
     <string name="no_results">該当なし</string>
     <string name="title_profile">プロファイル</string>
     <string name="cancel">キャンセル</string>
@@ -35,7 +34,6 @@
     <string name="dropped">ドロップ</string>
     <string name="ptw">プランニング</string>
     <string name="ptr">プランニング</string>
-    <string name="share_app">アプリを共有する</string>
     <string name="settings">設定</string>
     <string name="year">年</string>
     <string name="anime_ranking">アニメランキング</string>
@@ -123,7 +121,6 @@
     <string name="nsfw_summary">私は18歳以上だと確認します。</string>
     <string name="default_section">デフォルトセクション</string>
     <string name="display">ディスプレー</string>
-    <string name="startup">スタートアップ</string>
     <string name="account">アカウント</string>
     <string name="logout">ログアウト</string>
     <string name="logout_summary">MALではなく、MoeListからのみログアウトします。</string>
@@ -140,15 +137,10 @@
     <string name="title_login">ログイン</string>
     <string name="title_details">詳細</string>
     <string name="title_search">検索</string>
-    <string name="title_poster">画像</string>
     <string name="title_settings">設定</string>
     <string name="title_ranking">ランキング</string>
     <string name="title_seasonal">季節</string>
     <string name="synopsis_icon">概要を展開</string>
-    <string name="poster">ポスター</string>
-    <string name="moelist_banner">MoeListバナー</string>
-    <string name="drag_pill">ドラッグピル</string>
-    <string name="profile_picture">プロフィール写真</string>
     <string name="error_not_found">見つかりません</string>
     <string name="relateds">関連</string>
     <string name="view_on_mal">MALで表示</string>
@@ -223,9 +215,7 @@
     <string name="translate">翻訳する</string>
     <string name="translate_original">原文を見る</string>
     <string name="adaptation">アダプテーション</string>
-    <string name="open_source_licenses">オープンソース ライセンス</string>
     <string name="filters">フィルター</string>
-    <string name="date_format">日付の形式</string>
     <string name="manhua">韓国の漫画</string>
     <string name="discontinued">中止</string>
     <string name="opening">オープニング</string>

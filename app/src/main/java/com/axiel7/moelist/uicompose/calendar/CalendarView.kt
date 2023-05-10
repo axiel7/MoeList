@@ -41,7 +41,6 @@ import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrUnknown
 import com.axiel7.moelist.utils.SeasonCalendar
-import com.axiel7.moelist.utils.StringExtensions.toStringOrNull
 import kotlinx.coroutines.launch
 
 const val CALENDAR_DESTINATION = "calendar/{day}"

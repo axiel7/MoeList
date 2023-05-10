@@ -8,12 +8,12 @@ import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.viewModelScope
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.PROFILE_PICTURE_PREFERENCE_KEY
 import com.axiel7.moelist.data.model.MangaStats
 import com.axiel7.moelist.data.model.User
 import com.axiel7.moelist.data.model.media.Stat
 import com.axiel7.moelist.data.repository.UserRepository
 import com.axiel7.moelist.uicompose.base.BaseViewModel
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.PROFILE_PICTURE_PREFERENCE_KEY
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 class ProfileViewModel : BaseViewModel() {
 
     init {
+        isLoading = true
         App.dataStore?.data?.map {
             profilePictureUrl = it[PROFILE_PICTURE_PREFERENCE_KEY]
         }
@@ -63,10 +64,13 @@ class ProfileViewModel : BaseViewModel() {
 
             isLoading = false
 
+            isLoadingManga = true
             getUserMangaStats()
+            isLoadingManga = false
         }
     }
 
+    var isLoadingManga by mutableStateOf(true)
     var mangaStats = mutableStateOf(listOf(
         Stat(title = R.string.reading, value = 0f, color = Color(red = 0, green = 200, blue = 83)),
         Stat(title = R.string.completed, value = 0f, color = Color(red = 92, green = 107, blue = 192)),

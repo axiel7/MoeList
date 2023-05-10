@@ -53,7 +53,8 @@ fun TextIconVertical(
     @DrawableRes icon: Int,
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.onSurfaceVariant,
-    fontSize: TextUnit = TextUnit.Unspecified
+    fontSize: TextUnit = TextUnit.Unspecified,
+    isLoading: Boolean = false,
 ) {
     Column(
         modifier = modifier,
@@ -67,7 +68,9 @@ fun TextIconVertical(
         )
         Text(
             text = text,
-            modifier = Modifier.padding(horizontal = 4.dp),
+            modifier = Modifier
+                .padding(horizontal = 4.dp)
+                .defaultPlaceholder(visible = isLoading),
             color = color,
             fontSize = fontSize
         )
@@ -81,6 +84,7 @@ fun TextIconVertical(
     @DrawableRes icon: Int,
     modifier: Modifier = Modifier,
     tooltip: String,
+    isLoading: Boolean = false,
 ) {
     val tooltipState = remember { PlainTooltipState() }
     val scope = rememberCoroutineScope()
@@ -89,7 +93,12 @@ fun TextIconVertical(
         tooltip = { Text(text = tooltip) },
         tooltipState = tooltipState
     ) {
-        TextIconVertical(text, icon, modifier.clickable { scope.launch { tooltipState.show() } })
+        TextIconVertical(
+            text = text,
+            icon = icon,
+            modifier = modifier.clickable { scope.launch { tooltipState.show() } },
+            isLoading = isLoading
+        )
     }
 }
 
