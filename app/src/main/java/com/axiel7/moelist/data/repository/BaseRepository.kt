@@ -9,7 +9,7 @@ object BaseRepository {
         when (error) {
             "invalid_token" -> {
                 App.dataStore?.edit {
-                    it[ACCESS_TOKEN_PREFERENCE_KEY] = ""
+                    it.remove(ACCESS_TOKEN_PREFERENCE_KEY)
                 }
             }
         }
