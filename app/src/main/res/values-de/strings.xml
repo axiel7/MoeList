@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="title_home">Start</string>
+    <string name="title_home">Startseite</string>
     <string name="title_anime_list">Anime</string>
     <string name="title_manga_list">Manga</string>
     <string name="stats">Statistiken</string>
@@ -284,6 +284,7 @@
     <string name="notifications">Benachrichtigungen</string>
     <string name="delete_all">Alle löschen</string>
     <string name="manga_stats">Manga-Statistiken</string>
-    <string name="last_used">Last used</string>
-    <string name="czech">Czech</string>
+    <string name="last_used">Zuletzt verwendet</string>
+    <string name="czech">Tschechisch</string>
+    <string name="refresh">Aktualisieren</string>
 </resources>
