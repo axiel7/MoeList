@@ -284,6 +284,7 @@
     <string name="notifications">通知</string>
     <string name="delete_all">すべて削除</string>
     <string name="manga_stats">マンガの統計</string>
-    <string name="last_used">Last used</string>
-    <string name="czech">Czech</string>
+    <string name="last_used">前回使用</string>
+    <string name="czech">チェコ語</string>
+    <string name="refresh">更新する</string>
 </resources>
