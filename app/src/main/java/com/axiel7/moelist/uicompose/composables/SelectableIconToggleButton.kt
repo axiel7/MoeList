@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import kotlinx.coroutines.launch
 
@@ -20,21 +21,15 @@ fun <T> SelectableIconToggleButton(
     tooltipText: String,
     value: T,
     selectedValue: T,
-    onClick: () -> Unit
+    onClick: (Boolean) -> Unit
 ) {
-    val tooltipState = remember { PlainTooltipState() }
-    val scope = rememberCoroutineScope()
-
     PlainTooltipBox(
         tooltip = { Text(tooltipText) },
-        tooltipState = tooltipState
     ) {
         FilledIconToggleButton(
             checked = value == selectedValue,
-            onCheckedChange = {
-                scope.launch { tooltipState.show() }
-                onClick()
-            }
+            onCheckedChange = onClick,
+            modifier = Modifier.tooltipAnchor()
         ) {
             Icon(painter = painterResource(icon), contentDescription = tooltipText)
         }
