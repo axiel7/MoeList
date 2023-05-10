@@ -3,6 +3,7 @@ package com.axiel7.moelist.uicompose.airingwidget
 import android.content.Context
 import android.content.Intent
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.unit.dp
 import androidx.glance.Button
 import androidx.glance.GlanceId
@@ -21,6 +22,7 @@ import androidx.glance.appwidget.lazy.items
 import androidx.glance.currentState
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Column
+import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
@@ -45,7 +47,11 @@ class AiringWidget : GlanceAppWidget() {
             when (airingInfo) {
                 is AiringInfo.Loading -> {
                     AppWidgetBox(contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator()
+                        CircularProgressIndicator(color = GlanceTheme.colors.primary)
+                    }
+                    val context = LocalContext.current
+                    SideEffect {
+                        AiringWidgetWorker.enqueue(context)
                     }
                 }
                 is AiringInfo.Available -> {
@@ -60,6 +66,7 @@ class AiringWidget : GlanceAppWidget() {
                                 Column(
                                     modifier = GlanceModifier
                                         .padding(bottom = 8.dp)
+                                        .fillMaxWidth()
                                         .clickable(actionStartActivity(
                                             Intent(LocalContext.current, MainActivity::class.java).apply {
                                                 action = "details"
@@ -109,6 +116,11 @@ class AiringWidget : GlanceAppWidget() {
             }
         }
     }
+
+    override suspend fun onDelete(context: Context, glanceId: GlanceId) {
+        super.onDelete(context, glanceId)
+        AiringWidgetWorker.cancel(context)
+    }
 }
 
 class UpdateAiringInfoAction : ActionCallback {
@@ -123,14 +135,4 @@ class UpdateAiringInfoAction : ActionCallback {
 
 class AiringWidgetReceiver : GlanceAppWidgetReceiver() {
     override val glanceAppWidget: GlanceAppWidget = AiringWidget()
-
-    override fun onEnabled(context: Context) {
-        super.onEnabled(context)
-        AiringWidgetWorker.enqueue(context)
-    }
-
-    override fun onDisabled(context: Context) {
-        super.onDisabled(context)
-        AiringWidgetWorker.cancel(context)
-    }
 }

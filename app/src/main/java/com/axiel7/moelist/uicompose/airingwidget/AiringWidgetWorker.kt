@@ -7,6 +7,8 @@ import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.appwidget.updateAll
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
@@ -80,6 +82,16 @@ class AiringWidgetWorker(
                 uniqueWorkName,
                 workPolicy,
                 requestBuilder.build()
+            )
+
+            // Temporary workaround to avoid WM provider to disable itself and trigger an
+            // app widget update
+            manager.enqueueUniqueWork(
+                "$uniqueWorkName-workaround",
+                ExistingWorkPolicy.KEEP,
+                OneTimeWorkRequestBuilder<AiringWidgetWorker>().apply {
+                    setInitialDelay(Duration.ofDays(365))
+                }.build()
             )
         }
 
