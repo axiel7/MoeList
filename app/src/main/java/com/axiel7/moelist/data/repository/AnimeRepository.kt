@@ -17,6 +17,7 @@ import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.RankingType
 import com.axiel7.moelist.data.network.Api
 import com.axiel7.moelist.data.network.KtorClient
+import com.axiel7.moelist.utils.NumExtensions.toInt
 import io.ktor.http.HttpStatusCode
 
 object AnimeRepository {
@@ -156,19 +157,19 @@ object AnimeRepository {
 
     // widget
     suspend fun getAiringAnimeOnList(
-        token: String
+        token: String,
+        nsfw: Boolean
     ): List<AnimeNode>? {
         return try {
             val api = Api(KtorClient(token).ktorHttpClient)
             val result: Response<List<UserAnimeList>> = api.getUserAnimeList(
                 ApiParams(
                     status = ListStatus.WATCHING.value,
-                    sort = MediaSort.UPDATED.value,
-                    nsfw = App.nsfw,
+                    sort = MediaSort.ANIME_START_DATE.value,
+                    nsfw = nsfw.toInt(),
                     fields = "status,broadcast",
                 )
             )
-            result.error?.let { BaseRepository.handleResponseError(it) }
 
             return result.data?.map { it.node }
                 ?.filter { it.broadcast != null && it.status == "currently_airing" }

@@ -11,6 +11,7 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.ACCESS_TOKEN_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.NSFW_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.defaultPreferencesDataStore
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.getValueSync
 import com.axiel7.moelist.data.repository.AnimeRepository
@@ -30,8 +31,9 @@ class AiringWidgetWorker(
 
             // Update state with new data
             val token = context.defaultPreferencesDataStore.getValueSync(ACCESS_TOKEN_PREFERENCE_KEY)!!
+            val nsfw = context.defaultPreferencesDataStore.getValueSync(NSFW_PREFERENCE_KEY) ?: false
             setWidgetState(glanceIds, AiringInfo.Available(
-                animeList = AnimeRepository.getAiringAnimeOnList(token = token)!!
+                animeList = AnimeRepository.getAiringAnimeOnList(token = token, nsfw = nsfw)!!
             ))
 
             Result.success()
