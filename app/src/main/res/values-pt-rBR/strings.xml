@@ -284,6 +284,7 @@
     <string name="notifications">Notificações</string>
     <string name="delete_all">Excluir todas</string>
     <string name="manga_stats">Estatísticas de Mangás</string>
-    <string name="last_used">Last used</string>
-    <string name="czech">Czech</string>
+    <string name="last_used">Último usado</string>
+    <string name="czech">Tcheco</string>
+    <string name="refresh">Atualizar</string>
 </resources>
