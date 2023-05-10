@@ -6,7 +6,10 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.net.Uri
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.browser.customtabs.CustomTabColorSchemeParams
@@ -42,27 +45,43 @@ object ContextExtensions {
 
     /** Open external link by default browser or intent chooser */
     fun Context.openLink(url: String) {
-        Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
-            val browser = browserIntentPackageName()
-            if (browser != null) {
-                setPackage(browser)
+        val uri = Uri.parse(url)
+        Intent(Intent.ACTION_VIEW, uri).apply {
+            val browsers = findBrowserIntentActivities()
+            val default = browsers.find { it.isDefault }
+            if (default != null) {
+                setPackage(default.activityInfo.packageName)
                 startActivity(this)
             } else {
-                startActivity(Intent.createChooser(this, getString(R.string.view_on_mal)))
+                val intents = browsers.map {
+                    Intent(Intent.ACTION_VIEW, uri).apply {
+                        setPackage(it.activityInfo.packageName)
+                    }
+                }
+                startActivity(
+                    Intent.createChooser(this, getString(R.string.view_on_mal)).apply {
+                        putExtra(Intent.EXTRA_INITIAL_INTENTS, intents.toTypedArray())
+                    }
+                )
             }
         }
     }
 
-    /** Finds the default browser package name */
-    private fun Context.browserIntentPackageName() : String? {
-        val emptyBrowserIntent = Intent()
+    /** Finds all the browsers installed on the device */
+    private fun Context.findBrowserIntentActivities(): List<ResolveInfo> {
+        val emptyBrowserIntent = Intent(Intent.ACTION_VIEW, Uri.fromParts("http", "", null))
             .setAction(Intent.ACTION_VIEW)
-            .addCategory(Intent.CATEGORY_BROWSABLE)
-            .setData(Uri.fromParts("https", "", null))
 
-        val resolveInfos = packageManager.queryIntentActivities(emptyBrowserIntent, 0)
-        return (resolveInfos.find { it.isDefault })?.activityInfo?.packageName
+        return packageManager.queryIntentActivitiesCompat(emptyBrowserIntent, PackageManager.MATCH_ALL)
     }
+
+    /** Custom compat method until Google decides to make one */
+    private fun PackageManager.queryIntentActivitiesCompat(intent: Intent, flags: Int = 0) =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            queryIntentActivities(intent, PackageManager.ResolveInfoFlags.of(flags.toLong()))
+        } else {
+            @Suppress("DEPRECATION") queryIntentActivities(intent, flags)
+        }
 
     fun Context.getActivity(): Activity? = when (this) {
         is Activity -> this
