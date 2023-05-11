@@ -2,12 +2,11 @@ package com.axiel7.moelist.uicompose.airingwidget
 
 import android.content.Context
 import android.content.Intent
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.unit.dp
 import androidx.glance.Button
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
+import androidx.glance.GlanceTheme
 import androidx.glance.LocalContext
 import androidx.glance.action.ActionParameters
 import androidx.glance.action.clickable
@@ -19,6 +18,7 @@ import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.appwidget.lazy.items
+import androidx.glance.appwidget.provideContent
 import androidx.glance.currentState
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Column
@@ -31,86 +31,83 @@ import com.axiel7.moelist.data.model.anime.nextAiringDayFormatted
 import com.axiel7.moelist.uicompose.MainActivity
 import com.axiel7.moelist.uicompose.theme.AppWidgetBox
 import com.axiel7.moelist.uicompose.theme.AppWidgetColumn
-import com.axiel7.moelist.uicompose.theme.GlanceTheme
-import com.axiel7.moelist.uicompose.theme.WidgetTheme
 import com.axiel7.moelist.uicompose.theme.stringResource
 
 class AiringWidget : GlanceAppWidget() {
 
     override val stateDefinition = AiringInfoStateDefinition
 
-    @Composable
-    override fun Content() {
-        val airingInfo = currentState<AiringInfo>()
+    override suspend fun provideGlance(context: Context, id: GlanceId) {
+        AiringWidgetWorker.enqueue(context)
 
-        WidgetTheme {
-            when (airingInfo) {
-                is AiringInfo.Loading -> {
-                    AppWidgetBox(contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator(color = GlanceTheme.colors.primary)
-                    }
-                    val context = LocalContext.current
-                    SideEffect {
-                        AiringWidgetWorker.enqueue(context)
-                    }
-                }
-                is AiringInfo.Available -> {
-                    if (airingInfo.animeList.isEmpty()) {
+        provideContent {
+            val airingInfo = currentState<AiringInfo>()
+
+            GlanceTheme {
+                when (airingInfo) {
+                    is AiringInfo.Loading -> {
                         AppWidgetBox(contentAlignment = Alignment.Center) {
-                            Text(text = stringResource(R.string.nothing_today))
+                            CircularProgressIndicator(color = GlanceTheme.colors.primary)
                         }
                     }
-                    else AppWidgetColumn {
-                        LazyColumn {
-                            items(airingInfo.animeList) { item ->
-                                Column(
-                                    modifier = GlanceModifier
-                                        .padding(bottom = 8.dp)
-                                        .fillMaxWidth()
-                                        .clickable(actionStartActivity(
-                                            Intent(LocalContext.current, MainActivity::class.java).apply {
-                                                action = "details"
-                                                putExtra("media_id", item.id)
-                                                putExtra("media_type", "anime")
-                                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                                                addCategory(item.id.toString())
-                                            }
-                                        ))
-                                ) {
-                                    Text(
-                                        text = item.title,
-                                        style = TextStyle(
-                                            color = GlanceTheme.colors.onSurfaceVariant
-                                        ),
-                                        maxLines = 1
-                                    )
-                                    Text(
-                                        text = item.broadcast!!.nextAiringDayFormatted()
-                                            ?: stringResource(R.string.unknown),
-                                        style = TextStyle(
-                                            color = GlanceTheme.colors.onPrimaryContainer
-                                        ),
-                                        maxLines = 1
-                                    )
+                    is AiringInfo.Available -> {
+                        if (airingInfo.animeList.isEmpty()) {
+                            AppWidgetBox(contentAlignment = Alignment.Center) {
+                                Text(text = stringResource(R.string.nothing_today))
+                            }
+                        }
+                        else AppWidgetColumn {
+                            LazyColumn {
+                                items(airingInfo.animeList) { item ->
+                                    Column(
+                                        modifier = GlanceModifier
+                                            .padding(bottom = 8.dp)
+                                            .fillMaxWidth()
+                                            .clickable(actionStartActivity(
+                                                Intent(LocalContext.current, MainActivity::class.java).apply {
+                                                    action = "details"
+                                                    putExtra("media_id", item.id)
+                                                    putExtra("media_type", "anime")
+                                                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                                    addCategory(item.id.toString())
+                                                }
+                                            ))
+                                    ) {
+                                        Text(
+                                            text = item.title,
+                                            style = TextStyle(
+                                                color = GlanceTheme.colors.onSurfaceVariant
+                                            ),
+                                            maxLines = 1
+                                        )
+                                        Text(
+                                            text = item.broadcast!!.nextAiringDayFormatted()
+                                                ?: stringResource(R.string.unknown),
+                                            style = TextStyle(
+                                                color = GlanceTheme.colors.onPrimaryContainer
+                                            ),
+                                            maxLines = 1
+                                        )
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                is AiringInfo.Unavailable -> {
-                    AppWidgetColumn(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = airingInfo.message,
-                            modifier = GlanceModifier.padding(bottom = 8.dp)
-                        )
-                        Button(
-                            text = stringResource(R.string.refresh),
-                            onClick = actionRunCallback<UpdateAiringInfoAction>()
-                        )
+                    is AiringInfo.Unavailable -> {
+                        AppWidgetColumn(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = airingInfo.message,
+                                modifier = GlanceModifier.padding(bottom = 8.dp)
+                            )
+                            Button(
+                                text = stringResource(R.string.refresh),
+                                onClick = actionRunCallback<UpdateAiringInfoAction>()
+                            )
+                        }
                     }
                 }
             }

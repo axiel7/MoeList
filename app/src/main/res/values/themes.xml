@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar"/>
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar"/>
 
     <style name="Theme.MySplash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">?android:colorBackground</item>
@@ -9,7 +9,7 @@
         <item name="postSplashScreenTheme">@style/AppTheme</item>
     </style>
 
-    <style name="Theme.AppWidget.AppWidgetContainer" parent="Theme.Material3.DynamicColors.DayNight"/>
+    <style name="Theme.AppWidget.AppWidgetContainer" parent="Theme.Material3.DayNight.NoActionBar"/>
 
     <style name="Widget.AppWidget.AppWidget.Container" parent="android:Widget">
         <item name="android:id">@android:id/background</item>
