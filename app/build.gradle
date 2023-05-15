@@ -73,7 +73,7 @@ android {
 dependencies {
 
     //AndroidX
-    implementation 'androidx.core:core-ktx:1.10.0'
+    implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
 
     implementation 'androidx.browser:browser:1.5.0'
@@ -113,7 +113,7 @@ dependencies {
     implementation "io.ktor:ktor-client-auth:$ktor_version"
     implementation "io.ktor:ktor-client-logging:$ktor_version"
 
-    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1'
 
     //Utils
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
