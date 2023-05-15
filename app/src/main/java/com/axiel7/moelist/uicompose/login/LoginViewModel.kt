@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.viewModelScope
 import com.axiel7.moelist.App
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.ACCESS_TOKEN_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.REFRESH_TOKEN_PREFERENCE_KEY
 import com.axiel7.moelist.data.model.AccessToken
 import com.axiel7.moelist.data.network.Api
 import com.axiel7.moelist.data.network.KtorClient
@@ -45,6 +46,7 @@ class LoginViewModel: BaseViewModel() {
             else {
                 App.dataStore?.edit {
                     it[ACCESS_TOKEN_PREFERENCE_KEY] = accessToken!!.accessToken!!
+                    it[REFRESH_TOKEN_PREFERENCE_KEY] = accessToken!!.refreshToken!!
                 }
                 App.createKtorClient(accessToken = accessToken!!.accessToken!!)
                 loginWasOk = true

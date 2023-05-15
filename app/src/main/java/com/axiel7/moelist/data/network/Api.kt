@@ -50,13 +50,12 @@ class Api(private val client: HttpClient) {
 
     suspend fun getAccessToken(
         clientId: String,
-        refreshToken: String,
-        grantType: String
+        refreshToken: String
     ): AccessToken = client.post("${MAL_OAUTH2_URL}token") {
         setBody(FormDataContent(Parameters.build {
             append("client_id", clientId)
             append("refresh_token", refreshToken)
-            append("grant_type", grantType)
+            append("grant_type", "refresh_token")
         }))
     }.body()
 

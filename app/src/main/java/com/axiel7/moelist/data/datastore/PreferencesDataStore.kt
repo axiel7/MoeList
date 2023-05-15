@@ -22,6 +22,7 @@ import kotlinx.coroutines.runBlocking
 object PreferencesDataStore {
 
     val ACCESS_TOKEN_PREFERENCE_KEY = stringPreferencesKey("access_token")
+    val REFRESH_TOKEN_PREFERENCE_KEY = stringPreferencesKey("refresh_token")
     val NSFW_PREFERENCE_KEY = booleanPreferencesKey("nsfw")
     val LANG_PREFERENCE_KEY = stringPreferencesKey("lang")
     val THEME_PREFERENCE_KEY = stringPreferencesKey("theme")
