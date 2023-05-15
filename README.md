@@ -57,3 +57,14 @@ Follow the development on the official Discord server:
 * [DataStore](https://developer.android.com/topic/libraries/architecture/datastore)
 * [WorkManager](https://developer.android.com/jetpack/androidx/releases/work)
 * [Coil](https://github.com/coil-kt/coil)
+
+# Building
+Create a file `app/scr/main/java/com/axiel7/moelist/private/ClientId.kt` and put the following content:
+
+```kotlin
+package com.axiel7.moelist.private
+
+object ClientId {
+    const val CLIENT_ID = "your_mal_api_client_id"
+}
+```
