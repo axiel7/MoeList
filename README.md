@@ -11,7 +11,7 @@ Another unofficial Android MAL client
 
 Follow the development on the official Discord server:
 
-[![Discord Banner 3](https://discordapp.com/api/guilds/741059285122940928/widget.png?style=banner3)](https://discord.gg/CTv3WdfxHh)
+[![Discord Banner 3](https://discordapp.com/api/guilds/741059285122940928/widget.png?style=banner2)](https://discord.gg/CTv3WdfxHh)
 
 # Screenshots
 ![screenshots](https://axiel7.github.io/assets/moelist.254cc042a48d2c6a011015a0c2ffa390.png)
