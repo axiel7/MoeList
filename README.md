@@ -45,6 +45,7 @@ Follow the development on the official Discord server:
 # Other
 **Special thanks:**
 * [danielvd_art](https://instagram.com/danielvd_art) (Logo design)
+* [WSTxda](https://github.com/WSTxda) (New logo design)
 * [MaximilianGT500](https://github.com/MaximilianGT500) (Website)
 * [Jeluchu](https://github.com/Jeluchu)
 * [Glodanif](https://github.com/glodanif)
