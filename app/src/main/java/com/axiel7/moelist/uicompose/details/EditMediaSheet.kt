@@ -7,6 +7,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -143,6 +144,16 @@ fun EditMediaSheet(
                 value = viewModel.startDate.toLocalized(),
                 onValueChange = {  },
                 label = { Text(text = stringResource(R.string.start_date)) },
+                trailingIcon = {
+                    if (viewModel.startDate != null) {
+                        IconButton(onClick = { viewModel.startDate = null }) {
+                            Icon(
+                                painter = painterResource(R.drawable.outline_cancel_24),
+                                contentDescription = stringResource(R.string.delete)
+                            )
+                        }
+                    }
+                },
                 onClick = {
                     datePickerState.setSelection(viewModel.startDate?.toEpochMillis())
                     viewModel.selectedDateType = 1
@@ -154,6 +165,16 @@ fun EditMediaSheet(
                 onValueChange = {  },
                 modifier = Modifier.padding(vertical = 8.dp),
                 label = { Text(text = stringResource(R.string.end_date)) },
+                trailingIcon = {
+                    if (viewModel.endDate != null) {
+                        IconButton(onClick = { viewModel.endDate = null }) {
+                            Icon(
+                                painter = painterResource(R.drawable.outline_cancel_24),
+                                contentDescription = stringResource(R.string.delete)
+                            )
+                        }
+                    }
+                },
                 onClick = {
                     datePickerState.setSelection(viewModel.endDate?.toEpochMillis())
                     viewModel.selectedDateType = 2
