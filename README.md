@@ -1,4 +1,4 @@
-# ![app-icon](https://github.com/axiel7/MoeList/blob/master/app/src/main/res/mipmap-mdpi/ic_launcher_round.png)MoeList
+# <img alt="app-icon" height="50" src="https://github.com/axiel7/MoeList/blob/master/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png"/>MoeList
 
 [![Downloads](https://img.shields.io/github/downloads/axiel7/MoeList/total.svg)](https://github.com/axiel7/MoeList/releases/latest)
 [![Crowdin](https://badges.crowdin.net/moelist/localized.svg)](https://crowdin.com/project/moelist)
