@@ -27,7 +27,6 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.axiel7.moelist.App
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.notificationsDataStore
 import com.axiel7.moelist.data.model.anime.*
@@ -43,6 +42,7 @@ import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.DateUtils.parseDateAndLocalize
 import com.axiel7.moelist.utils.NotificationWorker
+import com.axiel7.moelist.utils.NumExtensions
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
 import com.axiel7.moelist.utils.StringExtensions.toNavArgument
 import com.axiel7.moelist.utils.StringExtensions.toStringOrNull
@@ -300,7 +300,7 @@ fun MediaDetailsView(
                 VerticalDivider(modifier = Modifier.height(32.dp))
 
                 TextIconVertical(
-                    text = App.numberFormat.format(
+                    text = NumExtensions.numberFormat.format(
                         viewModel.mediaDetails?.numScoringUsers ?: 0
                     ),
                     icon = R.drawable.ic_round_thumbs_up_down_24,
@@ -309,7 +309,7 @@ fun MediaDetailsView(
                 VerticalDivider(modifier = Modifier.height(32.dp))
 
                 TextIconVertical(
-                    text = App.numberFormat.format(viewModel.mediaDetails?.numListUsers ?: 0),
+                    text = NumExtensions.numberFormat.format(viewModel.mediaDetails?.numListUsers ?: 0),
                     icon = R.drawable.ic_round_group_24,
                     tooltip = stringResource(R.string.members)
                 )
@@ -493,7 +493,7 @@ fun MediaDetailsView(
                             modifier = Modifier.padding(end = 8.dp),
                             subtitle = {
                                 TextIconHorizontal(
-                                    text = App.numberFormat.format(item.numRecommendations),
+                                    text = NumExtensions.numberFormat.format(item.numRecommendations),
                                     icon = R.drawable.ic_round_thumbs_up_down_16,
                                     color = MaterialTheme.colorScheme.outline,
                                     fontSize = 13.sp

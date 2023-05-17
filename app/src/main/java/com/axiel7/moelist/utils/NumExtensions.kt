@@ -1,8 +1,12 @@
 package com.axiel7.moelist.utils
 
 import com.axiel7.moelist.utils.StringExtensions.toStringOrNull
+import java.text.NumberFormat
 
 object NumExtensions {
+
+    val numberFormat: NumberFormat = NumberFormat.getInstance()
+
     /**
      * @return if true 1 else 0
      */

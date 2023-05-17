@@ -2,7 +2,6 @@ package com.axiel7.moelist.uicompose.base
 
 import android.os.Bundle
 import androidx.navigation.NavType
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 class StringArrayNavType : NavType<Array<String>>(isNullableAllowed = false) {
