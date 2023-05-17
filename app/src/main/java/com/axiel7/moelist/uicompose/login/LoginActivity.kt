@@ -8,9 +8,8 @@ import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -57,7 +56,6 @@ class LoginActivity: AppCompatActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         if (intent?.data?.toString()?.startsWith(Constants.MOELIST_PAGELINK) == true) {
-            Toast.makeText(this, getString(R.string.login_browser_warning), Toast.LENGTH_LONG).show()
             intent.data?.let { parseIntentData(it) }
         }
     }
@@ -71,19 +69,18 @@ class LoginActivity: AppCompatActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginView(
     viewModel: LoginViewModel
 ) {
     val context = LocalContext.current
-    var showMenu by remember { mutableStateOf(false) }
     var useExternalBrowser by remember { mutableStateOf(false) }
 
     fun openLogin() {
         if (useExternalBrowser) {
             Intent(Intent.ACTION_VIEW, Uri.parse(viewModel.loginUrl)).apply {
                 try {
+                    context.showToast(context.getString(R.string.login_browser_warning))
                     context.startActivity(this)
                 } catch (e: ActivityNotFoundException) {
                     context.showToast("No app found for this action")
@@ -94,32 +91,10 @@ fun LoginView(
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = {
-            TopAppBar(
-                title = {},
-                actions = {
-                    DropdownMenu(
-                        expanded = showMenu,
-                        onDismissRequest = { showMenu = false }
-                    ) {
-                        DropdownMenuItem(
-                            text = {
-                                Checkbox(
-                                    checked = useExternalBrowser,
-                                    onCheckedChange = { useExternalBrowser = it }
-                                )
-                                Text(text = stringResource(R.string.use_external_browser))
-                            },
-                            onClick = { useExternalBrowser = !useExternalBrowser }
-                        )
-                    }
-                }
-            )
-        }
-    ) {
+    ) { padding ->
         Column(
             modifier = Modifier
-                .padding(it)
+                .padding(padding)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -139,6 +114,19 @@ fun LoginView(
                     text = stringResource(R.string.login),
                     color = MaterialTheme.colorScheme.onPrimary
                 )
+            }
+
+            Row(
+                modifier = Modifier.clickable {
+                    useExternalBrowser = !useExternalBrowser
+                },
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Checkbox(
+                    checked = useExternalBrowser,
+                    onCheckedChange = { useExternalBrowser = it },
+                )
+                Text(text = stringResource(R.string.use_external_browser))
             }
 
             if (viewModel.isLoading) {
