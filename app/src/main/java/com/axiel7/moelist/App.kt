@@ -14,20 +14,11 @@ import com.axiel7.moelist.uicompose.base.ListMode
 import io.ktor.client.HttpClient
 import java.text.NumberFormat
 
-class App : Application(), ImageLoaderFactory {
+class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
         dataStore = defaultPreferencesDataStore
-
-    }
-    override fun newImageLoader(): ImageLoader {
-        return ImageLoader.Builder(applicationContext)
-            .crossfade(true)
-            .crossfade(500)
-            .error(R.drawable.ic_launcher_foreground)
-            .build()
     }
 
     companion object {
