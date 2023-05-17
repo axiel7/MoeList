@@ -56,8 +56,10 @@ fun MediaItemVertical(
                 .padding(top = 8.dp, bottom = 4.dp),
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontSize = 15.sp,
+            lineHeight = 17.sp,
             overflow = TextOverflow.Ellipsis,
-            maxLines = 2
+            maxLines = 2,
+            minLines = 2
         )
 
         if (subtitle != null) {
