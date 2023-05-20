@@ -1,9 +1,9 @@
 ---
 name: Bug Report
 about: Template for reporting bugs
-title: "[Bug]"
+title: ''
 labels: bug
-assignees: ''
+assignees: axiel7
 
 ---
 
@@ -23,10 +23,10 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Smartphone (required)**
- - Device: [e.g. Samsung A71]
- - Android: [e.g. 10]
- - App version [e.g. 1.4.8]
+**Enviroment (required)**
+ - Device model: 
+ - Android version: 
+ - App version: 
 
 **Additional context**
 Add any other context about the problem here.

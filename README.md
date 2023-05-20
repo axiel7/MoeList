@@ -51,7 +51,7 @@ Follow the development on the official Discord server:
 * [Glodanif](https://github.com/glodanif)
 
 **Libraries used:**
-* [Material Components](https://github.com/material-components/material-components-android)
+* [Material3 Components](https://github.com/material-components/material-components-android)
 * [Jetpack Compose](https://developer.android.com/jetpack/compose)
 * [Ktor](https://ktor.io/)
 * [DataStore](https://developer.android.com/topic/libraries/architecture/datastore)
