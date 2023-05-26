@@ -73,8 +73,8 @@ fun MediaDetailsView(
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
 
-    var maxLinesSynopsis by remember { mutableStateOf(5) }
-    var iconExpand by remember { mutableStateOf(R.drawable.ic_round_keyboard_arrow_down_24) }
+    var maxLinesSynopsis by remember { mutableIntStateOf(5) }
+    var iconExpand by remember { mutableIntStateOf(R.drawable.ic_round_keyboard_arrow_down_24) }
     val isNewEntry by remember {
         derivedStateOf { viewModel.mediaDetails?.myListStatus == null }
     }

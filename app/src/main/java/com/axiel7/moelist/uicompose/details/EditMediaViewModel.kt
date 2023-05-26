@@ -1,6 +1,7 @@
 package com.axiel7.moelist.uicompose.details
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
@@ -33,10 +34,10 @@ class EditMediaViewModel(
     var status by mutableStateOf(if (mediaType == MediaType.ANIME) ListStatus.PTW else ListStatus.PTR)
     var progress by mutableStateOf<Int?>(0)
     var volumeProgress by mutableStateOf<Int?>(0)
-    var score by mutableStateOf(0)
+    var score by mutableIntStateOf(0)
     var startDate by mutableStateOf<LocalDate?>(null)
     var endDate by mutableStateOf<LocalDate?>(null)
-    var repeatCount by mutableStateOf(0)
+    var repeatCount by mutableIntStateOf(0)
 
     fun setEditVariables(myListStatus: BaseMyListStatus) {
         this.myListStatus = myListStatus
@@ -107,7 +108,7 @@ class EditMediaViewModel(
     }
 
     var openDatePicker by mutableStateOf(false)
-    var selectedDateType by mutableStateOf(-1)
+    var selectedDateType by mutableIntStateOf(-1)
 
     var updateSuccess by mutableStateOf(false)
 
