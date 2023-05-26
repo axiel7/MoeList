@@ -52,7 +52,10 @@ fun CalendarView(
 ) {
     val context = LocalContext.current
     val viewModel: CalendarViewModel = viewModel()
-    val pagerState = rememberPagerState(initialPage = SeasonCalendar.currentWeekday.numeric() - 1)
+    val pagerState = rememberPagerState(
+        initialPage = SeasonCalendar.currentWeekday.numeric() - 1,
+        pageCount = { WeekDay.values().size }
+    )
     val coroutineScope = rememberCoroutineScope()
     
     DefaultScaffoldWithTopBar(
@@ -79,7 +82,6 @@ fun CalendarView(
             }
             
             HorizontalPager(
-                pageCount = WeekDay.values().size,
                 state = pagerState
             ) { page ->
                 LazyColumn(

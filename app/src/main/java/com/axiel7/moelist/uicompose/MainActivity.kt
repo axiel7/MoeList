@@ -5,6 +5,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.clickable
@@ -204,7 +207,11 @@ fun MainView(
                 3 -> MORE_DESTINATION
                 else -> HOME_DESTINATION
             },
-            modifier = Modifier.padding(it)
+            modifier = Modifier.padding(it),
+            enterTransition = { fadeIn(tween(400)) },
+            exitTransition = { fadeOut(tween(400)) },
+            popEnterTransition = { fadeIn(tween(400)) },
+            popExitTransition = { fadeOut(tween(400)) }
         ) {
             composable(HOME_DESTINATION) {
                 HomeView(

@@ -53,7 +53,6 @@ fun UserMediaListHostView(
     mediaType: MediaType,
     navController: NavController
 ) {
-    val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
     val tabRowItems = remember {
         (if (mediaType == MediaType.ANIME) listStatusAnimeValues else listStatusMangaValues)
@@ -62,6 +61,7 @@ fun UserMediaListHostView(
                 title = it.value
             ) }
     }
+    val pagerState = rememberPagerState { tabRowItems.size }
 
     Column {
         ScrollableTabRow(
@@ -82,7 +82,6 @@ fun UserMediaListHostView(
         }
 
         HorizontalPager(
-            pageCount = tabRowItems.size,
             state = pagerState,
             beyondBoundsPageCount = 0,
             key = { tabRowItems[it].value }
@@ -292,7 +291,7 @@ fun MediaListSortDialog(
         if (viewModel.mediaType == MediaType.ANIME) animeListSortItems else mangaListSortItems
     }
     var selectedIndex by remember {
-        mutableStateOf(sortOptions.indexOf(viewModel.listSort))
+        mutableIntStateOf(sortOptions.indexOf(viewModel.listSort))
     }
     AlertDialog(
         onDismissRequest = { viewModel.openSortDialog = false },

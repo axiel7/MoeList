@@ -50,7 +50,7 @@ fun FullPosterView(
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
-    val pagerState = rememberPagerState()
+    val pagerState = rememberPagerState { pictures.size }
 
     Scaffold(
         topBar = {
@@ -80,7 +80,6 @@ fun FullPosterView(
                 .fillMaxSize()
         ) {
             HorizontalPager(
-                pageCount = pictures.size,
                 modifier = Modifier.weight(1f),
                 state = pagerState,
                 pageSpacing = 16.dp,

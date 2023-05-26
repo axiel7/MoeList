@@ -60,7 +60,6 @@ fun MediaRankingView(
     mediaType: MediaType,
     navController: NavController
 ) {
-    val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
     val tabRowItems = remember {
         (if (mediaType == MediaType.ANIME) rankingAnimeValues else rankingMangaValues)
@@ -68,6 +67,7 @@ fun MediaRankingView(
                 TabRowItem(value = it, title = it.value)
             }
     }
+    val pagerState = rememberPagerState { tabRowItems.size }
 
     DefaultScaffoldWithTopBar(
         title = stringResource(
@@ -103,7 +103,6 @@ fun MediaRankingView(
             Divider()
 
             HorizontalPager(
-                pageCount = tabRowItems.size,
                 state = pagerState,
                 beyondBoundsPageCount = 0,
                 key = { tabRowItems[it].title }
