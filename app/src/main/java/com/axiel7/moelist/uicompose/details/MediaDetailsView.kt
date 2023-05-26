@@ -237,6 +237,7 @@ fun MediaDetailsView(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .defaultPlaceholder(visible = viewModel.isLoading),
+                lineHeight = 20.sp,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = maxLinesSynopsis
             )

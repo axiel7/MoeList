@@ -119,6 +119,7 @@ fun StandardUserMediaListItem(
                             .padding(horizontal = 16.dp, vertical = 8.dp),
                         color = MaterialTheme.colorScheme.onSurface,
                         fontSize = 17.sp,
+                        lineHeight = 22.sp,
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 2
                     )
@@ -240,7 +241,8 @@ fun CompactUserMediaListItem(
                     modifier = Modifier
                         .padding(start = 16.dp, end = 16.dp, top = 8.dp),
                     color = MaterialTheme.colorScheme.onSurface,
-                    fontSize = 17.sp,
+                    fontSize = 16.sp,
+                    lineHeight = 19.sp,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = if (isAiring) 1 else 2
                 )
@@ -249,7 +251,9 @@ fun CompactUserMediaListItem(
                     Text(
                         text = broadcast!!.airingInString(),
                         modifier = Modifier.padding(horizontal = 16.dp),
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.primary,
+                        fontSize = 16.sp,
+                        lineHeight = 19.sp,
                     )
                 }
 
@@ -272,6 +276,8 @@ fun CompactUserMediaListItem(
                                 }
                             }
                         },
+                        fontSize = 16.sp,
+                        lineHeight = 19.sp,
                     )
 
                     if (listStatus.isCurrent()) {
@@ -322,7 +328,8 @@ fun MinimalUserMediaListItem(
                 Text(
                     text = title,
                     color = MaterialTheme.colorScheme.onSurface,
-                    fontSize = 17.sp,
+                    fontSize = 16.sp,
+                    lineHeight = 19.sp,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = if (isAiring) 1 else 2
                 )
@@ -330,7 +337,9 @@ fun MinimalUserMediaListItem(
                 if (isAiring) {
                     Text(
                         text = broadcast!!.airingInString(),
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.primary,
+                        fontSize = 16.sp,
+                        lineHeight = 19.sp,
                     )
                 }
 
@@ -346,6 +355,8 @@ fun MinimalUserMediaListItem(
                             }
                         }
                     },
+                    fontSize = 16.sp,
+                    lineHeight = 19.sp,
                 )
             }//:Column
 
