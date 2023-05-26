@@ -51,7 +51,8 @@ const val MANGA_LIST_DESTINATION = "manga_list"
 @Composable
 fun UserMediaListHostView(
     mediaType: MediaType,
-    navController: NavController
+    navController: NavController,
+    modifier: Modifier = Modifier,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val tabRowItems = remember {
@@ -63,7 +64,9 @@ fun UserMediaListHostView(
     }
     val pagerState = rememberPagerState { tabRowItems.size }
 
-    Column {
+    Column(
+        modifier = modifier
+    ) {
         ScrollableTabRow(
             selectedTabIndex = pagerState.currentPage,
             edgePadding = 16.dp,

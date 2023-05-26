@@ -72,7 +72,8 @@ const val HOME_DESTINATION = "home"
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeView(
-    navController: NavController
+    navController: NavController,
+    modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
     val viewModel: HomeViewModel = viewModel()
@@ -82,7 +83,7 @@ fun HomeView(
     val recommendListState = rememberLazyListState()
 
     Column(
-        modifier = Modifier.verticalScroll(scrollState)
+        modifier = modifier.verticalScroll(scrollState)
     ) {
         // Chips
         Row(

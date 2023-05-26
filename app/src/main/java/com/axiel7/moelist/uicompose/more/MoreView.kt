@@ -41,14 +41,15 @@ const val MORE_DESTINATION = "more"
 
 @Composable
 fun MoreView(
-    navController: NavController
+    navController: NavController,
+    modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .verticalScroll(scrollState)
     ) {

@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -19,6 +21,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -198,7 +201,15 @@ fun MainView(
             )
         },
         backgroundColor = MaterialTheme.colorScheme.background
-    ) {
+    ) { padding ->
+        val topPadding by animateDpAsState(
+            targetValue = padding.calculateTopPadding(),
+            label = "top_bar_padding"
+        )
+        val bottomPadding by animateDpAsState(
+            targetValue = padding.calculateBottomPadding(),
+            label = "bottom_bar_padding"
+        )
         NavHost(
             navController = navController,
             startDestination = when (lastTabOpened) {
@@ -207,7 +218,10 @@ fun MainView(
                 3 -> MORE_DESTINATION
                 else -> HOME_DESTINATION
             },
-            modifier = Modifier.padding(it),
+            modifier = Modifier.padding(
+                start = padding.calculateStartPadding(LocalLayoutDirection.current),
+                end = padding.calculateEndPadding(LocalLayoutDirection.current),
+            ),
             enterTransition = { fadeIn(tween(400)) },
             exitTransition = { fadeOut(tween(400)) },
             popEnterTransition = { fadeIn(tween(400)) },
@@ -215,7 +229,8 @@ fun MainView(
         ) {
             composable(HOME_DESTINATION) {
                 HomeView(
-                    navController = navController
+                    navController = navController,
+                    modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
                 )
             }
 
@@ -235,20 +250,23 @@ fun MainView(
             composable(ANIME_LIST_DESTINATION) {
                 UserMediaListHostView(
                     mediaType = MediaType.ANIME,
-                    navController = navController
+                    navController = navController,
+                    modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
                 )
             }
 
             composable(MANGA_LIST_DESTINATION) {
                 UserMediaListHostView(
                     mediaType = MediaType.MANGA,
-                    navController = navController
+                    navController = navController,
+                    modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
                 )
             }
 
             composable(MORE_DESTINATION) {
                 MoreView(
-                    navController = navController
+                    navController = navController,
+                    modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
                 )
             }
 
@@ -345,8 +363,13 @@ fun MainTopAppBar(
                     active = it
                     if (!active) query = ""
                 },
-                modifier = if (!active) Modifier.padding(start = 8.dp, end = 8.dp, bottom = 4.dp)
-                else Modifier,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .then(
+                        if (!active) Modifier.padding(start = 8.dp, end = 8.dp, bottom = 4.dp)
+                        else Modifier
+                    )
+                    .animateContentSize(),
                 placeholder = { Text(text = stringResource(R.string.search)) },
                 leadingIcon = {
                     if (active) {
