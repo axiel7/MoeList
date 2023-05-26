@@ -366,7 +366,7 @@ fun MainTopAppBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .then(
-                        if (!active) Modifier.padding(start = 8.dp, end = 8.dp, bottom = 4.dp)
+                        if (!active) Modifier.padding(start = 16.dp, end = 16.dp, bottom = 4.dp)
                         else Modifier
                     )
                     .animateContentSize(),
