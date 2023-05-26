@@ -39,8 +39,6 @@ import com.axiel7.moelist.uicompose.theme.stringResource
 
 class AiringWidget : GlanceAppWidget() {
 
-    override val stateDefinition = PreferencesGlanceStateDefinition
-
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         val animeList = getAiringAnime(context)
 
@@ -56,14 +54,6 @@ class AiringWidget : GlanceAppWidget() {
                             modifier = GlanceModifier.padding(bottom = 8.dp),
                             style = TextStyle(
                                 color = GlanceTheme.colors.onSurface
-                            )
-                        )
-                        Button(
-                            text = stringResource(R.string.refresh),
-                            onClick = actionRunCallback<RefreshAiringInfoAction>(),
-                            colors = ButtonDefaults.buttonColors(
-                                backgroundColor = GlanceTheme.colors.primaryContainer,
-                                contentColor = GlanceTheme.colors.onPrimaryContainer
                             )
                         )
                     }//: Column
@@ -123,26 +113,6 @@ suspend fun getAiringAnime(context: Context): List<AnimeNode>? {
     }
 }
 
-class RefreshAiringInfoAction : ActionCallback {
-    override suspend fun onAction(
-        context: Context,
-        glanceId: GlanceId,
-        parameters: ActionParameters
-    ) {
-        getAiringAnime(context)
-    }
-}
-
 class AiringWidgetReceiver : GlanceAppWidgetReceiver() {
     override val glanceAppWidget: GlanceAppWidget = AiringWidget()
-
-    override fun onEnabled(context: Context) {
-        super.onEnabled(context)
-        AiringWidgetWorker.enqueue(context)
-    }
-
-    override fun onDeleted(context: Context, appWidgetIds: IntArray) {
-        super.onDeleted(context, appWidgetIds)
-        AiringWidgetWorker.cancel(context)
-    }
 }

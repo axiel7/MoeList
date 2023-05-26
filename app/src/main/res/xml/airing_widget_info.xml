@@ -3,6 +3,7 @@
     android:description="@string/airing"
     android:minWidth="150dp"
     android:minHeight="80dp"
+    android:updatePeriodMillis="43200000"
     android:initialLayout="@layout/widget_loading"
     android:previewLayout="@layout/airing_widget_preview"
     android:previewImage="@drawable/airing_widget_preview"
