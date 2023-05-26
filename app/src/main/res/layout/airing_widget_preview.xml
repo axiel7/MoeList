@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Tue, 8 May at 23:00"
-            android:textColor="@color/material_dynamic_primary70"
+            android:textColor="@color/md_theme_primary"
             android:lines="1"
             android:ellipsize="end"/>
 
@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Thu, 10 May at 00:00"
-            android:textColor="@color/material_dynamic_primary70"
+            android:textColor="@color/md_theme_primary"
             android:lines="1"
             android:ellipsize="end"/>
 
@@ -72,7 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Fri, 11 May at 20:00"
-            android:textColor="@color/material_dynamic_primary70"
+            android:textColor="@color/md_theme_primary"
             android:lines="1"
             android:ellipsize="end"/>
 
