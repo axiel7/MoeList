@@ -21,8 +21,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -180,15 +178,11 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainView(
     navController: NavHostController,
     lastTabOpened: Int
 ) {
-    val topAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(
-        rememberTopAppBarState()
-    )
     val bottomBarState = remember { mutableStateOf(true) }
     val stringArrayType = remember { StringArrayNavType() }
 
@@ -197,7 +191,6 @@ fun MainView(
             MainTopAppBar(
                 bottomBarState = bottomBarState,
                 navController = navController,
-                scrollBehavior = topAppBarScrollBehavior
             )
         },
         bottomBar = {
@@ -238,7 +231,6 @@ fun MainView(
                 HomeView(
                     navController = navController,
                     modifier = Modifier
-                        .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)
                         .padding(top = topPadding, bottom = bottomPadding),
                 )
             }
@@ -261,7 +253,6 @@ fun MainView(
                     mediaType = MediaType.ANIME,
                     navController = navController,
                     modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
-                    nestedScrollConnection = topAppBarScrollBehavior.nestedScrollConnection
                 )
             }
 
@@ -270,7 +261,6 @@ fun MainView(
                     mediaType = MediaType.MANGA,
                     navController = navController,
                     modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
-                    nestedScrollConnection = topAppBarScrollBehavior.nestedScrollConnection
                 )
             }
 
@@ -278,7 +268,6 @@ fun MainView(
                 MoreView(
                     navController = navController,
                     modifier = Modifier
-                        .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)
                         .padding(top = topPadding, bottom = bottomPadding),
                 )
             }
@@ -337,15 +326,7 @@ fun MainView(
 fun MainTopAppBar(
     bottomBarState: MutableState<Boolean>,
     navController: NavController,
-    scrollBehavior: TopAppBarScrollBehavior,
 ) {
-    val heightOffsetLimit = with(LocalDensity.current) { -64.dp.toPx() }
-    SideEffect {
-        if (scrollBehavior.state.heightOffsetLimit != heightOffsetLimit) {
-            scrollBehavior.state.heightOffsetLimit = heightOffsetLimit
-        }
-    }
-
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val isVisible by remember {
         derivedStateOf {
@@ -369,14 +350,12 @@ fun MainTopAppBar(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .animateContentSize()
                 .then(
                     if (!active) Modifier
-                        .statusBarsPadding()
-                        .height((scrollBehavior.state.heightOffset + 64).dp)
                         .padding(start = 16.dp, end = 16.dp, bottom = 4.dp)
                     else Modifier
-                ),
+                )
+                .animateContentSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             SearchBar(

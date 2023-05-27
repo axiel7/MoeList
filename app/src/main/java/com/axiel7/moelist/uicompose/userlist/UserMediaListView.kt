@@ -18,11 +18,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -56,7 +53,6 @@ fun UserMediaListHostView(
     mediaType: MediaType,
     navController: NavController,
     modifier: Modifier = Modifier,
-    nestedScrollConnection: NestedScrollConnection,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val tabRowItems = remember {
@@ -97,7 +93,6 @@ fun UserMediaListHostView(
                 mediaType = mediaType,
                 status = tabRowItems[it].value,
                 navController = navController,
-                nestedScrollConnection = nestedScrollConnection
             )
         }//:Pager
     }//:Column
@@ -109,7 +104,6 @@ fun UserMediaListView(
     mediaType: MediaType,
     status: ListStatus,
     navController: NavController,
-    nestedScrollConnection: NestedScrollConnection,
 ) {
     val context = LocalContext.current
     val viewModel: UserMediaListViewModel = viewModel(key = status.value) {
@@ -129,7 +123,6 @@ fun UserMediaListView(
     ) {
         LazyColumn(
             modifier = Modifier
-                .nestedScroll(nestedScrollConnection)
                 .fillMaxWidth()
                 .align(Alignment.TopStart),
             state = listState,
@@ -351,7 +344,6 @@ fun UserMediaListHostPreview() {
         UserMediaListHostView(
             mediaType = MediaType.ANIME,
             navController = rememberNavController(),
-            nestedScrollConnection = rememberNestedScrollInteropConnection()
         )
     }
 }
