@@ -34,7 +34,7 @@ Follow the development on the official Discord server:
 **Coming soon**
 * [See project](https://github.com/users/axiel7/projects/1)
 
-**Not possible due to API limitations:**
+## Not possible due to API limitations:
 * Reviews
 * Favorites Anime/Manga
 * View/add friends
