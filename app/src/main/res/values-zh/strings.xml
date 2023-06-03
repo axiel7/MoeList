@@ -19,6 +19,7 @@
     <string name="volumes">卷</string>
     <string name="serialization">连载</string>
     <string name="login">登录</string>
+    <string name="search_in_mal">在 MAL 中检索</string>
     <string name="no_results">没有结果</string>
     <string name="title_profile">个人档案</string>
     <string name="cancel">取消</string>
@@ -34,6 +35,7 @@
     <string name="dropped">放弃</string>
     <string name="ptw">稍后观看</string>
     <string name="ptr">稍后阅读</string>
+    <string name="share_app">分享 App</string>
     <string name="settings">设定</string>
     <string name="year">年</string>
     <string name="anime_ranking">动画排行榜</string>
@@ -121,6 +123,7 @@
     <string name="nsfw_summary">我已年满18周岁</string>
     <string name="default_section">默认设置</string>
     <string name="display">显示</string>
+    <string name="startup">启动</string>
     <string name="account">账号</string>
     <string name="logout">登出</string>
     <string name="logout_summary">登出 MoeList，但不登出 MAL</string>
@@ -137,10 +140,15 @@
     <string name="title_login">登入</string>
     <string name="title_details">详细信息</string>
     <string name="title_search">检索</string>
+    <string name="title_poster">图片</string>
     <string name="title_settings">设置</string>
     <string name="title_ranking">排行榜</string>
     <string name="title_seasonal">季</string>
     <string name="synopsis_icon">展开</string>
+    <string name="poster">海报</string>
+    <string name="moelist_banner">MoeList 横幅</string>
+    <string name="drag_pill">拖动条</string>
+    <string name="profile_picture">个人头像</string>
     <string name="error_not_found">未找到</string>
     <string name="relateds">关联</string>
     <string name="view_on_mal">在 MAL 上查看</string>
@@ -215,7 +223,9 @@
     <string name="translate">翻译</string>
     <string name="translate_original">查看原文</string>
     <string name="adaptation">改编</string>
+    <string name="open_source_licenses">开放源码授权</string>
     <string name="filters">筛选</string>
+    <string name="date_format">日期格式</string>
     <string name="manhua">韩漫</string>
     <string name="discontinued">停止</string>
     <string name="opening">OP</string>
