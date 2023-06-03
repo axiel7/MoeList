@@ -19,6 +19,7 @@
     <string name="volumes">Томи</string>
     <string name="serialization">Публікація</string>
     <string name="login">Увійти</string>
+    <string name="search_in_mal">Пошук на MAL</string>
     <string name="no_results">Нічого не знайдено</string>
     <string name="title_profile">Профіль</string>
     <string name="cancel">Скасувати</string>
@@ -34,6 +35,7 @@
     <string name="dropped">Кинуто</string>
     <string name="ptw">Заплановано</string>
     <string name="ptr">Заплановано</string>
+    <string name="share_app">Поділитися додатком</string>
     <string name="settings">Налаштування</string>
     <string name="year">Рік</string>
     <string name="anime_ranking">Топ аніме</string>
@@ -121,6 +123,7 @@
     <string name="nsfw_summary">Я підтверджую що мені більше 18 років.</string>
     <string name="default_section">Розділ за замовчуванням</string>
     <string name="display">Дисплей</string>
+    <string name="startup">Запуск</string>
     <string name="account">Обліковий запис</string>
     <string name="logout">Вийти</string>
     <string name="logout_summary">Вийти лише з MoeList, а не з MAL.</string>
@@ -137,10 +140,15 @@
     <string name="title_login">Увійти</string>
     <string name="title_details">Деталі</string>
     <string name="title_search">Пошук</string>
+    <string name="title_poster">Зображення</string>
     <string name="title_settings">Налаштування</string>
     <string name="title_ranking">Топ</string>
     <string name="title_seasonal">Сезони</string>
     <string name="synopsis_icon">Розгорнути синопсис</string>
+    <string name="poster">Плакат</string>
+    <string name="moelist_banner">Банер MoeList</string>
+    <string name="drag_pill">Потягніть шторку</string>
+    <string name="profile_picture">Аватар</string>
     <string name="error_not_found">Не знайдено</string>
     <string name="relateds">Пов\'язані</string>
     <string name="view_on_mal">Переглянути на MAL</string>
@@ -215,7 +223,9 @@
     <string name="translate">Перекласти</string>
     <string name="translate_original">Показати оригінал</string>
     <string name="adaptation">Адаптація</string>
+    <string name="open_source_licenses">Ліцензія з відкритим кодом</string>
     <string name="filters">Фільтри</string>
+    <string name="date_format">Формат дати</string>
     <string name="manhua">Манхуа</string>
     <string name="discontinued">Припинено</string>
     <string name="opening">Відкриваючі теми</string>
