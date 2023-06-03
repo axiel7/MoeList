@@ -19,6 +19,7 @@
     <string name="volumes">Volumes</string>
     <string name="serialization">Éditeur</string>
     <string name="login">Se connecter</string>
+    <string name="search_in_mal">Rechercher dans MAL</string>
     <string name="no_results">Aucun résultat</string>
     <string name="title_profile">Profil</string>
     <string name="cancel">Annuler</string>
@@ -34,6 +35,7 @@
     <string name="dropped">Annulé</string>
     <string name="ptw">À regarder</string>
     <string name="ptr">À lire</string>
+    <string name="share_app">Partager l\'application</string>
     <string name="settings">Réglages</string>
     <string name="year">Année</string>
     <string name="anime_ranking">Classement des animés</string>
@@ -121,6 +123,7 @@
     <string name="nsfw_summary">Je confirme que j\'ai plus de 18 ans.</string>
     <string name="default_section">Section par défaut</string>
     <string name="display">Affichage</string>
+    <string name="startup">Au lancement</string>
     <string name="account">Compte</string>
     <string name="logout">Se Déconnecter</string>
     <string name="logout_summary">Se déconnecter seulement de MoeList, pas de MAL.</string>
@@ -137,10 +140,15 @@
     <string name="title_login">Se connecter</string>
     <string name="title_details">Détails</string>
     <string name="title_search">Recherche</string>
+    <string name="title_poster">Image</string>
     <string name="title_settings">Réglages</string>
     <string name="title_ranking">Classement</string>
     <string name="title_seasonal">Saisonnier</string>
     <string name="synopsis_icon">Développer le synopsis</string>
+    <string name="poster">Affiche</string>
+    <string name="moelist_banner">Bannière MoeList</string>
+    <string name="drag_pill">Poignée</string>
+    <string name="profile_picture">Photo de profil</string>
     <string name="error_not_found">Introuvable</string>
     <string name="relateds">Connexe</string>
     <string name="view_on_mal">Afficher sur MAL</string>
@@ -215,7 +223,9 @@
     <string name="translate">Traduire</string>
     <string name="translate_original">Afficher l\'original</string>
     <string name="adaptation">Adaptation</string>
+    <string name="open_source_licenses">Licences Open Source</string>
     <string name="filters">Filtres</string>
+    <string name="date_format">Format de la date</string>
     <string name="manhua">Manhua</string>
     <string name="discontinued">Abandonné</string>
     <string name="opening">Thèmes d\'ouverture</string>

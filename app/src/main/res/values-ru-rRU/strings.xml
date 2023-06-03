@@ -19,6 +19,7 @@
     <string name="volumes">Тома</string>
     <string name="serialization">Публикация</string>
     <string name="login">Вход</string>
+    <string name="search_in_mal">Поиск на MAL</string>
     <string name="no_results">Нет результатов</string>
     <string name="title_profile">Профиль</string>
     <string name="cancel">Закрыть</string>
@@ -34,6 +35,7 @@
     <string name="dropped">Брошено</string>
     <string name="ptw">Запланировано</string>
     <string name="ptr">Запланировано</string>
+    <string name="share_app">Поделиться приложением</string>
     <string name="settings">Настройки</string>
     <string name="year">Год</string>
     <string name="anime_ranking">Топ аниме</string>
@@ -121,6 +123,7 @@
     <string name="nsfw_summary">Подтверждаю, что мне больше 18 лет.</string>
     <string name="default_section">Раздел по умолчанию</string>
     <string name="display">Отображение</string>
+    <string name="startup">Запуск</string>
     <string name="account">Аккаунт</string>
     <string name="logout">Выйти</string>
     <string name="logout_summary">Выйти из MoeList, но не из MAL.</string>
@@ -137,10 +140,15 @@
     <string name="title_login">Вход</string>
     <string name="title_details">Детали</string>
     <string name="title_search">Поиск</string>
+    <string name="title_poster">Изображение</string>
     <string name="title_settings">Настройки</string>
     <string name="title_ranking">Топ</string>
     <string name="title_seasonal">Сезоны</string>
     <string name="synopsis_icon">Развернуть описание</string>
+    <string name="poster">Плакат</string>
+    <string name="moelist_banner">Баннер MoeList</string>
+    <string name="drag_pill">Потяните ярлык</string>
+    <string name="profile_picture">Изображение профиля</string>
     <string name="error_not_found">Не найдено</string>
     <string name="relateds">Связанные</string>
     <string name="view_on_mal">Посмотреть на MAL</string>
@@ -215,7 +223,9 @@
     <string name="translate">Перевести</string>
     <string name="translate_original">Показать оригинал</string>
     <string name="adaptation">Адаптация</string>
+    <string name="open_source_licenses">Лицензии открытого ПО</string>
     <string name="filters">Фильтры</string>
+    <string name="date_format">Формат записи дат</string>
     <string name="manhua">Маньхуа</string>
     <string name="discontinued">Прекращено</string>
     <string name="opening">Открывающие темы</string>
