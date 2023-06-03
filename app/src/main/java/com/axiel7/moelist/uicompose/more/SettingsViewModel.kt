@@ -23,6 +23,7 @@ class SettingsViewModel: BaseViewModel() {
         "de" to R.string.german_native,
         "es" to R.string.spanish_native,
         "fr" to R.string.french_native,
+        "in-rID" to R.string.indonesian_native,
         "pt-rPT" to R.string.portuguese_native,
         "pt-rBR" to R.string.brazilian_native,
         "ru-rRU" to R.string.russian_native,

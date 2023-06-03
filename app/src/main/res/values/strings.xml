@@ -296,4 +296,6 @@
     <string name="last_used">Last used</string>
     <string name="czech">Czech</string>
     <string name="refresh">Refresh</string>
+    <string name="indonesian">Indonesian</string>
+    <string name="indonesian_native" translatable="false">Indonesia</string>
 </resources>
