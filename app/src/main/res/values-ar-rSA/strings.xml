@@ -19,7 +19,6 @@
     <string name="volumes">المجلدات</string>
     <string name="serialization">شركة الأصدار</string>
     <string name="login">تسجيل الدخول</string>
-    <string name="search_in_mal">البحث في MAL</string>
     <string name="no_results">لا توجد نتائج</string>
     <string name="title_profile">الملفّ الشخصي</string>
     <string name="cancel">إلغاء</string>
@@ -35,7 +34,6 @@
     <string name="dropped">سئمت منه</string>
     <string name="ptw">أخطط للمشاهدة</string>
     <string name="ptr">أخطط للقراءة</string>
-    <string name="share_app">مشاركة التطبيق</string>
     <string name="settings">الإعدادات</string>
     <string name="year">السنة</string>
     <string name="anime_ranking">الأنيمي المصنّف</string>
@@ -123,7 +121,6 @@
     <string name="nsfw_summary">أؤكد على تحمّلي المسؤولية الكاملة في عرض هذا المحتوى.</string>
     <string name="default_section">القسم الإفتراضي</string>
     <string name="display">العرض</string>
-    <string name="startup">بدء التشغيل</string>
     <string name="account">الحساب</string>
     <string name="logout">تسجيل الخروج</string>
     <string name="logout_summary">تسجيل الخروج فقط من MoeList وليس MAL.</string>
@@ -140,15 +137,10 @@
     <string name="title_login">دخول</string>
     <string name="title_details">التفاصيل</string>
     <string name="title_search">البحث</string>
-    <string name="title_poster">الصورة</string>
     <string name="title_settings">الإعدادات</string>
     <string name="title_ranking">المراتب</string>
     <string name="title_seasonal">المواسم</string>
     <string name="synopsis_icon">توسيع الملخص</string>
-    <string name="poster">ملصق</string>
-    <string name="moelist_banner">لافتة MoeList</string>
-    <string name="drag_pill">شريط السحب</string>
-    <string name="profile_picture">صورة الملفّ الشخصي</string>
     <string name="error_not_found">غير موجود</string>
     <string name="relateds">Related</string>
     <string name="view_on_mal">عرض على MAL</string>
@@ -223,9 +215,7 @@
     <string name="translate">ترجم</string>
     <string name="translate_original">إظهار النص الأصلي</string>
     <string name="adaptation">نسخة الأنيمي/المانغا</string>
-    <string name="open_source_licenses">تراخيص التطبيق (مفتوحة المصدر)</string>
     <string name="filters">تصفيه</string>
-    <string name="date_format">صيغة التاريخ</string>
     <string name="manhua">المانهوا</string>
     <string name="discontinued">توقف البث</string>
     <string name="opening">اغنية المقدمة</string>
@@ -287,4 +277,5 @@
     <string name="last_used">المستخدم أخيراً</string>
     <string name="czech">التشيك</string>
     <string name="refresh">تحديث</string>
+    <string name="indonesian">Indonesian</string>
 </resources>
