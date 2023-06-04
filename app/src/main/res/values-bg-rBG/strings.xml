@@ -19,7 +19,6 @@
     <string name="volumes">Обеми</string>
     <string name="serialization">Сериализация</string>
     <string name="login">Вход</string>
-    <string name="search_in_mal">Потърсете в MAL</string>
     <string name="no_results">Няма резултати</string>
     <string name="title_profile">Профил</string>
     <string name="cancel">Отказ</string>
@@ -35,7 +34,6 @@
     <string name="dropped">Отпаднали</string>
     <string name="ptw">Планирано за гледане</string>
     <string name="ptr">Планирано за четене</string>
-    <string name="share_app">Споделяне на приложението</string>
     <string name="settings">Настройки</string>
     <string name="year">Година</string>
     <string name="anime_ranking">Аниме класация</string>
@@ -123,7 +121,6 @@
     <string name="nsfw_summary">Подвърждавам, че имам навършени 18 години.</string>
     <string name="default_section">Секция по подразбиране</string>
     <string name="display">Дисплей</string>
-    <string name="startup">Стартиране</string>
     <string name="account">Акаунт</string>
     <string name="logout">Изход</string>
     <string name="logout_summary">Изход от MoeList не MAL.</string>
@@ -140,15 +137,10 @@
     <string name="title_login">Вход</string>
     <string name="title_details">Подробности</string>
     <string name="title_search">Търси</string>
-    <string name="title_poster">Изображение</string>
     <string name="title_settings">Настройки</string>
     <string name="title_ranking">Класиране</string>
     <string name="title_seasonal">Сезонен</string>
     <string name="synopsis_icon">Разширяване на резюмето</string>
-    <string name="poster">Плакат</string>
-    <string name="moelist_banner">MoeList банер</string>
-    <string name="drag_pill">Плъзнете мишката</string>
-    <string name="profile_picture">Профилна снимка</string>
     <string name="error_not_found">Не е намерено</string>
     <string name="relateds">Related</string>
     <string name="view_on_mal">Разгледай в MAL</string>
@@ -223,9 +215,7 @@
     <string name="translate">Преведи</string>
     <string name="translate_original">Покажи оригинала</string>
     <string name="adaptation">Адаптиране</string>
-    <string name="open_source_licenses">Отвори лицензите на източника</string>
     <string name="filters">Филтри</string>
-    <string name="date_format">Формат на датата</string>
     <string name="manhua">Манхуа</string>
     <string name="discontinued">Прекратено</string>
     <string name="opening">Отваряне на теми</string>
@@ -287,4 +277,5 @@
     <string name="last_used">Last used</string>
     <string name="czech">Czech</string>
     <string name="refresh">Refresh</string>
+    <string name="indonesian">Indonesian</string>
 </resources>
