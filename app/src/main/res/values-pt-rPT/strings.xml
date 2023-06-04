@@ -19,7 +19,6 @@
     <string name="volumes">Volumes</string>
     <string name="serialization">Serialização</string>
     <string name="login">Iniciar Sessão</string>
-    <string name="search_in_mal">Pesquisar no MAL</string>
     <string name="no_results">Sem resultados</string>
     <string name="title_profile">Perfil</string>
     <string name="cancel">Cancelar</string>
@@ -35,7 +34,6 @@
     <string name="dropped">Desistido</string>
     <string name="ptw">Planeado Ver</string>
     <string name="ptr">Planeado Ler</string>
-    <string name="share_app">Compartilhar Aplicação</string>
     <string name="settings">Configurações</string>
     <string name="year">Ano</string>
     <string name="anime_ranking">Classificação de Anime</string>
@@ -123,7 +121,6 @@
     <string name="nsfw_summary">Eu confirmo que tenho mais de 18 anos.</string>
     <string name="default_section">Secção por defeito</string>
     <string name="display">Visualização</string>
-    <string name="startup">Inicialização</string>
     <string name="account">Conta</string>
     <string name="logout">Terminar sessão</string>
     <string name="logout_summary">Sair apenas do MoeList, não do MAL.</string>
@@ -140,15 +137,10 @@
     <string name="title_login">Iniciar Sessão</string>
     <string name="title_details">Detalhes</string>
     <string name="title_search">Procurar</string>
-    <string name="title_poster">Imagem</string>
     <string name="title_settings">Configurações</string>
     <string name="title_ranking">Classificação</string>
     <string name="title_seasonal">Temporada</string>
     <string name="synopsis_icon">Expandir synopsis</string>
-    <string name="poster">Pôster</string>
-    <string name="moelist_banner">Banner MoeList</string>
-    <string name="drag_pill">Arraste a pílula</string>
-    <string name="profile_picture">Foto de perfil</string>
     <string name="error_not_found">Não encontrado</string>
     <string name="relateds">Relacionado</string>
     <string name="view_on_mal">Visualizar em MAL</string>
@@ -223,9 +215,7 @@
     <string name="translate">Traduzir</string>
     <string name="translate_original">Mostrar original</string>
     <string name="adaptation">Adaptação</string>
-    <string name="open_source_licenses">Licenças de Código Aberto</string>
     <string name="filters">Filtros</string>
-    <string name="date_format">Formato da data</string>
     <string name="manhua">Manhua</string>
     <string name="discontinued">Descontinuado</string>
     <string name="opening">Openings</string>
@@ -287,4 +277,5 @@
     <string name="last_used">Último usado</string>
     <string name="czech">Checo</string>
     <string name="refresh">Actualizar</string>
+    <string name="indonesian">Indonesian</string>
 </resources>
