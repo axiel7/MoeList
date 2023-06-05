@@ -191,7 +191,7 @@ fun MainView(
     val bottomBarState = remember { mutableStateOf(true) }
     val stringArrayType = remember { StringArrayNavType() }
 
-    com.google.accompanist.insets.ui.Scaffold(
+    Scaffold(
         topBar = {
             MainTopAppBar(
                 bottomBarState = bottomBarState,
@@ -205,7 +205,8 @@ fun MainView(
                 lastTabOpened = lastTabOpened
             )
         },
-        backgroundColor = MaterialTheme.colorScheme.background
+        contentWindowInsets = WindowInsets.systemBars
+            .only(WindowInsetsSides.Horizontal)
     ) { padding ->
         val topPadding by animateDpAsState(
             targetValue = padding.calculateTopPadding(),
