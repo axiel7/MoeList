@@ -32,8 +32,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
@@ -46,7 +44,7 @@ const val FULL_POSTER_DESTINATION = "full_poster/{pictures}"
 @Composable
 fun FullPosterView(
     pictures: Array<String>,
-    navController: NavController
+    navigateBack: () -> Unit,
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
@@ -57,7 +55,7 @@ fun FullPosterView(
             TopAppBar(
                 title = { },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = navigateBack) {
                         Icon(painter = painterResource(R.drawable.ic_arrow_back), contentDescription = "back")
                     }
                 },
@@ -131,7 +129,7 @@ fun FullPosterPreview() {
     MoeListTheme {
         FullPosterView(
             pictures = arrayOf("", ""),
-            navController = rememberNavController()
+            navigateBack = {}
         )
     }
 }

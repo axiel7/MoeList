@@ -25,8 +25,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.notificationsDataStore
 import com.axiel7.moelist.data.model.anime.*
@@ -63,7 +61,9 @@ const val MEDIA_DETAILS_DESTINATION = "details/{mediaType}/{mediaId}"
 fun MediaDetailsView(
     mediaType: MediaType,
     mediaId: Int,
-    navController: NavController
+    navigateBack: () -> Unit,
+    navigateToMediaDetails: (MediaType, Int) -> Unit,
+    navigateToFullPoster: (String) -> Unit,
 ) {
     val context = LocalContext.current
     val viewModel: MediaDetailsViewModel = viewModel { MediaDetailsViewModel(mediaType) }
@@ -90,7 +90,7 @@ fun MediaDetailsView(
         topBar = {
             MediaDetailsTopAppBar(
                 viewModel = viewModel,
-                navController = navController,
+                navigateBack = navigateBack,
                 scrollBehavior = topAppBarScrollBehavior,
                 onClickViewOn = {
                     if (mediaType == MediaType.ANIME)
@@ -164,9 +164,7 @@ fun MediaDetailsView(
                         )
                         .defaultPlaceholder(visible = viewModel.isLoading)
                         .clickable {
-                            navController.navigate(
-                                "full_poster/${viewModel.picturesUrls.toNavArgument()}"
-                            )
+                            navigateToFullPoster(viewModel.picturesUrls.toNavArgument())
                         }
                 )
                 Column {
@@ -448,7 +446,7 @@ fun MediaDetailsView(
                                 )
                             },
                             onClick = {
-                                navController.navigate("details/anime/${item.node.id}")
+                                navigateToMediaDetails(MediaType.ANIME, item.node.id)
                             }
                         )
                     }
@@ -473,7 +471,7 @@ fun MediaDetailsView(
                                 )
                             },
                             onClick = {
-                                navController.navigate("details/manga/${item.node.id}")
+                                navigateToMediaDetails(MediaType.MANGA, item.node.id)
                             }
                         )
                     }
@@ -501,7 +499,7 @@ fun MediaDetailsView(
                                 )
                             },
                             onClick = {
-                                navController.navigate("details/${mediaType.value}/${item.node.id}")
+                                navigateToMediaDetails(mediaType, item.node.id)
                             }
                         )
                     }
@@ -579,8 +577,8 @@ fun InfoTitle(text: String) {
 @Composable
 fun MediaDetailsTopAppBar(
     viewModel: MediaDetailsViewModel,
-    navController: NavController,
     scrollBehavior: TopAppBarScrollBehavior,
+    navigateBack: () -> Unit,
     onClickNotification: (enable: Boolean) -> Unit,
     onClickViewOn: () -> Unit
 ) {
@@ -595,7 +593,7 @@ fun MediaDetailsTopAppBar(
     TopAppBar(
         title = { Text(stringResource(R.string.title_details)) },
         navigationIcon = {
-            IconButton(onClick = { navController.popBackStack() }) {
+            IconButton(onClick = navigateBack) {
                 Icon(painter = painterResource(R.drawable.ic_arrow_back), contentDescription = "back")
             }
         },
@@ -633,7 +631,9 @@ fun MediaDetailsPreview() {
         MediaDetailsView(
             mediaType = MediaType.ANIME,
             mediaId = 1,
-            navController = rememberNavController()
+            navigateBack = {},
+            navigateToMediaDetails = { _, _ -> },
+            navigateToFullPoster = {}
         )
     }
 }

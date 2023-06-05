@@ -28,8 +28,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.RankingType
@@ -58,7 +56,8 @@ const val MEDIA_RANKING_DESTINATION = "ranking/{mediaType}"
 @Composable
 fun MediaRankingView(
     mediaType: MediaType,
-    navController: NavController
+    navigateBack: () -> Unit,
+    navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val tabRowItems = remember {
@@ -74,7 +73,7 @@ fun MediaRankingView(
             if (mediaType == MediaType.ANIME) R.string.anime_ranking
             else R.string.manga_ranking
         ),
-        navController = navController,
+        navigateBack = navigateBack,
     ) { padding ->
         Column(
             modifier = Modifier
@@ -110,7 +109,7 @@ fun MediaRankingView(
                 MediaRankingListView(
                     mediaType = mediaType,
                     rankingType = tabRowItems[it].value,
-                    navController = navController
+                    navigateToMediaDetails = navigateToMediaDetails
                 )
             }
         }
@@ -121,7 +120,7 @@ fun MediaRankingView(
 fun MediaRankingListView(
     mediaType: MediaType,
     rankingType: RankingType,
-    navController: NavController,
+    navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
     val context = LocalContext.current
     val viewModel: MediaRankingViewModel = viewModel(key = rankingType.value) {
@@ -188,7 +187,7 @@ fun MediaRankingListView(
                     )
                 },
                 onClick = {
-                    navController.navigate("details/${mediaType.value}/${item.node.id}")
+                    navigateToMediaDetails(mediaType, item.node.id)
                 }
             )
         }
@@ -219,7 +218,8 @@ fun MediaRankingPreview() {
     MoeListTheme {
         MediaRankingView(
             mediaType = MediaType.MANGA,
-            navController = rememberNavController()
+            navigateBack = {},
+            navigateToMediaDetails = { _, _ -> }
         )
     }
 }

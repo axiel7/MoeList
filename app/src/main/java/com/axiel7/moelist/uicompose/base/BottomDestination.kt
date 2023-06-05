@@ -5,6 +5,7 @@ import androidx.annotation.StringRes
 import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.home.HOME_DESTINATION
 import com.axiel7.moelist.uicompose.more.MORE_DESTINATION
+import com.axiel7.moelist.uicompose.more.MORE_TAB_DESTINATION
 import com.axiel7.moelist.uicompose.userlist.ANIME_LIST_DESTINATION
 import com.axiel7.moelist.uicompose.userlist.MANGA_LIST_DESTINATION
 
@@ -33,7 +34,7 @@ sealed class BottomDestination(
         iconSelected = R.drawable.ic_round_book_24
     )
     object More: BottomDestination(
-        route = MORE_DESTINATION,
+        route = MORE_TAB_DESTINATION,
         title = R.string.more,
         icon = R.drawable.ic_more_horizontal,
         iconSelected = R.drawable.ic_more_horizontal

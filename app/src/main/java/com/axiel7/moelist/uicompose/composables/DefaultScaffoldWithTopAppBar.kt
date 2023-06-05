@@ -14,7 +14,7 @@ import androidx.navigation.NavController
 @Composable
 fun DefaultScaffoldWithTopAppBar(
     title: String,
-    navController: NavController,
+    navigateBack: () -> Unit,
     floatingActionButton: @Composable (() -> Unit) = {},
     content: @Composable (PaddingValues) -> Unit
 ) {
@@ -27,7 +27,7 @@ fun DefaultScaffoldWithTopAppBar(
             DefaultTopAppBar(
                 title = title,
                 scrollBehavior = topAppBarScrollBehavior,
-                navController = navController
+                navigateBack = navigateBack
             )
         },
         floatingActionButton = floatingActionButton,

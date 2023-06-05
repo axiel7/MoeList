@@ -40,6 +40,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
+import androidx.navigation.navigation
 import coil.compose.AsyncImage
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
@@ -227,9 +228,27 @@ fun MainView(
             popEnterTransition = { fadeIn(tween(400)) },
             popExitTransition = { fadeOut(tween(400)) }
         ) {
-            composable(HOME_DESTINATION) {
+            composable(BottomDestination.Home.route) {
                 HomeView(
-                    navController = navController,
+                    navigateToMediaDetails = { mediaType, mediaId ->
+                        navController.navigate(
+                            MEDIA_DETAILS_DESTINATION
+                                .replace("{mediaType}", mediaType.value)
+                                .replace("{mediaId}", mediaId.toString())
+                        )
+                    },
+                    navigateToRanking = { mediaType ->
+                        navController.navigate(
+                            MEDIA_RANKING_DESTINATION
+                                .replace("{mediaType}", mediaType.value)
+                        )
+                    },
+                    navigateToSeasonChart = {
+                        navController.navigate(SEASON_CHART_DESTINATION)
+                    },
+                    navigateToCalendar = {
+                        navController.navigate(CALENDAR_DESTINATION)
+                    },
                     modifier = Modifier
                         .padding(top = topPadding, bottom = bottomPadding),
                 )
@@ -240,45 +259,132 @@ fun MainView(
             ) { navEntry ->
                 MediaRankingView(
                     mediaType = MediaType.valueOf(navEntry.arguments?.getString("mediaType") ?: "ANIME"),
-                    navController = navController
+                    navigateBack = {
+                        navController.popBackStack()
+                    },
+                    navigateToMediaDetails = { mediaType, mediaId ->
+                        navController.navigate(
+                            MEDIA_DETAILS_DESTINATION
+                                .replace("{mediaType}", mediaType.value)
+                                .replace("{mediaId}", mediaId.toString())
+                        )
+                    }
                 )
             }
 
-            composable(CALENDAR_DESTINATION) { CalendarView(navController = navController) }
+            composable(CALENDAR_DESTINATION) {
+                CalendarView(
+                    navigateBack = {
+                        navController.popBackStack()
+                    },
+                    navigateToMediaDetails = { mediaType, mediaId ->
+                        navController.navigate(
+                            MEDIA_DETAILS_DESTINATION
+                                .replace("{mediaType}", mediaType.value)
+                                .replace("{mediaId}", mediaId.toString())
+                        )
+                    }
+                )
+            }
 
-            composable(SEASON_CHART_DESTINATION) { SeasonChartView(navController = navController) }
+            composable(SEASON_CHART_DESTINATION) {
+                SeasonChartView(
+                    navigateBack = {
+                        navController.popBackStack()
+                    },
+                    navigateToMediaDetails = { mediaType, mediaId ->
+                        navController.navigate(
+                            MEDIA_DETAILS_DESTINATION
+                                .replace("{mediaType}", mediaType.value)
+                                .replace("{mediaId}", mediaId.toString())
+                        )
+                    }
+                )
+            }
 
-            composable(ANIME_LIST_DESTINATION) {
+            composable(BottomDestination.AnimeList.route) {
                 UserMediaListHostView(
                     mediaType = MediaType.ANIME,
-                    navController = navController,
                     modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
+                    navigateToMediaDetails = { mediaType, mediaId ->
+                        navController.navigate(
+                            MEDIA_DETAILS_DESTINATION
+                                .replace("{mediaType}", mediaType.value)
+                                .replace("{mediaId}", mediaId.toString())
+                        )
+                    }
                 )
             }
 
-            composable(MANGA_LIST_DESTINATION) {
+            composable(BottomDestination.MangaList.route) {
                 UserMediaListHostView(
                     mediaType = MediaType.MANGA,
-                    navController = navController,
                     modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
+                    navigateToMediaDetails = { mediaType, mediaId ->
+                        navController.navigate(
+                            MEDIA_DETAILS_DESTINATION
+                                .replace("{mediaType}", mediaType.value)
+                                .replace("{mediaId}", mediaId.toString())
+                        )
+                    }
                 )
             }
 
-            composable(MORE_DESTINATION) {
-                MoreView(
-                    navController = navController,
-                    modifier = Modifier
-                        .padding(top = topPadding, bottom = bottomPadding),
-                )
+            navigation(startDestination = MORE_DESTINATION, route = BottomDestination.More.route) {
+                composable(MORE_DESTINATION) {
+                    MoreView(
+                        modifier = Modifier
+                            .padding(top = topPadding, bottom = bottomPadding),
+                        navigateToSettings = {
+                            navController.navigate(SETTINGS_DESTINATION)
+                        },
+                        navigateToNotifications = {
+                            navController.navigate(NOTIFICATIONS_DESTINATION)
+                        },
+                        navigateToAbout = {
+                            navController.navigate(ABOUT_DESTINATION)
+                        }
+                    )
+                }
+                composable(SETTINGS_DESTINATION) {
+                    SettingsView(
+                        navigateBack = {
+                            navController.popBackStack()
+                        }
+                    )
+                }
+                composable(NOTIFICATIONS_DESTINATION) {
+                    NotificationsView(
+                        navigateBack = {
+                            navController.popBackStack()
+                        },
+                        navigateToMediaDetails = { mediaType, mediaId ->
+                            navController.navigate(
+                                MEDIA_DETAILS_DESTINATION
+                                    .replace("{mediaType}", mediaType.value)
+                                    .replace("{mediaId}", mediaId.toString())
+                            )
+                        }
+                    )
+                }
+                composable(ABOUT_DESTINATION) {
+                    AboutView(
+                        navigateBack = {
+                            navController.popBackStack()
+                        },
+                        navigateToCredits = {
+                            navController.navigate(CREDITS_DESTINATION)
+                        }
+                    )
+                }
+                composable(CREDITS_DESTINATION) {
+                    CreditsView(
+                        navigateBack = {
+                            navController.popBackStack()
+                        }
+                    )
+                }
             }
-
-            composable(NOTIFICATIONS_DESTINATION) {
-                NotificationsView(navController = navController)
-            }
-
-            composable(ABOUT_DESTINATION) { AboutView(navController = navController) }
-
-            composable(CREDITS_DESTINATION) { CreditsView(navController = navController) }
 
             composable(MEDIA_DETAILS_DESTINATION,
                 arguments = listOf(
@@ -293,7 +399,22 @@ fun MainView(
                     mediaType = navEntry.arguments?.getString("mediaType")
                         ?.let { mediaType -> MediaType.forValue(mediaType) } ?: MediaType.ANIME,
                     mediaId = navEntry.arguments?.getInt("mediaId") ?: 0,
-                    navController = navController
+                    navigateBack = {
+                        navController.popBackStack()
+                    },
+                    navigateToMediaDetails = { mediaType, mediaId ->
+                        navController.navigate(
+                            MEDIA_DETAILS_DESTINATION
+                                .replace("{mediaType}", mediaType.value)
+                                .replace("{mediaId}", mediaId.toString())
+                        )
+                    },
+                    navigateToFullPoster = { pictures ->
+                        navController.navigate(
+                            FULL_POSTER_DESTINATION
+                                .replace("{pictures}", pictures)
+                        )
+                    }
                 )
             }
 
@@ -304,20 +425,26 @@ fun MainView(
             ) { navEntry ->
                 FullPosterView(
                     pictures = navEntry.arguments?.getStringArray("pictures") ?: emptyArray(),
-                    navController = navController
-                )
-            }
-
-            composable(SETTINGS_DESTINATION) {
-                SettingsView(
-                    navController = navController
+                    navigateBack = {
+                        navController.popBackStack()
+                    }
                 )
             }
 
             composable(PROFILE_DESTINATION) {
-                ProfileView(navController = navController)
+                ProfileView(
+                    navigateBack = {
+                        navController.popBackStack()
+                    },
+                    navigateToFullPoster = { pictures ->
+                        navController.navigate(
+                            FULL_POSTER_DESTINATION
+                                .replace("{pictures}", pictures)
+                        )
+                    }
+                )
             }
-        }
+        }//:NavHost
     }
 }
 

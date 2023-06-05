@@ -11,8 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.BuildConfig
 import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
@@ -26,14 +24,15 @@ const val ABOUT_DESTINATION = "about"
 
 @Composable
 fun AboutView(
-    navController: NavController
+    navigateBack: () -> Unit,
+    navigateToCredits: () -> Unit,
 ) {
     val context = LocalContext.current
     var versionClicks by remember { mutableIntStateOf(0) }
 
     DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.about),
-        navController = navController
+        navigateBack = navigateBack
     ) {
         Column(
             modifier = Modifier.padding(it)
@@ -70,9 +69,7 @@ fun AboutView(
                 title = stringResource(R.string.credits),
                 subtitle = stringResource(R.string.credits_summary),
                 icon = R.drawable.ic_round_group_24,
-                onClick = {
-                    navController.navigate(CREDITS_DESTINATION)
-                }
+                onClick = navigateToCredits
             )
         }
     }
@@ -83,7 +80,8 @@ fun AboutView(
 fun AboutPreview() {
     MoeListTheme {
         AboutView(
-            navController = rememberNavController()
+            navigateBack = {},
+            navigateToCredits = {}
         )
     }
 }

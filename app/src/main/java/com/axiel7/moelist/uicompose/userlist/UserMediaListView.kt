@@ -30,8 +30,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.LIST_DISPLAY_MODE_PREFERENCE_KEY
@@ -55,8 +53,8 @@ const val MANGA_LIST_DESTINATION = "manga_list"
 @Composable
 fun UserMediaListHostView(
     mediaType: MediaType,
-    navController: NavController,
     modifier: Modifier = Modifier,
+    navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     val selectedStatus = rememberSaveable { mutableStateOf(listStatusValues(mediaType)[0]) }
@@ -109,7 +107,7 @@ fun UserMediaListHostView(
             status = selectedStatus.value,
             modifier = Modifier.padding(padding),
             nestedScrollConnection = nestedScrollConnection,
-            navController = navController,
+            navigateToMediaDetails = navigateToMediaDetails,
         )
     }//:Scaffold
 }
@@ -121,7 +119,7 @@ fun UserMediaListView(
     status: ListStatus,
     modifier: Modifier = Modifier,
     nestedScrollConnection: NestedScrollConnection,
-    navController: NavController,
+    navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
     val context = LocalContext.current
     val viewModel: UserMediaListViewModel = viewModel(key = status.value) {
@@ -210,7 +208,7 @@ fun UserMediaListView(
                             isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress() ?: false,
                             listStatus = status,
                             onClick = {
-                                navController.navigate("details/${mediaType.value}/${item.node.id}")
+                                navigateToMediaDetails(mediaType, item.node.id)
                             },
                             onLongClick = {
                                 coroutineScope.launch {
@@ -248,7 +246,7 @@ fun UserMediaListView(
                             broadcast = (item.node as? AnimeNode)?.broadcast,
                             listStatus = status,
                             onClick = {
-                                navController.navigate("details/${mediaType.value}/${item.node.id}")
+                                navigateToMediaDetails(mediaType, item.node.id)
                             },
                             onLongClick = {
                                 coroutineScope.launch {
@@ -284,7 +282,7 @@ fun UserMediaListView(
                             broadcast = (item.node as? AnimeNode)?.broadcast,
                             listStatus = status,
                             onClick = {
-                                navController.navigate("details/${mediaType.value}/${item.node.id}")
+                                navigateToMediaDetails(mediaType, item.node.id)
                             },
                             onLongClick = {
                                 coroutineScope.launch {
@@ -420,7 +418,7 @@ fun UserMediaListHostPreview() {
     MoeListTheme {
         UserMediaListHostView(
             mediaType = MediaType.ANIME,
-            navController = rememberNavController(),
+            navigateToMediaDetails = { _, _ -> }
         )
     }
 }
