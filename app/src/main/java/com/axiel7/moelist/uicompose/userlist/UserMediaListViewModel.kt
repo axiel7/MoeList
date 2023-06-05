@@ -98,7 +98,7 @@ class UserMediaListViewModel(
                 hasNextPage = nextPage != null
                 loadedAllPages = page != null && nextPage == null
             } else {
-                setErrorMessage(result?.message ?: "Generic error")
+                setErrorMessage(result?.message ?: result?.error ?: "Generic error")
                 hasNextPage = false
             }
             isLoading = false

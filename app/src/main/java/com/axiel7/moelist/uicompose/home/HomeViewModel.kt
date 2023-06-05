@@ -53,7 +53,7 @@ class HomeViewModel: BaseViewModel() {
             todayAnimes.clear()
             todayAnimes.addAll(tempList)
         } else {
-            setErrorMessage(result?.message ?: "Generic error")
+            setErrorMessage(result?.message ?: result?.error ?: "Generic error")
         }
     }
 
@@ -74,7 +74,7 @@ class HomeViewModel: BaseViewModel() {
             seasonAnimes.clear()
             seasonAnimes.addAll(result.data)
         } else {
-            setErrorMessage(result?.message ?: "Generic error")
+            setErrorMessage(result?.message ?: result?.error ?: "Generic error")
         }
     }
 
@@ -90,7 +90,7 @@ class HomeViewModel: BaseViewModel() {
             recommendedAnimes.clear()
             recommendedAnimes.addAll(result.data)
         } else {
-            setErrorMessage(result?.message ?: "Generic error")
+            setErrorMessage(result?.message ?: result?.error ?: "Generic error")
         }
     }
 }
