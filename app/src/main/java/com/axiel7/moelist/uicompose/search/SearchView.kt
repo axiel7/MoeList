@@ -25,8 +25,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeList
 import com.axiel7.moelist.data.model.anime.seasonYearText
@@ -48,7 +46,7 @@ import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrUnknown
 fun SearchView(
     query: String,
     performSearch: MutableState<Boolean>,
-    navController: NavController
+    navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
     val context = LocalContext.current
     val viewModel: SearchViewModel = viewModel()
@@ -144,7 +142,7 @@ fun SearchView(
                     )
                 },
                 onClick = {
-                    navController.navigate("details/${mediaType.value}/${it.node.id}")
+                    navigateToMediaDetails(mediaType, it.node.id)
                 }
             )
         }
@@ -185,7 +183,7 @@ fun SearchPreview() {
         SearchView(
             query = "one",
             performSearch = remember { mutableStateOf(false) },
-            navController = rememberNavController()
+            navigateToMediaDetails = { _, _ -> }
         )
     }
 }

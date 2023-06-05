@@ -548,7 +548,13 @@ fun MainTopAppBar(
                 SearchView(
                     query = query,
                     performSearch = performSearch,
-                    navController = navController
+                    navigateToMediaDetails = { mediaType, mediaId ->
+                        navController.navigate(
+                            MEDIA_DETAILS_DESTINATION
+                                .replace("{mediaType}", mediaType.value)
+                                .replace("{mediaId}", mediaId.toString())
+                        )
+                    }
                 )
             }//:SearchBar
         }//:Column
