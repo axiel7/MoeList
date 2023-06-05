@@ -124,7 +124,7 @@ class MainActivity : ComponentActivity() {
         var mediaType: String? = null
         if (intent.action == "details") {
             mediaId = intent.getIntExtra("media_id", 0)
-            mediaType = intent.getStringExtra("media_type")
+            mediaType = intent.getStringExtra("media_type")?.uppercase()
         }
         if (lastTabOpened == null) {
             lastTabOpened = defaultPreferencesDataStore.getValueSync(LAST_TAB_PREFERENCE_KEY)
@@ -239,14 +239,14 @@ fun MainView(
                     navigateToMediaDetails = { mediaType, mediaId ->
                         navController.navigate(
                             MEDIA_DETAILS_DESTINATION
-                                .replace("{mediaType}", mediaType.value)
+                                .replace("{mediaType}", mediaType.name)
                                 .replace("{mediaId}", mediaId.toString())
                         )
                     },
                     navigateToRanking = { mediaType ->
                         navController.navigate(
                             MEDIA_RANKING_DESTINATION
-                                .replace("{mediaType}", mediaType.value)
+                                .replace("{mediaType}", mediaType.name)
                         )
                     },
                     navigateToSeasonChart = {
@@ -271,7 +271,7 @@ fun MainView(
                     navigateToMediaDetails = { mediaType, mediaId ->
                         navController.navigate(
                             MEDIA_DETAILS_DESTINATION
-                                .replace("{mediaType}", mediaType.value)
+                                .replace("{mediaType}", mediaType.name)
                                 .replace("{mediaId}", mediaId.toString())
                         )
                     }
@@ -286,7 +286,7 @@ fun MainView(
                     navigateToMediaDetails = { mediaType, mediaId ->
                         navController.navigate(
                             MEDIA_DETAILS_DESTINATION
-                                .replace("{mediaType}", mediaType.value)
+                                .replace("{mediaType}", mediaType.name)
                                 .replace("{mediaId}", mediaId.toString())
                         )
                     }
@@ -301,7 +301,7 @@ fun MainView(
                     navigateToMediaDetails = { mediaType, mediaId ->
                         navController.navigate(
                             MEDIA_DETAILS_DESTINATION
-                                .replace("{mediaType}", mediaType.value)
+                                .replace("{mediaType}", mediaType.name)
                                 .replace("{mediaId}", mediaId.toString())
                         )
                     }
@@ -315,7 +315,7 @@ fun MainView(
                     navigateToMediaDetails = { mediaType, mediaId ->
                         navController.navigate(
                             MEDIA_DETAILS_DESTINATION
-                                .replace("{mediaType}", mediaType.value)
+                                .replace("{mediaType}", mediaType.name)
                                 .replace("{mediaId}", mediaId.toString())
                         )
                     }
@@ -329,7 +329,7 @@ fun MainView(
                     navigateToMediaDetails = { mediaType, mediaId ->
                         navController.navigate(
                             MEDIA_DETAILS_DESTINATION
-                                .replace("{mediaType}", mediaType.value)
+                                .replace("{mediaType}", mediaType.name)
                                 .replace("{mediaId}", mediaId.toString())
                         )
                     }
@@ -367,7 +367,7 @@ fun MainView(
                         navigateToMediaDetails = { mediaType, mediaId ->
                             navController.navigate(
                                 MEDIA_DETAILS_DESTINATION
-                                    .replace("{mediaType}", mediaType.value)
+                                    .replace("{mediaType}", mediaType.name)
                                     .replace("{mediaId}", mediaId.toString())
                             )
                         }
@@ -403,7 +403,7 @@ fun MainView(
             ) { navEntry ->
                 MediaDetailsView(
                     mediaType = navEntry.arguments?.getString("mediaType")
-                        ?.let { mediaType -> MediaType.forValue(mediaType) } ?: MediaType.ANIME,
+                        ?.let { mediaType -> MediaType.valueOf(mediaType) } ?: MediaType.ANIME,
                     mediaId = navEntry.arguments?.getInt("mediaId") ?: 0,
                     navigateBack = {
                         navController.popBackStack()
@@ -411,7 +411,7 @@ fun MainView(
                     navigateToMediaDetails = { mediaType, mediaId ->
                         navController.navigate(
                             MEDIA_DETAILS_DESTINATION
-                                .replace("{mediaType}", mediaType.value)
+                                .replace("{mediaType}", mediaType.name)
                                 .replace("{mediaId}", mediaId.toString())
                         )
                     },
@@ -552,7 +552,7 @@ fun MainTopAppBar(
                     navigateToMediaDetails = { mediaType, mediaId ->
                         navController.navigate(
                             MEDIA_DETAILS_DESTINATION
-                                .replace("{mediaType}", mediaType.value)
+                                .replace("{mediaType}", mediaType.name)
                                 .replace("{mediaId}", mediaId.toString())
                         )
                     }
