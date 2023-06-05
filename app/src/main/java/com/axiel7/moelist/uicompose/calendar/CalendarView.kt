@@ -57,6 +57,18 @@ fun CalendarView(
         pageCount = { WeekDay.values().size }
     )
     val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(viewModel.message) {
+        if (viewModel.showMessage) {
+            context.showToast(viewModel.message)
+            viewModel.showMessage = false
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        if (viewModel.weekAnime[0].isEmpty())
+            viewModel.getSeasonAnime()
+    }
     
     DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.calendar),
@@ -136,22 +148,10 @@ fun CalendarView(
                             }
                         )
                     }
-                }
-            }
-        }
-    }
-
-    LaunchedEffect(viewModel.message) {
-        if (viewModel.showMessage) {
-            context.showToast(viewModel.message)
-            viewModel.showMessage = false
-        }
-    }
-    
-    LaunchedEffect(Unit) {
-        if (viewModel.weekAnime[0].isEmpty())
-            viewModel.getSeasonAnime()
-    }
+                }//:LazyColumn
+            }//:Pager
+        }//:Column
+    }//:Scaffold
 }
 
 @Preview(showBackground = true)

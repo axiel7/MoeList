@@ -85,6 +85,25 @@ fun MediaDetailsView(
         )
     } else null
 
+    if (sheetState.isVisible) {
+        EditMediaSheet(
+            coroutineScope = coroutineScope,
+            sheetState = sheetState,
+            mediaViewModel = viewModel
+        )
+    }
+
+    LaunchedEffect(viewModel.message) {
+        if (viewModel.showMessage) {
+            context.showToast(viewModel.message)
+            viewModel.showMessage = false
+        }
+    }
+
+    LaunchedEffect(mediaId) {
+        if (viewModel.mediaDetails == null) viewModel.getDetails(mediaId)
+    }
+
     Scaffold(
         modifier = Modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
         topBar = {
@@ -507,25 +526,6 @@ fun MediaDetailsView(
             }
         }//:Column
     }//:Scaffold
-
-    if (sheetState.isVisible) {
-        EditMediaSheet(
-            coroutineScope = coroutineScope,
-            sheetState = sheetState,
-            mediaViewModel = viewModel
-        )
-    }
-
-    LaunchedEffect(viewModel.message) {
-        if (viewModel.showMessage) {
-            context.showToast(viewModel.message)
-            viewModel.showMessage = false
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        if (viewModel.mediaDetails == null) viewModel.getDetails(mediaId)
-    }
 }
 
 @Composable

@@ -128,6 +128,24 @@ fun MediaRankingListView(
     }
     val listState = rememberLazyListState()
 
+    listState.OnBottomReached(buffer = 3) {
+        if (!viewModel.isLoading && viewModel.hasNextPage) {
+            viewModel.getRanking(viewModel.nextPage)
+        }
+    }
+
+    LaunchedEffect(viewModel.message) {
+        if (viewModel.showMessage) {
+            context.showToast(viewModel.message)
+            viewModel.showMessage = false
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        if (!viewModel.isLoading && viewModel.nextPage == null && !viewModel.loadedAllPages)
+            viewModel.getRanking()
+    }
+
     LazyColumn(
         contentPadding = PaddingValues(vertical = 8.dp),
         state = listState
@@ -191,25 +209,7 @@ fun MediaRankingListView(
                 }
             )
         }
-    }
-
-    listState.OnBottomReached(buffer = 3) {
-        if (!viewModel.isLoading && viewModel.hasNextPage) {
-            viewModel.getRanking(viewModel.nextPage)
-        }
-    }
-
-    LaunchedEffect(viewModel.message) {
-        if (viewModel.showMessage) {
-            context.showToast(viewModel.message)
-            viewModel.showMessage = false
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        if (!viewModel.isLoading && viewModel.nextPage == null && !viewModel.loadedAllPages)
-            viewModel.getRanking()
-    }
+    }//:LazyColumn
 }
 
 @Preview(showBackground = true)

@@ -68,6 +68,31 @@ fun SeasonChartView(
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
 
+    listState.OnBottomReached(buffer = 3) {
+        if (!viewModel.isLoading && viewModel.hasNextPage) {
+            viewModel.getSeasonalAnime(viewModel.nextPage)
+        }
+    }
+
+    if (sheetState.isVisible) {
+        SeasonChartFilterSheet(
+            coroutineScope = coroutineScope,
+            sheetState = sheetState,
+            viewModel = viewModel
+        )
+    }
+
+    LaunchedEffect(viewModel.message) {
+        if (viewModel.showMessage) {
+            context.showToast(viewModel.message)
+            viewModel.showMessage = false
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        if (viewModel.animes.isEmpty()) viewModel.getSeasonalAnime()
+    }
+
     DefaultScaffoldWithTopAppBar(
         title = viewModel.season.seasonYearText(),
         navigateBack = navigateBack,
@@ -135,32 +160,7 @@ fun SeasonChartView(
                 )
             }
         }
-    }
-    
-    listState.OnBottomReached(buffer = 3) {
-        if (!viewModel.isLoading && viewModel.hasNextPage) {
-            viewModel.getSeasonalAnime(viewModel.nextPage)
-        }
-    }
-
-    if (sheetState.isVisible) {
-        SeasonChartFilterSheet(
-            coroutineScope = coroutineScope,
-            sheetState = sheetState,
-            viewModel = viewModel
-        )
-    }
-
-    LaunchedEffect(viewModel.message) {
-        if (viewModel.showMessage) {
-            context.showToast(viewModel.message)
-            viewModel.showMessage = false
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        if (viewModel.animes.isEmpty()) viewModel.getSeasonalAnime()
-    }
+    }//:Scaffold
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

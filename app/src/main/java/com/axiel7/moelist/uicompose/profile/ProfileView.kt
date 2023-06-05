@@ -59,6 +59,17 @@ fun ProfileView(
     val viewModel: ProfileViewModel = viewModel()
     val scrollState = rememberScrollState()
 
+    LaunchedEffect(viewModel.message) {
+        if (viewModel.showMessage) {
+            context.showToast(viewModel.message)
+            viewModel.showMessage = false
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        if (viewModel.user == null) viewModel.getMyUser()
+    }
+
     DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.title_profile),
         navigateBack = navigateBack
@@ -160,17 +171,6 @@ fun ProfileView(
             }
         }//:Column
     }//:Scaffold
-
-    LaunchedEffect(viewModel.message) {
-        if (viewModel.showMessage) {
-            context.showToast(viewModel.message)
-            viewModel.showMessage = false
-        }
-    }
-    
-    LaunchedEffect(Unit) {
-        if (viewModel.user == null) viewModel.getMyUser()
-    }
 }
 
 @Composable

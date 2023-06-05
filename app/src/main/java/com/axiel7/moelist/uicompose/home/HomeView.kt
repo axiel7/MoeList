@@ -81,6 +81,17 @@ fun HomeView(
     val seasonListState = rememberLazyListState()
     val recommendListState = rememberLazyListState()
 
+    LaunchedEffect(viewModel.message) {
+        if (viewModel.showMessage) {
+            context.showToast(viewModel.message)
+            viewModel.showMessage = false
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.initRequestChain()
+    }
+
     Column(
         modifier = modifier.verticalScroll(scrollState)
     ) {
@@ -255,17 +266,6 @@ fun HomeView(
                 )
             }
         }
-    }
-
-    LaunchedEffect(viewModel.message) {
-        if (viewModel.showMessage) {
-            context.showToast(viewModel.message)
-            viewModel.showMessage = false
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        viewModel.initRequestChain()
     }
 }
 

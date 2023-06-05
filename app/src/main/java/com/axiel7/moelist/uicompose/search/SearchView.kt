@@ -53,6 +53,33 @@ fun SearchView(
     val listState = rememberLazyListState()
     var mediaType by remember { mutableStateOf(MediaType.ANIME) }
 
+    listState.OnBottomReached(buffer = 3) {
+        if (!viewModel.isLoading && viewModel.hasNextPage) {
+            viewModel.search(
+                mediaType = mediaType,
+                query = query,
+                page = viewModel.nextPage
+            )
+        }
+    }
+
+    LaunchedEffect(viewModel.message) {
+        if (viewModel.showMessage) {
+            context.showToast(viewModel.message)
+            viewModel.showMessage = false
+        }
+    }
+
+    LaunchedEffect(mediaType, performSearch.value) {
+        if (query.isNotBlank() && performSearch.value) {
+            viewModel.search(
+                mediaType = mediaType,
+                query = query
+            )
+            performSearch.value = false
+        }
+    }
+
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
         state = listState
@@ -147,33 +174,6 @@ fun SearchView(
             )
         }
     }//: LazyColumn
-
-    listState.OnBottomReached(buffer = 3) {
-        if (!viewModel.isLoading && viewModel.hasNextPage) {
-            viewModel.search(
-                mediaType = mediaType,
-                query = query,
-                page = viewModel.nextPage
-            )
-        }
-    }
-
-    LaunchedEffect(viewModel.message) {
-        if (viewModel.showMessage) {
-            context.showToast(viewModel.message)
-            viewModel.showMessage = false
-        }
-    }
-
-    LaunchedEffect(mediaType, performSearch.value) {
-        if (query.isNotBlank() && performSearch.value) {
-            viewModel.search(
-                mediaType = mediaType,
-                query = query
-            )
-            performSearch.value = false
-        }
-    }
 }
 
 @Preview(showBackground = true)
