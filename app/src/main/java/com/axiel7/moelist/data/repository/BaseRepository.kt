@@ -22,6 +22,7 @@ object BaseRepository {
                             it[ACCESS_TOKEN_PREFERENCE_KEY] = newToken.accessToken!!
                             it[REFRESH_TOKEN_PREFERENCE_KEY] = newToken.refreshToken!!
                         }
+                        App.createKtorClient(newToken.accessToken!!)
                     } catch (e: Exception) {
                         deleteAccessToken()
                     }
