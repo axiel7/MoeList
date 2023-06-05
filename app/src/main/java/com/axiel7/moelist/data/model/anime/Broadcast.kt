@@ -7,6 +7,7 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.WeekDay
 import com.axiel7.moelist.data.model.media.localized
 import com.axiel7.moelist.data.model.media.numeric
+import com.axiel7.moelist.utils.DateUtils
 import com.axiel7.moelist.utils.DateUtils.getNextDayOfWeek
 import com.axiel7.moelist.utils.DateUtils.secondsToLegibleText
 import com.axiel7.moelist.utils.SeasonCalendar
@@ -17,7 +18,6 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
-import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import kotlin.math.absoluteValue
@@ -43,7 +43,7 @@ fun Broadcast?.dayTimeText() = buildString {
 
 @Composable
 fun Broadcast.airingInString() = if (startTime != null && dayOfTheWeek != null) {
-    val remaining = secondsUntilNextBroadcast() - LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
+    val remaining = secondsUntilNextBroadcast() - LocalDateTime.now().toEpochSecond(DateUtils.defaultZoneOffset)
     if (remaining > 0) {
         stringResource(R.string.airing_in).format(remaining.secondsToLegibleText())
     }
@@ -56,7 +56,7 @@ fun Broadcast.nextAiringDayFormatted() =
     ))
 
 fun Broadcast.secondsUntilNextBroadcast() =
-    dateTimeUntilNextBroadcast()?.toEpochSecond(ZoneOffset.UTC) ?: 0
+    dateTimeUntilNextBroadcast()?.toEpochSecond(DateUtils.defaultZoneOffset) ?: 0
 
 fun Broadcast.dateTimeUntilNextBroadcast(): LocalDateTime? = if (startTime != null && dayOfTheWeek != null) {
     val airingDay = LocalDate.now().getNextDayOfWeek(DayOfWeek.of(dayOfTheWeek.numeric()))

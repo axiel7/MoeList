@@ -34,7 +34,6 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
-import java.time.ZoneOffset
 import java.util.concurrent.TimeUnit
 
 class NotificationWorker(
@@ -102,7 +101,8 @@ class NotificationWorker(
                 .withZoneSameInstant(ZoneId.systemDefault())
                 .toLocalDateTime()
 
-            val delay = startDateTime.toEpochSecond(ZoneOffset.UTC) - LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
+            val delay = startDateTime.toEpochSecond(DateUtils.defaultZoneOffset) -
+                    LocalDateTime.now().toEpochSecond(DateUtils.defaultZoneOffset)
 
             val inputData = Data.Builder()
                 .putInt("anime_id", animeId)
@@ -141,8 +141,8 @@ class NotificationWorker(
                 createAiringAnimeNotificationChannel(context)
             }
 
-            val delay = startDate.atStartOfDay().toEpochSecond(ZoneOffset.UTC) -
-                    LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
+            val delay = startDate.atStartOfDay().toEpochSecond(DateUtils.defaultZoneOffset) -
+                    LocalDateTime.now().toEpochSecond(DateUtils.defaultZoneOffset)
 
             val inputData = Data.Builder()
                 .putInt("anime_id", animeId)
