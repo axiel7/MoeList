@@ -40,6 +40,7 @@ import com.axiel7.moelist.utils.ContextExtensions.openAction
 import com.axiel7.moelist.utils.ContextExtensions.openInGoogleTranslate
 import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.ContextExtensions.showToast
+import com.axiel7.moelist.utils.DateUtils.parseDate
 import com.axiel7.moelist.utils.DateUtils.parseDateAndLocalize
 import com.axiel7.moelist.utils.NotificationWorker
 import com.axiel7.moelist.utils.NumExtensions
@@ -99,21 +100,39 @@ fun MediaDetailsView(
                 },
                 onClickNotification = { enable ->
                     (viewModel.mediaDetails as? AnimeDetails)?.let { details ->
-                        if (enable && details.broadcast?.dayOfTheWeek != null
-                            && details.broadcast.startTime != null
-                        ) {
+                        if (enable) {
                             if (notificationPermission == null
                                 || notificationPermission.status.isGranted
                             ) {
                                 coroutineScope.launch {
-                                    NotificationWorker.scheduleAiringAnimeNotification(
-                                        context = context,
-                                        title = details.title ?: "",
-                                        animeId = details.id,
-                                        weekDay = details.broadcast.dayOfTheWeek,
-                                        jpHour = LocalTime.parse(details.broadcast.startTime)
-                                    )
-                                    context.showToast("Notification enabled")
+                                    if (details.broadcast?.dayOfTheWeek != null
+                                        && details.broadcast.startTime != null
+                                    ) {
+                                        NotificationWorker.scheduleAiringAnimeNotification(
+                                            context = context,
+                                            title = details.title ?: "",
+                                            animeId = details.id,
+                                            weekDay = details.broadcast.dayOfTheWeek,
+                                            jpHour = LocalTime.parse(details.broadcast.startTime)
+                                        )
+                                        context.showToast("Airing notification enabled")
+                                    }
+                                    else if (details.status == "not_yet_aired"
+                                        && details.startDate != null
+                                    ) {
+                                        val startDate = details.startDate.parseDate()
+                                        if (startDate != null) {
+                                            NotificationWorker.scheduleAnimeStartNotification(
+                                                context = context,
+                                                title = details.title ?: "",
+                                                animeId = details.id,
+                                                startDate = startDate
+                                            )
+                                            context.showToast("Start airing notification enabled")
+                                        } else {
+                                            context.showToast("Invalid start date")
+                                        }
+                                    }
                                 }
                             } else {
                                 notificationPermission.launchPermissionRequest()
@@ -600,8 +619,8 @@ fun MediaDetailsTopAppBar(
             }
         },
         actions = {
-            if (viewModel.mediaDetails is AnimeDetails
-                && viewModel.mediaDetails!!.status == "currently_airing"
+            if (viewModel.mediaDetails?.status == "currently_airing"
+                || viewModel.mediaDetails?.status == "not_yet_aired"
             ) {
                 IconButton(onClick = {
                     onClickNotification(savedForNotification.value == null)

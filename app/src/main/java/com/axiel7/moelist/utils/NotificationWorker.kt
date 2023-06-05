@@ -18,6 +18,8 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
@@ -127,6 +129,38 @@ class NotificationWorker(
             context.notificationsDataStore.edit {
                 it.remove(stringPreferencesKey(animeId.toString()))
             }
+        }
+
+        fun scheduleAnimeStartNotification(
+            context: Context,
+            title: String,
+            animeId: Int,
+            startDate: LocalDate,
+        ) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                createAiringAnimeNotificationChannel(context)
+            }
+
+            val delay = startDate.atStartOfDay().toEpochSecond(ZoneOffset.UTC) -
+                    LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
+
+            val inputData = Data.Builder()
+                .putInt("anime_id", animeId)
+                .putString("anime_title", title)
+                .build()
+
+            val workManager = WorkManager.getInstance(context)
+
+            val notificationWorkRequest = OneTimeWorkRequestBuilder<NotificationWorker>()
+                .setInitialDelay(delay, TimeUnit.SECONDS)
+                .setInputData(inputData)
+                .build()
+
+            workManager.enqueueUniqueWork(
+                "notification_start_$animeId",
+                ExistingWorkPolicy.REPLACE,
+                notificationWorkRequest
+            )
         }
 
         suspend fun removeAllNotifications(context: Context) {
