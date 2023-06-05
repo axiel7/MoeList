@@ -171,8 +171,12 @@ class MainActivity : ComponentActivity() {
             }
 
             LaunchedEffect(mediaId) {
-                if (mediaId != null && mediaId != 0) {
-                    navController.navigate("details/$mediaType/$mediaId")
+                if (mediaId != null && mediaId != 0 && mediaType != null) {
+                    navController.navigate(
+                        MEDIA_DETAILS_DESTINATION
+                            .replace("{mediaType}", mediaType)
+                            .replace("{mediaId}", mediaId.toString())
+                    )
                 }
             }
         }
