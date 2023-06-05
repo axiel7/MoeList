@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
-import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopBar
+import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants.GENERAL_HELP_CREDIT_URL
 import com.axiel7.moelist.utils.Constants.LOGO_CREDIT_URL
@@ -45,7 +45,7 @@ fun CreditsView(
     val context = LocalContext.current
     val scrollState = rememberScrollState()
 
-    DefaultScaffoldWithTopBar(
+    DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.credits),
         navController = navController
     ) {

@@ -32,7 +32,7 @@ import com.axiel7.moelist.data.model.media.localized
 import com.axiel7.moelist.data.model.media.mediaFormatLocalized
 import com.axiel7.moelist.data.model.media.numeric
 import com.axiel7.moelist.data.model.media.totalDuration
-import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopBar
+import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.uicompose.composables.MediaItemDetailed
 import com.axiel7.moelist.uicompose.composables.MediaItemDetailedPlaceholder
 import com.axiel7.moelist.uicompose.composables.RoundedTabRowIndicator
@@ -58,7 +58,7 @@ fun CalendarView(
     )
     val coroutineScope = rememberCoroutineScope()
     
-    DefaultScaffoldWithTopBar(
+    DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.calendar),
         navController = navController
     ) {

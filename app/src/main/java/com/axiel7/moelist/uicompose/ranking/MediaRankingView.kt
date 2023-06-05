@@ -40,7 +40,7 @@ import com.axiel7.moelist.data.model.media.rankingAnimeValues
 import com.axiel7.moelist.data.model.media.rankingMangaValues
 import com.axiel7.moelist.data.model.media.totalDuration
 import com.axiel7.moelist.uicompose.base.TabRowItem
-import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopBar
+import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.uicompose.composables.MediaItemDetailed
 import com.axiel7.moelist.uicompose.composables.MediaItemDetailedPlaceholder
 import com.axiel7.moelist.uicompose.composables.OnBottomReached
@@ -69,7 +69,7 @@ fun MediaRankingView(
     }
     val pagerState = rememberPagerState { tabRowItems.size }
 
-    DefaultScaffoldWithTopBar(
+    DefaultScaffoldWithTopAppBar(
         title = stringResource(
             if (mediaType == MediaType.ANIME) R.string.anime_ranking
             else R.string.manga_ranking

@@ -27,7 +27,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.notificationsDataStore
-import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopBar
+import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.NotificationWorker
 import kotlinx.coroutines.launch
@@ -44,7 +44,7 @@ fun NotificationsView(
         context.notificationsDataStore.data
     }.collectAsState(initial = null)
 
-    DefaultScaffoldWithTopBar(
+    DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.notifications),
         navController = navController,
         floatingActionButton = {

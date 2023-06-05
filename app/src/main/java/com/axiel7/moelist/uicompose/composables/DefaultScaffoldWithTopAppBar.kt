@@ -12,7 +12,7 @@ import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DefaultScaffoldWithTopBar(
+fun DefaultScaffoldWithTopAppBar(
     title: String,
     navController: NavController,
     floatingActionButton: @Composable (() -> Unit) = {},

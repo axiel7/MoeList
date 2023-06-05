@@ -51,7 +51,7 @@ import com.axiel7.moelist.data.datastore.PreferencesDataStore.START_TAB_PREFEREN
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.THEME_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.rememberPreference
 import com.axiel7.moelist.uicompose.base.ListMode
-import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopBar
+import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.NumExtensions.toInt
 import com.axiel7.moelist.utils.UseCases
@@ -70,7 +70,7 @@ fun SettingsView(
     val listModePreference = rememberPreference(LIST_DISPLAY_MODE_PREFERENCE_KEY, ListMode.STANDARD.value)
     val startTabPreference = rememberPreference(START_TAB_PREFERENCE_KEY, "last_used")
 
-    DefaultScaffoldWithTopBar(
+    DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.settings),
         navController = navController
     ) { padding ->

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -16,7 +15,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.BuildConfig
 import com.axiel7.moelist.R
-import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopBar
+import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants.DISCORD_SERVER_URL
 import com.axiel7.moelist.utils.Constants.GITHUB_REPO_URL
@@ -32,7 +31,7 @@ fun AboutView(
     val context = LocalContext.current
     var versionClicks by remember { mutableIntStateOf(0) }
 
-    DefaultScaffoldWithTopBar(
+    DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.about),
         navController = navController
     ) {

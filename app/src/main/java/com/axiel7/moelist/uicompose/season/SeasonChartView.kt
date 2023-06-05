@@ -43,7 +43,7 @@ import com.axiel7.moelist.data.model.anime.seasonYearText
 import com.axiel7.moelist.data.model.media.durationText
 import com.axiel7.moelist.data.model.media.mediaFormatLocalized
 import com.axiel7.moelist.data.model.media.totalDuration
-import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopBar
+import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.uicompose.composables.MediaItemDetailed
 import com.axiel7.moelist.uicompose.composables.MediaItemDetailedPlaceholder
 import com.axiel7.moelist.uicompose.composables.OnBottomReached
@@ -68,7 +68,7 @@ fun SeasonChartView(
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
 
-    DefaultScaffoldWithTopBar(
+    DefaultScaffoldWithTopAppBar(
         title = viewModel.season.seasonYearText(),
         navController = navController,
         floatingActionButton = {

@@ -36,7 +36,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
-import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopBar
+import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.uicompose.composables.DonutChart
 import com.axiel7.moelist.uicompose.composables.TextIconHorizontal
 import com.axiel7.moelist.uicompose.composables.TextIconVertical
@@ -58,7 +58,7 @@ fun ProfileView(navController: NavController) {
     val viewModel: ProfileViewModel = viewModel()
     val scrollState = rememberScrollState()
 
-    DefaultScaffoldWithTopBar(
+    DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.title_profile),
         navController = navController
     ) { padding ->
