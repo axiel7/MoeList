@@ -190,12 +190,13 @@ fun UserMediaListView(
                     }
                 )
             }
-            items(viewModel.mediaList,
-                key = { it.node.id },
-                contentType = { it.node }
-            ) { item ->
-                when (listDisplayMode) {
-                    ListMode.STANDARD.value -> {
+            when (listDisplayMode) {
+                ListMode.STANDARD.value -> {
+                    items(
+                        items = viewModel.mediaList,
+                        key = { it.node.id },
+                        contentType = { it.node }
+                    ) { item ->
                         StandardUserMediaListItem(
                             imageUrl = item.node.mainPicture?.large,
                             title = item.node.title,
@@ -228,7 +229,13 @@ fun UserMediaListView(
                             }
                         )
                     }
-                    ListMode.COMPACT.value -> {
+                }
+                ListMode.COMPACT.value -> {
+                    items(
+                        items = viewModel.mediaList,
+                        key = { it.node.id },
+                        contentType = { it.node }
+                    ) { item ->
                         CompactUserMediaListItem(
                             imageUrl = item.node.mainPicture?.large,
                             title = item.node.title,
@@ -260,7 +267,13 @@ fun UserMediaListView(
                             }
                         )
                     }
-                    ListMode.MINIMAL.value -> {
+                }
+                ListMode.MINIMAL.value -> {
+                    items(
+                        items = viewModel.mediaList,
+                        key = { it.node.id },
+                        contentType = { it.node }
+                    ) { item ->
                         MinimalUserMediaListItem(
                             title = item.node.title,
                             mediaType = mediaType,
@@ -291,7 +304,7 @@ fun UserMediaListView(
                         )
                     }
                 }
-            }//:items
+            }
         }//:LazyColumn
 
         PullRefreshIndicator(
