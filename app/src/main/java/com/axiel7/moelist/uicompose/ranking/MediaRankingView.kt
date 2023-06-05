@@ -150,13 +150,8 @@ fun MediaRankingListView(
         contentPadding = PaddingValues(vertical = 8.dp),
         state = listState
     ) {
-        if (viewModel.mediaList.isEmpty() && viewModel.isLoading) {
-            items(10) {
-                MediaItemDetailedPlaceholder()
-            }
-        }
-        else items(
-            viewModel.mediaList,
+        items(
+            items = viewModel.mediaList,
             key = { it.node.id },
             contentType = { it.node }
         ) { item ->
@@ -208,6 +203,11 @@ fun MediaRankingListView(
                     navigateToMediaDetails(mediaType, item.node.id)
                 }
             )
+        }
+        if (viewModel.mediaList.isEmpty() && viewModel.isLoading) {
+            items(10) {
+                MediaItemDetailedPlaceholder()
+            }
         }
     }//:LazyColumn
 }

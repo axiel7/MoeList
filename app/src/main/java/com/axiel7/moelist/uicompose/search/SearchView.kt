@@ -116,20 +116,8 @@ fun SearchView(
                 )
             }
         }
-        if (viewModel.mediaList.isEmpty()) {
-            if (viewModel.isLoading)
-                items(10) {
-                    MediaItemDetailedPlaceholder()
-                }
-            else if (query.isNotBlank() && performSearch.value)
-                item {
-                    Text(
-                        text = stringResource(R.string.no_results),
-                        modifier = Modifier.padding(16.dp)
-                    )
-                }
-        }
-        else items(viewModel.mediaList,
+        items(
+            items = viewModel.mediaList,
             contentType = { it.node }
         ) {
             MediaItemDetailed(
@@ -172,6 +160,19 @@ fun SearchView(
                     navigateToMediaDetails(mediaType, it.node.id)
                 }
             )
+        }
+        if (viewModel.mediaList.isEmpty()) {
+            if (viewModel.isLoading)
+                items(10) {
+                    MediaItemDetailedPlaceholder()
+                }
+            else if (query.isNotBlank() && performSearch.value)
+                item {
+                    Text(
+                        text = stringResource(R.string.no_results),
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
         }
     }//: LazyColumn
 }

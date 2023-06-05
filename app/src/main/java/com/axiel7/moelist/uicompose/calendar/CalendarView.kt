@@ -73,9 +73,9 @@ fun CalendarView(
     DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.calendar),
         navigateBack = navigateBack
-    ) {
+    ) { padding ->
         Column(
-            modifier = Modifier.padding(it)
+            modifier = Modifier.padding(padding)
         ) {
             ScrollableTabRow(
                 selectedTabIndex = pagerState.currentPage,
@@ -99,12 +99,10 @@ fun CalendarView(
                 LazyColumn(
                     contentPadding = PaddingValues(vertical = 8.dp)
                 ) {
-                    if (viewModel.isLoading) {
-                        items(10) {
-                            MediaItemDetailedPlaceholder()
-                        }
-                    }
-                    else items(viewModel.weekAnime[page]) { item ->
+                    items(
+                        items = viewModel.weekAnime[page],
+                        contentType = { it }
+                    ) { item ->
                         MediaItemDetailed(
                             title = item.node.title,
                             imageUrl = item.node.mainPicture?.large,
@@ -147,6 +145,11 @@ fun CalendarView(
                                 navigateToMediaDetails(MediaType.ANIME, item.node.id)
                             }
                         )
+                    }
+                    if (viewModel.isLoading) {
+                        items(10) {
+                            MediaItemDetailedPlaceholder()
+                        }
                     }
                 }//:LazyColumn
             }//:Pager

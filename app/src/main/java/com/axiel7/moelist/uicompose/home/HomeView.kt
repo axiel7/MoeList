@@ -149,12 +149,8 @@ fun HomeView(
             contentPadding = PaddingValues(horizontal = 8.dp),
             flingBehavior = rememberSnapFlingBehavior(lazyListState = airingListState)
         ) {
-            if (viewModel.isLoading) {
-                items(5) {
-                    MediaItemDetailedPlaceholder()
-                }
-            }
-            else items(viewModel.todayAnimes,
+            items(
+                items = viewModel.todayAnimes,
                 key = { it.node.id },
                 contentType = { it.node }
             ) {
@@ -164,6 +160,11 @@ fun HomeView(
                         navigateToMediaDetails(MediaType.ANIME, it.node.id)
                     }
                 )
+            }
+            if (viewModel.isLoading) {
+                items(5) {
+                    MediaItemDetailedPlaceholder()
+                }
             }
         }
 
@@ -180,12 +181,7 @@ fun HomeView(
             contentPadding = PaddingValues(horizontal = 16.dp),
             flingBehavior = rememberSnapFlingBehavior(lazyListState = seasonListState)
         ) {
-            if (viewModel.isLoading) {
-                items(10) {
-                    MediaItemVerticalPlaceholder()
-                }
-            }
-            else items(viewModel.seasonAnimes,
+            items(viewModel.seasonAnimes,
                 key = { it.node.id },
                 contentType = { it.node }
             ) {
@@ -201,6 +197,11 @@ fun HomeView(
                     },
                     onClick = { navigateToMediaDetails(MediaType.ANIME, it.node.id) }
                 )
+            }
+            if (viewModel.isLoading) {
+                items(10) {
+                    MediaItemVerticalPlaceholder()
+                }
             }
         }
 
@@ -214,12 +215,7 @@ fun HomeView(
             contentPadding = PaddingValues(horizontal = 16.dp),
             flingBehavior = rememberSnapFlingBehavior(lazyListState = recommendListState)
         ) {
-            if (viewModel.isLoading) {
-                items(10) {
-                    MediaItemVerticalPlaceholder()
-                }
-            }
-            else items(viewModel.recommendedAnimes,
+            items(viewModel.recommendedAnimes,
                 key = { it.node.id },
                 contentType = { it.node }
             ) {
@@ -235,6 +231,11 @@ fun HomeView(
                     },
                     onClick = { navigateToMediaDetails(MediaType.ANIME, it.node.id) }
                 )
+            }
+            if (viewModel.isLoading) {
+                items(10) {
+                    MediaItemVerticalPlaceholder()
+                }
             }
         }
 

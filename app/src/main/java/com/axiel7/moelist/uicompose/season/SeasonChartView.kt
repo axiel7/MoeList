@@ -107,12 +107,8 @@ fun SeasonChartView(
             state = listState,
             contentPadding = PaddingValues(vertical = 8.dp)
         ) {
-            if (viewModel.isLoading) {
-                items(10) { 
-                    MediaItemDetailedPlaceholder()
-                }
-            }
-            else items(viewModel.animes, 
+            items(
+                items = viewModel.animes,
                 key = { it.node.id },
                 contentType = { it.node }
             ) { item ->
@@ -158,6 +154,11 @@ fun SeasonChartView(
                         navigateToMediaDetails(MediaType.ANIME, item.node.id)
                     }
                 )
+            }
+            if (viewModel.isLoading) {
+                items(10) {
+                    MediaItemDetailedPlaceholder()
+                }
             }
         }
     }//:Scaffold
