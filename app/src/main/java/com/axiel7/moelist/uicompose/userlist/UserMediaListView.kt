@@ -1,23 +1,28 @@
 package com.axiel7.moelist.uicompose.userlist
 
-import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -37,7 +42,6 @@ import com.axiel7.moelist.data.model.manga.UserMangaList
 import com.axiel7.moelist.data.model.manga.isUsingVolumeProgress
 import com.axiel7.moelist.data.model.media.*
 import com.axiel7.moelist.uicompose.base.ListMode
-import com.axiel7.moelist.uicompose.base.TabRowItem
 import com.axiel7.moelist.uicompose.composables.*
 import com.axiel7.moelist.uicompose.details.EditMediaSheet
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
@@ -47,55 +51,67 @@ import kotlinx.coroutines.launch
 const val ANIME_LIST_DESTINATION = "anime_list"
 const val MANGA_LIST_DESTINATION = "manga_list"
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserMediaListHostView(
     mediaType: MediaType,
     navController: NavController,
     modifier: Modifier = Modifier,
 ) {
-    val coroutineScope = rememberCoroutineScope()
-    val tabRowItems = remember {
-        (if (mediaType == MediaType.ANIME) listStatusAnimeValues else listStatusMangaValues)
-            .map { TabRowItem(
-                value = it,
-                title = it.value
-            ) }
-    }
-    val pagerState = rememberPagerState { tabRowItems.size }
-
-    Column(
-        modifier = modifier
-    ) {
-        ScrollableTabRow(
-            selectedTabIndex = pagerState.currentPage,
-            edgePadding = 16.dp,
-            indicator = { tabPositions ->
-                RoundedTabRowIndicator(tabPositions[pagerState.currentPage])
-            }
-        ) {
-            tabRowItems.forEachIndexed { index, item ->
-                Tab(
-                    selected = pagerState.currentPage == index,
-                    onClick = { coroutineScope.launch { pagerState.animateScrollToPage(index) } },
-                    text = { Text(text = item.value.localized()) },
-                    unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+    val scope = rememberCoroutineScope()
+    val selectedStatus = rememberSaveable { mutableStateOf(listStatusValues(mediaType)[0]) }
+    val statusSheetState = rememberModalBottomSheetState()
+    var isFabVisible by remember { mutableStateOf(true) }
+    val nestedScrollConnection = remember {
+        object : NestedScrollConnection {
+            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+                if (available.y < -1) isFabVisible = false
+                else if (available.y > 1) isFabVisible = true
+                return Offset.Zero
             }
         }
+    }
 
-        HorizontalPager(
-            state = pagerState,
-            beyondBoundsPageCount = 0,
-            key = { tabRowItems[it].value }
-        ) {
-            UserMediaListView(
-                mediaType = mediaType,
-                status = tabRowItems[it].value,
-                navController = navController,
-            )
-        }//:Pager
-    }//:Column
+    if (statusSheetState.isVisible) {
+        ListStatusSheet(
+            mediaType = mediaType,
+            selectedStatus = selectedStatus,
+            sheetState = statusSheetState
+        )
+    }
+
+    Scaffold(
+        modifier = modifier,
+        floatingActionButton = {
+            AnimatedVisibility(
+                visible = isFabVisible,
+                modifier = Modifier.sizeIn(minWidth = 80.dp, minHeight = 56.dp),
+                enter = slideInVertically(initialOffsetY = { it * 2 }),
+                exit = slideOutVertically(targetOffsetY = { it * 2 }),
+            ) {
+                ExtendedFloatingActionButton(
+                    onClick = { scope.launch { statusSheetState.show() } }
+                ) {
+                    Icon(
+                        painter = painterResource(selectedStatus.value.icon()),
+                        contentDescription = "status",
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                    Text(text = selectedStatus.value.localized())
+                }
+            }
+        },
+        contentWindowInsets = WindowInsets.systemBars
+            .only(WindowInsetsSides.Horizontal)
+    ) { padding ->
+        UserMediaListView(
+            mediaType = mediaType,
+            status = selectedStatus.value,
+            modifier = Modifier.padding(padding),
+            nestedScrollConnection = nestedScrollConnection,
+            navController = navController,
+        )
+    }//:Scaffold
 }
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
@@ -103,6 +119,8 @@ fun UserMediaListHostView(
 fun UserMediaListView(
     mediaType: MediaType,
     status: ListStatus,
+    modifier: Modifier = Modifier,
+    nestedScrollConnection: NestedScrollConnection,
     navController: NavController,
 ) {
     val context = LocalContext.current
@@ -115,8 +133,38 @@ fun UserMediaListView(
     val sheetState = rememberModalBottomSheetState()
     val listDisplayMode by rememberPreference(LIST_DISPLAY_MODE_PREFERENCE_KEY, App.listDisplayMode.value)
 
+    listState.OnBottomReached(buffer = 3) {
+        if (!viewModel.isLoading && viewModel.hasNextPage) {
+            viewModel.getUserList(viewModel.nextPage)
+        }
+    }
+
+    if (viewModel.openSortDialog) {
+        MediaListSortDialog(viewModel = viewModel)
+    }
+
+    if (sheetState.isVisible) {
+        EditMediaSheet(
+            coroutineScope = coroutineScope,
+            sheetState = sheetState,
+            mediaViewModel = viewModel
+        )
+    }
+
+    LaunchedEffect(viewModel.message) {
+        if (viewModel.showMessage) {
+            context.showToast(viewModel.message)
+            viewModel.showMessage = false
+        }
+    }
+
+    LaunchedEffect(viewModel.listSort, status) {
+        if (!viewModel.isLoading && viewModel.nextPage == null && !viewModel.loadedAllPages)
+            viewModel.getUserList()
+    }
+
     Box(
-        modifier = Modifier
+        modifier = modifier
             .clipToBounds()
             .pullRefresh(pullRefreshState)
             .fillMaxSize()
@@ -124,7 +172,8 @@ fun UserMediaListView(
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .align(Alignment.TopStart),
+                .align(Alignment.TopStart)
+                .nestedScroll(nestedScrollConnection),
             state = listState,
             contentPadding = PaddingValues(vertical = 8.dp)
         ) {
@@ -253,35 +302,50 @@ fun UserMediaListView(
                 .align(Alignment.TopCenter)
         )
     }//:Box
+}
 
-    listState.OnBottomReached(buffer = 3) {
-        if (!viewModel.isLoading && viewModel.hasNextPage) {
-            viewModel.getUserList(viewModel.nextPage)
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ListStatusSheet(
+    mediaType: MediaType,
+    selectedStatus: MutableState<ListStatus>,
+    sheetState: SheetState,
+    onDismiss: () -> Unit = {},
+) {
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+    ) {
+        Column(
+            modifier = Modifier
+                .navigationBarsPadding()
+                .padding(bottom = 8.dp)
+        ) {
+            listStatusValues(mediaType).forEach {
+                val isSelected = selectedStatus.value == it
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { selectedStatus.value = it }
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        painter = painterResource(it.icon()),
+                        contentDescription = "check",
+                        tint = if (isSelected) MaterialTheme.colorScheme.primary
+                        else MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+
+                    Text(
+                        text = it.localized(),
+                        modifier = Modifier.padding(start = 8.dp),
+                        color = if (isSelected) MaterialTheme.colorScheme.primary
+                        else MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
         }
-    }
-
-    if (viewModel.openSortDialog) {
-        MediaListSortDialog(viewModel = viewModel)
-    }
-
-    if (sheetState.isVisible) {
-        EditMediaSheet(
-            coroutineScope = coroutineScope,
-            sheetState = sheetState,
-            mediaViewModel = viewModel
-        )
-    }
-
-    LaunchedEffect(viewModel.message) {
-        if (viewModel.showMessage) {
-            context.showToast(viewModel.message)
-            viewModel.showMessage = false
-        }
-    }
-
-    LaunchedEffect(viewModel.listSort) {
-        if (!viewModel.isLoading && viewModel.nextPage == null && !viewModel.loadedAllPages)
-            viewModel.getUserList()
     }
 }
 
