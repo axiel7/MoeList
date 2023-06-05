@@ -219,12 +219,7 @@ fun MainView(
         )
         NavHost(
             navController = navController,
-            startDestination = when (lastTabOpened) {
-                1 -> ANIME_LIST_DESTINATION
-                2 -> MANGA_LIST_DESTINATION
-                3 -> MORE_DESTINATION
-                else -> HOME_DESTINATION
-            },
+            startDestination = bottomDestinations[lastTabOpened].route,
             modifier = Modifier.padding(
                 start = padding.calculateStartPadding(LocalLayoutDirection.current),
                 end = padding.calculateEndPadding(LocalLayoutDirection.current),
