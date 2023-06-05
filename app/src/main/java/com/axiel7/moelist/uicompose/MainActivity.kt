@@ -64,6 +64,7 @@ import com.axiel7.moelist.uicompose.base.ListMode
 import com.axiel7.moelist.uicompose.base.StringArrayNavType
 import com.axiel7.moelist.uicompose.calendar.CALENDAR_DESTINATION
 import com.axiel7.moelist.uicompose.calendar.CalendarView
+import com.axiel7.moelist.uicompose.composables.BackIconButton
 import com.axiel7.moelist.uicompose.details.FULL_POSTER_DESTINATION
 import com.axiel7.moelist.uicompose.details.FullPosterView
 import com.axiel7.moelist.uicompose.details.MEDIA_DETAILS_DESTINATION
@@ -508,18 +509,13 @@ fun MainTopAppBar(
                 placeholder = { Text(text = stringResource(R.string.search)) },
                 leadingIcon = {
                     if (active) {
-                        IconButton(
+                        BackIconButton(
                             onClick = {
                                 active = false
                                 bottomBarState.value = true
                                 query = ""
                             }
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_arrow_back),
-                                contentDescription = "back"
-                            )
-                        }
+                        )
                     } else {
                         Icon(
                             painter = painterResource(R.drawable.ic_round_search_24),

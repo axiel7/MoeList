@@ -552,7 +552,8 @@ fun MediaInfoView(
             .padding(horizontal = 16.dp, vertical = 4.dp)
             .then(modifier)
     ) {
-        Text(title,
+        Text(
+            text = title,
             modifier = Modifier.weight(1f),
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -561,16 +562,6 @@ fun MediaInfoView(
             modifier = Modifier.weight(1f),
         )
     }
-}
-
-@Composable
-fun InfoTitle(text: String) {
-    Text(
-        text = text,
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-        fontSize = 18.sp,
-        fontWeight = FontWeight.Bold
-    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -593,9 +584,7 @@ fun MediaDetailsTopAppBar(
     TopAppBar(
         title = { Text(stringResource(R.string.title_details)) },
         navigationIcon = {
-            IconButton(onClick = navigateBack) {
-                Icon(painter = painterResource(R.drawable.ic_arrow_back), contentDescription = "back")
-            }
+            BackIconButton(onClick = navigateBack)
         },
         actions = {
             if (viewModel.mediaDetails is AnimeDetails
@@ -613,12 +602,7 @@ fun MediaDetailsTopAppBar(
                     )
                 }
             }
-            IconButton(onClick = onClickViewOn) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_open_in_browser),
-                    contentDescription = stringResource(R.string.view_on_mal)
-                )
-            }
+            ViewInBrowserButton(onClick = onClickViewOn)
         },
         scrollBehavior = scrollBehavior
     )

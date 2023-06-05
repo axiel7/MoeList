@@ -19,9 +19,7 @@ fun DefaultTopAppBar(
     TopAppBar(
         title = { Text(text = title) },
         navigationIcon = {
-            IconButton(onClick = navigateBack) {
-                Icon(painter = painterResource(R.drawable.ic_arrow_back), contentDescription = "back")
-            }
+            BackIconButton(onClick = navigateBack)
         },
         scrollBehavior = scrollBehavior
     )
