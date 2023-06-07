@@ -32,6 +32,7 @@ object PreferencesDataStore {
     val MANGA_LIST_SORT_PREFERENCE_KEY = stringPreferencesKey("manga_list_sort")
     val LIST_DISPLAY_MODE_PREFERENCE_KEY = stringPreferencesKey("list_display_mode")
     val START_TAB_PREFERENCE_KEY = stringPreferencesKey("start_tab")
+    val TITLE_LANG_PREFERENCE_KEY = stringPreferencesKey("title_lang")
 
     val Context.defaultPreferencesDataStore by preferencesDataStore(name = "default")
     val Context.notificationsDataStore by preferencesDataStore(name = "notifications")

@@ -52,11 +52,13 @@ import com.axiel7.moelist.data.datastore.PreferencesDataStore.NSFW_PREFERENCE_KE
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.PROFILE_PICTURE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.START_TAB_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.THEME_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.TITLE_LANG_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.defaultPreferencesDataStore
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.getValueSync
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.rememberPreference
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.data.model.media.TitleLanguage
 import com.axiel7.moelist.uicompose.base.BottomDestination
 import com.axiel7.moelist.uicompose.base.BottomDestination.Companion.toBottomDestinationIndex
 import com.axiel7.moelist.uicompose.base.ListMode
@@ -147,6 +149,9 @@ class MainActivity : AppCompatActivity() {
         }
         defaultPreferencesDataStore.getValueSync(LIST_DISPLAY_MODE_PREFERENCE_KEY)?.let {
             ListMode.forValue(it)?.let { mode -> App.listDisplayMode = mode }
+        }
+        defaultPreferencesDataStore.getValueSync(TITLE_LANG_PREFERENCE_KEY)?.let {
+            App.titleLanguage = TitleLanguage.valueOf(it)
         }
 
         setContent {

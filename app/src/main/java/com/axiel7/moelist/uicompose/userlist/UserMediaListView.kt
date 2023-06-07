@@ -199,7 +199,7 @@ fun UserMediaListView(
                     ) { item ->
                         StandardUserMediaListItem(
                             imageUrl = item.node.mainPicture?.large,
-                            title = item.node.title,
+                            title = item.node.userPreferredTitle(),
                             score = item.listStatus?.score,
                             mediaType = mediaType,
                             mediaFormat = item.node.mediaType,
@@ -238,7 +238,7 @@ fun UserMediaListView(
                     ) { item ->
                         CompactUserMediaListItem(
                             imageUrl = item.node.mainPicture?.large,
-                            title = item.node.title,
+                            title = item.node.userPreferredTitle(),
                             score = item.listStatus?.score,
                             mediaType = mediaType,
                             userProgress = item.userProgress(),
@@ -275,7 +275,7 @@ fun UserMediaListView(
                         contentType = { it.node }
                     ) { item ->
                         MinimalUserMediaListItem(
-                            title = item.node.title,
+                            title = item.node.userPreferredTitle(),
                             mediaType = mediaType,
                             userProgress = item.userProgress(),
                             totalProgress = item.totalProgress(),

@@ -72,6 +72,7 @@ data class AnimeDetails(
 fun AnimeDetails.toAnimeNode() = AnimeNode(
     id = id,
     title = title ?: "",
+    alternativeTitles = alternativeTitles,
     mainPicture = mainPicture,
     startSeason = startSeason,
     numEpisodes = numEpisodes,

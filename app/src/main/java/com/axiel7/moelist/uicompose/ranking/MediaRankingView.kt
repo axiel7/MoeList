@@ -39,6 +39,7 @@ import com.axiel7.moelist.data.model.media.mediaFormatLocalized
 import com.axiel7.moelist.data.model.media.rankingAnimeValues
 import com.axiel7.moelist.data.model.media.rankingMangaValues
 import com.axiel7.moelist.data.model.media.totalDuration
+import com.axiel7.moelist.data.model.media.userPreferredTitle
 import com.axiel7.moelist.uicompose.base.TabRowItem
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.uicompose.composables.MediaItemDetailed
@@ -144,7 +145,7 @@ fun MediaRankingListView(
             contentType = { it.node }
         ) { item ->
             MediaItemDetailed(
-                title = item.node.title,
+                title = item.node.userPreferredTitle(),
                 imageUrl = item.node.mainPicture?.large,
                 badgeContent = {
                     Text(

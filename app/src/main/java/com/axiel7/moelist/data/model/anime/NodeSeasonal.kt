@@ -1,5 +1,6 @@
 package com.axiel7.moelist.data.model.anime
 
+import com.axiel7.moelist.data.model.media.AlternativeTitles
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.MainPicture
 import kotlinx.serialization.SerialName
@@ -11,6 +12,8 @@ data class NodeSeasonal(
     override val id: Int,
     @SerialName("title")
     override val title: String,
+    @SerialName("alternative_titles")
+    override val alternativeTitles: AlternativeTitles? = null,
     @SerialName("broadcast")
     val broadcast: Broadcast? = null,
     @SerialName("main_picture")

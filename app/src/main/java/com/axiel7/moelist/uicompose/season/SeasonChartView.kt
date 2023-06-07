@@ -43,6 +43,7 @@ import com.axiel7.moelist.data.model.anime.seasonYearText
 import com.axiel7.moelist.data.model.media.durationText
 import com.axiel7.moelist.data.model.media.mediaFormatLocalized
 import com.axiel7.moelist.data.model.media.totalDuration
+import com.axiel7.moelist.data.model.media.userPreferredTitle
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.uicompose.composables.MediaItemDetailed
 import com.axiel7.moelist.uicompose.composables.MediaItemDetailedPlaceholder
@@ -92,7 +93,7 @@ fun SeasonChartView(
                 contentType = { it.node }
             ) { item ->
                 MediaItemDetailed(
-                    title = item.node.title,
+                    title = item.node.userPreferredTitle(),
                     imageUrl = item.node.mainPicture?.large,
                     subtitle1 = {
                         Text(

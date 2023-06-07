@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.defaultPreferencesDataStore
 import com.axiel7.moelist.data.model.media.MediaSort
+import com.axiel7.moelist.data.model.media.TitleLanguage
 import com.axiel7.moelist.data.network.Api
 import com.axiel7.moelist.data.network.JikanApi
 import com.axiel7.moelist.data.network.KtorClient
@@ -34,5 +35,6 @@ class App : Application() {
         var animeListSort = MediaSort.ANIME_TITLE
         var mangaListSort = MediaSort.MANGA_TITLE
         var listDisplayMode = ListMode.STANDARD
+        var titleLanguage = TitleLanguage.ROMAJI
     }
 }

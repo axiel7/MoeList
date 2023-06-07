@@ -190,7 +190,7 @@ fun MediaDetailsView(
                 )
                 Column {
                     Text(
-                        text = viewModel.mediaDetails?.title ?: "Loading",
+                        text = viewModel.mediaDetails?.userPreferredTitle() ?: "Loading",
                         modifier = Modifier
                             .padding(bottom = 8.dp, end = 8.dp)
                             .defaultPlaceholder(visible = viewModel.isLoading)
@@ -376,6 +376,20 @@ fun MediaDetailsView(
                     modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
                 )
             }
+            SelectionContainer {
+                MediaInfoView(
+                    title = stringResource(R.string.romaji),
+                    info = viewModel.mediaDetails?.title,
+                    modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
+                )
+            }
+            SelectionContainer {
+                MediaInfoView(
+                    title = stringResource(R.string.english),
+                    info = viewModel.mediaDetails?.alternativeTitles?.en,
+                    modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
+                )
+            }
             Divider(modifier = Modifier.padding(vertical = 8.dp))
             MediaInfoView(
                 title = stringResource(R.string.start_date),
@@ -457,7 +471,7 @@ fun MediaDetailsView(
                     items(viewModel.relatedAnime) { item ->
                         MediaItemVertical(
                             url = item.node.mainPicture?.large,
-                            title = item.node.title,
+                            title = item.node.userPreferredTitle(),
                             modifier = Modifier.padding(end = 8.dp),
                             subtitle = {
                                 Text(
@@ -482,7 +496,7 @@ fun MediaDetailsView(
                     items(viewModel.relatedManga) { item ->
                         MediaItemVertical(
                             url = item.node.mainPicture?.large,
-                            title = item.node.title,
+                            title = item.node.userPreferredTitle(),
                             modifier = Modifier.padding(end = 8.dp),
                             subtitle = {
                                 Text(
@@ -509,7 +523,7 @@ fun MediaDetailsView(
                     items(viewModel.recommendations) { item ->
                         MediaItemVertical(
                             url = item.node.mainPicture?.large,
-                            title = item.node.title,
+                            title = item.node.userPreferredTitle(),
                             modifier = Modifier.padding(end = 8.dp),
                             subtitle = {
                                 TextIconHorizontal(
