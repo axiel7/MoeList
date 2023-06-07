@@ -23,10 +23,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.notificationsDataStore
+import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.NotificationWorker
@@ -36,7 +35,8 @@ const val NOTIFICATIONS_DESTINATION = "notifications"
 
 @Composable
 fun NotificationsView(
-    navController: NavController
+    navigateBack: () -> Unit,
+    navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
@@ -46,7 +46,7 @@ fun NotificationsView(
 
     DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.notifications),
-        navController = navController,
+        navigateBack = navigateBack,
         floatingActionButton = {
             ExtendedFloatingActionButton(onClick = {
                 coroutineScope.launch {
@@ -75,7 +75,7 @@ fun NotificationsView(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
-                            navController.navigate("details/anime/$key")
+                            navigateToMediaDetails(MediaType.ANIME, key.toString().toInt())
                         },
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
@@ -108,7 +108,8 @@ fun NotificationsView(
 fun NotificationsPreview() {
     MoeListTheme {
         NotificationsView(
-            navController = rememberNavController()
+            navigateBack = {},
+            navigateToMediaDetails = { _, _ -> },
         )
     }
 }

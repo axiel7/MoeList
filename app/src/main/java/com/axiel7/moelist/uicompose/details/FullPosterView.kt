@@ -16,8 +16,6 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
@@ -28,14 +26,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
-import com.axiel7.moelist.R
+import com.axiel7.moelist.uicompose.composables.BackIconButton
+import com.axiel7.moelist.uicompose.composables.ViewInBrowserButton
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.openLink
 import kotlinx.coroutines.launch
@@ -46,7 +41,7 @@ const val FULL_POSTER_DESTINATION = "full_poster/{pictures}"
 @Composable
 fun FullPosterView(
     pictures: Array<String>,
-    navController: NavController
+    navigateBack: () -> Unit,
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
@@ -57,19 +52,14 @@ fun FullPosterView(
             TopAppBar(
                 title = { },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(painter = painterResource(R.drawable.ic_arrow_back), contentDescription = "back")
-                    }
+                    BackIconButton(onClick = navigateBack)
                 },
                 actions = {
-                    IconButton(onClick = {
-                        context.openLink(pictures[pagerState.currentPage])
-                    }) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_open_in_browser),
-                            contentDescription = stringResource(R.string.view_on_mal)
-                        )
-                    }
+                    ViewInBrowserButton(
+                        onClick = {
+                            context.openLink(pictures[pagerState.currentPage])
+                        }
+                    )
                 }
             )
         }
@@ -131,7 +121,7 @@ fun FullPosterPreview() {
     MoeListTheme {
         FullPosterView(
             pictures = arrayOf("", ""),
-            navController = rememberNavController()
+            navigateBack = {}
         )
     }
 }

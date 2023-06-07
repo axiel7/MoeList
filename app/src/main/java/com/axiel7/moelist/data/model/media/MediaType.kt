@@ -4,13 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
 
-enum class MediaType(val value: String) {
-    ANIME("anime"),
-    MANGA("manga");
-
-    companion object {
-        fun forValue(value: String) = values().firstOrNull { it.value == value }
-    }
+enum class MediaType {
+    ANIME, MANGA
 }
 
 @Composable

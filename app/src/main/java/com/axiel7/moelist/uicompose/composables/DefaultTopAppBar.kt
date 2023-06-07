@@ -14,14 +14,12 @@ import com.axiel7.moelist.uicompose.theme.MoeListTheme
 fun DefaultTopAppBar(
     title: String,
     scrollBehavior: TopAppBarScrollBehavior? = null,
-    navController: NavController
+    navigateBack: () -> Unit,
 ) {
     TopAppBar(
         title = { Text(text = title) },
         navigationIcon = {
-            IconButton(onClick = { navController.popBackStack() }) {
-                Icon(painter = painterResource(R.drawable.ic_arrow_back), contentDescription = "back")
-            }
+            BackIconButton(onClick = navigateBack)
         },
         scrollBehavior = scrollBehavior
     )
@@ -32,6 +30,9 @@ fun DefaultTopAppBar(
 @Composable
 fun DefaultTopAppBarPreview() {
     MoeListTheme {
-        DefaultTopAppBar(title = "MoeList", navController = rememberNavController())
+        DefaultTopAppBar(
+            title = "MoeList",
+            navigateBack = {}
+        )
     }
 }

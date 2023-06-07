@@ -49,6 +49,45 @@ fun EditMediaSheet(
         derivedStateOf { mediaViewModel.myListStatus == null }
     }
 
+    if (viewModel.openDatePicker) {
+        EditMediaDatePicker(
+            viewModel = viewModel,
+            datePickerState = datePickerState,
+            onDateSelected = {
+                when (viewModel.selectedDateType) {
+                    1 -> { viewModel.startDate = DateUtils.getLocalDateFromMillis(it) }
+                    2 -> { viewModel.endDate = DateUtils.getLocalDateFromMillis(it) }
+                }
+            }
+        )
+    }
+
+    if (viewModel.openDeleteDialog) {
+        DeleteMediaEntryDialog(viewModel = viewModel)
+    }
+
+    LaunchedEffect(viewModel.message) {
+        if (viewModel.showMessage) {
+            context.showToast(viewModel.message)
+            viewModel.showMessage = false
+        }
+    }
+
+    LaunchedEffect(mediaViewModel.mediaInfo) {
+        viewModel.mediaInfo = mediaViewModel.mediaInfo
+        mediaViewModel.myListStatus?.let {
+            viewModel.setEditVariables(it)
+        }
+    }
+
+    LaunchedEffect(viewModel.updateSuccess) {
+        if (viewModel.updateSuccess) {
+            mediaViewModel.myListStatus = viewModel.myListStatus
+            viewModel.updateSuccess = false
+            coroutineScope.launch { sheetState.hide() }
+        }
+    }
+
     ModalBottomSheet(
         sheetState = sheetState,
         onDismissRequest = { coroutineScope.launch { sheetState.hide() } }
@@ -208,45 +247,6 @@ fun EditMediaSheet(
             }
         }//:Column
     }//:Sheet
-
-    if (viewModel.openDatePicker) {
-        EditMediaDatePicker(
-            viewModel = viewModel,
-            datePickerState = datePickerState,
-            onDateSelected = {
-                when (viewModel.selectedDateType) {
-                    1 -> { viewModel.startDate = DateUtils.getLocalDateFromMillis(it) }
-                    2 -> { viewModel.endDate = DateUtils.getLocalDateFromMillis(it) }
-                }
-            }
-        )
-    }
-
-    if (viewModel.openDeleteDialog) {
-        DeleteMediaEntryDialog(viewModel = viewModel)
-    }
-
-    LaunchedEffect(viewModel.message) {
-        if (viewModel.showMessage) {
-            context.showToast(viewModel.message)
-            viewModel.showMessage = false
-        }
-    }
-
-    LaunchedEffect(mediaViewModel.mediaInfo) {
-        viewModel.mediaInfo = mediaViewModel.mediaInfo
-        mediaViewModel.myListStatus?.let {
-            viewModel.setEditVariables(it)
-        }
-    }
-
-    LaunchedEffect(viewModel.updateSuccess) {
-        if (viewModel.updateSuccess) {
-            mediaViewModel.myListStatus = viewModel.myListStatus
-            viewModel.updateSuccess = false
-            coroutineScope.launch { sheetState.hide() }
-        }
-    }
 }
 
 @Composable

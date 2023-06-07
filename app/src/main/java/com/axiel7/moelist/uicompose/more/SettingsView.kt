@@ -40,8 +40,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.LANG_PREFERENCE_KEY
@@ -62,7 +60,7 @@ const val SETTINGS_DESTINATION = "settings"
 
 @Composable
 fun SettingsView(
-    navController: NavController
+    navigateBack: () -> Unit,
 ) {
     val context = LocalContext.current
     val viewModel: SettingsViewModel = viewModel()
@@ -75,7 +73,7 @@ fun SettingsView(
 
     DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.settings),
-        navController = navController
+        navigateBack = navigateBack
     ) { padding ->
         Column(
             modifier = Modifier.padding(padding)
@@ -396,7 +394,7 @@ fun ListPreferenceView(
 fun SettingsPreview() {
     MoeListTheme {
         SettingsView(
-            navController = rememberNavController()
+            navigateBack = {}
         )
     }
 }

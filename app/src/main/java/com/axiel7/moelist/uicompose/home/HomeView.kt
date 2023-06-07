@@ -45,8 +45,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.anime.airingInString
@@ -62,7 +60,6 @@ import com.axiel7.moelist.uicompose.composables.MediaItemVertical
 import com.axiel7.moelist.uicompose.composables.MediaItemVerticalPlaceholder
 import com.axiel7.moelist.uicompose.composables.MediaPoster
 import com.axiel7.moelist.uicompose.composables.SmallScoreIndicator
-import com.axiel7.moelist.uicompose.season.SEASON_CHART_DESTINATION
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.SeasonCalendar
@@ -73,8 +70,11 @@ const val HOME_DESTINATION = "home"
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeView(
-    navController: NavController,
     modifier: Modifier = Modifier,
+    navigateToMediaDetails: (MediaType, Int) -> Unit,
+    navigateToRanking: (MediaType) -> Unit,
+    navigateToSeasonChart: () -> Unit,
+    navigateToCalendar: () -> Unit,
 ) {
     val context = LocalContext.current
     val viewModel: HomeViewModel = viewModel()
@@ -82,6 +82,17 @@ fun HomeView(
     val airingListState = rememberLazyListState()
     val seasonListState = rememberLazyListState()
     val recommendListState = rememberLazyListState()
+
+    LaunchedEffect(viewModel.message) {
+        if (viewModel.showMessage) {
+            context.showToast(viewModel.message)
+            viewModel.showMessage = false
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.initRequestChain()
+    }
 
     Column(
         modifier = modifier.verticalScroll(scrollState)
@@ -95,7 +106,7 @@ fun HomeView(
                 icon = R.drawable.ic_round_movie_24,
                 modifier = Modifier.weight(1f),
                 onClick = {
-                    navController.navigate("ranking/ANIME")
+                    navigateToRanking(MediaType.ANIME)
                 },
             )
 
@@ -104,7 +115,7 @@ fun HomeView(
                 icon = R.drawable.ic_round_menu_book_24,
                 modifier = Modifier.weight(1f),
                 onClick = {
-                    navController.navigate("ranking/MANGA")
+                    navigateToRanking(MediaType.MANGA)
                 },
             )
         }
@@ -116,25 +127,21 @@ fun HomeView(
                 text = stringResource(R.string.seasonal_chart),
                 icon = SeasonCalendar.currentSeason.icon(),
                 modifier = Modifier.weight(1f),
-                onClick = {
-                    navController.navigate(SEASON_CHART_DESTINATION)
-                },
+                onClick = navigateToSeasonChart,
             )
 
             HomeCard(
                 text = stringResource(R.string.calendar),
                 icon = R.drawable.ic_round_event_24,
                 modifier = Modifier.weight(1f),
-                onClick = {
-                    navController.navigate(CALENDAR_DESTINATION)
-                },
+                onClick = navigateToCalendar,
             )
         }
 
         // Airing
         HeaderHorizontalList(
             text = stringResource(R.string.today),
-            onClick = { navController.navigate(CALENDAR_DESTINATION) }
+            onClick = navigateToCalendar
         )
         LazyRow(
             modifier = Modifier
@@ -144,28 +151,29 @@ fun HomeView(
             contentPadding = PaddingValues(horizontal = 8.dp),
             flingBehavior = rememberSnapFlingBehavior(lazyListState = airingListState)
         ) {
-            if (viewModel.isLoading) {
-                items(5) {
-                    MediaItemDetailedPlaceholder()
-                }
-            }
-            else items(viewModel.todayAnimes,
+            items(
+                items = viewModel.todayAnimes,
                 key = { it.node.id },
                 contentType = { it.node }
             ) {
                 AiringAnimeHorizontalItem(
                     item = it,
                     onClick = {
-                        navController.navigate("details/anime/${it.node.id}")
+                        navigateToMediaDetails(MediaType.ANIME, it.node.id)
                     }
                 )
+            }
+            if (viewModel.isLoading) {
+                items(5) {
+                    MediaItemDetailedPlaceholder()
+                }
             }
         }
 
         // This Season
         HeaderHorizontalList(
             text = stringResource(R.string.this_season),
-            onClick = { navController.navigate(SEASON_CHART_DESTINATION) }
+            onClick = navigateToSeasonChart
         )
         LazyRow(
             modifier = Modifier
@@ -175,12 +183,7 @@ fun HomeView(
             contentPadding = PaddingValues(horizontal = 16.dp),
             flingBehavior = rememberSnapFlingBehavior(lazyListState = seasonListState)
         ) {
-            if (viewModel.isLoading) {
-                items(10) {
-                    MediaItemVerticalPlaceholder()
-                }
-            }
-            else items(viewModel.seasonAnimes,
+            items(viewModel.seasonAnimes,
                 key = { it.node.id },
                 contentType = { it.node }
             ) {
@@ -194,8 +197,13 @@ fun HomeView(
                             fontSize = 13.sp
                         )
                     },
-                    onClick = { navController.navigate("details/anime/${it.node.id}") }
+                    onClick = { navigateToMediaDetails(MediaType.ANIME, it.node.id) }
                 )
+            }
+            if (viewModel.isLoading) {
+                items(10) {
+                    MediaItemVerticalPlaceholder()
+                }
             }
         }
 
@@ -209,12 +217,7 @@ fun HomeView(
             contentPadding = PaddingValues(horizontal = 16.dp),
             flingBehavior = rememberSnapFlingBehavior(lazyListState = recommendListState)
         ) {
-            if (viewModel.isLoading) {
-                items(10) {
-                    MediaItemVerticalPlaceholder()
-                }
-            }
-            else items(viewModel.recommendedAnimes,
+            items(viewModel.recommendedAnimes,
                 key = { it.node.id },
                 contentType = { it.node }
             ) {
@@ -228,8 +231,13 @@ fun HomeView(
                             fontSize = 13.sp
                         )
                     },
-                    onClick = { navController.navigate("details/anime/${it.node.id}") }
+                    onClick = { navigateToMediaDetails(MediaType.ANIME, it.node.id) }
                 )
+            }
+            if (viewModel.isLoading) {
+                items(10) {
+                    MediaItemVerticalPlaceholder()
+                }
             }
         }
 
@@ -242,10 +250,9 @@ fun HomeView(
             //Random
             OutlinedButton(
                 onClick = {
-                    val type = if (Random.nextBoolean()) MediaType.ANIME.value
-                    else MediaType.MANGA.value
+                    val type = if (Random.nextBoolean()) MediaType.ANIME else MediaType.MANGA
                     val id = Random.nextInt(from = 0, until = 6000)
-                    navController.navigate("details/$type/$id")
+                    navigateToMediaDetails(type, id)
                 }
             ) {
                 Icon(
@@ -262,17 +269,6 @@ fun HomeView(
                 )
             }
         }
-    }
-
-    LaunchedEffect(viewModel.message) {
-        if (viewModel.showMessage) {
-            context.showToast(viewModel.message)
-            viewModel.showMessage = false
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        viewModel.initRequestChain()
     }
 }
 
@@ -376,7 +372,10 @@ fun HomePreview() {
     MoeListTheme {
         Surface {
             HomeView(
-                navController = rememberNavController()
+                navigateToMediaDetails = { _, _ -> },
+                navigateToRanking = {},
+                navigateToSeasonChart = {},
+                navigateToCalendar = {}
             )
         }
     }

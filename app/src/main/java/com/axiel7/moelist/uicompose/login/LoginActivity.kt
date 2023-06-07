@@ -1,6 +1,7 @@
 package com.axiel7.moelist.uicompose.login
 
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -93,17 +94,21 @@ fun LoginView(
     val context = LocalContext.current
     var useExternalBrowser by remember { mutableStateOf(false) }
 
-    fun openLogin() {
-        if (useExternalBrowser) {
-            Intent(Intent.ACTION_VIEW, Uri.parse(viewModel.loginUrl)).apply {
-                try {
-                    context.showToast(context.getString(R.string.login_browser_warning))
-                    context.startActivity(this)
-                } catch (e: ActivityNotFoundException) {
-                    context.showToast("No app found for this action")
-                }
-            }
-        } else context.openCustomTab(viewModel.loginUrl)
+    if (viewModel.loginWasOk) {
+        Intent(context, MainActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            context.startActivity(this)
+            context.getActivity()?.finish()
+        }
+        viewModel.loginWasOk = false
+    }
+
+    LaunchedEffect(viewModel.message) {
+        if (viewModel.showMessage) {
+            context.showToast(viewModel.message)
+            viewModel.showMessage = false
+        }
     }
 
     Scaffold(
@@ -124,7 +129,12 @@ fun LoginView(
             )
 
             Button(
-                onClick = { openLogin() },
+                onClick = {
+                    context.openLoginUrl(
+                        loginUrl = viewModel.loginUrl,
+                        useExternalBrowser = useExternalBrowser
+                    )
+                },
                 modifier = Modifier.padding(bottom = 24.dp)
             ) {
                 Text(
@@ -152,24 +162,23 @@ fun LoginView(
                 Spacer(modifier = Modifier.size(24.dp))
             }
         }
-    }
+    }//:Scaffold
+}
 
-    if (viewModel.loginWasOk) {
-        Intent(context, MainActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            context.startActivity(this)
-            context.getActivity()?.finish()
+fun Context.openLoginUrl(
+    loginUrl: String,
+    useExternalBrowser: Boolean
+) {
+    if (useExternalBrowser) {
+        Intent(Intent.ACTION_VIEW, Uri.parse(loginUrl)).apply {
+            try {
+                showToast(getString(R.string.login_browser_warning))
+                startActivity(this)
+            } catch (e: ActivityNotFoundException) {
+                showToast("No app found for this action")
+            }
         }
-        viewModel.loginWasOk = false
-    }
-
-    LaunchedEffect(viewModel.message) {
-        if (viewModel.showMessage) {
-            context.showToast(viewModel.message)
-            viewModel.showMessage = false
-        }
-    }
+    } else openCustomTab(loginUrl)
 }
 
 @Preview(showBackground = true)

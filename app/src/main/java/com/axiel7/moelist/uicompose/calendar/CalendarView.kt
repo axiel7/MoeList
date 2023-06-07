@@ -23,9 +23,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
+import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.WeekDay
 import com.axiel7.moelist.data.model.media.durationText
 import com.axiel7.moelist.data.model.media.localized
@@ -49,7 +48,8 @@ const val CALENDAR_DESTINATION = "calendar/{day}"
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CalendarView(
-    navController: NavController
+    navigateBack: () -> Unit,
+    navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
     val context = LocalContext.current
     val viewModel: CalendarViewModel = viewModel()
@@ -58,13 +58,25 @@ fun CalendarView(
         pageCount = { WeekDay.values().size }
     )
     val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(viewModel.message) {
+        if (viewModel.showMessage) {
+            context.showToast(viewModel.message)
+            viewModel.showMessage = false
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        if (viewModel.weekAnime[0].isEmpty())
+            viewModel.getSeasonAnime()
+    }
     
     DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.calendar),
-        navController = navController
-    ) {
+        navigateBack = navigateBack
+    ) { padding ->
         Column(
-            modifier = Modifier.padding(it)
+            modifier = Modifier.padding(padding)
         ) {
             ScrollableTabRow(
                 selectedTabIndex = pagerState.currentPage,
@@ -88,12 +100,10 @@ fun CalendarView(
                 LazyColumn(
                     contentPadding = PaddingValues(vertical = 8.dp)
                 ) {
-                    if (viewModel.isLoading) {
-                        items(10) {
-                            MediaItemDetailedPlaceholder()
-                        }
-                    }
-                    else items(viewModel.weekAnime[page]) { item ->
+                    items(
+                        items = viewModel.weekAnime[page],
+                        contentType = { it }
+                    ) { item ->
                         MediaItemDetailed(
                             title = item.node.userPreferredTitle(),
                             imageUrl = item.node.mainPicture?.large,
@@ -133,26 +143,19 @@ fun CalendarView(
                                 )
                             },
                             onClick = {
-                                navController.navigate("details/ANIME/${item.node.id}")
+                                navigateToMediaDetails(MediaType.ANIME, item.node.id)
                             }
                         )
                     }
-                }
-            }
-        }
-    }
-
-    LaunchedEffect(viewModel.message) {
-        if (viewModel.showMessage) {
-            context.showToast(viewModel.message)
-            viewModel.showMessage = false
-        }
-    }
-    
-    LaunchedEffect(Unit) {
-        if (viewModel.weekAnime[0].isEmpty())
-            viewModel.getSeasonAnime()
-    }
+                    if (viewModel.isLoading) {
+                        items(10) {
+                            MediaItemDetailedPlaceholder()
+                        }
+                    }
+                }//:LazyColumn
+            }//:Pager
+        }//:Column
+    }//:Scaffold
 }
 
 @Preview(showBackground = true)
@@ -160,7 +163,8 @@ fun CalendarView(
 fun CalendarPreview() {
     MoeListTheme {
         CalendarView(
-            navController = rememberNavController()
+            navigateBack = {},
+            navigateToMediaDetails = { _, _ -> }
         )
     }
 }

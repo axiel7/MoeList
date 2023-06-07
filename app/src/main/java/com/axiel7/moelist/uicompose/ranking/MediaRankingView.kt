@@ -28,8 +28,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.RankingType
@@ -59,7 +57,8 @@ const val MEDIA_RANKING_DESTINATION = "ranking/{mediaType}"
 @Composable
 fun MediaRankingView(
     mediaType: MediaType,
-    navController: NavController
+    navigateBack: () -> Unit,
+    navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val tabRowItems = remember {
@@ -75,7 +74,7 @@ fun MediaRankingView(
             if (mediaType == MediaType.ANIME) R.string.anime_ranking
             else R.string.manga_ranking
         ),
-        navController = navController,
+        navigateBack = navigateBack,
     ) { padding ->
         Column(
             modifier = Modifier
@@ -111,7 +110,7 @@ fun MediaRankingView(
                 MediaRankingListView(
                     mediaType = mediaType,
                     rankingType = tabRowItems[it].value,
-                    navController = navController
+                    navigateToMediaDetails = navigateToMediaDetails
                 )
             }
         }
@@ -122,7 +121,7 @@ fun MediaRankingView(
 fun MediaRankingListView(
     mediaType: MediaType,
     rankingType: RankingType,
-    navController: NavController,
+    navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
     val context = LocalContext.current
     val viewModel: MediaRankingViewModel = viewModel(key = rankingType.value) {
@@ -130,17 +129,30 @@ fun MediaRankingListView(
     }
     val listState = rememberLazyListState()
 
+    listState.OnBottomReached(buffer = 3) {
+        if (!viewModel.isLoading && viewModel.hasNextPage) {
+            viewModel.getRanking(viewModel.nextPage)
+        }
+    }
+
+    LaunchedEffect(viewModel.message) {
+        if (viewModel.showMessage) {
+            context.showToast(viewModel.message)
+            viewModel.showMessage = false
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        if (!viewModel.isLoading && viewModel.nextPage == null && !viewModel.loadedAllPages)
+            viewModel.getRanking()
+    }
+
     LazyColumn(
         contentPadding = PaddingValues(vertical = 8.dp),
         state = listState
     ) {
-        if (viewModel.mediaList.isEmpty() && viewModel.isLoading) {
-            items(10) {
-                MediaItemDetailedPlaceholder()
-            }
-        }
-        else items(
-            viewModel.mediaList,
+        items(
+            items = viewModel.mediaList,
             key = { it.node.id },
             contentType = { it.node }
         ) { item ->
@@ -189,29 +201,16 @@ fun MediaRankingListView(
                     )
                 },
                 onClick = {
-                    navController.navigate("details/${mediaType.value}/${item.node.id}")
+                    navigateToMediaDetails(mediaType, item.node.id)
                 }
             )
         }
-    }
-
-    listState.OnBottomReached(buffer = 3) {
-        if (!viewModel.isLoading && viewModel.hasNextPage) {
-            viewModel.getRanking(viewModel.nextPage)
+        if (viewModel.mediaList.isEmpty() && viewModel.isLoading) {
+            items(10) {
+                MediaItemDetailedPlaceholder()
+            }
         }
-    }
-
-    LaunchedEffect(viewModel.message) {
-        if (viewModel.showMessage) {
-            context.showToast(viewModel.message)
-            viewModel.showMessage = false
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        if (!viewModel.isLoading && viewModel.nextPage == null && !viewModel.loadedAllPages)
-            viewModel.getRanking()
-    }
+    }//:LazyColumn
 }
 
 @Preview(showBackground = true)
@@ -220,7 +219,8 @@ fun MediaRankingPreview() {
     MoeListTheme {
         MediaRankingView(
             mediaType = MediaType.MANGA,
-            navController = rememberNavController()
+            navigateBack = {},
+            navigateToMediaDetails = { _, _ -> }
         )
     }
 }

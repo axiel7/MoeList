@@ -8,13 +8,12 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DefaultScaffoldWithTopAppBar(
     title: String,
-    navController: NavController,
+    navigateBack: () -> Unit,
     floatingActionButton: @Composable (() -> Unit) = {},
     content: @Composable (PaddingValues) -> Unit
 ) {
@@ -27,7 +26,7 @@ fun DefaultScaffoldWithTopAppBar(
             DefaultTopAppBar(
                 title = title,
                 scrollBehavior = topAppBarScrollBehavior,
-                navController = navController
+                navigateBack = navigateBack
             )
         },
         floatingActionButton = floatingActionButton,

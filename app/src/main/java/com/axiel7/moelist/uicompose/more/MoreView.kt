@@ -29,8 +29,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants
@@ -38,12 +36,15 @@ import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.UseCases.logOut
 import kotlinx.coroutines.launch
 
+const val MORE_TAB_DESTINATION = "more_tab"
 const val MORE_DESTINATION = "more"
 
 @Composable
 fun MoreView(
-    navController: NavController,
     modifier: Modifier = Modifier,
+    navigateToSettings: () -> Unit,
+    navigateToNotifications: () -> Unit,
+    navigateToAbout: () -> Unit,
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
@@ -85,21 +86,19 @@ fun MoreView(
         MoreItem(
             title = stringResource(R.string.notifications),
             icon = R.drawable.round_notifications_24,
-            onClick = { navController.navigate(NOTIFICATIONS_DESTINATION) }
+            onClick = navigateToNotifications
         )
 
         MoreItem(
             title = stringResource(R.string.settings),
             icon = R.drawable.ic_round_settings_24,
-            onClick = { navController.navigate(SETTINGS_DESTINATION) }
+            onClick = navigateToSettings
         )
 
         MoreItem(
             title = stringResource(R.string.about),
             icon = R.drawable.ic_info,
-            onClick = {
-                navController.navigate(ABOUT_DESTINATION)
-            }
+            onClick = navigateToAbout
         )
 
         MoreItem(
@@ -182,7 +181,9 @@ fun MoreItem(
 fun MorePreview() {
     MoeListTheme {
         MoreView(
-            navController = rememberNavController()
+            navigateToSettings = {},
+            navigateToNotifications = {},
+            navigateToAbout = {},
         )
     }
 }

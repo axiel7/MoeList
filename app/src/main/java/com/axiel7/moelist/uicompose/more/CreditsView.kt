@@ -10,8 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
@@ -40,14 +38,14 @@ val translationsCredits = mapOf(
 
 @Composable
 fun CreditsView(
-    navController: NavController
+    navigateBack: () -> Unit,
 ) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()
 
     DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.credits),
-        navController = navController
+        navigateBack = navigateBack
     ) {
         Column(
             modifier = Modifier
@@ -95,7 +93,7 @@ fun CreditsView(
 fun CreditsPreview() {
     MoeListTheme {
         CreditsView(
-            navController = rememberNavController()
+            navigateBack = {}
         )
     }
 }

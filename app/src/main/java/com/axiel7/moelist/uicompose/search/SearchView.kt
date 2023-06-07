@@ -25,8 +25,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeList
 import com.axiel7.moelist.data.model.anime.seasonYearText
@@ -49,12 +47,39 @@ import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrUnknown
 fun SearchView(
     query: String,
     performSearch: MutableState<Boolean>,
-    navController: NavController
+    navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
     val context = LocalContext.current
     val viewModel: SearchViewModel = viewModel()
     val listState = rememberLazyListState()
     var mediaType by remember { mutableStateOf(MediaType.ANIME) }
+
+    listState.OnBottomReached(buffer = 3) {
+        if (!viewModel.isLoading && viewModel.hasNextPage) {
+            viewModel.search(
+                mediaType = mediaType,
+                query = query,
+                page = viewModel.nextPage
+            )
+        }
+    }
+
+    LaunchedEffect(viewModel.message) {
+        if (viewModel.showMessage) {
+            context.showToast(viewModel.message)
+            viewModel.showMessage = false
+        }
+    }
+
+    LaunchedEffect(mediaType, performSearch.value) {
+        if (query.isNotBlank() && performSearch.value) {
+            viewModel.search(
+                mediaType = mediaType,
+                query = query
+            )
+            performSearch.value = false
+        }
+    }
 
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
@@ -92,20 +117,8 @@ fun SearchView(
                 )
             }
         }
-        if (viewModel.mediaList.isEmpty()) {
-            if (viewModel.isLoading)
-                items(10) {
-                    MediaItemDetailedPlaceholder()
-                }
-            else if (query.isNotBlank() && performSearch.value)
-                item {
-                    Text(
-                        text = stringResource(R.string.no_results),
-                        modifier = Modifier.padding(16.dp)
-                    )
-                }
-        }
-        else items(viewModel.mediaList,
+        items(
+            items = viewModel.mediaList,
             contentType = { it.node }
         ) {
             MediaItemDetailed(
@@ -145,38 +158,24 @@ fun SearchView(
                     )
                 },
                 onClick = {
-                    navController.navigate("details/${mediaType.value}/${it.node.id}")
+                    navigateToMediaDetails(mediaType, it.node.id)
                 }
             )
         }
+        if (viewModel.mediaList.isEmpty()) {
+            if (viewModel.isLoading)
+                items(10) {
+                    MediaItemDetailedPlaceholder()
+                }
+            else if (query.isNotBlank() && performSearch.value)
+                item {
+                    Text(
+                        text = stringResource(R.string.no_results),
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
+        }
     }//: LazyColumn
-
-    listState.OnBottomReached(buffer = 3) {
-        if (!viewModel.isLoading && viewModel.hasNextPage) {
-            viewModel.search(
-                mediaType = mediaType,
-                query = query,
-                page = viewModel.nextPage
-            )
-        }
-    }
-
-    LaunchedEffect(viewModel.message) {
-        if (viewModel.showMessage) {
-            context.showToast(viewModel.message)
-            viewModel.showMessage = false
-        }
-    }
-
-    LaunchedEffect(mediaType, performSearch.value) {
-        if (query.isNotBlank() && performSearch.value) {
-            viewModel.search(
-                mediaType = mediaType,
-                query = query
-            )
-            performSearch.value = false
-        }
-    }
 }
 
 @Preview(showBackground = true)
@@ -186,7 +185,7 @@ fun SearchPreview() {
         SearchView(
             query = "one",
             performSearch = remember { mutableStateOf(false) },
-            navController = rememberNavController()
+            navigateToMediaDetails = { _, _ -> }
         )
     }
 }

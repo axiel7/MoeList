@@ -31,8 +31,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
@@ -53,14 +51,28 @@ import java.time.format.DateTimeFormatter
 const val PROFILE_DESTINATION = "profile"
 
 @Composable
-fun ProfileView(navController: NavController) {
+fun ProfileView(
+    navigateBack: () -> Unit,
+    navigateToFullPoster: (String) -> Unit,
+) {
     val context = LocalContext.current
     val viewModel: ProfileViewModel = viewModel()
     val scrollState = rememberScrollState()
 
+    LaunchedEffect(viewModel.message) {
+        if (viewModel.showMessage) {
+            context.showToast(viewModel.message)
+            viewModel.showMessage = false
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        if (viewModel.user == null) viewModel.getMyUser()
+    }
+
     DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.title_profile),
-        navController = navController
+        navigateBack = navigateBack
     ) { padding ->
         Column(
             modifier = Modifier
@@ -83,9 +95,7 @@ fun ProfileView(navController: NavController) {
                         .size(100.dp)
                         .defaultPlaceholder(visible = viewModel.isLoading)
                         .clickable {
-                            navController.navigate(
-                                "full_poster/${arrayOf(viewModel.profilePictureUrl ?: "").toNavArgument()}"
-                            )
+                            navigateToFullPoster(arrayOf(viewModel.profilePictureUrl ?: "").toNavArgument())
                         }
                 )
 
@@ -161,17 +171,6 @@ fun ProfileView(navController: NavController) {
             }
         }//:Column
     }//:Scaffold
-
-    LaunchedEffect(viewModel.message) {
-        if (viewModel.showMessage) {
-            context.showToast(viewModel.message)
-            viewModel.showMessage = false
-        }
-    }
-    
-    LaunchedEffect(Unit) {
-        if (viewModel.user == null) viewModel.getMyUser()
-    }
 }
 
 @Composable
@@ -292,6 +291,9 @@ fun UserStatsView(
 @Composable
 fun ProfilePreview() {
     MoeListTheme {
-        ProfileView(navController = rememberNavController())
+        ProfileView(
+            navigateBack = {},
+            navigateToFullPoster = {}
+        )
     }
 }

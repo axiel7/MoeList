@@ -25,8 +25,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.notificationsDataStore
 import com.axiel7.moelist.data.model.anime.*
@@ -64,7 +62,9 @@ const val MEDIA_DETAILS_DESTINATION = "details/{mediaType}/{mediaId}"
 fun MediaDetailsView(
     mediaType: MediaType,
     mediaId: Int,
-    navController: NavController
+    navigateBack: () -> Unit,
+    navigateToMediaDetails: (MediaType, Int) -> Unit,
+    navigateToFullPoster: (String) -> Unit,
 ) {
     val context = LocalContext.current
     val viewModel: MediaDetailsViewModel = viewModel { MediaDetailsViewModel(mediaType) }
@@ -86,12 +86,31 @@ fun MediaDetailsView(
         )
     } else null
 
+    if (sheetState.isVisible) {
+        EditMediaSheet(
+            coroutineScope = coroutineScope,
+            sheetState = sheetState,
+            mediaViewModel = viewModel
+        )
+    }
+
+    LaunchedEffect(viewModel.message) {
+        if (viewModel.showMessage) {
+            context.showToast(viewModel.message)
+            viewModel.showMessage = false
+        }
+    }
+
+    LaunchedEffect(mediaId) {
+        if (viewModel.mediaDetails == null) viewModel.getDetails(mediaId)
+    }
+
     Scaffold(
         modifier = Modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
         topBar = {
             MediaDetailsTopAppBar(
                 viewModel = viewModel,
-                navController = navController,
+                navigateBack = navigateBack,
                 scrollBehavior = topAppBarScrollBehavior,
                 onClickViewOn = {
                     if (mediaType == MediaType.ANIME)
@@ -183,9 +202,7 @@ fun MediaDetailsView(
                         )
                         .defaultPlaceholder(visible = viewModel.isLoading)
                         .clickable {
-                            navController.navigate(
-                                "full_poster/${viewModel.picturesUrls.toNavArgument()}"
-                            )
+                            navigateToFullPoster(viewModel.picturesUrls.toNavArgument())
                         }
                 )
                 Column {
@@ -481,7 +498,7 @@ fun MediaDetailsView(
                                 )
                             },
                             onClick = {
-                                navController.navigate("details/anime/${item.node.id}")
+                                navigateToMediaDetails(MediaType.ANIME, item.node.id)
                             }
                         )
                     }
@@ -506,7 +523,7 @@ fun MediaDetailsView(
                                 )
                             },
                             onClick = {
-                                navController.navigate("details/manga/${item.node.id}")
+                                navigateToMediaDetails(MediaType.MANGA, item.node.id)
                             }
                         )
                     }
@@ -534,7 +551,7 @@ fun MediaDetailsView(
                                 )
                             },
                             onClick = {
-                                navController.navigate("details/${mediaType.value}/${item.node.id}")
+                                navigateToMediaDetails(mediaType, item.node.id)
                             }
                         )
                     }
@@ -542,25 +559,6 @@ fun MediaDetailsView(
             }
         }//:Column
     }//:Scaffold
-
-    if (sheetState.isVisible) {
-        EditMediaSheet(
-            coroutineScope = coroutineScope,
-            sheetState = sheetState,
-            mediaViewModel = viewModel
-        )
-    }
-
-    LaunchedEffect(viewModel.message) {
-        if (viewModel.showMessage) {
-            context.showToast(viewModel.message)
-            viewModel.showMessage = false
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        if (viewModel.mediaDetails == null) viewModel.getDetails(mediaId)
-    }
 }
 
 @Composable
@@ -587,7 +585,8 @@ fun MediaInfoView(
             .padding(horizontal = 16.dp, vertical = 4.dp)
             .then(modifier)
     ) {
-        Text(title,
+        Text(
+            text = title,
             modifier = Modifier.weight(1f),
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -598,22 +597,12 @@ fun MediaInfoView(
     }
 }
 
-@Composable
-fun InfoTitle(text: String) {
-    Text(
-        text = text,
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-        fontSize = 18.sp,
-        fontWeight = FontWeight.Bold
-    )
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MediaDetailsTopAppBar(
     viewModel: MediaDetailsViewModel,
-    navController: NavController,
     scrollBehavior: TopAppBarScrollBehavior,
+    navigateBack: () -> Unit,
     onClickNotification: (enable: Boolean) -> Unit,
     onClickViewOn: () -> Unit
 ) {
@@ -628,9 +617,7 @@ fun MediaDetailsTopAppBar(
     TopAppBar(
         title = { Text(stringResource(R.string.title_details)) },
         navigationIcon = {
-            IconButton(onClick = { navController.popBackStack() }) {
-                Icon(painter = painterResource(R.drawable.ic_arrow_back), contentDescription = "back")
-            }
+            BackIconButton(onClick = navigateBack)
         },
         actions = {
             if (viewModel.mediaDetails?.status == "currently_airing"
@@ -648,12 +635,7 @@ fun MediaDetailsTopAppBar(
                     )
                 }
             }
-            IconButton(onClick = onClickViewOn) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_open_in_browser),
-                    contentDescription = stringResource(R.string.view_on_mal)
-                )
-            }
+            ViewInBrowserButton(onClick = onClickViewOn)
         },
         scrollBehavior = scrollBehavior
     )
@@ -666,7 +648,9 @@ fun MediaDetailsPreview() {
         MediaDetailsView(
             mediaType = MediaType.ANIME,
             mediaId = 1,
-            navController = rememberNavController()
+            navigateBack = {},
+            navigateToMediaDetails = { _, _ -> },
+            navigateToFullPoster = {}
         )
     }
 }

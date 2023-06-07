@@ -32,14 +32,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.Season
 import com.axiel7.moelist.data.model.anime.dayTimeText
 import com.axiel7.moelist.data.model.anime.icon
 import com.axiel7.moelist.data.model.anime.localized
 import com.axiel7.moelist.data.model.anime.seasonYearText
+import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.durationText
 import com.axiel7.moelist.data.model.media.mediaFormatLocalized
 import com.axiel7.moelist.data.model.media.totalDuration
@@ -61,7 +60,8 @@ const val SEASON_CHART_DESTINATION = "season_chart"
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SeasonChartView(
-    navController: NavController
+    navigateBack: () -> Unit,
+    navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
     val context = LocalContext.current
     val viewModel: SeasonChartViewModel = viewModel()
@@ -69,9 +69,34 @@ fun SeasonChartView(
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
 
+    listState.OnBottomReached(buffer = 3) {
+        if (!viewModel.isLoading && viewModel.hasNextPage) {
+            viewModel.getSeasonalAnime(viewModel.nextPage)
+        }
+    }
+
+    if (sheetState.isVisible) {
+        SeasonChartFilterSheet(
+            coroutineScope = coroutineScope,
+            sheetState = sheetState,
+            viewModel = viewModel
+        )
+    }
+
+    LaunchedEffect(viewModel.message) {
+        if (viewModel.showMessage) {
+            context.showToast(viewModel.message)
+            viewModel.showMessage = false
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        if (viewModel.animes.isEmpty()) viewModel.getSeasonalAnime()
+    }
+
     DefaultScaffoldWithTopAppBar(
         title = viewModel.season.seasonYearText(),
-        navController = navController,
+        navigateBack = navigateBack,
         floatingActionButton = {
             FloatingActionButton(onClick = { coroutineScope.launch { sheetState.show() } }) {
                 Icon(painter = painterResource(R.drawable.ic_round_filter_list_24), contentDescription = "filter")
@@ -83,12 +108,8 @@ fun SeasonChartView(
             state = listState,
             contentPadding = PaddingValues(vertical = 8.dp)
         ) {
-            if (viewModel.isLoading) {
-                items(10) { 
-                    MediaItemDetailedPlaceholder()
-                }
-            }
-            else items(viewModel.animes, 
+            items(
+                items = viewModel.animes,
                 key = { it.node.id },
                 contentType = { it.node }
             ) { item ->
@@ -131,37 +152,17 @@ fun SeasonChartView(
                         )
                     },
                     onClick = {
-                        navController.navigate("details/anime/${item.node.id}")
+                        navigateToMediaDetails(MediaType.ANIME, item.node.id)
                     }
                 )
             }
+            if (viewModel.isLoading) {
+                items(10) {
+                    MediaItemDetailedPlaceholder()
+                }
+            }
         }
-    }
-    
-    listState.OnBottomReached(buffer = 3) {
-        if (!viewModel.isLoading && viewModel.hasNextPage) {
-            viewModel.getSeasonalAnime(viewModel.nextPage)
-        }
-    }
-
-    if (sheetState.isVisible) {
-        SeasonChartFilterSheet(
-            coroutineScope = coroutineScope,
-            sheetState = sheetState,
-            viewModel = viewModel
-        )
-    }
-
-    LaunchedEffect(viewModel.message) {
-        if (viewModel.showMessage) {
-            context.showToast(viewModel.message)
-            viewModel.showMessage = false
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        if (viewModel.animes.isEmpty()) viewModel.getSeasonalAnime()
-    }
+    }//:Scaffold
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -242,7 +243,8 @@ fun SeasonChartFilterSheet(
 fun SeasonChartPreview() {
     MoeListTheme {
         SeasonChartView(
-            navController = rememberNavController()
+            navigateBack = {},
+            navigateToMediaDetails = { _, _ -> }
         )
     }
 }
