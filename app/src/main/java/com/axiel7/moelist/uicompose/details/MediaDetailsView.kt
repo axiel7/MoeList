@@ -38,6 +38,7 @@ import com.axiel7.moelist.utils.ContextExtensions.openAction
 import com.axiel7.moelist.utils.ContextExtensions.openInGoogleTranslate
 import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.ContextExtensions.showToast
+import com.axiel7.moelist.utils.DateUtils.parseDate
 import com.axiel7.moelist.utils.DateUtils.parseDateAndLocalize
 import com.axiel7.moelist.utils.NotificationWorker
 import com.axiel7.moelist.utils.NumExtensions
@@ -118,21 +119,39 @@ fun MediaDetailsView(
                 },
                 onClickNotification = { enable ->
                     (viewModel.mediaDetails as? AnimeDetails)?.let { details ->
-                        if (enable && details.broadcast?.dayOfTheWeek != null
-                            && details.broadcast.startTime != null
-                        ) {
+                        if (enable) {
                             if (notificationPermission == null
                                 || notificationPermission.status.isGranted
                             ) {
                                 coroutineScope.launch {
-                                    NotificationWorker.scheduleAiringAnimeNotification(
-                                        context = context,
-                                        title = details.title ?: "",
-                                        animeId = details.id,
-                                        weekDay = details.broadcast.dayOfTheWeek,
-                                        jpHour = LocalTime.parse(details.broadcast.startTime)
-                                    )
-                                    context.showToast("Notification enabled")
+                                    if (details.broadcast?.dayOfTheWeek != null
+                                        && details.broadcast.startTime != null
+                                    ) {
+                                        NotificationWorker.scheduleAiringAnimeNotification(
+                                            context = context,
+                                            title = details.title ?: "",
+                                            animeId = details.id,
+                                            weekDay = details.broadcast.dayOfTheWeek,
+                                            jpHour = LocalTime.parse(details.broadcast.startTime)
+                                        )
+                                        context.showToast("Airing notification enabled")
+                                    }
+                                    else if (details.status == "not_yet_aired"
+                                        && details.startDate != null
+                                    ) {
+                                        val startDate = details.startDate.parseDate()
+                                        if (startDate != null) {
+                                            NotificationWorker.scheduleAnimeStartNotification(
+                                                context = context,
+                                                title = details.title ?: "",
+                                                animeId = details.id,
+                                                startDate = startDate
+                                            )
+                                            context.showToast("Start airing notification enabled")
+                                        } else {
+                                            context.showToast("Invalid start date")
+                                        }
+                                    }
                                 }
                             } else {
                                 notificationPermission.launchPermissionRequest()
@@ -188,7 +207,7 @@ fun MediaDetailsView(
                 )
                 Column {
                     Text(
-                        text = viewModel.mediaDetails?.title ?: "Loading",
+                        text = viewModel.mediaDetails?.userPreferredTitle() ?: "Loading",
                         modifier = Modifier
                             .padding(bottom = 8.dp, end = 8.dp)
                             .defaultPlaceholder(visible = viewModel.isLoading)
@@ -374,6 +393,20 @@ fun MediaDetailsView(
                     modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
                 )
             }
+            SelectionContainer {
+                MediaInfoView(
+                    title = stringResource(R.string.romaji),
+                    info = viewModel.mediaDetails?.title,
+                    modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
+                )
+            }
+            SelectionContainer {
+                MediaInfoView(
+                    title = stringResource(R.string.english),
+                    info = viewModel.mediaDetails?.alternativeTitles?.en,
+                    modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
+                )
+            }
             Divider(modifier = Modifier.padding(vertical = 8.dp))
             MediaInfoView(
                 title = stringResource(R.string.start_date),
@@ -455,7 +488,7 @@ fun MediaDetailsView(
                     items(viewModel.relatedAnime) { item ->
                         MediaItemVertical(
                             url = item.node.mainPicture?.large,
-                            title = item.node.title,
+                            title = item.node.userPreferredTitle(),
                             modifier = Modifier.padding(end = 8.dp),
                             subtitle = {
                                 Text(
@@ -480,7 +513,7 @@ fun MediaDetailsView(
                     items(viewModel.relatedManga) { item ->
                         MediaItemVertical(
                             url = item.node.mainPicture?.large,
-                            title = item.node.title,
+                            title = item.node.userPreferredTitle(),
                             modifier = Modifier.padding(end = 8.dp),
                             subtitle = {
                                 Text(
@@ -507,7 +540,7 @@ fun MediaDetailsView(
                     items(viewModel.recommendations) { item ->
                         MediaItemVertical(
                             url = item.node.mainPicture?.large,
-                            title = item.node.title,
+                            title = item.node.userPreferredTitle(),
                             modifier = Modifier.padding(end = 8.dp),
                             subtitle = {
                                 TextIconHorizontal(
@@ -587,8 +620,8 @@ fun MediaDetailsTopAppBar(
             BackIconButton(onClick = navigateBack)
         },
         actions = {
-            if (viewModel.mediaDetails is AnimeDetails
-                && viewModel.mediaDetails!!.status == "currently_airing"
+            if (viewModel.mediaDetails?.status == "currently_airing"
+                || viewModel.mediaDetails?.status == "not_yet_aired"
             ) {
                 IconButton(onClick = {
                     onClickNotification(savedForNotification.value == null)

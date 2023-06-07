@@ -298,4 +298,6 @@
     <string name="refresh">Refresh</string>
     <string name="indonesian">Indonesian</string>
     <string name="indonesian_native" translatable="false">Indonesia</string>
+    <string name="romaji">Romaji</string>
+    <string name="title_language">Title language</string>
 </resources>

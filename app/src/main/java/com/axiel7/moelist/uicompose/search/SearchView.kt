@@ -33,6 +33,7 @@ import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.durationText
 import com.axiel7.moelist.data.model.media.mediaFormatLocalized
 import com.axiel7.moelist.data.model.media.totalDuration
+import com.axiel7.moelist.data.model.media.userPreferredTitle
 import com.axiel7.moelist.uicompose.composables.MediaItemDetailed
 import com.axiel7.moelist.uicompose.composables.MediaItemDetailedPlaceholder
 import com.axiel7.moelist.uicompose.composables.OnBottomReached
@@ -121,7 +122,7 @@ fun SearchView(
             contentType = { it.node }
         ) {
             MediaItemDetailed(
-                title = it.node.title,
+                title = it.node.userPreferredTitle(),
                 imageUrl = it.node.mainPicture?.large,
                 subtitle1 = {
                     Text(

@@ -5,9 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -47,7 +47,7 @@ import com.axiel7.moelist.utils.ContextExtensions.getActivity
 import com.axiel7.moelist.utils.ContextExtensions.openCustomTab
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 
-class LoginActivity: ComponentActivity() {
+class LoginActivity: AppCompatActivity() {
 
     private val viewModel: LoginViewModel by viewModels()
 

@@ -1,6 +1,7 @@
 package com.axiel7.moelist.uicompose.more
 
 import com.axiel7.moelist.R
+import com.axiel7.moelist.data.model.media.TitleLanguage
 import com.axiel7.moelist.uicompose.base.BaseViewModel
 import com.axiel7.moelist.uicompose.base.ListMode
 import com.axiel7.moelist.uicompose.base.stringRes
@@ -42,5 +43,11 @@ class SettingsViewModel: BaseViewModel() {
         "anime" to R.string.title_anime_list,
         "manga" to R.string.title_manga_list,
         "more" to R.string.more
+    )
+
+    val titleLanguageEntries = mapOf(
+        TitleLanguage.ROMAJI.name to R.string.romaji,
+        TitleLanguage.ENGLISH.name to R.string.english,
+        TitleLanguage.JAPANESE.name to R.string.japanese,
     )
 }

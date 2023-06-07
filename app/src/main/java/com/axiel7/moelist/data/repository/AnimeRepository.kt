@@ -22,9 +22,9 @@ import io.ktor.http.HttpStatusCode
 
 object AnimeRepository {
 
-    const val TODAY_FIELDS = "broadcast,mean,start_season,status"
-    const val CALENDAR_FIELDS = "broadcast,mean,start_season,status,media_type,num_episodes"
-    const val SEASONAL_FIELDS = "start_season,broadcast,num_episodes,media_type,mean"
+    const val TODAY_FIELDS = "alternative_titles{en,ja},broadcast,mean,start_season,status"
+    const val CALENDAR_FIELDS = "alternative_titles{en,ja},broadcast,mean,start_season,status,media_type,num_episodes"
+    const val SEASONAL_FIELDS = "alternative_titles{en,ja},start_season,broadcast,num_episodes,media_type,mean"
 
     suspend fun getSeasonalAnimes(
         apiParams: ApiParams,
@@ -45,6 +45,8 @@ object AnimeRepository {
             null
         }
     }
+
+    const val RECOMMENDED_FIELDS = "alternative_titles{en,ja},mean"
 
     suspend fun getRecommendedAnimes(
         apiParams: ApiParams,
@@ -77,7 +79,7 @@ object AnimeRepository {
         }
     }
 
-    const val USER_ANIME_LIST_FIELDS = "list_status{num_times_rewatched},num_episodes,media_type,status,broadcast"
+    const val USER_ANIME_LIST_FIELDS = "alternative_titles{en,ja},list_status{num_times_rewatched},num_episodes,media_type,status,broadcast"
 
     suspend fun getUserAnimeList(
         apiParams: ApiParams,
@@ -122,7 +124,7 @@ object AnimeRepository {
         }
     }
 
-    const val SEARCH_FIELDS = "id,title,main_picture,mean,media_type,num_episodes,num_chapters,start_season"
+    const val SEARCH_FIELDS = "id,title,alternative_titles{en,ja},main_picture,mean,media_type,num_episodes,num_chapters,start_season"
 
     suspend fun searchAnime(
         apiParams: ApiParams,
@@ -138,7 +140,7 @@ object AnimeRepository {
         }
     }
 
-    const val RANKING_FIELDS = "mean,media_type,num_episodes,num_chapters,num_list_users"
+    const val RANKING_FIELDS = "alternative_titles{en,ja},mean,media_type,num_episodes,num_chapters,num_list_users"
 
     suspend fun getAnimeRanking(
         rankingType: RankingType,

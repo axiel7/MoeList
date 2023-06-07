@@ -2,8 +2,8 @@ package com.axiel7.moelist.uicompose
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
@@ -53,11 +53,13 @@ import com.axiel7.moelist.data.datastore.PreferencesDataStore.NSFW_PREFERENCE_KE
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.PROFILE_PICTURE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.START_TAB_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.THEME_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.TITLE_LANG_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.defaultPreferencesDataStore
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.getValueSync
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.rememberPreference
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.data.model.media.TitleLanguage
 import com.axiel7.moelist.uicompose.base.BottomDestination
 import com.axiel7.moelist.uicompose.base.BottomDestination.Companion.toBottomDestinationIndex
 import com.axiel7.moelist.uicompose.base.ListMode
@@ -99,7 +101,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
@@ -149,6 +151,9 @@ class MainActivity : ComponentActivity() {
         }
         defaultPreferencesDataStore.getValueSync(LIST_DISPLAY_MODE_PREFERENCE_KEY)?.let {
             ListMode.forValue(it)?.let { mode -> App.listDisplayMode = mode }
+        }
+        defaultPreferencesDataStore.getValueSync(TITLE_LANG_PREFERENCE_KEY)?.let {
+            App.titleLanguage = TitleLanguage.valueOf(it)
         }
 
         setContent {

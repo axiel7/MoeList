@@ -47,7 +47,9 @@ import com.axiel7.moelist.data.datastore.PreferencesDataStore.LIST_DISPLAY_MODE_
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.NSFW_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.START_TAB_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.THEME_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.TITLE_LANG_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.rememberPreference
+import com.axiel7.moelist.data.model.media.TitleLanguage
 import com.axiel7.moelist.uicompose.base.ListMode
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
@@ -67,6 +69,7 @@ fun SettingsView(
     val nsfwPreference = rememberPreference(NSFW_PREFERENCE_KEY, false)
     val listModePreference = rememberPreference(LIST_DISPLAY_MODE_PREFERENCE_KEY, ListMode.STANDARD.value)
     val startTabPreference = rememberPreference(START_TAB_PREFERENCE_KEY, "last_used")
+    val titleLangPreference = rememberPreference(TITLE_LANG_PREFERENCE_KEY, App.titleLanguage.name)
 
     DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.settings),
@@ -95,6 +98,23 @@ fun SettingsView(
                 onValueChange = { value ->
                     langPreference.value = value
                     UseCases.changeLocale(value)
+                    if (value == "ja") {
+                        TitleLanguage.JAPANESE.apply {
+                            titleLangPreference.value = this.name
+                            App.titleLanguage = this
+                        }
+                    }
+                }
+            )
+
+            ListPreferenceView(
+                title = stringResource(R.string.title_language),
+                entriesValues = viewModel.titleLanguageEntries,
+                preferenceValue = titleLangPreference,
+                icon = R.drawable.round_title_24,
+                onValueChange = { value ->
+                    titleLangPreference.value = value
+                    App.titleLanguage = TitleLanguage.valueOf(value)
                 }
             )
 

@@ -9,7 +9,7 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
-import java.time.ZoneOffset
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.time.format.FormatStyle
@@ -17,6 +17,8 @@ import java.time.temporal.TemporalAdjusters
 import java.util.TimeZone
 
 object DateUtils {
+
+    val defaultZoneOffset get() = ZonedDateTime.now(ZoneId.systemDefault()).offset
 
     fun unixtimeToStringDate(
         time: Long?,
@@ -65,7 +67,7 @@ object DateUtils {
     ): Long? {
         if (date == null) return null
         return try {
-            getLocalDateFromDateString(date, formatter)?.atStartOfDay()?.toInstant(ZoneOffset.UTC)?.toEpochMilli()
+            getLocalDateFromDateString(date, formatter)?.atStartOfDay()?.toInstant(defaultZoneOffset)?.toEpochMilli()
         } catch (e: DateTimeException) {
             null
         }
@@ -128,7 +130,7 @@ object DateUtils {
 
     fun String.toIsoFormat(inputFormat: DateTimeFormatter) = LocalDate.parse(this, inputFormat).toString()
 
-    fun LocalDate.toEpochMillis() = this.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli()
+    fun LocalDate.toEpochMillis() = this.atStartOfDay().toInstant(defaultZoneOffset).toEpochMilli()
 
     fun LocalDate.getNextDayOfWeek(dayOfWeek: DayOfWeek) = with(TemporalAdjusters.nextOrSame(dayOfWeek))
 

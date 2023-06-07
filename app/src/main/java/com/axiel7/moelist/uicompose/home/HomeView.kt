@@ -50,6 +50,8 @@ import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.anime.airingInString
 import com.axiel7.moelist.data.model.anime.icon
 import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.data.model.media.userPreferredTitle
+import com.axiel7.moelist.uicompose.calendar.CALENDAR_DESTINATION
 import com.axiel7.moelist.uicompose.composables.MEDIA_ITEM_VERTICAL_HEIGHT
 import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_SMALL_HEIGHT
 import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_SMALL_WIDTH
@@ -187,7 +189,7 @@ fun HomeView(
             ) {
                 MediaItemVertical(
                     url = it.node.mainPicture?.large,
-                    title = it.node.title,
+                    title = it.node.userPreferredTitle(),
                     modifier = Modifier.padding(end = 8.dp),
                     subtitle = {
                         SmallScoreIndicator(
@@ -221,7 +223,7 @@ fun HomeView(
             ) {
                 MediaItemVertical(
                     url = it.node.mainPicture?.large,
-                    title = it.node.title,
+                    title = it.node.userPreferredTitle(),
                     modifier = Modifier.padding(end = 8.dp),
                     subtitle = {
                         SmallScoreIndicator(
@@ -346,7 +348,7 @@ fun AiringAnimeHorizontalItem(item: AnimeSeasonal, onClick: () -> Unit) {
             modifier = Modifier.padding(start = 16.dp)
         ) {
             Text(
-                text = item.node.title,
+                text = item.node.userPreferredTitle(),
                 fontSize = 18.sp,
                 maxLines = 2,
                 modifier = Modifier.padding(bottom = 4.dp)

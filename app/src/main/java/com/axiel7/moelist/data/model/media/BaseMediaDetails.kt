@@ -2,6 +2,7 @@ package com.axiel7.moelist.data.model.media
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import com.axiel7.moelist.App
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.BaseResponse
 import com.axiel7.moelist.data.model.anime.AnimeDetails
@@ -40,6 +41,18 @@ abstract class BaseMediaDetails : BaseResponse() {
 
     override val error: String? = null
     override val message: String? = null
+}
+
+fun BaseMediaDetails.userPreferredTitle() = title(App.titleLanguage)
+
+fun BaseMediaDetails.title(language: TitleLanguage) = when (language) {
+    TitleLanguage.ROMAJI -> title
+    TitleLanguage.ENGLISH ->
+        if (alternativeTitles?.en.isNullOrBlank()) title
+        else alternativeTitles?.en ?: title
+    TitleLanguage.JAPANESE ->
+        if (alternativeTitles?.ja.isNullOrBlank()) title
+        else alternativeTitles?.ja ?: title
 }
 
 @Composable

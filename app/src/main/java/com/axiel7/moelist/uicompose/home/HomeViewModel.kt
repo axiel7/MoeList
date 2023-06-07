@@ -60,7 +60,7 @@ class HomeViewModel: BaseViewModel() {
     private val paramsSeasonal = ApiParams(
         sort = MediaSort.ANIME_START_DATE.value,
         nsfw = App.nsfw,
-        fields = "mean"
+        fields = "alternative_titles{en,ja},mean"
     )
 
     var seasonAnimes = mutableStateListOf<AnimeSeasonal>()
@@ -80,7 +80,7 @@ class HomeViewModel: BaseViewModel() {
 
     private val paramsRecommended = ApiParams(
         nsfw = App.nsfw,
-        fields = "mean"
+        fields = AnimeRepository.RECOMMENDED_FIELDS
     )
 
     var recommendedAnimes = mutableStateListOf<AnimeList>()
