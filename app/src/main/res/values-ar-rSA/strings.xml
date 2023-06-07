@@ -278,4 +278,6 @@
     <string name="czech">التشيك</string>
     <string name="refresh">تحديث</string>
     <string name="indonesian">الإندونيسية</string>
+    <string name="romaji">Romaji</string>
+    <string name="title_language">Title language</string>
 </resources>
