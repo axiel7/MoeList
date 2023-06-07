@@ -19,7 +19,6 @@
     <string name="volumes">Volumes</string>
     <string name="serialization">Serialization</string>
     <string name="login">Login</string>
-    <string name="search_in_mal">Search in MAL</string>
     <string name="no_results">No results</string>
     <string name="title_profile">Profile</string>
     <string name="cancel">Cancel</string>
@@ -35,7 +34,6 @@
     <string name="dropped">Dropped</string>
     <string name="ptw">Plan to Watch</string>
     <string name="ptr">Plan to Read</string>
-    <string name="share_app">Share App</string>
     <string name="settings">Settings</string>
     <string name="year">Year</string>
     <string name="anime_ranking">Anime Ranking</string>
@@ -123,7 +121,6 @@
     <string name="nsfw_summary">I confirm that I\'m over 18.</string>
     <string name="default_section">Default section</string>
     <string name="display">Display</string>
-    <string name="startup">Startup</string>
     <string name="account">Account</string>
     <string name="logout">Log Out</string>
     <string name="logout_summary">Log out only from MoeList, not MAL.</string>
@@ -140,15 +137,10 @@
     <string name="title_login">Login</string>
     <string name="title_details">Details</string>
     <string name="title_search">Search</string>
-    <string name="title_poster">Image</string>
     <string name="title_settings">Settings</string>
     <string name="title_ranking">Ranking</string>
     <string name="title_seasonal">Seasonal</string>
     <string name="synopsis_icon">Expand synopsis</string>
-    <string name="poster">Poster</string>
-    <string name="moelist_banner">MoeList banner</string>
-    <string name="drag_pill">Drag pill</string>
-    <string name="profile_picture">Profile picture</string>
     <string name="error_not_found">Not found</string>
     <string name="relateds">Related</string>
     <string name="view_on_mal">View on MAL</string>
@@ -223,9 +215,7 @@
     <string name="translate">Translate</string>
     <string name="translate_original">Show original</string>
     <string name="adaptation">Adaptation</string>
-    <string name="open_source_licenses">Open Source licenses</string>
     <string name="filters">Filters</string>
-    <string name="date_format">Date format</string>
     <string name="manhua">Manhua</string>
     <string name="discontinued">Discontinued</string>
     <string name="opening">Opening Themes</string>
@@ -287,4 +277,7 @@
     <string name="last_used">Last used</string>
     <string name="czech">Czech</string>
     <string name="refresh">Refresh</string>
+    <string name="indonesian">Indonesian</string>
+    <string name="romaji">Romaji</string>
+    <string name="title_language">Title language</string>
 </resources>

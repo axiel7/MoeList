@@ -19,7 +19,6 @@
     <string name="volumes">Volume</string>
     <string name="serialization">Serialisasi</string>
     <string name="login">Masuk</string>
-    <string name="search_in_mal">Cari di MAL</string>
     <string name="no_results">Tidak ada hasil</string>
     <string name="title_profile">Profil</string>
     <string name="cancel">Batal</string>
@@ -35,7 +34,6 @@
     <string name="dropped">Dihapus</string>
     <string name="ptw">Ditonton Nanti</string>
     <string name="ptr">Dibaca Nanti</string>
-    <string name="share_app">Bagikan Aplikasi</string>
     <string name="settings">Pengaturan</string>
     <string name="year">Tahun</string>
     <string name="anime_ranking">Peringkat Anime</string>
@@ -123,7 +121,6 @@
     <string name="nsfw_summary">Saya sudah 18 tahun keatas.</string>
     <string name="default_section">Tampilan Utama</string>
     <string name="display">Tampilan</string>
-    <string name="startup">Startup</string>
     <string name="account">Akun</string>
     <string name="logout">Keluar</string>
     <string name="logout_summary">Keluar hanya dari MoeList, bukan MAL.</string>
@@ -140,15 +137,10 @@
     <string name="title_login">Masuk</string>
     <string name="title_details">Detail</string>
     <string name="title_search">Cari</string>
-    <string name="title_poster">Gambar</string>
     <string name="title_settings">Pengaturan</string>
     <string name="title_ranking">Peringkat</string>
     <string name="title_seasonal">Permusim</string>
     <string name="synopsis_icon">Buka sinopsis</string>
-    <string name="poster">Poster</string>
-    <string name="moelist_banner">Banner MoeList</string>
-    <string name="drag_pill">Tarik pill</string>
-    <string name="profile_picture">Foto Profil</string>
     <string name="error_not_found">Tidak ditemukan</string>
     <string name="relateds">Terkait</string>
     <string name="view_on_mal">Lihat di MAL</string>
@@ -223,9 +215,7 @@
     <string name="translate">Terjemahkan</string>
     <string name="translate_original">Tampilan original</string>
     <string name="adaptation">Adaptasi</string>
-    <string name="open_source_licenses">Lisensi Open Source</string>
     <string name="filters">Filter</string>
-    <string name="date_format">Format tanggal</string>
     <string name="manhua">Manhua</string>
     <string name="discontinued">Dihentikan</string>
     <string name="opening">Lagu Opening</string>
@@ -287,4 +277,7 @@
     <string name="last_used">Terakhir digunakan</string>
     <string name="czech">Ceko</string>
     <string name="refresh">Memperbarui</string>
+    <string name="indonesian">Indonesia</string>
+    <string name="romaji">Romaji</string>
+    <string name="title_language">Title language</string>
 </resources>
