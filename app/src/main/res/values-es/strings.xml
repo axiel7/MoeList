@@ -278,4 +278,6 @@
     <string name="czech">Checo</string>
     <string name="refresh">Actualizar</string>
     <string name="indonesian">Indonesio</string>
+    <string name="romaji">Romaji</string>
+    <string name="title_language">Idioma del título</string>
 </resources>
