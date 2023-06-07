@@ -278,4 +278,6 @@
     <string name="czech">Ceko</string>
     <string name="refresh">Memperbarui</string>
     <string name="indonesian">Indonesia</string>
+    <string name="romaji">Romaji</string>
+    <string name="title_language">Title language</string>
 </resources>
