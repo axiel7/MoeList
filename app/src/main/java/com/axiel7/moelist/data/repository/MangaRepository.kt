@@ -40,7 +40,7 @@ object MangaRepository {
             result.error?.let { BaseRepository.handleResponseError(it) }
             return result
         } catch (e: Exception) {
-            null
+            Response(message = e.message)
         }
     }
 
@@ -84,7 +84,7 @@ object MangaRepository {
             result.error?.let { BaseRepository.handleResponseError(it) }
             return result
         } catch (e: Exception) {
-            null
+            Response(message = e.message)
         }
     }
 
@@ -99,7 +99,7 @@ object MangaRepository {
             result.error?.let { BaseRepository.handleResponseError(it) }
             return result
         } catch (e: Exception) {
-            null
+            Response(message = e.message)
         }
     }
 }
