@@ -62,6 +62,20 @@ fun CreditsView(
                 }
             )
             MoreItem(
+                title = stringResource(R.string.new_logo_design),
+                subtitle = "@WSTxda",
+                onClick = {
+                    context.openLink("https://www.instagram.com/wstxda/")
+                }
+            )
+            MoreItem(
+                title = stringResource(R.string.website),
+                subtitle = "@MaximilianGT500",
+                onClick = {
+                    context.openLink("https://github.com/MaximilianGT500")
+                }
+            )
+            MoreItem(
                 title = stringResource(R.string.general_help),
                 subtitle = "@Jeluchu",
                 onClick = {
