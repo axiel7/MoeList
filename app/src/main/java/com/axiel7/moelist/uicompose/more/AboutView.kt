@@ -17,7 +17,7 @@ import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants.DISCORD_SERVER_URL
 import com.axiel7.moelist.utils.Constants.GITHUB_REPO_URL
-import com.axiel7.moelist.utils.ContextExtensions.openLink
+import com.axiel7.moelist.utils.ContextExtensions.openAction
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 
 const val ABOUT_DESTINATION = "about"
@@ -54,7 +54,7 @@ fun AboutView(
                 subtitle = stringResource(R.string.discord_summary),
                 icon = R.drawable.ic_discord,
                 onClick = {
-                    context.openLink(DISCORD_SERVER_URL)
+                    context.openAction(DISCORD_SERVER_URL)
                 }
             )
             MoreItem(
@@ -62,7 +62,7 @@ fun AboutView(
                 subtitle = stringResource(R.string.github_summary),
                 icon = R.drawable.ic_github,
                 onClick = {
-                    context.openLink(GITHUB_REPO_URL)
+                    context.openAction(GITHUB_REPO_URL)
                 }
             )
             MoreItem(
