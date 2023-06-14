@@ -280,4 +280,7 @@
     <string name="indonesian">Indonésien</string>
     <string name="romaji">Romaji</string>
     <string name="title_language">Langue du titre</string>
+    <string name="experimental">Experimental</string>
+    <string name="new_logo_design">New logo design</string>
+    <string name="website">Website</string>
 </resources>
