@@ -163,6 +163,7 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             val themePreference by rememberPreference(THEME_PREFERENCE_KEY, theme)
+            val accessTokenPreference by rememberPreference(ACCESS_TOKEN_PREFERENCE_KEY, token ?: "")
             val navController = rememberNavController()
 
             MoeListTheme(
@@ -188,6 +189,14 @@ class MainActivity : AppCompatActivity() {
                             .replace("{mediaType}", mediaType)
                             .replace("{mediaId}", mediaId.toString())
                     )
+                }
+            }
+
+            LaunchedEffect(accessTokenPreference) {
+                if (accessTokenPreference.isEmpty()) {
+                    Intent(this@MainActivity, LoginActivity::class.java)
+                        .apply { startActivity(this) }
+                    finish()
                 }
             }
         }

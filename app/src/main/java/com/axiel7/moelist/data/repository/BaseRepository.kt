@@ -36,6 +36,7 @@ object BaseRepository {
     private suspend fun deleteAccessToken() {
         App.dataStore?.edit {
             it.remove(ACCESS_TOKEN_PREFERENCE_KEY)
+            it.remove(REFRESH_TOKEN_PREFERENCE_KEY)
         }
     }
 }
