@@ -118,7 +118,7 @@ fun UserMediaListView(
     mediaType: MediaType,
     status: ListStatus,
     modifier: Modifier = Modifier,
-    nestedScrollConnection: NestedScrollConnection,
+    nestedScrollConnection: NestedScrollConnection? = null,
     navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
     val context = LocalContext.current
@@ -171,7 +171,11 @@ fun UserMediaListView(
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.TopStart)
-                .nestedScroll(nestedScrollConnection),
+                .then(
+                    if (nestedScrollConnection != null)
+                        Modifier.nestedScroll(nestedScrollConnection)
+                    else Modifier
+                ),
             state = listState,
             contentPadding = PaddingValues(vertical = 8.dp)
         ) {

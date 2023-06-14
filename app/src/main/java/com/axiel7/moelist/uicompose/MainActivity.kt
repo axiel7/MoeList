@@ -54,6 +54,7 @@ import com.axiel7.moelist.data.datastore.PreferencesDataStore.PROFILE_PICTURE_PR
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.START_TAB_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.THEME_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.TITLE_LANG_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.USE_LIST_TABS_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.defaultPreferencesDataStore
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.getValueSync
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.rememberPreference
@@ -95,6 +96,7 @@ import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.uicompose.userlist.ANIME_LIST_DESTINATION
 import com.axiel7.moelist.uicompose.userlist.MANGA_LIST_DESTINATION
 import com.axiel7.moelist.uicompose.userlist.UserMediaListHostView
+import com.axiel7.moelist.uicompose.userlist.UserMediaListWithTabsView
 import com.axiel7.moelist.utils.NumExtensions.toInt
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -154,6 +156,9 @@ class MainActivity : AppCompatActivity() {
         }
         defaultPreferencesDataStore.getValueSync(TITLE_LANG_PREFERENCE_KEY)?.let {
             App.titleLanguage = TitleLanguage.valueOf(it)
+        }
+        defaultPreferencesDataStore.getValueSync(USE_LIST_TABS_PREFERENCE_KEY)?.let {
+            App.useListTabs = it
         }
 
         setContent {
@@ -309,7 +314,19 @@ fun MainView(
             }
 
             composable(BottomDestination.AnimeList.route) {
-                UserMediaListHostView(
+                if (App.useListTabs)
+                    UserMediaListWithTabsView(
+                        mediaType = MediaType.ANIME,
+                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
+                        navigateToMediaDetails = { mediaType, mediaId ->
+                            navController.navigate(
+                                MEDIA_DETAILS_DESTINATION
+                                    .replace("{mediaType}", mediaType.name)
+                                    .replace("{mediaId}", mediaId.toString())
+                            )
+                        }
+                    )
+                else UserMediaListHostView(
                     mediaType = MediaType.ANIME,
                     modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
                     navigateToMediaDetails = { mediaType, mediaId ->
@@ -323,7 +340,19 @@ fun MainView(
             }
 
             composable(BottomDestination.MangaList.route) {
-                UserMediaListHostView(
+                if (App.useListTabs)
+                    UserMediaListWithTabsView(
+                        mediaType = MediaType.MANGA,
+                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
+                        navigateToMediaDetails = { mediaType, mediaId ->
+                            navController.navigate(
+                                MEDIA_DETAILS_DESTINATION
+                                    .replace("{mediaType}", mediaType.name)
+                                    .replace("{mediaId}", mediaId.toString())
+                            )
+                        }
+                    )
+                else UserMediaListHostView(
                     mediaType = MediaType.MANGA,
                     modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
                     navigateToMediaDetails = { mediaType, mediaId ->

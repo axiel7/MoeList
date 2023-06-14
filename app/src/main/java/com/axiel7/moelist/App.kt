@@ -36,5 +36,6 @@ class App : Application() {
         var mangaListSort = MediaSort.MANGA_TITLE
         var listDisplayMode = ListMode.STANDARD
         var titleLanguage = TitleLanguage.ROMAJI
+        var useListTabs = false
     }
 }

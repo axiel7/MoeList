@@ -48,11 +48,13 @@ import com.axiel7.moelist.data.datastore.PreferencesDataStore.NSFW_PREFERENCE_KE
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.START_TAB_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.THEME_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.TITLE_LANG_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.USE_LIST_TABS_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.rememberPreference
 import com.axiel7.moelist.data.model.media.TitleLanguage
 import com.axiel7.moelist.uicompose.base.ListMode
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
+import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.NumExtensions.toInt
 import com.axiel7.moelist.utils.UseCases
 
@@ -70,6 +72,7 @@ fun SettingsView(
     val listModePreference = rememberPreference(LIST_DISPLAY_MODE_PREFERENCE_KEY, ListMode.STANDARD.value)
     val startTabPreference = rememberPreference(START_TAB_PREFERENCE_KEY, "last_used")
     val titleLangPreference = rememberPreference(TITLE_LANG_PREFERENCE_KEY, App.titleLanguage.name)
+    val useListTabsPreference = rememberPreference(USE_LIST_TABS_PREFERENCE_KEY, App.useListTabs)
 
     DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.settings),
@@ -164,6 +167,18 @@ fun SettingsView(
                     }
                 )
             }
+
+            SettingsTitle(text = stringResource(R.string.experimental))
+
+            SwitchPreferenceView(
+                title = "Enable list tabs",
+                subtitle = "Use tabs in Anime/Manga list instead of Floating Action Button",
+                preferenceValue = useListTabsPreference,
+                onValueChange = {
+                    useListTabsPreference.value = it
+                    context.showToast("Restart required")
+                }
+            )
         }
     }
 }
@@ -255,6 +270,7 @@ fun SwitchPreferenceView(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Row(
+            modifier = Modifier.weight(1f),
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -286,7 +302,8 @@ fun SwitchPreferenceView(
                     Text(
                         text = subtitle,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        fontSize = 13.sp
+                        fontSize = 13.sp,
+                        lineHeight = 14.sp
                     )
                 }
             }//: Column
