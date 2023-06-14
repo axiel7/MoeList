@@ -132,7 +132,7 @@ fun UserMediaListView(
     val listDisplayMode by rememberPreference(LIST_DISPLAY_MODE_PREFERENCE_KEY, App.listDisplayMode.value)
 
     listState.OnBottomReached(buffer = 3) {
-        if (!viewModel.isLoading && viewModel.hasNextPage) {
+        if (!viewModel.isLoadingList && viewModel.hasNextPage) {
             viewModel.getUserList(viewModel.nextPage)
         }
     }
@@ -231,6 +231,11 @@ fun UserMediaListView(
                             }
                         )
                     }
+                    if (viewModel.isLoadingList) {
+                        items(5, contentType = { it }) {
+                            StandardUserMediaListItemPlaceholder()
+                        }
+                    }
                 }
                 ListMode.COMPACT.value -> {
                     items(
@@ -269,6 +274,11 @@ fun UserMediaListView(
                             }
                         )
                     }
+                    if (viewModel.isLoadingList) {
+                        items(5, contentType = { it }) {
+                            CompactUserMediaListItemPlaceholder()
+                        }
+                    }
                 }
                 ListMode.MINIMAL.value -> {
                     items(
@@ -304,6 +314,11 @@ fun UserMediaListView(
                                 )
                             }
                         )
+                    }
+                    if (viewModel.isLoadingList) {
+                        items(5, contentType = { it }) {
+                            MinimalUserMediaListItemPlaceholder()
+                        }
                     }
                 }
             }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -46,6 +47,7 @@ import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_COMPACT_HEIGHT
 import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_SMALL_HEIGHT
 import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_SMALL_WIDTH
 import com.axiel7.moelist.uicompose.composables.MediaPoster
+import com.axiel7.moelist.uicompose.composables.defaultPlaceholder
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrUnknown
@@ -174,6 +176,56 @@ fun StandardUserMediaListItem(
     }//:Card
 }
 
+@Composable
+fun StandardUserMediaListItemPlaceholder() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
+    ) {
+        Row(
+            modifier = Modifier.height(MEDIA_POSTER_SMALL_HEIGHT.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(
+                        width = MEDIA_POSTER_SMALL_WIDTH.dp,
+                        height = MEDIA_POSTER_SMALL_HEIGHT.dp
+                    )
+                    .clip(RoundedCornerShape(8.dp))
+                    .defaultPlaceholder(visible = true)
+            )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(horizontal = 16.dp),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = "This is a loading placeholder",
+                    modifier = Modifier.defaultPlaceholder(visible = true),
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontSize = 17.sp,
+                    lineHeight = 22.sp,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 2
+                )
+                Text(
+                    text = "Placeholder",
+                    modifier = Modifier.defaultPlaceholder(visible = true),
+                )
+                Spacer(modifier = Modifier.size(16.dp))
+
+                Text(
+                    text = "??/??",
+                    modifier = Modifier.defaultPlaceholder(visible = true)
+                )
+            }//:Column
+        }//:Row
+    }//:Column
+}
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CompactUserMediaListItem(
@@ -209,7 +261,7 @@ fun CompactUserMediaListItem(
                     showShadow = false,
                     contentScale = ContentScale.FillWidth,
                     modifier = Modifier
-                        .size(width = MEDIA_POSTER_SMALL_WIDTH.dp, height = MEDIA_POSTER_SMALL_HEIGHT.dp)
+                        .size(width = MEDIA_POSTER_SMALL_WIDTH.dp, height = MEDIA_POSTER_SMALL_WIDTH.dp)
                 )
 
                 Row(
@@ -291,6 +343,55 @@ fun CompactUserMediaListItem(
     }//:Card
 }
 
+@Composable
+fun CompactUserMediaListItemPlaceholder() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
+    ) {
+        Row(
+            modifier = Modifier.height(MEDIA_POSTER_SMALL_WIDTH.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(
+                        width = MEDIA_POSTER_SMALL_WIDTH.dp,
+                        height = MEDIA_POSTER_SMALL_WIDTH.dp
+                    )
+                    .clip(RoundedCornerShape(8.dp))
+                    .defaultPlaceholder(visible = true)
+            )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(horizontal = 16.dp),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = "This is a loading placeholder",
+                    modifier = Modifier.defaultPlaceholder(visible = true),
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontSize = 17.sp,
+                    lineHeight = 22.sp,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 2
+                )
+                Text(
+                    text = "Placeholder",
+                    modifier = Modifier.defaultPlaceholder(visible = true),
+                )
+
+                Text(
+                    text = "??/??",
+                    modifier = Modifier.defaultPlaceholder(visible = true)
+                )
+            }//:Column
+        }//:Row
+    }//:Column
+}
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MinimalUserMediaListItem(
@@ -369,26 +470,59 @@ fun MinimalUserMediaListItem(
     }//:Card
 }
 
+@Composable
+fun MinimalUserMediaListItemPlaceholder() {
+    Column(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth()
+            .height(84.dp),
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = "This is a loading placeholder",
+            modifier = Modifier.defaultPlaceholder(visible = true),
+            color = MaterialTheme.colorScheme.onSurface,
+            fontSize = 17.sp,
+            lineHeight = 22.sp,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 2
+        )
+        Text(
+            text = "Placeholder",
+            modifier = Modifier.defaultPlaceholder(visible = true),
+        )
+
+        Text(
+            text = "??/??",
+            modifier = Modifier.defaultPlaceholder(visible = true)
+        )
+    }//:Column
+}
+
 @Preview
 @Composable
 fun StandardUserMediaListItemPreview() {
     MoeListTheme {
-        StandardUserMediaListItem(
-            imageUrl = null,
-            title = "This is a large anime or manga title",
-            score = null,
-            mediaType = MediaType.ANIME,
-            mediaFormat = "tv",
-            mediaStatus = "currently_airing",
-            broadcast = Broadcast(WeekDay.SUNDAY, "12:00"),
-            userProgress = 4,
-            totalProgress = 24,
-            isVolumeProgress = true,
-            listStatus = ListStatus.WATCHING,
-            onClick = { },
-            onLongClick = { },
-            onClickPlus = { }
-        )
+        Column {
+            StandardUserMediaListItem(
+                imageUrl = null,
+                title = "This is a large anime or manga title",
+                score = null,
+                mediaType = MediaType.ANIME,
+                mediaFormat = "tv",
+                mediaStatus = "currently_airing",
+                broadcast = Broadcast(WeekDay.SUNDAY, "12:00"),
+                userProgress = 4,
+                totalProgress = 24,
+                isVolumeProgress = true,
+                listStatus = ListStatus.WATCHING,
+                onClick = { },
+                onLongClick = { },
+                onClickPlus = { }
+            )
+            StandardUserMediaListItemPlaceholder()
+        }
     }
 }
 
@@ -396,21 +530,24 @@ fun StandardUserMediaListItemPreview() {
 @Composable
 fun CompactUserMediaListItemPreview() {
     MoeListTheme {
-        CompactUserMediaListItem(
-            imageUrl = null,
-            title = "This is a very very very very large anime or manga title",
-            score = null,
-            mediaType = MediaType.MANGA,
-            mediaStatus = "currently_airing",
-            userProgress = 4,
-            totalProgress = 12,
-            isVolumeProgress = true,
-            broadcast = Broadcast(WeekDay.SUNDAY, "12:00"),
-            listStatus = ListStatus.WATCHING,
-            onClick = { },
-            onLongClick = { },
-            onClickPlus = { }
-        )
+        Column {
+            CompactUserMediaListItem(
+                imageUrl = null,
+                title = "This is a very very very very large anime or manga title",
+                score = null,
+                mediaType = MediaType.MANGA,
+                mediaStatus = "currently_airing",
+                userProgress = 4,
+                totalProgress = 12,
+                isVolumeProgress = true,
+                broadcast = Broadcast(WeekDay.SUNDAY, "12:00"),
+                listStatus = ListStatus.WATCHING,
+                onClick = { },
+                onLongClick = { },
+                onClickPlus = { }
+            )
+            CompactUserMediaListItemPlaceholder()
+        }
     }
 }
 
@@ -418,18 +555,21 @@ fun CompactUserMediaListItemPreview() {
 @Composable
 fun MinimalUserMediaListItemPreview() {
     MoeListTheme {
-        MinimalUserMediaListItem(
-            title = "This is a very very very very large anime or manga title",
-            mediaType = MediaType.MANGA,
-            userProgress = 4,
-            totalProgress = 12,
-            isVolumeProgress = false,
-            mediaStatus = "currently_airing",
-            broadcast = Broadcast(WeekDay.SUNDAY, "12:00"),
-            listStatus = ListStatus.WATCHING,
-            onClick = { },
-            onLongClick = { },
-            onClickPlus = { }
-        )
+        Column {
+            MinimalUserMediaListItem(
+                title = "This is a very very very very large anime or manga title",
+                mediaType = MediaType.MANGA,
+                userProgress = 4,
+                totalProgress = 12,
+                isVolumeProgress = false,
+                mediaStatus = "currently_airing",
+                broadcast = Broadcast(WeekDay.SUNDAY, "12:00"),
+                listStatus = ListStatus.WATCHING,
+                onClick = { },
+                onLongClick = { },
+                onClickPlus = { }
+            )
+            MinimalUserMediaListItemPlaceholder()
+        }
     }
 }

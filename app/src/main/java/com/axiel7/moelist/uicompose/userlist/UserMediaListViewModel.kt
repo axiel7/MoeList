@@ -80,10 +80,11 @@ class UserMediaListViewModel(
     var nextPage: String? = null
     var hasNextPage = false
     var loadedAllPages = false
+    var isLoadingList by mutableStateOf(false)
 
     fun getUserList(page: String? = null) {
         viewModelScope.launch(Dispatchers.IO) {
-            isLoading = page == null //show indicator on 1st load
+            isLoadingList = true
             params.sort = listSort.value
             val result = if (mediaType == MediaType.ANIME)
                 AnimeRepository.getUserAnimeList(params, page)
@@ -101,7 +102,7 @@ class UserMediaListViewModel(
                 setErrorMessage(result?.message ?: result?.error ?: "Generic error")
                 hasNextPage = false
             }
-            isLoading = false
+            isLoadingList = false
         }
     }
 
