@@ -326,11 +326,10 @@ fun ListStatusSheet(
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
+        windowInsets = WindowInsets.navigationBars
     ) {
         Column(
-            modifier = Modifier
-                .navigationBarsPadding()
-                .padding(bottom = 8.dp)
+            modifier = Modifier.padding(bottom = 8.dp)
         ) {
             listStatusValues(mediaType).forEach {
                 val isSelected = selectedStatus.value == it

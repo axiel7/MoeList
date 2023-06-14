@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -174,7 +176,8 @@ fun SeasonChartFilterSheet(
 ) {
     ModalBottomSheet(
         sheetState = sheetState,
-        onDismissRequest = { coroutineScope.launch { sheetState.hide() } }
+        onDismissRequest = { coroutineScope.launch { sheetState.hide() } },
+        windowInsets = WindowInsets.navigationBars
     ) {
         Column(
             modifier = Modifier

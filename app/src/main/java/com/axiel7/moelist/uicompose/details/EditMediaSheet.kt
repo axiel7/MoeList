@@ -90,7 +90,8 @@ fun EditMediaSheet(
 
     ModalBottomSheet(
         sheetState = sheetState,
-        onDismissRequest = { coroutineScope.launch { sheetState.hide() } }
+        onDismissRequest = { coroutineScope.launch { sheetState.hide() } },
+        windowInsets = WindowInsets.navigationBars
     ) {
         Column(
             modifier = Modifier
@@ -194,7 +195,7 @@ fun EditMediaSheet(
                     }
                 },
                 onClick = {
-                    datePickerState.setSelection(viewModel.startDate?.toEpochMillis())
+                    datePickerState.selectedDateMillis = viewModel.startDate?.toEpochMillis()
                     viewModel.selectedDateType = 1
                     viewModel.openDatePicker = true
                 }
@@ -215,7 +216,7 @@ fun EditMediaSheet(
                     }
                 },
                 onClick = {
-                    datePickerState.setSelection(viewModel.endDate?.toEpochMillis())
+                    datePickerState.selectedDateMillis = viewModel.endDate?.toEpochMillis()
                     viewModel.selectedDateType = 2
                     viewModel.openDatePicker = true
                 }

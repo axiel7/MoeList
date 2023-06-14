@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun RoundedTabRowIndicator(currentTabPosition: TabPosition) {
-    TabRowDefaults.Indicator(
+    TabRowDefaults.SecondaryIndicator(
         modifier = Modifier
             .tabIndicatorOffset(currentTabPosition)
             .clip(RoundedCornerShape(topStartPercent = 100, topEndPercent = 100)),

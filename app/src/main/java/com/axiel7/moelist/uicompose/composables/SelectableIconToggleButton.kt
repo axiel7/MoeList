@@ -25,7 +25,7 @@ fun <T> SelectableIconToggleButton(
         FilledIconToggleButton(
             checked = value == selectedValue,
             onCheckedChange = onClick,
-            modifier = Modifier.tooltipAnchor()
+            modifier = Modifier.tooltipTrigger()
         ) {
             Icon(painter = painterResource(icon), contentDescription = tooltipText)
         }
