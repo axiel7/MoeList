@@ -39,7 +39,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import androidx.navigation.navDeepLink
 import androidx.navigation.navigation
 import coil.compose.AsyncImage
 import com.axiel7.moelist.App
@@ -129,6 +128,18 @@ class MainActivity : AppCompatActivity() {
         if (intent.action == "details") {
             mediaId = intent.getIntExtra("media_id", 0)
             mediaType = intent.getStringExtra("media_type")?.uppercase()
+        }
+        else if (intent.data != null) {
+            // Manually handle deep links because the uri pattern in the compose navigation
+            // matches this -> https://myanimelist.net/manga/11514
+            // but not this -> https://myanimelist.net/manga/11514/Otoyomegatari
+            //TODO: find a better solution :)
+            val malSchemeIndex = intent.dataString?.indexOf("myanimelist.net")
+            if (malSchemeIndex != null && malSchemeIndex != -1) {
+                val linkSplit = intent.dataString!!.substring(malSchemeIndex).split('/')
+                mediaType = linkSplit[1].uppercase()
+                mediaId = linkSplit[2].toIntOrNull()
+            }
         }
         if (lastTabOpened == null) {
             lastTabOpened = defaultPreferencesDataStore.getValueSync(LAST_TAB_PREFERENCE_KEY)
@@ -434,9 +445,6 @@ fun MainView(
                 arguments = listOf(
                     navArgument("mediaType") { type = NavType.StringType },
                     navArgument("mediaId") { type = NavType.IntType }
-                ),
-                deepLinks = listOf(
-                    navDeepLink { uriPattern = "https://myanimelist.net/{mediaType}/{mediaId}" }
                 )
             ) { navEntry ->
                 MediaDetailsView(
