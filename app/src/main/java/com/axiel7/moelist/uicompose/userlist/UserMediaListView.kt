@@ -131,9 +131,11 @@ fun UserMediaListView(
     val sheetState = rememberModalBottomSheetState()
     val listDisplayMode by rememberPreference(LIST_DISPLAY_MODE_PREFERENCE_KEY, App.listDisplayMode.value)
 
-    listState.OnBottomReached(buffer = 3) {
-        if (!viewModel.isLoadingList && viewModel.hasNextPage) {
-            viewModel.getUserList(viewModel.nextPage)
+    if (!viewModel.isLoadingList) {
+        listState.OnBottomReached(buffer = 3) {
+            if (viewModel.hasNextPage) {
+                viewModel.getUserList(viewModel.nextPage)
+            }
         }
     }
 
