@@ -1,5 +1,6 @@
 package com.axiel7.moelist.uicompose.search
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -91,7 +93,7 @@ fun SearchView(
                     selected = mediaType == MediaType.ANIME,
                     onClick = {
                         mediaType = MediaType.ANIME
-                        performSearch.value = true
+                        if (query.isNotBlank()) performSearch.value = true
                     },
                     label = { Text(text = stringResource(R.string.anime)) },
                     modifier = Modifier.padding(start = 8.dp),
@@ -105,7 +107,7 @@ fun SearchView(
                     selected = mediaType == MediaType.MANGA,
                     onClick = {
                         mediaType = MediaType.MANGA
-                        performSearch.value = true
+                        if (query.isNotBlank()) performSearch.value = true
                     },
                     label = { Text(text = stringResource(R.string.manga)) },
                     modifier = Modifier.padding(start = 8.dp),
@@ -162,18 +164,25 @@ fun SearchView(
                 }
             )
         }
-        if (viewModel.mediaList.isEmpty()) {
-            if (viewModel.isLoading)
+        if (query.isNotBlank() && viewModel.mediaList.isEmpty()) {
+            if (viewModel.isLoading) {
                 items(10) {
                     MediaItemDetailedPlaceholder()
                 }
-            else if (query.isNotBlank() && performSearch.value)
+            }
+            else if (performSearch.value) {
                 item {
-                    Text(
-                        text = stringResource(R.string.no_results),
-                        modifier = Modifier.padding(16.dp)
-                    )
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = stringResource(R.string.no_results),
+                            modifier = Modifier.padding(16.dp)
+                        )
+                    }
                 }
+            }
         }
     }//: LazyColumn
 }
