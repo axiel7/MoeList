@@ -82,7 +82,8 @@ class ProfileViewModel : BaseViewModel() {
 
     private suspend fun getUserMangaStats() {
         if (user?.name == null) return
-        val result = UserRepository.getUserStats(username = user!!.name!!)
+        // convert the username to lowercase because a bug in the api
+        val result = UserRepository.getUserStats(username = user!!.name!!.lowercase())
 
         result?.data?.manga?.let { stats ->
             val tempStatList = mutableListOf<Stat>()
