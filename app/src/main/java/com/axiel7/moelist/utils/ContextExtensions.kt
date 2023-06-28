@@ -30,6 +30,14 @@ object ContextExtensions {
         }
     }
 
+    fun Context.openShareSheet(url: String) {
+        Intent(Intent.ACTION_SEND).apply {
+            putExtra(Intent.EXTRA_TEXT, url)
+            type = "text/plain"
+            startActivity(Intent.createChooser(this, null))
+        }
+    }
+
     /** Open link in Chrome Custom Tabs */
     fun Context.openCustomTab(url: String) {
         val colors = CustomTabColorSchemeParams.Builder()

@@ -110,13 +110,10 @@ fun MediaDetailsView(
         topBar = {
             MediaDetailsTopAppBar(
                 viewModel = viewModel,
+                mediaUrl = if (mediaType == MediaType.ANIME) Constants.ANIME_URL + mediaId
+                else Constants.MANGA_URL + mediaId,
                 navigateBack = navigateBack,
                 scrollBehavior = topAppBarScrollBehavior,
-                onClickViewOn = {
-                    if (mediaType == MediaType.ANIME)
-                        context.openLink(Constants.ANIME_URL + mediaId)
-                    else context.openLink(Constants.MANGA_URL + mediaId)
-                },
                 onClickNotification = { enable ->
                     (viewModel.mediaDetails as? AnimeDetails)?.let { details ->
                         if (enable) {
@@ -601,10 +598,10 @@ fun MediaInfoView(
 @Composable
 fun MediaDetailsTopAppBar(
     viewModel: MediaDetailsViewModel,
+    mediaUrl: String,
     scrollBehavior: TopAppBarScrollBehavior,
     navigateBack: () -> Unit,
     onClickNotification: (enable: Boolean) -> Unit,
-    onClickViewOn: () -> Unit
 ) {
     val context = LocalContext.current
     val savedForNotification = if (viewModel.mediaDetails?.id != null) remember {
@@ -635,7 +632,9 @@ fun MediaDetailsTopAppBar(
                     )
                 }
             }
-            ViewInBrowserButton(onClick = onClickViewOn)
+            ViewInBrowserButton(onClick = { context.openLink(mediaUrl) })
+
+            ShareButton(url = mediaUrl)
         },
         scrollBehavior = scrollBehavior
     )
