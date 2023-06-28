@@ -16,6 +16,7 @@ import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.core.os.LocaleListCompat
+import com.axiel7.moelist.BuildConfig
 import com.axiel7.moelist.R
 
 object ContextExtensions {
@@ -55,12 +56,12 @@ object ContextExtensions {
     fun Context.openLink(url: String) {
         val uri = Uri.parse(url)
         Intent(Intent.ACTION_VIEW, uri).apply {
-            val browsers = findBrowserIntentActivities()
-            val default = browsers.find { it.isDefault }
-            if (default != null) {
-                setPackage(default.activityInfo.packageName)
+            val defaultBrowser = findBrowserIntentActivities(PackageManager.MATCH_DEFAULT_ONLY).firstOrNull()
+            if (defaultBrowser != null) {
+                setPackage(defaultBrowser.activityInfo.packageName)
                 startActivity(this)
             } else {
+                val browsers = findBrowserIntentActivities(PackageManager.MATCH_ALL)
                 val intents = browsers.map {
                     Intent(Intent.ACTION_VIEW, uri).apply {
                         setPackage(it.activityInfo.packageName)
@@ -76,11 +77,15 @@ object ContextExtensions {
     }
 
     /** Finds all the browsers installed on the device */
-    private fun Context.findBrowserIntentActivities(): List<ResolveInfo> {
+    private fun Context.findBrowserIntentActivities(
+        flags: Int = 0
+    ): List<ResolveInfo> {
         val emptyBrowserIntent = Intent(Intent.ACTION_VIEW, Uri.fromParts("http", "", null))
-            .setAction(Intent.ACTION_VIEW)
 
-        return packageManager.queryIntentActivitiesCompat(emptyBrowserIntent, PackageManager.MATCH_ALL)
+        return packageManager
+            .queryIntentActivitiesCompat(emptyBrowserIntent, flags)
+            .filter { it.activityInfo.packageName != BuildConfig.APPLICATION_ID }
+            .sortedBy { it.priority }
     }
 
     /** Custom compat method until Google decides to make one */
@@ -88,7 +93,7 @@ object ContextExtensions {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             queryIntentActivities(intent, PackageManager.ResolveInfoFlags.of(flags.toLong()))
         } else {
-            @Suppress("DEPRECATION") queryIntentActivities(intent, flags)
+            queryIntentActivities(intent, flags)
         }
 
     fun Context.getActivity(): Activity? = when (this) {
