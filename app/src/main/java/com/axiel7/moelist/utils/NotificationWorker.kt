@@ -27,6 +27,7 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.notificationsDataStore
 import com.axiel7.moelist.data.model.media.WeekDay
 import com.axiel7.moelist.data.model.media.numeric
+import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.uicompose.MainActivity
 import com.axiel7.moelist.utils.DateUtils.getNextDayOfWeek
 import java.time.DayOfWeek
@@ -46,6 +47,13 @@ class NotificationWorker(
 
         val animeTitle = inputData.getString("anime_title")
         val animeId = inputData.getInt("anime_id", 1)
+
+        // remove periodic worker if anime ended
+        val animeDetails = AnimeRepository.getAnimeAiringStatus(animeId)
+        if (animeDetails?.status != "currently_airing") {
+            removeAiringAnimeNotification(applicationContext, animeId)
+            return Result.success()
+        }
 
         val resultPendingIntent = TaskStackBuilder.create(applicationContext).run {
             // Add the intent, which inflates the back stack

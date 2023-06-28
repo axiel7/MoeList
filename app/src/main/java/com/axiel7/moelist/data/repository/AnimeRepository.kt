@@ -157,6 +157,16 @@ object AnimeRepository {
         }
     }
 
+    suspend fun getAnimeAiringStatus(
+        animeId: Int
+    ): AnimeDetails? {
+        return try {
+            App.api.getAnimeDetails(animeId, fields = "id,status")
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     // widget
     suspend fun getAiringAnimeOnList(
         token: String,
