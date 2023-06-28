@@ -1,9 +1,6 @@
 package com.axiel7.moelist.uicompose.more
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Build
-import android.provider.Settings
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -54,6 +51,7 @@ import com.axiel7.moelist.data.model.media.TitleLanguage
 import com.axiel7.moelist.uicompose.base.ListMode
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
+import com.axiel7.moelist.utils.ContextExtensions.openByDefaultSettings
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.NumExtensions.toInt
 import com.axiel7.moelist.utils.UseCases
@@ -159,11 +157,7 @@ fun SettingsView(
                     title = stringResource(R.string.open_mal_links_in_the_app),
                     icon = R.drawable.ic_open_in_browser,
                     onClick = {
-                        Intent(Settings.ACTION_APP_OPEN_BY_DEFAULT_SETTINGS,
-                            Uri.parse("package:${context.packageName}"))
-                            .apply {
-                                context.startActivity(this)
-                            }
+                        context.openByDefaultSettings()
                     }
                 )
             }
