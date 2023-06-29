@@ -3,7 +3,13 @@ package com.axiel7.moelist.uicompose.calendar
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
@@ -73,7 +79,9 @@ fun CalendarView(
     
     DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.calendar),
-        navigateBack = navigateBack
+        navigateBack = navigateBack,
+        contentWindowInsets = WindowInsets.systemBars
+            .only(WindowInsetsSides.Horizontal)
     ) { padding ->
         Column(
             modifier = Modifier.padding(padding)
@@ -98,7 +106,10 @@ fun CalendarView(
                 state = pagerState
             ) { page ->
                 LazyColumn(
-                    contentPadding = PaddingValues(vertical = 8.dp)
+                    contentPadding = PaddingValues(
+                        top = 8.dp,
+                        bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+                    )
                 ) {
                     items(
                         items = viewModel.weekAnime[page],

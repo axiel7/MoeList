@@ -5,9 +5,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -32,6 +36,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.R
@@ -70,6 +75,7 @@ fun SeasonChartView(
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
+    val bottomBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
     listState.OnBottomReached(buffer = 3) {
         if (!viewModel.isLoading && viewModel.hasNextPage) {
@@ -81,7 +87,8 @@ fun SeasonChartView(
         SeasonChartFilterSheet(
             coroutineScope = coroutineScope,
             sheetState = sheetState,
-            viewModel = viewModel
+            viewModel = viewModel,
+            bottomPadding = bottomBarPadding
         )
     }
 
@@ -100,15 +107,23 @@ fun SeasonChartView(
         title = viewModel.season.seasonYearText(),
         navigateBack = navigateBack,
         floatingActionButton = {
-            FloatingActionButton(onClick = { coroutineScope.launch { sheetState.show() } }) {
+            FloatingActionButton(
+                onClick = { coroutineScope.launch { sheetState.show() } },
+                modifier = Modifier.padding(WindowInsets.navigationBars.asPaddingValues())
+            ) {
                 Icon(painter = painterResource(R.drawable.ic_round_filter_list_24), contentDescription = "filter")
             }
-        }
+        },
+        contentWindowInsets = WindowInsets.systemBars
+            .only(WindowInsetsSides.Horizontal)
     ) { padding ->
         LazyColumn(
             modifier = Modifier.padding(padding),
             state = listState,
-            contentPadding = PaddingValues(vertical = 8.dp)
+            contentPadding = PaddingValues(
+                top = 8.dp,
+                bottom = bottomBarPadding
+            )
         ) {
             items(
                 items = viewModel.animes,
@@ -172,17 +187,18 @@ fun SeasonChartView(
 fun SeasonChartFilterSheet(
     coroutineScope: CoroutineScope,
     sheetState: SheetState,
-    viewModel: SeasonChartViewModel
+    viewModel: SeasonChartViewModel,
+    bottomPadding: Dp = 0.dp
 ) {
     ModalBottomSheet(
         sheetState = sheetState,
         onDismissRequest = { coroutineScope.launch { sheetState.hide() } },
-        windowInsets = WindowInsets.navigationBars
+        windowInsets = WindowInsets(0, 0, 0, 0)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 32.dp),
+                .padding(bottom = 32.dp + bottomPadding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(

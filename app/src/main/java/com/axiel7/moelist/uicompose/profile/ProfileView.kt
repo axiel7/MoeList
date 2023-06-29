@@ -76,8 +76,8 @@ fun ProfileView(
     ) { padding ->
         Column(
             modifier = Modifier
-                .padding(padding)
-                .verticalScroll(scrollState),
+                .verticalScroll(scrollState)
+                .padding(padding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(

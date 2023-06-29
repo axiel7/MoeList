@@ -1,6 +1,8 @@
 package com.axiel7.moelist.uicompose.composables
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
@@ -15,6 +17,7 @@ fun DefaultScaffoldWithTopAppBar(
     title: String,
     navigateBack: () -> Unit,
     floatingActionButton: @Composable (() -> Unit) = {},
+    contentWindowInsets: WindowInsets = WindowInsets.systemBars,
     content: @Composable (PaddingValues) -> Unit
 ) {
     val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
@@ -30,6 +33,7 @@ fun DefaultScaffoldWithTopAppBar(
             )
         },
         floatingActionButton = floatingActionButton,
+        contentWindowInsets = contentWindowInsets,
         content = content
     )
 }
