@@ -39,7 +39,7 @@ class SeasonChartViewModel: BaseViewModel() {
         fields = AnimeRepository.SEASONAL_FIELDS
     )
 
-    var animes = mutableStateListOf<AnimeSeasonal>()
+    val animes = mutableStateListOf<AnimeSeasonal>()
     var nextPage: String? = null
     var hasNextPage = false
 

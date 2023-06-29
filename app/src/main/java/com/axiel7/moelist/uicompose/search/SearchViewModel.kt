@@ -21,7 +21,7 @@ class SearchViewModel: BaseViewModel() {
     var nextPage: String? = null
     var hasNextPage = false
 
-    var mediaList = mutableStateListOf<BaseMediaList>()
+    val mediaList = mutableStateListOf<BaseMediaList>()
 
     fun search(
         mediaType: MediaType,

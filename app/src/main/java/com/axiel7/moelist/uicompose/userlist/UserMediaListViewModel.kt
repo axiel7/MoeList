@@ -76,7 +76,7 @@ class UserMediaListViewModel(
         override fun component1(): BaseMyListStatus? = value
         override fun component2(): (BaseMyListStatus?) -> Unit = { value = it }
     }
-    var mediaList = mutableStateListOf<BaseUserMediaList<out BaseMediaNode>>()
+    val mediaList = mutableStateListOf<BaseUserMediaList<out BaseMediaNode>>()
     var nextPage: String? = null
     var hasNextPage = false
     var loadedAllPages = false

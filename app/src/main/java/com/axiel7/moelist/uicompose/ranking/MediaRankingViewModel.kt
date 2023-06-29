@@ -23,7 +23,7 @@ class MediaRankingViewModel(
         fields = AnimeRepository.RANKING_FIELDS
     )
 
-    var mediaList = mutableStateListOf<BaseRanking>()
+    val mediaList = mutableStateListOf<BaseRanking>()
     var nextPage: String? = null
     var hasNextPage = false
     var loadedAllPages = false
