@@ -59,7 +59,7 @@ Follow the development on the official Discord server:
 * [Coil](https://github.com/coil-kt/coil)
 
 # Building
-Create a file `app/scr/main/java/com/axiel7/moelist/private/ClientId.kt` and put the following content:
+Create a file `app/src/main/java/com/axiel7/moelist/private/ClientId.kt` and put the following content:
 
 ```kotlin
 package com.axiel7.moelist.private
