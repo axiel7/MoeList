@@ -62,6 +62,7 @@ const val MEDIA_DETAILS_DESTINATION = "details/{mediaType}/{mediaId}"
 fun MediaDetailsView(
     mediaType: MediaType,
     mediaId: Int,
+    isLoggedIn: Boolean,
     navigateBack: () -> Unit,
     navigateToMediaDetails: (MediaType, Int) -> Unit,
     navigateToFullPoster: (String) -> Unit,
@@ -167,9 +168,14 @@ fun MediaDetailsView(
             )
         },
         floatingActionButton = {
-            ExtendedFloatingActionButton(onClick = {
-                if (viewModel.mediaDetails != null) coroutineScope.launch { sheetState.show() }
-            }) {
+            ExtendedFloatingActionButton(
+                onClick = {
+                    if (isLoggedIn) {
+                        if (viewModel.mediaDetails != null) coroutineScope.launch { sheetState.show() }
+                    }
+                    else context.showToast(context.getString(R.string.please_login_to_use_this_feature))
+                }
+            ) {
                 Icon(
                     painter = painterResource(if (isNewEntry) R.drawable.ic_round_add_24
                             else R.drawable.ic_round_edit_24),
@@ -647,6 +653,7 @@ fun MediaDetailsPreview() {
         MediaDetailsView(
             mediaType = MediaType.ANIME,
             mediaId = 1,
+            isLoggedIn = false,
             navigateBack = {},
             navigateToMediaDetails = { _, _ -> },
             navigateToFullPoster = {}

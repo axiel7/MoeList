@@ -40,6 +40,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -69,6 +70,7 @@ const val HOME_DESTINATION = "home"
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeView(
+    isLoggedIn: Boolean,
     modifier: Modifier = Modifier,
     navigateToMediaDetails: (MediaType, Int) -> Unit,
     navigateToRanking: (MediaType) -> Unit,
@@ -89,8 +91,8 @@ fun HomeView(
         }
     }
 
-    LaunchedEffect(Unit) {
-        viewModel.initRequestChain()
+    LaunchedEffect(isLoggedIn) {
+        viewModel.initRequestChain(isLoggedIn)
     }
 
     Column(
@@ -142,7 +144,20 @@ fun HomeView(
             text = stringResource(R.string.today),
             onClick = navigateToCalendar
         )
-        LazyRow(
+        if (!viewModel.isLoading && viewModel.todayAnimes.isEmpty()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(MEDIA_POSTER_SMALL_HEIGHT.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = stringResource(R.string.nothing_today),
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+        else LazyRow(
             modifier = Modifier
                 .padding(top = 8.dp)
                 .sizeIn(minHeight = MEDIA_POSTER_SMALL_HEIGHT.dp),
@@ -174,7 +189,20 @@ fun HomeView(
             text = stringResource(R.string.this_season),
             onClick = navigateToSeasonChart
         )
-        LazyRow(
+        if (!viewModel.isLoading && viewModel.seasonAnimes.isEmpty()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(MEDIA_POSTER_SMALL_HEIGHT.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = stringResource(R.string.error_server),
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+        else LazyRow(
             modifier = Modifier
                 .padding(top = 8.dp)
                 .sizeIn(minHeight = MEDIA_ITEM_VERTICAL_HEIGHT.dp),
@@ -208,7 +236,33 @@ fun HomeView(
 
         //Recommended
         HeaderHorizontalList(stringResource(R.string.recommendations), onClick = { })
-        LazyRow(
+        if (!isLoggedIn) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(MEDIA_POSTER_SMALL_HEIGHT.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = stringResource(R.string.please_login_to_use_this_feature),
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+        else if (!viewModel.isLoading && viewModel.recommendedAnimes.isEmpty()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(MEDIA_POSTER_SMALL_HEIGHT.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = stringResource(R.string.no_recommendations),
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+        else LazyRow(
             modifier = Modifier
                 .padding(vertical = 8.dp)
                 .sizeIn(minHeight = MEDIA_ITEM_VERTICAL_HEIGHT.dp),
@@ -371,6 +425,7 @@ fun HomePreview() {
     MoeListTheme {
         Surface {
             HomeView(
+                isLoggedIn = false,
                 navigateToMediaDetails = { _, _ -> },
                 navigateToRanking = {},
                 navigateToSeasonChart = {},

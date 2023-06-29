@@ -18,12 +18,12 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel: BaseViewModel() {
 
-    fun initRequestChain() {
+    fun initRequestChain(isLoggedIn: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             isLoading = true
             if (todayAnimes.isEmpty()) getTodayAiringAnimes()
             if (seasonAnimes.isEmpty()) getSeasonAnimes()
-            if (recommendedAnimes.isEmpty()) getRecommendedAnimes()
+            if (isLoggedIn && recommendedAnimes.isEmpty()) getRecommendedAnimes()
             isLoading = false
         }
     }

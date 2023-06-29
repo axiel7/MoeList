@@ -303,4 +303,6 @@
     <string name="experimental">Experimental</string>
     <string name="new_logo_design">New logo design</string>
     <string name="website">Website</string>
+    <string name="please_login_to_use_this_feature">Please login to use this feature</string>
+    <string name="no_recommendations">No recommendations</string>
 </resources>

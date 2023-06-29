@@ -2,6 +2,7 @@ package com.axiel7.moelist.data.network
 
 import android.util.Log
 import com.axiel7.moelist.BuildConfig
+import com.axiel7.moelist.private.ClientId
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.DefaultRequest
@@ -61,6 +62,7 @@ class KtorClient(private val authToken: String?) {
         }
 
         install(DefaultRequest) {
+            header("X-MAL-CLIENT-ID", ClientId.CLIENT_ID)
             authToken?.let { header(HttpHeaders.Authorization, "Bearer $it") }
         }
     }

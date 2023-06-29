@@ -1,6 +1,7 @@
 package com.axiel7.moelist.uicompose
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -14,10 +15,37 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SearchBar
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -60,6 +88,7 @@ import com.axiel7.moelist.data.datastore.PreferencesDataStore.rememberPreference
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.TitleLanguage
+import com.axiel7.moelist.data.repository.LoginRepository
 import com.axiel7.moelist.uicompose.base.BottomDestination
 import com.axiel7.moelist.uicompose.base.BottomDestination.Companion.toBottomDestinationIndex
 import com.axiel7.moelist.uicompose.base.ListMode
@@ -67,13 +96,14 @@ import com.axiel7.moelist.uicompose.base.StringArrayNavType
 import com.axiel7.moelist.uicompose.calendar.CALENDAR_DESTINATION
 import com.axiel7.moelist.uicompose.calendar.CalendarView
 import com.axiel7.moelist.uicompose.composables.BackIconButton
+import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.uicompose.details.FULL_POSTER_DESTINATION
 import com.axiel7.moelist.uicompose.details.FullPosterView
 import com.axiel7.moelist.uicompose.details.MEDIA_DETAILS_DESTINATION
 import com.axiel7.moelist.uicompose.details.MediaDetailsView
 import com.axiel7.moelist.uicompose.home.HOME_DESTINATION
 import com.axiel7.moelist.uicompose.home.HomeView
-import com.axiel7.moelist.uicompose.login.LoginActivity
+import com.axiel7.moelist.uicompose.login.LoginView
 import com.axiel7.moelist.uicompose.more.ABOUT_DESTINATION
 import com.axiel7.moelist.uicompose.more.AboutView
 import com.axiel7.moelist.uicompose.more.CREDITS_DESTINATION
@@ -96,6 +126,7 @@ import com.axiel7.moelist.uicompose.userlist.ANIME_LIST_DESTINATION
 import com.axiel7.moelist.uicompose.userlist.MANGA_LIST_DESTINATION
 import com.axiel7.moelist.uicompose.userlist.UserMediaListHostView
 import com.axiel7.moelist.uicompose.userlist.UserMediaListWithTabsView
+import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.NumExtensions.toInt
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -108,17 +139,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
+        // login intent
+        if (intent.data?.toString()?.startsWith(Constants.MOELIST_PAGELINK) == true) {
+            intent.data?.let { parseIntentData(it) }
+        }
+
         //Cache DataStore in memory
         lifecycleScope.launch {
             defaultPreferencesDataStore.data.first()
         }
         //get necessary preferences while on splashscreen
 
-        val token = defaultPreferencesDataStore.getValueSync(ACCESS_TOKEN_PREFERENCE_KEY)
-        if (token != null) App.createKtorClient(token)
-        else {
-            Intent(this, LoginActivity::class.java).apply { startActivity(this) }
-            finish()
+        defaultPreferencesDataStore.getValueSync(ACCESS_TOKEN_PREFERENCE_KEY)?.let {
+            App.createKtorClient(accessToken = it)
         }
 
         val startTab = defaultPreferencesDataStore.getValueSync(START_TAB_PREFERENCE_KEY)
@@ -174,7 +207,6 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             val themePreference by rememberPreference(THEME_PREFERENCE_KEY, theme)
-            val accessTokenPreference by rememberPreference(ACCESS_TOKEN_PREFERENCE_KEY, token ?: "")
             val navController = rememberNavController()
 
             MoeListTheme(
@@ -202,14 +234,21 @@ class MainActivity : AppCompatActivity() {
                     )
                 }
             }
+        }
+    }
 
-            LaunchedEffect(accessTokenPreference) {
-                if (accessTokenPreference.isEmpty()) {
-                    Intent(this@MainActivity, LoginActivity::class.java)
-                        .apply { startActivity(this) }
-                    finish()
-                }
-            }
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        if (intent?.data?.toString()?.startsWith(Constants.MOELIST_PAGELINK) == true) {
+            intent.data?.let { parseIntentData(it) }
+        }
+    }
+
+    private fun parseIntentData(uri: Uri) {
+        val code = uri.getQueryParameter("code")
+        val receivedState = uri.getQueryParameter("state")
+        if (code != null && receivedState == LoginRepository.STATE) {
+            lifecycleScope.launch(Dispatchers.IO) { LoginRepository.getAccessToken(code) }
         }
     }
 }
@@ -219,6 +258,7 @@ fun MainView(
     navController: NavHostController,
     lastTabOpened: Int
 ) {
+    val accessTokenPreference by rememberPreference(ACCESS_TOKEN_PREFERENCE_KEY, App.accessToken ?: "")
     val bottomBarState = remember { mutableStateOf(true) }
     val stringArrayType = remember { StringArrayNavType() }
 
@@ -261,6 +301,7 @@ fun MainView(
         ) {
             composable(BottomDestination.Home.route) {
                 HomeView(
+                    isLoggedIn = accessTokenPreference.isNotEmpty(),
                     navigateToMediaDetails = { mediaType, mediaId ->
                         navController.navigate(
                             MEDIA_DETAILS_DESTINATION
@@ -334,8 +375,22 @@ fun MainView(
             }
 
             composable(BottomDestination.AnimeList.route) {
-                if (App.useListTabs)
-                    UserMediaListWithTabsView(
+                if (accessTokenPreference.isEmpty()) {
+                    LoginView()
+                } else {
+                    if (App.useListTabs)
+                        UserMediaListWithTabsView(
+                            mediaType = MediaType.ANIME,
+                            modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
+                            navigateToMediaDetails = { mediaType, mediaId ->
+                                navController.navigate(
+                                    MEDIA_DETAILS_DESTINATION
+                                        .replace("{mediaType}", mediaType.name)
+                                        .replace("{mediaId}", mediaId.toString())
+                                )
+                            }
+                        )
+                    else UserMediaListHostView(
                         mediaType = MediaType.ANIME,
                         modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
                         navigateToMediaDetails = { mediaType, mediaId ->
@@ -346,22 +401,26 @@ fun MainView(
                             )
                         }
                     )
-                else UserMediaListHostView(
-                    mediaType = MediaType.ANIME,
-                    modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
-                    navigateToMediaDetails = { mediaType, mediaId ->
-                        navController.navigate(
-                            MEDIA_DETAILS_DESTINATION
-                                .replace("{mediaType}", mediaType.name)
-                                .replace("{mediaId}", mediaId.toString())
-                        )
-                    }
-                )
+                }
             }
 
             composable(BottomDestination.MangaList.route) {
-                if (App.useListTabs)
-                    UserMediaListWithTabsView(
+                if (accessTokenPreference.isEmpty()) {
+                    LoginView()
+                } else {
+                    if (App.useListTabs)
+                        UserMediaListWithTabsView(
+                            mediaType = MediaType.MANGA,
+                            modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
+                            navigateToMediaDetails = { mediaType, mediaId ->
+                                navController.navigate(
+                                    MEDIA_DETAILS_DESTINATION
+                                        .replace("{mediaType}", mediaType.name)
+                                        .replace("{mediaId}", mediaId.toString())
+                                )
+                            }
+                        )
+                    else UserMediaListHostView(
                         mediaType = MediaType.MANGA,
                         modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
                         navigateToMediaDetails = { mediaType, mediaId ->
@@ -372,17 +431,7 @@ fun MainView(
                             )
                         }
                     )
-                else UserMediaListHostView(
-                    mediaType = MediaType.MANGA,
-                    modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
-                    navigateToMediaDetails = { mediaType, mediaId ->
-                        navController.navigate(
-                            MEDIA_DETAILS_DESTINATION
-                                .replace("{mediaType}", mediaType.name)
-                                .replace("{mediaId}", mediaId.toString())
-                        )
-                    }
-                )
+                }
             }
 
             navigation(startDestination = MORE_DESTINATION, route = BottomDestination.More.route) {
@@ -451,6 +500,7 @@ fun MainView(
                     mediaType = navEntry.arguments?.getString("mediaType")
                         ?.let { mediaType -> MediaType.valueOf(mediaType) } ?: MediaType.ANIME,
                     mediaId = navEntry.arguments?.getInt("mediaId") ?: 0,
+                    isLoggedIn = accessTokenPreference.isNotEmpty(),
                     navigateBack = {
                         navController.popBackStack()
                     },
@@ -484,17 +534,26 @@ fun MainView(
             }
 
             composable(PROFILE_DESTINATION) {
-                ProfileView(
-                    navigateBack = {
-                        navController.popBackStack()
-                    },
-                    navigateToFullPoster = { pictures ->
-                        navController.navigate(
-                            FULL_POSTER_DESTINATION
-                                .replace("{pictures}", pictures)
-                        )
+                if (accessTokenPreference.isEmpty()) {
+                    DefaultScaffoldWithTopAppBar(
+                        title = stringResource(R.string.title_profile),
+                        navigateBack = { navController.popBackStack() }
+                    ) { padding ->
+                        LoginView(modifier = Modifier.padding(padding))
                     }
-                )
+                } else {
+                    ProfileView(
+                        navigateBack = {
+                            navController.popBackStack()
+                        },
+                        navigateToFullPoster = { pictures ->
+                            navController.navigate(
+                                FULL_POSTER_DESTINATION
+                                    .replace("{pictures}", pictures)
+                            )
+                        }
+                    )
+                }
             }
         }//:NavHost
     }

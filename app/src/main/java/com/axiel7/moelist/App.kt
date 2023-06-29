@@ -17,16 +17,19 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         dataStore = defaultPreferencesDataStore
+        createKtorClient(null)
     }
 
     companion object {
 
-        fun createKtorClient(accessToken: String) {
+        fun createKtorClient(accessToken: String?) {
+            this.accessToken = accessToken
             ktorClient = KtorClient(accessToken).ktorHttpClient
             api = Api(ktorClient)
             jikanApi = JikanApi(ktorClient)
         }
 
+        var accessToken: String? = null
         private lateinit var ktorClient: HttpClient
         lateinit var api: Api
         lateinit var jikanApi: JikanApi
