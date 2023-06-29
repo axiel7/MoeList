@@ -13,24 +13,28 @@ object SeasonCalendar {
         Calendar.getInstance(Locale.getDefault())
     }
     private val jpCalendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"), Locale.ENGLISH)
+
+    /**
+     * The current month from 0 to 11
+     */
     private val month = calendar.get(Calendar.MONTH)
     private val weekDay = calendar.get(Calendar.DAY_OF_WEEK)
-    private val winterMonths = intArrayOf(0, 1, 2)
-    private val springMonths = intArrayOf(3, 4, 5)
-    private val summerMonths = intArrayOf(6, 7, 8)
-    private val fallMonths = intArrayOf(9, 10, 11)
 
     val currentYear = calendar.get(Calendar.YEAR)
 
-    val currentSeason = when {
-        springMonths.contains(month) -> Season.SPRING
-        summerMonths.contains(month) -> Season.SUMMER
-        winterMonths.contains(month) -> Season.WINTER
-        fallMonths.contains(month) -> Season.FALL
+    val currentSeason = when (month) {
+        0, 1, 11 -> Season.WINTER
+        2, 3, 4 -> Season.SPRING
+        5, 6, 7 -> Season.SUMMER
+        8, 9, 10 -> Season.FALL
         else -> Season.SPRING
     }
 
-    val currentStartSeason = StartSeason(currentYear, currentSeason)
+    val currentStartSeason = StartSeason(
+        // if december, the season is next year winter
+        year = if (month == 11) currentYear + 1 else currentYear,
+        season = currentSeason
+    )
 
     val currentWeekday = when(weekDay) {
         2 -> WeekDay.MONDAY

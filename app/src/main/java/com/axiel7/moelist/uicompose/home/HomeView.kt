@@ -46,12 +46,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.R
-import com.axiel7.moelist.data.model.anime.AnimeSeasonal
+import com.axiel7.moelist.data.model.anime.AnimeRanking
 import com.axiel7.moelist.data.model.anime.airingInString
 import com.axiel7.moelist.data.model.anime.icon
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.userPreferredTitle
-import com.axiel7.moelist.uicompose.calendar.CALENDAR_DESTINATION
 import com.axiel7.moelist.uicompose.composables.MEDIA_ITEM_VERTICAL_HEIGHT
 import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_SMALL_HEIGHT
 import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_SMALL_WIDTH
@@ -331,7 +330,7 @@ fun HeaderHorizontalList(text: String, onClick: () -> Unit) {
 }
 
 @Composable
-fun AiringAnimeHorizontalItem(item: AnimeSeasonal, onClick: () -> Unit) {
+fun AiringAnimeHorizontalItem(item: AnimeRanking, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .padding(horizontal = 8.dp)

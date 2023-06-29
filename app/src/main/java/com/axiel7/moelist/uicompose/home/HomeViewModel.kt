@@ -5,8 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.axiel7.moelist.App
 import com.axiel7.moelist.data.model.ApiParams
 import com.axiel7.moelist.data.model.anime.AnimeList
+import com.axiel7.moelist.data.model.anime.AnimeRanking
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.media.MediaSort
+import com.axiel7.moelist.data.model.media.RankingType
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.uicompose.base.BaseViewModel
 import com.axiel7.moelist.utils.Constants
@@ -30,26 +32,24 @@ class HomeViewModel: BaseViewModel() {
         sort = MediaSort.ANIME_SCORE.value,
         nsfw = App.nsfw,
         fields = AnimeRepository.TODAY_FIELDS,
-        limit = 300
+        limit = 100
     )
-    var todayAnimes = mutableStateListOf<AnimeSeasonal>()
+    var todayAnimes = mutableStateListOf<AnimeRanking>()
     suspend fun getTodayAiringAnimes() {
-        val result = AnimeRepository.getSeasonalAnimes(
+        val result = AnimeRepository.getAnimeRanking(
             apiParams = paramsToday,
-            year = SeasonCalendar.currentYear,
-            season = SeasonCalendar.currentSeason
+            rankingType = RankingType.AIRING
         )
         if (result?.data != null) {
-            val tempList = mutableListOf<AnimeSeasonal>()
+            val tempList = mutableListOf<AnimeRanking>()
             for (anime in result.data) {
                 if (anime.node.broadcast != null
                     && !todayAnimes.contains(anime)
                     && anime.node.broadcast.dayOfTheWeek == SeasonCalendar.currentJapanWeekday
-                    && anime.node.startSeason == SeasonCalendar.currentStartSeason
                     && anime.node.status == Constants.STATUS_AIRING
                 ) { tempList.add(anime) }
             }
-            tempList.sortByDescending { "${it.node.mean ?: ""}${it.node.broadcast?.startTime}" }
+            tempList.sortByDescending { it.node.broadcast?.startTime }
             todayAnimes.clear()
             todayAnimes.addAll(tempList)
         } else {
@@ -60,15 +60,17 @@ class HomeViewModel: BaseViewModel() {
     private val paramsSeasonal = ApiParams(
         sort = MediaSort.ANIME_START_DATE.value,
         nsfw = App.nsfw,
-        fields = "alternative_titles{en,ja},mean"
+        fields = "alternative_titles{en,ja},mean",
+        limit = 25
     )
 
     var seasonAnimes = mutableStateListOf<AnimeSeasonal>()
     suspend fun getSeasonAnimes() {
+        val currentStartSeason = SeasonCalendar.currentStartSeason
         val result = AnimeRepository.getSeasonalAnimes(
             apiParams = paramsSeasonal,
-            year = SeasonCalendar.currentYear,
-            season = SeasonCalendar.currentSeason
+            year = currentStartSeason.year,
+            season = currentStartSeason.season
         )
         if (result?.data != null) {
             seasonAnimes.clear()
