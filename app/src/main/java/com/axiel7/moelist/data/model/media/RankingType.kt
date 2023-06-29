@@ -10,7 +10,8 @@ enum class RankingType(val value: String) {
     SCORE("all"),
     POPULARITY("bypopularity"),
     FAVORITE("favorite"),
-    UPCOMING("upcoming")
+    UPCOMING("upcoming"),
+    AIRING("airing"),
 }
 
 val rankingAnimeValues get() =
@@ -25,4 +26,5 @@ fun RankingType.localized() = when (this) {
     RankingType.POPULARITY -> stringResource(R.string.popularity)
     RankingType.FAVORITE -> stringResource(R.string.favorite)
     RankingType.UPCOMING -> stringResource(R.string.upcoming)
+    RankingType.AIRING -> stringResource(R.string.airing)
 }
