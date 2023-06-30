@@ -280,7 +280,9 @@
     <string name="indonesian">Indonésien</string>
     <string name="romaji">Romaji</string>
     <string name="title_language">Langue du titre</string>
-    <string name="experimental" comment="Title for experimental settings">Expérimental</string>
+    <string name="experimental">Expérimental</string>
     <string name="new_logo_design">Nouveau design de logo</string>
     <string name="website">Site Web</string>
+    <string name="please_login_to_use_this_feature">Please login to use this feature</string>
+    <string name="no_recommendations">No recommendations</string>
 </resources>
