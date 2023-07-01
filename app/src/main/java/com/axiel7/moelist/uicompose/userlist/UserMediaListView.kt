@@ -25,11 +25,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -127,6 +129,7 @@ fun UserMediaListView(
     navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
     val context = LocalContext.current
+    val haptic = LocalHapticFeedback.current
     val viewModel: UserMediaListViewModel = viewModel(key = status.value) {
         UserMediaListViewModel(mediaType, status)
     }
@@ -227,6 +230,7 @@ fun UserMediaListView(
                             navigateToMediaDetails(mediaType, item.node.id)
                         },
                         onLongClick = {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                             coroutineScope.launch {
                                 viewModel.onItemSelected(item)
                                 sheetState.show()
@@ -291,6 +295,7 @@ fun UserMediaListView(
                                     navigateToMediaDetails(mediaType, item.node.id)
                                 },
                                 onLongClick = {
+                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                                     coroutineScope.launch {
                                         viewModel.onItemSelected(item)
                                         sheetState.show()
@@ -339,6 +344,7 @@ fun UserMediaListView(
                                     navigateToMediaDetails(mediaType, item.node.id)
                                 },
                                 onLongClick = {
+                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                                     coroutineScope.launch {
                                         viewModel.onItemSelected(item)
                                         sheetState.show()
@@ -386,6 +392,7 @@ fun UserMediaListView(
                                     navigateToMediaDetails(mediaType, item.node.id)
                                 },
                                 onLongClick = {
+                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                                     coroutineScope.launch {
                                         viewModel.onItemSelected(item)
                                         sheetState.show()
