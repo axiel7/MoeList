@@ -396,6 +396,7 @@ fun CompactUserMediaListItemPlaceholder() {
 @Composable
 fun MinimalUserMediaListItem(
     title: String,
+    score: Int?,
     mediaType: MediaType,
     userProgress: Int?,
     totalProgress: Int?,
@@ -444,21 +445,40 @@ fun MinimalUserMediaListItem(
                     )
                 }
 
-                Text(
-                    text = buildString {
-                        append("${userProgress ?: 0}/${totalProgress.toStringPositiveValueOrUnknown()}")
-                        if (mediaType == MediaType.MANGA) {
-                            append(" ")
-                            if (isVolumeProgress) {
-                                append(stringResource(R.string.volumes).lowercase())
-                            } else {
-                                append(stringResource(R.string.chapters).lowercase())
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = buildString {
+                            append("${userProgress ?: 0}/${totalProgress.toStringPositiveValueOrUnknown()}")
+                            if (mediaType == MediaType.MANGA) {
+                                append(" ")
+                                if (isVolumeProgress) {
+                                    append(stringResource(R.string.volumes).lowercase())
+                                } else {
+                                    append(stringResource(R.string.chapters).lowercase())
+                                }
                             }
-                        }
-                    },
-                    fontSize = 16.sp,
-                    lineHeight = 19.sp,
-                )
+                        },
+                        modifier = Modifier.weight(1f),
+                        fontSize = 16.sp,
+                        lineHeight = 19.sp,
+                    )
+
+                    Text(
+                        text = if ((score ?: 0) == 0) Constants.UNKNOWN_CHAR else "$score",
+                        modifier = Modifier.padding(start = 8.dp, top = 4.dp, end = 2.dp, bottom = 4.dp),
+                        color = MaterialTheme.colorScheme.secondary,
+                        fontSize = 16.sp,
+                    )
+                    Icon(
+                        painter = painterResource(R.drawable.ic_round_star_16),
+                        contentDescription = "star",
+                        modifier = Modifier.padding(end = 16.dp),
+                        tint = MaterialTheme.colorScheme.secondary
+                    )
+                }
             }//:Column
 
             if (listStatus.isCurrent()) {
@@ -558,6 +578,7 @@ fun MinimalUserMediaListItemPreview() {
         Column {
             MinimalUserMediaListItem(
                 title = "This is a very very very very large anime or manga title",
+                score = null,
                 mediaType = MediaType.MANGA,
                 userProgress = 4,
                 totalProgress = 12,

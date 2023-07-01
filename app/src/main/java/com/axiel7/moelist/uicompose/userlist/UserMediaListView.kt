@@ -290,6 +290,7 @@ fun UserMediaListView(
                     ) { item ->
                         MinimalUserMediaListItem(
                             title = item.node.userPreferredTitle(),
+                            score = item.listStatus?.score,
                             mediaType = mediaType,
                             userProgress = item.userProgress(),
                             totalProgress = item.totalProgress(),
