@@ -87,7 +87,7 @@ dependencies {
 
     implementation 'androidx.activity:activity-compose:1.7.2'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1'
-    implementation 'androidx.navigation:navigation-compose:2.7.0-beta01'
+    implementation 'androidx.navigation:navigation-compose:2.7.0-beta02'
 
     implementation "androidx.glance:glance-appwidget:1.0.0-beta01"
 
@@ -103,7 +103,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
 
     //Ktor
-    def ktor_version = '2.3.1'
+    def ktor_version = '2.3.2'
     implementation "io.ktor:ktor-client-okhttp:$ktor_version"
     implementation "io.ktor:ktor-serialization-kotlinx-json:$ktor_version"
     implementation "io.ktor:ktor-client-content-negotiation:$ktor_version"
