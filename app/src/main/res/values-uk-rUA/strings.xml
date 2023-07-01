@@ -285,4 +285,5 @@
     <string name="website">Веб-сайт</string>
     <string name="please_login_to_use_this_feature">Please login to use this feature</string>
     <string name="no_recommendations">No recommendations</string>
+    <string name="list_mode_grid">Grid</string>
 </resources>
