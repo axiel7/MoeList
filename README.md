@@ -41,6 +41,7 @@ Follow the development on the official Discord server:
 * View others userlists
 * MyAnimeList notifications/messages
 * Characters and voice actors
+* [More](https://github.com/axiel7/MoeList/issues?q=is%3Aopen+is%3Aissue+label%3A%22api+limited%22)
 
 # Other
 **Special thanks:**
