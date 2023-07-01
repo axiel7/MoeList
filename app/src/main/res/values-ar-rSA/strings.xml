@@ -278,11 +278,12 @@
     <string name="czech">التشيك</string>
     <string name="refresh">تحديث</string>
     <string name="indonesian">الإندونيسية</string>
-    <string name="romaji">Romaji</string>
-    <string name="title_language">Title language</string>
-    <string name="experimental">Experimental</string>
-    <string name="new_logo_design">New logo design</string>
-    <string name="website">Website</string>
-    <string name="please_login_to_use_this_feature">Please login to use this feature</string>
-    <string name="no_recommendations">No recommendations</string>
+    <string name="romaji">روماجي</string>
+    <string name="title_language">لغة العنوان</string>
+    <string name="experimental">تجريبي</string>
+    <string name="new_logo_design">تصميم شعار جديد</string>
+    <string name="website">موقع إلكتروني</string>
+    <string name="please_login_to_use_this_feature">يرجى تسجيل الدخول لاستخدام هذه الميزة</string>
+    <string name="no_recommendations">لا توجد توصيات</string>
+    <string name="list_mode_grid">Grid</string>
 </resources>
