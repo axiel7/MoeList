@@ -201,7 +201,7 @@ fun UserMediaListView(
                         AssistChip(
                             onClick = { viewModel.openSortDialog = true },
                             label = { Text(text = viewModel.listSort.localized()) },
-                            modifier = Modifier.padding(horizontal = 16.dp),
+                            modifier = Modifier.padding(horizontal = 8.dp),
                             leadingIcon = {
                                 Icon(
                                     painter = painterResource(R.drawable.ic_round_sort_24),
@@ -239,7 +239,7 @@ fun UserMediaListView(
                     )
                 }
                 if (viewModel.isLoadingList) {
-                    items(6, contentType = { it }) {
+                    items(9, contentType = { it }) {
                         GridUserMediaListItemPlaceholder()
                     }
                 }
