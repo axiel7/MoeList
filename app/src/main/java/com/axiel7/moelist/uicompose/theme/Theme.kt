@@ -11,6 +11,7 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -83,6 +84,7 @@ private val DarkColors = darkColorScheme(
 private fun ColorScheme.toAmoled() = this.copy(
     background = md_theme_black_background,
     surface = md_theme_black_background,
+    surfaceVariant = surfaceVariant.copy(alpha = 0.4f).compositeOver(md_theme_black_background)
 )
 
 @Composable
