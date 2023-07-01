@@ -283,6 +283,7 @@
     <string name="experimental">実験的</string>
     <string name="new_logo_design">新しいロゴデザイン</string>
     <string name="website">Web サイト</string>
-    <string name="please_login_to_use_this_feature">Please login to use this feature</string>
-    <string name="no_recommendations">No recommendations</string>
+    <string name="please_login_to_use_this_feature">この機能を使用するには、ログインしてください。</string>
+    <string name="no_recommendations">おすすめはありません</string>
+    <string name="list_mode_grid">Grid</string>
 </resources>
