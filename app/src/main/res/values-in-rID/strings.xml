@@ -283,6 +283,7 @@
     <string name="experimental">Experimen</string>
     <string name="new_logo_design">Desain logo baru</string>
     <string name="website">Situs Web</string>
-    <string name="please_login_to_use_this_feature">Please login to use this feature</string>
-    <string name="no_recommendations">No recommendations</string>
+    <string name="please_login_to_use_this_feature">Login untuk menggunakan fitur ini</string>
+    <string name="no_recommendations">Tidak ada rekomendasi</string>
+    <string name="list_mode_grid">Grid</string>
 </resources>
