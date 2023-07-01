@@ -235,7 +235,7 @@ fun UserMediaListView(
                     )
                 }
                 if (viewModel.isLoadingList) {
-                    items(5, contentType = { it }) {
+                    items(6, contentType = { it }) {
                         GridUserMediaListItemPlaceholder()
                     }
                 }

@@ -561,8 +561,7 @@ fun GridUserMediaListItem(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(8.dp))
-                .clickable(onClick = onClick),
+                .clip(RoundedCornerShape(8.dp)),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box {
@@ -605,7 +604,7 @@ fun GridUserMediaListItem(
                             .align(Alignment.TopCenter)
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
-                            .background(MaterialTheme.colorScheme.secondaryContainer),
+                            .background(MaterialTheme.colorScheme.surfaceVariant),
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -615,12 +614,13 @@ fun GridUserMediaListItem(
                             modifier = Modifier
                                 .padding(start = 8.dp, end = 4.dp)
                                 .size(16.dp),
-                            tint = MaterialTheme.colorScheme.onSecondaryContainer
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Text(
                             text = broadcast!!.remainingText(),
                             modifier = Modifier.padding(end = 8.dp),
-                            color = MaterialTheme.colorScheme.onSecondaryContainer,
+                            fontSize = 15.sp,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
