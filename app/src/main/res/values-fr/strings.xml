@@ -283,6 +283,7 @@
     <string name="experimental">Expérimental</string>
     <string name="new_logo_design">Nouveau design de logo</string>
     <string name="website">Site Web</string>
-    <string name="please_login_to_use_this_feature">Please login to use this feature</string>
-    <string name="no_recommendations">No recommendations</string>
+    <string name="please_login_to_use_this_feature">Veuillez vous connecter pour utiliser cette fonctionnalité</string>
+    <string name="no_recommendations">Aucune recommandation</string>
+    <string name="list_mode_grid">Grid</string>
 </resources>
