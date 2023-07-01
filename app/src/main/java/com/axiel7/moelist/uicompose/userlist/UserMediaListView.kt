@@ -195,7 +195,7 @@ fun UserMediaListView(
                 horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
             ) {
                 item(
-                    span = { GridItemSpan(3) }
+                    span = { GridItemSpan(maxCurrentLineSpan) }
                 ) {
                     Row {
                         AssistChip(
