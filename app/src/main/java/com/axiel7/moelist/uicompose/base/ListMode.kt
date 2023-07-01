@@ -7,7 +7,8 @@ import com.axiel7.moelist.R
 enum class ListMode(val value: String) {
     STANDARD("standard"),
     COMPACT("compact"),
-    MINIMAL("minimal");
+    MINIMAL("minimal"),
+    GRID("grid");
 
     override fun toString(): String {
         return value
@@ -22,6 +23,7 @@ val ListMode.stringRes get() = when (this) {
     ListMode.STANDARD -> R.string.list_mode_standard
     ListMode.COMPACT -> R.string.list_mode_compact
     ListMode.MINIMAL -> R.string.list_mode_minimal
+    ListMode.GRID -> R.string.list_mode_grid
 }
 
 @Composable

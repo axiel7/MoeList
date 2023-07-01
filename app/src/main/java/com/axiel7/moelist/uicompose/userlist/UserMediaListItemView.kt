@@ -2,10 +2,12 @@ package com.axiel7.moelist.uicompose.userlist
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -13,6 +15,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -30,6 +35,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,13 +43,15 @@ import androidx.compose.ui.unit.sp
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.Broadcast
 import com.axiel7.moelist.data.model.anime.airingInString
+import com.axiel7.moelist.data.model.anime.remainingText
 import com.axiel7.moelist.data.model.media.ListStatus
-import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.WeekDay
 import com.axiel7.moelist.data.model.media.calculateProgressBarValue
 import com.axiel7.moelist.data.model.media.isCurrent
 import com.axiel7.moelist.data.model.media.mediaFormatLocalized
 import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_COMPACT_HEIGHT
+import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_MEDIUM_HEIGHT
+import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_MEDIUM_WIDTH
 import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_SMALL_HEIGHT
 import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_SMALL_WIDTH
 import com.axiel7.moelist.uicompose.composables.MediaPoster
@@ -58,7 +66,6 @@ fun StandardUserMediaListItem(
     imageUrl: String?,
     title: String,
     score: Int?,
-    mediaType: MediaType,
     mediaFormat: String?,
     mediaStatus: String?,
     broadcast: Broadcast?,
@@ -142,19 +149,22 @@ fun StandardUserMediaListItem(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.Bottom
                     ) {
-                        Text(
-                            text = buildString {
-                                append("${userProgress ?: 0}/${totalProgress.toStringPositiveValueOrUnknown()}")
-                                if (mediaType == MediaType.MANGA) {
-                                    append(" ")
-                                    if (isVolumeProgress) {
-                                        append(stringResource(R.string.volumes).lowercase())
-                                    } else {
-                                        append(stringResource(R.string.chapters).lowercase())
-                                    }
-                                }
-                            },
-                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "${userProgress ?: 0}/${totalProgress.toStringPositiveValueOrUnknown()}",
+                            )
+                            if (isVolumeProgress) {
+                                Icon(
+                                    painter = painterResource(R.drawable.round_bookmark_24),
+                                    contentDescription = stringResource(R.string.volumes),
+                                    modifier = Modifier
+                                        .padding(start = 4.dp)
+                                        .size(16.dp)
+                                )
+                            }
+                        }
 
                         if (listStatus.isCurrent()) {
                             OutlinedButton(onClick = onClickPlus) {
@@ -232,7 +242,6 @@ fun CompactUserMediaListItem(
     imageUrl: String?,
     title: String,
     score: Int?,
-    mediaType: MediaType,
     mediaStatus: String?,
     userProgress: Int?,
     totalProgress: Int?,
@@ -316,21 +325,24 @@ fun CompactUserMediaListItem(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.Bottom
                 ) {
-                    Text(
-                        text = buildString {
-                            append("${userProgress ?: 0}/${totalProgress.toStringPositiveValueOrUnknown()}")
-                            if (mediaType == MediaType.MANGA) {
-                                append(" ")
-                                if (isVolumeProgress) {
-                                    append(stringResource(R.string.volumes).lowercase())
-                                } else {
-                                    append(stringResource(R.string.chapters).lowercase())
-                                }
-                            }
-                        },
-                        fontSize = 16.sp,
-                        lineHeight = 19.sp,
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "${userProgress ?: 0}/${totalProgress.toStringPositiveValueOrUnknown()}",
+                            fontSize = 16.sp,
+                            lineHeight = 19.sp,
+                        )
+                        if (isVolumeProgress) {
+                            Icon(
+                                painter = painterResource(R.drawable.round_bookmark_24),
+                                contentDescription = stringResource(R.string.volumes),
+                                modifier = Modifier
+                                    .padding(start = 4.dp)
+                                    .size(16.dp)
+                            )
+                        }
+                    }
 
                     if (listStatus.isCurrent()) {
                         OutlinedButton(onClick = onClickPlus) {
@@ -397,7 +409,6 @@ fun CompactUserMediaListItemPlaceholder() {
 fun MinimalUserMediaListItem(
     title: String,
     score: Int?,
-    mediaType: MediaType,
     userProgress: Int?,
     totalProgress: Int?,
     isVolumeProgress: Boolean,
@@ -447,37 +458,44 @@ fun MinimalUserMediaListItem(
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = buildString {
-                            append("${userProgress ?: 0}/${totalProgress.toStringPositiveValueOrUnknown()}")
-                            if (mediaType == MediaType.MANGA) {
-                                append(" ")
-                                if (isVolumeProgress) {
-                                    append(stringResource(R.string.volumes).lowercase())
-                                } else {
-                                    append(stringResource(R.string.chapters).lowercase())
-                                }
-                            }
-                        },
-                        modifier = Modifier.weight(1f),
-                        fontSize = 16.sp,
-                        lineHeight = 19.sp,
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "${userProgress ?: 0}/${totalProgress.toStringPositiveValueOrUnknown()}",
+                            fontSize = 16.sp,
+                            lineHeight = 19.sp,
+                        )
+                        if (isVolumeProgress) {
+                            Icon(
+                                painter = painterResource(R.drawable.round_bookmark_24),
+                                contentDescription = stringResource(R.string.volumes),
+                                modifier = Modifier
+                                    .padding(start = 4.dp)
+                                    .size(16.dp)
+                            )
+                        }
+                    }
 
-                    Text(
-                        text = if ((score ?: 0) == 0) Constants.UNKNOWN_CHAR else "$score",
-                        modifier = Modifier.padding(start = 8.dp, top = 4.dp, end = 2.dp, bottom = 4.dp),
-                        color = MaterialTheme.colorScheme.secondary,
-                        fontSize = 16.sp,
-                    )
-                    Icon(
-                        painter = painterResource(R.drawable.ic_round_star_16),
-                        contentDescription = "star",
-                        modifier = Modifier.padding(end = 16.dp),
-                        tint = MaterialTheme.colorScheme.secondary
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = if ((score ?: 0) == 0) Constants.UNKNOWN_CHAR else "$score",
+                            modifier = Modifier.padding(start = 8.dp, top = 4.dp, end = 2.dp, bottom = 4.dp),
+                            color = MaterialTheme.colorScheme.secondary,
+                            fontSize = 16.sp,
+                        )
+                        Icon(
+                            painter = painterResource(R.drawable.ic_round_star_16),
+                            contentDescription = "star",
+                            modifier = Modifier.padding(end = 16.dp),
+                            tint = MaterialTheme.colorScheme.secondary
+                        )
+                    }
                 }
             }//:Column
 
@@ -520,6 +538,156 @@ fun MinimalUserMediaListItemPlaceholder() {
     }//:Column
 }
 
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun GridUserMediaListItem(
+    imageUrl: String?,
+    title: String,
+    score: Int?,
+    userProgress: Int?,
+    totalProgress: Int?,
+    isVolumeProgress: Boolean,
+    mediaStatus: String?,
+    broadcast: Broadcast?,
+    onClick: () -> Unit,
+    onLongClick: () -> Unit,
+) {
+    val isAiring = remember { broadcast != null && mediaStatus == "currently_airing" }
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .combinedClickable(onLongClick = onLongClick, onClick = onClick),
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(8.dp))
+                .clickable(onClick = onClick),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Box {
+                MediaPoster(
+                    url = imageUrl,
+                    showShadow = false,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(MEDIA_POSTER_MEDIUM_HEIGHT.dp)
+                )
+
+                Row(
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .clip(RoundedCornerShape(topEnd = 8.dp, bottomStart = 8.dp))
+                        .background(MaterialTheme.colorScheme.primaryContainer),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = if ((score ?: 0) == 0) Constants.UNKNOWN_CHAR else "$score",
+                        modifier = Modifier.padding(
+                            start = 8.dp,
+                            top = 4.dp,
+                            end = 2.dp,
+                            bottom = 4.dp
+                        ),
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                    Icon(
+                        painter = painterResource(R.drawable.ic_round_star_16),
+                        contentDescription = "star",
+                        modifier = Modifier.padding(end = 4.dp),
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }//:Row
+
+                if (isAiring) {
+                    Row(
+                        modifier = Modifier
+                            .align(Alignment.TopCenter)
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
+                            .background(MaterialTheme.colorScheme.secondaryContainer),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_round_rss_feed_24),
+                            contentDescription = stringResource(R.string.airing),
+                            modifier = Modifier
+                                .padding(start = 8.dp, end = 4.dp)
+                                .size(16.dp),
+                            tint = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
+                        Text(
+                            text = broadcast!!.remainingText(),
+                            modifier = Modifier.padding(end = 8.dp),
+                            color = MaterialTheme.colorScheme.onSecondaryContainer,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                }
+            }//:Box
+
+            Text(
+                text = title,
+                modifier = Modifier.padding(start = 8.dp, top = 4.dp, end = 8.dp),
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center,
+                lineHeight = 18.sp,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 2,
+                minLines = 2,
+            )
+
+            Row(
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "${userProgress ?: 0}/${totalProgress.toStringPositiveValueOrUnknown()}",
+                    fontSize = 16.sp,
+                    lineHeight = 19.sp,
+                )
+                if (isVolumeProgress) {
+                    Icon(
+                        painter = painterResource(R.drawable.round_bookmark_24),
+                        contentDescription = stringResource(R.string.volumes),
+                        modifier = Modifier
+                            .padding(start = 4.dp)
+                            .size(16.dp)
+                    )
+                }
+            }
+        }//:Column
+    }//:Card
+}
+
+@Composable
+fun GridUserMediaListItemPlaceholder() {
+    Column(
+        modifier = Modifier.width(MEDIA_POSTER_MEDIUM_WIDTH.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(
+            modifier = Modifier
+                .size(
+                    width = MEDIA_POSTER_MEDIUM_WIDTH.dp,
+                    height = MEDIA_POSTER_MEDIUM_HEIGHT.dp
+                )
+                .clip(RoundedCornerShape(8.dp))
+                .defaultPlaceholder(visible = true)
+        )
+        Text(
+            text = "This is a loading placeholder",
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .defaultPlaceholder(visible = true),
+            fontSize = 16.sp,
+            lineHeight = 18.sp,
+        )
+    }
+}
+
 @Preview
 @Composable
 fun StandardUserMediaListItemPreview() {
@@ -529,13 +697,12 @@ fun StandardUserMediaListItemPreview() {
                 imageUrl = null,
                 title = "This is a large anime or manga title",
                 score = null,
-                mediaType = MediaType.ANIME,
                 mediaFormat = "tv",
                 mediaStatus = "currently_airing",
                 broadcast = Broadcast(WeekDay.SUNDAY, "12:00"),
                 userProgress = 4,
                 totalProgress = 24,
-                isVolumeProgress = true,
+                isVolumeProgress = false,
                 listStatus = ListStatus.WATCHING,
                 onClick = { },
                 onLongClick = { },
@@ -555,7 +722,6 @@ fun CompactUserMediaListItemPreview() {
                 imageUrl = null,
                 title = "This is a very very very very large anime or manga title",
                 score = null,
-                mediaType = MediaType.MANGA,
                 mediaStatus = "currently_airing",
                 userProgress = 4,
                 totalProgress = 12,
@@ -579,7 +745,6 @@ fun MinimalUserMediaListItemPreview() {
             MinimalUserMediaListItem(
                 title = "This is a very very very very large anime or manga title",
                 score = null,
-                mediaType = MediaType.MANGA,
                 userProgress = 4,
                 totalProgress = 12,
                 isVolumeProgress = false,
@@ -591,6 +756,37 @@ fun MinimalUserMediaListItemPreview() {
                 onClickPlus = { }
             )
             MinimalUserMediaListItemPlaceholder()
+        }
+    }
+}
+
+@Preview
+@Composable
+fun GridUserMediaListItemPreview() {
+    MoeListTheme {
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(minSize = (MEDIA_POSTER_MEDIUM_WIDTH + 8).dp),
+            contentPadding = PaddingValues(vertical = 8.dp, horizontal = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
+        ) {
+            items(3) {
+                GridUserMediaListItem(
+                    imageUrl = null,
+                    title = "This is a very very very very large anime or manga title",
+                    score = null,
+                    userProgress = 4,
+                    totalProgress = 12,
+                    isVolumeProgress = true,
+                    mediaStatus = "currently_airing",
+                    broadcast = Broadcast(WeekDay.SUNDAY, "12:00"),
+                    onClick = { },
+                    onLongClick = { }
+                )
+            }
+            items(3) {
+                GridUserMediaListItemPlaceholder()
+            }
         }
     }
 }

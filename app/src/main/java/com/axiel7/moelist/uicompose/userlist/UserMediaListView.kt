@@ -6,6 +6,11 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -126,18 +131,9 @@ fun UserMediaListView(
         UserMediaListViewModel(mediaType, status)
     }
     val pullRefreshState = rememberPullRefreshState(viewModel.isLoading, { viewModel.getUserList() })
-    val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
     val listDisplayMode by rememberPreference(LIST_DISPLAY_MODE_PREFERENCE_KEY, App.listDisplayMode.value)
-
-    if (!viewModel.isLoadingList) {
-        listState.OnBottomReached(buffer = 3) {
-            if (viewModel.hasNextPage) {
-                viewModel.getUserList(viewModel.nextPage)
-            }
-        }
-    }
 
     if (viewModel.openSortDialog) {
         MediaListSortDialog(viewModel = viewModel)
@@ -169,163 +165,256 @@ fun UserMediaListView(
             .pullRefresh(pullRefreshState)
             .fillMaxSize()
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.TopStart)
-                .then(
-                    if (nestedScrollConnection != null)
-                        Modifier.nestedScroll(nestedScrollConnection)
-                    else Modifier
-                ),
-            state = listState,
-            contentPadding = PaddingValues(vertical = 8.dp)
-        ) {
-            item {
-                AssistChip(
-                    onClick = { viewModel.openSortDialog = true },
-                    label = { Text(text = viewModel.listSort.localized()) },
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    leadingIcon = {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_round_sort_24),
-                            contentDescription = stringResource(R.string.sort_by)
-                        )
-                    }
-                )
-            }
-            when (listDisplayMode) {
-                ListMode.STANDARD.value -> {
-                    items(
-                        items = viewModel.mediaList,
-                        key = { it.node.id },
-                        contentType = { it.node }
-                    ) { item ->
-                        StandardUserMediaListItem(
-                            imageUrl = item.node.mainPicture?.large,
-                            title = item.node.userPreferredTitle(),
-                            score = item.listStatus?.score,
-                            mediaType = mediaType,
-                            mediaFormat = item.node.mediaType,
-                            mediaStatus = item.node.status,
-                            broadcast = (item.node as? AnimeNode)?.broadcast,
-                            userProgress = item.userProgress(),
-                            totalProgress = item.totalProgress(),
-                            isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress() ?: false,
-                            listStatus = status,
-                            onClick = {
-                                navigateToMediaDetails(mediaType, item.node.id)
-                            },
-                            onLongClick = {
-                                coroutineScope.launch {
-                                    viewModel.onItemSelected(item)
-                                    sheetState.show()
-                                }
-                            },
-                            onClickPlus = {
-                                val isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress() ?: false
-                                viewModel.updateListItem(
-                                    mediaId = item.node.id,
-                                    progress = if (!isVolumeProgress) item.listStatus?.progress?.plus(1) else null,
-                                    volumeProgress = if (isVolumeProgress) (item.listStatus as? MyMangaListStatus)
-                                        ?.numVolumesRead?.plus(1) else null
-                                )
-                            }
-                        )
-                    }
-                    if (viewModel.isLoadingList) {
-                        items(5, contentType = { it }) {
-                            StandardUserMediaListItemPlaceholder()
-                        }
-                    }
-                }
-                ListMode.COMPACT.value -> {
-                    items(
-                        items = viewModel.mediaList,
-                        key = { it.node.id },
-                        contentType = { it.node }
-                    ) { item ->
-                        CompactUserMediaListItem(
-                            imageUrl = item.node.mainPicture?.large,
-                            title = item.node.userPreferredTitle(),
-                            score = item.listStatus?.score,
-                            mediaType = mediaType,
-                            userProgress = item.userProgress(),
-                            totalProgress = item.totalProgress(),
-                            isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress() ?: false,
-                            mediaStatus = item.node.status,
-                            broadcast = (item.node as? AnimeNode)?.broadcast,
-                            listStatus = status,
-                            onClick = {
-                                navigateToMediaDetails(mediaType, item.node.id)
-                            },
-                            onLongClick = {
-                                coroutineScope.launch {
-                                    viewModel.onItemSelected(item)
-                                    sheetState.show()
-                                }
-                            },
-                            onClickPlus = {
-                                val isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress() ?: false
-                                viewModel.updateListItem(
-                                    mediaId = item.node.id,
-                                    progress = if (!isVolumeProgress) item.listStatus?.progress?.plus(1) else null,
-                                    volumeProgress = if (isVolumeProgress) (item.listStatus as? MyMangaListStatus)
-                                        ?.numVolumesRead?.plus(1) else null
-                                )
-                            }
-                        )
-                    }
-                    if (viewModel.isLoadingList) {
-                        items(5, contentType = { it }) {
-                            CompactUserMediaListItemPlaceholder()
-                        }
-                    }
-                }
-                ListMode.MINIMAL.value -> {
-                    items(
-                        items = viewModel.mediaList,
-                        key = { it.node.id },
-                        contentType = { it.node }
-                    ) { item ->
-                        MinimalUserMediaListItem(
-                            title = item.node.userPreferredTitle(),
-                            score = item.listStatus?.score,
-                            mediaType = mediaType,
-                            userProgress = item.userProgress(),
-                            totalProgress = item.totalProgress(),
-                            isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress() ?: false,
-                            mediaStatus = item.node.status,
-                            broadcast = (item.node as? AnimeNode)?.broadcast,
-                            listStatus = status,
-                            onClick = {
-                                navigateToMediaDetails(mediaType, item.node.id)
-                            },
-                            onLongClick = {
-                                coroutineScope.launch {
-                                    viewModel.onItemSelected(item)
-                                    sheetState.show()
-                                }
-                            },
-                            onClickPlus = {
-                                val isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress() ?: false
-                                viewModel.updateListItem(
-                                    mediaId = item.node.id,
-                                    progress = if (!isVolumeProgress) item.listStatus?.progress?.plus(1) else null,
-                                    volumeProgress = if (isVolumeProgress) (item.listStatus as? MyMangaListStatus)
-                                        ?.numVolumesRead?.plus(1) else null
-                                )
-                            }
-                        )
-                    }
-                    if (viewModel.isLoadingList) {
-                        items(5, contentType = { it }) {
-                            MinimalUserMediaListItemPlaceholder()
-                        }
+        val listModifier = Modifier
+            .fillMaxWidth()
+            .align(Alignment.TopStart)
+            .then(
+                if (nestedScrollConnection != null)
+                    Modifier.nestedScroll(nestedScrollConnection)
+                else Modifier
+            )
+
+        if (listDisplayMode == ListMode.GRID.value) {
+            val listState = rememberLazyGridState()
+            if (!viewModel.isLoadingList) {
+                listState.OnBottomReached(buffer = 3) {
+                    if (viewModel.hasNextPage) {
+                        viewModel.getUserList(viewModel.nextPage)
                     }
                 }
             }
-        }//:LazyColumn
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(minSize = (MEDIA_POSTER_MEDIUM_WIDTH + 8).dp),
+                modifier = listModifier,
+                state = listState,
+                contentPadding = PaddingValues(vertical = 8.dp, horizontal = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
+            ) {
+                item(
+                    span = { GridItemSpan(3) }
+                ) {
+                    Row {
+                        AssistChip(
+                            onClick = { viewModel.openSortDialog = true },
+                            label = { Text(text = viewModel.listSort.localized()) },
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            leadingIcon = {
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_round_sort_24),
+                                    contentDescription = stringResource(R.string.sort_by)
+                                )
+                            }
+                        )
+                    }
+                }
+                items(
+                    items = viewModel.mediaList,
+                    key = { it.node.id },
+                    contentType = { it.node }
+                ) { item ->
+                    GridUserMediaListItem(
+                        imageUrl = item.node.mainPicture?.large,
+                        title = item.node.userPreferredTitle(),
+                        score = item.listStatus?.score,
+                        mediaStatus = item.node.status,
+                        broadcast = (item.node as? AnimeNode)?.broadcast,
+                        userProgress = item.userProgress(),
+                        totalProgress = item.totalProgress(),
+                        isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
+                            ?: false,
+                        onClick = {
+                            navigateToMediaDetails(mediaType, item.node.id)
+                        },
+                        onLongClick = {
+                            coroutineScope.launch {
+                                viewModel.onItemSelected(item)
+                                sheetState.show()
+                            }
+                        }
+                    )
+                }
+                if (viewModel.isLoadingList) {
+                    items(5, contentType = { it }) {
+                        GridUserMediaListItemPlaceholder()
+                    }
+                }
+            }
+        } else {
+            val listState = rememberLazyListState()
+            if (!viewModel.isLoadingList) {
+                listState.OnBottomReached(buffer = 3) {
+                    if (viewModel.hasNextPage) {
+                        viewModel.getUserList(viewModel.nextPage)
+                    }
+                }
+            }
+
+            LazyColumn(
+                modifier = listModifier,
+                state = listState,
+                contentPadding = PaddingValues(vertical = 8.dp)
+            ) {
+                item {
+                    AssistChip(
+                        onClick = { viewModel.openSortDialog = true },
+                        label = { Text(text = viewModel.listSort.localized()) },
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        leadingIcon = {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_round_sort_24),
+                                contentDescription = stringResource(R.string.sort_by)
+                            )
+                        }
+                    )
+                }
+                when (listDisplayMode) {
+                    ListMode.STANDARD.value -> {
+                        items(
+                            items = viewModel.mediaList,
+                            key = { it.node.id },
+                            contentType = { it.node }
+                        ) { item ->
+                            StandardUserMediaListItem(
+                                imageUrl = item.node.mainPicture?.large,
+                                title = item.node.userPreferredTitle(),
+                                score = item.listStatus?.score,
+                                mediaFormat = item.node.mediaType,
+                                mediaStatus = item.node.status,
+                                broadcast = (item.node as? AnimeNode)?.broadcast,
+                                userProgress = item.userProgress(),
+                                totalProgress = item.totalProgress(),
+                                isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
+                                    ?: false,
+                                listStatus = status,
+                                onClick = {
+                                    navigateToMediaDetails(mediaType, item.node.id)
+                                },
+                                onLongClick = {
+                                    coroutineScope.launch {
+                                        viewModel.onItemSelected(item)
+                                        sheetState.show()
+                                    }
+                                },
+                                onClickPlus = {
+                                    val isVolumeProgress =
+                                        (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
+                                            ?: false
+                                    viewModel.updateListItem(
+                                        mediaId = item.node.id,
+                                        progress = if (!isVolumeProgress) item.listStatus?.progress?.plus(
+                                            1
+                                        ) else null,
+                                        volumeProgress = if (isVolumeProgress) (item.listStatus as? MyMangaListStatus)
+                                            ?.numVolumesRead?.plus(1) else null
+                                    )
+                                }
+                            )
+                        }
+                        if (viewModel.isLoadingList) {
+                            items(5, contentType = { it }) {
+                                StandardUserMediaListItemPlaceholder()
+                            }
+                        }
+                    }
+
+                    ListMode.COMPACT.value -> {
+                        items(
+                            items = viewModel.mediaList,
+                            key = { it.node.id },
+                            contentType = { it.node }
+                        ) { item ->
+                            CompactUserMediaListItem(
+                                imageUrl = item.node.mainPicture?.large,
+                                title = item.node.userPreferredTitle(),
+                                score = item.listStatus?.score,
+                                userProgress = item.userProgress(),
+                                totalProgress = item.totalProgress(),
+                                isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
+                                    ?: false,
+                                mediaStatus = item.node.status,
+                                broadcast = (item.node as? AnimeNode)?.broadcast,
+                                listStatus = status,
+                                onClick = {
+                                    navigateToMediaDetails(mediaType, item.node.id)
+                                },
+                                onLongClick = {
+                                    coroutineScope.launch {
+                                        viewModel.onItemSelected(item)
+                                        sheetState.show()
+                                    }
+                                },
+                                onClickPlus = {
+                                    val isVolumeProgress =
+                                        (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
+                                            ?: false
+                                    viewModel.updateListItem(
+                                        mediaId = item.node.id,
+                                        progress = if (!isVolumeProgress) item.listStatus?.progress?.plus(
+                                            1
+                                        ) else null,
+                                        volumeProgress = if (isVolumeProgress) (item.listStatus as? MyMangaListStatus)
+                                            ?.numVolumesRead?.plus(1) else null
+                                    )
+                                }
+                            )
+                        }
+                        if (viewModel.isLoadingList) {
+                            items(5, contentType = { it }) {
+                                CompactUserMediaListItemPlaceholder()
+                            }
+                        }
+                    }
+
+                    ListMode.MINIMAL.value -> {
+                        items(
+                            items = viewModel.mediaList,
+                            key = { it.node.id },
+                            contentType = { it.node }
+                        ) { item ->
+                            MinimalUserMediaListItem(
+                                title = item.node.userPreferredTitle(),
+                                score = item.listStatus?.score,
+                                userProgress = item.userProgress(),
+                                totalProgress = item.totalProgress(),
+                                isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
+                                    ?: false,
+                                mediaStatus = item.node.status,
+                                broadcast = (item.node as? AnimeNode)?.broadcast,
+                                listStatus = status,
+                                onClick = {
+                                    navigateToMediaDetails(mediaType, item.node.id)
+                                },
+                                onLongClick = {
+                                    coroutineScope.launch {
+                                        viewModel.onItemSelected(item)
+                                        sheetState.show()
+                                    }
+                                },
+                                onClickPlus = {
+                                    val isVolumeProgress =
+                                        (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
+                                            ?: false
+                                    viewModel.updateListItem(
+                                        mediaId = item.node.id,
+                                        progress = if (!isVolumeProgress) item.listStatus?.progress?.plus(
+                                            1
+                                        ) else null,
+                                        volumeProgress = if (isVolumeProgress) (item.listStatus as? MyMangaListStatus)
+                                            ?.numVolumesRead?.plus(1) else null
+                                    )
+                                }
+                            )
+                        }
+                        if (viewModel.isLoadingList) {
+                            items(5, contentType = { it }) {
+                                MinimalUserMediaListItemPlaceholder()
+                            }
+                        }
+                    }
+                }
+            }//:LazyColumn
+        }
 
         PullRefreshIndicator(
             refreshing = viewModel.isLoading,

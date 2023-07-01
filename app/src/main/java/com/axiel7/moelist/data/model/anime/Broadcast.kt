@@ -42,8 +42,15 @@ fun Broadcast?.dayTimeText() = buildString {
 }
 
 @Composable
+fun Broadcast.remainingText() = if (startTime != null && dayOfTheWeek != null) {
+    val remaining = remaining()
+    if (remaining > 0) remaining.secondsToLegibleText()
+    else remaining.absoluteValue.secondsToLegibleText()
+} else ""
+
+@Composable
 fun Broadcast.airingInString() = if (startTime != null && dayOfTheWeek != null) {
-    val remaining = secondsUntilNextBroadcast() - LocalDateTime.now().toEpochSecond(DateUtils.defaultZoneOffset)
+    val remaining = remaining()
     if (remaining > 0) {
         stringResource(R.string.airing_in).format(remaining.secondsToLegibleText())
     }
@@ -54,6 +61,8 @@ fun Broadcast.nextAiringDayFormatted() =
     dateTimeUntilNextBroadcast()?.format(DateTimeFormatter.ofPattern(
         DateFormat.getBestDateTimePattern(Locale.getDefault(), "EE, d MMM HH:mm")
     ))
+
+fun Broadcast.remaining() = secondsUntilNextBroadcast() - LocalDateTime.now().toEpochSecond(DateUtils.defaultZoneOffset)
 
 fun Broadcast.secondsUntilNextBroadcast() =
     dateTimeUntilNextBroadcast()?.toEpochSecond(DateUtils.defaultZoneOffset) ?: 0
