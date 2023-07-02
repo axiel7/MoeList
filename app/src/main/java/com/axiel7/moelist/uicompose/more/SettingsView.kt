@@ -37,11 +37,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.LANG_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.GENERAL_LIST_STYLE_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.LANG_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.NSFW_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.START_TAB_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.THEME_PREFERENCE_KEY
@@ -50,7 +49,10 @@ import com.axiel7.moelist.data.datastore.PreferencesDataStore.USE_GENERAL_LIST_S
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.USE_LIST_TABS_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.rememberPreference
 import com.axiel7.moelist.data.model.media.TitleLanguage
+import com.axiel7.moelist.uicompose.base.AppLanguage
+import com.axiel7.moelist.uicompose.base.BottomDestination
 import com.axiel7.moelist.uicompose.base.ListStyle
+import com.axiel7.moelist.uicompose.base.ThemeStyle
 import com.axiel7.moelist.uicompose.base.stringRes
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
@@ -61,8 +63,17 @@ import com.axiel7.moelist.utils.UseCases
 
 const val SETTINGS_DESTINATION = "settings"
 
+val themeEntries = ThemeStyle.values().associate { it.name.lowercase() to it.stringRes }
+val languageEntries = AppLanguage.values().associate { it.value to it.stringResNative }
 val listStyleEntries = ListStyle.values().associate { it.value to it.stringRes }
 val titleLanguageEntries = TitleLanguage.values().associate { it.name to it.stringRes }
+val startTabEntries = mapOf(
+    "last_used" to R.string.last_used,
+    BottomDestination.Home.value to R.string.title_home,
+    BottomDestination.AnimeList.value to R.string.title_anime_list,
+    BottomDestination.MangaList.value to R.string.title_manga_list,
+    BottomDestination.More.value to R.string.more
+)
 
 @Composable
 fun SettingsView(
@@ -70,9 +81,8 @@ fun SettingsView(
     navigateBack: () -> Unit,
 ) {
     val context = LocalContext.current
-    val viewModel: SettingsViewModel = viewModel()
-    var langPreference by rememberPreference(LANG_PREFERENCE_KEY, "follow_system")
-    var themePreference by rememberPreference(THEME_PREFERENCE_KEY, "follow_system")
+    var langPreference by rememberPreference(LANG_PREFERENCE_KEY, AppLanguage.FOLLOW_SYSTEM.value)
+    var themePreference by rememberPreference(THEME_PREFERENCE_KEY, ThemeStyle.FOLLOW_SYSTEM.name.lowercase())
     var nsfwPreference by rememberPreference(NSFW_PREFERENCE_KEY, false)
     var useGeneralListStyle by rememberPreference(USE_GENERAL_LIST_STYLE_PREFERENCE_KEY, App.useGeneralListStyle)
     var generalListStylePreference by rememberPreference(GENERAL_LIST_STYLE_PREFERENCE_KEY, ListStyle.STANDARD.value)
@@ -93,7 +103,7 @@ fun SettingsView(
 
             ListPreferenceView(
                 title = stringResource(R.string.theme),
-                entriesValues = viewModel.themeEntries,
+                entriesValues = themeEntries,
                 value = themePreference,
                 icon = R.drawable.ic_round_color_lens_24,
                 onValueChange = { value ->
@@ -103,7 +113,7 @@ fun SettingsView(
 
             ListPreferenceView(
                 title = stringResource(R.string.language),
-                entriesValues = viewModel.languageEntries,
+                entriesValues = languageEntries,
                 value = langPreference,
                 icon = R.drawable.ic_round_language_24,
                 onValueChange = { value ->
@@ -131,7 +141,7 @@ fun SettingsView(
 
             ListPreferenceView(
                 title = stringResource(R.string.default_section),
-                entriesValues = viewModel.startTabEntries,
+                entriesValues = startTabEntries,
                 value = startTabPreference,
                 icon = R.drawable.ic_round_home_24,
                 onValueChange = { value ->
