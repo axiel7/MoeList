@@ -9,7 +9,7 @@ import com.axiel7.moelist.data.model.media.TitleLanguage
 import com.axiel7.moelist.data.network.Api
 import com.axiel7.moelist.data.network.JikanApi
 import com.axiel7.moelist.data.network.KtorClient
-import com.axiel7.moelist.uicompose.base.ListMode
+import com.axiel7.moelist.uicompose.base.ListStyle
 import io.ktor.client.HttpClient
 
 class App : Application() {
@@ -37,7 +37,20 @@ class App : Application() {
         var nsfw = 0
         var animeListSort = MediaSort.ANIME_TITLE
         var mangaListSort = MediaSort.MANGA_TITLE
-        var listDisplayMode = ListMode.STANDARD
+
+        var generalListStyle = ListStyle.STANDARD
+        var useGeneralListStyle = true
+        var animeCurrentListStyle = ListStyle.STANDARD
+        var animePlannedListStyle = ListStyle.STANDARD
+        var animeCompletedListStyle = ListStyle.STANDARD
+        var animePausedListStyle = ListStyle.STANDARD
+        var animeDroppedListStyle = ListStyle.STANDARD
+        var mangaCurrentListStyle = ListStyle.STANDARD
+        var mangaPlannedListStyle = ListStyle.STANDARD
+        var mangaCompletedListStyle = ListStyle.STANDARD
+        var mangaPausedListStyle = ListStyle.STANDARD
+        var mangaDroppedListStyle = ListStyle.STANDARD
+
         var titleLanguage = TitleLanguage.ROMAJI
         var useListTabs = false
     }

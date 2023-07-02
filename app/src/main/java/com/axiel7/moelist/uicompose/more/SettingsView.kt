@@ -23,7 +23,6 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,15 +41,17 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.LANG_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.LIST_DISPLAY_MODE_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.GENERAL_LIST_STYLE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.NSFW_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.START_TAB_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.THEME_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.TITLE_LANG_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.USE_GENERAL_LIST_STYLE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.USE_LIST_TABS_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.rememberPreference
 import com.axiel7.moelist.data.model.media.TitleLanguage
-import com.axiel7.moelist.uicompose.base.ListMode
+import com.axiel7.moelist.uicompose.base.ListStyle
+import com.axiel7.moelist.uicompose.base.stringRes
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.openByDefaultSettings
@@ -60,19 +61,24 @@ import com.axiel7.moelist.utils.UseCases
 
 const val SETTINGS_DESTINATION = "settings"
 
+val listStyleEntries = ListStyle.values().associate { it.value to it.stringRes }
+val titleLanguageEntries = TitleLanguage.values().associate { it.name to it.stringRes }
+
 @Composable
 fun SettingsView(
+    navigateToListStyleSettings: () -> Unit,
     navigateBack: () -> Unit,
 ) {
     val context = LocalContext.current
     val viewModel: SettingsViewModel = viewModel()
-    val langPreference = rememberPreference(LANG_PREFERENCE_KEY, "follow_system")
-    val themePreference = rememberPreference(THEME_PREFERENCE_KEY, "follow_system")
-    val nsfwPreference = rememberPreference(NSFW_PREFERENCE_KEY, false)
-    val listModePreference = rememberPreference(LIST_DISPLAY_MODE_PREFERENCE_KEY, ListMode.STANDARD.value)
-    val startTabPreference = rememberPreference(START_TAB_PREFERENCE_KEY, "last_used")
-    val titleLangPreference = rememberPreference(TITLE_LANG_PREFERENCE_KEY, App.titleLanguage.name)
-    val useListTabsPreference = rememberPreference(USE_LIST_TABS_PREFERENCE_KEY, App.useListTabs)
+    var langPreference by rememberPreference(LANG_PREFERENCE_KEY, "follow_system")
+    var themePreference by rememberPreference(THEME_PREFERENCE_KEY, "follow_system")
+    var nsfwPreference by rememberPreference(NSFW_PREFERENCE_KEY, false)
+    var useGeneralListStyle by rememberPreference(USE_GENERAL_LIST_STYLE_PREFERENCE_KEY, App.useGeneralListStyle)
+    var generalListStylePreference by rememberPreference(GENERAL_LIST_STYLE_PREFERENCE_KEY, ListStyle.STANDARD.value)
+    var startTabPreference by rememberPreference(START_TAB_PREFERENCE_KEY, "last_used")
+    var titleLangPreference by rememberPreference(TITLE_LANG_PREFERENCE_KEY, App.titleLanguage.name)
+    var useListTabsPreference by rememberPreference(USE_LIST_TABS_PREFERENCE_KEY, App.useListTabs)
 
     DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.settings),
@@ -88,24 +94,24 @@ fun SettingsView(
             ListPreferenceView(
                 title = stringResource(R.string.theme),
                 entriesValues = viewModel.themeEntries,
-                preferenceValue = themePreference,
+                value = themePreference,
                 icon = R.drawable.ic_round_color_lens_24,
                 onValueChange = { value ->
-                    themePreference.value = value
+                    themePreference = value
                 }
             )
 
             ListPreferenceView(
                 title = stringResource(R.string.language),
                 entriesValues = viewModel.languageEntries,
-                preferenceValue = langPreference,
+                value = langPreference,
                 icon = R.drawable.ic_round_language_24,
                 onValueChange = { value ->
-                    langPreference.value = value
+                    langPreference = value
                     UseCases.changeLocale(value)
                     if (value == "ja") {
                         TitleLanguage.JAPANESE.apply {
-                            titleLangPreference.value = this.name
+                            titleLangPreference = this.name
                             App.titleLanguage = this
                         }
                     }
@@ -114,11 +120,11 @@ fun SettingsView(
 
             ListPreferenceView(
                 title = stringResource(R.string.title_language),
-                entriesValues = viewModel.titleLanguageEntries,
-                preferenceValue = titleLangPreference,
+                entriesValues = titleLanguageEntries,
+                value = titleLangPreference,
                 icon = R.drawable.round_title_24,
                 onValueChange = { value ->
-                    titleLangPreference.value = value
+                    titleLangPreference = value
                     App.titleLanguage = TitleLanguage.valueOf(value)
                 }
             )
@@ -126,32 +132,51 @@ fun SettingsView(
             ListPreferenceView(
                 title = stringResource(R.string.default_section),
                 entriesValues = viewModel.startTabEntries,
-                preferenceValue = startTabPreference,
+                value = startTabPreference,
                 icon = R.drawable.ic_round_home_24,
                 onValueChange = { value ->
-                    startTabPreference.value = value
+                    startTabPreference = value
                 }
             )
 
-            ListPreferenceView(
-                title = stringResource(R.string.list_style),
-                entriesValues = viewModel.listModeEntries,
-                preferenceValue = listModePreference,
-                icon = R.drawable.round_format_list_bulleted_24,
-                onValueChange = { value ->
-                    ListMode.forValue(value)?.value?.let { listModePreference.value = it }
+            SwitchPreferenceView(
+                title = stringResource(R.string.use_separated_list_styles),
+                value = !useGeneralListStyle,
+                onValueChange = {
+                    useGeneralListStyle = !it
                 }
             )
+
+            if (useGeneralListStyle) {
+                ListPreferenceView(
+                    title = stringResource(R.string.list_style),
+                    entriesValues = listStyleEntries,
+                    value = generalListStylePreference,
+                    icon = R.drawable.round_format_list_bulleted_24,
+                    onValueChange = { value ->
+                        ListStyle.forValue(value)?.let {
+                            generalListStylePreference = it.value
+                            App.generalListStyle = it
+                        }
+                    }
+                )
+            } else {
+                PlainPreferenceView(
+                    title = stringResource(R.string.list_style),
+                    icon = R.drawable.round_format_list_bulleted_24,
+                    onClick = navigateToListStyleSettings
+                )
+            }
 
             SettingsTitle(text = stringResource(R.string.content))
 
             SwitchPreferenceView(
                 title = stringResource(R.string.show_nsfw),
                 subtitle = stringResource(R.string.nsfw_summary),
-                preferenceValue = nsfwPreference,
+                value = nsfwPreference,
                 icon = R.drawable.no_adult_content_24,
                 onValueChange = { value ->
-                    nsfwPreference.value = value
+                    nsfwPreference = value
                     App.nsfw = value.toInt()
                 }
             )
@@ -171,10 +196,12 @@ fun SettingsView(
             SwitchPreferenceView(
                 title = "Enable list tabs",
                 subtitle = "Use tabs in Anime/Manga list instead of Floating Action Button",
-                preferenceValue = useListTabsPreference,
+                value = useListTabsPreference,
                 onValueChange = {
-                    useListTabsPreference.value = it
-                    context.showToast("Restart required")
+                    useListTabsPreference = it
+                    context.showToast(
+                        context.getString(R.string.changes_will_take_effect_on_app_restart)
+                    )
                 }
             )
         }
@@ -253,7 +280,7 @@ fun SwitchPreferenceView(
     title: String,
     modifier: Modifier = Modifier,
     subtitle: String? = null,
-    preferenceValue: MutableState<Boolean>,
+    value: Boolean,
     @DrawableRes icon: Int? = null,
     onValueChange: (Boolean) -> Unit
 ) {
@@ -261,8 +288,7 @@ fun SwitchPreferenceView(
         modifier = modifier
             .fillMaxWidth()
             .clickable {
-                preferenceValue.value = !preferenceValue.value
-                onValueChange(preferenceValue.value)
+                onValueChange(!value)
             },
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
@@ -308,9 +334,8 @@ fun SwitchPreferenceView(
         }//: Row
 
         Switch(
-            checked = preferenceValue.value,
+            checked = value,
             onCheckedChange = {
-                preferenceValue.value = it
                 onValueChange(it)
             },
             modifier = Modifier.padding(horizontal = 16.dp)
@@ -323,7 +348,7 @@ fun ListPreferenceView(
     title: String,
     entriesValues: Map<String, Int>,
     modifier: Modifier = Modifier,
-    preferenceValue: MutableState<String>,
+    value: String,
     @DrawableRes icon: Int? = null,
     onValueChange: (String) -> Unit
 ) {
@@ -359,7 +384,7 @@ fun ListPreferenceView(
             )
 
             Text(
-                text = stringResource(entriesValues[preferenceValue.value]!!),
+                text = stringResource(entriesValues[value]!!),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 13.sp
             )
@@ -380,12 +405,12 @@ fun ListPreferenceView(
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clickable { preferenceValue.value = entry.key },
+                                .clickable { onValueChange(entry.key) },
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             RadioButton(
-                                selected = preferenceValue.value == entry.key,
-                                onClick = { preferenceValue.value = entry.key }
+                                selected = value == entry.key,
+                                onClick = { onValueChange(entry.key) }
                             )
                             Text(text = stringResource(entry.value))
                         }
@@ -393,10 +418,12 @@ fun ListPreferenceView(
                 }
             },
             confirmButton = {
-                TextButton(onClick = {
-                    openDialog = false
-                    onValueChange(preferenceValue.value)
-                }) {
+                TextButton(
+                    onClick = {
+                        openDialog = false
+                        onValueChange(value)
+                    }
+                ) {
                     Text(text = stringResource(R.string.ok))
                 }
             }
@@ -409,6 +436,7 @@ fun ListPreferenceView(
 fun SettingsPreview() {
     MoeListTheme {
         SettingsView(
+            navigateToListStyleSettings = {},
             navigateBack = {}
         )
     }

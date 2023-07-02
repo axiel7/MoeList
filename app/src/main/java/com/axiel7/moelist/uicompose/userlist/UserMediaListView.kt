@@ -4,7 +4,20 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -18,9 +31,30 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SheetState
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
@@ -39,15 +73,27 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.LIST_DISPLAY_MODE_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.GENERAL_LIST_STYLE_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.USE_GENERAL_LIST_STYLE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.rememberPreference
 import com.axiel7.moelist.data.model.anime.AnimeNode
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
 import com.axiel7.moelist.data.model.manga.UserMangaList
 import com.axiel7.moelist.data.model.manga.isUsingVolumeProgress
-import com.axiel7.moelist.data.model.media.*
-import com.axiel7.moelist.uicompose.base.ListMode
-import com.axiel7.moelist.uicompose.composables.*
+import com.axiel7.moelist.data.model.media.ListStatus
+import com.axiel7.moelist.data.model.media.ListType
+import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.data.model.media.animeListSortItems
+import com.axiel7.moelist.data.model.media.icon
+import com.axiel7.moelist.data.model.media.listStatusValues
+import com.axiel7.moelist.data.model.media.localized
+import com.axiel7.moelist.data.model.media.mangaListSortItems
+import com.axiel7.moelist.data.model.media.totalProgress
+import com.axiel7.moelist.data.model.media.userPreferredTitle
+import com.axiel7.moelist.data.model.media.userProgress
+import com.axiel7.moelist.uicompose.base.ListStyle
+import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_MEDIUM_WIDTH
+import com.axiel7.moelist.uicompose.composables.OnBottomReached
 import com.axiel7.moelist.uicompose.details.EditMediaSheet
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
@@ -75,6 +121,9 @@ fun UserMediaListHostView(
                 return Offset.Zero
             }
         }
+    }
+    val listType by remember {
+        derivedStateOf { ListType(selectedStatus.value, mediaType) }
     }
 
     if (statusSheetState.isVisible) {
@@ -110,8 +159,7 @@ fun UserMediaListHostView(
             .only(WindowInsetsSides.Horizontal)
     ) { padding ->
         UserMediaListView(
-            mediaType = mediaType,
-            status = selectedStatus.value,
+            listType = listType,
             modifier = Modifier.padding(padding),
             nestedScrollConnection = nestedScrollConnection,
             navigateToMediaDetails = navigateToMediaDetails,
@@ -122,21 +170,24 @@ fun UserMediaListHostView(
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun UserMediaListView(
-    mediaType: MediaType,
-    status: ListStatus,
+    listType: ListType,
     modifier: Modifier = Modifier,
     nestedScrollConnection: NestedScrollConnection? = null,
     navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
     val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
-    val viewModel: UserMediaListViewModel = viewModel(key = status.value) {
-        UserMediaListViewModel(mediaType, status)
+    val viewModel = viewModel(key = listType.toString()) {
+        UserMediaListViewModel(listType)
     }
     val pullRefreshState = rememberPullRefreshState(viewModel.isLoading, { viewModel.getUserList() })
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
-    val listDisplayMode by rememberPreference(LIST_DISPLAY_MODE_PREFERENCE_KEY, App.listDisplayMode.value)
+
+    val useGeneralListStyle by rememberPreference(USE_GENERAL_LIST_STYLE_PREFERENCE_KEY, App.useGeneralListStyle)
+    val generalListStyle by rememberPreference(GENERAL_LIST_STYLE_PREFERENCE_KEY, App.generalListStyle.value)
+
+    val listStyle = if (useGeneralListStyle) generalListStyle else viewModel.listTypeStyle
 
     if (viewModel.openSortDialog) {
         MediaListSortDialog(viewModel = viewModel)
@@ -157,7 +208,7 @@ fun UserMediaListView(
         }
     }
 
-    LaunchedEffect(viewModel.listSort, status) {
+    LaunchedEffect(viewModel.listSort, listType) {
         if (!viewModel.isLoading && viewModel.nextPage == null && !viewModel.loadedAllPages)
             viewModel.getUserList()
     }
@@ -177,7 +228,7 @@ fun UserMediaListView(
                 else Modifier
             )
 
-        if (listDisplayMode == ListMode.GRID.value) {
+        if (listStyle == ListStyle.GRID.value) {
             val listState = rememberLazyGridState()
             if (!viewModel.isLoadingList) {
                 listState.OnBottomReached(buffer = 3) {
@@ -227,7 +278,7 @@ fun UserMediaListView(
                         isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
                             ?: false,
                         onClick = {
-                            navigateToMediaDetails(mediaType, item.node.id)
+                            navigateToMediaDetails(listType.mediaType, item.node.id)
                         },
                         onLongClick = {
                             haptic.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -272,8 +323,8 @@ fun UserMediaListView(
                         }
                     )
                 }
-                when (listDisplayMode) {
-                    ListMode.STANDARD.value -> {
+                when (listStyle) {
+                    ListStyle.STANDARD.value -> {
                         items(
                             items = viewModel.mediaList,
                             key = { it.node.id },
@@ -290,9 +341,9 @@ fun UserMediaListView(
                                 totalProgress = item.totalProgress(),
                                 isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
                                     ?: false,
-                                listStatus = status,
+                                listStatus = listType.status,
                                 onClick = {
-                                    navigateToMediaDetails(mediaType, item.node.id)
+                                    navigateToMediaDetails(listType.mediaType, item.node.id)
                                 },
                                 onLongClick = {
                                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -323,7 +374,7 @@ fun UserMediaListView(
                         }
                     }
 
-                    ListMode.COMPACT.value -> {
+                    ListStyle.COMPACT.value -> {
                         items(
                             items = viewModel.mediaList,
                             key = { it.node.id },
@@ -339,9 +390,9 @@ fun UserMediaListView(
                                     ?: false,
                                 mediaStatus = item.node.status,
                                 broadcast = (item.node as? AnimeNode)?.broadcast,
-                                listStatus = status,
+                                listStatus = listType.status,
                                 onClick = {
-                                    navigateToMediaDetails(mediaType, item.node.id)
+                                    navigateToMediaDetails(listType.mediaType, item.node.id)
                                 },
                                 onLongClick = {
                                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -372,7 +423,7 @@ fun UserMediaListView(
                         }
                     }
 
-                    ListMode.MINIMAL.value -> {
+                    ListStyle.MINIMAL.value -> {
                         items(
                             items = viewModel.mediaList,
                             key = { it.node.id },
@@ -387,9 +438,9 @@ fun UserMediaListView(
                                     ?: false,
                                 mediaStatus = item.node.status,
                                 broadcast = (item.node as? AnimeNode)?.broadcast,
-                                listStatus = status,
+                                listStatus = listType.status,
                                 onClick = {
-                                    navigateToMediaDetails(mediaType, item.node.id)
+                                    navigateToMediaDetails(listType.mediaType, item.node.id)
                                 },
                                 onLongClick = {
                                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)

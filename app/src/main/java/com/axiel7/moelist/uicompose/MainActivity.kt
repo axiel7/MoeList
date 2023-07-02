@@ -72,15 +72,26 @@ import coil.compose.AsyncImage
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.ACCESS_TOKEN_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_COMPLETED_LIST_STYLE_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_CURRENT_LIST_STYLE_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_DROPPED_LIST_STYLE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_LIST_SORT_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_PAUSED_LIST_STYLE_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_PLANNED_LIST_STYLE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.LAST_TAB_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.LIST_DISPLAY_MODE_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.GENERAL_LIST_STYLE_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_COMPLETED_LIST_STYLE_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_CURRENT_LIST_STYLE_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_DROPPED_LIST_STYLE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_LIST_SORT_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_PAUSED_LIST_STYLE_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_PLANNED_LIST_STYLE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.NSFW_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.PROFILE_PICTURE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.START_TAB_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.THEME_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.TITLE_LANG_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.USE_GENERAL_LIST_STYLE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.USE_LIST_TABS_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.defaultPreferencesDataStore
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.getValueSync
@@ -91,7 +102,7 @@ import com.axiel7.moelist.data.model.media.TitleLanguage
 import com.axiel7.moelist.data.repository.LoginRepository
 import com.axiel7.moelist.uicompose.base.BottomDestination
 import com.axiel7.moelist.uicompose.base.BottomDestination.Companion.toBottomDestinationIndex
-import com.axiel7.moelist.uicompose.base.ListMode
+import com.axiel7.moelist.uicompose.base.ListStyle
 import com.axiel7.moelist.uicompose.base.StringArrayNavType
 import com.axiel7.moelist.uicompose.calendar.CALENDAR_DESTINATION
 import com.axiel7.moelist.uicompose.calendar.CalendarView
@@ -108,6 +119,8 @@ import com.axiel7.moelist.uicompose.more.ABOUT_DESTINATION
 import com.axiel7.moelist.uicompose.more.AboutView
 import com.axiel7.moelist.uicompose.more.CREDITS_DESTINATION
 import com.axiel7.moelist.uicompose.more.CreditsView
+import com.axiel7.moelist.uicompose.more.LIST_STYLE_SETTINGS_DESTINATION
+import com.axiel7.moelist.uicompose.more.ListStyleSettingsView
 import com.axiel7.moelist.uicompose.more.MORE_DESTINATION
 import com.axiel7.moelist.uicompose.more.MoreView
 import com.axiel7.moelist.uicompose.more.NOTIFICATIONS_DESTINATION
@@ -144,15 +157,7 @@ class MainActivity : AppCompatActivity() {
             intent.data?.let { parseIntentData(it) }
         }
 
-        //Cache DataStore in memory
-        lifecycleScope.launch {
-            defaultPreferencesDataStore.data.first()
-        }
-        //get necessary preferences while on splashscreen
-
-        defaultPreferencesDataStore.getValueSync(ACCESS_TOKEN_PREFERENCE_KEY)?.let {
-            App.createKtorClient(accessToken = it)
-        }
+        preloadPreferences()
 
         val startTab = defaultPreferencesDataStore.getValueSync(START_TAB_PREFERENCE_KEY)
         var lastTabOpened = intent.action?.toBottomDestinationIndex() ?: startTab?.toBottomDestinationIndex()
@@ -185,25 +190,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        defaultPreferencesDataStore.getValueSync(NSFW_PREFERENCE_KEY)?.let {
-            App.nsfw = it.toInt()
-        }
         val theme = defaultPreferencesDataStore.getValueSync(THEME_PREFERENCE_KEY) ?: "follow_system"
-        defaultPreferencesDataStore.getValueSync(ANIME_LIST_SORT_PREFERENCE_KEY)?.let {
-            MediaSort.forValue(it)?.let { sort -> App.animeListSort = sort }
-        }
-        defaultPreferencesDataStore.getValueSync(MANGA_LIST_SORT_PREFERENCE_KEY)?.let {
-            MediaSort.forValue(it)?.let { sort -> App.mangaListSort = sort }
-        }
-        defaultPreferencesDataStore.getValueSync(LIST_DISPLAY_MODE_PREFERENCE_KEY)?.let {
-            ListMode.forValue(it)?.let { mode -> App.listDisplayMode = mode }
-        }
-        defaultPreferencesDataStore.getValueSync(TITLE_LANG_PREFERENCE_KEY)?.let {
-            App.titleLanguage = TitleLanguage.valueOf(it)
-        }
-        defaultPreferencesDataStore.getValueSync(USE_LIST_TABS_PREFERENCE_KEY)?.let {
-            App.useListTabs = it
-        }
 
         setContent {
             val themePreference by rememberPreference(THEME_PREFERENCE_KEY, theme)
@@ -249,6 +236,74 @@ class MainActivity : AppCompatActivity() {
         val receivedState = uri.getQueryParameter("state")
         if (code != null && receivedState == LoginRepository.STATE) {
             lifecycleScope.launch(Dispatchers.IO) { LoginRepository.getAccessToken(code) }
+        }
+    }
+
+    private fun preloadPreferences() {
+        //Cache DataStore in memory
+        lifecycleScope.launch {
+            defaultPreferencesDataStore.data.first()
+        }
+
+        defaultPreferencesDataStore.getValueSync(ACCESS_TOKEN_PREFERENCE_KEY)?.let {
+            App.createKtorClient(accessToken = it)
+        }
+        defaultPreferencesDataStore.getValueSync(NSFW_PREFERENCE_KEY)?.let {
+            App.nsfw = it.toInt()
+        }
+        defaultPreferencesDataStore.getValueSync(ANIME_LIST_SORT_PREFERENCE_KEY)?.let {
+            MediaSort.forValue(it)?.let { sort -> App.animeListSort = sort }
+        }
+        defaultPreferencesDataStore.getValueSync(MANGA_LIST_SORT_PREFERENCE_KEY)?.let {
+            MediaSort.forValue(it)?.let { sort -> App.mangaListSort = sort }
+        }
+
+        defaultPreferencesDataStore.getValueSync(GENERAL_LIST_STYLE_PREFERENCE_KEY)?.let {
+            ListStyle.forValue(it)?.let { mode -> App.generalListStyle = mode }
+        }
+        defaultPreferencesDataStore.getValueSync(USE_GENERAL_LIST_STYLE_PREFERENCE_KEY)?.let {
+            App.useGeneralListStyle = it
+        }
+        defaultPreferencesDataStore.getValueSync(ANIME_CURRENT_LIST_STYLE_PREFERENCE_KEY)?.let {
+            ListStyle.forValue(it)?.let { mode -> App.animeCurrentListStyle = mode }
+        }
+        defaultPreferencesDataStore.getValueSync(MANGA_CURRENT_LIST_STYLE_PREFERENCE_KEY)?.let {
+            ListStyle.forValue(it)?.let { mode -> App.mangaCurrentListStyle = mode }
+        }
+
+        defaultPreferencesDataStore.getValueSync(TITLE_LANG_PREFERENCE_KEY)?.let {
+            App.titleLanguage = TitleLanguage.valueOf(it)
+        }
+        defaultPreferencesDataStore.getValueSync(USE_LIST_TABS_PREFERENCE_KEY)?.let {
+            App.useListTabs = it
+        }
+
+        // load preferences used later in another thread
+        lifecycleScope.launch(Dispatchers.IO) {
+            defaultPreferencesDataStore.getValueSync(ANIME_PLANNED_LIST_STYLE_PREFERENCE_KEY)?.let {
+                ListStyle.forValue(it)?.let { mode -> App.animePlannedListStyle = mode }
+            }
+            defaultPreferencesDataStore.getValueSync(ANIME_COMPLETED_LIST_STYLE_PREFERENCE_KEY)?.let {
+                ListStyle.forValue(it)?.let { mode -> App.animeCompletedListStyle = mode }
+            }
+            defaultPreferencesDataStore.getValueSync(ANIME_PAUSED_LIST_STYLE_PREFERENCE_KEY)?.let {
+                ListStyle.forValue(it)?.let { mode -> App.animePausedListStyle = mode }
+            }
+            defaultPreferencesDataStore.getValueSync(ANIME_DROPPED_LIST_STYLE_PREFERENCE_KEY)?.let {
+                ListStyle.forValue(it)?.let { mode -> App.animeDroppedListStyle = mode }
+            }
+            defaultPreferencesDataStore.getValueSync(MANGA_PLANNED_LIST_STYLE_PREFERENCE_KEY)?.let {
+                ListStyle.forValue(it)?.let { mode -> App.mangaPlannedListStyle = mode }
+            }
+            defaultPreferencesDataStore.getValueSync(MANGA_COMPLETED_LIST_STYLE_PREFERENCE_KEY)?.let {
+                ListStyle.forValue(it)?.let { mode -> App.mangaCompletedListStyle = mode }
+            }
+            defaultPreferencesDataStore.getValueSync(MANGA_PAUSED_LIST_STYLE_PREFERENCE_KEY)?.let {
+                ListStyle.forValue(it)?.let { mode -> App.mangaPausedListStyle = mode }
+            }
+            defaultPreferencesDataStore.getValueSync(MANGA_DROPPED_LIST_STYLE_PREFERENCE_KEY)?.let {
+                ListStyle.forValue(it)?.let { mode -> App.mangaDroppedListStyle = mode }
+            }
         }
     }
 }
@@ -452,11 +507,22 @@ fun MainView(
                 }
                 composable(SETTINGS_DESTINATION) {
                     SettingsView(
+                        navigateToListStyleSettings = {
+                            navController.navigate(LIST_STYLE_SETTINGS_DESTINATION)
+                        },
                         navigateBack = {
                             navController.popBackStack()
                         }
                     )
                 }
+                composable(LIST_STYLE_SETTINGS_DESTINATION) {
+                    ListStyleSettingsView(
+                        navigateBack = {
+                            navController.popBackStack()
+                        }
+                    )
+                }
+
                 composable(NOTIFICATIONS_DESTINATION) {
                     NotificationsView(
                         navigateBack = {

@@ -18,7 +18,7 @@ import com.axiel7.moelist.data.model.manga.UserMangaList
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseMyListStatus
 import com.axiel7.moelist.data.model.media.BaseUserMediaList
-import com.axiel7.moelist.data.model.media.ListStatus
+import com.axiel7.moelist.data.model.media.ListType
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.repository.AnimeRepository
@@ -28,9 +28,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class UserMediaListViewModel(
-    override val mediaType: MediaType,
-    listStatus: ListStatus
+    listType: ListType
 ): BaseMediaViewModel() {
+
+    override val mediaType = listType.mediaType
+
+    var listTypeStyle = listType.styleGlobalAppVariable.value
 
     var listSort by mutableStateOf(
         if (mediaType == MediaType.ANIME) App.animeListSort
@@ -53,7 +56,7 @@ class UserMediaListViewModel(
     var openSortDialog by mutableStateOf(false)
 
     private val params = ApiParams(
-        status = listStatus.value,
+        status = listType.status.value,
         sort = listSort.value,
         nsfw = App.nsfw,
         fields = if (mediaType == MediaType.ANIME) AnimeRepository.USER_ANIME_LIST_FIELDS

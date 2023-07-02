@@ -1,10 +1,7 @@
 package com.axiel7.moelist.uicompose.more
 
 import com.axiel7.moelist.R
-import com.axiel7.moelist.data.model.media.TitleLanguage
 import com.axiel7.moelist.uicompose.base.BaseViewModel
-import com.axiel7.moelist.uicompose.base.ListMode
-import com.axiel7.moelist.uicompose.base.stringRes
 
 class SettingsViewModel: BaseViewModel() {
 
@@ -35,8 +32,6 @@ class SettingsViewModel: BaseViewModel() {
         "zh-Hans" to R.string.chinese_simplified_native,
     )
 
-    val listModeEntries = ListMode.values().associate { it.value to it.stringRes }
-
     val startTabEntries = mapOf(
         "last_used" to R.string.last_used,
         "home" to R.string.title_home,
@@ -45,9 +40,4 @@ class SettingsViewModel: BaseViewModel() {
         "more" to R.string.more
     )
 
-    val titleLanguageEntries = mapOf(
-        TitleLanguage.ROMAJI.name to R.string.romaji,
-        TitleLanguage.ENGLISH.name to R.string.english,
-        TitleLanguage.JAPANESE.name to R.string.japanese,
-    )
 }

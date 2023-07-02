@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.axiel7.moelist.data.model.media.ListType
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.listStatusAnimeValues
 import com.axiel7.moelist.data.model.media.listStatusMangaValues
@@ -64,8 +65,10 @@ fun UserMediaListWithTabsView(
             key = { tabRowItems[it].value }
         ) {
             UserMediaListView(
-                mediaType = mediaType,
-                status = tabRowItems[it].value,
+                listType = ListType(
+                    status = tabRowItems[it].value,
+                    mediaType = mediaType
+                ),
                 navigateToMediaDetails = navigateToMediaDetails,
             )
         }//:Pager
