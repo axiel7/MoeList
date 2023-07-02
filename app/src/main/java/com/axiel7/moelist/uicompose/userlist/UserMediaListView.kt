@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
@@ -183,6 +184,7 @@ fun UserMediaListView(
     val pullRefreshState = rememberPullRefreshState(viewModel.isLoading, { viewModel.getUserList() })
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
+    val bottomBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
     val useGeneralListStyle by rememberPreference(USE_GENERAL_LIST_STYLE_PREFERENCE_KEY, App.useGeneralListStyle)
     val generalListStyle by rememberPreference(GENERAL_LIST_STYLE_PREFERENCE_KEY, App.generalListStyle.value)
@@ -197,7 +199,8 @@ fun UserMediaListView(
         EditMediaSheet(
             coroutineScope = coroutineScope,
             sheetState = sheetState,
-            mediaViewModel = viewModel
+            mediaViewModel = viewModel,
+            bottomPadding = bottomBarPadding
         )
     }
 

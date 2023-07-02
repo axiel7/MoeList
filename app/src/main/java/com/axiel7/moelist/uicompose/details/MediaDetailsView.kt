@@ -74,6 +74,7 @@ fun MediaDetailsView(
     val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
+    val bottomBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
     var maxLinesSynopsis by remember { mutableIntStateOf(5) }
     var iconExpand by remember { mutableIntStateOf(R.drawable.ic_round_keyboard_arrow_down_24) }
@@ -91,7 +92,8 @@ fun MediaDetailsView(
         EditMediaSheet(
             coroutineScope = coroutineScope,
             sheetState = sheetState,
-            mediaViewModel = viewModel
+            mediaViewModel = viewModel,
+            bottomPadding = bottomBarPadding
         )
     }
 
