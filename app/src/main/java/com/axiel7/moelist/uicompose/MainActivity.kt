@@ -313,9 +313,7 @@ fun MainView(
     navController: NavHostController,
     lastTabOpened: Int
 ) {
-    val accessTokenPreference by rememberPreference(ACCESS_TOKEN_PREFERENCE_KEY, App.accessToken ?: "")
     val bottomBarState = remember { mutableStateOf(true) }
-    val stringArrayType = remember { StringArrayNavType() }
 
     Scaffold(
         topBar = {
@@ -334,294 +332,11 @@ fun MainView(
         contentWindowInsets = WindowInsets.systemBars
             .only(WindowInsetsSides.Horizontal)
     ) { padding ->
-        val topPadding by animateDpAsState(
-            targetValue = padding.calculateTopPadding(),
-            label = "top_bar_padding"
-        )
-        val bottomPadding by animateDpAsState(
-            targetValue = padding.calculateBottomPadding(),
-            label = "bottom_bar_padding"
-        )
-        NavHost(
+        MainNavigation(
             navController = navController,
-            startDestination = bottomDestinations[lastTabOpened].route,
-            modifier = Modifier.padding(
-                start = padding.calculateStartPadding(LocalLayoutDirection.current),
-                end = padding.calculateEndPadding(LocalLayoutDirection.current),
-            ),
-            enterTransition = { fadeIn(tween(400)) },
-            exitTransition = { fadeOut(tween(400)) },
-            popEnterTransition = { fadeIn(tween(400)) },
-            popExitTransition = { fadeOut(tween(400)) }
-        ) {
-            composable(BottomDestination.Home.route) {
-                HomeView(
-                    isLoggedIn = accessTokenPreference.isNotEmpty(),
-                    navigateToMediaDetails = { mediaType, mediaId ->
-                        navController.navigate(
-                            MEDIA_DETAILS_DESTINATION
-                                .replace("{mediaType}", mediaType.name)
-                                .replace("{mediaId}", mediaId.toString())
-                        )
-                    },
-                    navigateToRanking = { mediaType ->
-                        navController.navigate(
-                            MEDIA_RANKING_DESTINATION
-                                .replace("{mediaType}", mediaType.name)
-                        )
-                    },
-                    navigateToSeasonChart = {
-                        navController.navigate(SEASON_CHART_DESTINATION)
-                    },
-                    navigateToCalendar = {
-                        navController.navigate(CALENDAR_DESTINATION)
-                    },
-                    modifier = Modifier
-                        .padding(top = topPadding, bottom = bottomPadding),
-                )
-            }
-
-            composable(MEDIA_RANKING_DESTINATION,
-                arguments = listOf(navArgument("mediaType") { type = NavType.StringType })
-            ) { navEntry ->
-                MediaRankingView(
-                    mediaType = MediaType.valueOf(navEntry.arguments?.getString("mediaType") ?: "ANIME"),
-                    navigateBack = {
-                        navController.popBackStack()
-                    },
-                    navigateToMediaDetails = { mediaType, mediaId ->
-                        navController.navigate(
-                            MEDIA_DETAILS_DESTINATION
-                                .replace("{mediaType}", mediaType.name)
-                                .replace("{mediaId}", mediaId.toString())
-                        )
-                    }
-                )
-            }
-
-            composable(CALENDAR_DESTINATION) {
-                CalendarView(
-                    navigateBack = {
-                        navController.popBackStack()
-                    },
-                    navigateToMediaDetails = { mediaType, mediaId ->
-                        navController.navigate(
-                            MEDIA_DETAILS_DESTINATION
-                                .replace("{mediaType}", mediaType.name)
-                                .replace("{mediaId}", mediaId.toString())
-                        )
-                    }
-                )
-            }
-
-            composable(SEASON_CHART_DESTINATION) {
-                SeasonChartView(
-                    navigateBack = {
-                        navController.popBackStack()
-                    },
-                    navigateToMediaDetails = { mediaType, mediaId ->
-                        navController.navigate(
-                            MEDIA_DETAILS_DESTINATION
-                                .replace("{mediaType}", mediaType.name)
-                                .replace("{mediaId}", mediaId.toString())
-                        )
-                    }
-                )
-            }
-
-            composable(BottomDestination.AnimeList.route) {
-                if (accessTokenPreference.isEmpty()) {
-                    LoginView()
-                } else {
-                    if (App.useListTabs)
-                        UserMediaListWithTabsView(
-                            mediaType = MediaType.ANIME,
-                            modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
-                            navigateToMediaDetails = { mediaType, mediaId ->
-                                navController.navigate(
-                                    MEDIA_DETAILS_DESTINATION
-                                        .replace("{mediaType}", mediaType.name)
-                                        .replace("{mediaId}", mediaId.toString())
-                                )
-                            }
-                        )
-                    else UserMediaListHostView(
-                        mediaType = MediaType.ANIME,
-                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
-                        navigateToMediaDetails = { mediaType, mediaId ->
-                            navController.navigate(
-                                MEDIA_DETAILS_DESTINATION
-                                    .replace("{mediaType}", mediaType.name)
-                                    .replace("{mediaId}", mediaId.toString())
-                            )
-                        }
-                    )
-                }
-            }
-
-            composable(BottomDestination.MangaList.route) {
-                if (accessTokenPreference.isEmpty()) {
-                    LoginView()
-                } else {
-                    if (App.useListTabs)
-                        UserMediaListWithTabsView(
-                            mediaType = MediaType.MANGA,
-                            modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
-                            navigateToMediaDetails = { mediaType, mediaId ->
-                                navController.navigate(
-                                    MEDIA_DETAILS_DESTINATION
-                                        .replace("{mediaType}", mediaType.name)
-                                        .replace("{mediaId}", mediaId.toString())
-                                )
-                            }
-                        )
-                    else UserMediaListHostView(
-                        mediaType = MediaType.MANGA,
-                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
-                        navigateToMediaDetails = { mediaType, mediaId ->
-                            navController.navigate(
-                                MEDIA_DETAILS_DESTINATION
-                                    .replace("{mediaType}", mediaType.name)
-                                    .replace("{mediaId}", mediaId.toString())
-                            )
-                        }
-                    )
-                }
-            }
-
-            navigation(startDestination = MORE_DESTINATION, route = BottomDestination.More.route) {
-                composable(MORE_DESTINATION) {
-                    MoreView(
-                        modifier = Modifier
-                            .padding(top = topPadding, bottom = bottomPadding),
-                        navigateToSettings = {
-                            navController.navigate(SETTINGS_DESTINATION)
-                        },
-                        navigateToNotifications = {
-                            navController.navigate(NOTIFICATIONS_DESTINATION)
-                        },
-                        navigateToAbout = {
-                            navController.navigate(ABOUT_DESTINATION)
-                        }
-                    )
-                }
-                composable(SETTINGS_DESTINATION) {
-                    SettingsView(
-                        navigateToListStyleSettings = {
-                            navController.navigate(LIST_STYLE_SETTINGS_DESTINATION)
-                        },
-                        navigateBack = {
-                            navController.popBackStack()
-                        }
-                    )
-                }
-                composable(LIST_STYLE_SETTINGS_DESTINATION) {
-                    ListStyleSettingsView(
-                        navigateBack = {
-                            navController.popBackStack()
-                        }
-                    )
-                }
-
-                composable(NOTIFICATIONS_DESTINATION) {
-                    NotificationsView(
-                        navigateBack = {
-                            navController.popBackStack()
-                        },
-                        navigateToMediaDetails = { mediaType, mediaId ->
-                            navController.navigate(
-                                MEDIA_DETAILS_DESTINATION
-                                    .replace("{mediaType}", mediaType.name)
-                                    .replace("{mediaId}", mediaId.toString())
-                            )
-                        }
-                    )
-                }
-                composable(ABOUT_DESTINATION) {
-                    AboutView(
-                        navigateBack = {
-                            navController.popBackStack()
-                        },
-                        navigateToCredits = {
-                            navController.navigate(CREDITS_DESTINATION)
-                        }
-                    )
-                }
-                composable(CREDITS_DESTINATION) {
-                    CreditsView(
-                        navigateBack = {
-                            navController.popBackStack()
-                        }
-                    )
-                }
-            }
-
-            composable(MEDIA_DETAILS_DESTINATION,
-                arguments = listOf(
-                    navArgument("mediaType") { type = NavType.StringType },
-                    navArgument("mediaId") { type = NavType.IntType }
-                )
-            ) { navEntry ->
-                MediaDetailsView(
-                    mediaType = navEntry.arguments?.getString("mediaType")
-                        ?.let { mediaType -> MediaType.valueOf(mediaType) } ?: MediaType.ANIME,
-                    mediaId = navEntry.arguments?.getInt("mediaId") ?: 0,
-                    isLoggedIn = accessTokenPreference.isNotEmpty(),
-                    navigateBack = {
-                        navController.popBackStack()
-                    },
-                    navigateToMediaDetails = { mediaType, mediaId ->
-                        navController.navigate(
-                            MEDIA_DETAILS_DESTINATION
-                                .replace("{mediaType}", mediaType.name)
-                                .replace("{mediaId}", mediaId.toString())
-                        )
-                    },
-                    navigateToFullPoster = { pictures ->
-                        navController.navigate(
-                            FULL_POSTER_DESTINATION
-                                .replace("{pictures}", pictures)
-                        )
-                    }
-                )
-            }
-
-            composable(FULL_POSTER_DESTINATION,
-                arguments = listOf(
-                    navArgument("pictures") { type = stringArrayType }
-                )
-            ) { navEntry ->
-                FullPosterView(
-                    pictures = navEntry.arguments?.getStringArray("pictures") ?: emptyArray(),
-                    navigateBack = {
-                        navController.popBackStack()
-                    }
-                )
-            }
-
-            composable(PROFILE_DESTINATION) {
-                if (accessTokenPreference.isEmpty()) {
-                    DefaultScaffoldWithTopAppBar(
-                        title = stringResource(R.string.title_profile),
-                        navigateBack = { navController.popBackStack() }
-                    ) { padding ->
-                        LoginView(modifier = Modifier.padding(padding))
-                    }
-                } else {
-                    ProfileView(
-                        navigateBack = {
-                            navController.popBackStack()
-                        },
-                        navigateToFullPoster = { pictures ->
-                            navController.navigate(
-                                FULL_POSTER_DESTINATION
-                                    .replace("{pictures}", pictures)
-                            )
-                        }
-                    )
-                }
-            }
-        }//:NavHost
+            lastTabOpened = lastTabOpened,
+            padding = padding
+        )
     }
 }
 
@@ -733,13 +448,6 @@ fun MainTopAppBar(
     }
 }
 
-private val bottomDestinations = listOf(
-    BottomDestination.Home,
-    BottomDestination.AnimeList,
-    BottomDestination.MangaList,
-    BottomDestination.More
-)
-
 @Composable
 fun BottomNavBar(
     navController: NavController,
@@ -764,7 +472,7 @@ fun BottomNavBar(
         exit = slideOutVertically(targetOffsetY = { it })
     ) {
         NavigationBar {
-            bottomDestinations.forEachIndexed { index, dest ->
+            BottomDestination.values.forEachIndexed { index, dest ->
                 NavigationBarItem(
                     icon = { Icon(
                         painter = painterResource(if (selectedItem == index) dest.iconSelected else dest.icon),

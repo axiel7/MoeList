@@ -45,6 +45,8 @@ sealed class BottomDestination(
     )
 
     companion object {
+        val values = listOf(Home, AnimeList, MangaList, More)
+
         fun String.toBottomDestinationIndex() = when (this) {
             Home.value -> 0
             AnimeList.value -> 1
