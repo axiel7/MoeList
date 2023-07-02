@@ -191,7 +191,7 @@ fun UserMediaListView(
                 modifier = listModifier,
                 state = listState,
                 contentPadding = PaddingValues(vertical = 8.dp, horizontal = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Bottom),
                 horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
             ) {
                 item(
