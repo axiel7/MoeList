@@ -484,7 +484,7 @@ fun MinimalUserMediaListItem(
                     ) {
                         Text(
                             text = if ((score ?: 0) == 0) Constants.UNKNOWN_CHAR else "$score",
-                            modifier = Modifier.padding(start = 8.dp, top = 4.dp, end = 2.dp, bottom = 4.dp),
+                            modifier = Modifier.padding(start = 8.dp, end = 2.dp),
                             color = MaterialTheme.colorScheme.secondary,
                             fontSize = 16.sp,
                         )
