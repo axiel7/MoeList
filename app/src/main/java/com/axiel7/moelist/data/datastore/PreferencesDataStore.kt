@@ -33,6 +33,7 @@ object PreferencesDataStore {
 
     val GENERAL_LIST_STYLE_PREFERENCE_KEY = stringPreferencesKey("list_display_mode")
     val USE_GENERAL_LIST_STYLE_PREFERENCE_KEY = booleanPreferencesKey("use_general_list_style")
+    val GRID_ITEMS_PER_ROW_PREFERENCE_KEY = intPreferencesKey("grid_items_per_row")
     val ANIME_CURRENT_LIST_STYLE_PREFERENCE_KEY = stringPreferencesKey("anime_current_list_style")
     val ANIME_PLANNED_LIST_STYLE_PREFERENCE_KEY = stringPreferencesKey("anime_planned_list_style")
     val ANIME_COMPLETED_LIST_STYLE_PREFERENCE_KEY = stringPreferencesKey("anime_completed_list_style")

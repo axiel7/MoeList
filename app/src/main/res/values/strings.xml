@@ -308,4 +308,16 @@
     <string name="list_mode_grid">Grid</string>
     <string name="use_separated_list_styles">Use separated list styles</string>
     <string name="changes_will_take_effect_on_app_restart">Changes will take effect on app restart</string>
+    <string name="items_per_row">Items per row</string>
+    <string name="default_setting">Default</string>
+    <string name="one" translatable="false">1</string>
+    <string name="two" translatable="false">2</string>
+    <string name="three" translatable="false">3</string>
+    <string name="four" translatable="false">4</string>
+    <string name="five" translatable="false">5</string>
+    <string name="six" translatable="false">6</string>
+    <string name="seven" translatable="false">7</string>
+    <string name="eight" translatable="false">8</string>
+    <string name="nine" translatable="false">9</string>
+    <string name="ten" translatable="false">10</string>
 </resources>

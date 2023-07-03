@@ -75,6 +75,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.GENERAL_LIST_STYLE_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.GRID_ITEMS_PER_ROW_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.USE_GENERAL_LIST_STYLE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.rememberPreference
 import com.axiel7.moelist.data.model.anime.AnimeNode
@@ -232,6 +233,7 @@ fun UserMediaListView(
             )
 
         if (listStyle == ListStyle.GRID.value) {
+            val itemsPerRow by rememberPreference(GRID_ITEMS_PER_ROW_PREFERENCE_KEY, App.gridItemsPerRow)
             val listState = rememberLazyGridState()
             if (!viewModel.isLoadingList) {
                 listState.OnBottomReached(buffer = 3) {
@@ -241,7 +243,8 @@ fun UserMediaListView(
                 }
             }
             LazyVerticalGrid(
-                columns = GridCells.Adaptive(minSize = (MEDIA_POSTER_MEDIUM_WIDTH + 8).dp),
+                columns = if (itemsPerRow > 0) GridCells.Fixed(itemsPerRow)
+                    else GridCells.Adaptive(minSize = (MEDIA_POSTER_MEDIUM_WIDTH + 8).dp),
                 modifier = listModifier,
                 state = listState,
                 contentPadding = PaddingValues(vertical = 8.dp, horizontal = 8.dp),

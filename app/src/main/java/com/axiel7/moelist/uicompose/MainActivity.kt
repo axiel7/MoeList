@@ -7,10 +7,6 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.clickable
@@ -18,8 +14,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
@@ -49,7 +43,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -61,13 +54,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import androidx.navigation.navigation
 import coil.compose.AsyncImage
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
@@ -78,8 +66,9 @@ import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_DROPPED_LIST
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_LIST_SORT_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_PAUSED_LIST_STYLE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_PLANNED_LIST_STYLE_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.LAST_TAB_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.GENERAL_LIST_STYLE_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.GRID_ITEMS_PER_ROW_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.LAST_TAB_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_COMPLETED_LIST_STYLE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_CURRENT_LIST_STYLE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_DROPPED_LIST_STYLE_PREFERENCE_KEY
@@ -97,48 +86,20 @@ import com.axiel7.moelist.data.datastore.PreferencesDataStore.defaultPreferences
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.getValueSync
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.rememberPreference
 import com.axiel7.moelist.data.model.media.MediaSort
-import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.TitleLanguage
 import com.axiel7.moelist.data.repository.LoginRepository
 import com.axiel7.moelist.uicompose.base.BottomDestination
 import com.axiel7.moelist.uicompose.base.BottomDestination.Companion.toBottomDestinationIndex
 import com.axiel7.moelist.uicompose.base.ListStyle
-import com.axiel7.moelist.uicompose.base.StringArrayNavType
-import com.axiel7.moelist.uicompose.calendar.CALENDAR_DESTINATION
-import com.axiel7.moelist.uicompose.calendar.CalendarView
 import com.axiel7.moelist.uicompose.composables.BackIconButton
-import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
-import com.axiel7.moelist.uicompose.details.FULL_POSTER_DESTINATION
-import com.axiel7.moelist.uicompose.details.FullPosterView
 import com.axiel7.moelist.uicompose.details.MEDIA_DETAILS_DESTINATION
-import com.axiel7.moelist.uicompose.details.MediaDetailsView
 import com.axiel7.moelist.uicompose.home.HOME_DESTINATION
-import com.axiel7.moelist.uicompose.home.HomeView
-import com.axiel7.moelist.uicompose.login.LoginView
-import com.axiel7.moelist.uicompose.more.ABOUT_DESTINATION
-import com.axiel7.moelist.uicompose.more.AboutView
-import com.axiel7.moelist.uicompose.more.CREDITS_DESTINATION
-import com.axiel7.moelist.uicompose.more.CreditsView
-import com.axiel7.moelist.uicompose.more.LIST_STYLE_SETTINGS_DESTINATION
-import com.axiel7.moelist.uicompose.more.ListStyleSettingsView
 import com.axiel7.moelist.uicompose.more.MORE_DESTINATION
-import com.axiel7.moelist.uicompose.more.MoreView
-import com.axiel7.moelist.uicompose.more.NOTIFICATIONS_DESTINATION
-import com.axiel7.moelist.uicompose.more.NotificationsView
-import com.axiel7.moelist.uicompose.more.SETTINGS_DESTINATION
-import com.axiel7.moelist.uicompose.more.SettingsView
 import com.axiel7.moelist.uicompose.profile.PROFILE_DESTINATION
-import com.axiel7.moelist.uicompose.profile.ProfileView
-import com.axiel7.moelist.uicompose.ranking.MEDIA_RANKING_DESTINATION
-import com.axiel7.moelist.uicompose.ranking.MediaRankingView
 import com.axiel7.moelist.uicompose.search.SearchView
-import com.axiel7.moelist.uicompose.season.SEASON_CHART_DESTINATION
-import com.axiel7.moelist.uicompose.season.SeasonChartView
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.uicompose.userlist.ANIME_LIST_DESTINATION
 import com.axiel7.moelist.uicompose.userlist.MANGA_LIST_DESTINATION
-import com.axiel7.moelist.uicompose.userlist.UserMediaListHostView
-import com.axiel7.moelist.uicompose.userlist.UserMediaListWithTabsView
 import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.NumExtensions.toInt
 import kotlinx.coroutines.CoroutineScope
@@ -276,6 +237,9 @@ class MainActivity : AppCompatActivity() {
         }
         defaultPreferencesDataStore.getValueSync(USE_LIST_TABS_PREFERENCE_KEY)?.let {
             App.useListTabs = it
+        }
+        defaultPreferencesDataStore.getValueSync(GRID_ITEMS_PER_ROW_PREFERENCE_KEY)?.let {
+            App.gridItemsPerRow = it
         }
 
         // load preferences used later in another thread

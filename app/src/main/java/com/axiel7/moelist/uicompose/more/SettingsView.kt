@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.sp
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.GENERAL_LIST_STYLE_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.GRID_ITEMS_PER_ROW_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.LANG_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.NSFW_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.START_TAB_PREFERENCE_KEY
@@ -51,6 +52,7 @@ import com.axiel7.moelist.data.datastore.PreferencesDataStore.rememberPreference
 import com.axiel7.moelist.data.model.media.TitleLanguage
 import com.axiel7.moelist.uicompose.base.AppLanguage
 import com.axiel7.moelist.uicompose.base.BottomDestination
+import com.axiel7.moelist.uicompose.base.ItemsPerRow
 import com.axiel7.moelist.uicompose.base.ListStyle
 import com.axiel7.moelist.uicompose.base.ThemeStyle
 import com.axiel7.moelist.uicompose.base.stringRes
@@ -66,6 +68,7 @@ const val SETTINGS_DESTINATION = "settings"
 val themeEntries = ThemeStyle.values().associate { it.name.lowercase() to it.stringRes }
 val languageEntries = AppLanguage.values().associate { it.value to it.stringResNative }
 val listStyleEntries = ListStyle.values().associate { it.value to it.stringRes }
+val itemsPerRowEntries = ItemsPerRow.values().associate { it.value.toString() to it.stringRes }
 val titleLanguageEntries = TitleLanguage.values().associate { it.name to it.stringRes }
 val startTabEntries = mapOf(
     "last_used" to R.string.last_used,
@@ -86,6 +89,7 @@ fun SettingsView(
     var nsfwPreference by rememberPreference(NSFW_PREFERENCE_KEY, false)
     var useGeneralListStyle by rememberPreference(USE_GENERAL_LIST_STYLE_PREFERENCE_KEY, App.useGeneralListStyle)
     var generalListStylePreference by rememberPreference(GENERAL_LIST_STYLE_PREFERENCE_KEY, ListStyle.STANDARD.value)
+    var itemsPerRowPreference by rememberPreference(GRID_ITEMS_PER_ROW_PREFERENCE_KEY, App.gridItemsPerRow)
     var startTabPreference by rememberPreference(START_TAB_PREFERENCE_KEY, "last_used")
     var titleLangPreference by rememberPreference(TITLE_LANG_PREFERENCE_KEY, App.titleLanguage.name)
     var useListTabsPreference by rememberPreference(USE_LIST_TABS_PREFERENCE_KEY, App.useListTabs)
@@ -175,6 +179,21 @@ fun SettingsView(
                     title = stringResource(R.string.list_style),
                     icon = R.drawable.round_format_list_bulleted_24,
                     onClick = navigateToListStyleSettings
+                )
+            }
+
+            if (generalListStylePreference == ListStyle.GRID.value || !useGeneralListStyle) {
+                ListPreferenceView(
+                    title = stringResource(R.string.items_per_row),
+                    entriesValues = itemsPerRowEntries,
+                    value = itemsPerRowPreference.toString(),
+                    icon = R.drawable.round_grid_view_24,
+                    onValueChange = { value ->
+                        value.toIntOrNull()?.let {
+                            itemsPerRowPreference = it
+                            App.gridItemsPerRow = it
+                        }
+                    }
                 )
             }
 

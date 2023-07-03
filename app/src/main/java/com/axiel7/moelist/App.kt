@@ -40,6 +40,7 @@ class App : Application() {
 
         var generalListStyle = ListStyle.STANDARD
         var useGeneralListStyle = true
+        var gridItemsPerRow = 0
         var animeCurrentListStyle = ListStyle.STANDARD
         var animePlannedListStyle = ListStyle.STANDARD
         var animeCompletedListStyle = ListStyle.STANDARD
