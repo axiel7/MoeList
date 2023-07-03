@@ -87,6 +87,7 @@ class UserMediaListViewModel(
 
     fun getUserList(page: String? = null) {
         viewModelScope.launch(Dispatchers.IO) {
+            isLoading = page == null
             isLoadingList = true
             params.sort = listSort.value
             val result = if (mediaType == MediaType.ANIME)
@@ -106,6 +107,7 @@ class UserMediaListViewModel(
                 hasNextPage = false
             }
             isLoadingList = false
+            isLoading = false
         }
     }
 
