@@ -286,4 +286,8 @@
     <string name="please_login_to_use_this_feature">この機能を使用するには、ログインしてください。</string>
     <string name="no_recommendations">おすすめはありません</string>
     <string name="list_mode_grid">Grid</string>
+    <string name="use_separated_list_styles">Use separated list styles</string>
+    <string name="changes_will_take_effect_on_app_restart">Changes will take effect on app restart</string>
+    <string name="items_per_row">Items per row</string>
+    <string name="default_setting">Default</string>
 </resources>
