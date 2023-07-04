@@ -48,6 +48,12 @@ class NotificationWorker(
         val animeTitle = inputData.getString("anime_title")
         val animeId = inputData.getInt("anime_id", 1)
 
+        inputData.getString("type")?.let { type ->
+            if (type == "start") applicationContext.notificationsDataStore.edit {
+                it.remove(stringPreferencesKey("start_$animeId"))
+            }
+        }
+
         // remove periodic worker if anime ended
         val animeDetails = AnimeRepository.getAnimeAiringStatus(animeId)
         if (animeDetails?.status != "currently_airing") {
@@ -139,7 +145,7 @@ class NotificationWorker(
             }
         }
 
-        fun scheduleAnimeStartNotification(
+        suspend fun scheduleAnimeStartNotification(
             context: Context,
             title: String,
             animeId: Int,
@@ -155,7 +161,13 @@ class NotificationWorker(
             val inputData = Data.Builder()
                 .putInt("anime_id", animeId)
                 .putString("anime_title", title)
+                .putString("type", "start")
                 .build()
+
+            //store start notification setting
+            context.notificationsDataStore.edit {
+                it[stringPreferencesKey("start_$animeId")] = title
+            }
 
             val workManager = WorkManager.getInstance(context)
 

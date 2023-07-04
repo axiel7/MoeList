@@ -124,7 +124,8 @@ fun MediaDetailsView(
                                 || notificationPermission.status.isGranted
                             ) {
                                 coroutineScope.launch {
-                                    if (details.broadcast?.dayOfTheWeek != null
+                                    if (details.status != "not_yet_aired"
+                                        && details.broadcast?.dayOfTheWeek != null
                                         && details.broadcast.startTime != null
                                     ) {
                                         NotificationWorker.scheduleAiringAnimeNotification(
@@ -134,7 +135,7 @@ fun MediaDetailsView(
                                             weekDay = details.broadcast.dayOfTheWeek,
                                             jpHour = LocalTime.parse(details.broadcast.startTime)
                                         )
-                                        context.showToast("Airing notification enabled")
+                                        context.showToast(R.string.airing_notification_enabled)
                                     }
                                     else if (details.status == "not_yet_aired"
                                         && details.startDate != null
@@ -147,9 +148,9 @@ fun MediaDetailsView(
                                                 animeId = details.id,
                                                 startDate = startDate
                                             )
-                                            context.showToast("Start airing notification enabled")
+                                            context.showToast(R.string.start_airing_notification_enabled)
                                         } else {
-                                            context.showToast("Invalid start date")
+                                            context.showToast(R.string.invalid_start_date)
                                         }
                                     }
                                 }
@@ -612,12 +613,19 @@ fun MediaDetailsTopAppBar(
     onClickNotification: (enable: Boolean) -> Unit,
 ) {
     val context = LocalContext.current
-    val savedForNotification = if (viewModel.mediaDetails?.id != null) remember {
-        context.notificationsDataStore.data.map {
-            it[stringPreferencesKey(viewModel.mediaDetails!!.id.toString())]
-        }
-    }.collectAsState(initial = null)
-    else remember { mutableStateOf(null) }
+    val savedForNotification = when (viewModel.mediaDetails?.status) {
+        "currently_airing" -> remember {
+            context.notificationsDataStore.data.map {
+                it[stringPreferencesKey(viewModel.mediaDetails!!.id.toString())]
+            }
+        }.collectAsState(initial = null)
+        "not_yet_aired" -> remember {
+            context.notificationsDataStore.data.map {
+                it[stringPreferencesKey("start_${viewModel.mediaDetails!!.id}")]
+            }
+        }.collectAsState(initial = null)
+        else -> remember { mutableStateOf(null) }
+    }
 
     TopAppBar(
         title = { Text(stringResource(R.string.title_details)) },
