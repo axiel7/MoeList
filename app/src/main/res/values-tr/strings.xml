@@ -290,4 +290,7 @@
     <string name="changes_will_take_effect_on_app_restart">Changes will take effect on app restart</string>
     <string name="items_per_row">Items per row</string>
     <string name="default_setting">Default</string>
+    <string name="airing_notification_enabled">Airing notification enabled</string>
+    <string name="start_airing_notification_enabled">Start airing notification enabled</string>
+    <string name="invalid_start_date">Invalid start date</string>
 </resources>
