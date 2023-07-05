@@ -252,7 +252,7 @@
     <string name="english">英語</string>
     <string name="ukrainian">ウクライナ語</string>
     <string name="language">言語</string>
-    <string name="sort_start_date">開始日</string>
+    <string name="sort_start_date">公開日</string>
     <string name="japanese">日本語</string>
     <string name="chinese_traditional">中国語（繁体字）</string>
     <string name="select_date">日付を選択</string>
@@ -285,12 +285,13 @@
     <string name="website">Web サイト</string>
     <string name="please_login_to_use_this_feature">この機能を使用するには、ログインしてください。</string>
     <string name="no_recommendations">おすすめはありません</string>
-    <string name="list_mode_grid">Grid</string>
-    <string name="use_separated_list_styles">Use separated list styles</string>
-    <string name="changes_will_take_effect_on_app_restart">Changes will take effect on app restart</string>
-    <string name="items_per_row">Items per row</string>
-    <string name="default_setting">Default</string>
-    <string name="airing_notification_enabled">Airing notification enabled</string>
-    <string name="start_airing_notification_enabled">Start airing notification enabled</string>
-    <string name="invalid_start_date">Invalid start date</string>
+    <string name="list_mode_grid">グリッド</string>
+    <string name="use_separated_list_styles">分離されたリストスタイルを使用する</string>
+    <string name="changes_will_take_effect_on_app_restart">変更はアプリの再起動時に反映</string>
+    <string name="items_per_row">行ごとの項目</string>
+    <string name="default_setting">デフォルト</string>
+    <string name="airing_notification_enabled">放映通知が有効</string>
+    <string name="start_airing_notification_enabled">放映開始通知が有効</string>
+    <string name="invalid_start_date">無効な公開日</string>
+    <string name="invalid_broadcast" comment="In this case broadcast means &amp;quot;Broadcast schedule&amp;quot;">無効な配信</string>
 </resources>
