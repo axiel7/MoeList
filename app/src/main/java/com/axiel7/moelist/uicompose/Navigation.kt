@@ -112,8 +112,9 @@ fun MainNavigation(
                 navigateToCalendar = {
                     navController.navigate(CALENDAR_DESTINATION)
                 },
-                modifier = Modifier
-                    .padding(top = topPadding, bottom = bottomPadding),
+                padding = padding,
+                topBarHeightPx = topBarHeightPx,
+                topBarOffsetY = topBarOffsetY,
             )
         }
 

@@ -1,6 +1,8 @@
 package com.axiel7.moelist.uicompose.home
 
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -31,6 +34,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -60,6 +64,7 @@ import com.axiel7.moelist.uicompose.composables.MediaItemVertical
 import com.axiel7.moelist.uicompose.composables.MediaItemVerticalPlaceholder
 import com.axiel7.moelist.uicompose.composables.MediaPoster
 import com.axiel7.moelist.uicompose.composables.SmallScoreIndicator
+import com.axiel7.moelist.uicompose.composables.collapsable
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.SeasonCalendar
@@ -76,6 +81,9 @@ fun HomeView(
     navigateToRanking: (MediaType) -> Unit,
     navigateToSeasonChart: () -> Unit,
     navigateToCalendar: () -> Unit,
+    topBarHeightPx: Float,
+    topBarOffsetY: Animatable<Float, AnimationVector1D>,
+    padding: PaddingValues,
 ) {
     val context = LocalContext.current
     val viewModel: HomeViewModel = viewModel()
@@ -96,8 +104,16 @@ fun HomeView(
     }
 
     Column(
-        modifier = modifier.verticalScroll(scrollState)
+        modifier = modifier
+            .collapsable(
+                state = scrollState,
+                topBarHeightPx = topBarHeightPx,
+                topBarOffsetY = topBarOffsetY,
+            )
+            .verticalScroll(scrollState)
     ) {
+        Spacer(modifier = Modifier.height(padding.calculateTopPadding()))
+        
         // Chips
         Row(
             modifier = Modifier.padding(top = 10.dp, start = 8.dp, end = 16.dp)
@@ -156,8 +172,7 @@ fun HomeView(
                     textAlign = TextAlign.Center
                 )
             }
-        }
-        else LazyRow(
+        } else LazyRow(
             modifier = Modifier
                 .padding(top = 8.dp)
                 .sizeIn(minHeight = MEDIA_POSTER_SMALL_HEIGHT.dp),
@@ -322,6 +337,8 @@ fun HomeView(
                 )
             }
         }
+        
+        Spacer(modifier = Modifier.height(padding.calculateBottomPadding()))
     }
 }
 
@@ -429,7 +446,10 @@ fun HomePreview() {
                 navigateToMediaDetails = { _, _ -> },
                 navigateToRanking = {},
                 navigateToSeasonChart = {},
-                navigateToCalendar = {}
+                navigateToCalendar = {},
+                padding = PaddingValues(),
+                topBarHeightPx = 0f,
+                topBarOffsetY = remember { Animatable(0f) }
             )
         }
     }
