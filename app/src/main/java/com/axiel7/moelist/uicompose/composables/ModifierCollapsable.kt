@@ -46,12 +46,14 @@ fun Modifier.collapsable(
         object : NestedScrollConnection {
             override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
                 scope.launch {
-                    topBarOffsetY.snapTo(
-                        targetValue = (topBarOffsetY.value + available.y).coerceIn(
-                            minimumValue = -topBarHeightPx,
-                            maximumValue = 0f,
+                    if (state.canScrollForward) {
+                        topBarOffsetY.snapTo(
+                            targetValue = (topBarOffsetY.value + available.y).coerceIn(
+                                minimumValue = -topBarHeightPx,
+                                maximumValue = 0f,
+                            )
                         )
-                    )
+                    }
                 }
 
                 return Offset.Zero
