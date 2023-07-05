@@ -230,8 +230,6 @@ fun MainNavigation(
         navigation(startDestination = MORE_DESTINATION, route = BottomDestination.More.route) {
             composable(MORE_DESTINATION) {
                 MoreView(
-                    modifier = Modifier
-                        .padding(top = topPadding, bottom = bottomPadding),
                     navigateToSettings = {
                         navController.navigate(SETTINGS_DESTINATION)
                     },
@@ -240,7 +238,10 @@ fun MainNavigation(
                     },
                     navigateToAbout = {
                         navController.navigate(ABOUT_DESTINATION)
-                    }
+                    },
+                    padding = padding,
+                    topBarHeightPx = topBarHeightPx,
+                    topBarOffsetY = topBarOffsetY,
                 )
             }
             composable(SETTINGS_DESTINATION) {
