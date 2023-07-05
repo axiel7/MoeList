@@ -1,11 +1,12 @@
 package com.axiel7.moelist.uicompose.more
 
-import android.content.Intent
-import android.net.Uri
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,6 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.axiel7.moelist.R
+import com.axiel7.moelist.uicompose.composables.collapsable
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.Constants.DISCORD_SERVER_URL
@@ -50,14 +52,17 @@ const val MORE_DESTINATION = "more"
 
 @Composable
 fun MoreView(
-    modifier: Modifier = Modifier,
     navigateToSettings: () -> Unit,
     navigateToNotifications: () -> Unit,
     navigateToAbout: () -> Unit,
+    topBarHeightPx: Float,
+    topBarOffsetY: Animatable<Float, AnimationVector1D>,
+    padding: PaddingValues,
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
+
     var openFeedbackDialog by remember { mutableStateOf(false) }
 
     if (openFeedbackDialog) {
@@ -67,9 +72,15 @@ fun MoreView(
     }
 
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
+            .collapsable(
+                state = scrollState,
+                topBarHeightPx = topBarHeightPx,
+                topBarOffsetY = topBarOffsetY,
+            )
             .verticalScroll(scrollState)
+            .padding(padding)
     ) {
         Icon(
             painter = painterResource(R.drawable.ic_moelist_logo),
@@ -229,6 +240,9 @@ fun MorePreview() {
             navigateToSettings = {},
             navigateToNotifications = {},
             navigateToAbout = {},
+            padding = PaddingValues(),
+            topBarHeightPx = 0f,
+            topBarOffsetY = remember { Animatable(0f) }
         )
     }
 }

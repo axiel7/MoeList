@@ -1,6 +1,7 @@
 package com.axiel7.moelist.uicompose
 
-import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -8,16 +9,20 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.axiel7.moelist.App
@@ -56,23 +61,29 @@ import com.axiel7.moelist.uicompose.season.SEASON_CHART_DESTINATION
 import com.axiel7.moelist.uicompose.season.SeasonChartView
 import com.axiel7.moelist.uicompose.userlist.UserMediaListHostView
 import com.axiel7.moelist.uicompose.userlist.UserMediaListWithTabsView
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun MainNavigation(
     navController: NavHostController,
     lastTabOpened: Int,
     padding: PaddingValues,
+    topBarHeightPx: Float,
+    topBarOffsetY: Animatable<Float, AnimationVector1D>,
 ) {
     val accessTokenPreference by PreferencesDataStore.rememberPreference(ACCESS_TOKEN_PREFERENCE_KEY, App.accessToken ?: "")
     val stringArrayType = remember { StringArrayNavType() }
-    val topPadding by animateDpAsState(
-        targetValue = padding.calculateTopPadding(),
-        label = "top_bar_padding"
-    )
-    val bottomPadding by animateDpAsState(
-        targetValue = padding.calculateBottomPadding(),
-        label = "bottom_bar_padding"
-    )
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val systemUiController = rememberSystemUiController()
+    val backgroundColor = MaterialTheme.colorScheme.background
+
+    LaunchedEffect(navBackStackEntry) {
+        if (BottomDestination.routes.contains(navBackStackEntry?.destination?.route)) {
+            systemUiController.setStatusBarColor(backgroundColor)
+        }
+        else systemUiController.setStatusBarColor(Color.Transparent)
+    }
 
     NavHost(
         navController = navController,
@@ -108,8 +119,9 @@ fun MainNavigation(
                 navigateToCalendar = {
                     navController.navigate(CALENDAR_DESTINATION)
                 },
-                modifier = Modifier
-                    .padding(top = topPadding, bottom = bottomPadding),
+                padding = padding,
+                topBarHeightPx = topBarHeightPx,
+                topBarOffsetY = topBarOffsetY,
             )
         }
 
@@ -169,25 +181,29 @@ fun MainNavigation(
                 if (App.useListTabs)
                     UserMediaListWithTabsView(
                         mediaType = MediaType.ANIME,
-                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
                         navigateToMediaDetails = { mediaType, mediaId ->
                             navController.navigate(
                                 MEDIA_DETAILS_DESTINATION
                                     .replace("{mediaType}", mediaType.name)
                                     .replace("{mediaId}", mediaId.toString())
                             )
-                        }
+                        },
+                        topBarHeightPx = topBarHeightPx,
+                        topBarOffsetY = topBarOffsetY,
+                        padding = padding
                     )
                 else UserMediaListHostView(
                     mediaType = MediaType.ANIME,
-                    modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
                     navigateToMediaDetails = { mediaType, mediaId ->
                         navController.navigate(
                             MEDIA_DETAILS_DESTINATION
                                 .replace("{mediaType}", mediaType.name)
                                 .replace("{mediaId}", mediaId.toString())
                         )
-                    }
+                    },
+                    topBarHeightPx = topBarHeightPx,
+                    topBarOffsetY = topBarOffsetY,
+                    padding = padding
                 )
             }
         }
@@ -199,25 +215,29 @@ fun MainNavigation(
                 if (App.useListTabs)
                     UserMediaListWithTabsView(
                         mediaType = MediaType.MANGA,
-                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
                         navigateToMediaDetails = { mediaType, mediaId ->
                             navController.navigate(
                                 MEDIA_DETAILS_DESTINATION
                                     .replace("{mediaType}", mediaType.name)
                                     .replace("{mediaId}", mediaId.toString())
                             )
-                        }
+                        },
+                        topBarHeightPx = topBarHeightPx,
+                        topBarOffsetY = topBarOffsetY,
+                        padding = padding
                     )
                 else UserMediaListHostView(
                     mediaType = MediaType.MANGA,
-                    modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
                     navigateToMediaDetails = { mediaType, mediaId ->
                         navController.navigate(
                             MEDIA_DETAILS_DESTINATION
                                 .replace("{mediaType}", mediaType.name)
                                 .replace("{mediaId}", mediaId.toString())
                         )
-                    }
+                    },
+                    topBarHeightPx = topBarHeightPx,
+                    topBarOffsetY = topBarOffsetY,
+                    padding = padding
                 )
             }
         }
@@ -225,8 +245,6 @@ fun MainNavigation(
         navigation(startDestination = MORE_DESTINATION, route = BottomDestination.More.route) {
             composable(MORE_DESTINATION) {
                 MoreView(
-                    modifier = Modifier
-                        .padding(top = topPadding, bottom = bottomPadding),
                     navigateToSettings = {
                         navController.navigate(SETTINGS_DESTINATION)
                     },
@@ -235,7 +253,10 @@ fun MainNavigation(
                     },
                     navigateToAbout = {
                         navController.navigate(ABOUT_DESTINATION)
-                    }
+                    },
+                    padding = padding,
+                    topBarHeightPx = topBarHeightPx,
+                    topBarOffsetY = topBarOffsetY,
                 )
             }
             composable(SETTINGS_DESTINATION) {

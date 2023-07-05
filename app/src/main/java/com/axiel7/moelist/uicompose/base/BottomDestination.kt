@@ -47,6 +47,8 @@ sealed class BottomDestination(
     companion object {
         val values = listOf(Home, AnimeList, MangaList, More)
 
+        val routes = values.map { it.route }
+
         fun String.toBottomDestinationIndex() = when (this) {
             Home.value -> 0
             AnimeList.value -> 1
