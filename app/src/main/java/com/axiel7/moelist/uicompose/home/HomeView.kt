@@ -76,7 +76,6 @@ const val HOME_DESTINATION = "home"
 @Composable
 fun HomeView(
     isLoggedIn: Boolean,
-    modifier: Modifier = Modifier,
     navigateToMediaDetails: (MediaType, Int) -> Unit,
     navigateToRanking: (MediaType) -> Unit,
     navigateToSeasonChart: () -> Unit,
@@ -104,16 +103,15 @@ fun HomeView(
     }
 
     Column(
-        modifier = modifier
+        modifier = Modifier
             .collapsable(
                 state = scrollState,
                 topBarHeightPx = topBarHeightPx,
                 topBarOffsetY = topBarOffsetY,
             )
             .verticalScroll(scrollState)
+            .padding(padding)
     ) {
-        Spacer(modifier = Modifier.height(padding.calculateTopPadding()))
-        
         // Chips
         Row(
             modifier = Modifier.padding(top = 10.dp, start = 8.dp, end = 16.dp)
@@ -337,8 +335,6 @@ fun HomeView(
                 )
             }
         }
-        
-        Spacer(modifier = Modifier.height(padding.calculateBottomPadding()))
     }
 }
 

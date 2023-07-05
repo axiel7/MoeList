@@ -52,7 +52,6 @@ const val MORE_DESTINATION = "more"
 
 @Composable
 fun MoreView(
-    modifier: Modifier = Modifier,
     navigateToSettings: () -> Unit,
     navigateToNotifications: () -> Unit,
     navigateToAbout: () -> Unit,
@@ -72,7 +71,7 @@ fun MoreView(
     }
 
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .collapsable(
                 state = scrollState,
@@ -80,9 +79,8 @@ fun MoreView(
                 topBarOffsetY = topBarOffsetY,
             )
             .verticalScroll(scrollState)
+            .padding(padding)
     ) {
-        Spacer(modifier = Modifier.height(padding.calculateTopPadding()))
-
         Icon(
             painter = painterResource(R.drawable.ic_moelist_logo),
             contentDescription = stringResource(R.string.app_name),
@@ -147,8 +145,6 @@ fun MoreView(
                 coroutineScope.launch { context.logOut() }
             }
         )
-
-        Spacer(modifier = Modifier.height(padding.calculateBottomPadding()))
     }
 }
 
