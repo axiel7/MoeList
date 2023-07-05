@@ -23,7 +23,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,7 +30,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -47,7 +45,6 @@ import com.axiel7.moelist.utils.Constants.GITHUB_ISSUES_URL
 import com.axiel7.moelist.utils.ContextExtensions.openAction
 import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.UseCases.logOut
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
 
 const val MORE_TAB_DESTINATION = "more_tab"
@@ -65,15 +62,6 @@ fun MoreView(
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
-
-    val systemUiController = rememberSystemUiController()
-    val backgroundColor = MaterialTheme.colorScheme.background
-    DisposableEffect(systemUiController) {
-        systemUiController.setStatusBarColor(backgroundColor)
-        onDispose {
-            systemUiController.setStatusBarColor(Color.Transparent)
-        }
-    }
 
     var openFeedbackDialog by remember { mutableStateOf(false) }
 

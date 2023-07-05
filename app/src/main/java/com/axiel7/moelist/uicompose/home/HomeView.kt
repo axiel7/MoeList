@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -33,13 +32,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -70,7 +67,6 @@ import com.axiel7.moelist.uicompose.composables.collapsable
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.SeasonCalendar
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlin.random.Random
 
 const val HOME_DESTINATION = "home"
@@ -93,15 +89,6 @@ fun HomeView(
     val airingListState = rememberLazyListState()
     val seasonListState = rememberLazyListState()
     val recommendListState = rememberLazyListState()
-
-    val systemUiController = rememberSystemUiController()
-    val backgroundColor = MaterialTheme.colorScheme.background
-    DisposableEffect(systemUiController) {
-        systemUiController.setStatusBarColor(backgroundColor)
-        onDispose {
-            systemUiController.setStatusBarColor(Color.Transparent)
-        }
-    }
 
     LaunchedEffect(viewModel.message) {
         if (viewModel.showMessage) {
