@@ -30,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -563,33 +564,6 @@ fun GridUserMediaListItem(
                 .clip(RoundedCornerShape(8.dp)),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if (isAiring) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
-                        .background(MaterialTheme.colorScheme.surfaceVariant),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_round_rss_feed_24),
-                        contentDescription = stringResource(R.string.airing),
-                        modifier = Modifier
-                            .padding(start = 8.dp, end = 4.dp)
-                            .size(16.dp),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Text(
-                        text = broadcast!!.remainingText(),
-                        modifier = Modifier.padding(end = 8.dp),
-                        fontSize = 15.sp,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
-            }
             Box {
                 MediaPoster(
                     url = imageUrl,
@@ -623,6 +597,35 @@ fun GridUserMediaListItem(
                         tint = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }//:Row
+                if (isAiring) {
+                    Row(
+                        modifier = Modifier
+                            .shadow(8.dp)
+                            .fillMaxWidth()
+                            .align(Alignment.TopCenter)
+                            .clip(RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp))
+                            .background(MaterialTheme.colorScheme.surfaceVariant),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_round_rss_feed_24),
+                            contentDescription = stringResource(R.string.airing),
+                            modifier = Modifier
+                                .padding(start = 8.dp, end = 4.dp)
+                                .size(16.dp),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Text(
+                            text = broadcast!!.remainingText(),
+                            modifier = Modifier.padding(end = 8.dp),
+                            fontSize = 15.sp,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                }
             }//:Box
 
             Text(
