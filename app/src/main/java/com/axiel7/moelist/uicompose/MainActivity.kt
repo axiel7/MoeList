@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.clickable
@@ -37,12 +38,15 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -277,13 +281,21 @@ fun MainView(
     navController: NavHostController,
     lastTabOpened: Int
 ) {
+    val density = LocalDensity.current
+
     val bottomBarState = remember { mutableStateOf(true) }
+    var topBarHeightPx by remember { mutableFloatStateOf(0f) }
+    val topBarOffsetY = remember { Animatable(0f) }
 
     Scaffold(
         topBar = {
             MainTopAppBar(
                 bottomBarState = bottomBarState,
                 navController = navController,
+                modifier = Modifier
+                    .graphicsLayer {
+                        translationY = topBarOffsetY.value
+                    }
             )
         },
         bottomBar = {
@@ -296,6 +308,10 @@ fun MainView(
         contentWindowInsets = WindowInsets.systemBars
             .only(WindowInsetsSides.Horizontal)
     ) { padding ->
+        LaunchedEffect(key1 = padding) {
+            topBarHeightPx = density.run { padding.calculateTopPadding().toPx() }
+        }
+
         MainNavigation(
             navController = navController,
             lastTabOpened = lastTabOpened,
@@ -309,6 +325,7 @@ fun MainView(
 fun MainTopAppBar(
     bottomBarState: MutableState<Boolean>,
     navController: NavController,
+    modifier: Modifier = Modifier,
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val isVisible by remember {
@@ -331,7 +348,7 @@ fun MainTopAppBar(
         exit = slideOutVertically(targetOffsetY = { -it })
     ) {
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .then(
                     if (!active) Modifier
