@@ -1,6 +1,8 @@
 package com.axiel7.moelist.uicompose.userlist
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.clickable
@@ -12,6 +14,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
@@ -67,6 +71,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -96,6 +101,7 @@ import com.axiel7.moelist.data.model.media.userProgress
 import com.axiel7.moelist.uicompose.base.ListStyle
 import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_MEDIUM_WIDTH
 import com.axiel7.moelist.uicompose.composables.OnBottomReached
+import com.axiel7.moelist.uicompose.composables.collapsable
 import com.axiel7.moelist.uicompose.details.EditMediaSheet
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
@@ -108,8 +114,10 @@ const val MANGA_LIST_DESTINATION = "manga_list"
 @Composable
 fun UserMediaListHostView(
     mediaType: MediaType,
-    modifier: Modifier = Modifier,
     navigateToMediaDetails: (MediaType, Int) -> Unit,
+    topBarHeightPx: Float,
+    topBarOffsetY: Animatable<Float, AnimationVector1D>,
+    padding: PaddingValues,
 ) {
     val scope = rememberCoroutineScope()
     val selectedStatus = rememberSaveable { mutableStateOf(listStatusValues(mediaType)[0]) }
@@ -137,7 +145,9 @@ fun UserMediaListHostView(
     }
 
     Scaffold(
-        modifier = modifier,
+        modifier = Modifier.padding(
+            bottom = padding.calculateBottomPadding()
+        ),
         floatingActionButton = {
             AnimatedVisibility(
                 visible = isFabVisible,
@@ -159,12 +169,15 @@ fun UserMediaListHostView(
         },
         contentWindowInsets = WindowInsets.systemBars
             .only(WindowInsetsSides.Horizontal)
-    ) { padding ->
+    ) { childPadding ->
         UserMediaListView(
             listType = listType,
-            modifier = Modifier.padding(padding),
+            modifier = Modifier.padding(childPadding),
             nestedScrollConnection = nestedScrollConnection,
             navigateToMediaDetails = navigateToMediaDetails,
+            topBarHeightPx = topBarHeightPx,
+            topBarOffsetY = topBarOffsetY,
+            contentPadding = padding
         )
     }//:Scaffold
 }
@@ -176,9 +189,13 @@ fun UserMediaListView(
     modifier: Modifier = Modifier,
     nestedScrollConnection: NestedScrollConnection? = null,
     navigateToMediaDetails: (MediaType, Int) -> Unit,
+    topBarHeightPx: Float,
+    topBarOffsetY: Animatable<Float, AnimationVector1D>,
+    contentPadding: PaddingValues = PaddingValues()
 ) {
     val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
+    val layoutDirection = LocalLayoutDirection.current
     val viewModel = viewModel(key = listType.toString()) {
         UserMediaListViewModel(listType)
     }
@@ -231,6 +248,12 @@ fun UserMediaListView(
                     Modifier.nestedScroll(nestedScrollConnection)
                 else Modifier
             )
+        val listContentPadding = PaddingValues(
+            start = contentPadding.calculateStartPadding(layoutDirection),
+            top = contentPadding.calculateTopPadding() + 8.dp,
+            end = contentPadding.calculateEndPadding(layoutDirection),
+            bottom = 8.dp
+        )
 
         if (listStyle == ListStyle.GRID.value) {
             val itemsPerRow by rememberPreference(GRID_ITEMS_PER_ROW_PREFERENCE_KEY, App.gridItemsPerRow)
@@ -245,9 +268,14 @@ fun UserMediaListView(
             LazyVerticalGrid(
                 columns = if (itemsPerRow > 0) GridCells.Fixed(itemsPerRow)
                     else GridCells.Adaptive(minSize = (MEDIA_POSTER_MEDIUM_WIDTH + 8).dp),
-                modifier = listModifier,
+                modifier = listModifier
+                    .collapsable(
+                        state = listState,
+                        topBarHeightPx = topBarHeightPx,
+                        topBarOffsetY = topBarOffsetY,
+                    ),
                 state = listState,
-                contentPadding = PaddingValues(vertical = 8.dp, horizontal = 8.dp),
+                contentPadding = listContentPadding,
                 verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Bottom),
                 horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
             ) {
@@ -312,9 +340,14 @@ fun UserMediaListView(
             }
 
             LazyColumn(
-                modifier = listModifier,
+                modifier = listModifier
+                    .collapsable(
+                        state = listState,
+                        topBarHeightPx = topBarHeightPx,
+                        topBarOffsetY = topBarOffsetY,
+                    ),
                 state = listState,
-                contentPadding = PaddingValues(vertical = 8.dp)
+                contentPadding = listContentPadding,
             ) {
                 item {
                     AssistChip(
@@ -484,7 +517,7 @@ fun UserMediaListView(
             refreshing = viewModel.isLoading,
             state = pullRefreshState,
             modifier = Modifier
-                .padding(8.dp)
+                .padding(top = contentPadding.calculateTopPadding())
                 .align(Alignment.TopCenter)
         )
     }//:Box
@@ -592,7 +625,10 @@ fun UserMediaListHostPreview() {
     MoeListTheme {
         UserMediaListHostView(
             mediaType = MediaType.ANIME,
-            navigateToMediaDetails = { _, _ -> }
+            navigateToMediaDetails = { _, _ -> },
+            topBarHeightPx = 0f,
+            topBarOffsetY = remember { Animatable(0f) },
+            padding = PaddingValues(),
         )
     }
 }

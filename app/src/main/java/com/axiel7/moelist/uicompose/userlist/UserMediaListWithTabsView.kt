@@ -1,7 +1,14 @@
 package com.axiel7.moelist.uicompose.userlist
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
@@ -12,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import com.axiel7.moelist.data.model.media.ListType
 import com.axiel7.moelist.data.model.media.MediaType
@@ -26,8 +34,10 @@ import kotlinx.coroutines.launch
 @Composable
 fun UserMediaListWithTabsView(
     mediaType: MediaType,
-    modifier: Modifier = Modifier,
     navigateToMediaDetails: (MediaType, Int) -> Unit,
+    topBarHeightPx: Float,
+    topBarOffsetY: Animatable<Float, AnimationVector1D>,
+    padding: PaddingValues,
 ) {
     val scope = rememberCoroutineScope()
     val tabRowItems = remember {
@@ -38,9 +48,21 @@ fun UserMediaListWithTabsView(
             ) }
     }
     val pagerState = rememberPagerState { tabRowItems.size }
+    val systemBarsPadding = WindowInsets.systemBars.asPaddingValues()
 
     Column(
-        modifier = modifier
+        modifier = Modifier
+            .padding(
+                top = padding.calculateTopPadding(),
+            )
+            .graphicsLayer {
+                val topPadding = padding.calculateTopPadding().value +
+                            systemBarsPadding.calculateTopPadding().value +
+                            systemBarsPadding.calculateBottomPadding().value
+
+                translationY = if (topBarOffsetY.value > -topPadding) topBarOffsetY.value
+                else -topPadding
+            }
     ) {
         ScrollableTabRow(
             selectedTabIndex = pagerState.currentPage,
@@ -65,11 +87,17 @@ fun UserMediaListWithTabsView(
             key = { tabRowItems[it].value }
         ) {
             UserMediaListView(
-                listType = ListType(
-                    status = tabRowItems[it].value,
-                    mediaType = mediaType
+                listType = ListType(status = tabRowItems[it].value, mediaType = mediaType),
+                modifier = Modifier.padding(
+                    bottom = systemBarsPadding.calculateBottomPadding()
                 ),
                 navigateToMediaDetails = navigateToMediaDetails,
+                topBarHeightPx = topBarHeightPx,
+                topBarOffsetY = topBarOffsetY,
+                contentPadding = PaddingValues(
+                    bottom = padding.calculateBottomPadding() +
+                            systemBarsPadding.calculateBottomPadding()
+                )
             )
         }//:Pager
     }//:Column

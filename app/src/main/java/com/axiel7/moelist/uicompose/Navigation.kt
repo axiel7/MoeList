@@ -2,7 +2,6 @@ package com.axiel7.moelist.uicompose
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -69,14 +68,6 @@ fun MainNavigation(
 ) {
     val accessTokenPreference by PreferencesDataStore.rememberPreference(ACCESS_TOKEN_PREFERENCE_KEY, App.accessToken ?: "")
     val stringArrayType = remember { StringArrayNavType() }
-    val topPadding by animateDpAsState(
-        targetValue = padding.calculateTopPadding(),
-        label = "top_bar_padding"
-    )
-    val bottomPadding by animateDpAsState(
-        targetValue = padding.calculateBottomPadding(),
-        label = "bottom_bar_padding"
-    )
 
     NavHost(
         navController = navController,
@@ -174,25 +165,29 @@ fun MainNavigation(
                 if (App.useListTabs)
                     UserMediaListWithTabsView(
                         mediaType = MediaType.ANIME,
-                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
                         navigateToMediaDetails = { mediaType, mediaId ->
                             navController.navigate(
                                 MEDIA_DETAILS_DESTINATION
                                     .replace("{mediaType}", mediaType.name)
                                     .replace("{mediaId}", mediaId.toString())
                             )
-                        }
+                        },
+                        topBarHeightPx = topBarHeightPx,
+                        topBarOffsetY = topBarOffsetY,
+                        padding = padding
                     )
                 else UserMediaListHostView(
                     mediaType = MediaType.ANIME,
-                    modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
                     navigateToMediaDetails = { mediaType, mediaId ->
                         navController.navigate(
                             MEDIA_DETAILS_DESTINATION
                                 .replace("{mediaType}", mediaType.name)
                                 .replace("{mediaId}", mediaId.toString())
                         )
-                    }
+                    },
+                    topBarHeightPx = topBarHeightPx,
+                    topBarOffsetY = topBarOffsetY,
+                    padding = padding
                 )
             }
         }
@@ -204,25 +199,29 @@ fun MainNavigation(
                 if (App.useListTabs)
                     UserMediaListWithTabsView(
                         mediaType = MediaType.MANGA,
-                        modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
                         navigateToMediaDetails = { mediaType, mediaId ->
                             navController.navigate(
                                 MEDIA_DETAILS_DESTINATION
                                     .replace("{mediaType}", mediaType.name)
                                     .replace("{mediaId}", mediaId.toString())
                             )
-                        }
+                        },
+                        topBarHeightPx = topBarHeightPx,
+                        topBarOffsetY = topBarOffsetY,
+                        padding = padding
                     )
                 else UserMediaListHostView(
                     mediaType = MediaType.MANGA,
-                    modifier = Modifier.padding(top = topPadding, bottom = bottomPadding),
                     navigateToMediaDetails = { mediaType, mediaId ->
                         navController.navigate(
                             MEDIA_DETAILS_DESTINATION
                                 .replace("{mediaType}", mediaType.name)
                                 .replace("{mediaId}", mediaId.toString())
                         )
-                    }
+                    },
+                    topBarHeightPx = topBarHeightPx,
+                    topBarOffsetY = topBarOffsetY,
+                    padding = padding
                 )
             }
         }
