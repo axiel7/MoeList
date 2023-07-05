@@ -285,12 +285,13 @@
     <string name="website">Página web</string>
     <string name="please_login_to_use_this_feature">Por favor, inicie sessão para usar esta função</string>
     <string name="no_recommendations">Sem recomendações</string>
-    <string name="list_mode_grid">Grid</string>
-    <string name="use_separated_list_styles">Use separated list styles</string>
-    <string name="changes_will_take_effect_on_app_restart">Changes will take effect on app restart</string>
-    <string name="items_per_row">Items per row</string>
-    <string name="default_setting">Default</string>
+    <string name="list_mode_grid">Grade</string>
+    <string name="use_separated_list_styles">Usar estilos separados de lista</string>
+    <string name="changes_will_take_effect_on_app_restart">Mudanças se darão ao reiniciar o app</string>
+    <string name="items_per_row">Itens por linha</string>
+    <string name="default_setting">Padrão</string>
     <string name="airing_notification_enabled">Airing notification enabled</string>
     <string name="start_airing_notification_enabled">Start airing notification enabled</string>
     <string name="invalid_start_date">Invalid start date</string>
+    <string name="invalid_broadcast" comment="In this case broadcast means &amp;quot;Broadcast schedule&amp;quot;">Invalid broadcast</string>
 </resources>
