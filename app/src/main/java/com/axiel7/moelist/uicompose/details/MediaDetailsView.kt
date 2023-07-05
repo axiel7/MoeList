@@ -136,8 +136,7 @@ fun MediaDetailsView(
                                             jpHour = LocalTime.parse(details.broadcast.startTime)
                                         )
                                         context.showToast(R.string.airing_notification_enabled)
-                                    }
-                                    else if (details.status == "not_yet_aired"
+                                    } else if (details.status == "not_yet_aired"
                                         && details.startDate != null
                                     ) {
                                         val startDate = details.startDate.parseDate()
@@ -150,6 +149,15 @@ fun MediaDetailsView(
                                             )
                                             context.showToast(R.string.start_airing_notification_enabled)
                                         } else {
+                                            context.showToast(R.string.invalid_start_date)
+                                        }
+                                    } else {
+                                        if (details.broadcast?.dayOfTheWeek == null
+                                            || details.broadcast.startTime == null
+                                        ) {
+                                            context.showToast(R.string.invalid_broadcast)
+                                        }
+                                        else if (details.startDate == null) {
                                             context.showToast(R.string.invalid_start_date)
                                         }
                                     }
