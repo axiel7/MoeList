@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.clickable
@@ -41,6 +42,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -302,7 +304,8 @@ fun MainView(
             BottomNavBar(
                 navController = navController,
                 bottomBarState = bottomBarState,
-                lastTabOpened = lastTabOpened
+                lastTabOpened = lastTabOpened,
+                topBarOffsetY = topBarOffsetY,
             )
         },
         contentWindowInsets = WindowInsets.systemBars
@@ -435,8 +438,11 @@ fun MainTopAppBar(
 fun BottomNavBar(
     navController: NavController,
     bottomBarState: State<Boolean>,
-    lastTabOpened: Int
+    lastTabOpened: Int,
+    topBarOffsetY: Animatable<Float, AnimationVector1D>,
 ) {
+    val scope = rememberCoroutineScope()
+
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val isVisible by remember {
         derivedStateOf {
@@ -464,6 +470,10 @@ fun BottomNavBar(
                     label = { Text(text = stringResource(dest.title)) },
                     selected = selectedItem == index,
                     onClick = {
+                        scope.launch {
+                            topBarOffsetY.animateTo(0f)
+                        }
+
                         selectedItem = index
                         navController.navigate(dest.route) {
                             popUpTo(navController.graph.findStartDestination().id) {
