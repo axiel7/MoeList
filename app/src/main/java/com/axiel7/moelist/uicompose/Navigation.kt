@@ -1,5 +1,7 @@
 package com.axiel7.moelist.uicompose
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -62,6 +64,8 @@ fun MainNavigation(
     navController: NavHostController,
     lastTabOpened: Int,
     padding: PaddingValues,
+    topBarHeightPx: Float,
+    topBarOffsetY: Animatable<Float, AnimationVector1D>,
 ) {
     val accessTokenPreference by PreferencesDataStore.rememberPreference(ACCESS_TOKEN_PREFERENCE_KEY, App.accessToken ?: "")
     val stringArrayType = remember { StringArrayNavType() }

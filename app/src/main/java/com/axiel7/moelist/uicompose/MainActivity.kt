@@ -315,7 +315,9 @@ fun MainView(
         MainNavigation(
             navController = navController,
             lastTabOpened = lastTabOpened,
-            padding = padding
+            padding = padding,
+            topBarHeightPx = topBarHeightPx,
+            topBarOffsetY = topBarOffsetY,
         )
     }
 }
