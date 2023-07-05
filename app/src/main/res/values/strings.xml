@@ -320,4 +320,8 @@
     <string name="eight" translatable="false">8</string>
     <string name="nine" translatable="false">9</string>
     <string name="ten" translatable="false">10</string>
+    <string name="airing_notification_enabled">Airing notification enabled</string>
+    <string name="start_airing_notification_enabled">Start airing notification enabled</string>
+    <string name="invalid_start_date">Invalid start date</string>
+    <string name="invalid_broadcast">Invalid broadcast</string>
 </resources>

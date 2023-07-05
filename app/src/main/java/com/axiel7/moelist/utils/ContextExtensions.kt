@@ -14,6 +14,7 @@ import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.annotation.StringRes
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
@@ -25,6 +26,10 @@ object ContextExtensions {
 
     fun Context.showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    fun Context.showToast(@StringRes stringRes: Int) {
+        showToast(getString(stringRes))
     }
 
     fun Context.openAction(uri: String) {
