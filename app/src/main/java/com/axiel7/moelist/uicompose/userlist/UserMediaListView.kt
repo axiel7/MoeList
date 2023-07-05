@@ -248,12 +248,6 @@ fun UserMediaListView(
                     Modifier.nestedScroll(nestedScrollConnection)
                 else Modifier
             )
-        val listContentPadding = PaddingValues(
-            start = contentPadding.calculateStartPadding(layoutDirection),
-            top = contentPadding.calculateTopPadding() + 8.dp,
-            end = contentPadding.calculateEndPadding(layoutDirection),
-            bottom = 8.dp
-        )
 
         if (listStyle == ListStyle.GRID.value) {
             val itemsPerRow by rememberPreference(GRID_ITEMS_PER_ROW_PREFERENCE_KEY, App.gridItemsPerRow)
@@ -275,7 +269,12 @@ fun UserMediaListView(
                         topBarOffsetY = topBarOffsetY,
                     ),
                 state = listState,
-                contentPadding = listContentPadding,
+                contentPadding = PaddingValues(
+                    start = contentPadding.calculateStartPadding(layoutDirection) + 8.dp,
+                    top = contentPadding.calculateTopPadding() + 8.dp,
+                    end = contentPadding.calculateEndPadding(layoutDirection) + 8.dp,
+                    bottom = 8.dp
+                ),
                 verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Bottom),
                 horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
             ) {
@@ -347,7 +346,12 @@ fun UserMediaListView(
                         topBarOffsetY = topBarOffsetY,
                     ),
                 state = listState,
-                contentPadding = listContentPadding,
+                contentPadding = PaddingValues(
+                    start = contentPadding.calculateStartPadding(layoutDirection),
+                    top = contentPadding.calculateTopPadding() + 8.dp,
+                    end = contentPadding.calculateEndPadding(layoutDirection),
+                    bottom = 8.dp
+                ),
             ) {
                 item {
                     AssistChip(
