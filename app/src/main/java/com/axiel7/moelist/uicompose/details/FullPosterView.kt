@@ -35,7 +35,8 @@ import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.openLink
 import kotlinx.coroutines.launch
 
-const val FULL_POSTER_DESTINATION = "full_poster/{pictures}"
+const val PICTURES_ARGUMENT = "{pictures}"
+const val FULL_POSTER_DESTINATION = "full_poster/$PICTURES_ARGUMENT"
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable

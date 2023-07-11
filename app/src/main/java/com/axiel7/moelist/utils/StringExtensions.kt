@@ -18,4 +18,6 @@ object StringExtensions {
     fun Any?.toStringOrEmpty() = this.toString().let { if (it == "null") "" else it }
 
     fun Array<String>.toNavArgument(): String = Uri.encode(Json.encodeToString(this))
+
+    fun String.removeFirstAndLast() = substring(1, length - 1)
 }

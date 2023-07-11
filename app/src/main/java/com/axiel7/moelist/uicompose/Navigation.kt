@@ -38,7 +38,10 @@ import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.uicompose.details.FULL_POSTER_DESTINATION
 import com.axiel7.moelist.uicompose.details.FullPosterView
 import com.axiel7.moelist.uicompose.details.MEDIA_DETAILS_DESTINATION
+import com.axiel7.moelist.uicompose.details.MEDIA_ID_ARGUMENT
+import com.axiel7.moelist.uicompose.details.MEDIA_TYPE_ARGUMENT
 import com.axiel7.moelist.uicompose.details.MediaDetailsView
+import com.axiel7.moelist.uicompose.details.PICTURES_ARGUMENT
 import com.axiel7.moelist.uicompose.home.HomeView
 import com.axiel7.moelist.uicompose.login.LoginView
 import com.axiel7.moelist.uicompose.more.ABOUT_DESTINATION
@@ -61,6 +64,7 @@ import com.axiel7.moelist.uicompose.season.SEASON_CHART_DESTINATION
 import com.axiel7.moelist.uicompose.season.SeasonChartView
 import com.axiel7.moelist.uicompose.userlist.UserMediaListHostView
 import com.axiel7.moelist.uicompose.userlist.UserMediaListWithTabsView
+import com.axiel7.moelist.utils.StringExtensions.removeFirstAndLast
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
@@ -105,14 +109,14 @@ fun MainNavigation(
                 navigateToMediaDetails = { mediaType, mediaId ->
                     navController.navigate(
                         MEDIA_DETAILS_DESTINATION
-                            .replace("{mediaType}", mediaType.name)
-                            .replace("{mediaId}", mediaId.toString())
+                            .replace(MEDIA_TYPE_ARGUMENT, mediaType.name)
+                            .replace(MEDIA_ID_ARGUMENT, mediaId.toString())
                     )
                 },
                 navigateToRanking = { mediaType ->
                     navController.navigate(
                         MEDIA_RANKING_DESTINATION
-                            .replace("{mediaType}", mediaType.name)
+                            .replace(MEDIA_TYPE_ARGUMENT, mediaType.name)
                     )
                 },
                 navigateToSeasonChart = {
@@ -129,11 +133,14 @@ fun MainNavigation(
 
         composable(
             MEDIA_RANKING_DESTINATION,
-            arguments = listOf(navArgument("mediaType") { type = NavType.StringType })
+            arguments = listOf(navArgument(MEDIA_TYPE_ARGUMENT.removeFirstAndLast()) {
+                type = NavType.StringType
+            })
         ) { navEntry ->
             MediaRankingView(
                 mediaType = MediaType.valueOf(
-                    navEntry.arguments?.getString("mediaType") ?: "ANIME"
+                    navEntry.arguments?.getString(MEDIA_TYPE_ARGUMENT.removeFirstAndLast())
+                        ?: MediaType.ANIME.name
                 ),
                 navigateBack = {
                     navController.popBackStack()
@@ -141,8 +148,8 @@ fun MainNavigation(
                 navigateToMediaDetails = { mediaType, mediaId ->
                     navController.navigate(
                         MEDIA_DETAILS_DESTINATION
-                            .replace("{mediaType}", mediaType.name)
-                            .replace("{mediaId}", mediaId.toString())
+                            .replace(MEDIA_TYPE_ARGUMENT, mediaType.name)
+                            .replace(MEDIA_ID_ARGUMENT, mediaId.toString())
                     )
                 }
             )
@@ -156,8 +163,8 @@ fun MainNavigation(
                 navigateToMediaDetails = { mediaType, mediaId ->
                     navController.navigate(
                         MEDIA_DETAILS_DESTINATION
-                            .replace("{mediaType}", mediaType.name)
-                            .replace("{mediaId}", mediaId.toString())
+                            .replace(MEDIA_TYPE_ARGUMENT, mediaType.name)
+                            .replace(MEDIA_ID_ARGUMENT, mediaId.toString())
                     )
                 }
             )
@@ -171,8 +178,8 @@ fun MainNavigation(
                 navigateToMediaDetails = { mediaType, mediaId ->
                     navController.navigate(
                         MEDIA_DETAILS_DESTINATION
-                            .replace("{mediaType}", mediaType.name)
-                            .replace("{mediaId}", mediaId.toString())
+                            .replace(MEDIA_TYPE_ARGUMENT, mediaType.name)
+                            .replace(MEDIA_ID_ARGUMENT, mediaId.toString())
                     )
                 }
             )
@@ -188,8 +195,8 @@ fun MainNavigation(
                         navigateToMediaDetails = { mediaType, mediaId ->
                             navController.navigate(
                                 MEDIA_DETAILS_DESTINATION
-                                    .replace("{mediaType}", mediaType.name)
-                                    .replace("{mediaId}", mediaId.toString())
+                                    .replace(MEDIA_TYPE_ARGUMENT, mediaType.name)
+                                    .replace(MEDIA_ID_ARGUMENT, mediaId.toString())
                             )
                         },
                         topBarHeightPx = topBarHeightPx,
@@ -201,8 +208,8 @@ fun MainNavigation(
                     navigateToMediaDetails = { mediaType, mediaId ->
                         navController.navigate(
                             MEDIA_DETAILS_DESTINATION
-                                .replace("{mediaType}", mediaType.name)
-                                .replace("{mediaId}", mediaId.toString())
+                                .replace(MEDIA_TYPE_ARGUMENT, mediaType.name)
+                                .replace(MEDIA_ID_ARGUMENT, mediaId.toString())
                         )
                     },
                     topBarHeightPx = topBarHeightPx,
@@ -222,8 +229,8 @@ fun MainNavigation(
                         navigateToMediaDetails = { mediaType, mediaId ->
                             navController.navigate(
                                 MEDIA_DETAILS_DESTINATION
-                                    .replace("{mediaType}", mediaType.name)
-                                    .replace("{mediaId}", mediaId.toString())
+                                    .replace(MEDIA_TYPE_ARGUMENT, mediaType.name)
+                                    .replace(MEDIA_ID_ARGUMENT, mediaId.toString())
                             )
                         },
                         topBarHeightPx = topBarHeightPx,
@@ -235,8 +242,8 @@ fun MainNavigation(
                     navigateToMediaDetails = { mediaType, mediaId ->
                         navController.navigate(
                             MEDIA_DETAILS_DESTINATION
-                                .replace("{mediaType}", mediaType.name)
-                                .replace("{mediaId}", mediaId.toString())
+                                .replace(MEDIA_TYPE_ARGUMENT, mediaType.name)
+                                .replace(MEDIA_ID_ARGUMENT, mediaId.toString())
                         )
                     },
                     topBarHeightPx = topBarHeightPx,
@@ -289,8 +296,8 @@ fun MainNavigation(
                     navigateToMediaDetails = { mediaType, mediaId ->
                         navController.navigate(
                             MEDIA_DETAILS_DESTINATION
-                                .replace("{mediaType}", mediaType.name)
-                                .replace("{mediaId}", mediaId.toString())
+                                .replace(MEDIA_TYPE_ARGUMENT, mediaType.name)
+                                .replace(MEDIA_ID_ARGUMENT, mediaId.toString())
                         )
                     }
                 )
@@ -317,14 +324,14 @@ fun MainNavigation(
         composable(
             MEDIA_DETAILS_DESTINATION,
             arguments = listOf(
-                navArgument("mediaType") { type = NavType.StringType },
-                navArgument("mediaId") { type = NavType.IntType }
+                navArgument(MEDIA_TYPE_ARGUMENT.removeFirstAndLast()) { type = NavType.StringType },
+                navArgument(MEDIA_ID_ARGUMENT.removeFirstAndLast()) { type = NavType.IntType }
             )
         ) { navEntry ->
             MediaDetailsView(
-                mediaType = navEntry.arguments?.getString("mediaType")
+                mediaType = navEntry.arguments?.getString(MEDIA_TYPE_ARGUMENT.removeFirstAndLast())
                     ?.let { mediaType -> MediaType.valueOf(mediaType) } ?: MediaType.ANIME,
-                mediaId = navEntry.arguments?.getInt("mediaId") ?: 0,
+                mediaId = navEntry.arguments?.getInt(MEDIA_ID_ARGUMENT.removeFirstAndLast()) ?: 0,
                 isLoggedIn = accessTokenPreference.isNotEmpty(),
                 navigateBack = {
                     navController.popBackStack()
@@ -332,14 +339,14 @@ fun MainNavigation(
                 navigateToMediaDetails = { mediaType, mediaId ->
                     navController.navigate(
                         MEDIA_DETAILS_DESTINATION
-                            .replace("{mediaType}", mediaType.name)
-                            .replace("{mediaId}", mediaId.toString())
+                            .replace(MEDIA_TYPE_ARGUMENT, mediaType.name)
+                            .replace(MEDIA_ID_ARGUMENT, mediaId.toString())
                     )
                 },
                 navigateToFullPoster = { pictures ->
                     navController.navigate(
                         FULL_POSTER_DESTINATION
-                            .replace("{pictures}", pictures)
+                            .replace(PICTURES_ARGUMENT, pictures)
                     )
                 }
             )
@@ -348,11 +355,12 @@ fun MainNavigation(
         composable(
             FULL_POSTER_DESTINATION,
             arguments = listOf(
-                navArgument("pictures") { type = stringArrayType }
+                navArgument(PICTURES_ARGUMENT.removeFirstAndLast()) { type = stringArrayType }
             )
         ) { navEntry ->
             FullPosterView(
-                pictures = navEntry.arguments?.getStringArray("pictures") ?: emptyArray(),
+                pictures = navEntry.arguments?.getStringArray(PICTURES_ARGUMENT.removeFirstAndLast())
+                    ?: emptyArray(),
                 navigateBack = {
                     navController.popBackStack()
                 }
@@ -375,7 +383,7 @@ fun MainNavigation(
                     navigateToFullPoster = { pictures ->
                         navController.navigate(
                             FULL_POSTER_DESTINATION
-                                .replace("{pictures}", pictures)
+                                .replace(PICTURES_ARGUMENT, pictures)
                         )
                     }
                 )

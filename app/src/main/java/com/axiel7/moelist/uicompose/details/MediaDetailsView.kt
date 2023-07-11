@@ -109,7 +109,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.time.LocalTime
 
-const val MEDIA_DETAILS_DESTINATION = "details/{mediaType}/{mediaId}"
+const val MEDIA_TYPE_ARGUMENT = "{mediaType}"
+const val MEDIA_ID_ARGUMENT = "{mediaId}"
+const val MEDIA_DETAILS_DESTINATION = "details/$MEDIA_TYPE_ARGUMENT/$MEDIA_ID_ARGUMENT"
 
 @OptIn(
     ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class,

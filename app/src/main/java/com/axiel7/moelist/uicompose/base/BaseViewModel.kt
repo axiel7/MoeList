@@ -14,4 +14,8 @@ abstract class BaseViewModel : ViewModel() {
         showMessage = true
         this.message = message
     }
+
+    companion object {
+        const val GENERIC_ERROR = "Generic Error"
+    }
 }

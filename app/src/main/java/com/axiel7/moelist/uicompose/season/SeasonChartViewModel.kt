@@ -26,9 +26,11 @@ class SeasonChartViewModel : BaseViewModel() {
         season: Season? = null,
         year: Int? = null
     ) {
-        if (season != null && year != null) this.season = StartSeason(year, season)
-        else if (season != null) this.season = this.season.copy(season = season)
-        else if (year != null) this.season = this.season.copy(year = year)
+        when {
+            season != null && year != null -> this.season = StartSeason(year, season)
+            season != null -> this.season = this.season.copy(season = season)
+            year != null -> this.season = this.season.copy(year = year)
+        }
     }
 
     val years = ((SeasonCalendar.currentYear + 1) downTo BASE_YEAR).toList()

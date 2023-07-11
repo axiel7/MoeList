@@ -75,7 +75,6 @@ object AnimeRepository {
         animeId: Int
     ): AnimeDetails? {
         return try {
-            //App.animeDb.animeDetailsDao().getAnimeDetailsById(animeId)?.let { return it }
             App.api.getAnimeDetails(animeId, ANIME_DETAILS_FIELDS)
         } catch (e: Exception) {
             null

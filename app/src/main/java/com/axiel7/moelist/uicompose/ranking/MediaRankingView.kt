@@ -50,6 +50,7 @@ import com.axiel7.moelist.uicompose.composables.MediaItemDetailed
 import com.axiel7.moelist.uicompose.composables.MediaItemDetailedPlaceholder
 import com.axiel7.moelist.uicompose.composables.OnBottomReached
 import com.axiel7.moelist.uicompose.composables.RoundedTabRowIndicator
+import com.axiel7.moelist.uicompose.details.MEDIA_TYPE_ARGUMENT
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.NumExtensions
@@ -57,7 +58,7 @@ import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrUnknown
 import kotlinx.coroutines.launch
 
-const val MEDIA_RANKING_DESTINATION = "ranking/{mediaType}"
+const val MEDIA_RANKING_DESTINATION = "ranking/$MEDIA_TYPE_ARGUMENT"
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

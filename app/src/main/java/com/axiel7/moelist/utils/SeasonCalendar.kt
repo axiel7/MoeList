@@ -18,10 +18,10 @@ object SeasonCalendar {
     /**
      * The current month from 0 to 11
      */
-    private val month = calendar.get(Calendar.MONTH)
-    private val weekDay = calendar.get(Calendar.DAY_OF_WEEK)
+    private val month = calendar[Calendar.MONTH]
+    private val weekDay = calendar[Calendar.DAY_OF_WEEK]
 
-    val currentYear = calendar.get(Calendar.YEAR)
+    val currentYear = calendar[Calendar.YEAR]
 
     val currentSeason = when (month) {
         0, 1, 11 -> Season.WINTER
@@ -48,9 +48,9 @@ object SeasonCalendar {
         else -> WeekDay.MONDAY
     }
 
-    val currentJapanHour get() = jpCalendar.get(Calendar.HOUR_OF_DAY)
+    val currentJapanHour get() = jpCalendar[Calendar.HOUR_OF_DAY]
 
-    val currentJapanWeekday = when (jpCalendar.get(Calendar.DAY_OF_WEEK)) {
+    val currentJapanWeekday = when (jpCalendar[Calendar.DAY_OF_WEEK]) {
         2 -> WeekDay.MONDAY
         3 -> WeekDay.TUESDAY
         4 -> WeekDay.WEDNESDAY

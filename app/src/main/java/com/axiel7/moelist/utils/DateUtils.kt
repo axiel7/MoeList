@@ -136,7 +136,7 @@ object DateUtils {
 
     fun LocalDate.toEpochMillis() = this.atStartOfDay().toInstant(defaultZoneOffset).toEpochMilli()
 
-    fun LocalDate.getNextDayOfWeek(dayOfWeek: DayOfWeek) =
+    fun LocalDate.getNextDayOfWeek(dayOfWeek: DayOfWeek): LocalDate =
         with(TemporalAdjusters.nextOrSame(dayOfWeek))
 
     /**
@@ -147,19 +147,19 @@ object DateUtils {
     @Composable
     fun Long.secondsToLegibleText(): String {
         val days = this / 86400
-        if (days > 6) {
+        return if (days > 6) {
             val weeks = this / 604800
-            return if (weeks > 4) {
+            if (weeks > 4) {
                 val months = this / 2629746
                 if (months > 12) {
                     val years = this / 31556952
                     stringResource(R.string.num_years).format(years)
                 } else stringResource(R.string.num_months).format(months)
             } else stringResource(R.string.num_weeks).format(weeks)
-        } else if (days >= 1) return stringResource(R.string.num_days).format(days)
+        } else if (days >= 1) stringResource(R.string.num_days).format(days)
         else {
             val hours = this / 3600
-            return if (hours >= 1) "$hours ${stringResource(R.string.hour_abbreviation)}"
+            if (hours >= 1) "$hours ${stringResource(R.string.hour_abbreviation)}"
             else {
                 val minutes = (this % 3600) / 60
                 "$minutes ${stringResource(R.string.minutes_abbreviation)}"
