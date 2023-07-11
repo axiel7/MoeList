@@ -51,6 +51,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -74,6 +75,7 @@ import com.axiel7.moelist.data.model.media.rankText
 import com.axiel7.moelist.data.model.media.relationLocalized
 import com.axiel7.moelist.data.model.media.statusLocalized
 import com.axiel7.moelist.data.model.media.synonymsJoined
+import com.axiel7.moelist.data.model.media.synopsisAndBackground
 import com.axiel7.moelist.data.model.media.userPreferredTitle
 import com.axiel7.moelist.uicompose.composables.BackIconButton
 import com.axiel7.moelist.uicompose.composables.InfoTitle
@@ -344,7 +346,8 @@ fun MediaDetailsView(
 
             //Synopsis
             Text(
-                text = viewModel.mediaDetails?.synopsis ?: stringResource(R.string.lorem_ipsun),
+                text = viewModel.mediaDetails?.synopsisAndBackground()
+                    ?: AnnotatedString(stringResource(R.string.lorem_ipsun)),
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .defaultPlaceholder(visible = viewModel.isLoading),

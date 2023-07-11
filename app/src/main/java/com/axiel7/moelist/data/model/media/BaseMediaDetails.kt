@@ -2,6 +2,10 @@ package com.axiel7.moelist.data.model.media
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.BaseResponse
@@ -121,4 +125,17 @@ fun BaseMediaDetails.synonymsJoined(): String? {
     val joined = alternativeTitles?.synonyms?.joinToString(",\n")
     return if (joined?.isNotBlank() == true) joined
     else null
+}
+
+@Composable
+fun BaseMediaDetails.synopsisAndBackground() = buildAnnotatedString {
+    val hasSynopsis = !synopsis.isNullOrBlank()
+    if (hasSynopsis) append(synopsis)
+    if (!background.isNullOrBlank()) {
+        if (hasSynopsis) append("\n\n")
+        withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+            append(stringResource(R.string.synopsis_background))
+        }
+        append("\n$background")
+    }
 }

@@ -324,4 +324,5 @@
     <string name="start_airing_notification_enabled">Start airing notification enabled</string>
     <string name="invalid_start_date">Invalid start date</string>
     <string name="invalid_broadcast">Invalid broadcast</string>
+    <string name="synopsis_background">Background</string>
 </resources>

@@ -17,7 +17,7 @@ object MangaRepository {
         "id,title,main_picture,pictures,alternative_titles,start_date,end_date," +
                 "synopsis,mean,rank,popularity,num_list_users,num_scoring_users,media_type,status,genres," +
                 "my_list_status{num_times_reread},num_chapters,num_volumes,source,authors{first_name,last_name}," +
-                "serialization,related_anime{media_type},related_manga{media_type},recommendations"
+                "serialization,related_anime{media_type},related_manga{media_type},recommendations,background"
 
     suspend fun getMangaDetails(
         mangaId: Int
