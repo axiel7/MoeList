@@ -67,7 +67,10 @@ class AiringWidget : GlanceAppWidget() {
                                         .padding(bottom = 8.dp)
                                         .fillMaxWidth()
                                         .clickable(actionStartActivity(
-                                            Intent(LocalContext.current, MainActivity::class.java).apply {
+                                            Intent(
+                                                LocalContext.current,
+                                                MainActivity::class.java
+                                            ).apply {
                                                 action = "details"
                                                 putExtra("media_id", item.id)
                                                 putExtra("media_type", "anime")

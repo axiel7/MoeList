@@ -205,16 +205,17 @@ fun MoreItem(
                 tint = MaterialTheme.colorScheme.primary
             )
         } else {
-            Spacer(modifier = Modifier
-                .padding(16.dp)
-                .size(24.dp)
+            Spacer(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .size(24.dp)
             )
         }
 
         Column(
             modifier = if (subtitle != null)
                 Modifier.padding(16.dp)
-                else Modifier.padding(horizontal = 16.dp)
+            else Modifier.padding(horizontal = 16.dp)
         ) {
             Text(
                 text = title,

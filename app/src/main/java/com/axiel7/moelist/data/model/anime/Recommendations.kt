@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Recommendations<T: BaseMediaNode>(
+data class Recommendations<T : BaseMediaNode>(
     @SerialName("node")
     val node: T,
     @SerialName("num_recommendations")

@@ -15,7 +15,7 @@ import com.axiel7.moelist.utils.SeasonCalendar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CalendarViewModel: BaseViewModel() {
+class CalendarViewModel : BaseViewModel() {
 
     private val params = ApiParams(
         sort = MediaSort.ANIME_NUM_USERS.value,

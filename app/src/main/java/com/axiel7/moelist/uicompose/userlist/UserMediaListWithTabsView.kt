@@ -42,10 +42,12 @@ fun UserMediaListWithTabsView(
     val scope = rememberCoroutineScope()
     val tabRowItems = remember {
         (if (mediaType == MediaType.ANIME) listStatusAnimeValues else listStatusMangaValues)
-            .map { TabRowItem(
-                value = it,
-                title = it.value
-            ) }
+            .map {
+                TabRowItem(
+                    value = it,
+                    title = it.value
+                )
+            }
     }
     val pagerState = rememberPagerState { tabRowItems.size }
     val systemBarsPadding = WindowInsets.systemBars.asPaddingValues()
@@ -57,8 +59,8 @@ fun UserMediaListWithTabsView(
             )
             .graphicsLayer {
                 val topPadding = padding.calculateTopPadding().value +
-                            systemBarsPadding.calculateTopPadding().value +
-                            systemBarsPadding.calculateBottomPadding().value
+                        systemBarsPadding.calculateTopPadding().value +
+                        systemBarsPadding.calculateBottomPadding().value
 
                 translationY = if (topBarOffsetY.value > -topPadding) topBarOffsetY.value
                 else -topPadding

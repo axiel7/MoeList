@@ -21,23 +21,24 @@ enum class AppLanguage(val value: String) {
     TURKISH("tr"),
     UKRAINIAN("uk-rUA");
 
-    val stringResNative get() = when (this) {
-        FOLLOW_SYSTEM -> R.string.theme_system
-        ENGLISH -> R.string.english_native
-        ARABIC -> R.string.arabic_native
-        BULGARIAN -> R.string.bulgarian_native
-        CHINESE_SIMPLIFIED -> R.string.chinese_simplified_native
-        CHINESE_TRADITIONAL -> R.string.chinese_traditional_native
-        CZECH -> R.string.czech_native
-        FRENCH -> R.string.french_native
-        GERMAN -> R.string.german_native
-        INDONESIAN -> R.string.indonesian_native
-        JAPANESE -> R.string.japanese_native
-        PORTUGUESE -> R.string.portuguese_native
-        PORTUGUESE_BRAZILIAN -> R.string.brazilian_native
-        RUSSIAN -> R.string.russian_native
-        SPANISH -> R.string.spanish_native
-        TURKISH -> R.string.turkish_native
-        UKRAINIAN -> R.string.ukrainian_native
-    }
+    val stringResNative
+        get() = when (this) {
+            FOLLOW_SYSTEM -> R.string.theme_system
+            ENGLISH -> R.string.english_native
+            ARABIC -> R.string.arabic_native
+            BULGARIAN -> R.string.bulgarian_native
+            CHINESE_SIMPLIFIED -> R.string.chinese_simplified_native
+            CHINESE_TRADITIONAL -> R.string.chinese_traditional_native
+            CZECH -> R.string.czech_native
+            FRENCH -> R.string.french_native
+            GERMAN -> R.string.german_native
+            INDONESIAN -> R.string.indonesian_native
+            JAPANESE -> R.string.japanese_native
+            PORTUGUESE -> R.string.portuguese_native
+            PORTUGUESE_BRAZILIAN -> R.string.brazilian_native
+            RUSSIAN -> R.string.russian_native
+            SPANISH -> R.string.spanish_native
+            TURKISH -> R.string.turkish_native
+            UKRAINIAN -> R.string.ukrainian_native
+        }
 }

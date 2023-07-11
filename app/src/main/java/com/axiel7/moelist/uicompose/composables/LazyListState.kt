@@ -26,11 +26,10 @@ fun LazyListState.OnBottomReached(
     val shouldLoadMore = remember {
         derivedStateOf {
             val lastVisibleItem = layoutInfo.visibleItemsInfo.lastOrNull()
-                ?:
-                return@derivedStateOf true
+                ?: return@derivedStateOf true
 
             // subtract buffer from the total items
-            lastVisibleItem.index >=  layoutInfo.totalItemsCount - 1 - buffer
+            lastVisibleItem.index >= layoutInfo.totalItemsCount - 1 - buffer
         }
     }
 
@@ -58,11 +57,10 @@ fun LazyGridState.OnBottomReached(
     val shouldLoadMore = remember {
         derivedStateOf {
             val lastVisibleItem = layoutInfo.visibleItemsInfo.lastOrNull()
-                ?:
-                return@derivedStateOf true
+                ?: return@derivedStateOf true
 
             // subtract buffer from the total items
-            lastVisibleItem.index >=  layoutInfo.totalItemsCount - 1 - buffer
+            lastVisibleItem.index >= layoutInfo.totalItemsCount - 1 - buffer
         }
     }
 

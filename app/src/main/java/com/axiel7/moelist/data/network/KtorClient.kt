@@ -52,7 +52,7 @@ class KtorClient(private val authToken: String?) {
 
         if (BuildConfig.IS_DEBUG) {
             install(Logging) {
-                logger = object: Logger {
+                logger = object : Logger {
                     override fun log(message: String) {
                         Log.v("Logger Ktor =>", message)
                     }

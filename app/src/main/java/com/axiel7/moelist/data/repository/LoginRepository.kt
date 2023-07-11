@@ -14,7 +14,8 @@ object LoginRepository {
     const val STATE = "MoeList123"
     private const val GRANT_TYPE = "authorization_code"
     private val codeVerifier = PkceGenerator.generateVerifier(length = 128)
-    val loginUrl = "${Constants.MAL_OAUTH2_URL}authorize?response_type=code&client_id=${ClientId.CLIENT_ID}&code_challenge=${codeVerifier}&state=${STATE}"
+    val loginUrl =
+        "${Constants.MAL_OAUTH2_URL}authorize?response_type=code&client_id=${ClientId.CLIENT_ID}&code_challenge=${codeVerifier}&state=${STATE}"
 
     suspend fun getAccessToken(code: String): Response<AccessToken> {
         val accessToken = try {

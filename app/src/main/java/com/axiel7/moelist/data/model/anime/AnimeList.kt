@@ -6,4 +6,4 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class AnimeList(
     override val node: AnimeNode
-): BaseMediaList()
+) : BaseMediaList()

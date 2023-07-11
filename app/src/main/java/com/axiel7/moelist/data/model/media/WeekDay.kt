@@ -10,16 +10,22 @@ import kotlinx.serialization.Serializable
 enum class WeekDay(val value: String) {
     @SerialName("monday")
     MONDAY("monday"),
+
     @SerialName("tuesday")
     TUESDAY("tuesday"),
+
     @SerialName("wednesday")
     WEDNESDAY("wednesday"),
+
     @SerialName("thursday")
     THURSDAY("thursday"),
+
     @SerialName("friday")
     FRIDAY("friday"),
+
     @SerialName("saturday")
     SATURDAY("saturday"),
+
     @SerialName("sunday")
     SUNDAY("sunday")
 }

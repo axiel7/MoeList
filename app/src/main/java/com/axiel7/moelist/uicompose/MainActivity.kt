@@ -127,14 +127,14 @@ class MainActivity : AppCompatActivity() {
         preloadPreferences()
 
         val startTab = defaultPreferencesDataStore.getValueSync(START_TAB_PREFERENCE_KEY)
-        var lastTabOpened = intent.action?.toBottomDestinationIndex() ?: startTab?.toBottomDestinationIndex()
+        var lastTabOpened =
+            intent.action?.toBottomDestinationIndex() ?: startTab?.toBottomDestinationIndex()
         var mediaId: Int? = null
         var mediaType: String? = null
         if (intent.action == "details") {
             mediaId = intent.getIntExtra("media_id", 0)
             mediaType = intent.getStringExtra("media_type")?.uppercase()
-        }
-        else if (intent.data != null) {
+        } else if (intent.data != null) {
             // Manually handle deep links because the uri pattern in the compose navigation
             // matches this -> https://myanimelist.net/manga/11514
             // but not this -> https://myanimelist.net/manga/11514/Otoyomegatari
@@ -148,8 +148,7 @@ class MainActivity : AppCompatActivity() {
         }
         if (lastTabOpened == null) {
             lastTabOpened = defaultPreferencesDataStore.getValueSync(LAST_TAB_PREFERENCE_KEY)
-        }
-        else { // opened from intent or start tab setting
+        } else { // opened from intent or start tab setting
             CoroutineScope(Dispatchers.IO).launch {
                 defaultPreferencesDataStore.edit {
                     it[LAST_TAB_PREFERENCE_KEY] = lastTabOpened
@@ -157,7 +156,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val theme = defaultPreferencesDataStore.getValueSync(THEME_PREFERENCE_KEY) ?: "follow_system"
+        val theme =
+            defaultPreferencesDataStore.getValueSync(THEME_PREFERENCE_KEY) ?: "follow_system"
 
         setContent {
             val themePreference by rememberPreference(THEME_PREFERENCE_KEY, theme)
@@ -253,9 +253,10 @@ class MainActivity : AppCompatActivity() {
             defaultPreferencesDataStore.getValueSync(ANIME_PLANNED_LIST_STYLE_PREFERENCE_KEY)?.let {
                 ListStyle.forValue(it)?.let { mode -> App.animePlannedListStyle = mode }
             }
-            defaultPreferencesDataStore.getValueSync(ANIME_COMPLETED_LIST_STYLE_PREFERENCE_KEY)?.let {
-                ListStyle.forValue(it)?.let { mode -> App.animeCompletedListStyle = mode }
-            }
+            defaultPreferencesDataStore.getValueSync(ANIME_COMPLETED_LIST_STYLE_PREFERENCE_KEY)
+                ?.let {
+                    ListStyle.forValue(it)?.let { mode -> App.animeCompletedListStyle = mode }
+                }
             defaultPreferencesDataStore.getValueSync(ANIME_PAUSED_LIST_STYLE_PREFERENCE_KEY)?.let {
                 ListStyle.forValue(it)?.let { mode -> App.animePausedListStyle = mode }
             }
@@ -265,9 +266,10 @@ class MainActivity : AppCompatActivity() {
             defaultPreferencesDataStore.getValueSync(MANGA_PLANNED_LIST_STYLE_PREFERENCE_KEY)?.let {
                 ListStyle.forValue(it)?.let { mode -> App.mangaPlannedListStyle = mode }
             }
-            defaultPreferencesDataStore.getValueSync(MANGA_COMPLETED_LIST_STYLE_PREFERENCE_KEY)?.let {
-                ListStyle.forValue(it)?.let { mode -> App.mangaCompletedListStyle = mode }
-            }
+            defaultPreferencesDataStore.getValueSync(MANGA_COMPLETED_LIST_STYLE_PREFERENCE_KEY)
+                ?.let {
+                    ListStyle.forValue(it)?.let { mode -> App.mangaCompletedListStyle = mode }
+                }
             defaultPreferencesDataStore.getValueSync(MANGA_PAUSED_LIST_STYLE_PREFERENCE_KEY)?.let {
                 ListStyle.forValue(it)?.let { mode -> App.mangaPausedListStyle = mode }
             }
@@ -338,6 +340,7 @@ fun MainTopAppBar(
             when (navBackStackEntry?.destination?.route) {
                 HOME_DESTINATION, ANIME_LIST_DESTINATION, MANGA_LIST_DESTINATION, MORE_DESTINATION,
                 null -> true
+
                 else -> false
             }
         }
@@ -449,12 +452,13 @@ fun BottomNavBar(
             when (navBackStackEntry?.destination?.route) {
                 HOME_DESTINATION, ANIME_LIST_DESTINATION, MANGA_LIST_DESTINATION, MORE_DESTINATION,
                 null -> bottomBarState.value
+
                 else -> false
             }
         }
     }
     var selectedItem by rememberPreference(LAST_TAB_PREFERENCE_KEY, lastTabOpened)
-    
+
     AnimatedVisibility(
         visible = isVisible,
         enter = slideInVertically(initialOffsetY = { it }),
@@ -463,9 +467,11 @@ fun BottomNavBar(
         NavigationBar {
             BottomDestination.values.forEachIndexed { index, dest ->
                 NavigationBarItem(
-                    icon = { Icon(
-                        painter = painterResource(if (selectedItem == index) dest.iconSelected else dest.icon),
-                        contentDescription = stringResource(dest.title))
+                    icon = {
+                        Icon(
+                            painter = painterResource(if (selectedItem == index) dest.iconSelected else dest.icon),
+                            contentDescription = stringResource(dest.title)
+                        )
                     },
                     label = { Text(text = stringResource(dest.title)) },
                     selected = selectedItem == index,

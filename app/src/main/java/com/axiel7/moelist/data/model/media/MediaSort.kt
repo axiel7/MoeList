@@ -23,13 +23,15 @@ enum class MediaSort(val value: String) {
     }
 }
 
-val animeListSortItems get() = arrayOf(
-    MediaSort.ANIME_TITLE, MediaSort.SCORE, MediaSort.UPDATED, MediaSort.ANIME_START_DATE
-)
+val animeListSortItems
+    get() = arrayOf(
+        MediaSort.ANIME_TITLE, MediaSort.SCORE, MediaSort.UPDATED, MediaSort.ANIME_START_DATE
+    )
 
-val mangaListSortItems get() = arrayOf(
-    MediaSort.MANGA_TITLE, MediaSort.SCORE, MediaSort.UPDATED, MediaSort.MANGA_START_DATE
-)
+val mangaListSortItems
+    get() = arrayOf(
+        MediaSort.MANGA_TITLE, MediaSort.SCORE, MediaSort.UPDATED, MediaSort.MANGA_START_DATE
+    )
 
 @Composable
 fun MediaSort.localized() = when (this) {

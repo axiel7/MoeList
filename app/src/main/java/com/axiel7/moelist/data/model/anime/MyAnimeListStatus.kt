@@ -6,7 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MyAnimeListStatus (
+data class MyAnimeListStatus(
     override val status: ListStatus,
     override val score: Int = 0,
     @SerialName("updated_at")
@@ -22,4 +22,4 @@ data class MyAnimeListStatus (
     @SerialName("num_times_rewatched")
     override val repeatCount: Int? = 0,
 
-) : BaseMyListStatus()
+    ) : BaseMyListStatus()

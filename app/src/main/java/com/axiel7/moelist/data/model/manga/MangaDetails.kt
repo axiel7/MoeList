@@ -2,7 +2,10 @@ package com.axiel7.moelist.data.model.manga
 
 import com.axiel7.moelist.data.model.anime.Recommendations
 import com.axiel7.moelist.data.model.anime.RelatedAnime
-import com.axiel7.moelist.data.model.media.*
+import com.axiel7.moelist.data.model.media.AlternativeTitles
+import com.axiel7.moelist.data.model.media.BaseMediaDetails
+import com.axiel7.moelist.data.model.media.Genre
+import com.axiel7.moelist.data.model.media.MainPicture
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -53,7 +56,7 @@ data class MangaDetails(
     @SerialName("serialization")
     val serialization: List<Serialization>? = null,
 
-) : BaseMediaDetails()
+    ) : BaseMediaDetails()
 
 fun MangaDetails.toMangaNode() = MangaNode(
     id = id,

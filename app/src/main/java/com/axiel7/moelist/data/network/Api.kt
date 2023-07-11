@@ -71,7 +71,7 @@ class Api(private val client: HttpClient) {
         parameter("fields", params.fields)
     }.body()
 
-    suspend fun getAnimeList(url: String) : Response<List<AnimeList>> = client.get(url).body()
+    suspend fun getAnimeList(url: String): Response<List<AnimeList>> = client.get(url).body()
 
     suspend fun getSeasonalAnime(
         params: ApiParams,
@@ -84,7 +84,8 @@ class Api(private val client: HttpClient) {
         parameter("limit", params.limit)
     }.body()
 
-    suspend fun getSeasonalAnime(url: String) : Response<List<AnimeSeasonal>> = client.get(url).body()
+    suspend fun getSeasonalAnime(url: String): Response<List<AnimeSeasonal>> =
+        client.get(url).body()
 
     suspend fun getAnimeRanking(
         params: ApiParams,
@@ -96,7 +97,7 @@ class Api(private val client: HttpClient) {
         parameter("limit", params.limit)
     }.body()
 
-    suspend fun getAnimeRanking(url: String) : Response<List<AnimeRanking>> = client.get(url).body()
+    suspend fun getAnimeRanking(url: String): Response<List<AnimeRanking>> = client.get(url).body()
 
     suspend fun getAnimeRecommendations(
         params: ApiParams = ApiParams()
@@ -106,7 +107,8 @@ class Api(private val client: HttpClient) {
         parameter("limit", params.limit)
     }.body()
 
-    suspend fun getAnimeRecommendations(url: String) : Response<List<AnimeList>> = client.get(url).body()
+    suspend fun getAnimeRecommendations(url: String): Response<List<AnimeList>> =
+        client.get(url).body()
 
     suspend fun getUserAnimeList(
         params: ApiParams
@@ -117,7 +119,8 @@ class Api(private val client: HttpClient) {
         parameter("fields", params.fields)
     }.body()
 
-    suspend fun getUserAnimeList(url: String) : Response<List<UserAnimeList>> = client.get(url).body()
+    suspend fun getUserAnimeList(url: String): Response<List<UserAnimeList>> =
+        client.get(url).body()
 
     //TODO (implement: is_rewatching, priority, rewatch_value, tags, comments)
     suspend fun updateUserAnimeList(
@@ -163,7 +166,7 @@ class Api(private val client: HttpClient) {
         parameter("fields", params.fields)
     }.body()
 
-    suspend fun getMangaList(url: String) : Response<List<MangaList>> = client.get(url).body()
+    suspend fun getMangaList(url: String): Response<List<MangaList>> = client.get(url).body()
 
     suspend fun getUserMangaList(
         params: ApiParams
@@ -184,9 +187,10 @@ class Api(private val client: HttpClient) {
         parameter("limit", params.limit)
     }.body()
 
-    suspend fun getMangaRanking(url: String) : Response<List<MangaRanking>> = client.get(url).body()
+    suspend fun getMangaRanking(url: String): Response<List<MangaRanking>> = client.get(url).body()
 
-    suspend fun getUserMangaList(url: String) : Response<List<UserMangaList>> = client.get(url).body()
+    suspend fun getUserMangaList(url: String): Response<List<UserMangaList>> =
+        client.get(url).body()
 
     //TODO (implement: is_rereading, priority, reread_value, tags, comments)
     suspend fun updateUserMangaList(

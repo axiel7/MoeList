@@ -3,9 +3,13 @@ package com.axiel7.moelist.data.model.anime
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
-import com.axiel7.moelist.data.model.*
 import com.axiel7.moelist.data.model.manga.RelatedManga
-import com.axiel7.moelist.data.model.media.*
+import com.axiel7.moelist.data.model.media.AlternativeTitles
+import com.axiel7.moelist.data.model.media.BaseMediaDetails
+import com.axiel7.moelist.data.model.media.Genre
+import com.axiel7.moelist.data.model.media.MainPicture
+import com.axiel7.moelist.data.model.media.Statistics
+import com.axiel7.moelist.data.model.media.localized
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -105,8 +109,7 @@ fun AnimeDetails.broadcastTimeText() = buildString {
             append(broadcast.startTime)
             append(" (JST)")
         }
-    }
-    else append(stringResource(R.string.unknown))
+    } else append(stringResource(R.string.unknown))
 }
 
 @Composable
@@ -115,9 +118,6 @@ fun AnimeDetails.episodeDurationLocalized() =
         if (averageEpisodeDuration >= 60) {
             if (averageEpisodeDuration >= 3600) {
                 "${averageEpisodeDuration / 3600} ${stringResource(R.string.hour_abbreviation)}"
-            }
-            else "${averageEpisodeDuration / 60} ${stringResource(R.string.minutes_abbreviation)}"
-        }
-        else "<1 ${stringResource(R.string.minutes_abbreviation)}"
-    }
-    else stringResource(R.string.unknown)
+            } else "${averageEpisodeDuration / 60} ${stringResource(R.string.minutes_abbreviation)}"
+        } else "<1 ${stringResource(R.string.minutes_abbreviation)}"
+    } else stringResource(R.string.unknown)

@@ -36,12 +36,14 @@ object PreferencesDataStore {
     val GRID_ITEMS_PER_ROW_PREFERENCE_KEY = intPreferencesKey("grid_items_per_row")
     val ANIME_CURRENT_LIST_STYLE_PREFERENCE_KEY = stringPreferencesKey("anime_current_list_style")
     val ANIME_PLANNED_LIST_STYLE_PREFERENCE_KEY = stringPreferencesKey("anime_planned_list_style")
-    val ANIME_COMPLETED_LIST_STYLE_PREFERENCE_KEY = stringPreferencesKey("anime_completed_list_style")
+    val ANIME_COMPLETED_LIST_STYLE_PREFERENCE_KEY =
+        stringPreferencesKey("anime_completed_list_style")
     val ANIME_PAUSED_LIST_STYLE_PREFERENCE_KEY = stringPreferencesKey("anime_paused_list_style")
     val ANIME_DROPPED_LIST_STYLE_PREFERENCE_KEY = stringPreferencesKey("anime_dropped_list_style")
     val MANGA_CURRENT_LIST_STYLE_PREFERENCE_KEY = stringPreferencesKey("manga_current_list_style")
     val MANGA_PLANNED_LIST_STYLE_PREFERENCE_KEY = stringPreferencesKey("manga_planned_list_style")
-    val MANGA_COMPLETED_LIST_STYLE_PREFERENCE_KEY = stringPreferencesKey("manga_completed_list_style")
+    val MANGA_COMPLETED_LIST_STYLE_PREFERENCE_KEY =
+        stringPreferencesKey("manga_completed_list_style")
     val MANGA_PAUSED_LIST_STYLE_PREFERENCE_KEY = stringPreferencesKey("manga_paused_list_style")
     val MANGA_DROPPED_LIST_STYLE_PREFERENCE_KEY = stringPreferencesKey("manga_dropped_list_style")
 

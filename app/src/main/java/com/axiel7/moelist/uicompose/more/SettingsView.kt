@@ -85,11 +85,23 @@ fun SettingsView(
 ) {
     val context = LocalContext.current
     var langPreference by rememberPreference(LANG_PREFERENCE_KEY, AppLanguage.FOLLOW_SYSTEM.value)
-    var themePreference by rememberPreference(THEME_PREFERENCE_KEY, ThemeStyle.FOLLOW_SYSTEM.name.lowercase())
+    var themePreference by rememberPreference(
+        THEME_PREFERENCE_KEY,
+        ThemeStyle.FOLLOW_SYSTEM.name.lowercase()
+    )
     var nsfwPreference by rememberPreference(NSFW_PREFERENCE_KEY, false)
-    var useGeneralListStyle by rememberPreference(USE_GENERAL_LIST_STYLE_PREFERENCE_KEY, App.useGeneralListStyle)
-    var generalListStylePreference by rememberPreference(GENERAL_LIST_STYLE_PREFERENCE_KEY, ListStyle.STANDARD.value)
-    var itemsPerRowPreference by rememberPreference(GRID_ITEMS_PER_ROW_PREFERENCE_KEY, App.gridItemsPerRow)
+    var useGeneralListStyle by rememberPreference(
+        USE_GENERAL_LIST_STYLE_PREFERENCE_KEY,
+        App.useGeneralListStyle
+    )
+    var generalListStylePreference by rememberPreference(
+        GENERAL_LIST_STYLE_PREFERENCE_KEY,
+        ListStyle.STANDARD.value
+    )
+    var itemsPerRowPreference by rememberPreference(
+        GRID_ITEMS_PER_ROW_PREFERENCE_KEY,
+        App.gridItemsPerRow
+    )
     var startTabPreference by rememberPreference(START_TAB_PREFERENCE_KEY, "last_used")
     var titleLangPreference by rememberPreference(TITLE_LANG_PREFERENCE_KEY, App.titleLanguage.name)
     var useListTabsPreference by rememberPreference(USE_LIST_TABS_PREFERENCE_KEY, App.useListTabs)
@@ -276,9 +288,10 @@ fun PlainPreferenceView(
                     tint = MaterialTheme.colorScheme.primary
                 )
             } else {
-                Spacer(modifier = Modifier
-                    .padding(16.dp)
-                    .size(24.dp)
+                Spacer(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .size(24.dp)
                 )
             }
 
@@ -335,9 +348,10 @@ fun SwitchPreferenceView(
                     tint = MaterialTheme.colorScheme.primary
                 )
             } else {
-                Spacer(modifier = Modifier
-                    .padding(16.dp)
-                    .size(24.dp)
+                Spacer(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .size(24.dp)
                 )
             }
 
@@ -398,9 +412,10 @@ fun ListPreferenceView(
                 tint = MaterialTheme.colorScheme.primary
             )
         } else {
-            Spacer(modifier = Modifier
-                .padding(16.dp)
-                .size(24.dp)
+            Spacer(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .size(24.dp)
             )
         }
 

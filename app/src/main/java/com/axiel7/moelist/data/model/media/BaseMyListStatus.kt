@@ -9,12 +9,16 @@ import kotlinx.serialization.SerialName
 abstract class BaseMyListStatus : BaseResponse() {
     @SerialName("status")
     abstract val status: ListStatus
+
     @SerialName("score")
     abstract val score: Int
+
     @SerialName("updated_at")
     abstract val updatedAt: String?
+
     @SerialName("start_date")
     abstract val startDate: String?
+
     @SerialName("end_date")
     abstract val endDate: String?
 

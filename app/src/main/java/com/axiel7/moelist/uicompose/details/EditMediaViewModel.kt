@@ -27,7 +27,7 @@ import java.time.format.DateTimeFormatter
 class EditMediaViewModel(
     override val mediaType: MediaType,
     override var mediaInfo: BaseMediaNode?
-): BaseMediaViewModel() {
+) : BaseMediaViewModel() {
 
     override var myListStatus: BaseMyListStatus? = null
 
@@ -55,8 +55,7 @@ class EditMediaViewModel(
         status = value
         if (isNewEntry && value.isCurrent()) {
             startDate = LocalDate.now()
-        }
-        else if (value == ListStatus.COMPLETED) {
+        } else if (value == ListStatus.COMPLETED) {
             endDate = LocalDate.now()
             mediaInfo?.totalDuration()?.let { if (it > 0) progress = it }
             if (mediaInfo is MangaNode) {
@@ -69,7 +68,8 @@ class EditMediaViewModel(
         if (canChangeProgressTo(value, progressLimit)) {
             progress = value
             if (status.isPlanning()) {
-                status = if (mediaType == MediaType.ANIME) ListStatus.WATCHING else ListStatus.READING
+                status =
+                    if (mediaType == MediaType.ANIME) ListStatus.WATCHING else ListStatus.READING
             }
         }
     }
@@ -123,8 +123,9 @@ class EditMediaViewModel(
                 score else null
             val progressValue = if (progress != myListStatus?.progress)
                 progress else null
-            val volumeProgressValue = if (volumeProgress != (myListStatus as? MyMangaListStatus)?.numVolumesRead)
-                volumeProgress else null
+            val volumeProgressValue =
+                if (volumeProgress != (myListStatus as? MyMangaListStatus)?.numVolumesRead)
+                    volumeProgress else null
             val repeatCountValue = if (repeatCount != myListStatus?.repeatCount)
                 repeatCount else null
             val startDateISO = startDate?.format(DateTimeFormatter.ISO_DATE)

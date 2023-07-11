@@ -101,12 +101,12 @@ fun MediaRankingView(
                 divider = { }
             ) {
                 tabRowItems.forEachIndexed { index, tabRowItem ->
-                        Tab(
-                            selected = pagerState.currentPage == index,
-                            onClick = { coroutineScope.launch { pagerState.animateScrollToPage(index) } },
-                            text = { Text(text = tabRowItem.value.localized()) }
-                        )
-                    }
+                    Tab(
+                        selected = pagerState.currentPage == index,
+                        onClick = { coroutineScope.launch { pagerState.animateScrollToPage(index) } },
+                        text = { Text(text = tabRowItem.value.localized()) }
+                    )
+                }
             }
             Divider()
 

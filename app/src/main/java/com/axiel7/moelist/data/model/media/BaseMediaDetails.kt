@@ -50,6 +50,7 @@ fun BaseMediaDetails.title(language: TitleLanguage) = when (language) {
     TitleLanguage.ENGLISH ->
         if (alternativeTitles?.en.isNullOrBlank()) title
         else alternativeTitles?.en ?: title
+
     TitleLanguage.JAPANESE ->
         if (alternativeTitles?.ja.isNullOrBlank()) title
         else alternativeTitles?.ja ?: title
@@ -62,11 +63,13 @@ fun BaseMediaDetails.durationText() = when (this) {
         if (stringValue == null) stringResource(R.string.unknown)
         else "$stringValue ${stringResource(R.string.episodes)}"
     }
+
     is MangaDetails -> {
         val stringValue = numChapters.toStringPositiveValueOrNull()
         if (stringValue == null) stringResource(R.string.unknown)
         else "$stringValue ${stringResource(R.string.chapters)}"
     }
+
     else -> stringResource(R.string.unknown)
 }
 

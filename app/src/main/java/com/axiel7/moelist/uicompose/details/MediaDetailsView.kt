@@ -4,14 +4,47 @@ import android.os.Build
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -27,10 +60,33 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.notificationsDataStore
-import com.axiel7.moelist.data.model.anime.*
+import com.axiel7.moelist.data.model.anime.AnimeDetails
+import com.axiel7.moelist.data.model.anime.broadcastTimeText
+import com.axiel7.moelist.data.model.anime.episodeDurationLocalized
+import com.axiel7.moelist.data.model.anime.seasonYearText
+import com.axiel7.moelist.data.model.anime.sourceLocalized
 import com.axiel7.moelist.data.model.manga.MangaDetails
-import com.axiel7.moelist.data.model.media.*
-import com.axiel7.moelist.uicompose.composables.*
+import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.data.model.media.durationText
+import com.axiel7.moelist.data.model.media.mediaFormatLocalized
+import com.axiel7.moelist.data.model.media.nameLocalized
+import com.axiel7.moelist.data.model.media.rankText
+import com.axiel7.moelist.data.model.media.relationLocalized
+import com.axiel7.moelist.data.model.media.statusLocalized
+import com.axiel7.moelist.data.model.media.synonymsJoined
+import com.axiel7.moelist.data.model.media.userPreferredTitle
+import com.axiel7.moelist.uicompose.composables.BackIconButton
+import com.axiel7.moelist.uicompose.composables.InfoTitle
+import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_BIG_HEIGHT
+import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_BIG_WIDTH
+import com.axiel7.moelist.uicompose.composables.MediaItemVertical
+import com.axiel7.moelist.uicompose.composables.MediaPoster
+import com.axiel7.moelist.uicompose.composables.ShareButton
+import com.axiel7.moelist.uicompose.composables.TextIconHorizontal
+import com.axiel7.moelist.uicompose.composables.TextIconVertical
+import com.axiel7.moelist.uicompose.composables.VerticalDivider
+import com.axiel7.moelist.uicompose.composables.ViewInBrowserButton
+import com.axiel7.moelist.uicompose.composables.defaultPlaceholder
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.ContextExtensions.getCurrentLanguageTag
@@ -55,7 +111,8 @@ import java.time.LocalTime
 
 const val MEDIA_DETAILS_DESTINATION = "details/{mediaType}/{mediaId}"
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class,
+@OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class,
     ExperimentalPermissionsApi::class
 )
 @Composable
@@ -71,7 +128,8 @@ fun MediaDetailsView(
     val viewModel: MediaDetailsViewModel = viewModel { MediaDetailsViewModel(mediaType) }
 
     val scrollState = rememberScrollState()
-    val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
+    val topAppBarScrollBehavior =
+        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
     val bottomBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
@@ -156,8 +214,7 @@ fun MediaDetailsView(
                                             || details.broadcast.startTime == null
                                         ) {
                                             context.showToast(R.string.invalid_broadcast)
-                                        }
-                                        else if (details.startDate == null) {
+                                        } else if (details.startDate == null) {
                                             context.showToast(R.string.invalid_start_date)
                                         }
                                     }
@@ -183,13 +240,14 @@ fun MediaDetailsView(
                 onClick = {
                     if (isLoggedIn) {
                         if (viewModel.mediaDetails != null) coroutineScope.launch { sheetState.show() }
-                    }
-                    else context.showToast(context.getString(R.string.please_login_to_use_this_feature))
+                    } else context.showToast(context.getString(R.string.please_login_to_use_this_feature))
                 }
             ) {
                 Icon(
-                    painter = painterResource(if (isNewEntry) R.drawable.ic_round_add_24
-                            else R.drawable.ic_round_edit_24),
+                    painter = painterResource(
+                        if (isNewEntry) R.drawable.ic_round_add_24
+                        else R.drawable.ic_round_edit_24
+                    ),
                     contentDescription = "edit"
                 )
                 Text(
@@ -235,7 +293,8 @@ fun MediaDetailsView(
                         fontWeight = FontWeight.Bold
                     )
                     TextIconHorizontal(
-                        text = viewModel.mediaDetails?.mediaType?.mediaFormatLocalized() ?: "Loading",
+                        text = viewModel.mediaDetails?.mediaType?.mediaFormatLocalized()
+                            ?: "Loading",
                         icon = if (mediaType == MediaType.ANIME) R.drawable.ic_round_movie_24
                         else R.drawable.ic_round_menu_book_24,
                         modifier = Modifier
@@ -307,8 +366,7 @@ fun MediaDetailsView(
                             contentDescription = stringResource(R.string.translate)
                         )
                     }
-                }
-                else Spacer(modifier = Modifier.size(48.dp))
+                } else Spacer(modifier = Modifier.size(48.dp))
 
                 IconButton(
                     onClick = {
@@ -329,7 +387,10 @@ fun MediaDetailsView(
                         viewModel.mediaDetails?.synopsis?.let { context.copyToClipBoard(it) }
                     }
                 ) {
-                    Icon(painter = painterResource(R.drawable.round_content_copy_24), contentDescription = "copy")
+                    Icon(
+                        painter = painterResource(R.drawable.round_content_copy_24),
+                        contentDescription = "copy"
+                    )
                 }
             }
 
@@ -360,7 +421,9 @@ fun MediaDetailsView(
                 VerticalDivider(modifier = Modifier.height(32.dp))
 
                 TextIconVertical(
-                    text = NumExtensions.numberFormat.format(viewModel.mediaDetails?.numListUsers ?: 0),
+                    text = NumExtensions.numberFormat.format(
+                        viewModel.mediaDetails?.numListUsers ?: 0
+                    ),
                     icon = R.drawable.ic_round_group_24,
                     tooltip = stringResource(R.string.members)
                 )
@@ -474,7 +537,9 @@ fun MediaDetailsView(
                     themes.forEach { theme ->
                         AnimeThemeItem(text = theme.text, onClick = {
                             context.openAction(
-                                Constants.YOUTUBE_QUERY_URL + viewModel.buildQueryFromThemeText(theme.text)
+                                Constants.YOUTUBE_QUERY_URL + viewModel.buildQueryFromThemeText(
+                                    theme.text
+                                )
                             )
                         })
                     }
@@ -485,7 +550,9 @@ fun MediaDetailsView(
                     themes.forEach { theme ->
                         AnimeThemeItem(text = theme.text, onClick = {
                             context.openAction(
-                                Constants.YOUTUBE_QUERY_URL + viewModel.buildQueryFromThemeText(theme.text)
+                                Constants.YOUTUBE_QUERY_URL + viewModel.buildQueryFromThemeText(
+                                    theme.text
+                                )
                             )
                         })
                     }
@@ -627,11 +694,13 @@ fun MediaDetailsTopAppBar(
                 it[stringPreferencesKey(viewModel.mediaDetails!!.id.toString())]
             }
         }.collectAsState(initial = null)
+
         "not_yet_aired" -> remember {
             context.notificationsDataStore.data.map {
                 it[stringPreferencesKey("start_${viewModel.mediaDetails!!.id}")]
             }
         }.collectAsState(initial = null)
+
         else -> remember { mutableStateOf(null) }
     }
 

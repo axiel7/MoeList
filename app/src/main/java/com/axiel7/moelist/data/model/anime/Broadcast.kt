@@ -37,8 +37,7 @@ fun Broadcast?.dayTimeText() = buildString {
         if (startTime != null) append(" $startTime")
         if (dayOfTheWeek == null && startTime == null)
             append(stringResource(R.string.unknown))
-    }
-    else append(stringResource(R.string.unknown))
+    } else append(stringResource(R.string.unknown))
 }
 
 @Composable
@@ -53,25 +52,28 @@ fun Broadcast.airingInString() = if (startTime != null && dayOfTheWeek != null) 
     val remaining = remaining()
     if (remaining > 0) {
         stringResource(R.string.airing_in).format(remaining.secondsToLegibleText())
-    }
-    else stringResource(R.string.aired_ago).format(remaining.absoluteValue.secondsToLegibleText())
+    } else stringResource(R.string.aired_ago).format(remaining.absoluteValue.secondsToLegibleText())
 } else ""
 
 fun Broadcast.nextAiringDayFormatted() =
-    dateTimeUntilNextBroadcast()?.format(DateTimeFormatter.ofPattern(
-        DateFormat.getBestDateTimePattern(Locale.getDefault(), "EE, d MMM HH:mm")
-    ))
+    dateTimeUntilNextBroadcast()?.format(
+        DateTimeFormatter.ofPattern(
+            DateFormat.getBestDateTimePattern(Locale.getDefault(), "EE, d MMM HH:mm")
+        )
+    )
 
-fun Broadcast.remaining() = secondsUntilNextBroadcast() - LocalDateTime.now().toEpochSecond(DateUtils.defaultZoneOffset)
+fun Broadcast.remaining() =
+    secondsUntilNextBroadcast() - LocalDateTime.now().toEpochSecond(DateUtils.defaultZoneOffset)
 
 fun Broadcast.secondsUntilNextBroadcast() =
     dateTimeUntilNextBroadcast()?.toEpochSecond(DateUtils.defaultZoneOffset) ?: 0
 
-fun Broadcast.dateTimeUntilNextBroadcast(): LocalDateTime? = if (startTime != null && dayOfTheWeek != null) {
-    val airingDay = LocalDate.now().getNextDayOfWeek(DayOfWeek.of(dayOfTheWeek.numeric()))
-    val airingTime = LocalTime.parse(startTime)
-    LocalDateTime.of(airingDay, airingTime)
-        .atZone(SeasonCalendar.japanZoneId)
-        .withZoneSameInstant(ZoneId.systemDefault())
-        .toLocalDateTime()
-} else null
+fun Broadcast.dateTimeUntilNextBroadcast(): LocalDateTime? =
+    if (startTime != null && dayOfTheWeek != null) {
+        val airingDay = LocalDate.now().getNextDayOfWeek(DayOfWeek.of(dayOfTheWeek.numeric()))
+        val airingTime = LocalTime.parse(startTime)
+        LocalDateTime.of(airingDay, airingTime)
+            .atZone(SeasonCalendar.japanZoneId)
+            .withZoneSameInstant(ZoneId.systemDefault())
+            .toLocalDateTime()
+    } else null

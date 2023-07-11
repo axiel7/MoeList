@@ -26,7 +26,8 @@ object NumExtensions {
      * Returns a string representation of the Integer.
      * If the Integer is `<= 0` or `null` returns `"─"`.
      */
-    fun Int?.toStringPositiveValueOrUnknown() = if (this == 0) Constants.UNKNOWN_CHAR else this.toStringOrUnknown()
+    fun Int?.toStringPositiveValueOrUnknown() =
+        if (this == 0) Constants.UNKNOWN_CHAR else this.toStringOrUnknown()
 
     fun Float?.toStringOrZero() = this?.toString() ?: "0.0"
 
@@ -36,5 +37,6 @@ object NumExtensions {
      * Returns a string representation of the Float.
      * If the Float is `<= 0` or `null` returns `"─"`.
      */
-    fun Float?.toStringPositiveValueOrUnknown() = if (this == 0f) Constants.UNKNOWN_CHAR else this.toStringOrUnknown()
+    fun Float?.toStringPositiveValueOrUnknown() =
+        if (this == 0f) Constants.UNKNOWN_CHAR else this.toStringOrUnknown()
 }

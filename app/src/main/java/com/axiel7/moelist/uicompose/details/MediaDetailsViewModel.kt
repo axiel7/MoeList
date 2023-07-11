@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 
 class MediaDetailsViewModel(
     override val mediaType: MediaType
-): BaseMediaViewModel() {
+) : BaseMediaViewModel() {
 
     init {
         isLoading = true
@@ -38,8 +38,10 @@ class MediaDetailsViewModel(
             when (mediaDetails) {
                 is AnimeDetails -> mediaDetails = (mediaDetails as AnimeDetails)
                     .copy(myListStatus = value as? MyAnimeListStatus)
+
                 is MangaDetails -> mediaDetails = (mediaDetails as MangaDetails)
                     .copy(myListStatus = value as? MyMangaListStatus)
+
                 else -> field = value
             }
         }
@@ -79,7 +81,9 @@ class MediaDetailsViewModel(
                 .plus(mediaDetails?.pictures?.map { it.large }?.toTypedArray() ?: emptyArray())
 
             if (mediaDetails == null) setErrorMessage("Unable to reach server")
-            else if (mediaDetails!!.error != null) setErrorMessage(mediaDetails!!.message ?: "Generic error")
+            else if (mediaDetails!!.error != null) setErrorMessage(
+                mediaDetails!!.message ?: "Generic error"
+            )
             else isLoading = false
         }
     }

@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 
 class UserMediaListViewModel(
     listType: ListType
-): BaseMediaViewModel() {
+) : BaseMediaViewModel() {
 
     override val mediaType = listType.mediaType
 
@@ -53,6 +53,7 @@ class UserMediaListViewModel(
             listSort = value
         }
     }
+
     var openSortDialog by mutableStateOf(false)
 
     private val params = ApiParams(
@@ -71,11 +72,13 @@ class UserMediaListViewModel(
                 when (value) {
                     is MyAnimeListStatus -> selectedItem =
                         (selectedItem as? UserAnimeList)?.copy(listStatus = value)
+
                     is MyMangaListStatus -> selectedItem =
                         (selectedItem as? UserMangaList)?.copy(listStatus = value)
                 }
                 onMediaItemStatusChanged(value)
             }
+
         override fun component1(): BaseMyListStatus? = value
         override fun component2(): (BaseMyListStatus?) -> Unit = { value = it }
     }
@@ -173,8 +176,7 @@ class UserMediaListViewModel(
                     if (mediaType == MediaType.ANIME) {
                         mediaList[foundIndex] = (mediaList[foundIndex] as UserAnimeList)
                             .copy(listStatus = myListStatus as MyAnimeListStatus)
-                    }
-                    else if (mediaType == MediaType.MANGA) {
+                    } else if (mediaType == MediaType.MANGA) {
                         mediaList[foundIndex] = (mediaList[foundIndex] as UserMangaList)
                             .copy(listStatus = myListStatus as MyMangaListStatus)
                     }

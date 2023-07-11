@@ -12,4 +12,4 @@ data class RelatedAnime(
     override val relationType: String,
     @SerialName("relation_type_formatted")
     override val relationTypeFormatted: String
-): BaseRelated()
+) : BaseRelated()

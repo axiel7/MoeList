@@ -17,10 +17,10 @@ import com.axiel7.moelist.utils.SeasonCalendar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SeasonChartViewModel: BaseViewModel() {
+class SeasonChartViewModel : BaseViewModel() {
 
     var season by mutableStateOf(SeasonCalendar.currentStartSeason)
-    private set
+        private set
 
     fun setSeason(
         season: Season? = null,

@@ -31,7 +31,7 @@ object UseCases {
 
     fun changeLocale(language: String) {
         val appLocale = if (language == "follow_system") LocaleListCompat.getEmptyLocaleList()
-            else LocaleListCompat.forLanguageTags(language)
+        else LocaleListCompat.forLanguageTags(language)
         AppCompatDelegate.setApplicationLocales(appLocale)
     }
 }

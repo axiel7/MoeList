@@ -7,7 +7,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class StartSeason (
+data class StartSeason(
     @SerialName("year")
     val year: Int,
     @SerialName("season")
@@ -22,6 +22,5 @@ fun StartSeason?.seasonYearText() = buildString {
     }
     if (this@seasonYearText?.year != null) {
         append(year)
-    }
-    else append(stringResource(R.string.unknown))
+    } else append(stringResource(R.string.unknown))
 }

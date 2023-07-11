@@ -1,4 +1,5 @@
 package com.axiel7.moelist.uicompose.theme
+
 import androidx.compose.ui.graphics.Color
 
 val placeholder_color = Color(0xFFDEDEDE)

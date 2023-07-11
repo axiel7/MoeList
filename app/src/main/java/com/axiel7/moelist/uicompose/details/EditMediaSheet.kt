@@ -1,11 +1,43 @@
 package com.axiel7.moelist.uicompose.details
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DatePickerState
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.SheetState
+import androidx.compose.material3.Slider
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -19,7 +51,13 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.manga.MangaNode
-import com.axiel7.moelist.data.model.media.*
+import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.data.model.media.icon
+import com.axiel7.moelist.data.model.media.listStatusAnimeValues
+import com.axiel7.moelist.data.model.media.listStatusMangaValues
+import com.axiel7.moelist.data.model.media.localized
+import com.axiel7.moelist.data.model.media.scoreText
+import com.axiel7.moelist.data.model.media.totalDuration
 import com.axiel7.moelist.uicompose.base.BaseMediaViewModel
 import com.axiel7.moelist.uicompose.composables.ClickableOutlinedTextField
 import com.axiel7.moelist.uicompose.composables.SelectableIconToggleButton
@@ -41,7 +79,8 @@ fun EditMediaSheet(
     bottomPadding: Dp = 0.dp
 ) {
     val context = LocalContext.current
-    val statusValues = if (mediaViewModel.mediaType == MediaType.ANIME) listStatusAnimeValues else listStatusMangaValues
+    val statusValues =
+        if (mediaViewModel.mediaType == MediaType.ANIME) listStatusAnimeValues else listStatusMangaValues
     val datePickerState = rememberDatePickerState()
     val viewModel: EditMediaViewModel = viewModel {
         EditMediaViewModel(
@@ -59,8 +98,13 @@ fun EditMediaSheet(
             datePickerState = datePickerState,
             onDateSelected = {
                 when (viewModel.selectedDateType) {
-                    1 -> { viewModel.startDate = DateUtils.getLocalDateFromMillis(it) }
-                    2 -> { viewModel.endDate = DateUtils.getLocalDateFromMillis(it) }
+                    1 -> {
+                        viewModel.startDate = DateUtils.getLocalDateFromMillis(it)
+                    }
+
+                    2 -> {
+                        viewModel.endDate = DateUtils.getLocalDateFromMillis(it)
+                    }
                 }
             }
         )
@@ -164,8 +208,20 @@ fun EditMediaSheet(
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
                     totalProgress = (viewModel.mediaInfo as MangaNode).numVolumes,
                     onValueChange = { viewModel.onChangeVolumeProgress(it.toIntOrNull()) },
-                    onMinusClick = { viewModel.onChangeVolumeProgress(viewModel.volumeProgress?.minus(1)) },
-                    onPlusClick = { viewModel.onChangeVolumeProgress(viewModel.volumeProgress?.plus(1)) }
+                    onMinusClick = {
+                        viewModel.onChangeVolumeProgress(
+                            viewModel.volumeProgress?.minus(
+                                1
+                            )
+                        )
+                    },
+                    onPlusClick = {
+                        viewModel.onChangeVolumeProgress(
+                            viewModel.volumeProgress?.plus(
+                                1
+                            )
+                        )
+                    }
                 )
             }
 
@@ -188,7 +244,7 @@ fun EditMediaSheet(
 
             ClickableOutlinedTextField(
                 value = viewModel.startDate.toLocalized(),
-                onValueChange = {  },
+                onValueChange = { },
                 label = { Text(text = stringResource(R.string.start_date)) },
                 trailingIcon = {
                     if (viewModel.startDate != null) {
@@ -208,7 +264,7 @@ fun EditMediaSheet(
             )
             ClickableOutlinedTextField(
                 value = viewModel.endDate.toLocalized(),
-                onValueChange = {  },
+                onValueChange = { },
                 modifier = Modifier.padding(vertical = 8.dp),
                 label = { Text(text = stringResource(R.string.end_date)) },
                 trailingIcon = {
@@ -229,8 +285,10 @@ fun EditMediaSheet(
             )
 
             EditMediaProgressRow(
-                label = stringResource(if (viewModel.mediaType == MediaType.ANIME) R.string.total_rewatches
-                else R.string.total_rereads),
+                label = stringResource(
+                    if (viewModel.mediaType == MediaType.ANIME) R.string.total_rewatches
+                    else R.string.total_rereads
+                ),
                 progress = viewModel.repeatCount,
                 modifier = Modifier.padding(16.dp),
                 totalProgress = null,

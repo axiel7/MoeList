@@ -23,8 +23,10 @@ import io.ktor.http.HttpStatusCode
 object AnimeRepository {
 
     const val TODAY_FIELDS = "alternative_titles{en,ja},broadcast,mean,start_season,status"
-    const val CALENDAR_FIELDS = "alternative_titles{en,ja},broadcast,mean,start_season,status,media_type,num_episodes"
-    const val SEASONAL_FIELDS = "alternative_titles{en,ja},start_season,broadcast,num_episodes,media_type,mean"
+    const val CALENDAR_FIELDS =
+        "alternative_titles{en,ja},broadcast,mean,start_season,status,media_type,num_episodes"
+    const val SEASONAL_FIELDS =
+        "alternative_titles{en,ja},start_season,broadcast,num_episodes,media_type,mean"
 
     suspend fun getSeasonalAnimes(
         apiParams: ApiParams,
@@ -62,11 +64,12 @@ object AnimeRepository {
         }
     }
 
-    const val ANIME_DETAILS_FIELDS = "id,title,main_picture,pictures,alternative_titles,start_date,end_date," +
-            "synopsis,mean,rank,popularity,num_list_users,num_scoring_users,media_type,status,genres," +
-            "my_list_status{num_times_rewatched},num_episodes,start_season,broadcast,source," +
-            "average_episode_duration,studios,opening_themes,ending_themes,related_anime{media_type}," +
-            "related_manga{media_type},recommendations"
+    const val ANIME_DETAILS_FIELDS =
+        "id,title,main_picture,pictures,alternative_titles,start_date,end_date," +
+                "synopsis,mean,rank,popularity,num_list_users,num_scoring_users,media_type,status,genres," +
+                "my_list_status{num_times_rewatched},num_episodes,start_season,broadcast,source," +
+                "average_episode_duration,studios,opening_themes,ending_themes,related_anime{media_type}," +
+                "related_manga{media_type},recommendations"
 
     suspend fun getAnimeDetails(
         animeId: Int
@@ -79,7 +82,8 @@ object AnimeRepository {
         }
     }
 
-    const val USER_ANIME_LIST_FIELDS = "alternative_titles{en,ja},list_status{num_times_rewatched},num_episodes,media_type,status,broadcast"
+    const val USER_ANIME_LIST_FIELDS =
+        "alternative_titles{en,ja},list_status{num_times_rewatched},num_episodes,media_type,status,broadcast"
 
     suspend fun getUserAnimeList(
         apiParams: ApiParams,
@@ -105,7 +109,15 @@ object AnimeRepository {
         numRewatches: Int?,
     ): MyAnimeListStatus? {
         return try {
-            val result = App.api.updateUserAnimeList(animeId, status, score, watchedEpisodes, startDate, endDate, numRewatches)
+            val result = App.api.updateUserAnimeList(
+                animeId,
+                status,
+                score,
+                watchedEpisodes,
+                startDate,
+                endDate,
+                numRewatches
+            )
             result.error?.let { BaseRepository.handleResponseError(it) }
             return result
         } catch (e: Exception) {
@@ -124,7 +136,8 @@ object AnimeRepository {
         }
     }
 
-    const val SEARCH_FIELDS = "id,title,alternative_titles{en,ja},main_picture,mean,media_type,num_episodes,num_chapters,start_season"
+    const val SEARCH_FIELDS =
+        "id,title,alternative_titles{en,ja},main_picture,mean,media_type,num_episodes,num_chapters,start_season"
 
     suspend fun searchAnime(
         apiParams: ApiParams,
@@ -140,7 +153,8 @@ object AnimeRepository {
         }
     }
 
-    const val RANKING_FIELDS = "alternative_titles{en,ja},mean,media_type,num_episodes,num_chapters,num_list_users"
+    const val RANKING_FIELDS =
+        "alternative_titles{en,ja},mean,media_type,num_episodes,num_chapters,num_list_users"
 
     suspend fun getAnimeRanking(
         rankingType: RankingType,

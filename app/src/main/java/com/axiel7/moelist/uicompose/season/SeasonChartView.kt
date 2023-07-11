@@ -111,7 +111,10 @@ fun SeasonChartView(
                 onClick = { coroutineScope.launch { sheetState.show() } },
                 modifier = Modifier.padding(WindowInsets.navigationBars.asPaddingValues())
             ) {
-                Icon(painter = painterResource(R.drawable.ic_round_filter_list_24), contentDescription = "filter")
+                Icon(
+                    painter = painterResource(R.drawable.ic_round_filter_list_24),
+                    contentDescription = "filter"
+                )
             }
         },
         contentWindowInsets = WindowInsets.systemBars
@@ -137,7 +140,9 @@ fun SeasonChartView(
                         Text(
                             text = buildString {
                                 append(item.node.mediaType?.mediaFormatLocalized())
-                                if (item.node.totalDuration().toStringPositiveValueOrNull() != null) {
+                                if (item.node.totalDuration()
+                                        .toStringPositiveValueOrNull() != null
+                                ) {
                                     append(" (${item.node.durationText()})")
                                 }
                             },

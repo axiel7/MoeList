@@ -12,7 +12,8 @@ object SeasonCalendar {
     private val calendar: Calendar by lazy {
         Calendar.getInstance(Locale.getDefault())
     }
-    private val jpCalendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"), Locale.ENGLISH)
+    private val jpCalendar =
+        Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"), Locale.ENGLISH)
 
     /**
      * The current month from 0 to 11
@@ -36,7 +37,7 @@ object SeasonCalendar {
         season = currentSeason
     )
 
-    val currentWeekday = when(weekDay) {
+    val currentWeekday = when (weekDay) {
         2 -> WeekDay.MONDAY
         3 -> WeekDay.TUESDAY
         4 -> WeekDay.WEDNESDAY
@@ -49,7 +50,7 @@ object SeasonCalendar {
 
     val currentJapanHour get() = jpCalendar.get(Calendar.HOUR_OF_DAY)
 
-    val currentJapanWeekday = when(jpCalendar.get(Calendar.DAY_OF_WEEK)) {
+    val currentJapanWeekday = when (jpCalendar.get(Calendar.DAY_OF_WEEK)) {
         2 -> WeekDay.MONDAY
         3 -> WeekDay.TUESDAY
         4 -> WeekDay.WEDNESDAY

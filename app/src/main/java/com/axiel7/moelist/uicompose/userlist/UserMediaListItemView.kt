@@ -94,7 +94,10 @@ fun StandardUserMediaListItem(
                     url = imageUrl,
                     showShadow = false,
                     modifier = Modifier
-                        .size(width = MEDIA_POSTER_SMALL_WIDTH.dp, height = MEDIA_POSTER_SMALL_HEIGHT.dp)
+                        .size(
+                            width = MEDIA_POSTER_SMALL_WIDTH.dp,
+                            height = MEDIA_POSTER_SMALL_HEIGHT.dp
+                        )
                 )
 
                 Row(
@@ -105,7 +108,12 @@ fun StandardUserMediaListItem(
                 ) {
                     Text(
                         text = if ((score ?: 0) == 0) Constants.UNKNOWN_CHAR else "$score",
-                        modifier = Modifier.padding(start = 8.dp, top = 4.dp, end = 2.dp, bottom = 4.dp),
+                        modifier = Modifier.padding(
+                            start = 8.dp,
+                            top = 4.dp,
+                            end = 2.dp,
+                            bottom = 4.dp
+                        ),
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                     Icon(
@@ -134,7 +142,7 @@ fun StandardUserMediaListItem(
                     )
                     Text(
                         text = if (isAiring) broadcast!!.airingInString()
-                            else mediaFormat?.mediaFormatLocalized() ?: "",
+                        else mediaFormat?.mediaFormatLocalized() ?: "",
                         modifier = Modifier.padding(horizontal = 16.dp),
                         color = if (isAiring) MaterialTheme.colorScheme.primary
                         else MaterialTheme.colorScheme.onSurface
@@ -270,7 +278,10 @@ fun CompactUserMediaListItem(
                     showShadow = false,
                     contentScale = ContentScale.FillWidth,
                     modifier = Modifier
-                        .size(width = MEDIA_POSTER_SMALL_WIDTH.dp, height = MEDIA_POSTER_SMALL_WIDTH.dp)
+                        .size(
+                            width = MEDIA_POSTER_SMALL_WIDTH.dp,
+                            height = MEDIA_POSTER_SMALL_WIDTH.dp
+                        )
                 )
 
                 Row(
@@ -281,7 +292,12 @@ fun CompactUserMediaListItem(
                 ) {
                     Text(
                         text = if ((score ?: 0) == 0) Constants.UNKNOWN_CHAR else "$score",
-                        modifier = Modifier.padding(start = 8.dp, top = 4.dp, end = 2.dp, bottom = 4.dp),
+                        modifier = Modifier.padding(
+                            start = 8.dp,
+                            top = 4.dp,
+                            end = 2.dp,
+                            bottom = 4.dp
+                        ),
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                     Icon(

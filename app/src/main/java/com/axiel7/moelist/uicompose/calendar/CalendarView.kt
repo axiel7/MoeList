@@ -76,7 +76,7 @@ fun CalendarView(
         if (viewModel.weekAnime[0].isEmpty())
             viewModel.getSeasonAnime()
     }
-    
+
     DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.calendar),
         navigateBack = navigateBack,
@@ -101,14 +101,15 @@ fun CalendarView(
                     )
                 }
             }
-            
+
             HorizontalPager(
                 state = pagerState
             ) { page ->
                 LazyColumn(
                     contentPadding = PaddingValues(
                         top = 8.dp,
-                        bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+                        bottom = WindowInsets.navigationBars.asPaddingValues()
+                            .calculateBottomPadding()
                     )
                 ) {
                     items(
@@ -122,7 +123,9 @@ fun CalendarView(
                                 Text(
                                     text = buildString {
                                         append(item.node.mediaType?.mediaFormatLocalized())
-                                        if (item.node.totalDuration().toStringPositiveValueOrNull() != null) {
+                                        if (item.node.totalDuration()
+                                                .toStringPositiveValueOrNull() != null
+                                        ) {
                                             append(" (${item.node.durationText()})")
                                         }
                                     },

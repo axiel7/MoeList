@@ -71,7 +71,10 @@ fun MainNavigation(
     topBarHeightPx: Float,
     topBarOffsetY: Animatable<Float, AnimationVector1D>,
 ) {
-    val accessTokenPreference by PreferencesDataStore.rememberPreference(ACCESS_TOKEN_PREFERENCE_KEY, App.accessToken ?: "")
+    val accessTokenPreference by PreferencesDataStore.rememberPreference(
+        ACCESS_TOKEN_PREFERENCE_KEY,
+        App.accessToken ?: ""
+    )
     val stringArrayType = remember { StringArrayNavType() }
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -81,8 +84,7 @@ fun MainNavigation(
     LaunchedEffect(navBackStackEntry) {
         if (BottomDestination.routes.contains(navBackStackEntry?.destination?.route)) {
             systemUiController.setStatusBarColor(backgroundColor)
-        }
-        else systemUiController.setStatusBarColor(Color.Transparent)
+        } else systemUiController.setStatusBarColor(Color.Transparent)
     }
 
     NavHost(
@@ -130,7 +132,9 @@ fun MainNavigation(
             arguments = listOf(navArgument("mediaType") { type = NavType.StringType })
         ) { navEntry ->
             MediaRankingView(
-                mediaType = MediaType.valueOf(navEntry.arguments?.getString("mediaType") ?: "ANIME"),
+                mediaType = MediaType.valueOf(
+                    navEntry.arguments?.getString("mediaType") ?: "ANIME"
+                ),
                 navigateBack = {
                     navController.popBackStack()
                 },

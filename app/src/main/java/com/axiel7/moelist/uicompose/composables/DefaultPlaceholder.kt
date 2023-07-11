@@ -9,8 +9,10 @@ import com.google.accompanist.placeholder.material.placeholder
 
 fun Modifier.defaultPlaceholder(
     visible: Boolean
-) = composed { placeholder(
-    visible = visible,
-    color = MaterialTheme.colorScheme.outline,
-    highlight = PlaceholderHighlight.fade()
-) }
+) = composed {
+    placeholder(
+        visible = visible,
+        color = MaterialTheme.colorScheme.outline,
+        highlight = PlaceholderHighlight.fade()
+    )
+}

@@ -75,7 +75,11 @@ fun NotificationsView(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
-                            navigateToMediaDetails(MediaType.ANIME, key.toString().toInt())
+                            navigateToMediaDetails(MediaType.ANIME,
+                                key
+                                    .toString()
+                                    .toInt()
+                            )
                         },
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically

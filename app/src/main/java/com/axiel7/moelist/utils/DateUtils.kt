@@ -26,7 +26,8 @@ object DateUtils {
     ): String? {
         if (time == null) return null
         return try {
-            LocalDateTime.ofInstant(Instant.ofEpochMilli(time), TimeZone.getDefault().toZoneId()).format(formatter)
+            LocalDateTime.ofInstant(Instant.ofEpochMilli(time), TimeZone.getDefault().toZoneId())
+                .format(formatter)
         } catch (e: Exception) {
             null
         }
@@ -67,7 +68,8 @@ object DateUtils {
     ): Long? {
         if (date == null) return null
         return try {
-            getLocalDateFromDateString(date, formatter)?.atStartOfDay()?.toInstant(defaultZoneOffset)?.toEpochMilli()
+            getLocalDateFromDateString(date, formatter)?.atStartOfDay()
+                ?.toInstant(defaultZoneOffset)?.toEpochMilli()
         } catch (e: DateTimeException) {
             null
         }
@@ -117,6 +119,7 @@ object DateUtils {
                 //YearMonth.parse(this)
                 //    ?.format(DateTimeFormatter.ofLocalizedDate(style))
             }
+
             else -> {
                 LocalDate.parse(this, inputFormat)
                     ?.format(DateTimeFormatter.ofLocalizedDate(style))
@@ -128,11 +131,13 @@ object DateUtils {
         null
     }
 
-    fun String.toIsoFormat(inputFormat: DateTimeFormatter) = LocalDate.parse(this, inputFormat).toString()
+    fun String.toIsoFormat(inputFormat: DateTimeFormatter) =
+        LocalDate.parse(this, inputFormat).toString()
 
     fun LocalDate.toEpochMillis() = this.atStartOfDay().toInstant(defaultZoneOffset).toEpochMilli()
 
-    fun LocalDate.getNextDayOfWeek(dayOfWeek: DayOfWeek) = with(TemporalAdjusters.nextOrSame(dayOfWeek))
+    fun LocalDate.getNextDayOfWeek(dayOfWeek: DayOfWeek) =
+        with(TemporalAdjusters.nextOrSame(dayOfWeek))
 
     /**
      * Converts seconds to years, months, weeks, days, hours or minutes.
@@ -151,8 +156,7 @@ object DateUtils {
                     stringResource(R.string.num_years).format(years)
                 } else stringResource(R.string.num_months).format(months)
             } else stringResource(R.string.num_weeks).format(weeks)
-        }
-        else if (days >= 1) return stringResource(R.string.num_days).format(days)
+        } else if (days >= 1) return stringResource(R.string.num_days).format(days)
         else {
             val hours = this / 3600
             return if (hours >= 1) "$hours ${stringResource(R.string.hour_abbreviation)}"

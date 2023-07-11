@@ -31,7 +31,7 @@ data class AnimeStats(
     override val repeat: Int,
     @SerialName("episodes_watched")
     val episodesWatched: Int,
-): MediaStats()
+) : MediaStats()
 
 @Serializable
 data class MangaStats(
@@ -57,7 +57,7 @@ data class MangaStats(
     val chaptersRead: Int,
     @SerialName("volumes_read")
     val volumesRead: Int,
-): MediaStats()
+) : MediaStats()
 
 @Serializable
 abstract class MediaStats {

@@ -12,7 +12,7 @@ import com.axiel7.moelist.uicompose.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SearchViewModel: BaseViewModel() {
+class SearchViewModel : BaseViewModel() {
 
     private val params = ApiParams(
         nsfw = App.nsfw,

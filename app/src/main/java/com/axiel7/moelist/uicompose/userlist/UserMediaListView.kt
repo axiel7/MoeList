@@ -199,13 +199,20 @@ fun UserMediaListView(
     val viewModel = viewModel(key = listType.toString()) {
         UserMediaListViewModel(listType)
     }
-    val pullRefreshState = rememberPullRefreshState(viewModel.isLoading, { viewModel.getUserList() })
+    val pullRefreshState =
+        rememberPullRefreshState(viewModel.isLoading, { viewModel.getUserList() })
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
     val bottomBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
-    val useGeneralListStyle by rememberPreference(USE_GENERAL_LIST_STYLE_PREFERENCE_KEY, App.useGeneralListStyle)
-    val generalListStyle by rememberPreference(GENERAL_LIST_STYLE_PREFERENCE_KEY, App.generalListStyle.value)
+    val useGeneralListStyle by rememberPreference(
+        USE_GENERAL_LIST_STYLE_PREFERENCE_KEY,
+        App.useGeneralListStyle
+    )
+    val generalListStyle by rememberPreference(
+        GENERAL_LIST_STYLE_PREFERENCE_KEY,
+        App.generalListStyle.value
+    )
 
     val listStyle = if (useGeneralListStyle) generalListStyle else viewModel.listTypeStyle
 
@@ -250,7 +257,10 @@ fun UserMediaListView(
             )
 
         if (listStyle == ListStyle.GRID.value) {
-            val itemsPerRow by rememberPreference(GRID_ITEMS_PER_ROW_PREFERENCE_KEY, App.gridItemsPerRow)
+            val itemsPerRow by rememberPreference(
+                GRID_ITEMS_PER_ROW_PREFERENCE_KEY,
+                App.gridItemsPerRow
+            )
             val listState = rememberLazyGridState()
             if (!viewModel.isLoadingList) {
                 listState.OnBottomReached(buffer = 3) {
@@ -261,7 +271,7 @@ fun UserMediaListView(
             }
             LazyVerticalGrid(
                 columns = if (itemsPerRow > 0) GridCells.Fixed(itemsPerRow)
-                    else GridCells.Adaptive(minSize = (MEDIA_POSTER_MEDIUM_WIDTH + 8).dp),
+                else GridCells.Adaptive(minSize = (MEDIA_POSTER_MEDIUM_WIDTH + 8).dp),
                 modifier = listModifier
                     .collapsable(
                         state = listState,

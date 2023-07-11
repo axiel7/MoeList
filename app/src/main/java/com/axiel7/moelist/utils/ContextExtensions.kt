@@ -63,7 +63,8 @@ object ContextExtensions {
     fun Context.openLink(url: String) {
         val uri = Uri.parse(url)
         Intent(Intent.ACTION_VIEW, uri).apply {
-            val defaultBrowser = findBrowserIntentActivities(PackageManager.MATCH_DEFAULT_ONLY).firstOrNull()
+            val defaultBrowser =
+                findBrowserIntentActivities(PackageManager.MATCH_DEFAULT_ONLY).firstOrNull()
             if (defaultBrowser != null) {
                 setPackage(defaultBrowser.activityInfo.packageName)
                 startActivity(this)

@@ -30,4 +30,4 @@ data class MangaNode(
     override val status: String? = null,
     @SerialName("mean")
     override val mean: Float? = null
-): BaseMediaNode()
+) : BaseMediaNode()

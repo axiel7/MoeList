@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 class MediaRankingViewModel(
     private val mediaType: MediaType,
     private val rankingType: RankingType
-): BaseViewModel() {
+) : BaseViewModel() {
 
     private val params = ApiParams(
         nsfw = App.nsfw,

@@ -99,7 +99,10 @@ fun SearchView(
                     modifier = Modifier.padding(start = 8.dp),
                     leadingIcon = {
                         if (mediaType == MediaType.ANIME) {
-                            Icon(painter = painterResource(R.drawable.round_check_24), contentDescription = "check")
+                            Icon(
+                                painter = painterResource(R.drawable.round_check_24),
+                                contentDescription = "check"
+                            )
                         }
                     }
                 )
@@ -113,7 +116,10 @@ fun SearchView(
                     modifier = Modifier.padding(start = 8.dp),
                     leadingIcon = {
                         if (mediaType == MediaType.MANGA) {
-                            Icon(painter = painterResource(R.drawable.round_check_24), contentDescription = "check")
+                            Icon(
+                                painter = painterResource(R.drawable.round_check_24),
+                                contentDescription = "check"
+                            )
                         }
                     }
                 )
@@ -169,8 +175,7 @@ fun SearchView(
                 items(10) {
                     MediaItemDetailedPlaceholder()
                 }
-            }
-            else if (performSearch.value) {
+            } else if (performSearch.value) {
                 item {
                     Column(
                         modifier = Modifier.fillMaxWidth(),

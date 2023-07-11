@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Paging (
+data class Paging(
     @SerialName("next")
     val next: String? = null,
     @SerialName("previous")

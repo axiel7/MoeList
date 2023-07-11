@@ -71,8 +71,10 @@ class NotificationWorker(
                 }
             )
             // Get the PendingIntent containing the entire back stack
-            getPendingIntent(0,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+            getPendingIntent(
+                0,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
         }
 
         val builder = NotificationCompat.Builder(applicationContext, AIRING_ANIME_CHANNEL_ID)
@@ -84,7 +86,8 @@ class NotificationWorker(
 
         // Show the notification
         with(NotificationManagerCompat.from(applicationContext)) {
-            if (ActivityCompat.checkSelfPermission(applicationContext,
+            if (ActivityCompat.checkSelfPermission(
+                    applicationContext,
                     Manifest.permission.POST_NOTIFICATIONS
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
@@ -130,12 +133,17 @@ class NotificationWorker(
                 it[stringPreferencesKey(animeId.toString())] = title
             }
 
-            val notificationWorkRequest = PeriodicWorkRequestBuilder<NotificationWorker>(7, TimeUnit.DAYS)
-                .setInitialDelay(delay, TimeUnit.SECONDS)
-                .setInputData(inputData)
-                .build()
+            val notificationWorkRequest =
+                PeriodicWorkRequestBuilder<NotificationWorker>(7, TimeUnit.DAYS)
+                    .setInitialDelay(delay, TimeUnit.SECONDS)
+                    .setInputData(inputData)
+                    .build()
 
-            workManager.enqueueUniquePeriodicWork("notification_$animeId", ExistingPeriodicWorkPolicy.UPDATE, notificationWorkRequest)
+            workManager.enqueueUniquePeriodicWork(
+                "notification_$animeId",
+                ExistingPeriodicWorkPolicy.UPDATE,
+                notificationWorkRequest
+            )
         }
 
         suspend fun removeAiringAnimeNotification(context: Context, animeId: Int) {
@@ -197,7 +205,8 @@ const val AIRING_ANIME_CHANNEL_ID = "airing_notifications"
 @RequiresApi(Build.VERSION_CODES.O)
 fun createAiringAnimeNotificationChannel(context: Context) {
     val importance = NotificationManager.IMPORTANCE_DEFAULT
-    val channel = NotificationChannel(AIRING_ANIME_CHANNEL_ID, context.getString(R.string.airing), importance)
+    val channel =
+        NotificationChannel(AIRING_ANIME_CHANNEL_ID, context.getString(R.string.airing), importance)
     channel.description = ""
     // Register the channel with the system
     val notificationManager: NotificationManager =

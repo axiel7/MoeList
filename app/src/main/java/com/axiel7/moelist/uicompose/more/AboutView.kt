@@ -45,8 +45,7 @@ fun AboutView(
                     if (versionClicks >= 7) {
                         context.showToast("✧◝(⁰▿⁰)◜✧")
                         versionClicks = 0
-                    }
-                    else versionClicks++
+                    } else versionClicks++
                 }
             )
             MoreItem(

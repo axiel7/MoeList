@@ -108,13 +108,35 @@ fun DonutChart(
 @Composable
 fun DonutChartPreview() {
     val stats = remember {
-        mutableStateOf(listOf(
-            Stat(title = R.string.watching, value = 12f, color = Color(red = 0, green = 200, blue = 83)),
-            Stat(title = R.string.completed, value = 120f, color = Color(red = 92, green = 107, blue = 192)),
-            Stat(title = R.string.on_hold, value = 5f, color = Color(red = 255, green = 213, blue = 0)),
-            Stat(title = R.string.dropped, value = 3f, color = Color(red = 213, green = 0, blue = 0)),
-            Stat(title = R.string.ptw, value = 30f, color = Color(red = 158, green = 158, blue = 158)),
-        ))
+        mutableStateOf(
+            listOf(
+                Stat(
+                    title = R.string.watching,
+                    value = 12f,
+                    color = Color(red = 0, green = 200, blue = 83)
+                ),
+                Stat(
+                    title = R.string.completed,
+                    value = 120f,
+                    color = Color(red = 92, green = 107, blue = 192)
+                ),
+                Stat(
+                    title = R.string.on_hold,
+                    value = 5f,
+                    color = Color(red = 255, green = 213, blue = 0)
+                ),
+                Stat(
+                    title = R.string.dropped,
+                    value = 3f,
+                    color = Color(red = 213, green = 0, blue = 0)
+                ),
+                Stat(
+                    title = R.string.ptw,
+                    value = 30f,
+                    color = Color(red = 158, green = 158, blue = 158)
+                ),
+            )
+        )
     }
     MoeListTheme {
         DonutChart(

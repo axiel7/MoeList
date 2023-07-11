@@ -27,6 +27,7 @@ fun BaseMediaNode.title(language: TitleLanguage) = when (language) {
     TitleLanguage.ENGLISH ->
         if (alternativeTitles?.en.isNullOrBlank()) title
         else alternativeTitles?.en ?: title
+
     TitleLanguage.JAPANESE ->
         if (alternativeTitles?.ja.isNullOrBlank()) title
         else alternativeTitles?.ja ?: title
@@ -46,6 +47,7 @@ fun BaseMediaNode.durationText() = when (this) {
         if (stringValue == null) "??"
         else "$stringValue ${stringResource(R.string.episodes)}"
     }
+
     is MangaNode -> {
         val stringValue = this.numChapters.toStringPositiveValueOrNull()
         if (stringValue == null) "??"

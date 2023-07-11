@@ -4,7 +4,7 @@ import com.axiel7.moelist.data.model.anime.UserAnimeList
 import com.axiel7.moelist.data.model.manga.UserMangaList
 import com.axiel7.moelist.data.model.manga.isUsingVolumeProgress
 
-abstract class BaseUserMediaList<T: BaseMediaNode> {
+abstract class BaseUserMediaList<T : BaseMediaNode> {
     abstract val node: T
     abstract val listStatus: BaseMyListStatus?
     abstract val status: String?
@@ -19,6 +19,7 @@ fun BaseUserMediaList<*>.userProgress() = when (this) {
             listStatus?.progress
         }
     }
+
     else -> null
 }
 
@@ -31,6 +32,7 @@ fun BaseUserMediaList<*>.totalProgress() = when (this) {
             node.numChapters
         }
     }
+
     else -> null
 }
 

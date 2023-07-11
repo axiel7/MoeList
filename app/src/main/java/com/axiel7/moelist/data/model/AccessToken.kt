@@ -16,4 +16,4 @@ data class AccessToken(
 
     override val error: String? = null,
     override val message: String? = null,
-): BaseResponse()
+) : BaseResponse()

@@ -213,8 +213,7 @@ fun HomeView(
                     textAlign = TextAlign.Center
                 )
             }
-        }
-        else LazyRow(
+        } else LazyRow(
             modifier = Modifier
                 .padding(top = 8.dp)
                 .sizeIn(minHeight = MEDIA_ITEM_VERTICAL_HEIGHT.dp),
@@ -260,8 +259,7 @@ fun HomeView(
                     textAlign = TextAlign.Center
                 )
             }
-        }
-        else if (!viewModel.isLoading && viewModel.recommendedAnimes.isEmpty()) {
+        } else if (!viewModel.isLoading && viewModel.recommendedAnimes.isEmpty()) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -273,8 +271,7 @@ fun HomeView(
                     textAlign = TextAlign.Center
                 )
             }
-        }
-        else LazyRow(
+        } else LazyRow(
             modifier = Modifier
                 .padding(vertical = 8.dp)
                 .sizeIn(minHeight = MEDIA_ITEM_VERTICAL_HEIGHT.dp),
@@ -390,7 +387,10 @@ fun HeaderHorizontalList(text: String, onClick: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(text, fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
-            Icon(imageVector = ImageVector.vectorResource(R.drawable.ic_round_arrow_forward_24), contentDescription = text)
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.ic_round_arrow_forward_24),
+                contentDescription = text
+            )
         }
     }
 }
@@ -406,7 +406,10 @@ fun AiringAnimeHorizontalItem(item: AnimeRanking, onClick: () -> Unit) {
     ) {
         MediaPoster(
             url = item.node.mainPicture?.large,
-            modifier = Modifier.size(width = MEDIA_POSTER_SMALL_WIDTH.dp, height = MEDIA_POSTER_SMALL_HEIGHT.dp)
+            modifier = Modifier.size(
+                width = MEDIA_POSTER_SMALL_WIDTH.dp,
+                height = MEDIA_POSTER_SMALL_HEIGHT.dp
+            )
         )
 
         Column(

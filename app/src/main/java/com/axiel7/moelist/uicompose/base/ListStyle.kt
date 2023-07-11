@@ -19,12 +19,13 @@ enum class ListStyle(val value: String) {
     }
 }
 
-val ListStyle.stringRes get() = when (this) {
-    ListStyle.STANDARD -> R.string.list_mode_standard
-    ListStyle.COMPACT -> R.string.list_mode_compact
-    ListStyle.MINIMAL -> R.string.list_mode_minimal
-    ListStyle.GRID -> R.string.list_mode_grid
-}
+val ListStyle.stringRes
+    get() = when (this) {
+        ListStyle.STANDARD -> R.string.list_mode_standard
+        ListStyle.COMPACT -> R.string.list_mode_compact
+        ListStyle.MINIMAL -> R.string.list_mode_minimal
+        ListStyle.GRID -> R.string.list_mode_grid
+    }
 
 @Composable
 fun ListStyle.localized() = stringResource(stringRes)

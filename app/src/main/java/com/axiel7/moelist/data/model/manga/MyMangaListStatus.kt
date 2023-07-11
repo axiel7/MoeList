@@ -6,7 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MyMangaListStatus (
+data class MyMangaListStatus(
     override val status: ListStatus,
     override val score: Int = 0,
     @SerialName("updated_at")
@@ -24,6 +24,7 @@ data class MyMangaListStatus (
     @SerialName("num_times_reread")
     override val repeatCount: Int? = 0,
 
-) : BaseMyListStatus()
+    ) : BaseMyListStatus()
 
-fun MyMangaListStatus.isUsingVolumeProgress() = numVolumesRead > 0 && (progress == null || progress == 0)
+fun MyMangaListStatus.isUsingVolumeProgress() =
+    numVolumesRead > 0 && (progress == null || progress == 0)

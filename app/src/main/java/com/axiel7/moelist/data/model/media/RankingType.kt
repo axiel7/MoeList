@@ -14,11 +14,18 @@ enum class RankingType(val value: String) {
     AIRING("airing"),
 }
 
-val rankingAnimeValues get() =
-    arrayOf(RankingType.SCORE, RankingType.POPULARITY, RankingType.FAVORITE, RankingType.UPCOMING)
+val rankingAnimeValues
+    get() =
+        arrayOf(
+            RankingType.SCORE,
+            RankingType.POPULARITY,
+            RankingType.FAVORITE,
+            RankingType.UPCOMING
+        )
 
-val rankingMangaValues get() =
-    arrayOf(RankingType.SCORE, RankingType.POPULARITY, RankingType.FAVORITE)
+val rankingMangaValues
+    get() =
+        arrayOf(RankingType.SCORE, RankingType.POPULARITY, RankingType.FAVORITE)
 
 @Composable
 fun RankingType.localized() = when (this) {

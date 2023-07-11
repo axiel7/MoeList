@@ -16,7 +16,7 @@ import com.axiel7.moelist.utils.SeasonCalendar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class HomeViewModel: BaseViewModel() {
+class HomeViewModel : BaseViewModel() {
 
     fun initRequestChain(isLoggedIn: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -47,7 +47,9 @@ class HomeViewModel: BaseViewModel() {
                     && !todayAnimes.contains(anime)
                     && anime.node.broadcast.dayOfTheWeek == SeasonCalendar.currentJapanWeekday
                     && anime.node.status == Constants.STATUS_AIRING
-                ) { tempList.add(anime) }
+                ) {
+                    tempList.add(anime)
+                }
             }
             tempList.sortByDescending { it.node.broadcast?.startTime }
             todayAnimes.clear()

@@ -95,7 +95,11 @@ fun ProfileView(
                         .size(100.dp)
                         .defaultPlaceholder(visible = viewModel.isLoading)
                         .clickable {
-                            navigateToFullPoster(arrayOf(viewModel.profilePictureUrl ?: "").toNavArgument())
+                            navigateToFullPoster(
+                                arrayOf(
+                                    viewModel.profilePictureUrl ?: ""
+                                ).toNavArgument()
+                            )
                         }
                 )
 
@@ -198,9 +202,9 @@ fun UserStatsView(
             centerContent = {
                 Text(
                     text = stringResource(R.string.total_entries).format(
-                    if (mediaType == MediaType.ANIME)
-                        viewModel.animeStats.value.sumOf { it.value.toInt() }
-                    else viewModel.mangaStats.value.sumOf { it.value.toInt() }
+                        if (mediaType == MediaType.ANIME)
+                            viewModel.animeStats.value.sumOf { it.value.toInt() }
+                        else viewModel.mangaStats.value.sumOf { it.value.toInt() }
                     ),
                     modifier = Modifier
                         .width(100.dp)
@@ -213,21 +217,21 @@ fun UserStatsView(
         Column {
             (if (mediaType == MediaType.ANIME) viewModel.animeStats else viewModel.mangaStats).value
                 .forEach {
-                SuggestionChip(
-                    onClick = { },
-                    label = { Text(text = stringResource(it.title)) },
-                    modifier = Modifier.padding(horizontal = 8.dp),
-                    icon = {
-                        Text(
-                            text = String.format("%.0f", it.value),
-                            modifier = Modifier.defaultPlaceholder(visible = isLoading)
+                    SuggestionChip(
+                        onClick = { },
+                        label = { Text(text = stringResource(it.title)) },
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                        icon = {
+                            Text(
+                                text = String.format("%.0f", it.value),
+                                modifier = Modifier.defaultPlaceholder(visible = isLoading)
+                            )
+                        },
+                        border = SuggestionChipDefaults.suggestionChipBorder(
+                            borderColor = it.color
                         )
-                    },
-                    border = SuggestionChipDefaults.suggestionChipBorder(
-                        borderColor = it.color
                     )
-                )
-            }
+                }
         }
     }
 

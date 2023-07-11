@@ -10,25 +10,43 @@ import kotlinx.serialization.Serializable
 enum class ListStatus(val value: String) {
     @SerialName("watching")
     WATCHING("watching"),
+
     @SerialName("reading")
     READING("reading"),
+
     @SerialName("plan_to_watch")
     PTW("plan_to_watch"),
+
     @SerialName("plan_to_read")
     PTR("plan_to_read"),
+
     @SerialName("completed")
     COMPLETED("completed"),
+
     @SerialName("on_hold")
     ON_HOLD("on_hold"),
+
     @SerialName("dropped")
     DROPPED("dropped")
 }
 
 val listStatusAnimeValues =
-    arrayOf(ListStatus.WATCHING, ListStatus.PTW, ListStatus.COMPLETED, ListStatus.ON_HOLD, ListStatus.DROPPED)
+    arrayOf(
+        ListStatus.WATCHING,
+        ListStatus.PTW,
+        ListStatus.COMPLETED,
+        ListStatus.ON_HOLD,
+        ListStatus.DROPPED
+    )
 
 val listStatusMangaValues =
-    arrayOf(ListStatus.READING, ListStatus.PTR, ListStatus.COMPLETED, ListStatus.ON_HOLD, ListStatus.DROPPED)
+    arrayOf(
+        ListStatus.READING,
+        ListStatus.PTR,
+        ListStatus.COMPLETED,
+        ListStatus.ON_HOLD,
+        ListStatus.DROPPED
+    )
 
 fun listStatusValues(mediaType: MediaType) =
     if (mediaType == MediaType.ANIME) listStatusAnimeValues else listStatusMangaValues

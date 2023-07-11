@@ -1,80 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/Widget.AppWidget.AppWidget.Container"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:theme="@style/Theme.AppWidget.AppWidgetContainer">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:paddingBottom="8dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
             android:text="Bocchi the Rock!"
-            android:textSize="16sp"
-            android:lines="1"
-            android:ellipsize="end"/>
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
             android:text="Tue, 8 May at 23:00"
-            android:textColor="@color/md_theme_primary"
-            android:lines="1"
-            android:ellipsize="end"/>
+            android:textColor="@color/md_theme_primary" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:paddingBottom="8dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
             android:text="Chainsaw Man"
-            android:textSize="16sp"
-            android:lines="1"
-            android:ellipsize="end"/>
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Thu, 10 May at 00:00"
-            android:textColor="@color/md_theme_primary"
+            android:ellipsize="end"
             android:lines="1"
-            android:ellipsize="end"/>
+            android:text="Thu, 10 May at 00:00"
+            android:textColor="@color/md_theme_primary" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:paddingBottom="8dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Kimetsu no Yaiba: Katanakaji no Sato-hen"
-            android:textSize="16sp"
+            android:ellipsize="end"
             android:lines="1"
-            android:ellipsize="end"/>
+            android:text="Kimetsu no Yaiba: Katanakaji no Sato-hen"
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Fri, 11 May at 20:00"
-            android:textColor="@color/md_theme_primary"
+            android:ellipsize="end"
             android:lines="1"
-            android:ellipsize="end"/>
+            android:text="Fri, 11 May at 20:00"
+            android:textColor="@color/md_theme_primary" />
 
     </LinearLayout>
 
