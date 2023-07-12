@@ -293,5 +293,6 @@
     <string name="airing_notification_enabled">Notificación de emisión activada</string>
     <string name="start_airing_notification_enabled">Notificación de comienzo de emisión activada</string>
     <string name="invalid_start_date">Fecha de inicio no válida</string>
-    <string name="invalid_broadcast" comment="In this case broadcast means &amp;quot;Broadcast schedule&amp;quot;">Horario de emisión no válido</string>
+    <string name="invalid_broadcast">Horario de emisión no válido</string>
+    <string name="synopsis_background">Background</string>
 </resources>
