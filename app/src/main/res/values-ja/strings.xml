@@ -293,5 +293,6 @@
     <string name="airing_notification_enabled">放映通知が有効</string>
     <string name="start_airing_notification_enabled">放映開始通知が有効</string>
     <string name="invalid_start_date">無効な公開日</string>
-    <string name="invalid_broadcast" comment="In this case broadcast means &amp;quot;Broadcast schedule&amp;quot;">無効な配信</string>
+    <string name="invalid_broadcast">無効な配信</string>
+    <string name="synopsis_background">Background</string>
 </resources>
