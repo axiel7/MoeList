@@ -290,9 +290,9 @@
     <string name="changes_will_take_effect_on_app_restart">Değişiklikler, yeniden başlatma sonrası etkin olacak</string>
     <string name="items_per_row">Satır başına öğe sayısı</string>
     <string name="default_setting">Varsayılan</string>
-    <string name="airing_notification_enabled">Airing notification enabled</string>
-    <string name="start_airing_notification_enabled">Start airing notification enabled</string>
-    <string name="invalid_start_date">Invalid start date</string>
-    <string name="invalid_broadcast">Invalid broadcast</string>
-    <string name="synopsis_background">Background</string>
+    <string name="airing_notification_enabled">Yayınlanma bildirimi etkin</string>
+    <string name="start_airing_notification_enabled">Yayınlanmaya başladı bildirimi etkin</string>
+    <string name="invalid_start_date">Geçersiz başlangıç tarihi</string>
+    <string name="invalid_broadcast">Geçersiz yayın</string>
+    <string name="synopsis_background" comment="other possible translation: Context">Background</string>
 </resources>
