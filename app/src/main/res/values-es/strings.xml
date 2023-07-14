@@ -294,5 +294,5 @@
     <string name="start_airing_notification_enabled">Notificación de comienzo de emisión activada</string>
     <string name="invalid_start_date">Fecha de inicio no válida</string>
     <string name="invalid_broadcast">Horario de emisión no válido</string>
-    <string name="synopsis_background">Background</string>
+    <string name="synopsis_background" comment="other possible translation: Context">Contexto</string>
 </resources>
