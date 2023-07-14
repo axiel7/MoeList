@@ -290,9 +290,9 @@
     <string name="changes_will_take_effect_on_app_restart">Mudanças se darão ao reiniciar o app</string>
     <string name="items_per_row">Itens por linha</string>
     <string name="default_setting">Padrão</string>
-    <string name="airing_notification_enabled">Airing notification enabled</string>
-    <string name="start_airing_notification_enabled">Start airing notification enabled</string>
-    <string name="invalid_start_date">Invalid start date</string>
+    <string name="airing_notification_enabled">Notificação da exibição ativada</string>
+    <string name="start_airing_notification_enabled">Notificação do início da exibição ativada</string>
+    <string name="invalid_start_date">Data de início inválida</string>
     <string name="invalid_broadcast">Invalid broadcast</string>
-    <string name="synopsis_background">Background</string>
+    <string name="synopsis_background" comment="other possible translation: Context">Contexto</string>
 </resources>
