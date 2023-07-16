@@ -290,9 +290,9 @@
     <string name="changes_will_take_effect_on_app_restart">Perubahan dilakukan saat app dimulai ulang</string>
     <string name="items_per_row">Item perbaris</string>
     <string name="default_setting">Default</string>
-    <string name="airing_notification_enabled">Airing notification enabled</string>
-    <string name="start_airing_notification_enabled">Start airing notification enabled</string>
-    <string name="invalid_start_date">Invalid start date</string>
+    <string name="airing_notification_enabled">Pemberitahuan penayangan diaktifkan</string>
+    <string name="start_airing_notification_enabled">Pemberitahuan mulai tayang diaktifkan</string>
+    <string name="invalid_start_date">Tanggal mulai tidak sesuai</string>
     <string name="invalid_broadcast">Tayangan tidak valid</string>
     <string name="synopsis_background" comment="other possible translation: Context">Latar belakang</string>
 </resources>
