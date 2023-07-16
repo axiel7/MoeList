@@ -293,6 +293,7 @@
     <string name="airing_notification_enabled">Notificação da exibição ativada</string>
     <string name="start_airing_notification_enabled">Notificação do início da exibição ativada</string>
     <string name="invalid_start_date">Data de início inválida</string>
-    <string name="invalid_broadcast">Invalid broadcast</string>
-    <string name="synopsis_background" comment="other possible translation: Context">Contexto</string>
+    <string name="invalid_broadcast">Programação inválida</string>
+    <string name="synopsis_background">Contexto</string>
+    <string name="portuguese">Portuguese</string>
 </resources>
