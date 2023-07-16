@@ -294,5 +294,6 @@
     <string name="start_airing_notification_enabled">Yayınlanmaya başladı bildirimi etkin</string>
     <string name="invalid_start_date">Geçersiz başlangıç tarihi</string>
     <string name="invalid_broadcast">Geçersiz yayın</string>
-    <string name="synopsis_background" comment="other possible translation: Context">Background</string>
+    <string name="synopsis_background">Background</string>
+    <string name="portuguese">Portuguese</string>
 </resources>
