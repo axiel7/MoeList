@@ -295,4 +295,5 @@
     <string name="invalid_start_date">Неправильна дата початку</string>
     <string name="invalid_broadcast">Invalid broadcast</string>
     <string name="synopsis_background">Background</string>
+    <string name="portuguese">Portuguese</string>
 </resources>
