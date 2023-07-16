@@ -294,5 +294,6 @@
     <string name="start_airing_notification_enabled">Pemberitahuan mulai tayang diaktifkan</string>
     <string name="invalid_start_date">Tanggal mulai tidak sesuai</string>
     <string name="invalid_broadcast">Tayangan tidak valid</string>
-    <string name="synopsis_background" comment="other possible translation: Context">Latar belakang</string>
+    <string name="synopsis_background">Latar belakang</string>
+    <string name="portuguese">Portuguese</string>
 </resources>
