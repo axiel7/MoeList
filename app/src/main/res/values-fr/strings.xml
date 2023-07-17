@@ -285,15 +285,15 @@
     <string name="website">Site Web</string>
     <string name="please_login_to_use_this_feature">Veuillez vous connecter pour utiliser cette fonctionnalité</string>
     <string name="no_recommendations">Aucune recommandation</string>
-    <string name="list_mode_grid">Grid</string>
-    <string name="use_separated_list_styles">Use separated list styles</string>
-    <string name="changes_will_take_effect_on_app_restart">Changes will take effect on app restart</string>
-    <string name="items_per_row">Items per row</string>
-    <string name="default_setting">Default</string>
-    <string name="airing_notification_enabled">Airing notification enabled</string>
-    <string name="start_airing_notification_enabled">Start airing notification enabled</string>
-    <string name="invalid_start_date">Invalid start date</string>
-    <string name="invalid_broadcast">Invalid broadcast</string>
-    <string name="synopsis_background">Background</string>
-    <string name="portuguese">Portuguese</string>
+    <string name="list_mode_grid">Grille</string>
+    <string name="use_separated_list_styles">Utiliser des styles de liste séparés</string>
+    <string name="changes_will_take_effect_on_app_restart">Les modifications prendront effet au redémarrage de l\'application</string>
+    <string name="items_per_row">Éléments par ligne</string>
+    <string name="default_setting">Par défaut</string>
+    <string name="airing_notification_enabled">Notification de diffusion activée</string>
+    <string name="start_airing_notification_enabled">Notification de démarrage de la diffusion activée</string>
+    <string name="invalid_start_date">Date de début invalide</string>
+    <string name="invalid_broadcast">Diffusion invalide</string>
+    <string name="synopsis_background">Contexte</string>
+    <string name="portuguese">Portugais</string>
 </resources>
