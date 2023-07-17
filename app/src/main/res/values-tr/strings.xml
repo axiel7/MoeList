@@ -279,10 +279,10 @@
     <string name="refresh">Yenile</string>
     <string name="indonesian">Endonezce</string>
     <string name="romaji">Romaji</string>
-    <string name="title_language">Title language</string>
-    <string name="experimental">Experimental</string>
-    <string name="new_logo_design">New logo design</string>
-    <string name="website">Website</string>
+    <string name="title_language">Başlık dili</string>
+    <string name="experimental">Deneysel</string>
+    <string name="new_logo_design">Yeni logo tasarımı</string>
+    <string name="website">Web sitesi</string>
     <string name="please_login_to_use_this_feature">Bu özelliği kullanmak için lütfen oturum açın</string>
     <string name="no_recommendations">Tavsiye bulunamadı</string>
     <string name="list_mode_grid">Izgara</string>
@@ -294,6 +294,6 @@
     <string name="start_airing_notification_enabled">Yayınlanmaya başladı bildirimi etkin</string>
     <string name="invalid_start_date">Geçersiz başlangıç tarihi</string>
     <string name="invalid_broadcast">Geçersiz yayın</string>
-    <string name="synopsis_background">Background</string>
-    <string name="portuguese">Portuguese</string>
+    <string name="synopsis_background">Arka Plan</string>
+    <string name="portuguese">Portekizce</string>
 </resources>
