@@ -256,8 +256,8 @@
     <string name="japanese">Японська</string>
     <string name="chinese_traditional">Китайська (традиційна)</string>
     <string name="select_date">Оберіть дату</string>
-    <string name="total_rereads">Всього перечитано</string>
-    <string name="total_rewatches">Всього переглядів</string>
+    <string name="total_rereads">Повторних перечитувань</string>
+    <string name="total_rewatches">Повторних переглядів</string>
     <string name="chinese_simplified">Китайська (спрощена)</string>
     <string name="related_anime">Пов\'язані аніме</string>
     <string name="related_manga">Пов\'язана манґа</string>
@@ -274,7 +274,7 @@
     <string name="notifications">Сповіщення</string>
     <string name="delete_all">Видалити все</string>
     <string name="manga_stats">Статистика манґи</string>
-    <string name="last_used">Останній раз використано</string>
+    <string name="last_used">Використано востаннє</string>
     <string name="czech">Чеська</string>
     <string name="refresh">Оновити</string>
     <string name="indonesian">Індонезійська</string>
@@ -293,7 +293,7 @@
     <string name="airing_notification_enabled">Сповіщення про трансляцію увімкнено</string>
     <string name="start_airing_notification_enabled">Сповіщення про початок трансляції ввімкнено</string>
     <string name="invalid_start_date">Неправильна дата початку</string>
-    <string name="invalid_broadcast">Invalid broadcast</string>
-    <string name="synopsis_background">Background</string>
-    <string name="portuguese">Portuguese</string>
+    <string name="invalid_broadcast">Неправильна трансляція</string>
+    <string name="synopsis_background">Контекст</string>
+    <string name="portuguese">Португальська</string>
 </resources>
