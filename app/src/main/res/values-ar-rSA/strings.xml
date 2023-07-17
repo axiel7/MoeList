@@ -285,15 +285,15 @@
     <string name="website">موقع إلكتروني</string>
     <string name="please_login_to_use_this_feature">يرجى تسجيل الدخول لاستخدام هذه الميزة</string>
     <string name="no_recommendations">لا توجد توصيات</string>
-    <string name="list_mode_grid">Grid</string>
-    <string name="use_separated_list_styles">Use separated list styles</string>
-    <string name="changes_will_take_effect_on_app_restart">Changes will take effect on app restart</string>
-    <string name="items_per_row">Items per row</string>
-    <string name="default_setting">Default</string>
-    <string name="airing_notification_enabled">Airing notification enabled</string>
-    <string name="start_airing_notification_enabled">Start airing notification enabled</string>
-    <string name="invalid_start_date">Invalid start date</string>
-    <string name="invalid_broadcast">Invalid broadcast</string>
-    <string name="synopsis_background">Background</string>
-    <string name="portuguese">Portuguese</string>
+    <string name="list_mode_grid">جدوَل</string>
+    <string name="use_separated_list_styles">أستخدام أشكال قوائم منفصلة</string>
+    <string name="changes_will_take_effect_on_app_restart">سوف تحدث التغييرات عند إعادة تشغيل التطبيق</string>
+    <string name="items_per_row">العناصر في كل صف</string>
+    <string name="default_setting">افتراضي</string>
+    <string name="airing_notification_enabled">إشعار البث مفعل</string>
+    <string name="start_airing_notification_enabled">إشعار أبتداء البث مفعل</string>
+    <string name="invalid_start_date">تاريخ البث غير صالح</string>
+    <string name="invalid_broadcast">توقيت بث غير صالح</string>
+    <string name="synopsis_background">معلومات أساسية</string>
+    <string name="portuguese">البرتغالية</string>
 </resources>
