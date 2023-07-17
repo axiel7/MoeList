@@ -16,7 +16,7 @@ Follow the development on the official Discord server:
 Want an AniList version? Check [AniHyou](https://github.com/axiel7/AniHyou-android)!
 
 # Screenshots
-![screenshots](https://axiel7.github.io/assets/moelist.254cc042a48d2c6a011015a0c2ffa390.png)
+![screenshots](https://axiel7.github.io/moelist.681aefe9.png)
 
 # Features
 * Airing Anime notifications
@@ -71,3 +71,5 @@ object ClientId {
     const val CLIENT_ID = "your_mal_api_client_id"
 }
 ```
+
+To get a Client ID, go to the [API panel](https://myanimelist.net/apiconfig) and create a new app with *App Type* set to `android` and *Redirect URL* set to `moelist://moelist.page.link/`
