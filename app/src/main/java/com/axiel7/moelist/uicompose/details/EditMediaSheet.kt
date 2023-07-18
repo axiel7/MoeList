@@ -147,9 +147,9 @@ fun EditMediaSheet(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
                 .padding(bottom = 32.dp + bottomPadding)
-                .imePadding()
-                .verticalScroll(rememberScrollState()),
+                .imePadding(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(
