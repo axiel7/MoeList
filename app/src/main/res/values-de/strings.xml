@@ -296,4 +296,16 @@
     <string name="invalid_broadcast">Ungültige Sendung</string>
     <string name="synopsis_background">Kontext</string>
     <string name="portuguese">Portugiesisch</string>
+    <string name="very_low_value">Very Low</string>
+    <string name="low_value">Low</string>
+    <string name="medium_value">Medium</string>
+    <string name="high_value">High</string>
+    <string name="very_high_value">Very High</string>
+    <string name="tags">Tags</string>
+    <string name="priority_value">Priority: %s</string>
+    <string name="rewatch_value">Rewatch Value: %s</string>
+    <string name="reread_value">Reread Value: %s</string>
+    <string name="notes">Notes</string>
+    <string name="rewatching">Rewatching</string>
+    <string name="rereading">Rereading</string>
 </resources>
