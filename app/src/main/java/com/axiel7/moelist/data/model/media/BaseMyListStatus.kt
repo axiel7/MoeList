@@ -4,27 +4,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.BaseResponse
-import kotlinx.serialization.SerialName
 
 abstract class BaseMyListStatus : BaseResponse() {
-    @SerialName("status")
     abstract val status: ListStatus
-
-    @SerialName("score")
     abstract val score: Int
-
-    @SerialName("updated_at")
     abstract val updatedAt: String?
-
-    @SerialName("start_date")
     abstract val startDate: String?
-
-    @SerialName("end_date")
     abstract val endDate: String?
-
     abstract val progress: Int?
     abstract val repeatCount: Int?
+    abstract val repeatValue: Int?
     abstract val isRepeating: Boolean
+    abstract val priority: Int
+    abstract val tags: List<String>?
+    abstract val comments: String?
 
     override val error: String? = null
     override val message: String? = null
@@ -44,4 +37,23 @@ fun Int.scoreText() = when (this) {
     9 -> stringResource(R.string.score_great)
     10 -> stringResource(R.string.score_masterpiece)
     else -> "─"
+}
+
+@Composable
+fun Int.priorityLocalized() = when (this) {
+    0 -> stringResource(R.string.low_value)
+    1 -> stringResource(R.string.medium_value)
+    2 -> stringResource(R.string.high_value)
+    else -> stringResource(R.string.unknown)
+}
+
+@Composable
+fun Int.repeatValueLocalized() = when (this) {
+    0 -> "─"
+    1 -> stringResource(R.string.very_low_value)
+    2 -> stringResource(R.string.low_value)
+    3 -> stringResource(R.string.medium_value)
+    4 -> stringResource(R.string.high_value)
+    5 -> stringResource(R.string.very_high_value)
+    else -> stringResource(R.string.unknown)
 }

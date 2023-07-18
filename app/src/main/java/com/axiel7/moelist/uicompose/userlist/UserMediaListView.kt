@@ -409,7 +409,7 @@ fun UserMediaListView(
                                     val isVolumeProgress =
                                         (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
                                             ?: false
-                                    viewModel.updateListItem(
+                                    viewModel.updateProgress(
                                         mediaId = item.node.id,
                                         progress = if (!isVolumeProgress) item.listStatus?.progress?.plus(
                                             1
@@ -458,7 +458,7 @@ fun UserMediaListView(
                                     val isVolumeProgress =
                                         (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
                                             ?: false
-                                    viewModel.updateListItem(
+                                    viewModel.updateProgress(
                                         mediaId = item.node.id,
                                         progress = if (!isVolumeProgress) item.listStatus?.progress?.plus(
                                             1
@@ -506,7 +506,7 @@ fun UserMediaListView(
                                     val isVolumeProgress =
                                         (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
                                             ?: false
-                                    viewModel.updateListItem(
+                                    viewModel.updateProgress(
                                         mediaId = item.node.id,
                                         progress = if (!isVolumeProgress) item.listStatus?.progress?.plus(
                                             1

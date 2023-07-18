@@ -1,5 +1,6 @@
 package com.axiel7.moelist.data.repository
 
+import androidx.annotation.IntRange
 import com.axiel7.moelist.App
 import com.axiel7.moelist.data.model.ApiParams
 import com.axiel7.moelist.data.model.Response
@@ -13,10 +14,12 @@ import io.ktor.http.HttpStatusCode
 
 object MangaRepository {
 
+    const val LIST_STATUS_FIELDS = "num_times_reread,is_rereading,reread_value,priority,tags,comments"
+
     const val MANGA_DETAILS_FIELDS =
         "id,title,main_picture,pictures,alternative_titles,start_date,end_date," +
                 "synopsis,mean,rank,popularity,num_list_users,num_scoring_users,media_type,status,genres," +
-                "my_list_status{num_times_reread},num_chapters,num_volumes,source,authors{first_name,last_name}," +
+                "my_list_status{$LIST_STATUS_FIELDS},num_chapters,num_volumes,source,authors{first_name,last_name}," +
                 "serialization,related_anime{media_type},related_manga{media_type},recommendations,background"
 
     suspend fun getMangaDetails(
@@ -30,7 +33,7 @@ object MangaRepository {
     }
 
     const val USER_MANGA_LIST_FIELDS =
-        "alternative_titles{en,ja},list_status{num_times_reread},num_chapters,num_volumes,media_type,status"
+        "alternative_titles{en,ja},list_status{$LIST_STATUS_FIELDS},num_chapters,num_volumes,media_type,status"
 
     suspend fun getUserMangaList(
         apiParams: ApiParams,
@@ -49,12 +52,17 @@ object MangaRepository {
     suspend fun updateMangaEntry(
         mangaId: Int,
         status: String?,
-        score: Int?,
+        @IntRange(0, 10) score: Int?,
         chaptersRead: Int?,
         volumesRead: Int?,
         startDate: String?,
         endDate: String?,
+        isRereading: Boolean?,
         numRereads: Int?,
+        @IntRange(0, 5) rereadValue: Int?,
+        @IntRange(0, 2) priority: Int?,
+        tags: String?,
+        comments: String?,
     ): MyMangaListStatus? {
         return try {
             val result = App.api.updateUserMangaList(
@@ -65,7 +73,12 @@ object MangaRepository {
                 volumesRead,
                 startDate,
                 endDate,
-                numRereads
+                isRereading,
+                numRereads,
+                rereadValue,
+                priority,
+                tags,
+                comments
             )
             result.error?.let { BaseRepository.handleResponseError(it) }
             return result

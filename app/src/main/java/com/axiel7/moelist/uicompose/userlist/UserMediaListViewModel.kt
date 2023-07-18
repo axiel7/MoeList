@@ -114,37 +114,42 @@ class UserMediaListViewModel(
         }
     }
 
-    fun updateListItem(
+    fun updateProgress(
         mediaId: Int,
-        status: String? = null,
-        score: Int? = null,
         progress: Int? = null,
         volumeProgress: Int? = null,
-        startDate: String? = null,
-        endDate: String? = null,
-        repeatCount: Int? = null,
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             isLoading = true
             val result = if (mediaType == MediaType.ANIME)
                 AnimeRepository.updateAnimeEntry(
                     animeId = mediaId,
-                    status = status,
-                    score = score,
+                    status = null,
+                    score = null,
                     watchedEpisodes = progress,
-                    startDate = startDate,
-                    endDate = endDate,
-                    numRewatches = repeatCount
+                    startDate = null,
+                    endDate = null,
+                    isRewatching = null,
+                    numRewatches = null,
+                    rewatchValue = null,
+                    priority = null,
+                    tags = null,
+                    comments = null
                 )
             else MangaRepository.updateMangaEntry(
                 mangaId = mediaId,
-                status = status,
-                score = score,
+                status = null,
+                score = null,
                 chaptersRead = progress,
                 volumesRead = volumeProgress,
-                startDate = startDate,
-                endDate = endDate,
-                numRereads = repeatCount
+                startDate = null,
+                endDate = null,
+                isRereading = null,
+                numRereads = null,
+                rereadValue = null,
+                priority = null,
+                tags = null,
+                comments = null
             )
 
             if (result != null) {

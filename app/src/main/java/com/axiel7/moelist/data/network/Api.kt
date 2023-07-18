@@ -1,5 +1,6 @@
 package com.axiel7.moelist.data.network
 
+import androidx.annotation.IntRange
 import com.axiel7.moelist.data.model.AccessToken
 import com.axiel7.moelist.data.model.ApiParams
 import com.axiel7.moelist.data.model.Response
@@ -122,15 +123,19 @@ class Api(private val client: HttpClient) {
     suspend fun getUserAnimeList(url: String): Response<List<UserAnimeList>> =
         client.get(url).body()
 
-    //TODO (implement: is_rewatching, priority, rewatch_value, tags, comments)
     suspend fun updateUserAnimeList(
         animeId: Int,
         status: String?,
-        score: Int?,
+        @IntRange(0, 10) score: Int?,
         watchedEpisodes: Int?,
         startDate: String?,
         endDate: String?,
+        isRewatching: Boolean?,
         numRewatches: Int?,
+        @IntRange(0, 5) rewatchValue: Int?,
+        @IntRange(0, 2) priority: Int?,
+        tags: String?,
+        comments: String?,
     ): MyAnimeListStatus = client.request("${MAL_API_URL}anime/$animeId/my_list_status") {
         method = HttpMethod.Patch
         setBody(FormDataContent(Parameters.build {
@@ -139,7 +144,12 @@ class Api(private val client: HttpClient) {
             watchedEpisodes?.let { append("num_watched_episodes", it.toString()) }
             startDate?.let { append("start_date", it) }
             endDate?.let { append("finish_date", it) }
+            isRewatching?.let { append("is_rewatching", isRewatching.toString()) }
             numRewatches?.let { append("num_times_rewatched", it.toString()) }
+            rewatchValue?.let { append("rewatch_value", it.toString()) }
+            priority?.let { append("priority", it.toString()) }
+            tags?.let { append("tags", it) }
+            comments?.let { append("comments", it) }
         }))
     }.body()
 
@@ -192,16 +202,20 @@ class Api(private val client: HttpClient) {
     suspend fun getUserMangaList(url: String): Response<List<UserMangaList>> =
         client.get(url).body()
 
-    //TODO (implement: is_rereading, priority, reread_value, tags, comments)
     suspend fun updateUserMangaList(
         mangaId: Int,
         status: String?,
-        score: Int?,
+        @IntRange(0, 10) score: Int?,
         chaptersRead: Int?,
         volumesRead: Int?,
         startDate: String?,
         endDate: String?,
+        isRereading: Boolean?,
         numRereads: Int?,
+        @IntRange(0, 5) rereadValue: Int?,
+        @IntRange(0, 2) priority: Int?,
+        tags: String?,
+        comments: String?,
     ): MyMangaListStatus = client.request("${MAL_API_URL}manga/$mangaId/my_list_status") {
         method = HttpMethod.Patch
         setBody(FormDataContent(Parameters.build {
@@ -211,7 +225,12 @@ class Api(private val client: HttpClient) {
             volumesRead?.let { append("num_volumes_read", it.toString()) }
             startDate?.let { append("start_date", it) }
             endDate?.let { append("finish_date", it) }
+            isRereading?.let { append("is_rereading", it.toString()) }
             numRereads?.let { append("num_times_reread", it.toString()) }
+            rereadValue?.let { append("reread_value", it.toString()) }
+            priority?.let { append("priority", it.toString()) }
+            tags?.let { append("tags", it) }
+            comments?.let { append("comments", it) }
         }))
     }.body()
 

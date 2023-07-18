@@ -37,7 +37,12 @@ class EditMediaViewModel(
     var score by mutableIntStateOf(0)
     var startDate by mutableStateOf<LocalDate?>(null)
     var endDate by mutableStateOf<LocalDate?>(null)
+    var isRepeating by mutableStateOf(false)
     var repeatCount by mutableIntStateOf(0)
+    var repeatValue by mutableIntStateOf(0)
+    var priority by mutableIntStateOf(0)
+    var tags by mutableStateOf<String?>(null)
+    var comments by mutableStateOf<String?>(null)
 
     fun setEditVariables(myListStatus: BaseMyListStatus) {
         this.myListStatus = myListStatus
@@ -48,7 +53,12 @@ class EditMediaViewModel(
 
         progress = myListStatus.progress ?: 0
         (myListStatus as? MyMangaListStatus)?.numVolumesRead?.let { volumeProgress = it }
+        isRepeating = myListStatus.isRepeating
         repeatCount = myListStatus.repeatCount ?: 0
+        repeatValue = myListStatus.repeatValue ?: 0
+        priority = myListStatus.priority
+        tags = myListStatus.tags?.joinToString()
+        comments = myListStatus.comments
     }
 
     fun onChangeStatus(value: ListStatus, isNewEntry: Boolean = false) {
@@ -126,8 +136,15 @@ class EditMediaViewModel(
             val volumeProgressValue =
                 if (volumeProgress != (myListStatus as? MyMangaListStatus)?.numVolumesRead)
                     volumeProgress else null
+            val isRepeatingValue = if (isRepeating != myListStatus?.isRepeating)
+                isRepeating else null
             val repeatCountValue = if (repeatCount != myListStatus?.repeatCount)
                 repeatCount else null
+            val repeatValueValue = if (repeatValue != myListStatus?.repeatValue)
+                repeatValue else null
+            val priorityValue = if (priority != myListStatus?.priority) priority else null
+            val tagsValue = if (tags != myListStatus?.tags?.joinToString()) tags else null
+            val commentsValue = if (comments != myListStatus?.comments) comments else null
             val startDateISO = startDate?.format(DateTimeFormatter.ISO_DATE)
             val startDateValue = if (startDateISO != myListStatus?.startDate)
                 startDateISO else null
@@ -143,7 +160,12 @@ class EditMediaViewModel(
                     watchedEpisodes = progressValue,
                     startDate = startDateValue,
                     endDate = endDateValue,
-                    numRewatches = repeatCountValue
+                    isRewatching = isRepeatingValue,
+                    numRewatches = repeatCountValue,
+                    rewatchValue = repeatValueValue,
+                    priority = priorityValue,
+                    tags = tagsValue,
+                    comments = commentsValue
                 )
             else
                 MangaRepository.updateMangaEntry(
@@ -154,7 +176,12 @@ class EditMediaViewModel(
                     volumesRead = volumeProgressValue,
                     startDate = startDateValue,
                     endDate = endDateValue,
-                    numRereads = repeatCountValue
+                    isRereading = isRepeatingValue,
+                    numRereads = repeatCountValue,
+                    rereadValue = repeatValueValue,
+                    priority = priorityValue,
+                    tags = tagsValue,
+                    comments = commentsValue
                 )
 
             if (result != null && result.error == null) {

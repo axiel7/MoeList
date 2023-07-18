@@ -1,5 +1,6 @@
 package com.axiel7.moelist.data.repository
 
+import androidx.annotation.IntRange
 import com.axiel7.moelist.App
 import com.axiel7.moelist.data.model.ApiParams
 import com.axiel7.moelist.data.model.Response
@@ -64,10 +65,12 @@ object AnimeRepository {
         }
     }
 
+    const val LIST_STATUS_FIELDS = "num_times_rewatched,is_rewatching,rewatch_value,priority,tags,comments"
+
     const val ANIME_DETAILS_FIELDS =
         "id,title,main_picture,pictures,alternative_titles,start_date,end_date," +
                 "synopsis,mean,rank,popularity,num_list_users,num_scoring_users,media_type,status,genres," +
-                "my_list_status{num_times_rewatched},num_episodes,start_season,broadcast,source," +
+                "my_list_status{$LIST_STATUS_FIELDS},num_episodes,start_season,broadcast,source," +
                 "average_episode_duration,studios,opening_themes,ending_themes,related_anime{media_type}," +
                 "related_manga{media_type},recommendations,background"
 
@@ -82,7 +85,7 @@ object AnimeRepository {
     }
 
     const val USER_ANIME_LIST_FIELDS =
-        "alternative_titles{en,ja},list_status{num_times_rewatched},num_episodes,media_type,status,broadcast"
+        "alternative_titles{en,ja},list_status{$LIST_STATUS_FIELDS},num_episodes,media_type,status,broadcast"
 
     suspend fun getUserAnimeList(
         apiParams: ApiParams,
@@ -101,11 +104,16 @@ object AnimeRepository {
     suspend fun updateAnimeEntry(
         animeId: Int,
         status: String?,
-        score: Int?,
+        @IntRange(0, 10) score: Int?,
         watchedEpisodes: Int?,
         startDate: String?,
         endDate: String?,
+        isRewatching: Boolean?,
         numRewatches: Int?,
+        @IntRange(0, 5) rewatchValue: Int?,
+        @IntRange(0, 2) priority: Int?,
+        tags: String?,
+        comments: String?
     ): MyAnimeListStatus? {
         return try {
             val result = App.api.updateUserAnimeList(
@@ -115,7 +123,12 @@ object AnimeRepository {
                 watchedEpisodes,
                 startDate,
                 endDate,
-                numRewatches
+                isRewatching,
+                numRewatches,
+                rewatchValue,
+                priority,
+                tags,
+                comments
             )
             result.error?.let { BaseRepository.handleResponseError(it) }
             return result

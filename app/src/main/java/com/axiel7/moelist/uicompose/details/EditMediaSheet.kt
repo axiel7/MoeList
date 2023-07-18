@@ -56,11 +56,14 @@ import com.axiel7.moelist.data.model.media.icon
 import com.axiel7.moelist.data.model.media.listStatusAnimeValues
 import com.axiel7.moelist.data.model.media.listStatusMangaValues
 import com.axiel7.moelist.data.model.media.localized
+import com.axiel7.moelist.data.model.media.priorityLocalized
+import com.axiel7.moelist.data.model.media.repeatValueLocalized
 import com.axiel7.moelist.data.model.media.scoreText
 import com.axiel7.moelist.data.model.media.totalDuration
 import com.axiel7.moelist.uicompose.base.BaseMediaViewModel
 import com.axiel7.moelist.uicompose.composables.ClickableOutlinedTextField
 import com.axiel7.moelist.uicompose.composables.SelectableIconToggleButton
+import com.axiel7.moelist.uicompose.composables.TextCheckBox
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.DateUtils
@@ -82,7 +85,7 @@ fun EditMediaSheet(
     val statusValues =
         if (mediaViewModel.mediaType == MediaType.ANIME) listStatusAnimeValues else listStatusMangaValues
     val datePickerState = rememberDatePickerState()
-    val viewModel: EditMediaViewModel = viewModel {
+    val viewModel = viewModel {
         EditMediaViewModel(
             mediaType = mediaViewModel.mediaType,
             mediaInfo = mediaViewModel.mediaInfo
@@ -237,7 +240,7 @@ fun EditMediaSheet(
                 onValueChange = { viewModel.score = it.toInt() },
                 modifier = Modifier.padding(horizontal = 16.dp),
                 valueRange = 0f..10f,
-                steps = 10
+                steps = 9
             )
 
             Divider(modifier = Modifier.padding(vertical = 16.dp))
@@ -284,6 +287,44 @@ fun EditMediaSheet(
                 }
             )
 
+            OutlinedTextField(
+                value = viewModel.tags ?: "",
+                onValueChange = {
+                    viewModel.tags = it
+                },
+                modifier = Modifier.padding(16.dp),
+                label = { Text(text = stringResource(R.string.tags)) }
+            )
+
+            Text(
+                text = stringResource(R.string.priority_value).format(viewModel.priority.priorityLocalized()),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp, start = 16.dp, end = 16.dp),
+                fontWeight = FontWeight.Bold
+            )
+            Slider(
+                value = viewModel.priority.toFloat(),
+                onValueChange = { viewModel.priority = it.toInt() },
+                modifier = Modifier.padding(horizontal = 16.dp),
+                valueRange = 0f..2f,
+                steps = 1
+            )
+
+            TextCheckBox(
+                text = stringResource(
+                    if (viewModel.mediaType == MediaType.ANIME) R.string.rewatching
+                    else R.string.rereading
+                ),
+                checked = viewModel.isRepeating,
+                onCheckedChange = {
+                    viewModel.isRepeating = it
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+            )
+
             EditMediaProgressRow(
                 label = stringResource(
                     if (viewModel.mediaType == MediaType.ANIME) R.string.total_rewatches
@@ -295,6 +336,34 @@ fun EditMediaSheet(
                 onValueChange = { viewModel.onChangeRepeatCount(it.toIntOrNull()) },
                 onMinusClick = { viewModel.onChangeRepeatCount(viewModel.repeatCount - 1) },
                 onPlusClick = { viewModel.onChangeRepeatCount(viewModel.repeatCount + 1) }
+            )
+
+            Text(
+                text = stringResource(
+                    if (viewModel.mediaType == MediaType.ANIME) R.string.rewatch_value
+                    else R.string.reread_value
+                ).format(viewModel.repeatValue.repeatValueLocalized()),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp, start = 16.dp, end = 16.dp),
+                fontWeight = FontWeight.Bold
+            )
+            Slider(
+                value = viewModel.repeatValue.toFloat(),
+                onValueChange = { viewModel.repeatValue = it.toInt() },
+                modifier = Modifier.padding(horizontal = 16.dp),
+                valueRange = 0f..5f,
+                steps = 4
+            )
+
+            OutlinedTextField(
+                value = viewModel.comments ?: "",
+                onValueChange = {
+                    viewModel.comments = it
+                },
+                modifier = Modifier.padding(16.dp),
+                label = { Text(text = stringResource(R.string.notes)) },
+                minLines = 2
             )
 
             Button(
