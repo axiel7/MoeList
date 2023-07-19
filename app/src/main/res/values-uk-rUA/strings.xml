@@ -47,7 +47,7 @@
     <string name="username">Ім\'я користувача</string>
     <string name="total_entries">Усього: %s</string>
     <string name="mean_score">Середній бал</string>
-    <string name="rewatched">Переглянуто знову</string>
+    <string name="rewatched">Rewatched</string>
     <string name="view_profile_mal">Переглянути профіль на MAL</string>
     <string name="airing_in">Трансляція через %s</string>
     <string name="score_value">Оцінка: %s</string>
