@@ -47,7 +47,7 @@
     <string name="username">Nama Pengguna</string>
     <string name="total_entries">Total: %s</string>
     <string name="mean_score">Skor Rata-rata</string>
-    <string name="rewatched">Menontong Ulang</string>
+    <string name="rewatched">Menonton Ulang</string>
     <string name="view_profile_mal">Lihat profil di MAL</string>
     <string name="airing_in">Ditayangkan pada %s</string>
     <string name="score_value">Skor: %s</string>
@@ -296,16 +296,16 @@
     <string name="invalid_broadcast">Tayangan tidak valid</string>
     <string name="synopsis_background">Latar belakang</string>
     <string name="portuguese">Portugis</string>
-    <string name="very_low_value">Very Low</string>
-    <string name="low_value">Low</string>
-    <string name="medium_value">Medium</string>
-    <string name="high_value">High</string>
-    <string name="very_high_value">Very High</string>
-    <string name="tags">Tags</string>
-    <string name="priority_value">Priority: %s</string>
-    <string name="rewatch_value">Rewatch Value: %s</string>
-    <string name="reread_value">Reread Value: %s</string>
-    <string name="notes">Notes</string>
-    <string name="rewatching">Rewatching</string>
-    <string name="rereading">Rereading</string>
+    <string name="very_low_value">Sangat Rendah</string>
+    <string name="low_value">Rendah</string>
+    <string name="medium_value">Sedang</string>
+    <string name="high_value">Tinggi</string>
+    <string name="very_high_value">Sangat Tinggi</string>
+    <string name="tags">Tanda</string>
+    <string name="priority_value">Prioritas: %s</string>
+    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as &amp;quot;Rewatch probability&amp;quot;">Jumlah Ditonton Ulang: %s</string>
+    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as &amp;quot;Reread probability&amp;quot;">Jumlah Dibaca Ulang: %s</string>
+    <string name="notes">Catatan</string>
+    <string name="rewatching">Ditonton Ulang</string>
+    <string name="rereading">Dibaca Ulang</string>
 </resources>
