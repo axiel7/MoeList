@@ -47,7 +47,7 @@
     <string name="username">Ім\'я користувача</string>
     <string name="total_entries">Усього: %s</string>
     <string name="mean_score">Середній бал</string>
-    <string name="rewatched">Rewatched</string>
+    <string name="rewatched">Пере-переглядів</string>
     <string name="view_profile_mal">Переглянути профіль на MAL</string>
     <string name="airing_in">Трансляція через %s</string>
     <string name="score_value">Оцінка: %s</string>
@@ -296,16 +296,16 @@
     <string name="invalid_broadcast">Неправильна трансляція</string>
     <string name="synopsis_background">Контекст</string>
     <string name="portuguese">Португальська</string>
-    <string name="very_low_value">Very Low</string>
-    <string name="low_value">Low</string>
-    <string name="medium_value">Medium</string>
-    <string name="high_value">High</string>
-    <string name="very_high_value">Very High</string>
-    <string name="tags">Tags</string>
-    <string name="priority_value">Priority: %s</string>
-    <string name="rewatch_value">Rewatch Value: %s</string>
-    <string name="reread_value">Reread Value: %s</string>
-    <string name="notes">Notes</string>
-    <string name="rewatching">Rewatching</string>
-    <string name="rereading">Rereading</string>
+    <string name="very_low_value">Дуже низьке</string>
+    <string name="low_value">Низьке</string>
+    <string name="medium_value">Середнє</string>
+    <string name="high_value">Високе</string>
+    <string name="very_high_value">Дуже високе</string>
+    <string name="tags">Мітки</string>
+    <string name="priority_value">Пріоритет: %s</string>
+    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as &amp;quot;Rewatch probability&amp;quot;">Значення пере-переглядів: %s</string>
+    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as &amp;quot;Reread probability&amp;quot;">Значення перечитувань: %s</string>
+    <string name="notes">Примітки</string>
+    <string name="rewatching">Пере-передивляюсь</string>
+    <string name="rereading">Перечитую</string>
 </resources>
