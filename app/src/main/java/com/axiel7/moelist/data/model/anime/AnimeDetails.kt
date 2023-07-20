@@ -12,6 +12,8 @@ import com.axiel7.moelist.data.model.media.Statistics
 import com.axiel7.moelist.data.model.media.localized
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 @Serializable
 data class AnimeDetails(
@@ -113,11 +115,16 @@ fun AnimeDetails.broadcastTimeText() = buildString {
 }
 
 @Composable
-fun AnimeDetails.episodeDurationLocalized() =
-    if (averageEpisodeDuration != null && averageEpisodeDuration > 0) {
-        if (averageEpisodeDuration >= 60) {
-            if (averageEpisodeDuration >= 3600) {
-                "${averageEpisodeDuration / 3600} ${stringResource(R.string.hour_abbreviation)}"
-            } else "${averageEpisodeDuration / 60} ${stringResource(R.string.minutes_abbreviation)}"
-        } else "<1 ${stringResource(R.string.minutes_abbreviation)}"
-    } else stringResource(R.string.unknown)
+fun AnimeDetails.episodeDurationLocalized() = when {
+    averageEpisodeDuration == null || averageEpisodeDuration <= 0 -> stringResource(R.string.unknown)
+    averageEpisodeDuration > 3600 -> {
+        val duration = averageEpisodeDuration.toDuration(DurationUnit.SECONDS)
+        duration.toComponents { hours, minutes, _, _ ->
+            "$hours ${stringResource(R.string.hour_abbreviation)} $minutes ${stringResource(R.string.minutes_abbreviation)}"
+        }
+    }
+    averageEpisodeDuration == 3600 -> "1 ${stringResource(R.string.hour_abbreviation)}"
+    averageEpisodeDuration >= 60 -> "${averageEpisodeDuration / 60} ${stringResource(R.string.minutes_abbreviation)}"
+    averageEpisodeDuration < 60 -> "<1 ${stringResource(R.string.minutes_abbreviation)}"
+    else -> stringResource(R.string.unknown)
+}
