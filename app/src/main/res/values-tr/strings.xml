@@ -296,16 +296,16 @@
     <string name="invalid_broadcast">Geçersiz yayın</string>
     <string name="synopsis_background">Arka Plan</string>
     <string name="portuguese">Portekizce</string>
-    <string name="very_low_value">Very Low</string>
-    <string name="low_value">Low</string>
-    <string name="medium_value">Medium</string>
+    <string name="very_low_value">Çok Düşük</string>
+    <string name="low_value">Düşük</string>
+    <string name="medium_value">Normal</string>
     <string name="high_value">High</string>
-    <string name="very_high_value">Very High</string>
-    <string name="tags">Tags</string>
-    <string name="priority_value">Priority: %s</string>
-    <string name="rewatch_value">Rewatch Value: %s</string>
-    <string name="reread_value">Reread Value: %s</string>
-    <string name="notes">Notes</string>
-    <string name="rewatching">Rewatching</string>
-    <string name="rereading">Rereading</string>
+    <string name="very_high_value">Çok Yüksek</string>
+    <string name="tags">Etiketler</string>
+    <string name="priority_value">Öncelik: %s</string>
+    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as &amp;quot;Rewatch probability&amp;quot;">Tekrar İzleme Değeri: %s</string>
+    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as &amp;quot;Reread probability&amp;quot;">Tekrar Okuma Değeri: %s</string>
+    <string name="notes">Notlar</string>
+    <string name="rewatching">Yeniden izleniyor</string>
+    <string name="rereading">Yeniden okunuyor</string>
 </resources>
