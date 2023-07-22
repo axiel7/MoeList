@@ -256,8 +256,8 @@
     <string name="japanese">日本語</string>
     <string name="chinese_traditional">中国語（繁体字）</string>
     <string name="select_date">日付を選択</string>
-    <string name="total_rereads">Total Rereads</string>
-    <string name="total_rewatches">Total Rewatches</string>
+    <string name="total_rereads">合計閲覧数</string>
+    <string name="total_rewatches">合計視聴数</string>
     <string name="chinese_simplified">中国語（簡体字）</string>
     <string name="related_anime">関連するアニメ</string>
     <string name="related_manga">関連するマンガ</string>
@@ -296,16 +296,16 @@
     <string name="invalid_broadcast">無効な配信</string>
     <string name="synopsis_background">背景</string>
     <string name="portuguese">ポルトガル語</string>
-    <string name="very_low_value">Very Low</string>
-    <string name="low_value">Low</string>
-    <string name="medium_value">Medium</string>
-    <string name="high_value">High</string>
-    <string name="very_high_value">Very High</string>
+    <string name="very_low_value">非常に低い</string>
+    <string name="low_value">低い</string>
+    <string name="medium_value">中間</string>
+    <string name="high_value">高い</string>
+    <string name="very_high_value">非常に高い</string>
     <string name="tags">タグ</string>
     <string name="priority_value">優先：%s</string>
     <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as &amp;quot;Rewatch probability&amp;quot;">Rewatch Value: %s</string>
     <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as &amp;quot;Reread probability&amp;quot;">Reread Value: %s</string>
     <string name="notes">メモ</string>
-    <string name="rewatching">Rewatching</string>
-    <string name="rereading">Rereading</string>
+    <string name="rewatching">見直し中</string>
+    <string name="rereading">再読中</string>
 </resources>
