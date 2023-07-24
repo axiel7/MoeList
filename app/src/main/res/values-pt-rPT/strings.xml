@@ -47,7 +47,7 @@
     <string name="username">Nome de usuário</string>
     <string name="total_entries">Total: %s</string>
     <string name="mean_score">Pontuação Média</string>
-    <string name="rewatched">Revisto</string>
+    <string name="rewatched">Visto novamente</string>
     <string name="view_profile_mal">Ver perfil na MAL</string>
     <string name="airing_in">No ar dentro de %s</string>
     <string name="score_value">Pontuação: %s</string>
@@ -257,7 +257,7 @@
     <string name="chinese_traditional">Chinese (Traditional)</string>
     <string name="select_date">Select date</string>
     <string name="total_rereads">Total Rereads</string>
-    <string name="total_rewatches">Total Rewatches</string>
+    <string name="total_rewatches">Total Visto Novamente</string>
     <string name="chinese_simplified">Chinese (Simplified)</string>
     <string name="related_anime">Anime Relacionado</string>
     <string name="related_manga">Manga Relacionado</string>
@@ -296,16 +296,16 @@
     <string name="invalid_broadcast">Horário de emissão inválido</string>
     <string name="synopsis_background">Contexto</string>
     <string name="portuguese">Português</string>
-    <string name="very_low_value">Very Low</string>
-    <string name="low_value">Low</string>
-    <string name="medium_value">Medium</string>
-    <string name="high_value">High</string>
-    <string name="very_high_value">Very High</string>
-    <string name="tags">Tags</string>
-    <string name="priority_value">Priority: %s</string>
-    <string name="rewatch_value">Rewatch Value: %s</string>
-    <string name="reread_value">Reread Value: %s</string>
-    <string name="notes">Notes</string>
-    <string name="rewatching">Rewatching</string>
-    <string name="rereading">Rereading</string>
+    <string name="very_low_value">Muito Baixo</string>
+    <string name="low_value">Baixo</string>
+    <string name="medium_value">Médio</string>
+    <string name="high_value">Alto</string>
+    <string name="very_high_value">Muito Alto</string>
+    <string name="tags">Etiquetas</string>
+    <string name="priority_value">Prioridade: %s</string>
+    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as Rewatch probability">Probabilidade de voltar a ver: %s</string>
+    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as Reread probability">Probabilidade de voltar a ler: %s</string>
+    <string name="notes">Notas</string>
+    <string name="rewatching">Ver de Novo</string>
+    <string name="rereading">Relendo</string>
 </resources>
