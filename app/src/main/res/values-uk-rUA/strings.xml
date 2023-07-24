@@ -47,7 +47,7 @@
     <string name="username">Ім\'я користувача</string>
     <string name="total_entries">Усього: %s</string>
     <string name="mean_score">Середній бал</string>
-    <string name="rewatched">Переглянуто знову</string>
+    <string name="rewatched">Пере-переглядів</string>
     <string name="view_profile_mal">Переглянути профіль на MAL</string>
     <string name="airing_in">Трансляція через %s</string>
     <string name="score_value">Оцінка: %s</string>
@@ -256,8 +256,8 @@
     <string name="japanese">Японська</string>
     <string name="chinese_traditional">Китайська (традиційна)</string>
     <string name="select_date">Оберіть дату</string>
-    <string name="total_rereads">Всього перечитано</string>
-    <string name="total_rewatches">Всього переглядів</string>
+    <string name="total_rereads">Повторних перечитувань</string>
+    <string name="total_rewatches">Повторних переглядів</string>
     <string name="chinese_simplified">Китайська (спрощена)</string>
     <string name="related_anime">Пов\'язані аніме</string>
     <string name="related_manga">Пов\'язана манґа</string>
@@ -274,13 +274,38 @@
     <string name="notifications">Сповіщення</string>
     <string name="delete_all">Видалити все</string>
     <string name="manga_stats">Статистика манґи</string>
-    <string name="last_used">Останній раз використано</string>
+    <string name="last_used">Використано востаннє</string>
     <string name="czech">Чеська</string>
     <string name="refresh">Оновити</string>
     <string name="indonesian">Індонезійська</string>
     <string name="romaji">Романджі</string>
     <string name="title_language">Мова назви</string>
-    <string name="experimental" comment="Title for experimental settings">Експериментальні налаштування</string>
+    <string name="experimental">Експериментальні налаштування</string>
     <string name="new_logo_design">Новий дизайн логотипа</string>
     <string name="website">Веб-сайт</string>
+    <string name="please_login_to_use_this_feature">Будь ласка, увійдіть, щоб скористатися цією функцією</string>
+    <string name="no_recommendations">Немає рекомендацій</string>
+    <string name="list_mode_grid">Сітка</string>
+    <string name="use_separated_list_styles">Використовувати розділені стилі списку</string>
+    <string name="changes_will_take_effect_on_app_restart">Зміни набудуть чинності після перезавантаження</string>
+    <string name="items_per_row">Елементів у рядку</string>
+    <string name="default_setting">Типово</string>
+    <string name="airing_notification_enabled">Сповіщення про трансляцію увімкнено</string>
+    <string name="start_airing_notification_enabled">Сповіщення про початок трансляції ввімкнено</string>
+    <string name="invalid_start_date">Неправильна дата початку</string>
+    <string name="invalid_broadcast">Неправильна трансляція</string>
+    <string name="synopsis_background">Контекст</string>
+    <string name="portuguese">Португальська</string>
+    <string name="very_low_value">Дуже низьке</string>
+    <string name="low_value">Низьке</string>
+    <string name="medium_value">Середнє</string>
+    <string name="high_value">Високе</string>
+    <string name="very_high_value">Дуже високе</string>
+    <string name="tags">Мітки</string>
+    <string name="priority_value">Пріоритет: %s</string>
+    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as Rewatch probability">Значення пере-переглядів: %s</string>
+    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as Reread probability">Значення перечитувань: %s</string>
+    <string name="notes">Примітки</string>
+    <string name="rewatching">Пере-передивляюсь</string>
+    <string name="rereading">Перечитую</string>
 </resources>

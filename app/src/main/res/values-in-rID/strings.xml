@@ -47,7 +47,7 @@
     <string name="username">Nama Pengguna</string>
     <string name="total_entries">Total: %s</string>
     <string name="mean_score">Skor Rata-rata</string>
-    <string name="rewatched">Menontong Ulang</string>
+    <string name="rewatched">Menonton Ulang</string>
     <string name="view_profile_mal">Lihat profil di MAL</string>
     <string name="airing_in">Ditayangkan pada %s</string>
     <string name="score_value">Skor: %s</string>
@@ -280,7 +280,32 @@
     <string name="indonesian">Indonesia</string>
     <string name="romaji">Romaji</string>
     <string name="title_language">Judul bahasa</string>
-    <string name="experimental" comment="Title for experimental settings">Experimen</string>
+    <string name="experimental">Experimen</string>
     <string name="new_logo_design">Desain logo baru</string>
     <string name="website">Situs Web</string>
+    <string name="please_login_to_use_this_feature">Login untuk menggunakan fitur ini</string>
+    <string name="no_recommendations">Tidak ada rekomendasi</string>
+    <string name="list_mode_grid">Grid</string>
+    <string name="use_separated_list_styles">Gunakan gaya daftar terpisah</string>
+    <string name="changes_will_take_effect_on_app_restart">Perubahan dilakukan saat app dimulai ulang</string>
+    <string name="items_per_row">Item perbaris</string>
+    <string name="default_setting">Default</string>
+    <string name="airing_notification_enabled">Pemberitahuan penayangan diaktifkan</string>
+    <string name="start_airing_notification_enabled">Pemberitahuan mulai tayang diaktifkan</string>
+    <string name="invalid_start_date">Tanggal mulai tidak sesuai</string>
+    <string name="invalid_broadcast">Tayangan tidak valid</string>
+    <string name="synopsis_background">Latar belakang</string>
+    <string name="portuguese">Portugis</string>
+    <string name="very_low_value">Sangat Rendah</string>
+    <string name="low_value">Rendah</string>
+    <string name="medium_value">Sedang</string>
+    <string name="high_value">Tinggi</string>
+    <string name="very_high_value">Sangat Tinggi</string>
+    <string name="tags">Tanda</string>
+    <string name="priority_value">Prioritas: %s</string>
+    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as Rewatch probability">Jumlah Ditonton Ulang: %s</string>
+    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as Reread probability">Jumlah Dibaca Ulang: %s</string>
+    <string name="notes">Catatan</string>
+    <string name="rewatching">Ditonton Ulang</string>
+    <string name="rereading">Dibaca Ulang</string>
 </resources>

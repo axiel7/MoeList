@@ -279,8 +279,33 @@
     <string name="refresh">Обновить</string>
     <string name="indonesian">Индонезийский</string>
     <string name="romaji">Romaji</string>
-    <string name="title_language">Title language</string>
-    <string name="experimental" comment="Title for experimental settings">Experimental</string>
-    <string name="new_logo_design">New logo design</string>
-    <string name="website">Website</string>
+    <string name="title_language">Язык названия</string>
+    <string name="experimental">Экспериментальная</string>
+    <string name="new_logo_design">Новый дизайн логотипа</string>
+    <string name="website">Сайт</string>
+    <string name="please_login_to_use_this_feature">Чтобы воспользоваться этой функцией, войдите в систему</string>
+    <string name="no_recommendations">Нет рекомендаций</string>
+    <string name="list_mode_grid">Сетка</string>
+    <string name="use_separated_list_styles">Использование стилей разделенных списков</string>
+    <string name="changes_will_take_effect_on_app_restart">Изменения вступят в силу после перезапуска приложения</string>
+    <string name="items_per_row">Элементы в строке</string>
+    <string name="default_setting">По умолчанию</string>
+    <string name="airing_notification_enabled">Включено оповещение о выходе в эфир</string>
+    <string name="start_airing_notification_enabled">Включено уведомление о начале вещания</string>
+    <string name="invalid_start_date">Неверная дата начала</string>
+    <string name="invalid_broadcast">Некорректная передача</string>
+    <string name="synopsis_background">Фон</string>
+    <string name="portuguese">Португальский</string>
+    <string name="very_low_value">Очень низкий</string>
+    <string name="low_value">Низкий</string>
+    <string name="medium_value">Средний</string>
+    <string name="high_value">Высокая</string>
+    <string name="very_high_value">Очень высокий</string>
+    <string name="tags">Теги</string>
+    <string name="priority_value">Приоритет: %s</string>
+    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as Rewatch probability">Вероятность повторного просмотра: %s</string>
+    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as Reread probability">Вероятность повторного чтения: %s</string>
+    <string name="notes">Примечания</string>
+    <string name="rewatching">Снова учение</string>
+    <string name="rereading">Повторное чтение</string>
 </resources>

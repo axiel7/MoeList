@@ -280,7 +280,32 @@
     <string name="indonesian">Indonesian</string>
     <string name="romaji">Romaji</string>
     <string name="title_language">Title language</string>
-    <string name="experimental" comment="Title for experimental settings">Experimental</string>
+    <string name="experimental">Experimental</string>
     <string name="new_logo_design">New logo design</string>
     <string name="website">Website</string>
+    <string name="please_login_to_use_this_feature">Please login to use this feature</string>
+    <string name="no_recommendations">No recommendations</string>
+    <string name="list_mode_grid">Grid</string>
+    <string name="use_separated_list_styles">Use separated list styles</string>
+    <string name="changes_will_take_effect_on_app_restart">Changes will take effect on app restart</string>
+    <string name="items_per_row">Items per row</string>
+    <string name="default_setting">Default</string>
+    <string name="airing_notification_enabled">Airing notification enabled</string>
+    <string name="start_airing_notification_enabled">Start airing notification enabled</string>
+    <string name="invalid_start_date">Invalid start date</string>
+    <string name="invalid_broadcast">Invalid broadcast</string>
+    <string name="synopsis_background">Background</string>
+    <string name="portuguese">Portuguese</string>
+    <string name="very_low_value">Very Low</string>
+    <string name="low_value">Low</string>
+    <string name="medium_value">Medium</string>
+    <string name="high_value">High</string>
+    <string name="very_high_value">Very High</string>
+    <string name="tags">Tags</string>
+    <string name="priority_value">Priority: %s</string>
+    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as Rewatch probability">Rewatch Value: %s</string>
+    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as Reread probability">Reread Value: %s</string>
+    <string name="notes">Notes</string>
+    <string name="rewatching">Rewatching</string>
+    <string name="rereading">Rereading</string>
 </resources>

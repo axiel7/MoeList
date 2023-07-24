@@ -278,9 +278,34 @@
     <string name="czech">التشيك</string>
     <string name="refresh">تحديث</string>
     <string name="indonesian">الإندونيسية</string>
-    <string name="romaji">Romaji</string>
-    <string name="title_language">Title language</string>
-    <string name="experimental" comment="Title for experimental settings">Experimental</string>
-    <string name="new_logo_design">New logo design</string>
-    <string name="website">Website</string>
+    <string name="romaji">روماجي</string>
+    <string name="title_language">لغة العنوان</string>
+    <string name="experimental">تجريبي</string>
+    <string name="new_logo_design">تصميم شعار جديد</string>
+    <string name="website">موقع إلكتروني</string>
+    <string name="please_login_to_use_this_feature">يرجى تسجيل الدخول لاستخدام هذه الميزة</string>
+    <string name="no_recommendations">لا توجد توصيات</string>
+    <string name="list_mode_grid">جدوَل</string>
+    <string name="use_separated_list_styles">أستخدام أشكال قوائم منفصلة</string>
+    <string name="changes_will_take_effect_on_app_restart">سوف تحدث التغييرات عند إعادة تشغيل التطبيق</string>
+    <string name="items_per_row">العناصر في كل صف</string>
+    <string name="default_setting">افتراضي</string>
+    <string name="airing_notification_enabled">إشعار البث مفعل</string>
+    <string name="start_airing_notification_enabled">إشعار أبتداء البث مفعل</string>
+    <string name="invalid_start_date">تاريخ البث غير صالح</string>
+    <string name="invalid_broadcast">توقيت بث غير صالح</string>
+    <string name="synopsis_background">معلومات أساسية</string>
+    <string name="portuguese">البرتغالية</string>
+    <string name="very_low_value">منخفض جداً</string>
+    <string name="low_value">منخفض</string>
+    <string name="medium_value">متوسط</string>
+    <string name="high_value">عالي</string>
+    <string name="very_high_value">عالي جدًا</string>
+    <string name="tags">التصنيفات</string>
+    <string name="priority_value">الأولوية: %s</string>
+    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as Rewatch probability">قيمة إعادة المشاهدة: %s</string>
+    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as Reread probability">قيمة إعادة القراءة: %s</string>
+    <string name="notes">ملاحظات</string>
+    <string name="rewatching">أعيد مشاهدته</string>
+    <string name="rereading">أعيد قراءته</string>
 </resources>

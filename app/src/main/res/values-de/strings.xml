@@ -279,8 +279,33 @@
     <string name="refresh">Aktualisieren</string>
     <string name="indonesian">Indonesischen</string>
     <string name="romaji">Romaji</string>
-    <string name="title_language">Title language</string>
-    <string name="experimental" comment="Title for experimental settings">Experimental</string>
-    <string name="new_logo_design">New logo design</string>
+    <string name="title_language">Titelsprache</string>
+    <string name="experimental">Experimentell</string>
+    <string name="new_logo_design">Neues Logo-Design</string>
     <string name="website">Website</string>
+    <string name="please_login_to_use_this_feature">Bitte melden Sie sich an, um diese Funktion zu nutzen</string>
+    <string name="no_recommendations">Keine Empfehlungen</string>
+    <string name="list_mode_grid">Raster</string>
+    <string name="use_separated_list_styles">Getrennte Listenstile verwenden</string>
+    <string name="changes_will_take_effect_on_app_restart">Die Änderungen werden beim Neustart der Anwendung wirksam</string>
+    <string name="items_per_row">Posten pro Zeile</string>
+    <string name="default_setting">Standard</string>
+    <string name="airing_notification_enabled">Lüftungsmeldung aktiviert</string>
+    <string name="start_airing_notification_enabled">Benachrichtigung über den Beginn der Ausstrahlung aktiviert</string>
+    <string name="invalid_start_date">Ungültiges Startdatum</string>
+    <string name="invalid_broadcast">Ungültige Sendung</string>
+    <string name="synopsis_background">Kontext</string>
+    <string name="portuguese">Portugiesisch</string>
+    <string name="very_low_value">Sehr Niedrig</string>
+    <string name="low_value">Niedrig</string>
+    <string name="medium_value">Mittel</string>
+    <string name="high_value">Hoch</string>
+    <string name="very_high_value">Sehr Hoch</string>
+    <string name="tags">Tags</string>
+    <string name="priority_value">Priorität: %s</string>
+    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as Rewatch probability">Wahrscheinlichkeit des erneuten Anschauens: %s</string>
+    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as Reread probability">Wahrscheinlichkeit des erneuten Lesens: %s</string>
+    <string name="notes">Notizen</string>
+    <string name="rewatching">Erneut Anschauen</string>
+    <string name="rereading">Erneut Lesen</string>
 </resources>

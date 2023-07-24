@@ -279,8 +279,33 @@
     <string name="refresh">Yenile</string>
     <string name="indonesian">Endonezce</string>
     <string name="romaji">Romaji</string>
-    <string name="title_language">Title language</string>
-    <string name="experimental" comment="Title for experimental settings">Experimental</string>
-    <string name="new_logo_design">New logo design</string>
-    <string name="website">Website</string>
+    <string name="title_language">Başlık dili</string>
+    <string name="experimental">Deneysel</string>
+    <string name="new_logo_design">Yeni logo tasarımı</string>
+    <string name="website">Web sitesi</string>
+    <string name="please_login_to_use_this_feature">Bu özelliği kullanmak için lütfen oturum açın</string>
+    <string name="no_recommendations">Tavsiye bulunamadı</string>
+    <string name="list_mode_grid">Izgara</string>
+    <string name="use_separated_list_styles">Ayrılmış liste tarzını kullan</string>
+    <string name="changes_will_take_effect_on_app_restart">Değişiklikler, yeniden başlatma sonrası etkin olacak</string>
+    <string name="items_per_row">Satır başına öğe sayısı</string>
+    <string name="default_setting">Varsayılan</string>
+    <string name="airing_notification_enabled">Yayınlanma bildirimi etkin</string>
+    <string name="start_airing_notification_enabled">Yayınlanmaya başladı bildirimi etkin</string>
+    <string name="invalid_start_date">Geçersiz başlangıç tarihi</string>
+    <string name="invalid_broadcast">Geçersiz yayın</string>
+    <string name="synopsis_background">Arka Plan</string>
+    <string name="portuguese">Portekizce</string>
+    <string name="very_low_value">Çok Düşük</string>
+    <string name="low_value">Düşük</string>
+    <string name="medium_value">Normal</string>
+    <string name="high_value">Yüksek</string>
+    <string name="very_high_value">Çok Yüksek</string>
+    <string name="tags">Etiketler</string>
+    <string name="priority_value">Öncelik: %s</string>
+    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as Rewatch probability">Tekrar İzleme Değeri: %s</string>
+    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as Reread probability">Tekrar Okuma Değeri: %s</string>
+    <string name="notes">Notlar</string>
+    <string name="rewatching">Yeniden izleniyor</string>
+    <string name="rereading">Yeniden okunuyor</string>
 </resources>

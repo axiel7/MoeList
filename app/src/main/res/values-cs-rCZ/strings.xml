@@ -279,8 +279,33 @@
     <string name="refresh">Obnovit</string>
     <string name="indonesian">Indonésky</string>
     <string name="romaji">Romaji</string>
-    <string name="title_language">Title language</string>
-    <string name="experimental" comment="Title for experimental settings">Experimental</string>
-    <string name="new_logo_design">New logo design</string>
-    <string name="website">Website</string>
+    <string name="title_language">Jazyk titulku</string>
+    <string name="experimental">Experimentální</string>
+    <string name="new_logo_design">Nový design loga</string>
+    <string name="website">Webové stránky</string>
+    <string name="please_login_to_use_this_feature">Pro použití této funkce se prosím přihlaste</string>
+    <string name="no_recommendations">Žádná doporučení</string>
+    <string name="list_mode_grid">Síť</string>
+    <string name="use_separated_list_styles">Použití stylů oddělených seznamů</string>
+    <string name="changes_will_take_effect_on_app_restart">Změny se projeví při restartu aplikace</string>
+    <string name="items_per_row">Položky na řádek</string>
+    <string name="default_setting">Výchozí</string>
+    <string name="airing_notification_enabled">Povoleno oznámení o vysílání</string>
+    <string name="start_airing_notification_enabled">Povoleno oznámení o zahájení vysílání</string>
+    <string name="invalid_start_date">Neplatné datum zahájení</string>
+    <string name="invalid_broadcast">Neplatné vysílání</string>
+    <string name="synopsis_background">Kontext</string>
+    <string name="portuguese">Portugalština</string>
+    <string name="very_low_value">Velmi nízká</string>
+    <string name="low_value">Nízká</string>
+    <string name="medium_value">Střední</string>
+    <string name="high_value">Vysoká</string>
+    <string name="very_high_value">Velmi vysoká</string>
+    <string name="tags">Štítky</string>
+    <string name="priority_value">Priorita: %s</string>
+    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as Rewatch probability">Pravděpodobnost dalšího sledování: %s</string>
+    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as Reread probability">Pravděpodobnost dalšího čtení: %s</string>
+    <string name="notes">Poznámky</string>
+    <string name="rewatching">Opětovné sledování</string>
+    <string name="rereading">Opětovné čtení</string>
 </resources>
