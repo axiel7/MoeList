@@ -296,15 +296,15 @@
     <string name="invalid_broadcast">Programação inválida</string>
     <string name="synopsis_background">Contexto</string>
     <string name="portuguese">Português</string>
-    <string name="very_low_value">Very Low</string>
-    <string name="low_value">Low</string>
-    <string name="medium_value">Medium</string>
-    <string name="high_value">High</string>
-    <string name="very_high_value">Very High</string>
-    <string name="tags">Tags</string>
+    <string name="very_low_value">Muito Baixo</string>
+    <string name="low_value">Baixo</string>
+    <string name="medium_value">Médio</string>
+    <string name="high_value">Alto</string>
+    <string name="very_high_value">Muito Alto</string>
+    <string name="tags">Etiquetas</string>
     <string name="priority_value">Prioridade: %s</string>
-    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as &amp;quot;Rewatch probability&amp;quot;">Rewatch Value: %s</string>
-    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as &amp;quot;Reread probability&amp;quot;">Reread Value: %s</string>
+    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as Rewatch probability">Possibilidade de rever: %s</string>
+    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as Reread probability">Possibilidade de reler: %s</string>
     <string name="notes">Notas</string>
     <string name="rewatching">Revendo</string>
     <string name="rereading">Relendo</string>
