@@ -296,16 +296,16 @@
     <string name="invalid_broadcast">Невалидно излъчване</string>
     <string name="synopsis_background">Контекст</string>
     <string name="portuguese">Португалски</string>
-    <string name="very_low_value">Very Low</string>
-    <string name="low_value">Low</string>
-    <string name="medium_value">Medium</string>
-    <string name="high_value">High</string>
-    <string name="very_high_value">Very High</string>
-    <string name="tags">Tags</string>
-    <string name="priority_value">Priority: %s</string>
-    <string name="rewatch_value">Rewatch Value: %s</string>
-    <string name="reread_value">Reread Value: %s</string>
-    <string name="notes">Notes</string>
-    <string name="rewatching">Rewatching</string>
-    <string name="rereading">Rereading</string>
+    <string name="very_low_value">Много ниско</string>
+    <string name="low_value">Нисък</string>
+    <string name="medium_value">Среден</string>
+    <string name="high_value">Висока</string>
+    <string name="very_high_value">Много висока</string>
+    <string name="tags">Етикети</string>
+    <string name="priority_value">Приоритет: %s</string>
+    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as Rewatch probability">Вероятност да гледате отново: %s</string>
+    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as Reread probability">Вероятност да прочетете отново: %s</string>
+    <string name="notes">Бележки</string>
+    <string name="rewatching">Гледане отново</string>
+    <string name="rereading">Четене отново</string>
 </resources>
