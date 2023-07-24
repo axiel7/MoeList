@@ -303,8 +303,8 @@
     <string name="very_high_value">Дуже високе</string>
     <string name="tags">Мітки</string>
     <string name="priority_value">Пріоритет: %s</string>
-    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as &amp;quot;Rewatch probability&amp;quot;">Значення пере-переглядів: %s</string>
-    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as &amp;quot;Reread probability&amp;quot;">Значення перечитувань: %s</string>
+    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as Rewatch probability">Значення пере-переглядів: %s</string>
+    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as Reread probability">Значення перечитувань: %s</string>
     <string name="notes">Примітки</string>
     <string name="rewatching">Пере-передивляюсь</string>
     <string name="rereading">Перечитую</string>
