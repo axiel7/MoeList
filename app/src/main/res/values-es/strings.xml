@@ -303,8 +303,8 @@
     <string name="very_high_value">Muy Alto</string>
     <string name="tags">Etiquetas</string>
     <string name="priority_value">Prioridad: %s</string>
-    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as &amp;quot;Rewatch probability&amp;quot;">Probabilidad de volver a ver: %s</string>
-    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as &amp;quot;Reread probability&amp;quot;">Probabilidad de volver a leer: %s</string>
+    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as Rewatch probability">Probabilidad de volver a ver: %s</string>
+    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as Reread probability">Probabilidad de volver a leer: %s</string>
     <string name="notes">Notas</string>
     <string name="rewatching">Volviendo a ver</string>
     <string name="rereading">Volviendo a leer</string>
