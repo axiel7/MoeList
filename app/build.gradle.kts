@@ -15,8 +15,8 @@ android {
         applicationId = "com.axiel7.moelist"
         minSdk = 23
         targetSdk = 34
-        versionCode = 114
-        versionName = "3.3.1"
+        versionCode = 115
+        versionName = "3.3.2"
         archivesName.set("moelist-v$versionName")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
