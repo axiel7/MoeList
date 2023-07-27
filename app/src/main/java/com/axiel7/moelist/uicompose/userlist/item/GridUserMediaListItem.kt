@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.Broadcast
+import com.axiel7.moelist.data.model.anime.airingInShortString
 import com.axiel7.moelist.data.model.anime.remainingText
 import com.axiel7.moelist.data.model.media.WeekDay
 import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_MEDIUM_HEIGHT
@@ -124,7 +125,7 @@ fun GridUserMediaListItem(
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Text(
-                            text = broadcast!!.remainingText(),
+                            text = broadcast!!.airingInShortString(),
                             modifier = Modifier.padding(end = 8.dp),
                             fontSize = 15.sp,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,

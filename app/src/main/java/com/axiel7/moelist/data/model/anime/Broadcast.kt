@@ -55,6 +55,13 @@ fun Broadcast.airingInString() = if (startTime != null && dayOfTheWeek != null) 
     } else stringResource(R.string.aired_ago).format(remaining.absoluteValue.secondsToLegibleText())
 } else ""
 
+@Composable
+fun Broadcast.airingInShortString() = if (startTime != null && dayOfTheWeek != null) {
+    val remaining = remaining()
+    if (remaining > 0) remaining.secondsToLegibleText()
+    else stringResource(R.string.ago).format(remaining.absoluteValue.secondsToLegibleText())
+} else ""
+
 fun Broadcast.nextAiringDayFormatted() =
     dateTimeUntilNextBroadcast()?.format(
         DateTimeFormatter.ofPattern(
