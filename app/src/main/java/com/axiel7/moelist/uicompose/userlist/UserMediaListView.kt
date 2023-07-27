@@ -104,6 +104,14 @@ import com.axiel7.moelist.uicompose.composables.OnBottomReached
 import com.axiel7.moelist.uicompose.composables.collapsable
 import com.axiel7.moelist.uicompose.details.EditMediaSheet
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
+import com.axiel7.moelist.uicompose.userlist.item.CompactUserMediaListItem
+import com.axiel7.moelist.uicompose.userlist.item.CompactUserMediaListItemPlaceholder
+import com.axiel7.moelist.uicompose.userlist.item.GridUserMediaListItem
+import com.axiel7.moelist.uicompose.userlist.item.GridUserMediaListItemPlaceholder
+import com.axiel7.moelist.uicompose.userlist.item.MinimalUserMediaListItem
+import com.axiel7.moelist.uicompose.userlist.item.MinimalUserMediaListItemPlaceholder
+import com.axiel7.moelist.uicompose.userlist.item.StandardUserMediaListItem
+import com.axiel7.moelist.uicompose.userlist.item.StandardUserMediaListItemPlaceholder
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import kotlinx.coroutines.launch
 
