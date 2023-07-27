@@ -303,9 +303,10 @@
     <string name="very_high_value">Sangat Tinggi</string>
     <string name="tags">Tanda</string>
     <string name="priority_value">Prioritas: %s</string>
-    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as Rewatch probability">Jumlah Ditonton Ulang: %s</string>
-    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as Reread probability">Jumlah Dibaca Ulang: %s</string>
+    <string name="rewatch_value">Jumlah Ditonton Ulang: %s</string>
+    <string name="reread_value">Jumlah Dibaca Ulang: %s</string>
     <string name="notes">Catatan</string>
     <string name="rewatching">Ditonton Ulang</string>
     <string name="rereading">Dibaca Ulang</string>
+    <string name="ago">%s ago</string>
 </resources>
