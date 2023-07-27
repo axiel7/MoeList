@@ -1,10 +1,8 @@
 package com.axiel7.moelist.uicompose.home
 
-import androidx.annotation.DrawableRes
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,29 +18,19 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,20 +38,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.R
-import com.axiel7.moelist.data.model.anime.AnimeRanking
-import com.axiel7.moelist.data.model.anime.airingInString
 import com.axiel7.moelist.data.model.anime.icon
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.userPreferredTitle
-import com.axiel7.moelist.uicompose.composables.MEDIA_ITEM_VERTICAL_HEIGHT
-import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_SMALL_HEIGHT
-import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_SMALL_WIDTH
-import com.axiel7.moelist.uicompose.composables.MediaItemDetailedPlaceholder
-import com.axiel7.moelist.uicompose.composables.MediaItemVertical
-import com.axiel7.moelist.uicompose.composables.MediaItemVerticalPlaceholder
-import com.axiel7.moelist.uicompose.composables.MediaPoster
-import com.axiel7.moelist.uicompose.composables.SmallScoreIndicator
+import com.axiel7.moelist.uicompose.composables.HeaderHorizontalList
 import com.axiel7.moelist.uicompose.composables.collapsable
+import com.axiel7.moelist.uicompose.composables.media.MEDIA_ITEM_VERTICAL_HEIGHT
+import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_SMALL_HEIGHT
+import com.axiel7.moelist.uicompose.composables.media.MediaItemDetailedPlaceholder
+import com.axiel7.moelist.uicompose.composables.media.MediaItemVertical
+import com.axiel7.moelist.uicompose.composables.media.MediaItemVerticalPlaceholder
+import com.axiel7.moelist.uicompose.composables.media.SmallScoreIndicator
+import com.axiel7.moelist.uicompose.home.composables.AiringAnimeHorizontalItem
+import com.axiel7.moelist.uicompose.home.composables.HomeCard
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.SeasonCalendar
@@ -330,106 +317,6 @@ fun HomeView(
                     maxLines = 1
                 )
             }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun HomeCard(
-    text: String,
-    @DrawableRes icon: Int,
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit,
-) {
-    Card(
-        onClick = onClick,
-        modifier = modifier.padding(start = 8.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp)
-        )
-    ) {
-        Row(
-            modifier = Modifier
-                .padding(horizontal = 16.dp, vertical = 8.dp)
-                .height(40.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                painter = painterResource(icon),
-                contentDescription = text,
-                modifier = Modifier
-                    .padding(end = 8.dp)
-                    .size(18.dp),
-                tint = MaterialTheme.colorScheme.primary
-            )
-            Text(
-                text = text,
-                fontSize = 15.sp,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 2,
-                lineHeight = 15.sp
-            )
-        }
-    }
-}
-
-@Composable
-fun HeaderHorizontalList(text: String, onClick: () -> Unit) {
-    Box(
-        modifier = Modifier.clickable(onClick = onClick)
-    ) {
-        Row(
-            modifier = Modifier
-                .padding(horizontal = 20.dp, vertical = 16.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(text, fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.ic_round_arrow_forward_24),
-                contentDescription = text
-            )
-        }
-    }
-}
-
-@Composable
-fun AiringAnimeHorizontalItem(item: AnimeRanking, onClick: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .padding(horizontal = 8.dp)
-            .sizeIn(maxWidth = 300.dp, minWidth = 250.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .clickable(onClick = onClick)
-    ) {
-        MediaPoster(
-            url = item.node.mainPicture?.large,
-            modifier = Modifier.size(
-                width = MEDIA_POSTER_SMALL_WIDTH.dp,
-                height = MEDIA_POSTER_SMALL_HEIGHT.dp
-            )
-        )
-
-        Column(
-            modifier = Modifier.padding(start = 16.dp)
-        ) {
-            Text(
-                text = item.node.userPreferredTitle(),
-                fontSize = 18.sp,
-                maxLines = 2,
-                modifier = Modifier.padding(bottom = 4.dp)
-            )
-            Text(
-                text = item.node.broadcast?.airingInString() ?: "",
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-
-            SmallScoreIndicator(
-                score = item.node.mean
-            )
         }
     }
 }

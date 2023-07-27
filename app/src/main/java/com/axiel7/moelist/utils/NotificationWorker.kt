@@ -28,7 +28,7 @@ import com.axiel7.moelist.data.datastore.PreferencesDataStore.notificationsDataS
 import com.axiel7.moelist.data.model.media.WeekDay
 import com.axiel7.moelist.data.model.media.numeric
 import com.axiel7.moelist.data.repository.AnimeRepository
-import com.axiel7.moelist.uicompose.MainActivity
+import com.axiel7.moelist.uicompose.main.MainActivity
 import com.axiel7.moelist.utils.DateUtils.getNextDayOfWeek
 import java.time.DayOfWeek
 import java.time.LocalDate

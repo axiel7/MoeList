@@ -1,4 +1,4 @@
-package com.axiel7.moelist.uicompose.composables
+package com.axiel7.moelist.uicompose.composables.media
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding

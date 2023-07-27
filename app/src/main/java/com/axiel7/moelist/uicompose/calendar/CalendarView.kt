@@ -39,8 +39,8 @@ import com.axiel7.moelist.data.model.media.numeric
 import com.axiel7.moelist.data.model.media.totalDuration
 import com.axiel7.moelist.data.model.media.userPreferredTitle
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
-import com.axiel7.moelist.uicompose.composables.MediaItemDetailed
-import com.axiel7.moelist.uicompose.composables.MediaItemDetailedPlaceholder
+import com.axiel7.moelist.uicompose.composables.media.MediaItemDetailed
+import com.axiel7.moelist.uicompose.composables.media.MediaItemDetailedPlaceholder
 import com.axiel7.moelist.uicompose.composables.RoundedTabRowIndicator
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast

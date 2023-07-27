@@ -1,4 +1,4 @@
-package com.axiel7.moelist.uicompose.userlist.item
+package com.axiel7.moelist.uicompose.userlist.composables
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -36,11 +36,10 @@ import androidx.compose.ui.unit.sp
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.Broadcast
 import com.axiel7.moelist.data.model.anime.airingInShortString
-import com.axiel7.moelist.data.model.anime.remainingText
 import com.axiel7.moelist.data.model.media.WeekDay
-import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_MEDIUM_HEIGHT
-import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_MEDIUM_WIDTH
-import com.axiel7.moelist.uicompose.composables.MediaPoster
+import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_MEDIUM_HEIGHT
+import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_MEDIUM_WIDTH
+import com.axiel7.moelist.uicompose.composables.media.MediaPoster
 import com.axiel7.moelist.uicompose.composables.defaultPlaceholder
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants

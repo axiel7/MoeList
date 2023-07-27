@@ -1,4 +1,4 @@
-package com.axiel7.moelist.uicompose.userlist.item
+package com.axiel7.moelist.uicompose.userlist.composables
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable

@@ -1,4 +1,4 @@
-package com.axiel7.moelist.uicompose.details
+package com.axiel7.moelist.uicompose.editmedia
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf

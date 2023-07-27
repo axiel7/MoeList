@@ -30,9 +30,9 @@ import com.axiel7.moelist.data.model.anime.nextAiringDayFormatted
 import com.axiel7.moelist.data.model.media.TitleLanguage
 import com.axiel7.moelist.data.model.media.title
 import com.axiel7.moelist.data.repository.AnimeRepository
-import com.axiel7.moelist.uicompose.MainActivity
+import com.axiel7.moelist.uicompose.main.MainActivity
 import com.axiel7.moelist.uicompose.theme.AppWidgetColumn
-import com.axiel7.moelist.uicompose.theme.stringResource
+import com.axiel7.moelist.uicompose.theme.glanceStringResource
 
 class AiringWidget : GlanceAppWidget() {
 
@@ -51,7 +51,7 @@ class AiringWidget : GlanceAppWidget() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = stringResource(R.string.nothing_today),
+                            text = glanceStringResource(R.string.nothing_today),
                             modifier = GlanceModifier.padding(bottom = 8.dp),
                             style = TextStyle(
                                 color = GlanceTheme.colors.onSurface
@@ -89,7 +89,7 @@ class AiringWidget : GlanceAppWidget() {
                                     )
                                     Text(
                                         text = item.broadcast!!.nextAiringDayFormatted()
-                                            ?: stringResource(R.string.unknown),
+                                            ?: glanceStringResource(R.string.unknown),
                                         style = TextStyle(
                                             color = GlanceTheme.colors.onPrimaryContainer
                                         ),

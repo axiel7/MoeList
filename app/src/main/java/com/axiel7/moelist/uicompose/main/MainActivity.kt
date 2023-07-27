@@ -1,70 +1,38 @@
-package com.axiel7.moelist.uicompose
+package com.axiel7.moelist.uicompose.main
 
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.AnimationVector1D
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import coil.compose.AsyncImage
 import com.axiel7.moelist.App
-import com.axiel7.moelist.R
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.ACCESS_TOKEN_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_COMPLETED_LIST_STYLE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_CURRENT_LIST_STYLE_PREFERENCE_KEY
@@ -82,7 +50,6 @@ import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_LIST_SORT_PR
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_PAUSED_LIST_STYLE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_PLANNED_LIST_STYLE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.NSFW_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.PROFILE_PICTURE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.START_TAB_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.THEME_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.TITLE_LANG_PREFERENCE_KEY
@@ -94,18 +61,12 @@ import com.axiel7.moelist.data.datastore.PreferencesDataStore.rememberPreference
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.TitleLanguage
 import com.axiel7.moelist.data.repository.LoginRepository
-import com.axiel7.moelist.uicompose.base.BottomDestination
 import com.axiel7.moelist.uicompose.base.BottomDestination.Companion.toBottomDestinationIndex
 import com.axiel7.moelist.uicompose.base.ListStyle
-import com.axiel7.moelist.uicompose.composables.BackIconButton
 import com.axiel7.moelist.uicompose.details.MEDIA_DETAILS_DESTINATION
-import com.axiel7.moelist.uicompose.home.HOME_DESTINATION
-import com.axiel7.moelist.uicompose.more.MORE_DESTINATION
-import com.axiel7.moelist.uicompose.profile.PROFILE_DESTINATION
-import com.axiel7.moelist.uicompose.search.SearchView
+import com.axiel7.moelist.uicompose.main.composables.MainBottomNavBar
+import com.axiel7.moelist.uicompose.main.composables.MainTopAppBar
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
-import com.axiel7.moelist.uicompose.userlist.ANIME_LIST_DESTINATION
-import com.axiel7.moelist.uicompose.userlist.MANGA_LIST_DESTINATION
 import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.NumExtensions.toInt
 import kotlinx.coroutines.CoroutineScope
@@ -303,7 +264,7 @@ fun MainView(
             )
         },
         bottomBar = {
-            BottomNavBar(
+            MainBottomNavBar(
                 navController = navController,
                 bottomBarState = bottomBarState,
                 lastTabOpened = lastTabOpened,
@@ -324,174 +285,6 @@ fun MainView(
             topBarHeightPx = topBarHeightPx,
             topBarOffsetY = topBarOffsetY,
         )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun MainTopAppBar(
-    bottomBarState: MutableState<Boolean>,
-    navController: NavController,
-    modifier: Modifier = Modifier,
-) {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val isVisible by remember {
-        derivedStateOf {
-            when (navBackStackEntry?.destination?.route) {
-                HOME_DESTINATION, ANIME_LIST_DESTINATION, MANGA_LIST_DESTINATION, MORE_DESTINATION,
-                null -> true
-
-                else -> false
-            }
-        }
-    }
-    var query by remember { mutableStateOf("") }
-    val performSearch = remember { mutableStateOf(false) }
-    var active by remember { mutableStateOf(false) }
-    val profilePictureUrl by rememberPreference(PROFILE_PICTURE_PREFERENCE_KEY, "")
-
-    AnimatedVisibility(
-        visible = isVisible,
-        enter = slideInVertically(initialOffsetY = { -it }),
-        exit = slideOutVertically(targetOffsetY = { -it })
-    ) {
-        Column(
-            modifier = modifier
-                .fillMaxWidth()
-                .then(
-                    if (!active) Modifier
-                        .padding(start = 16.dp, end = 16.dp, bottom = 4.dp)
-                    else Modifier
-                )
-                .animateContentSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            SearchBar(
-                query = query,
-                onQueryChange = {
-                    query = it
-                },
-                onSearch = {
-                    performSearch.value = true
-                },
-                active = active,
-                onActiveChange = {
-                    bottomBarState.value = !it
-                    active = it
-                    if (!active) query = ""
-                },
-                modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text(text = stringResource(R.string.search)) },
-                leadingIcon = {
-                    if (active) {
-                        BackIconButton(
-                            onClick = {
-                                active = false
-                                bottomBarState.value = true
-                                query = ""
-                            }
-                        )
-                    } else {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_round_search_24),
-                            contentDescription = "search"
-                        )
-                    }
-                },
-                trailingIcon = {
-                    if (!active) {
-                        AsyncImage(
-                            model = profilePictureUrl,
-                            contentDescription = "profile",
-                            placeholder = painterResource(R.drawable.ic_round_account_circle_24),
-                            error = painterResource(R.drawable.ic_round_account_circle_24),
-                            modifier = Modifier
-                                .padding(horizontal = 16.dp)
-                                .clip(RoundedCornerShape(100))
-                                .size(32.dp)
-                                .clickable { navController.navigate(PROFILE_DESTINATION) }
-                        )
-                    } else if (query.isNotEmpty()) {
-                        IconButton(onClick = { query = "" }) {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_close),
-                                contentDescription = "delete"
-                            )
-                        }
-                    }
-                }
-            ) {
-                SearchView(
-                    query = query,
-                    performSearch = performSearch,
-                    navigateToMediaDetails = { mediaType, mediaId ->
-                        navController.navigate(
-                            MEDIA_DETAILS_DESTINATION
-                                .replace("{mediaType}", mediaType.name)
-                                .replace("{mediaId}", mediaId.toString())
-                        )
-                    }
-                )
-            }//:SearchBar
-        }//:Column
-    }
-}
-
-@Composable
-fun BottomNavBar(
-    navController: NavController,
-    bottomBarState: State<Boolean>,
-    lastTabOpened: Int,
-    topBarOffsetY: Animatable<Float, AnimationVector1D>,
-) {
-    val scope = rememberCoroutineScope()
-
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val isVisible by remember {
-        derivedStateOf {
-            when (navBackStackEntry?.destination?.route) {
-                HOME_DESTINATION, ANIME_LIST_DESTINATION, MANGA_LIST_DESTINATION, MORE_DESTINATION,
-                null -> bottomBarState.value
-
-                else -> false
-            }
-        }
-    }
-    var selectedItem by rememberPreference(LAST_TAB_PREFERENCE_KEY, lastTabOpened)
-
-    AnimatedVisibility(
-        visible = isVisible,
-        enter = slideInVertically(initialOffsetY = { it }),
-        exit = slideOutVertically(targetOffsetY = { it })
-    ) {
-        NavigationBar {
-            BottomDestination.values.forEachIndexed { index, dest ->
-                NavigationBarItem(
-                    icon = {
-                        Icon(
-                            painter = painterResource(if (selectedItem == index) dest.iconSelected else dest.icon),
-                            contentDescription = stringResource(dest.title)
-                        )
-                    },
-                    label = { Text(text = stringResource(dest.title)) },
-                    selected = selectedItem == index,
-                    onClick = {
-                        scope.launch {
-                            topBarOffsetY.animateTo(0f)
-                        }
-
-                        selectedItem = index
-                        navController.navigate(dest.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    }
-                )
-            }
-        }
     }
 }
 

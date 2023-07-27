@@ -1,4 +1,4 @@
-package com.axiel7.moelist.uicompose.composables
+package com.axiel7.moelist.uicompose.composables.media
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.axiel7.moelist.R
+import com.axiel7.moelist.uicompose.composables.defaultPlaceholder
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 
 @OptIn(ExperimentalMaterial3Api::class)

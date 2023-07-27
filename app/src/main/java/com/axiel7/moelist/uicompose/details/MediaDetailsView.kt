@@ -1,6 +1,5 @@
 package com.axiel7.moelist.uicompose.details
 
-import android.os.Build
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
@@ -30,18 +29,14 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -57,10 +52,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.R
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.notificationsDataStore
 import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.anime.broadcastTimeText
 import com.axiel7.moelist.data.model.anime.episodeDurationLocalized
@@ -77,48 +70,38 @@ import com.axiel7.moelist.data.model.media.statusLocalized
 import com.axiel7.moelist.data.model.media.synonymsJoined
 import com.axiel7.moelist.data.model.media.synopsisAndBackground
 import com.axiel7.moelist.data.model.media.userPreferredTitle
-import com.axiel7.moelist.uicompose.composables.BackIconButton
 import com.axiel7.moelist.uicompose.composables.InfoTitle
-import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_BIG_HEIGHT
-import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_BIG_WIDTH
-import com.axiel7.moelist.uicompose.composables.MediaItemVertical
-import com.axiel7.moelist.uicompose.composables.MediaPoster
-import com.axiel7.moelist.uicompose.composables.ShareButton
+import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_BIG_HEIGHT
+import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_BIG_WIDTH
+import com.axiel7.moelist.uicompose.composables.media.MediaItemVertical
+import com.axiel7.moelist.uicompose.composables.media.MediaPoster
 import com.axiel7.moelist.uicompose.composables.TextIconHorizontal
 import com.axiel7.moelist.uicompose.composables.TextIconVertical
 import com.axiel7.moelist.uicompose.composables.VerticalDivider
-import com.axiel7.moelist.uicompose.composables.ViewInBrowserButton
 import com.axiel7.moelist.uicompose.composables.defaultPlaceholder
+import com.axiel7.moelist.uicompose.details.composables.AnimeThemeItem
+import com.axiel7.moelist.uicompose.details.composables.MediaDetailsTopAppBar
+import com.axiel7.moelist.uicompose.details.composables.MediaInfoView
+import com.axiel7.moelist.uicompose.editmedia.EditMediaSheet
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.ContextExtensions.getCurrentLanguageTag
 import com.axiel7.moelist.utils.ContextExtensions.openAction
 import com.axiel7.moelist.utils.ContextExtensions.openInGoogleTranslate
-import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.ContextExtensions.showToast
-import com.axiel7.moelist.utils.DateUtils.parseDate
 import com.axiel7.moelist.utils.DateUtils.parseDateAndLocalize
-import com.axiel7.moelist.utils.NotificationWorker
 import com.axiel7.moelist.utils.NumExtensions
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
 import com.axiel7.moelist.utils.StringExtensions.toNavArgument
 import com.axiel7.moelist.utils.StringExtensions.toStringOrNull
 import com.axiel7.moelist.utils.UseCases.copyToClipBoard
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberPermissionState
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.time.LocalTime
 
 const val MEDIA_TYPE_ARGUMENT = "{mediaType}"
 const val MEDIA_ID_ARGUMENT = "{mediaId}"
 const val MEDIA_DETAILS_DESTINATION = "details/$MEDIA_TYPE_ARGUMENT/$MEDIA_ID_ARGUMENT"
 
-@OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class,
-    ExperimentalPermissionsApi::class
-)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun MediaDetailsView(
     mediaType: MediaType,
@@ -144,11 +127,6 @@ fun MediaDetailsView(
         derivedStateOf { viewModel.mediaDetails?.myListStatus == null }
     }
     val isCurrentLanguageEn = remember { getCurrentLanguageTag()?.startsWith("en") }
-    val notificationPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        rememberPermissionState(
-            android.Manifest.permission.POST_NOTIFICATIONS
-        )
-    } else null
 
     if (sheetState.isVisible) {
         EditMediaSheet(
@@ -179,64 +157,6 @@ fun MediaDetailsView(
                 else Constants.MANGA_URL + mediaId,
                 navigateBack = navigateBack,
                 scrollBehavior = topAppBarScrollBehavior,
-                onClickNotification = { enable ->
-                    (viewModel.mediaDetails as? AnimeDetails)?.let { details ->
-                        if (enable) {
-                            if (notificationPermission == null
-                                || notificationPermission.status.isGranted
-                            ) {
-                                coroutineScope.launch {
-                                    if (details.status != "not_yet_aired"
-                                        && details.broadcast?.dayOfTheWeek != null
-                                        && details.broadcast.startTime != null
-                                    ) {
-                                        NotificationWorker.scheduleAiringAnimeNotification(
-                                            context = context,
-                                            title = details.title ?: "",
-                                            animeId = details.id,
-                                            weekDay = details.broadcast.dayOfTheWeek,
-                                            jpHour = LocalTime.parse(details.broadcast.startTime)
-                                        )
-                                        context.showToast(R.string.airing_notification_enabled)
-                                    } else if (details.status == "not_yet_aired"
-                                        && details.startDate != null
-                                    ) {
-                                        val startDate = details.startDate.parseDate()
-                                        if (startDate != null) {
-                                            NotificationWorker.scheduleAnimeStartNotification(
-                                                context = context,
-                                                title = details.title ?: "",
-                                                animeId = details.id,
-                                                startDate = startDate
-                                            )
-                                            context.showToast(R.string.start_airing_notification_enabled)
-                                        } else {
-                                            context.showToast(R.string.invalid_start_date)
-                                        }
-                                    } else {
-                                        if (details.broadcast?.dayOfTheWeek == null
-                                            || details.broadcast.startTime == null
-                                        ) {
-                                            context.showToast(R.string.invalid_broadcast)
-                                        } else if (details.startDate == null) {
-                                            context.showToast(R.string.invalid_start_date)
-                                        }
-                                    }
-                                }
-                            } else {
-                                notificationPermission.launchPermissionRequest()
-                            }
-                        } else {
-                            coroutineScope.launch {
-                                NotificationWorker.removeAiringAnimeNotification(
-                                    context = context,
-                                    animeId = details.id
-                                )
-                                context.showToast("Notification disabled")
-                            }
-                        }
-                    }
-                }
             )
         },
         floatingActionButton = {
@@ -645,97 +565,6 @@ fun MediaDetailsView(
             }
         }//:Column
     }//:Scaffold
-}
-
-@Composable
-fun AnimeThemeItem(text: String, onClick: () -> Unit) {
-    Text(
-        text = text,
-        modifier = Modifier
-            .padding(horizontal = 16.dp, vertical = 4.dp)
-            .clickable(onClick = onClick),
-        color = MaterialTheme.colorScheme.primary,
-        overflow = TextOverflow.Ellipsis,
-        maxLines = 1
-    )
-}
-
-@Composable
-fun MediaInfoView(
-    title: String,
-    info: String?,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = Modifier
-            .padding(horizontal = 16.dp, vertical = 4.dp)
-            .then(modifier)
-    ) {
-        Text(
-            text = title,
-            modifier = Modifier.weight(1f),
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-        Text(
-            text = info ?: stringResource(R.string.unknown),
-            modifier = Modifier.weight(1f),
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun MediaDetailsTopAppBar(
-    viewModel: MediaDetailsViewModel,
-    mediaUrl: String,
-    scrollBehavior: TopAppBarScrollBehavior,
-    navigateBack: () -> Unit,
-    onClickNotification: (enable: Boolean) -> Unit,
-) {
-    val context = LocalContext.current
-    val savedForNotification = when (viewModel.mediaDetails?.status) {
-        "currently_airing" -> remember {
-            context.notificationsDataStore.data.map {
-                it[stringPreferencesKey(viewModel.mediaDetails!!.id.toString())]
-            }
-        }.collectAsState(initial = null)
-
-        "not_yet_aired" -> remember {
-            context.notificationsDataStore.data.map {
-                it[stringPreferencesKey("start_${viewModel.mediaDetails!!.id}")]
-            }
-        }.collectAsState(initial = null)
-
-        else -> remember { mutableStateOf(null) }
-    }
-
-    TopAppBar(
-        title = { Text(stringResource(R.string.title_details)) },
-        navigationIcon = {
-            BackIconButton(onClick = navigateBack)
-        },
-        actions = {
-            if (viewModel.mediaDetails?.status == "currently_airing"
-                || viewModel.mediaDetails?.status == "not_yet_aired"
-            ) {
-                IconButton(onClick = {
-                    onClickNotification(savedForNotification.value == null)
-                }) {
-                    Icon(
-                        painter = painterResource(
-                            if (savedForNotification.value != null) R.drawable.round_notifications_active_24
-                            else R.drawable.round_notifications_off_24
-                        ),
-                        contentDescription = "notification"
-                    )
-                }
-            }
-            ViewInBrowserButton(onClick = { context.openLink(mediaUrl) })
-
-            ShareButton(url = mediaUrl)
-        },
-        scrollBehavior = scrollBehavior
-    )
 }
 
 @Preview(showBackground = true)

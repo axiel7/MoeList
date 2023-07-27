@@ -1,4 +1,4 @@
-package com.axiel7.moelist.uicompose
+package com.axiel7.moelist.uicompose.main
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
@@ -62,7 +62,7 @@ import com.axiel7.moelist.uicompose.ranking.MEDIA_RANKING_DESTINATION
 import com.axiel7.moelist.uicompose.ranking.MediaRankingView
 import com.axiel7.moelist.uicompose.season.SEASON_CHART_DESTINATION
 import com.axiel7.moelist.uicompose.season.SeasonChartView
-import com.axiel7.moelist.uicompose.userlist.UserMediaListHostView
+import com.axiel7.moelist.uicompose.userlist.UserMediaListWithFabView
 import com.axiel7.moelist.uicompose.userlist.UserMediaListWithTabsView
 import com.axiel7.moelist.utils.StringExtensions.removeFirstAndLast
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -203,7 +203,7 @@ fun MainNavigation(
                         topBarOffsetY = topBarOffsetY,
                         padding = padding
                     )
-                else UserMediaListHostView(
+                else UserMediaListWithFabView(
                     mediaType = MediaType.ANIME,
                     navigateToMediaDetails = { mediaType, mediaId ->
                         navController.navigate(
@@ -237,7 +237,7 @@ fun MainNavigation(
                         topBarOffsetY = topBarOffsetY,
                         padding = padding
                     )
-                else UserMediaListHostView(
+                else UserMediaListWithFabView(
                     mediaType = MediaType.MANGA,
                     navigateToMediaDetails = { mediaType, mediaId ->
                         navController.navigate(

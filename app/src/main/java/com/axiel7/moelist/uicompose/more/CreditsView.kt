@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
+import com.axiel7.moelist.uicompose.more.composables.MoreItem
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants.GENERAL_HELP_CREDIT_URL
 import com.axiel7.moelist.utils.Constants.LOGO_CREDIT_URL

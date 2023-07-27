@@ -1,4 +1,4 @@
-package com.axiel7.moelist.uicompose.userlist.item
+package com.axiel7.moelist.uicompose.userlist.composables
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,15 +16,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -35,10 +38,12 @@ import com.axiel7.moelist.data.model.anime.Broadcast
 import com.axiel7.moelist.data.model.anime.airingInString
 import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.data.model.media.WeekDay
+import com.axiel7.moelist.data.model.media.calculateProgressBarValue
 import com.axiel7.moelist.data.model.media.isCurrent
-import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_COMPACT_HEIGHT
-import com.axiel7.moelist.uicompose.composables.MEDIA_POSTER_SMALL_WIDTH
-import com.axiel7.moelist.uicompose.composables.MediaPoster
+import com.axiel7.moelist.data.model.media.mediaFormatLocalized
+import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_SMALL_HEIGHT
+import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_SMALL_WIDTH
+import com.axiel7.moelist.uicompose.composables.media.MediaPoster
 import com.axiel7.moelist.uicompose.composables.defaultPlaceholder
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants
@@ -46,15 +51,16 @@ import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrUnknown
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun CompactUserMediaListItem(
+fun StandardUserMediaListItem(
     imageUrl: String?,
     title: String,
     score: Int?,
+    mediaFormat: String?,
     mediaStatus: String?,
+    broadcast: Broadcast?,
     userProgress: Int?,
     totalProgress: Int?,
     isVolumeProgress: Boolean,
-    broadcast: Broadcast?,
     listStatus: ListStatus,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
@@ -64,11 +70,11 @@ fun CompactUserMediaListItem(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 4.dp)
+            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
             .combinedClickable(onLongClick = onLongClick, onClick = onClick),
     ) {
         Row(
-            modifier = Modifier.height(MEDIA_POSTER_COMPACT_HEIGHT.dp)
+            modifier = Modifier.height(MEDIA_POSTER_SMALL_HEIGHT.dp)
         ) {
             Box(
                 contentAlignment = Alignment.BottomStart
@@ -76,11 +82,10 @@ fun CompactUserMediaListItem(
                 MediaPoster(
                     url = imageUrl,
                     showShadow = false,
-                    contentScale = ContentScale.FillWidth,
                     modifier = Modifier
                         .size(
                             width = MEDIA_POSTER_SMALL_WIDTH.dp,
-                            height = MEDIA_POSTER_SMALL_WIDTH.dp
+                            height = MEDIA_POSTER_SMALL_HEIGHT.dp
                         )
                 )
 
@@ -106,86 +111,93 @@ fun CompactUserMediaListItem(
                         modifier = Modifier.padding(end = 4.dp),
                         tint = MaterialTheme.colorScheme.onPrimaryContainer
                     )
-                }
+                }//:Row
             }//:Box
 
             Column(
                 modifier = Modifier.fillMaxHeight(),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
-                    text = title,
-                    modifier = Modifier
-                        .padding(start = 16.dp, end = 16.dp, top = 8.dp),
-                    color = MaterialTheme.colorScheme.onSurface,
-                    fontSize = 16.sp,
-                    lineHeight = 19.sp,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = if (isAiring) 1 else 2
-                )
-
-                if (isAiring) {
+                Column {
                     Text(
-                        text = broadcast!!.airingInString(),
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        color = MaterialTheme.colorScheme.primary,
-                        fontSize = 16.sp,
-                        lineHeight = 19.sp,
+                        text = title,
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                        color = MaterialTheme.colorScheme.onSurface,
+                        fontSize = 17.sp,
+                        lineHeight = 22.sp,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 2
                     )
-                }
+                    Text(
+                        text = if (isAiring) broadcast!!.airingInString()
+                        else mediaFormat?.mediaFormatLocalized() ?: "",
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        color = if (isAiring) MaterialTheme.colorScheme.primary
+                        else MaterialTheme.colorScheme.onSurface
+                    )
+                }//:Column
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 16.dp, end = 16.dp, bottom = 4.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.Bottom
-                ) {
+                Column {
                     Row(
-                        verticalAlignment = Alignment.CenterVertically
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 16.dp, end = 16.dp, bottom = 4.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.Bottom
                     ) {
-                        Text(
-                            text = "${userProgress ?: 0}/${totalProgress.toStringPositiveValueOrUnknown()}",
-                            fontSize = 16.sp,
-                            lineHeight = 19.sp,
-                        )
-                        if (isVolumeProgress) {
-                            Icon(
-                                painter = painterResource(R.drawable.round_bookmark_24),
-                                contentDescription = stringResource(R.string.volumes),
-                                modifier = Modifier
-                                    .padding(start = 4.dp)
-                                    .size(16.dp)
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "${userProgress ?: 0}/${totalProgress.toStringPositiveValueOrUnknown()}",
                             )
+                            if (isVolumeProgress) {
+                                Icon(
+                                    painter = painterResource(R.drawable.round_bookmark_24),
+                                    contentDescription = stringResource(R.string.volumes),
+                                    modifier = Modifier
+                                        .padding(start = 4.dp)
+                                        .size(16.dp)
+                                )
+                            }
+                        }
+
+                        if (listStatus.isCurrent()) {
+                            OutlinedButton(onClick = onClickPlus) {
+                                Text(text = stringResource(R.string.plus_one))
+                            }
                         }
                     }
 
-                    if (listStatus.isCurrent()) {
-                        OutlinedButton(onClick = onClickPlus) {
-                            Text(text = stringResource(R.string.plus_one))
-                        }
-                    }
-                }
+                    LinearProgressIndicator(
+                        progress = calculateProgressBarValue(userProgress, totalProgress),
+                        modifier = Modifier.fillMaxWidth(),
+                        color = MaterialTheme.colorScheme.primary,
+                        trackColor = MaterialTheme.colorScheme.surfaceColorAtElevation(94.dp),
+                        strokeCap = StrokeCap.Round
+                    )
+                }//:Column
             }//:Column
         }//:Row
     }//:Card
 }
 
 @Composable
-fun CompactUserMediaListItemPlaceholder() {
+fun StandardUserMediaListItemPlaceholder() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
     ) {
         Row(
-            modifier = Modifier.height(MEDIA_POSTER_SMALL_WIDTH.dp)
+            modifier = Modifier.height(MEDIA_POSTER_SMALL_HEIGHT.dp)
         ) {
             Box(
                 modifier = Modifier
                     .size(
                         width = MEDIA_POSTER_SMALL_WIDTH.dp,
-                        height = MEDIA_POSTER_SMALL_WIDTH.dp
+                        height = MEDIA_POSTER_SMALL_HEIGHT.dp
                     )
                     .clip(RoundedCornerShape(8.dp))
                     .defaultPlaceholder(visible = true)
@@ -210,6 +222,7 @@ fun CompactUserMediaListItemPlaceholder() {
                     text = "Placeholder",
                     modifier = Modifier.defaultPlaceholder(visible = true),
                 )
+                Spacer(modifier = Modifier.size(16.dp))
 
                 Text(
                     text = "??/??",
@@ -222,24 +235,25 @@ fun CompactUserMediaListItemPlaceholder() {
 
 @Preview
 @Composable
-fun CompactUserMediaListItemPreview() {
+fun StandardUserMediaListItemPreview() {
     MoeListTheme {
         Column {
-            CompactUserMediaListItem(
+            StandardUserMediaListItem(
                 imageUrl = null,
-                title = "This is a very very very very large anime or manga title",
+                title = "This is a large anime or manga title",
                 score = null,
+                mediaFormat = "tv",
                 mediaStatus = "currently_airing",
-                userProgress = 4,
-                totalProgress = 12,
-                isVolumeProgress = true,
                 broadcast = Broadcast(WeekDay.SUNDAY, "12:00"),
+                userProgress = 4,
+                totalProgress = 24,
+                isVolumeProgress = false,
                 listStatus = ListStatus.WATCHING,
                 onClick = { },
                 onLongClick = { },
                 onClickPlus = { }
             )
-            CompactUserMediaListItemPlaceholder()
+            StandardUserMediaListItemPlaceholder()
         }
     }
 }

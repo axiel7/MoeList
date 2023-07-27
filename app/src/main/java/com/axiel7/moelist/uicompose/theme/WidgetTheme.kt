@@ -77,6 +77,6 @@ fun appWidgetBackgroundModifier() = GlanceModifier
     .cornerRadius(24.dp)
 
 @Composable
-fun stringResource(@StringRes id: Int, vararg args: Any): String {
+fun glanceStringResource(@StringRes id: Int, vararg args: Any): String {
     return LocalContext.current.getString(id, args)
 }

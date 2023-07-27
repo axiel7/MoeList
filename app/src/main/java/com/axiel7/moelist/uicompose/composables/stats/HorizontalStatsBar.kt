@@ -1,4 +1,4 @@
-package com.axiel7.moelist.uicompose.composables
+package com.axiel7.moelist.uicompose.composables.stats
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.Stat
+import com.axiel7.moelist.uicompose.composables.Rectangle
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 
 @Composable

@@ -1,4 +1,4 @@
-package com.axiel7.moelist.uicompose.composables
+package com.axiel7.moelist.uicompose.composables.stats
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.BoxWithConstraints
