@@ -303,9 +303,10 @@
     <string name="very_high_value">非常に高い</string>
     <string name="tags">タグ</string>
     <string name="priority_value">優先：%s</string>
-    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as Rewatch probability">もう一度見る確率：%s</string>
-    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as Reread probability">再読確率：%s</string>
+    <string name="rewatch_value">もう一度見る確率：%s</string>
+    <string name="reread_value">再読確率：%s</string>
     <string name="notes">メモ</string>
     <string name="rewatching">見直し中</string>
     <string name="rereading">再読中</string>
+    <string name="ago">%s ago</string>
 </resources>
