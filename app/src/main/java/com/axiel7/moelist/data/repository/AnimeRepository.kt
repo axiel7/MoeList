@@ -103,17 +103,17 @@ object AnimeRepository {
 
     suspend fun updateAnimeEntry(
         animeId: Int,
-        status: String?,
-        @IntRange(0, 10) score: Int?,
-        watchedEpisodes: Int?,
-        startDate: String?,
-        endDate: String?,
-        isRewatching: Boolean?,
-        numRewatches: Int?,
-        @IntRange(0, 5) rewatchValue: Int?,
-        @IntRange(0, 2) priority: Int?,
-        tags: String?,
-        comments: String?
+        status: String? = null,
+        @IntRange(0, 10) score: Int? = null,
+        watchedEpisodes: Int? = null,
+        startDate: String? = null,
+        endDate: String? = null,
+        isRewatching: Boolean? = null,
+        numRewatches: Int? = null,
+        @IntRange(0, 5) rewatchValue: Int? = null,
+        @IntRange(0, 2) priority: Int? = null,
+        tags: String? = null,
+        comments: String? = null,
     ): MyAnimeListStatus? {
         return try {
             val result = App.api.updateUserAnimeList(

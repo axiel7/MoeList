@@ -76,6 +76,7 @@ import com.axiel7.moelist.uicompose.userlist.composables.GridUserMediaListItemPl
 import com.axiel7.moelist.uicompose.userlist.composables.MediaListSortDialog
 import com.axiel7.moelist.uicompose.userlist.composables.MinimalUserMediaListItem
 import com.axiel7.moelist.uicompose.userlist.composables.MinimalUserMediaListItemPlaceholder
+import com.axiel7.moelist.uicompose.userlist.composables.SetAsCompletedDialog
 import com.axiel7.moelist.uicompose.userlist.composables.StandardUserMediaListItem
 import com.axiel7.moelist.uicompose.userlist.composables.StandardUserMediaListItemPlaceholder
 import com.axiel7.moelist.utils.ContextExtensions.showToast
@@ -120,6 +121,10 @@ fun UserMediaListView(
 
     if (viewModel.openSortDialog) {
         MediaListSortDialog(viewModel = viewModel)
+    }
+
+    if (viewModel.openSetAtCompletedDialog) {
+        SetAsCompletedDialog(viewModel = viewModel)
     }
 
     if (sheetState.isVisible) {
@@ -317,7 +322,8 @@ fun UserMediaListView(
                                             1
                                         ) else null,
                                         volumeProgress = if (isVolumeProgress) (item.listStatus as? MyMangaListStatus)
-                                            ?.numVolumesRead?.plus(1) else null
+                                            ?.numVolumesRead?.plus(1) else null,
+                                        totalProgress = item.totalProgress()
                                     )
                                 }
                             )
@@ -366,7 +372,8 @@ fun UserMediaListView(
                                             1
                                         ) else null,
                                         volumeProgress = if (isVolumeProgress) (item.listStatus as? MyMangaListStatus)
-                                            ?.numVolumesRead?.plus(1) else null
+                                            ?.numVolumesRead?.plus(1) else null,
+                                        totalProgress = item.totalProgress()
                                     )
                                 }
                             )
@@ -414,7 +421,8 @@ fun UserMediaListView(
                                             1
                                         ) else null,
                                         volumeProgress = if (isVolumeProgress) (item.listStatus as? MyMangaListStatus)
-                                            ?.numVolumesRead?.plus(1) else null
+                                            ?.numVolumesRead?.plus(1) else null,
+                                        totalProgress = item.totalProgress()
                                     )
                                 }
                             )

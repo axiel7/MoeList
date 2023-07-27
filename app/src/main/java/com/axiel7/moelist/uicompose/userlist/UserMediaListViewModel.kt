@@ -18,6 +18,7 @@ import com.axiel7.moelist.data.model.manga.UserMangaList
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseMyListStatus
 import com.axiel7.moelist.data.model.media.BaseUserMediaList
+import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.data.model.media.ListType
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.MediaType
@@ -55,6 +56,8 @@ class UserMediaListViewModel(
     }
 
     var openSortDialog by mutableStateOf(false)
+    var openSetAtCompletedDialog by mutableStateOf(false)
+    var lastItemUpdatedId = 0
 
     private val params = ApiParams(
         status = listType.status.value,
@@ -118,38 +121,19 @@ class UserMediaListViewModel(
         mediaId: Int,
         progress: Int? = null,
         volumeProgress: Int? = null,
+        totalProgress: Int?
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             isLoading = true
             val result = if (mediaType == MediaType.ANIME)
                 AnimeRepository.updateAnimeEntry(
                     animeId = mediaId,
-                    status = null,
-                    score = null,
                     watchedEpisodes = progress,
-                    startDate = null,
-                    endDate = null,
-                    isRewatching = null,
-                    numRewatches = null,
-                    rewatchValue = null,
-                    priority = null,
-                    tags = null,
-                    comments = null
                 )
             else MangaRepository.updateMangaEntry(
                 mangaId = mediaId,
-                status = null,
-                score = null,
                 chaptersRead = progress,
                 volumesRead = volumeProgress,
-                startDate = null,
-                endDate = null,
-                isRereading = null,
-                numRereads = null,
-                rereadValue = null,
-                priority = null,
-                tags = null,
-                comments = null
             )
 
             if (result != null) {
@@ -161,6 +145,12 @@ class UserMediaListViewModel(
                     } else if (mediaType == MediaType.MANGA) {
                         mediaList[foundIndex] = (mediaList[foundIndex] as UserMangaList)
                             .copy(listStatus = result as MyMangaListStatus)
+                    }
+                    if (totalProgress != null &&
+                        (progress == totalProgress || volumeProgress == totalProgress)
+                    ) {
+                        lastItemUpdatedId = mediaId
+                        openSetAtCompletedDialog = true
                     }
                 }
             }
@@ -188,5 +178,23 @@ class UserMediaListViewModel(
                 }
             }
         }
+    }
+
+    fun setAsCompleted(mediaId: Int) = viewModelScope.launch(Dispatchers.IO) {
+        isLoading = true
+        val result = if (mediaType == MediaType.ANIME)
+            AnimeRepository.updateAnimeEntry(
+                animeId = mediaId,
+                status = ListStatus.COMPLETED.value
+            )
+        else MangaRepository.updateMangaEntry(
+            mangaId = mediaId,
+            status = ListStatus.COMPLETED.value
+        )
+
+        if (result != null) {
+            mediaList.removeIf { it.node.id == mediaId }
+        }
+        isLoading = false
     }
 }

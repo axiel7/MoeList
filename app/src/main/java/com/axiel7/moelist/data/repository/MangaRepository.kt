@@ -51,18 +51,18 @@ object MangaRepository {
 
     suspend fun updateMangaEntry(
         mangaId: Int,
-        status: String?,
-        @IntRange(0, 10) score: Int?,
-        chaptersRead: Int?,
-        volumesRead: Int?,
-        startDate: String?,
-        endDate: String?,
-        isRereading: Boolean?,
-        numRereads: Int?,
-        @IntRange(0, 5) rereadValue: Int?,
-        @IntRange(0, 2) priority: Int?,
-        tags: String?,
-        comments: String?,
+        status: String? = null,
+        @IntRange(0, 10) score: Int? = null,
+        chaptersRead: Int? = null,
+        volumesRead: Int? = null,
+        startDate: String? = null,
+        endDate: String? = null,
+        isRereading: Boolean? = null,
+        numRereads: Int? = null,
+        @IntRange(0, 5) rereadValue: Int? = null,
+        @IntRange(0, 2) priority: Int? = null,
+        tags: String? = null,
+        comments: String? = null,
     ): MyMangaListStatus? {
         return try {
             val result = App.api.updateUserMangaList(

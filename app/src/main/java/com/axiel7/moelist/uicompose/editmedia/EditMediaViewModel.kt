@@ -77,9 +77,19 @@ class EditMediaViewModel(
     fun onChangeProgress(value: Int?) {
         if (canChangeProgressTo(value, progressLimit)) {
             progress = value
-            if (status.isPlanning()) {
-                status =
+            when {
+                status.isPlanning()
+                        || (value != null
+                        && progressLimit != null
+                        && status == ListStatus.COMPLETED
+                        && value < progressLimit)
+                -> status =
                     if (mediaType == MediaType.ANIME) ListStatus.WATCHING else ListStatus.READING
+
+                value != null
+                        && progressLimit != null
+                        && value == progressLimit
+                        && status != ListStatus.COMPLETED -> status = ListStatus.COMPLETED
             }
         }
     }
