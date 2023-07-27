@@ -22,6 +22,7 @@ import com.axiel7.moelist.data.model.media.listStatusAnimeValues
 import com.axiel7.moelist.data.model.media.listStatusMangaValues
 import com.axiel7.moelist.data.model.media.localized
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
+import com.axiel7.moelist.uicompose.composables.preferences.ListPreferenceView
 
 const val LIST_STYLE_SETTINGS_DESTINATION = "list_style_settings"
 
