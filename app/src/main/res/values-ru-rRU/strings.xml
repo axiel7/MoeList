@@ -303,9 +303,10 @@
     <string name="very_high_value">Очень высокий</string>
     <string name="tags">Теги</string>
     <string name="priority_value">Приоритет: %s</string>
-    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as Rewatch probability">Вероятность повторного просмотра: %s</string>
-    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as Reread probability">Вероятность повторного чтения: %s</string>
+    <string name="rewatch_value">Вероятность повторного просмотра: %s</string>
+    <string name="reread_value">Вероятность повторного чтения: %s</string>
     <string name="notes">Примечания</string>
     <string name="rewatching">Снова учение</string>
     <string name="rereading">Повторное чтение</string>
+    <string name="ago">%s ago</string>
 </resources>
