@@ -309,4 +309,5 @@
     <string name="rewatching">Rewatching</string>
     <string name="rereading">Rereading</string>
     <string name="ago">%s ago</string>
+    <string name="set_as_completed" comment="Alternative: Mark as completed?">Set as completed?</string>
 </resources>
