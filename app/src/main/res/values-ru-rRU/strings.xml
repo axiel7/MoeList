@@ -308,5 +308,6 @@
     <string name="notes">Примечания</string>
     <string name="rewatching">Снова учение</string>
     <string name="rereading">Повторное чтение</string>
-    <string name="ago">%s ago</string>
+    <string name="ago">%s назад</string>
+    <string name="set_as_completed" comment="Alternative: Mark as completed?">Отметить как завершенную?</string>
 </resources>
