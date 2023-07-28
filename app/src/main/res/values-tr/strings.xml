@@ -308,5 +308,6 @@
     <string name="notes">Notlar</string>
     <string name="rewatching">Yeniden izleniyor</string>
     <string name="rereading">Yeniden okunuyor</string>
-    <string name="ago">%s ago</string>
+    <string name="ago">%s önce</string>
+    <string name="set_as_completed" comment="Alternative: Mark as completed?">Tamamlandı olarak işaretleyin?</string>
 </resources>
