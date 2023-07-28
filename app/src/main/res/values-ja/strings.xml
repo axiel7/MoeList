@@ -308,5 +308,6 @@
     <string name="notes">メモ</string>
     <string name="rewatching">見直し中</string>
     <string name="rereading">再読中</string>
-    <string name="ago">%s ago</string>
+    <string name="ago">%s前</string>
+    <string name="set_as_completed" comment="Alternative: Mark as completed?">Set as completed?</string>
 </resources>
