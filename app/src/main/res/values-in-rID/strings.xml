@@ -308,5 +308,6 @@
     <string name="notes">Catatan</string>
     <string name="rewatching">Ditonton Ulang</string>
     <string name="rereading">Dibaca Ulang</string>
-    <string name="ago">%s ago</string>
+    <string name="ago">%s yang lalu</string>
+    <string name="set_as_completed" comment="Alternative: Mark as completed?">Tandai sebagai selesai?</string>
 </resources>
