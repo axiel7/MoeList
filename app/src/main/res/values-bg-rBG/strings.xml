@@ -308,5 +308,6 @@
     <string name="notes">Бележки</string>
     <string name="rewatching">Гледане отново</string>
     <string name="rereading">Четене отново</string>
-    <string name="ago">%s ago</string>
+    <string name="ago">преди %s</string>
+    <string name="set_as_completed" comment="Alternative: Mark as completed?">Маркирайте като завършен?</string>
 </resources>
