@@ -24,7 +24,7 @@
     <string name="cancel">Скасувати</string>
     <string name="apply">Застосувати</string>
     <string name="status">Статус</string>
-    <string name="episodes">Епізоди</string>
+    <string name="episodes">епізод(-ів)</string>
     <string name="delete">Видалити</string>
     <string name="chapters">Розділи</string>
     <string name="watching">Дивлюся</string>
@@ -308,5 +308,6 @@
     <string name="notes">Примітки</string>
     <string name="rewatching">Пере-передивляюсь</string>
     <string name="rereading">Перечитую</string>
-    <string name="ago">%s ago</string>
+    <string name="ago">%s тому</string>
+    <string name="set_as_completed" comment="Alternative: Mark as completed?">Позначити завершеним?</string>
 </resources>
