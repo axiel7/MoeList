@@ -308,5 +308,6 @@
     <string name="notes">Poznámky</string>
     <string name="rewatching">Opětovné sledování</string>
     <string name="rereading">Opětovné čtení</string>
-    <string name="ago">%s ago</string>
+    <string name="ago">Před %s</string>
+    <string name="set_as_completed" comment="Alternative: Mark as completed?">Označit jako dokončené?</string>
 </resources>
