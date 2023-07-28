@@ -308,5 +308,6 @@
     <string name="notes">Notas</string>
     <string name="rewatching">Volviendo a ver</string>
     <string name="rereading">Volviendo a leer</string>
-    <string name="ago">%s ago</string>
+    <string name="ago">Hace %s</string>
+    <string name="set_as_completed" comment="Alternative: Mark as completed?">¿Marcar como completado?</string>
 </resources>
