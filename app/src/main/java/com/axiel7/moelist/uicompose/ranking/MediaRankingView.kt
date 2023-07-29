@@ -40,6 +40,7 @@ const val MEDIA_RANKING_DESTINATION = "ranking/$MEDIA_TYPE_ARGUMENT"
 @Composable
 fun MediaRankingView(
     mediaType: MediaType,
+    isCompactScreen: Boolean,
     navigateBack: () -> Unit,
     navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
@@ -95,6 +96,7 @@ fun MediaRankingView(
                 MediaRankingListView(
                     mediaType = mediaType,
                     rankingType = tabRowItems[it].value,
+                    showAsGrid = !isCompactScreen,
                     navigateToMediaDetails = navigateToMediaDetails
                 )
             }
@@ -108,6 +110,7 @@ fun MediaRankingPreview() {
     MoeListTheme {
         MediaRankingView(
             mediaType = MediaType.MANGA,
+            isCompactScreen = true,
             navigateBack = {},
             navigateToMediaDetails = { _, _ -> }
         )

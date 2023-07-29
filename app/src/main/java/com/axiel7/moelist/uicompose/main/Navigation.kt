@@ -70,6 +70,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 fun MainNavigation(
     navController: NavHostController,
     lastTabOpened: Int,
+    isCompactScreen: Boolean,
     modifier: Modifier,
     padding: PaddingValues,
     topBarHeightPx: Float,
@@ -140,6 +141,7 @@ fun MainNavigation(
                     navEntry.arguments?.getString(MEDIA_TYPE_ARGUMENT.removeFirstAndLast())
                         ?: MediaType.ANIME.name
                 ),
+                isCompactScreen = isCompactScreen,
                 navigateBack = {
                     navController.popBackStack()
                 },

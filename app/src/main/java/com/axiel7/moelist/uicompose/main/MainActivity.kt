@@ -311,6 +311,7 @@ fun MainView(
                 MainNavigation(
                     navController = navController,
                     lastTabOpened = lastTabOpened,
+                    isCompactScreen = false,
                     modifier = Modifier.padding(padding),
                     padding = PaddingValues(
                         start = padding.calculateStartPadding(LocalLayoutDirection.current),
@@ -326,6 +327,7 @@ fun MainView(
             MainNavigation(
                 navController = navController,
                 lastTabOpened = lastTabOpened,
+                isCompactScreen = true,
                 modifier = Modifier.padding(
                     start = padding.calculateStartPadding(LocalLayoutDirection.current),
                     end = padding.calculateEndPadding(LocalLayoutDirection.current),
