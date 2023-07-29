@@ -303,9 +303,11 @@
     <string name="very_high_value">Velmi vysoká</string>
     <string name="tags">Štítky</string>
     <string name="priority_value">Priorita: %s</string>
-    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as Rewatch probability">Pravděpodobnost dalšího sledování: %s</string>
-    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as Reread probability">Pravděpodobnost dalšího čtení: %s</string>
+    <string name="rewatch_value">Pravděpodobnost dalšího sledování: %s</string>
+    <string name="reread_value">Pravděpodobnost dalšího čtení: %s</string>
     <string name="notes">Poznámky</string>
     <string name="rewatching">Opětovné sledování</string>
     <string name="rereading">Opětovné čtení</string>
+    <string name="ago">Před %s</string>
+    <string name="set_as_completed" comment="Alternative: Mark as completed?">Označit jako dokončené?</string>
 </resources>

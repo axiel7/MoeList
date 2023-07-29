@@ -303,9 +303,11 @@
     <string name="very_high_value">Çok Yüksek</string>
     <string name="tags">Etiketler</string>
     <string name="priority_value">Öncelik: %s</string>
-    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as Rewatch probability">Tekrar İzleme Değeri: %s</string>
-    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as Reread probability">Tekrar Okuma Değeri: %s</string>
+    <string name="rewatch_value">Tekrar İzleme Değeri: %s</string>
+    <string name="reread_value">Tekrar Okuma Değeri: %s</string>
     <string name="notes">Notlar</string>
     <string name="rewatching">Yeniden izleniyor</string>
     <string name="rereading">Yeniden okunuyor</string>
+    <string name="ago">%s önce</string>
+    <string name="set_as_completed" comment="Alternative: Mark as completed?">Tamamlandı olarak işaretleyin?</string>
 </resources>

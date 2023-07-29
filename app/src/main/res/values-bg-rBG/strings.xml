@@ -303,9 +303,11 @@
     <string name="very_high_value">Много висока</string>
     <string name="tags">Етикети</string>
     <string name="priority_value">Приоритет: %s</string>
-    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as Rewatch probability">Вероятност да гледате отново: %s</string>
-    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as Reread probability">Вероятност да прочетете отново: %s</string>
+    <string name="rewatch_value">Вероятност да гледате отново: %s</string>
+    <string name="reread_value">Вероятност да прочетете отново: %s</string>
     <string name="notes">Бележки</string>
     <string name="rewatching">Гледане отново</string>
     <string name="rereading">Четене отново</string>
+    <string name="ago">преди %s</string>
+    <string name="set_as_completed" comment="Alternative: Mark as completed?">Маркирайте като завършен?</string>
 </resources>

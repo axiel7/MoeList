@@ -303,9 +303,11 @@
     <string name="very_high_value">Sehr Hoch</string>
     <string name="tags">Tags</string>
     <string name="priority_value">Priorität: %s</string>
-    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as Rewatch probability">Wahrscheinlichkeit des erneuten Anschauens: %s</string>
-    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as Reread probability">Wahrscheinlichkeit des erneuten Lesens: %s</string>
+    <string name="rewatch_value">Wahrscheinlichkeit des erneuten Anschauens: %s</string>
+    <string name="reread_value">Wahrscheinlichkeit des erneuten Lesens: %s</string>
     <string name="notes">Notizen</string>
     <string name="rewatching">Erneut Anschauen</string>
     <string name="rereading">Erneut Lesen</string>
+    <string name="ago">Vor %s</string>
+    <string name="set_as_completed" comment="Alternative: Mark as completed?">Als abgeschlossen markieren?</string>
 </resources>

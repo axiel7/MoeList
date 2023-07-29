@@ -24,7 +24,7 @@
     <string name="cancel">Скасувати</string>
     <string name="apply">Застосувати</string>
     <string name="status">Статус</string>
-    <string name="episodes">Епізоди</string>
+    <string name="episodes">епізод(-ів)</string>
     <string name="delete">Видалити</string>
     <string name="chapters">Розділи</string>
     <string name="watching">Дивлюся</string>
@@ -303,9 +303,11 @@
     <string name="very_high_value">Дуже високе</string>
     <string name="tags">Мітки</string>
     <string name="priority_value">Пріоритет: %s</string>
-    <string name="rewatch_value" comment="how likely the user will repeat the series. Could also be translated as Rewatch probability">Значення пере-переглядів: %s</string>
-    <string name="reread_value" comment="how likely the user will repeat the series. Could also be translated as Reread probability">Значення перечитувань: %s</string>
+    <string name="rewatch_value">Значення пере-переглядів: %s</string>
+    <string name="reread_value">Значення перечитувань: %s</string>
     <string name="notes">Примітки</string>
     <string name="rewatching">Пере-передивляюсь</string>
     <string name="rereading">Перечитую</string>
+    <string name="ago">%s тому</string>
+    <string name="set_as_completed" comment="Alternative: Mark as completed?">Позначити завершеним?</string>
 </resources>
