@@ -21,7 +21,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AssistChip
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.HorizontalDivider
@@ -73,13 +72,13 @@ import com.axiel7.moelist.data.model.media.synonymsJoined
 import com.axiel7.moelist.data.model.media.synopsisAndBackground
 import com.axiel7.moelist.data.model.media.userPreferredTitle
 import com.axiel7.moelist.uicompose.composables.InfoTitle
+import com.axiel7.moelist.uicompose.composables.TextIconHorizontal
+import com.axiel7.moelist.uicompose.composables.TextIconVertical
+import com.axiel7.moelist.uicompose.composables.defaultPlaceholder
 import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_BIG_HEIGHT
 import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_BIG_WIDTH
 import com.axiel7.moelist.uicompose.composables.media.MediaItemVertical
 import com.axiel7.moelist.uicompose.composables.media.MediaPoster
-import com.axiel7.moelist.uicompose.composables.TextIconHorizontal
-import com.axiel7.moelist.uicompose.composables.TextIconVertical
-import com.axiel7.moelist.uicompose.composables.defaultPlaceholder
 import com.axiel7.moelist.uicompose.details.composables.AnimeThemeItem
 import com.axiel7.moelist.uicompose.details.composables.MediaDetailsTopAppBar
 import com.axiel7.moelist.uicompose.details.composables.MediaInfoView
