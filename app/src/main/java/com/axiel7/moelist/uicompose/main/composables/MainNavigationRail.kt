@@ -1,6 +1,9 @@
 package com.axiel7.moelist.uicompose.main.composables
 
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationRail
@@ -51,23 +54,27 @@ fun MainNavigationRail(
             }
         }
     ) {
-        Spacer(modifier = Modifier.weight(1f))
-        BottomDestination.railValues.forEachIndexed { index, dest ->
-            NavigationRailItem(
-                selected = selectedItem == index,
-                onClick = {
-                    selectedItem = index
-                    navController.navigate(dest.route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
+        Column(
+            modifier = Modifier.verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.Bottom
+        ) {
+            BottomDestination.railValues.forEachIndexed { index, dest ->
+                NavigationRailItem(
+                    selected = selectedItem == index,
+                    onClick = {
+                        selectedItem = index
+                        navController.navigate(dest.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
                         }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
-                },
-                icon = { dest.Icon(selected = selectedItem == index) },
-                label = { Text(text = stringResource(dest.title)) }
-            )
+                    },
+                    icon = { dest.Icon(selected = selectedItem == index) },
+                    label = { Text(text = stringResource(dest.title)) }
+                )
+            }
         }
     }
 }
