@@ -110,6 +110,10 @@ fun AnimeDetails.broadcastTimeText() = buildString {
         if (broadcast.startTime != null) {
             append(broadcast.startTime)
             append(" (JST)")
+            val airingIn = broadcast.airingInString()
+            if (airingIn.isNotEmpty()) {
+                append("\n$airingIn")
+            }
         }
     } else append(stringResource(R.string.unknown))
 }

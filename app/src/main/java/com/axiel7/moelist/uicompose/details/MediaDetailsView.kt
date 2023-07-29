@@ -421,24 +421,25 @@ fun MediaDetailsView(
                 modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
             )
             if (mediaType == MediaType.ANIME) {
+                val animeDetails = viewModel.mediaDetails as? AnimeDetails
                 MediaInfoView(
                     title = stringResource(R.string.season),
-                    info = (viewModel.mediaDetails as? AnimeDetails)?.startSeason.seasonYearText(),
+                    info = animeDetails?.startSeason.seasonYearText(),
                     modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
                 )
                 MediaInfoView(
                     title = stringResource(R.string.broadcast),
-                    info = (viewModel.mediaDetails as? AnimeDetails)?.broadcastTimeText(),
+                    info = animeDetails?.broadcastTimeText(),
                     modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
                 )
                 MediaInfoView(
                     title = stringResource(R.string.duration),
-                    info = (viewModel.mediaDetails as? AnimeDetails)?.episodeDurationLocalized(),
+                    info = animeDetails?.episodeDurationLocalized(),
                     modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
                 )
                 MediaInfoView(
                     title = stringResource(R.string.source),
-                    info = (viewModel.mediaDetails as? AnimeDetails)?.sourceLocalized(),
+                    info = animeDetails?.sourceLocalized(),
                     modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
                 )
             }
