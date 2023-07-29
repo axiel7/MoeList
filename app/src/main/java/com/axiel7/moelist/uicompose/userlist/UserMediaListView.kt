@@ -58,6 +58,8 @@ import com.axiel7.moelist.data.model.anime.AnimeNode
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
 import com.axiel7.moelist.data.model.manga.UserMangaList
 import com.axiel7.moelist.data.model.manga.isUsingVolumeProgress
+import com.axiel7.moelist.data.model.media.BaseMediaNode
+import com.axiel7.moelist.data.model.media.BaseUserMediaList
 import com.axiel7.moelist.data.model.media.ListType
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.localized
@@ -89,6 +91,7 @@ const val MANGA_LIST_DESTINATION = "manga_list"
 @Composable
 fun UserMediaListView(
     listType: ListType,
+    isCompactScreen: Boolean,
     modifier: Modifier = Modifier,
     nestedScrollConnection: NestedScrollConnection? = null,
     navigateToMediaDetails: (MediaType, Int) -> Unit,
@@ -148,6 +151,172 @@ fun UserMediaListView(
             viewModel.getUserList()
     }
 
+    fun onLoadMore() {
+        if (!viewModel.isLoadingList && viewModel.hasNextPage) {
+            viewModel.getUserList(viewModel.nextPage)
+        }
+    }
+
+    @Composable
+    fun FilterChip() {
+        AssistChip(
+            onClick = { viewModel.openSortDialog = true },
+            label = { Text(text = viewModel.listSort.localized()) },
+            modifier = Modifier.padding(horizontal = 8.dp),
+            leadingIcon = {
+                Icon(
+                    painter = painterResource(R.drawable.ic_round_sort_24),
+                    contentDescription = stringResource(R.string.sort_by)
+                )
+            }
+        )
+    }
+
+    @Composable
+    fun StandardItemView(item: BaseUserMediaList<out BaseMediaNode>) {
+        StandardUserMediaListItem(
+            imageUrl = item.node.mainPicture?.large,
+            title = item.node.userPreferredTitle(),
+            score = item.listStatus?.score,
+            mediaFormat = item.node.mediaType,
+            mediaStatus = item.node.status,
+            broadcast = (item.node as? AnimeNode)?.broadcast,
+            userProgress = item.userProgress(),
+            totalProgress = item.totalProgress(),
+            isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
+                ?: false,
+            listStatus = listType.status,
+            onClick = {
+                navigateToMediaDetails(listType.mediaType, item.node.id)
+            },
+            onLongClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                coroutineScope.launch {
+                    viewModel.onItemSelected(item)
+                    sheetState.show()
+                }
+            },
+            onClickPlus = {
+                val isVolumeProgress =
+                    (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
+                        ?: false
+                viewModel.updateProgress(
+                    mediaId = item.node.id,
+                    progress = if (!isVolumeProgress) item.listStatus?.progress?.plus(
+                        1
+                    ) else null,
+                    volumeProgress = if (isVolumeProgress) (item.listStatus as? MyMangaListStatus)
+                        ?.numVolumesRead?.plus(1) else null,
+                    totalProgress = item.totalProgress()
+                )
+            }
+        )
+    }
+
+    @Composable
+    fun CompactItemView(item: BaseUserMediaList<out BaseMediaNode>) {
+        CompactUserMediaListItem(
+            imageUrl = item.node.mainPicture?.large,
+            title = item.node.userPreferredTitle(),
+            score = item.listStatus?.score,
+            userProgress = item.userProgress(),
+            totalProgress = item.totalProgress(),
+            isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
+                ?: false,
+            mediaStatus = item.node.status,
+            broadcast = (item.node as? AnimeNode)?.broadcast,
+            listStatus = listType.status,
+            onClick = {
+                navigateToMediaDetails(listType.mediaType, item.node.id)
+            },
+            onLongClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                coroutineScope.launch {
+                    viewModel.onItemSelected(item)
+                    sheetState.show()
+                }
+            },
+            onClickPlus = {
+                val isVolumeProgress =
+                    (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
+                        ?: false
+                viewModel.updateProgress(
+                    mediaId = item.node.id,
+                    progress = if (!isVolumeProgress) item.listStatus?.progress?.plus(
+                        1
+                    ) else null,
+                    volumeProgress = if (isVolumeProgress) (item.listStatus as? MyMangaListStatus)
+                        ?.numVolumesRead?.plus(1) else null,
+                    totalProgress = item.totalProgress()
+                )
+            }
+        )
+    }
+
+    @Composable
+    fun MinimalItemView(item: BaseUserMediaList<out BaseMediaNode>) {
+        MinimalUserMediaListItem(
+            title = item.node.userPreferredTitle(),
+            score = item.listStatus?.score,
+            userProgress = item.userProgress(),
+            totalProgress = item.totalProgress(),
+            isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
+                ?: false,
+            mediaStatus = item.node.status,
+            broadcast = (item.node as? AnimeNode)?.broadcast,
+            listStatus = listType.status,
+            onClick = {
+                navigateToMediaDetails(listType.mediaType, item.node.id)
+            },
+            onLongClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                coroutineScope.launch {
+                    viewModel.onItemSelected(item)
+                    sheetState.show()
+                }
+            },
+            onClickPlus = {
+                val isVolumeProgress =
+                    (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
+                        ?: false
+                viewModel.updateProgress(
+                    mediaId = item.node.id,
+                    progress = if (!isVolumeProgress) item.listStatus?.progress?.plus(
+                        1
+                    ) else null,
+                    volumeProgress = if (isVolumeProgress) (item.listStatus as? MyMangaListStatus)
+                        ?.numVolumesRead?.plus(1) else null,
+                    totalProgress = item.totalProgress()
+                )
+            }
+        )
+    }
+
+    @Composable
+    fun GridItemView(item: BaseUserMediaList<out BaseMediaNode>) {
+        GridUserMediaListItem(
+            imageUrl = item.node.mainPicture?.large,
+            title = item.node.userPreferredTitle(),
+            score = item.listStatus?.score,
+            mediaStatus = item.node.status,
+            broadcast = (item.node as? AnimeNode)?.broadcast,
+            userProgress = item.userProgress(),
+            totalProgress = item.totalProgress(),
+            isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
+                ?: false,
+            onClick = {
+                navigateToMediaDetails(listType.mediaType, item.node.id)
+            },
+            onLongClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                coroutineScope.launch {
+                    viewModel.onItemSelected(item)
+                    sheetState.show()
+                }
+            }
+        )
+    }
+
     Box(
         modifier = modifier
             .clipToBounds()
@@ -169,12 +338,8 @@ fun UserMediaListView(
                 App.gridItemsPerRow
             )
             val listState = rememberLazyGridState()
-            if (!viewModel.isLoadingList) {
-                listState.OnBottomReached(buffer = 3) {
-                    if (viewModel.hasNextPage) {
-                        viewModel.getUserList(viewModel.nextPage)
-                    }
-                }
+            listState.OnBottomReached(buffer = 3) {
+                onLoadMore()
             }
             LazyVerticalGrid(
                 columns = if (itemsPerRow > 0) GridCells.Fixed(itemsPerRow)
@@ -199,17 +364,7 @@ fun UserMediaListView(
                     span = { GridItemSpan(maxCurrentLineSpan) }
                 ) {
                     Row {
-                        AssistChip(
-                            onClick = { viewModel.openSortDialog = true },
-                            label = { Text(text = viewModel.listSort.localized()) },
-                            modifier = Modifier.padding(horizontal = 8.dp),
-                            leadingIcon = {
-                                Icon(
-                                    painter = painterResource(R.drawable.ic_round_sort_24),
-                                    contentDescription = stringResource(R.string.sort_by)
-                                )
-                            }
-                        )
+                        FilterChip()
                     }
                 }
                 items(
@@ -217,27 +372,7 @@ fun UserMediaListView(
                     key = { it.node.id },
                     contentType = { it.node }
                 ) { item ->
-                    GridUserMediaListItem(
-                        imageUrl = item.node.mainPicture?.large,
-                        title = item.node.userPreferredTitle(),
-                        score = item.listStatus?.score,
-                        mediaStatus = item.node.status,
-                        broadcast = (item.node as? AnimeNode)?.broadcast,
-                        userProgress = item.userProgress(),
-                        totalProgress = item.totalProgress(),
-                        isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
-                            ?: false,
-                        onClick = {
-                            navigateToMediaDetails(listType.mediaType, item.node.id)
-                        },
-                        onLongClick = {
-                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                            coroutineScope.launch {
-                                viewModel.onItemSelected(item)
-                                sheetState.show()
-                            }
-                        }
-                    )
+                    GridItemView(item = item)
                 }
                 if (viewModel.isLoadingList) {
                     items(9, contentType = { it }) {
@@ -245,16 +380,11 @@ fun UserMediaListView(
                     }
                 }
             }
-        } else {
+        } else if (isCompactScreen) {
             val listState = rememberLazyListState()
-            if (!viewModel.isLoadingList) {
-                listState.OnBottomReached(buffer = 3) {
-                    if (viewModel.hasNextPage) {
-                        viewModel.getUserList(viewModel.nextPage)
-                    }
-                }
+            listState.OnBottomReached(buffer = 3) {
+                onLoadMore()
             }
-
             LazyColumn(
                 modifier = listModifier
                     .collapsable(
@@ -271,17 +401,7 @@ fun UserMediaListView(
                 ),
             ) {
                 item {
-                    AssistChip(
-                        onClick = { viewModel.openSortDialog = true },
-                        label = { Text(text = viewModel.listSort.localized()) },
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        leadingIcon = {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_round_sort_24),
-                                contentDescription = stringResource(R.string.sort_by)
-                            )
-                        }
-                    )
+                    FilterChip()
                 }
                 when (listStyle) {
                     ListStyle.STANDARD.value -> {
@@ -290,43 +410,7 @@ fun UserMediaListView(
                             key = { it.node.id },
                             contentType = { it.node }
                         ) { item ->
-                            StandardUserMediaListItem(
-                                imageUrl = item.node.mainPicture?.large,
-                                title = item.node.userPreferredTitle(),
-                                score = item.listStatus?.score,
-                                mediaFormat = item.node.mediaType,
-                                mediaStatus = item.node.status,
-                                broadcast = (item.node as? AnimeNode)?.broadcast,
-                                userProgress = item.userProgress(),
-                                totalProgress = item.totalProgress(),
-                                isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
-                                    ?: false,
-                                listStatus = listType.status,
-                                onClick = {
-                                    navigateToMediaDetails(listType.mediaType, item.node.id)
-                                },
-                                onLongClick = {
-                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                    coroutineScope.launch {
-                                        viewModel.onItemSelected(item)
-                                        sheetState.show()
-                                    }
-                                },
-                                onClickPlus = {
-                                    val isVolumeProgress =
-                                        (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
-                                            ?: false
-                                    viewModel.updateProgress(
-                                        mediaId = item.node.id,
-                                        progress = if (!isVolumeProgress) item.listStatus?.progress?.plus(
-                                            1
-                                        ) else null,
-                                        volumeProgress = if (isVolumeProgress) (item.listStatus as? MyMangaListStatus)
-                                            ?.numVolumesRead?.plus(1) else null,
-                                        totalProgress = item.totalProgress()
-                                    )
-                                }
-                            )
+                            StandardItemView(item = item)
                         }
                         if (viewModel.isLoadingList) {
                             items(5, contentType = { it }) {
@@ -341,42 +425,7 @@ fun UserMediaListView(
                             key = { it.node.id },
                             contentType = { it.node }
                         ) { item ->
-                            CompactUserMediaListItem(
-                                imageUrl = item.node.mainPicture?.large,
-                                title = item.node.userPreferredTitle(),
-                                score = item.listStatus?.score,
-                                userProgress = item.userProgress(),
-                                totalProgress = item.totalProgress(),
-                                isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
-                                    ?: false,
-                                mediaStatus = item.node.status,
-                                broadcast = (item.node as? AnimeNode)?.broadcast,
-                                listStatus = listType.status,
-                                onClick = {
-                                    navigateToMediaDetails(listType.mediaType, item.node.id)
-                                },
-                                onLongClick = {
-                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                    coroutineScope.launch {
-                                        viewModel.onItemSelected(item)
-                                        sheetState.show()
-                                    }
-                                },
-                                onClickPlus = {
-                                    val isVolumeProgress =
-                                        (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
-                                            ?: false
-                                    viewModel.updateProgress(
-                                        mediaId = item.node.id,
-                                        progress = if (!isVolumeProgress) item.listStatus?.progress?.plus(
-                                            1
-                                        ) else null,
-                                        volumeProgress = if (isVolumeProgress) (item.listStatus as? MyMangaListStatus)
-                                            ?.numVolumesRead?.plus(1) else null,
-                                        totalProgress = item.totalProgress()
-                                    )
-                                }
-                            )
+                            CompactItemView(item = item)
                         }
                         if (viewModel.isLoadingList) {
                             items(5, contentType = { it }) {
@@ -391,41 +440,7 @@ fun UserMediaListView(
                             key = { it.node.id },
                             contentType = { it.node }
                         ) { item ->
-                            MinimalUserMediaListItem(
-                                title = item.node.userPreferredTitle(),
-                                score = item.listStatus?.score,
-                                userProgress = item.userProgress(),
-                                totalProgress = item.totalProgress(),
-                                isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
-                                    ?: false,
-                                mediaStatus = item.node.status,
-                                broadcast = (item.node as? AnimeNode)?.broadcast,
-                                listStatus = listType.status,
-                                onClick = {
-                                    navigateToMediaDetails(listType.mediaType, item.node.id)
-                                },
-                                onLongClick = {
-                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                    coroutineScope.launch {
-                                        viewModel.onItemSelected(item)
-                                        sheetState.show()
-                                    }
-                                },
-                                onClickPlus = {
-                                    val isVolumeProgress =
-                                        (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
-                                            ?: false
-                                    viewModel.updateProgress(
-                                        mediaId = item.node.id,
-                                        progress = if (!isVolumeProgress) item.listStatus?.progress?.plus(
-                                            1
-                                        ) else null,
-                                        volumeProgress = if (isVolumeProgress) (item.listStatus as? MyMangaListStatus)
-                                            ?.numVolumesRead?.plus(1) else null,
-                                        totalProgress = item.totalProgress()
-                                    )
-                                }
-                            )
+                            MinimalItemView(item = item)
                         }
                         if (viewModel.isLoadingList) {
                             items(5, contentType = { it }) {
@@ -435,6 +450,75 @@ fun UserMediaListView(
                     }
                 }
             }//:LazyColumn
+        } else { // tablet ui
+            val listState = rememberLazyGridState()
+            listState.OnBottomReached(buffer = 3) {
+                onLoadMore()
+            }
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                state = listState,
+                contentPadding = PaddingValues(
+                    start = contentPadding.calculateStartPadding(layoutDirection),
+                    top = contentPadding.calculateTopPadding() + 8.dp,
+                    end = contentPadding.calculateEndPadding(layoutDirection),
+                    bottom = 8.dp
+                ),
+            ) {
+                item(
+                    span = { GridItemSpan(maxLineSpan) }
+                ) {
+                    Row {
+                        FilterChip()
+                    }
+                }
+                when (listStyle) {
+                    ListStyle.STANDARD.value -> {
+                        items(
+                            items = viewModel.mediaList,
+                            key = { it.node.id },
+                            contentType = { it.node }
+                        ) { item ->
+                            StandardItemView(item = item)
+                        }
+                        if (viewModel.isLoadingList) {
+                            items(5, contentType = { it }) {
+                                StandardUserMediaListItemPlaceholder()
+                            }
+                        }
+                    }
+
+                    ListStyle.COMPACT.value -> {
+                        items(
+                            items = viewModel.mediaList,
+                            key = { it.node.id },
+                            contentType = { it.node }
+                        ) { item ->
+                            CompactItemView(item = item)
+                        }
+                        if (viewModel.isLoadingList) {
+                            items(5, contentType = { it }) {
+                                CompactUserMediaListItemPlaceholder()
+                            }
+                        }
+                    }
+
+                    ListStyle.MINIMAL.value -> {
+                        items(
+                            items = viewModel.mediaList,
+                            key = { it.node.id },
+                            contentType = { it.node }
+                        ) { item ->
+                            MinimalItemView(item = item)
+                        }
+                        if (viewModel.isLoadingList) {
+                            items(5, contentType = { it }) {
+                                MinimalUserMediaListItemPlaceholder()
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         PullRefreshIndicator(

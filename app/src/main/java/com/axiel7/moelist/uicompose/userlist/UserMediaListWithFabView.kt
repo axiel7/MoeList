@@ -56,6 +56,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun UserMediaListWithFabView(
     mediaType: MediaType,
+    isCompactScreen: Boolean,
     navigateToMediaDetails: (MediaType, Int) -> Unit,
     topBarHeightPx: Float,
     topBarOffsetY: Animatable<Float, AnimationVector1D>,
@@ -87,9 +88,8 @@ fun UserMediaListWithFabView(
     }
 
     Scaffold(
-        modifier = Modifier.padding(
-            bottom = padding.calculateBottomPadding()
-        ),
+        modifier = Modifier
+            .padding(bottom = padding.calculateBottomPadding()),
         floatingActionButton = {
             AnimatedVisibility(
                 visible = isFabVisible,
@@ -114,6 +114,7 @@ fun UserMediaListWithFabView(
     ) { childPadding ->
         UserMediaListView(
             listType = listType,
+            isCompactScreen = isCompactScreen,
             modifier = Modifier.padding(childPadding),
             nestedScrollConnection = nestedScrollConnection,
             navigateToMediaDetails = navigateToMediaDetails,
@@ -174,6 +175,7 @@ fun UserMediaListHostPreview() {
     MoeListTheme {
         UserMediaListWithFabView(
             mediaType = MediaType.ANIME,
+            isCompactScreen = true,
             navigateToMediaDetails = { _, _ -> },
             topBarHeightPx = 0f,
             topBarOffsetY = remember { Animatable(0f) },

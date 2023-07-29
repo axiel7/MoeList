@@ -34,6 +34,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun UserMediaListWithTabsView(
     mediaType: MediaType,
+    isCompactScreen: Boolean,
     navigateToMediaDetails: (MediaType, Int) -> Unit,
     topBarHeightPx: Float,
     topBarOffsetY: Animatable<Float, AnimationVector1D>,
@@ -90,6 +91,7 @@ fun UserMediaListWithTabsView(
         ) {
             UserMediaListView(
                 listType = ListType(status = tabRowItems[it].value, mediaType = mediaType),
+                isCompactScreen = isCompactScreen,
                 modifier = Modifier.padding(
                     bottom = systemBarsPadding.calculateBottomPadding()
                 ),

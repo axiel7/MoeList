@@ -196,6 +196,7 @@ fun MainNavigation(
                 if (App.useListTabs)
                     UserMediaListWithTabsView(
                         mediaType = MediaType.ANIME,
+                        isCompactScreen = isCompactScreen,
                         navigateToMediaDetails = { mediaType, mediaId ->
                             navController.navigate(
                                 MEDIA_DETAILS_DESTINATION
@@ -209,6 +210,7 @@ fun MainNavigation(
                     )
                 else UserMediaListWithFabView(
                     mediaType = MediaType.ANIME,
+                    isCompactScreen = isCompactScreen,
                     navigateToMediaDetails = { mediaType, mediaId ->
                         navController.navigate(
                             MEDIA_DETAILS_DESTINATION
@@ -230,6 +232,7 @@ fun MainNavigation(
                 if (App.useListTabs)
                     UserMediaListWithTabsView(
                         mediaType = MediaType.MANGA,
+                        isCompactScreen = isCompactScreen,
                         navigateToMediaDetails = { mediaType, mediaId ->
                             navController.navigate(
                                 MEDIA_DETAILS_DESTINATION
@@ -243,6 +246,7 @@ fun MainNavigation(
                     )
                 else UserMediaListWithFabView(
                     mediaType = MediaType.MANGA,
+                    isCompactScreen = isCompactScreen,
                     navigateToMediaDetails = { mediaType, mediaId ->
                         navController.navigate(
                             MEDIA_DETAILS_DESTINATION
