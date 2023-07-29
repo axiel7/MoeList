@@ -19,6 +19,7 @@ import androidx.glance.layout.Column
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
 import androidx.glance.text.Text
+import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.datastore.PreferencesDataStore
@@ -54,7 +55,8 @@ class AiringWidget : GlanceAppWidget() {
                             text = glanceStringResource(R.string.nothing_today),
                             modifier = GlanceModifier.padding(bottom = 8.dp),
                             style = TextStyle(
-                                color = GlanceTheme.colors.onSurface
+                                color = GlanceTheme.colors.onSurface,
+                                textAlign = TextAlign.Center
                             )
                         )
                     }//: Column
