@@ -96,7 +96,6 @@ dependencies {
     implementation("androidx.compose.material3:material3-android:1.2.0-alpha04")
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
-    implementation("androidx.compose.material3:material3-window-size-class:1.2.0-alpha04")
 
     implementation("androidx.activity:activity-compose:1.7.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
