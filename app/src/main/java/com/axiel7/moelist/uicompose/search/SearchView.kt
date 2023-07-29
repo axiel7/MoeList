@@ -63,7 +63,7 @@ fun SearchHostView(
 
     Column(
         modifier = Modifier
-            .padding(padding)
+            .padding(top = padding.calculateTopPadding())
             .fillMaxWidth()
     ) {
         TextField(
@@ -84,6 +84,7 @@ fun SearchHostView(
         SearchView(
             query = query,
             performSearch = performSearch,
+            contentPadding = PaddingValues(bottom = padding.calculateBottomPadding()),
             navigateToMediaDetails = navigateToMediaDetails
         )
     }
@@ -94,6 +95,7 @@ fun SearchHostView(
 fun SearchView(
     query: String,
     performSearch: MutableState<Boolean>,
+    contentPadding: PaddingValues = PaddingValues(),
     navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
     val context = LocalContext.current
@@ -130,7 +132,8 @@ fun SearchView(
 
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
-        state = listState
+        state = listState,
+        contentPadding = contentPadding
     ) {
         item {
             Row {
