@@ -68,6 +68,7 @@ import com.axiel7.moelist.utils.DateUtils.toEpochMillis
 import com.axiel7.moelist.utils.DateUtils.toLocalized
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -233,7 +234,7 @@ fun EditMediaSheet(
             )
             Slider(
                 value = viewModel.score.toFloat(),
-                onValueChange = { viewModel.score = it.toInt() },
+                onValueChange = { viewModel.score = it.roundToInt() },
                 modifier = Modifier.padding(horizontal = 16.dp),
                 valueRange = 0f..10f,
                 steps = 9
@@ -301,7 +302,7 @@ fun EditMediaSheet(
             )
             Slider(
                 value = viewModel.priority.toFloat(),
-                onValueChange = { viewModel.priority = it.toInt() },
+                onValueChange = { viewModel.priority = it.roundToInt() },
                 modifier = Modifier.padding(horizontal = 16.dp),
                 valueRange = 0f..2f,
                 steps = 1
@@ -346,7 +347,7 @@ fun EditMediaSheet(
             )
             Slider(
                 value = viewModel.repeatValue.toFloat(),
-                onValueChange = { viewModel.repeatValue = it.toInt() },
+                onValueChange = { viewModel.repeatValue = it.roundToInt() },
                 modifier = Modifier.padding(horizontal = 16.dp),
                 valueRange = 0f..5f,
                 steps = 4
