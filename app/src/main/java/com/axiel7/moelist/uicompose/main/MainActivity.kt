@@ -21,6 +21,10 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -30,10 +34,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.datastore.preferences.core.edit
@@ -83,6 +88,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -132,6 +138,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             val themePreference by rememberPreference(THEME_PREFERENCE_KEY, theme)
             val navController = rememberNavController()
+            val windowSizeClass = calculateWindowSizeClass(this)
 
             MoeListTheme(
                 darkTheme = if (themePreference == "follow_system") isSystemInDarkTheme()
@@ -143,6 +150,7 @@ class MainActivity : AppCompatActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     MainView(
+                        windowSizeClass = windowSizeClass,
                         navController = navController,
                         lastTabOpened = lastTabOpened ?: 0
                     )
@@ -252,20 +260,20 @@ class MainActivity : AppCompatActivity() {
 
 @Composable
 fun MainView(
+    windowSizeClass: WindowSizeClass,
     navController: NavHostController,
     lastTabOpened: Int
 ) {
     val density = LocalDensity.current
-    val configuration = LocalConfiguration.current
 
     val bottomBarState = remember { mutableStateOf(true) }
     var topBarHeightPx by remember { mutableFloatStateOf(0f) }
     val topBarOffsetY = remember { Animatable(0f) }
-    val isPortraitOriented = configuration.screenWidthDp < configuration.screenHeightDp
+    val isCompactScreen = windowSizeClass.heightSizeClass == WindowHeightSizeClass.Compact
 
     Scaffold(
         topBar = {
-            if (isPortraitOriented) {
+            if (isCompactScreen) {
                 MainTopAppBar(
                     bottomBarState = bottomBarState,
                     navController = navController,
@@ -277,7 +285,7 @@ fun MainView(
             }
         },
         bottomBar = {
-            if (isPortraitOriented) {
+            if (isCompactScreen) {
                 MainBottomNavBar(
                     navController = navController,
                     bottomBarState = bottomBarState,
@@ -293,7 +301,7 @@ fun MainView(
             topBarHeightPx = density.run { padding.calculateTopPadding().toPx() }
         }
 
-        if (!isPortraitOriented) {
+        if (!isCompactScreen) {
             val systemBarsPadding = WindowInsets.systemBars.asPaddingValues()
             Row {
                 MainNavigationRail(
@@ -332,11 +340,15 @@ fun MainView(
     }
 }
 
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Preview(showBackground = true)
 @Composable
 fun MainPreview() {
     MoeListTheme {
         MainView(
+            windowSizeClass = WindowSizeClass.calculateFromSize(
+                DpSize(width = 1280.dp, height = 1920.dp)
+            ),
             navController = rememberNavController(),
             lastTabOpened = 0
         )
