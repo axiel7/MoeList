@@ -86,10 +86,12 @@ fun MainNavigation(
     val systemUiController = rememberSystemUiController()
     val backgroundColor = MaterialTheme.colorScheme.background
 
-    LaunchedEffect(navBackStackEntry) {
-        if (BottomDestination.routes.contains(navBackStackEntry?.destination?.route)) {
-            systemUiController.setStatusBarColor(backgroundColor)
-        } else systemUiController.setStatusBarColor(Color.Transparent)
+    if (isCompactScreen) {
+        LaunchedEffect(navBackStackEntry) {
+            if (BottomDestination.routes.contains(navBackStackEntry?.destination?.route)) {
+                systemUiController.setStatusBarColor(backgroundColor)
+            } else systemUiController.setStatusBarColor(Color.Transparent)
+        }
     }
 
     NavHost(
