@@ -126,7 +126,7 @@ dependencies {
 
     //Utils
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
-    implementation("org.apache.commons:commons-lang3:3.12.0")
+    implementation("org.apache.commons:commons-lang3:3.13.0")
 
     //Image
     implementation("io.coil-kt:coil-compose:2.4.0")
