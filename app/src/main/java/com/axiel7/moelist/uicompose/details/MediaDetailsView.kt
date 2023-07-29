@@ -24,12 +24,14 @@ import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -77,7 +79,6 @@ import com.axiel7.moelist.uicompose.composables.media.MediaItemVertical
 import com.axiel7.moelist.uicompose.composables.media.MediaPoster
 import com.axiel7.moelist.uicompose.composables.TextIconHorizontal
 import com.axiel7.moelist.uicompose.composables.TextIconVertical
-import com.axiel7.moelist.uicompose.composables.VerticalDivider
 import com.axiel7.moelist.uicompose.composables.defaultPlaceholder
 import com.axiel7.moelist.uicompose.details.composables.AnimeThemeItem
 import com.axiel7.moelist.uicompose.details.composables.MediaDetailsTopAppBar
@@ -377,7 +378,7 @@ fun MediaDetailsView(
                     info = (viewModel.mediaDetails as? MangaDetails)?.numVolumes.toStringPositiveValueOrNull(),
                     modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
                 )
-                Divider(modifier = Modifier.padding(vertical = 8.dp))
+                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
             }
             viewModel.mediaDetails?.synonymsJoined()?.let { synonyms ->
                 SelectionContainer {
@@ -409,7 +410,7 @@ fun MediaDetailsView(
                     modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
                 )
             }
-            Divider(modifier = Modifier.padding(vertical = 8.dp))
+            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
             MediaInfoView(
                 title = stringResource(R.string.start_date),
                 info = viewModel.mediaDetails?.startDate?.parseDateAndLocalize(),
@@ -443,7 +444,7 @@ fun MediaDetailsView(
                     modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
                 )
             }
-            Divider(modifier = Modifier.padding(vertical = 8.dp))
+            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
             SelectionContainer {
                 MediaInfoView(
                     title = stringResource(
