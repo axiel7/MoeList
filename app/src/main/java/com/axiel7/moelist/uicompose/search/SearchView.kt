@@ -6,6 +6,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardActions
@@ -38,6 +43,7 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeList
 import com.axiel7.moelist.data.model.anime.seasonYearText
 import com.axiel7.moelist.data.model.manga.MangaList
+import com.axiel7.moelist.data.model.media.BaseMediaList
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.durationText
 import com.axiel7.moelist.data.model.media.mediaFormatLocalized
@@ -84,6 +90,7 @@ fun SearchHostView(
         SearchView(
             query = query,
             performSearch = performSearch,
+            showAsGrid = true,
             contentPadding = PaddingValues(bottom = padding.calculateBottomPadding()),
             navigateToMediaDetails = navigateToMediaDetails
         )
@@ -95,23 +102,14 @@ fun SearchHostView(
 fun SearchView(
     query: String,
     performSearch: MutableState<Boolean>,
+    showAsGrid: Boolean,
     contentPadding: PaddingValues = PaddingValues(),
     navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
     val context = LocalContext.current
     val viewModel: SearchViewModel = viewModel()
-    val listState = rememberLazyListState()
     var mediaType by remember { mutableStateOf(MediaType.ANIME) }
-
-    listState.OnBottomReached(buffer = 3) {
-        if (!viewModel.isLoading && viewModel.hasNextPage) {
-            viewModel.search(
-                mediaType = mediaType,
-                query = query,
-                page = viewModel.nextPage
-            )
-        }
-    }
+    val shouldShowPlaceholder = query.isNotBlank() && viewModel.mediaList.isEmpty()
 
     LaunchedEffect(viewModel.message) {
         if (viewModel.showMessage) {
@@ -130,114 +128,179 @@ fun SearchView(
         }
     }
 
-    LazyColumn(
-        modifier = Modifier.fillMaxWidth(),
-        state = listState,
-        contentPadding = contentPadding
-    ) {
-        item {
-            Row {
-                FilterChip(
-                    selected = mediaType == MediaType.ANIME,
-                    onClick = {
-                        mediaType = MediaType.ANIME
-                        if (query.isNotBlank()) performSearch.value = true
-                    },
-                    label = { Text(text = stringResource(R.string.anime)) },
-                    modifier = Modifier.padding(start = 8.dp),
-                    leadingIcon = {
-                        if (mediaType == MediaType.ANIME) {
-                            Icon(
-                                painter = painterResource(R.drawable.round_check_24),
-                                contentDescription = "check"
-                            )
-                        }
-                    }
-                )
-                FilterChip(
-                    selected = mediaType == MediaType.MANGA,
-                    onClick = {
-                        mediaType = MediaType.MANGA
-                        if (query.isNotBlank()) performSearch.value = true
-                    },
-                    label = { Text(text = stringResource(R.string.manga)) },
-                    modifier = Modifier.padding(start = 8.dp),
-                    leadingIcon = {
-                        if (mediaType == MediaType.MANGA) {
-                            Icon(
-                                painter = painterResource(R.drawable.round_check_24),
-                                contentDescription = "check"
-                            )
-                        }
-                    }
-                )
-            }
-        }
-        items(
-            items = viewModel.mediaList,
-            contentType = { it.node }
-        ) {
-            MediaItemDetailed(
-                title = it.node.userPreferredTitle(),
-                imageUrl = it.node.mainPicture?.large,
-                subtitle1 = {
-                    Text(
-                        text = buildString {
-                            append(it.node.mediaType?.mediaFormatLocalized())
-                            if (it.node.totalDuration().toStringPositiveValueOrNull() != null) {
-                                append(" (${it.node.durationText()})")
-                            }
-                        },
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                },
-                subtitle2 = {
-                    Text(
-                        text = when (it) {
-                            is AnimeList -> it.node.startSeason.seasonYearText()
-                            is MangaList -> it.node.startDate ?: stringResource(R.string.unknown)
-                            else -> stringResource(R.string.unknown)
-                        },
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                },
-                subtitle3 = {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_round_details_star_24),
-                        contentDescription = "star",
-                        modifier = Modifier.padding(end = 4.dp),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Text(
-                        text = it.node.mean.toStringPositiveValueOrUnknown(),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                },
-                onClick = {
-                    navigateToMediaDetails(mediaType, it.node.id)
-                }
+    fun onLoadMore() {
+        if (!viewModel.isLoading && viewModel.hasNextPage) {
+            viewModel.search(
+                mediaType = mediaType,
+                query = query,
+                page = viewModel.nextPage
             )
         }
-        if (query.isNotBlank() && viewModel.mediaList.isEmpty()) {
-            if (viewModel.isLoading) {
-                items(10) {
-                    MediaItemDetailedPlaceholder()
-                }
-            } else if (performSearch.value) {
-                item {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = stringResource(R.string.no_results),
-                            modifier = Modifier.padding(16.dp)
+    }
+
+    @Composable
+    fun FilterRow() {
+        Row {
+            FilterChip(
+                selected = mediaType == MediaType.ANIME,
+                onClick = {
+                    mediaType = MediaType.ANIME
+                    if (query.isNotBlank()) performSearch.value = true
+                },
+                label = { Text(text = stringResource(R.string.anime)) },
+                modifier = Modifier.padding(start = 8.dp),
+                leadingIcon = {
+                    if (mediaType == MediaType.ANIME) {
+                        Icon(
+                            painter = painterResource(R.drawable.round_check_24),
+                            contentDescription = "check"
                         )
                     }
                 }
+            )
+            FilterChip(
+                selected = mediaType == MediaType.MANGA,
+                onClick = {
+                    mediaType = MediaType.MANGA
+                    if (query.isNotBlank()) performSearch.value = true
+                },
+                label = { Text(text = stringResource(R.string.manga)) },
+                modifier = Modifier.padding(start = 8.dp),
+                leadingIcon = {
+                    if (mediaType == MediaType.MANGA) {
+                        Icon(
+                            painter = painterResource(R.drawable.round_check_24),
+                            contentDescription = "check"
+                        )
+                    }
+                }
+            )
+        }
+    }
+
+    @Composable
+    fun ItemView(item: BaseMediaList) {
+        MediaItemDetailed(
+            title = item.node.userPreferredTitle(),
+            imageUrl = item.node.mainPicture?.large,
+            subtitle1 = {
+                Text(
+                    text = buildString {
+                        append(item.node.mediaType?.mediaFormatLocalized())
+                        if (item.node.totalDuration().toStringPositiveValueOrNull() != null) {
+                            append(" (${item.node.durationText()})")
+                        }
+                    },
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            },
+            subtitle2 = {
+                Text(
+                    text = when (item) {
+                        is AnimeList -> item.node.startSeason.seasonYearText()
+                        is MangaList -> item.node.startDate ?: stringResource(R.string.unknown)
+                        else -> stringResource(R.string.unknown)
+                    },
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            },
+            subtitle3 = {
+                Icon(
+                    painter = painterResource(R.drawable.ic_round_details_star_24),
+                    contentDescription = "star",
+                    modifier = Modifier.padding(end = 4.dp),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = item.node.mean.toStringPositiveValueOrUnknown(),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            },
+            onClick = {
+                navigateToMediaDetails(mediaType, item.node.id)
+            }
+        )
+    }
+
+    @Composable
+    fun NoResultsText() {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = stringResource(R.string.no_results),
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+    }
+
+    if (showAsGrid) {
+        val listState = rememberLazyGridState()
+        listState.OnBottomReached(buffer = 4) {
+            onLoadMore()
+        }
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            modifier = Modifier.fillMaxWidth(),
+            state = listState,
+            contentPadding = contentPadding
+        ) {
+            item(
+                span = { GridItemSpan(maxLineSpan) }
+            ) {
+                FilterRow()
+            }
+            items(
+                items = viewModel.mediaList,
+                contentType = { it.node }
+            ) {
+                ItemView(item = it)
+            }
+            if (shouldShowPlaceholder) {
+                if (viewModel.isLoading) {
+                    items(6) {
+                        MediaItemDetailedPlaceholder()
+                    }
+                } else if (performSearch.value) {
+                    item(
+                        span = { GridItemSpan(maxLineSpan) }
+                    ) {
+                        NoResultsText()
+                    }
+                }
             }
         }
-    }//: LazyColumn
+    } else {
+        val listState = rememberLazyListState()
+        listState.OnBottomReached(buffer = 3) {
+            onLoadMore()
+        }
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth(),
+            state = listState,
+            contentPadding = contentPadding
+        ) {
+            item { FilterRow() }
+            items(
+                items = viewModel.mediaList,
+                contentType = { it.node }
+            ) {
+                ItemView(item = it)
+            }
+            if (shouldShowPlaceholder) {
+                if (viewModel.isLoading) {
+                    items(10) {
+                        MediaItemDetailedPlaceholder()
+                    }
+                } else if (performSearch.value) {
+                    item {
+                        NoResultsText()
+                    }
+                }
+            }
+        }//: LazyColumn
+    }
 }
 
 @Preview(showBackground = true)
@@ -247,6 +310,7 @@ fun SearchPreview() {
         SearchView(
             query = "one",
             performSearch = remember { mutableStateOf(false) },
+            showAsGrid = false,
             navigateToMediaDetails = { _, _ -> }
         )
     }

@@ -142,6 +142,7 @@ fun MainTopAppBar(
                 SearchView(
                     query = query,
                     performSearch = performSearch,
+                    showAsGrid = false,
                     navigateToMediaDetails = { mediaType, mediaId ->
                         navController.navigate(
                             MEDIA_DETAILS_DESTINATION
