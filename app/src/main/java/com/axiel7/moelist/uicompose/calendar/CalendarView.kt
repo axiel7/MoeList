@@ -11,6 +11,9 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -30,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.R
+import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.WeekDay
 import com.axiel7.moelist.data.model.media.durationText
@@ -39,9 +43,9 @@ import com.axiel7.moelist.data.model.media.numeric
 import com.axiel7.moelist.data.model.media.totalDuration
 import com.axiel7.moelist.data.model.media.userPreferredTitle
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
+import com.axiel7.moelist.uicompose.composables.RoundedTabRowIndicator
 import com.axiel7.moelist.uicompose.composables.media.MediaItemDetailed
 import com.axiel7.moelist.uicompose.composables.media.MediaItemDetailedPlaceholder
-import com.axiel7.moelist.uicompose.composables.RoundedTabRowIndicator
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
@@ -54,6 +58,7 @@ const val CALENDAR_DESTINATION = "calendar/{day}"
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CalendarView(
+    showAsGrid: Boolean,
     navigateBack: () -> Unit,
     navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
@@ -75,6 +80,54 @@ fun CalendarView(
     LaunchedEffect(Unit) {
         if (viewModel.weekAnime[0].isEmpty())
             viewModel.getSeasonAnime()
+    }
+
+    @Composable
+    fun ItemView(item: AnimeSeasonal) {
+        MediaItemDetailed(
+            title = item.node.userPreferredTitle(),
+            imageUrl = item.node.mainPicture?.large,
+            subtitle1 = {
+                Text(
+                    text = buildString {
+                        append(item.node.mediaType?.mediaFormatLocalized())
+                        if (item.node.totalDuration()
+                                .toStringPositiveValueOrNull() != null
+                        ) {
+                            append(" (${item.node.durationText()})")
+                        }
+                    },
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            },
+            subtitle2 = {
+                Icon(
+                    painter = painterResource(R.drawable.ic_round_details_star_24),
+                    contentDescription = "star",
+                    modifier = Modifier.padding(end = 4.dp),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = item.node.mean.toStringPositiveValueOrUnknown(),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            },
+            subtitle3 = {
+                Icon(
+                    painter = painterResource(R.drawable.ic_round_event_24),
+                    contentDescription = "calendar",
+                    modifier = Modifier.padding(end = 4.dp),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = item.node.broadcast?.startTime ?: "??",
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            },
+            onClick = {
+                navigateToMediaDetails(MediaType.ANIME, item.node.id)
+            }
+        )
     }
 
     DefaultScaffoldWithTopAppBar(
@@ -105,68 +158,48 @@ fun CalendarView(
             HorizontalPager(
                 state = pagerState
             ) { page ->
-                LazyColumn(
-                    contentPadding = PaddingValues(
-                        top = 8.dp,
-                        bottom = WindowInsets.navigationBars.asPaddingValues()
-                            .calculateBottomPadding()
-                    )
-                ) {
-                    items(
-                        items = viewModel.weekAnime[page],
-                        contentType = { it }
-                    ) { item ->
-                        MediaItemDetailed(
-                            title = item.node.userPreferredTitle(),
-                            imageUrl = item.node.mainPicture?.large,
-                            subtitle1 = {
-                                Text(
-                                    text = buildString {
-                                        append(item.node.mediaType?.mediaFormatLocalized())
-                                        if (item.node.totalDuration()
-                                                .toStringPositiveValueOrNull() != null
-                                        ) {
-                                            append(" (${item.node.durationText()})")
-                                        }
-                                    },
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            },
-                            subtitle2 = {
-                                Icon(
-                                    painter = painterResource(R.drawable.ic_round_details_star_24),
-                                    contentDescription = "star",
-                                    modifier = Modifier.padding(end = 4.dp),
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                                Text(
-                                    text = item.node.mean.toStringPositiveValueOrUnknown(),
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            },
-                            subtitle3 = {
-                                Icon(
-                                    painter = painterResource(R.drawable.ic_round_event_24),
-                                    contentDescription = "calendar",
-                                    modifier = Modifier.padding(end = 4.dp),
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                                Text(
-                                    text = item.node.broadcast?.startTime ?: "??",
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            },
-                            onClick = {
-                                navigateToMediaDetails(MediaType.ANIME, item.node.id)
-                            }
+                if (showAsGrid) {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        contentPadding = PaddingValues(
+                            top = 8.dp,
+                            bottom = WindowInsets.navigationBars.asPaddingValues()
+                                .calculateBottomPadding()
                         )
-                    }
-                    if (viewModel.isLoading) {
-                        items(10) {
-                            MediaItemDetailedPlaceholder()
+                    ) {
+                        items(
+                            items = viewModel.weekAnime[page],
+                            contentType = { it }
+                        ) { item ->
+                            ItemView(item = item)
+                        }
+                        if (viewModel.isLoading) {
+                            items(10) {
+                                MediaItemDetailedPlaceholder()
+                            }
                         }
                     }
-                }//:LazyColumn
+                } else {
+                    LazyColumn(
+                        contentPadding = PaddingValues(
+                            top = 8.dp,
+                            bottom = WindowInsets.navigationBars.asPaddingValues()
+                                .calculateBottomPadding()
+                        )
+                    ) {
+                        items(
+                            items = viewModel.weekAnime[page],
+                            contentType = { it }
+                        ) { item ->
+                            ItemView(item = item)
+                        }
+                        if (viewModel.isLoading) {
+                            items(10) {
+                                MediaItemDetailedPlaceholder()
+                            }
+                        }
+                    }//:LazyColumn
+                }
             }//:Pager
         }//:Column
     }//:Scaffold
@@ -177,6 +210,7 @@ fun CalendarView(
 fun CalendarPreview() {
     MoeListTheme {
         CalendarView(
+            showAsGrid = false,
             navigateBack = {},
             navigateToMediaDetails = { _, _ -> }
         )
