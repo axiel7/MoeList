@@ -6,8 +6,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -16,7 +14,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -60,6 +57,8 @@ import com.axiel7.moelist.uicompose.profile.PROFILE_DESTINATION
 import com.axiel7.moelist.uicompose.profile.ProfileView
 import com.axiel7.moelist.uicompose.ranking.MEDIA_RANKING_DESTINATION
 import com.axiel7.moelist.uicompose.ranking.MediaRankingView
+import com.axiel7.moelist.uicompose.search.SEARCH_DESTINATION
+import com.axiel7.moelist.uicompose.search.SearchHostView
 import com.axiel7.moelist.uicompose.season.SEASON_CHART_DESTINATION
 import com.axiel7.moelist.uicompose.season.SeasonChartView
 import com.axiel7.moelist.uicompose.userlist.UserMediaListWithFabView
@@ -71,6 +70,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 fun MainNavigation(
     navController: NavHostController,
     lastTabOpened: Int,
+    modifier: Modifier,
     padding: PaddingValues,
     topBarHeightPx: Float,
     topBarOffsetY: Animatable<Float, AnimationVector1D>,
@@ -93,11 +93,9 @@ fun MainNavigation(
 
     NavHost(
         navController = navController,
-        startDestination = BottomDestination.values[lastTabOpened].route,
-        modifier = Modifier.padding(
-            start = padding.calculateStartPadding(LocalLayoutDirection.current),
-            end = padding.calculateEndPadding(LocalLayoutDirection.current),
-        ),
+        startDestination = BottomDestination.values
+            .getOrElse(lastTabOpened) { BottomDestination.Home }.route,
+        modifier = modifier,
         enterTransition = { fadeIn(tween(400)) },
         exitTransition = { fadeOut(tween(400)) },
         popEnterTransition = { fadeIn(tween(400)) },
@@ -388,6 +386,19 @@ fun MainNavigation(
                     }
                 )
             }
+        }
+
+        composable(SEARCH_DESTINATION) {
+            SearchHostView(
+                padding = padding,
+                navigateToMediaDetails = { mediaType, mediaId ->
+                    navController.navigate(
+                        MEDIA_DETAILS_DESTINATION
+                            .replace(MEDIA_TYPE_ARGUMENT, mediaType.name)
+                            .replace(MEDIA_ID_ARGUMENT, mediaId.toString())
+                    )
+                },
+            )
         }
     }//:NavHost
 }

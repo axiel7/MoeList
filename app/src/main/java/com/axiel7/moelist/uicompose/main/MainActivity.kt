@@ -7,14 +7,24 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -25,7 +35,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.datastore.preferences.core.edit
@@ -65,6 +78,7 @@ import com.axiel7.moelist.uicompose.base.BottomDestination.Companion.toBottomDes
 import com.axiel7.moelist.uicompose.base.ListStyle
 import com.axiel7.moelist.uicompose.details.MEDIA_DETAILS_DESTINATION
 import com.axiel7.moelist.uicompose.main.composables.MainBottomNavBar
+import com.axiel7.moelist.uicompose.main.composables.MainNavigationRail
 import com.axiel7.moelist.uicompose.main.composables.MainTopAppBar
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants
@@ -74,6 +88,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -123,6 +138,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             val themePreference by rememberPreference(THEME_PREFERENCE_KEY, theme)
             val navController = rememberNavController()
+            val windowSizeClass = calculateWindowSizeClass(this)
 
             MoeListTheme(
                 darkTheme = if (themePreference == "follow_system") isSystemInDarkTheme()
@@ -134,6 +150,7 @@ class MainActivity : AppCompatActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     MainView(
+                        windowSizeClass = windowSizeClass,
                         navController = navController,
                         lastTabOpened = lastTabOpened ?: 0
                     )
@@ -243,6 +260,7 @@ class MainActivity : AppCompatActivity() {
 
 @Composable
 fun MainView(
+    windowSizeClass: WindowSizeClass,
     navController: NavHostController,
     lastTabOpened: Int
 ) {
@@ -251,25 +269,30 @@ fun MainView(
     val bottomBarState = remember { mutableStateOf(true) }
     var topBarHeightPx by remember { mutableFloatStateOf(0f) }
     val topBarOffsetY = remember { Animatable(0f) }
+    val showNavigationRail = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
 
     Scaffold(
         topBar = {
-            MainTopAppBar(
-                bottomBarState = bottomBarState,
-                navController = navController,
-                modifier = Modifier
-                    .graphicsLayer {
-                        translationY = topBarOffsetY.value
-                    }
-            )
+            if (!showNavigationRail) {
+                MainTopAppBar(
+                    bottomBarState = bottomBarState,
+                    navController = navController,
+                    modifier = Modifier
+                        .graphicsLayer {
+                            translationY = topBarOffsetY.value
+                        }
+                )
+            }
         },
         bottomBar = {
-            MainBottomNavBar(
-                navController = navController,
-                bottomBarState = bottomBarState,
-                lastTabOpened = lastTabOpened,
-                topBarOffsetY = topBarOffsetY,
-            )
+            if (!showNavigationRail) {
+                MainBottomNavBar(
+                    navController = navController,
+                    bottomBarState = bottomBarState,
+                    lastTabOpened = lastTabOpened,
+                    topBarOffsetY = topBarOffsetY,
+                )
+            }
         },
         contentWindowInsets = WindowInsets.systemBars
             .only(WindowInsetsSides.Horizontal)
@@ -278,21 +301,52 @@ fun MainView(
             topBarHeightPx = density.run { padding.calculateTopPadding().toPx() }
         }
 
-        MainNavigation(
-            navController = navController,
-            lastTabOpened = lastTabOpened,
-            padding = padding,
-            topBarHeightPx = topBarHeightPx,
-            topBarOffsetY = topBarOffsetY,
-        )
+        if (showNavigationRail) {
+            val systemBarsPadding = WindowInsets.systemBars.asPaddingValues()
+            Row {
+                MainNavigationRail(
+                    navController = navController,
+                    lastTabOpened = lastTabOpened,
+                )
+                MainNavigation(
+                    navController = navController,
+                    lastTabOpened = lastTabOpened,
+                    modifier = Modifier.padding(padding),
+                    padding = PaddingValues(
+                        start = padding.calculateStartPadding(LocalLayoutDirection.current),
+                        top = systemBarsPadding.calculateTopPadding(),
+                        end = padding.calculateEndPadding(LocalLayoutDirection.current),
+                        bottom = systemBarsPadding.calculateBottomPadding()
+                    ),
+                    topBarHeightPx = topBarHeightPx,
+                    topBarOffsetY = topBarOffsetY,
+                )
+            }
+        } else {
+            MainNavigation(
+                navController = navController,
+                lastTabOpened = lastTabOpened,
+                modifier = Modifier.padding(
+                    start = padding.calculateStartPadding(LocalLayoutDirection.current),
+                    end = padding.calculateEndPadding(LocalLayoutDirection.current),
+                ),
+                padding = padding,
+                topBarHeightPx = topBarHeightPx,
+                topBarOffsetY = topBarOffsetY,
+            )
+        }
     }
 }
 
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Preview(showBackground = true)
 @Composable
 fun MainPreview() {
     MoeListTheme {
         MainView(
+            windowSizeClass = WindowSizeClass.calculateFromSize(
+                DpSize(width = 1280.dp, height = 1920.dp)
+            ),
             navController = rememberNavController(),
             lastTabOpened = 0
         )

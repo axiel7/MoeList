@@ -83,8 +83,8 @@ fun FullPosterView(
                     AsyncImage(
                         model = pictures[page],
                         contentDescription = "image$page",
-                        modifier = Modifier.fillMaxWidth(),
-                        contentScale = ContentScale.FillWidth
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Fit
                     )
                 }
             }

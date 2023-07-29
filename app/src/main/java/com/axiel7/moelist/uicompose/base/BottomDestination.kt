@@ -2,9 +2,13 @@ package com.axiel7.moelist.uicompose.base
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.home.HOME_DESTINATION
 import com.axiel7.moelist.uicompose.more.MORE_TAB_DESTINATION
+import com.axiel7.moelist.uicompose.profile.PROFILE_DESTINATION
 import com.axiel7.moelist.uicompose.userlist.ANIME_LIST_DESTINATION
 import com.axiel7.moelist.uicompose.userlist.MANGA_LIST_DESTINATION
 
@@ -39,6 +43,14 @@ sealed class BottomDestination(
         iconSelected = R.drawable.ic_round_book_24
     )
 
+    object Profile : BottomDestination(
+        value = "profile",
+        route = PROFILE_DESTINATION,
+        title = R.string.title_profile,
+        icon = R.drawable.ic_outline_person_24,
+        iconSelected = R.drawable.ic_round_person_24
+    )
+
     object More : BottomDestination(
         value = "more",
         route = MORE_TAB_DESTINATION,
@@ -50,6 +62,8 @@ sealed class BottomDestination(
     companion object {
         val values = listOf(Home, AnimeList, MangaList, More)
 
+        val railValues = listOf(Home, AnimeList, MangaList, Profile, More)
+
         val routes = values.map { it.route }
 
         fun String.toBottomDestinationIndex() = when (this) {
@@ -57,7 +71,16 @@ sealed class BottomDestination(
             AnimeList.value -> 1
             MangaList.value -> 2
             More.value -> 3
+            Profile.value -> 4
             else -> null
+        }
+
+        @Composable
+        fun BottomDestination.Icon(selected: Boolean) {
+            androidx.compose.material3.Icon(
+                painter = painterResource(if (selected) iconSelected else icon),
+                contentDescription = stringResource(title)
+            )
         }
     }
 }

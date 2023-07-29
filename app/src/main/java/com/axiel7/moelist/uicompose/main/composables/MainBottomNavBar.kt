@@ -5,7 +5,6 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
@@ -16,13 +15,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.axiel7.moelist.data.datastore.PreferencesDataStore
 import com.axiel7.moelist.uicompose.base.BottomDestination
+import com.axiel7.moelist.uicompose.base.BottomDestination.Companion.Icon
 import com.axiel7.moelist.uicompose.home.HOME_DESTINATION
 import com.axiel7.moelist.uicompose.more.MORE_DESTINATION
 import com.axiel7.moelist.uicompose.userlist.ANIME_LIST_DESTINATION
@@ -62,12 +61,7 @@ fun MainBottomNavBar(
         NavigationBar {
             BottomDestination.values.forEachIndexed { index, dest ->
                 NavigationBarItem(
-                    icon = {
-                        Icon(
-                            painter = painterResource(if (selectedItem == index) dest.iconSelected else dest.icon),
-                            contentDescription = stringResource(dest.title)
-                        )
-                    },
+                    icon = { dest.Icon(selected = selectedItem == index) },
                     label = { Text(text = stringResource(dest.title)) },
                     selected = selectedItem == index,
                     onClick = {
