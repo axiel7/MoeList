@@ -269,11 +269,11 @@ fun MainView(
     val bottomBarState = remember { mutableStateOf(true) }
     var topBarHeightPx by remember { mutableFloatStateOf(0f) }
     val topBarOffsetY = remember { Animatable(0f) }
-    val showNavigationRail = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
+    val isCompactScreen = windowSizeClass.heightSizeClass == WindowHeightSizeClass.Compact
 
     Scaffold(
         topBar = {
-            if (!showNavigationRail) {
+            if (isCompactScreen) {
                 MainTopAppBar(
                     bottomBarState = bottomBarState,
                     navController = navController,
@@ -285,7 +285,7 @@ fun MainView(
             }
         },
         bottomBar = {
-            if (!showNavigationRail) {
+            if (isCompactScreen) {
                 MainBottomNavBar(
                     navController = navController,
                     bottomBarState = bottomBarState,
@@ -301,7 +301,7 @@ fun MainView(
             topBarHeightPx = density.run { padding.calculateTopPadding().toPx() }
         }
 
-        if (showNavigationRail) {
+        if (!isCompactScreen) {
             val systemBarsPadding = WindowInsets.systemBars.asPaddingValues()
             Row {
                 MainNavigationRail(
