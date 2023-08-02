@@ -297,13 +297,11 @@ fun MainView(
         contentWindowInsets = WindowInsets.systemBars
             .only(WindowInsetsSides.Horizontal)
     ) { padding ->
-        LaunchedEffect(key1 = padding) {
-            topBarHeightPx = density.run { padding.calculateTopPadding().toPx() }
-        }
-
         if (!isCompactScreen) {
             val systemBarsPadding = WindowInsets.systemBars.asPaddingValues()
-            Row {
+            Row(
+                modifier = Modifier.padding(padding)
+            ) {
                 MainNavigationRail(
                     navController = navController,
                     lastTabOpened = lastTabOpened,
@@ -312,7 +310,7 @@ fun MainView(
                     navController = navController,
                     lastTabOpened = lastTabOpened,
                     isCompactScreen = false,
-                    modifier = Modifier.padding(padding),
+                    modifier = Modifier,
                     padding = PaddingValues(
                         start = padding.calculateStartPadding(LocalLayoutDirection.current),
                         top = systemBarsPadding.calculateTopPadding(),
@@ -324,6 +322,9 @@ fun MainView(
                 )
             }
         } else {
+            LaunchedEffect(padding) {
+                topBarHeightPx = density.run { padding.calculateTopPadding().toPx() }
+            }
             MainNavigation(
                 navController = navController,
                 lastTabOpened = lastTabOpened,
