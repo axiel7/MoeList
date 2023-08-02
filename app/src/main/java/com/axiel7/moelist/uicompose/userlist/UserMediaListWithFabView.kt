@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
@@ -42,6 +43,7 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.data.model.media.ListType
@@ -78,12 +80,14 @@ fun UserMediaListWithFabView(
     val listType by remember {
         derivedStateOf { ListType(selectedStatus.value, mediaType) }
     }
+    val bottomBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
     if (statusSheetState.isVisible) {
         ListStatusSheet(
             mediaType = mediaType,
             selectedStatus = selectedStatus,
             sheetState = statusSheetState,
+            bottomPadding = bottomBarPadding,
             onDismiss = {
                 scope.launch { statusSheetState.hide() }
             }
@@ -134,15 +138,16 @@ fun ListStatusSheet(
     mediaType: MediaType,
     selectedStatus: MutableState<ListStatus>,
     sheetState: SheetState,
+    bottomPadding: Dp,
     onDismiss: () -> Unit,
 ) {
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        windowInsets = WindowInsets.navigationBars
+        windowInsets = WindowInsets(0, 0, 0, 0)
     ) {
         Column(
-            modifier = Modifier.padding(bottom = 8.dp)
+            modifier = Modifier.padding(bottom = 8.dp + bottomPadding)
         ) {
             listStatusValues(mediaType).forEach {
                 val isSelected = selectedStatus.value == it
