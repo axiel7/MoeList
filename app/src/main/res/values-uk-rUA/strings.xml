@@ -308,5 +308,5 @@
     <string name="rewatching">Пере-передивляюсь</string>
     <string name="rereading">Перечитую</string>
     <string name="ago">%s тому</string>
-    <string name="set_as_completed" comment="Alternative: Mark as completed?">Позначити завершеним?</string>
+    <string name="set_as_completed">Позначити завершеним?</string>
 </resources>
