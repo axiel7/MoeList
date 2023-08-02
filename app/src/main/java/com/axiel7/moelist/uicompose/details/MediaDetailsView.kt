@@ -265,16 +265,18 @@ fun MediaDetailsView(
             }
 
             //Synopsis
-            Text(
-                text = viewModel.mediaDetails?.synopsisAndBackground()
-                    ?: AnnotatedString(stringResource(R.string.lorem_ipsun)),
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .defaultPlaceholder(visible = viewModel.isLoading),
-                lineHeight = 20.sp,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = maxLinesSynopsis
-            )
+            SelectionContainer {
+                Text(
+                    text = viewModel.mediaDetails?.synopsisAndBackground()
+                        ?: AnnotatedString(stringResource(R.string.lorem_ipsun)),
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .defaultPlaceholder(visible = viewModel.isLoading),
+                    lineHeight = 20.sp,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = maxLinesSynopsis
+                )
+            }
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
