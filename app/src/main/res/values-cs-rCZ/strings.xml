@@ -64,7 +64,6 @@
     <string name="deleted">Smazáno</string>
     <string name="error_server">Chyba při připojování k serveru</string>
     <string name="error_delete_entry">Chyba při odstraňování</string>
-    <string name="updated">Aktualizováno</string>
     <string name="error_updating_list">Chyba při ukládání</string>
     <string name="added_ptw">Přidáno do Plánu Sledování</string>
     <string name="no_changes">Žádné změny</string>

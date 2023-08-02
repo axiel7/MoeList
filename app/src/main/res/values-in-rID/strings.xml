@@ -64,7 +64,6 @@
     <string name="deleted">Dihapus</string>
     <string name="error_server">Kesalahan saat menyambung ke server</string>
     <string name="error_delete_entry">Terjadi kesalahan saat menghapus entri</string>
-    <string name="updated">Diperbarui</string>
     <string name="error_updating_list">Kesalahan memperbarui daftar</string>
     <string name="added_ptw">Tambah ke Ditonton Nanti</string>
     <string name="no_changes">Tidak ada perubahan</string>

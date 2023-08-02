@@ -65,7 +65,6 @@
     <string name="deleted">Deleted</string>
     <string name="error_server">Error connecting to server</string>
     <string name="error_delete_entry">Error deleting entry</string>
-    <string name="updated">Updated</string>
     <string name="error_updating_list">Error updating list</string>
     <string name="added_ptw">Added to Plan to Watch</string>
     <string name="no_changes">No changes</string>

@@ -64,7 +64,6 @@
     <string name="deleted">Gelöscht</string>
     <string name="error_server">Fehler beim Verbinden zum Server</string>
     <string name="error_delete_entry">Fehler beim Löschen</string>
-    <string name="updated">Aktualisiert</string>
     <string name="error_updating_list">Fehler beim Aktualisieren der Liste</string>
     <string name="added_ptw">Zu Geplant zu Schauen hinzugefügt</string>
     <string name="no_changes">Keine Änderungen</string>

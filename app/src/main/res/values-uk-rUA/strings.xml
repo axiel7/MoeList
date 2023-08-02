@@ -64,7 +64,6 @@
     <string name="deleted">Видалено</string>
     <string name="error_server">Помилка підключення до сервера</string>
     <string name="error_delete_entry">Помилка видалення запису</string>
-    <string name="updated">Оновлено</string>
     <string name="error_updating_list">Помилка оновлення списку</string>
     <string name="added_ptw">Додано до запланованих</string>
     <string name="no_changes">Без змін</string>

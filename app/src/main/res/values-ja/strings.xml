@@ -64,7 +64,6 @@
     <string name="deleted">削除しました</string>
     <string name="error_server">サーバー接続エラー</string>
     <string name="error_delete_entry">エントリの削除エラー</string>
-    <string name="updated">更新</string>
     <string name="error_updating_list">リストの更新中にエラー</string>
     <string name="added_ptw">視聴予定に追加しました</string>
     <string name="no_changes">変更なし</string>

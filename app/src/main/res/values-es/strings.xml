@@ -64,7 +64,6 @@
     <string name="deleted">Eliminado</string>
     <string name="error_server">Error al conectar con el servidor</string>
     <string name="error_delete_entry">Error al borrar entrada</string>
-    <string name="updated">Actualizado</string>
     <string name="error_updating_list">Error al actualizar la lista</string>
     <string name="added_ptw">Añadido a pendientes por ver</string>
     <string name="no_changes">Sin cambios</string>

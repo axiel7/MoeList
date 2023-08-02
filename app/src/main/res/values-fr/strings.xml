@@ -64,7 +64,6 @@
     <string name="deleted">Supprimé</string>
     <string name="error_server">Erreur de connexion au serveur</string>
     <string name="error_delete_entry">Erreur lors de la suppression</string>
-    <string name="updated">Mis à jour</string>
     <string name="error_updating_list">Erreur lors de la mise à jour de la liste</string>
     <string name="added_ptw">Ajouté dans À regarder plus tard</string>
     <string name="no_changes">Aucun changement</string>

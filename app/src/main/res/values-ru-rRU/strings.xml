@@ -64,7 +64,6 @@
     <string name="deleted">Удалено</string>
     <string name="error_server">Ошибка подключения к серверу</string>
     <string name="error_delete_entry">Ошибка удаления записи</string>
-    <string name="updated">Обновлено</string>
     <string name="error_updating_list">Ошибка обновления списка</string>
     <string name="added_ptw">Добавлено в запланированное</string>
     <string name="no_changes">Без изменений</string>

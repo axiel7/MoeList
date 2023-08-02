@@ -64,7 +64,6 @@
     <string name="deleted">Eliminar</string>
     <string name="error_server">Erro ao conectar ao servidor</string>
     <string name="error_delete_entry">Erro ao excluir entrada</string>
-    <string name="updated">Atualizado</string>
     <string name="error_updating_list">Erro ao atualizar lista</string>
     <string name="added_ptw">Adicionado ao Plano de Ler</string>
     <string name="no_changes">Sem alterações</string>

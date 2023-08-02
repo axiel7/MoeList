@@ -64,7 +64,6 @@
     <string name="deleted">Silindi</string>
     <string name="error_server">Sunucuya bağlanırken hata oluştu</string>
     <string name="error_delete_entry">Silinirken hata oluştu</string>
-    <string name="updated">Güncellendi</string>
     <string name="error_updating_list">Liste güncelleme hatası</string>
     <string name="added_ptw">İzlenmek İstenenlere Eklendi</string>
     <string name="no_changes">Değişiklik yok</string>

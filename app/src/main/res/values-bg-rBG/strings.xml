@@ -64,7 +64,6 @@
     <string name="deleted">Изтрито</string>
     <string name="error_server">Грешки при свързването към сървъра</string>
     <string name="error_delete_entry">Грешка при изтриването</string>
-    <string name="updated">Обновен</string>
     <string name="error_updating_list">Грешка при актуализация на списъка</string>
     <string name="added_ptw">Добавено в Планирани за Гледане</string>
     <string name="no_changes">Няма промяна</string>

@@ -64,7 +64,6 @@
     <string name="deleted">已删除</string>
     <string name="error_server">连接服务器时出错</string>
     <string name="error_delete_entry">删除时发生错误</string>
-    <string name="updated">更新</string>
     <string name="error_updating_list">更新列表时发生错误</string>
     <string name="added_ptw">添加到稍后再看</string>
     <string name="no_changes">无修改</string>

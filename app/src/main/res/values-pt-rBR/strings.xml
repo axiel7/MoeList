@@ -64,7 +64,6 @@
     <string name="deleted">Excluído</string>
     <string name="error_server">Falha ao conectar ao servidor</string>
     <string name="error_delete_entry">Falha ao excluir entrada</string>
-    <string name="updated">Atualizado</string>
     <string name="error_updating_list">Falha ao atualizar lista</string>
     <string name="added_ptw">Adicionado em Planejo Assistir</string>
     <string name="no_changes">Nenhuma mudança</string>
