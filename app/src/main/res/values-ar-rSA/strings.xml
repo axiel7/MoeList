@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="title_home">الصفحة الرئيسية</string>
-    <string name="title_anime_list">الأنيمي</string>
-    <string name="title_manga_list">المانغا</string>
+    <string name="title_anime_list">الأنمي</string>
+    <string name="title_manga_list">المانجا</string>
     <string name="stats">الإحصائيات</string>
     <string name="more_info">المزيد من المعلومات</string>
     <string name="synonyms">يسمى أيضًا</string>
@@ -10,10 +10,10 @@
     <string name="start_date">تاريخ البث</string>
     <string name="end_date">تاريخ الانتهاء</string>
     <string name="season">موسم</string>
-    <string name="broadcast">يبث في التوقيت</string>
-    <string name="duration">المدة الزمنية</string>
+    <string name="broadcast">يبث</string>
+    <string name="duration">المدة</string>
     <string name="source">المصدر</string>
-    <string name="studios">الأستوديو</string>
+    <string name="studios">الاستوديو</string>
     <string name="edit">تعديل</string>
     <string name="authors">المؤلفون</string>
     <string name="volumes">المجلدات</string>
@@ -22,30 +22,30 @@
     <string name="no_results">لا توجد نتائج</string>
     <string name="title_profile">الملفّ الشخصي</string>
     <string name="cancel">إلغاء</string>
-    <string name="apply">تطبيق</string>
+    <string name="apply">حفظ</string>
     <string name="status">الحالة</string>
     <string name="episodes">الحلقات</string>
     <string name="delete">حذف</string>
     <string name="chapters">الفصول</string>
     <string name="watching">أشاهده</string>
-    <string name="reading">أقرؤوه</string>
+    <string name="reading">أقرأُه</string>
     <string name="completed">أكملته</string>
     <string name="on_hold">مؤجّل</string>
     <string name="dropped">سئمت منه</string>
-    <string name="ptw">أخطط للمشاهدة</string>
-    <string name="ptr">أخطط للقراءة</string>
+    <string name="ptw">أخطط لمشاهدته</string>
+    <string name="ptr">أخطط لقرأته</string>
     <string name="settings">الإعدادات</string>
     <string name="year">السنة</string>
-    <string name="anime_ranking">الأنيمي المصنّف</string>
-    <string name="manga_ranking">المانغا المصنّفة</string>
+    <string name="anime_ranking">تصنيف الأنمي</string>
+    <string name="manga_ranking">تصنيف المانجا</string>
     <string name="seasonal_chart">أستعراض المواسم</string>
     <string name="random">عشوائي</string>
     <string name="today">اليوم</string>
     <string name="nothing_today">لا شيء اليوم \n( ≧Д≦)</string>
     <string name="this_season">هذا الموسم</string>
-    <string name="recommendations">التوصيات</string>
+    <string name="recommendations">الاقترحات</string>
     <string name="username">اسم المستخدم</string>
-    <string name="total_entries">الإجمالي: %s</string>
+    <string name="total_entries">المجموع: %s</string>
     <string name="mean_score">متوسط التقييم</string>
     <string name="rewatched">أعدت مشاهدته</string>
     <string name="view_profile_mal">عرض الملفّ الشخصي على MAL</string>
@@ -63,9 +63,9 @@
     <string name="popularity">الشعبية</string>
     <string name="deleted">محذوف</string>
     <string name="error_server">حدث خطأ أثناء الاتصال بالخادم</string>
-    <string name="error_delete_entry">حدث خطأ أثناء حذف الإدخال</string>
+    <string name="error_delete_entry">حدث خطأ أثناء حذف المدخل</string>
     <string name="error_updating_list">حدث خطأ أثناء تحديث القائمة</string>
-    <string name="added_ptw">إضافة إلى قائمة أخطط مشاهدتة</string>
+    <string name="added_ptw">إضافة إلى قائمة أخطط لمشاهدته</string>
     <string name="no_changes">لا يوجد تغييرات</string>
     <string name="tv">تلفزيوني</string>
     <string name="ova">أوفا</string>
@@ -307,6 +307,6 @@
     <string name="notes">ملاحظات</string>
     <string name="rewatching">أعيد مشاهدته</string>
     <string name="rereading">أعيد قراءته</string>
-    <string name="ago">%s ago</string>
-    <string name="set_as_completed" comment="Alternative: Mark as completed?">Set as completed?</string>
+    <string name="ago">%s منذ</string>
+    <string name="set_as_completed">تعيين كمكتمل؟</string>
 </resources>
