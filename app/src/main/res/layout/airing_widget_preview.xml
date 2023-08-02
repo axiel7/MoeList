@@ -18,7 +18,8 @@
             android:ellipsize="end"
             android:lines="1"
             android:text="Bocchi the Rock!"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textColor="?android:attr/textColorPrimary" />
 
         <TextView
             android:layout_width="match_parent"
@@ -26,7 +27,7 @@
             android:ellipsize="end"
             android:lines="1"
             android:text="Tue, 8 May at 23:00"
-            android:textColor="@color/md_theme_primary" />
+            android:textColor="?android:attr/colorAccent" />
 
     </LinearLayout>
 
@@ -42,7 +43,8 @@
             android:ellipsize="end"
             android:lines="1"
             android:text="Chainsaw Man"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textColor="?android:attr/textColorPrimary" />
 
         <TextView
             android:layout_width="match_parent"
@@ -50,7 +52,7 @@
             android:ellipsize="end"
             android:lines="1"
             android:text="Thu, 10 May at 00:00"
-            android:textColor="@color/md_theme_primary" />
+            android:textColor="?android:attr/colorAccent" />
 
     </LinearLayout>
 
@@ -66,7 +68,8 @@
             android:ellipsize="end"
             android:lines="1"
             android:text="Kimetsu no Yaiba: Katanakaji no Sato-hen"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textColor="?android:attr/textColorPrimary" />
 
         <TextView
             android:layout_width="match_parent"
@@ -74,7 +77,7 @@
             android:ellipsize="end"
             android:lines="1"
             android:text="Fri, 11 May at 20:00"
-            android:textColor="@color/md_theme_primary" />
+            android:textColor="?android:attr/colorAccent" />
 
     </LinearLayout>
 

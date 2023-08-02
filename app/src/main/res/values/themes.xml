@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Base application theme. -->
-    <style name="BaseTheme" parent="Theme.AppCompat.DayNight.NoActionBar" />
+    <style name="BaseTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:colorAccent">@color/md_theme_primary</item>
+    </style>
 
     <style name="AppTheme" parent="BaseTheme" />
 
