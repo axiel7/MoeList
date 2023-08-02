@@ -83,7 +83,10 @@ fun UserMediaListWithFabView(
         ListStatusSheet(
             mediaType = mediaType,
             selectedStatus = selectedStatus,
-            sheetState = statusSheetState
+            sheetState = statusSheetState,
+            onDismiss = {
+                scope.launch { statusSheetState.hide() }
+            }
         )
     }
 
@@ -131,7 +134,7 @@ fun ListStatusSheet(
     mediaType: MediaType,
     selectedStatus: MutableState<ListStatus>,
     sheetState: SheetState,
-    onDismiss: () -> Unit = {},
+    onDismiss: () -> Unit,
 ) {
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -146,7 +149,10 @@ fun ListStatusSheet(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { selectedStatus.value = it }
+                        .clickable {
+                            selectedStatus.value = it
+                            onDismiss()
+                        }
                         .padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {

@@ -146,9 +146,10 @@ fun UserMediaListView(
         }
     }
 
-    LaunchedEffect(viewModel.listSort, listType) {
-        if (!viewModel.isLoading && viewModel.nextPage == null && !viewModel.loadedAllPages)
+    if (viewModel.mediaList.isEmpty()) {
+        LaunchedEffect(listType) {
             viewModel.getUserList()
+        }
     }
 
     fun onLoadMore() {

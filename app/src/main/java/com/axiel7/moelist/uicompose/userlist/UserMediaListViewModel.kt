@@ -52,6 +52,7 @@ class UserMediaListViewModel(
             hasNextPage = false
             loadedAllPages = false
             listSort = value
+            getUserList()
         }
     }
 
