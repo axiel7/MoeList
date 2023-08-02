@@ -26,10 +26,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material3.AssistChip
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -44,12 +41,9 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.App
-import com.axiel7.moelist.R
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.GENERAL_LIST_STYLE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.GRID_ITEMS_PER_ROW_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.USE_GENERAL_LIST_STYLE_PREFERENCE_KEY
@@ -67,9 +61,9 @@ import com.axiel7.moelist.data.model.media.totalProgress
 import com.axiel7.moelist.data.model.media.userPreferredTitle
 import com.axiel7.moelist.data.model.media.userProgress
 import com.axiel7.moelist.uicompose.base.ListStyle
-import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_MEDIUM_WIDTH
 import com.axiel7.moelist.uicompose.composables.OnBottomReached
 import com.axiel7.moelist.uicompose.composables.collapsable
+import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_MEDIUM_WIDTH
 import com.axiel7.moelist.uicompose.editmedia.EditMediaSheet
 import com.axiel7.moelist.uicompose.userlist.composables.CompactUserMediaListItem
 import com.axiel7.moelist.uicompose.userlist.composables.CompactUserMediaListItemPlaceholder
@@ -79,6 +73,7 @@ import com.axiel7.moelist.uicompose.userlist.composables.MediaListSortDialog
 import com.axiel7.moelist.uicompose.userlist.composables.MinimalUserMediaListItem
 import com.axiel7.moelist.uicompose.userlist.composables.MinimalUserMediaListItemPlaceholder
 import com.axiel7.moelist.uicompose.userlist.composables.SetAsCompletedDialog
+import com.axiel7.moelist.uicompose.userlist.composables.SortChip
 import com.axiel7.moelist.uicompose.userlist.composables.StandardUserMediaListItem
 import com.axiel7.moelist.uicompose.userlist.composables.StandardUserMediaListItemPlaceholder
 import com.axiel7.moelist.utils.ContextExtensions.showToast
@@ -156,21 +151,6 @@ fun UserMediaListView(
         if (!viewModel.isLoadingList && viewModel.hasNextPage) {
             viewModel.getUserList(viewModel.nextPage)
         }
-    }
-
-    @Composable
-    fun FilterChip() {
-        AssistChip(
-            onClick = { viewModel.openSortDialog = true },
-            label = { Text(text = viewModel.listSort.localized()) },
-            modifier = Modifier.padding(horizontal = 8.dp),
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(R.drawable.ic_round_sort_24),
-                    contentDescription = stringResource(R.string.sort_by)
-                )
-            }
-        )
     }
 
     @Composable
@@ -364,8 +344,11 @@ fun UserMediaListView(
                 item(
                     span = { GridItemSpan(maxCurrentLineSpan) }
                 ) {
-                    Row {
-                        FilterChip()
+                    Row(modifier = Modifier.padding(horizontal = 8.dp)) {
+                        SortChip(
+                            text = viewModel.listSort.localized(),
+                            onClick = { viewModel.openSortDialog = true },
+                        )
                     }
                 }
                 items(
@@ -402,7 +385,11 @@ fun UserMediaListView(
                 ),
             ) {
                 item {
-                    FilterChip()
+                    SortChip(
+                        text = viewModel.listSort.localized(),
+                        onClick = { viewModel.openSortDialog = true },
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
                 }
                 when (listStyle) {
                     ListStyle.STANDARD.value -> {
@@ -469,8 +456,11 @@ fun UserMediaListView(
                 item(
                     span = { GridItemSpan(maxLineSpan) }
                 ) {
-                    Row {
-                        FilterChip()
+                    Row(modifier = Modifier.padding(horizontal = 8.dp)) {
+                        SortChip(
+                            text = viewModel.listSort.localized(),
+                            onClick = { viewModel.openSortDialog = true },
+                        )
                     }
                 }
                 when (listStyle) {
