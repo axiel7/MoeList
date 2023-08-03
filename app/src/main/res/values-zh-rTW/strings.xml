@@ -191,9 +191,9 @@
     <string name="genre_sci_fi">科幻</string>
     <string name="genre_seinen">青年</string>
     <string name="genre_shoujo">少女</string>
-    <string name="genre_shoujo_ai">少女愛情</string>
+    <string name="genre_shoujo_ai" comment="AKA: Girls Love">少女愛情</string>
     <string name="genre_shounen">少年</string>
-    <string name="genre_shounen_ai">少年愛情</string>
+    <string name="genre_shounen_ai" comment="AKA: Boys Love">少年愛情</string>
     <string name="genre_slice_of_life">日常</string>
     <string name="genre_space">太空</string>
     <string name="genre_sports">運動</string>
@@ -309,4 +309,5 @@
     <string name="rereading">Rereading</string>
     <string name="ago">%s ago</string>
     <string name="set_as_completed">Set as completed?</string>
+    <string name="relation_character">Character</string>
 </resources>
