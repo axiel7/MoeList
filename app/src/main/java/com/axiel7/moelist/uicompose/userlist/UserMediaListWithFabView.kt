@@ -28,28 +28,37 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.axiel7.moelist.data.model.manga.MyMangaListStatus
+import com.axiel7.moelist.data.model.manga.UserMangaList
 import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.data.model.media.ListStatus.Companion.listStatusValues
 import com.axiel7.moelist.data.model.media.ListType
 import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.uicompose.editmedia.EditMediaSheet
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
+import com.axiel7.moelist.uicompose.userlist.composables.MediaListSortDialog
+import com.axiel7.moelist.uicompose.userlist.composables.SetAsCompletedDialog
+import com.axiel7.moelist.utils.ContextExtensions.showToast
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,9 +71,14 @@ fun UserMediaListWithFabView(
     topBarOffsetY: Animatable<Float, AnimationVector1D>,
     padding: PaddingValues,
 ) {
+    val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val selectedStatus = rememberSaveable { mutableStateOf(listStatusValues(mediaType)[0]) }
+    val haptic = LocalHapticFeedback.current
+    val viewModel = viewModel(key = mediaType.toString()) {
+        UserMediaListViewModel(mediaType)
+    }
     val statusSheetState = rememberModalBottomSheetState()
+    val editSheetState = rememberModalBottomSheetState()
     var isFabVisible by remember { mutableStateOf(true) }
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
@@ -76,20 +90,45 @@ fun UserMediaListWithFabView(
         }
     }
     val listType by remember {
-        derivedStateOf { ListType(selectedStatus.value, mediaType) }
+        derivedStateOf { ListType(viewModel.listStatus, mediaType) }
     }
     val bottomBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
     if (statusSheetState.isVisible) {
         ListStatusSheet(
             mediaType = mediaType,
-            selectedStatus = selectedStatus,
+            selectedStatus = viewModel.listStatus,
             sheetState = statusSheetState,
             bottomPadding = bottomBarPadding,
+            onStatusChanged = viewModel::onStatusChanged,
             onDismiss = {
                 scope.launch { statusSheetState.hide() }
             }
         )
+    }
+
+    if (viewModel.openSortDialog) {
+        MediaListSortDialog(viewModel = viewModel)
+    }
+
+    if (viewModel.openSetAtCompletedDialog) {
+        SetAsCompletedDialog(viewModel = viewModel)
+    }
+
+    if (editSheetState.isVisible) {
+        EditMediaSheet(
+            coroutineScope = scope,
+            sheetState = editSheetState,
+            mediaViewModel = viewModel,
+            bottomPadding = bottomBarPadding
+        )
+    }
+
+    LaunchedEffect(viewModel.message) {
+        if (viewModel.showMessage) {
+            context.showToast(viewModel.message)
+            viewModel.showMessage = false
+        }
     }
 
     Scaffold(
@@ -106,11 +145,11 @@ fun UserMediaListWithFabView(
                     onClick = { scope.launch { statusSheetState.show() } }
                 ) {
                     Icon(
-                        painter = painterResource(selectedStatus.value.icon),
+                        painter = painterResource(viewModel.listStatus.icon),
                         contentDescription = "status",
                         modifier = Modifier.padding(end = 8.dp)
                     )
-                    Text(text = selectedStatus.value.localized())
+                    Text(text = viewModel.listStatus.localized())
                 }
             }
         },
@@ -118,14 +157,39 @@ fun UserMediaListWithFabView(
             .only(WindowInsetsSides.Horizontal)
     ) { childPadding ->
         UserMediaListView(
+            mediaList = viewModel.mediaList,
             listType = listType,
+            listSort = viewModel.listSort,
             isCompactScreen = isCompactScreen,
+            isLoading = viewModel.isLoading,
+            isLoadingList = viewModel.isLoadingList,
             modifier = Modifier.padding(childPadding),
             nestedScrollConnection = nestedScrollConnection,
             navigateToMediaDetails = navigateToMediaDetails,
             topBarHeightPx = topBarHeightPx,
             topBarOffsetY = topBarOffsetY,
-            contentPadding = padding
+            contentPadding = padding,
+            onLoadMore = viewModel::onLoadMore,
+            onRefresh = viewModel::refreshList,
+            onShowSortDialog = { viewModel.openSortDialog = true },
+            onShowEditSheet = { item ->
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                scope.launch {
+                    viewModel.onItemSelected(item)
+                    editSheetState.show()
+                }
+            },
+            onUpdateProgress = { item ->
+                val isVolumeProgress =
+                    (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress() == true
+                viewModel.updateProgress(
+                    mediaId = item.node.id,
+                    progress = if (!isVolumeProgress) item.listStatus?.progress?.plus(1) else null,
+                    volumeProgress = if (isVolumeProgress) (item.listStatus as? MyMangaListStatus)
+                        ?.numVolumesRead?.plus(1) else null,
+                    totalProgress = item.totalProgress()
+                )
+            }
         )
     }//:Scaffold
 }
@@ -134,9 +198,10 @@ fun UserMediaListWithFabView(
 @Composable
 fun ListStatusSheet(
     mediaType: MediaType,
-    selectedStatus: MutableState<ListStatus>,
+    selectedStatus: ListStatus,
     sheetState: SheetState,
     bottomPadding: Dp,
+    onStatusChanged: (ListStatus) -> Unit,
     onDismiss: () -> Unit,
 ) {
     ModalBottomSheet(
@@ -148,12 +213,12 @@ fun ListStatusSheet(
             modifier = Modifier.padding(bottom = 8.dp + bottomPadding)
         ) {
             listStatusValues(mediaType).forEach {
-                val isSelected = selectedStatus.value == it
+                val isSelected = selectedStatus == it
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
-                            selectedStatus.value = it
+                            onStatusChanged(it)
                             onDismiss()
                         }
                         .padding(16.dp),

@@ -19,7 +19,6 @@ import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseMyListStatus
 import com.axiel7.moelist.data.model.media.BaseUserMediaList
 import com.axiel7.moelist.data.model.media.ListStatus
-import com.axiel7.moelist.data.model.media.ListType
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.repository.AnimeRepository
@@ -29,12 +28,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class UserMediaListViewModel(
-    listType: ListType
+    override val mediaType: MediaType,
+    initialListStatus: ListStatus? = null,
 ) : BaseMediaViewModel() {
 
-    override val mediaType = listType.mediaType
+    var listStatus by mutableStateOf(
+        initialListStatus ?: if (mediaType == MediaType.ANIME) ListStatus.WATCHING
+        else ListStatus.READING
+    )
+        private set
 
-    var listTypeStyle = listType.styleGlobalAppVariable.value
+    fun onStatusChanged(status: ListStatus) {
+        listStatus = status
+        params.status = status.value
+        refreshList()
+    }
 
     var listSort by mutableStateOf(
         if (mediaType == MediaType.ANIME) App.animeListSort
@@ -48,11 +56,9 @@ class UserMediaListViewModel(
                 if (mediaType == MediaType.ANIME) it[ANIME_LIST_SORT_PREFERENCE_KEY] = value.value
                 else it[MANGA_LIST_SORT_PREFERENCE_KEY] = value.value
             }
-            nextPage = null
-            hasNextPage = false
-            loadedAllPages = false
             listSort = value
-            getUserList()
+            params.sort = listSort.value
+            refreshList()
         }
     }
 
@@ -61,7 +67,7 @@ class UserMediaListViewModel(
     var lastItemUpdatedId = 0
 
     private val params = ApiParams(
-        status = listType.status.value,
+        status = listStatus.value,
         sort = listSort.value,
         nsfw = App.nsfw,
         fields = if (mediaType == MediaType.ANIME) AnimeRepository.USER_ANIME_LIST_FIELDS
@@ -88,15 +94,13 @@ class UserMediaListViewModel(
     }
     val mediaList = mutableStateListOf<BaseUserMediaList<out BaseMediaNode>>()
     var nextPage: String? = null
-    var hasNextPage = false
-    var loadedAllPages = false
+    var hasNextPage = true
     var isLoadingList by mutableStateOf(false)
 
     fun getUserList(page: String? = null) {
         viewModelScope.launch(Dispatchers.IO) {
             isLoading = page == null
             isLoadingList = true
-            params.sort = listSort.value
             val result = if (mediaType == MediaType.ANIME)
                 AnimeRepository.getUserAnimeList(params, page)
             else
@@ -108,13 +112,24 @@ class UserMediaListViewModel(
 
                 nextPage = result.paging?.next
                 hasNextPage = nextPage != null
-                loadedAllPages = page != null && nextPage == null
             } else {
                 setErrorMessage(result?.message ?: result?.error ?: "Generic error")
                 hasNextPage = false
             }
             isLoadingList = false
             isLoading = false
+        }
+    }
+
+    fun refreshList() {
+        nextPage = null
+        hasNextPage = false
+        getUserList(page = null)
+    }
+
+    fun onLoadMore() {
+        if (!isLoadingList && hasNextPage) {
+            getUserList(nextPage)
         }
     }
 

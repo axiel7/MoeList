@@ -17,7 +17,7 @@ import androidx.compose.runtime.snapshotFlow
 @Composable
 fun LazyListState.OnBottomReached(
     buffer: Int = 0,
-    onLoadMore: () -> Unit
+    onLoadMore: suspend () -> Unit
 ) {
     // Buffer must be positive.
     // Or our list will never reach the bottom.
