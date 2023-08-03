@@ -144,7 +144,7 @@ fun SeasonChartView(
             ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_round_filter_list_24),
-                    contentDescription = "filter"
+                    contentDescription = stringResource(R.string.filters)
                 )
             }
         },
