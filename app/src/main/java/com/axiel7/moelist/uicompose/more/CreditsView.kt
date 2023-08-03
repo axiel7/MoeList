@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -54,7 +54,7 @@ fun CreditsView(
                 .verticalScroll(scrollState)
                 .padding(it)
         ) {
-            Divider()
+            HorizontalDivider()
             SettingsTitle(text = stringResource(R.string.support))
             MoreItem(
                 title = stringResource(R.string.logo_design),
@@ -91,7 +91,7 @@ fun CreditsView(
                     context.openLink(LOGO_CREDIT_URL)
                 }
             )
-            Divider()
+            HorizontalDivider()
             SettingsTitle(text = stringResource(R.string.translations))
             translationsCredits.forEach { (stringRes, credit) ->
                 MoreItem(

@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -138,7 +138,7 @@ fun ProfileView(
                 }
             }//:Row
 
-            Divider(modifier = Modifier.padding(vertical = 16.dp))
+            HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
 
             //Stats
             UserStatsView(
@@ -147,7 +147,7 @@ fun ProfileView(
                 isLoading = viewModel.isLoading
             )
 
-            Divider(modifier = Modifier.padding(vertical = 16.dp))
+            HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
 
             UserStatsView(
                 viewModel = viewModel,
@@ -155,7 +155,7 @@ fun ProfileView(
                 isLoading = viewModel.isLoadingManga
             )
 
-            Divider(modifier = Modifier.padding(vertical = 16.dp))
+            HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
 
             TextButton(
                 onClick = { context.openLink(Constants.MAL_PROFILE_URL + viewModel.user?.name) },

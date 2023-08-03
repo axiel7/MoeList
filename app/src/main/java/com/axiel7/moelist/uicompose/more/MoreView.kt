@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -80,7 +80,7 @@ fun MoreView(
             tint = MaterialTheme.colorScheme.onSurface
         )
 
-        Divider()
+        HorizontalDivider()
 
         MoreItem(
             title = stringResource(R.string.anime_manga_news),
@@ -96,7 +96,7 @@ fun MoreView(
             onClick = { context.openLink(Constants.MAL_ANNOUNCEMENTS_URL) }
         )
 
-        Divider()
+        HorizontalDivider()
 
         MoreItem(
             title = stringResource(R.string.notifications),
@@ -124,7 +124,7 @@ fun MoreView(
             }
         )
 
-        Divider()
+        HorizontalDivider()
 
         MoreItem(
             title = stringResource(R.string.logout),
