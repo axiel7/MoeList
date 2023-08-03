@@ -45,6 +45,26 @@ Want an AniList version? Check [AniHyou](https://github.com/axiel7/AniHyou-andro
 * Characters and voice actors
 * [More](https://github.com/axiel7/MoeList/issues?q=is%3Aopen+is%3Aissue+label%3A%22api+limited%22)
 
+# Donate 💸
+Support the development of MoeList by making a donation via:
+
+[Ko-Fi](https://ko-fi.com/axiel7)
+
+Bitcoin
+```
+3KKjJuorh9se2jUo1Hr6MFgXhnBWbj5fTP
+```
+
+Ethereum
+```
+0xBd20dD0e036B246F879EeFde52601f0fBbeC69c0
+```
+
+Litecoin
+```
+MRw5XPLsM9SVf48tv4nwQoY12nMXaiVzmD
+```
+
 # Other
 **Special thanks:**
 * [danielvd_art](https://instagram.com/danielvd_art) (Logo design)
