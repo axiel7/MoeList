@@ -191,9 +191,9 @@
     <string name="genre_sci_fi">Sci-Fi</string>
     <string name="genre_seinen">Seinen</string>
     <string name="genre_shoujo">Shoujo</string>
-    <string name="genre_shoujo_ai">Shoujo Ai</string>
+    <string name="genre_shoujo_ai" comment="AKA: Girls Love">Shoujo Ai</string>
     <string name="genre_shounen">Shounen</string>
-    <string name="genre_shounen_ai">Shounen Ai</string>
+    <string name="genre_shounen_ai" comment="AKA: Boys Love">Shounen Ai</string>
     <string name="genre_slice_of_life">Tranche de vie</string>
     <string name="genre_space">Espace</string>
     <string name="genre_sports">Sports</string>
@@ -309,4 +309,5 @@
     <string name="rereading">Relecture</string>
     <string name="ago">Il y a %s</string>
     <string name="set_as_completed">Marquer comme terminé ?</string>
+    <string name="relation_character">Personnage</string>
 </resources>
