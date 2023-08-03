@@ -48,7 +48,6 @@ import com.axiel7.moelist.data.datastore.PreferencesDataStore.GENERAL_LIST_STYLE
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.GRID_ITEMS_PER_ROW_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.USE_GENERAL_LIST_STYLE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.rememberPreference
-import com.axiel7.moelist.data.model.anime.AnimeNode
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
 import com.axiel7.moelist.data.model.manga.UserMangaList
 import com.axiel7.moelist.data.model.manga.isUsingVolumeProgress
@@ -58,8 +57,6 @@ import com.axiel7.moelist.data.model.media.ListType
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.localized
 import com.axiel7.moelist.data.model.media.totalProgress
-import com.axiel7.moelist.data.model.media.userPreferredTitle
-import com.axiel7.moelist.data.model.media.userProgress
 import com.axiel7.moelist.uicompose.base.ListStyle
 import com.axiel7.moelist.uicompose.composables.OnBottomReached
 import com.axiel7.moelist.uicompose.composables.collapsable
@@ -156,16 +153,7 @@ fun UserMediaListView(
     @Composable
     fun StandardItemView(item: BaseUserMediaList<out BaseMediaNode>) {
         StandardUserMediaListItem(
-            imageUrl = item.node.mainPicture?.large,
-            title = item.node.userPreferredTitle(),
-            score = item.listStatus?.score,
-            mediaFormat = item.node.mediaType,
-            mediaStatus = item.node.status,
-            broadcast = (item.node as? AnimeNode)?.broadcast,
-            userProgress = item.userProgress(),
-            totalProgress = item.totalProgress(),
-            isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
-                ?: false,
+            item = item,
             listStatus = listType.status,
             onClick = {
                 navigateToMediaDetails(listType.mediaType, item.node.id)
@@ -197,15 +185,7 @@ fun UserMediaListView(
     @Composable
     fun CompactItemView(item: BaseUserMediaList<out BaseMediaNode>) {
         CompactUserMediaListItem(
-            imageUrl = item.node.mainPicture?.large,
-            title = item.node.userPreferredTitle(),
-            score = item.listStatus?.score,
-            userProgress = item.userProgress(),
-            totalProgress = item.totalProgress(),
-            isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
-                ?: false,
-            mediaStatus = item.node.status,
-            broadcast = (item.node as? AnimeNode)?.broadcast,
+            item = item,
             listStatus = listType.status,
             onClick = {
                 navigateToMediaDetails(listType.mediaType, item.node.id)
@@ -237,14 +217,7 @@ fun UserMediaListView(
     @Composable
     fun MinimalItemView(item: BaseUserMediaList<out BaseMediaNode>) {
         MinimalUserMediaListItem(
-            title = item.node.userPreferredTitle(),
-            score = item.listStatus?.score,
-            userProgress = item.userProgress(),
-            totalProgress = item.totalProgress(),
-            isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
-                ?: false,
-            mediaStatus = item.node.status,
-            broadcast = (item.node as? AnimeNode)?.broadcast,
+            item = item,
             listStatus = listType.status,
             onClick = {
                 navigateToMediaDetails(listType.mediaType, item.node.id)
@@ -276,15 +249,7 @@ fun UserMediaListView(
     @Composable
     fun GridItemView(item: BaseUserMediaList<out BaseMediaNode>) {
         GridUserMediaListItem(
-            imageUrl = item.node.mainPicture?.large,
-            title = item.node.userPreferredTitle(),
-            score = item.listStatus?.score,
-            mediaStatus = item.node.status,
-            broadcast = (item.node as? AnimeNode)?.broadcast,
-            userProgress = item.userProgress(),
-            totalProgress = item.totalProgress(),
-            isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress()
-                ?: false,
+            item = item,
             onClick = {
                 navigateToMediaDetails(listType.mediaType, item.node.id)
             },

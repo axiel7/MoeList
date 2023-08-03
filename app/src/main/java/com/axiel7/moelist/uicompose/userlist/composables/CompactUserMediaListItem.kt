@@ -31,15 +31,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.axiel7.moelist.R
-import com.axiel7.moelist.data.model.anime.Broadcast
+import com.axiel7.moelist.data.model.anime.AnimeNode
 import com.axiel7.moelist.data.model.anime.airingInString
+import com.axiel7.moelist.data.model.anime.exampleUserAnimeList
+import com.axiel7.moelist.data.model.manga.UserMangaList
+import com.axiel7.moelist.data.model.manga.isUsingVolumeProgress
+import com.axiel7.moelist.data.model.media.BaseMediaNode
+import com.axiel7.moelist.data.model.media.BaseUserMediaList
 import com.axiel7.moelist.data.model.media.ListStatus
-import com.axiel7.moelist.data.model.media.WeekDay
 import com.axiel7.moelist.data.model.media.isCurrent
+import com.axiel7.moelist.data.model.media.totalProgress
+import com.axiel7.moelist.data.model.media.userPreferredTitle
+import com.axiel7.moelist.data.model.media.userProgress
+import com.axiel7.moelist.uicompose.composables.defaultPlaceholder
 import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_COMPACT_HEIGHT
 import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_SMALL_WIDTH
 import com.axiel7.moelist.uicompose.composables.media.MediaPoster
-import com.axiel7.moelist.uicompose.composables.defaultPlaceholder
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrUnknown
@@ -47,20 +54,14 @@ import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrUnknown
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CompactUserMediaListItem(
-    imageUrl: String?,
-    title: String,
-    score: Int?,
-    mediaStatus: String?,
-    userProgress: Int?,
-    totalProgress: Int?,
-    isVolumeProgress: Boolean,
-    broadcast: Broadcast?,
+    item: BaseUserMediaList<out BaseMediaNode>,
     listStatus: ListStatus,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
     onClickPlus: () -> Unit,
 ) {
-    val isAiring = remember { broadcast != null && mediaStatus == "currently_airing" }
+    val broadcast = remember { (item.node as? AnimeNode)?.broadcast }
+    val isAiring = remember { broadcast != null && item.node.status == "currently_airing" }
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -74,7 +75,7 @@ fun CompactUserMediaListItem(
                 contentAlignment = Alignment.BottomStart
             ) {
                 MediaPoster(
-                    url = imageUrl,
+                    url = item.node.mainPicture?.large,
                     showShadow = false,
                     contentScale = ContentScale.FillWidth,
                     modifier = Modifier
@@ -91,7 +92,8 @@ fun CompactUserMediaListItem(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = if ((score ?: 0) == 0) Constants.UNKNOWN_CHAR else "$score",
+                        text = if ((item.listStatus?.score ?: 0) == 0) Constants.UNKNOWN_CHAR
+                        else "${item.listStatus?.score}",
                         modifier = Modifier.padding(
                             start = 8.dp,
                             top = 4.dp,
@@ -114,7 +116,7 @@ fun CompactUserMediaListItem(
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = title,
+                    text = item.node.userPreferredTitle(),
                     modifier = Modifier
                         .padding(start = 16.dp, end = 16.dp, top = 8.dp),
                     color = MaterialTheme.colorScheme.onSurface,
@@ -145,11 +147,13 @@ fun CompactUserMediaListItem(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "${userProgress ?: 0}/${totalProgress.toStringPositiveValueOrUnknown()}",
+                            text = "${item.userProgress() ?: 0}/${
+                                item.totalProgress().toStringPositiveValueOrUnknown()
+                            }",
                             fontSize = 16.sp,
                             lineHeight = 19.sp,
                         )
-                        if (isVolumeProgress) {
+                        if ((item as? UserMangaList)?.listStatus?.isUsingVolumeProgress() == true) {
                             Icon(
                                 painter = painterResource(R.drawable.round_bookmark_24),
                                 contentDescription = stringResource(R.string.volumes),
@@ -226,14 +230,7 @@ fun CompactUserMediaListItemPreview() {
     MoeListTheme {
         Column {
             CompactUserMediaListItem(
-                imageUrl = null,
-                title = "This is a very very very very large anime or manga title",
-                score = null,
-                mediaStatus = "currently_airing",
-                userProgress = 4,
-                totalProgress = 12,
-                isVolumeProgress = true,
-                broadcast = Broadcast(WeekDay.SUNDAY, "12:00"),
+                item = exampleUserAnimeList,
                 listStatus = ListStatus.WATCHING,
                 onClick = { },
                 onLongClick = { },

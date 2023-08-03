@@ -26,11 +26,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.axiel7.moelist.R
-import com.axiel7.moelist.data.model.anime.Broadcast
+import com.axiel7.moelist.data.model.anime.AnimeNode
 import com.axiel7.moelist.data.model.anime.airingInString
+import com.axiel7.moelist.data.model.anime.exampleUserAnimeList
+import com.axiel7.moelist.data.model.manga.UserMangaList
+import com.axiel7.moelist.data.model.manga.isUsingVolumeProgress
+import com.axiel7.moelist.data.model.media.BaseMediaNode
+import com.axiel7.moelist.data.model.media.BaseUserMediaList
 import com.axiel7.moelist.data.model.media.ListStatus
-import com.axiel7.moelist.data.model.media.WeekDay
 import com.axiel7.moelist.data.model.media.isCurrent
+import com.axiel7.moelist.data.model.media.totalProgress
+import com.axiel7.moelist.data.model.media.userPreferredTitle
+import com.axiel7.moelist.data.model.media.userProgress
 import com.axiel7.moelist.uicompose.composables.defaultPlaceholder
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.Constants
@@ -39,19 +46,14 @@ import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrUnknown
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MinimalUserMediaListItem(
-    title: String,
-    score: Int?,
-    userProgress: Int?,
-    totalProgress: Int?,
-    isVolumeProgress: Boolean,
-    mediaStatus: String?,
-    broadcast: Broadcast?,
+    item: BaseUserMediaList<out BaseMediaNode>,
     listStatus: ListStatus,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
     onClickPlus: () -> Unit,
 ) {
-    val isAiring = remember { broadcast != null && mediaStatus == "currently_airing" }
+    val broadcast = remember { (item.node as? AnimeNode)?.broadcast }
+    val isAiring = remember { broadcast != null && item.node.status == "currently_airing" }
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -71,7 +73,7 @@ fun MinimalUserMediaListItem(
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = title,
+                    text = item.node.userPreferredTitle(),
                     color = MaterialTheme.colorScheme.onSurface,
                     fontSize = 16.sp,
                     lineHeight = 19.sp,
@@ -97,11 +99,13 @@ fun MinimalUserMediaListItem(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "${userProgress ?: 0}/${totalProgress.toStringPositiveValueOrUnknown()}",
+                            text = "${item.userProgress() ?: 0}/${
+                                item.totalProgress().toStringPositiveValueOrUnknown()
+                            }",
                             fontSize = 16.sp,
                             lineHeight = 19.sp,
                         )
-                        if (isVolumeProgress) {
+                        if ((item as? UserMangaList)?.listStatus?.isUsingVolumeProgress() == true) {
                             Icon(
                                 painter = painterResource(R.drawable.round_bookmark_24),
                                 contentDescription = stringResource(R.string.volumes),
@@ -116,7 +120,8 @@ fun MinimalUserMediaListItem(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = if ((score ?: 0) == 0) Constants.UNKNOWN_CHAR else "$score",
+                            text = if ((item.listStatus?.score ?: 0) == 0) Constants.UNKNOWN_CHAR
+                            else "${item.listStatus?.score}",
                             modifier = Modifier.padding(start = 8.dp, end = 2.dp),
                             color = MaterialTheme.colorScheme.secondary,
                             fontSize = 16.sp,
@@ -176,13 +181,7 @@ fun MinimalUserMediaListItemPreview() {
     MoeListTheme {
         Column {
             MinimalUserMediaListItem(
-                title = "This is a very very very very large anime or manga title",
-                score = null,
-                userProgress = 4,
-                totalProgress = 12,
-                isVolumeProgress = false,
-                mediaStatus = "currently_airing",
-                broadcast = Broadcast(WeekDay.SUNDAY, "12:00"),
+                item = exampleUserAnimeList,
                 listStatus = ListStatus.WATCHING,
                 onClick = { },
                 onLongClick = { },
