@@ -34,6 +34,8 @@ import com.axiel7.moelist.data.model.manga.isUsingVolumeProgress
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseUserMediaList
 import com.axiel7.moelist.data.model.media.ListStatus
+import com.axiel7.moelist.data.model.media.hasNotes
+import com.axiel7.moelist.data.model.media.hasRepeated
 import com.axiel7.moelist.data.model.media.isCurrent
 import com.axiel7.moelist.data.model.media.totalProgress
 import com.axiel7.moelist.data.model.media.userPreferredTitle
@@ -117,23 +119,45 @@ fun MinimalUserMediaListItem(
                     }
 
                     Row(
-                        verticalAlignment = Alignment.CenterVertically
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.Bottom
                     ) {
-                        Text(
-                            text = if ((item.listStatus?.score ?: 0) == 0) Constants.UNKNOWN_CHAR
-                            else "${item.listStatus?.score}",
-                            modifier = Modifier.padding(start = 8.dp, end = 2.dp),
-                            color = MaterialTheme.colorScheme.secondary,
-                            fontSize = 16.sp,
-                        )
-                        Icon(
-                            painter = painterResource(R.drawable.ic_round_star_16),
-                            contentDescription = "star",
-                            modifier = Modifier.padding(end = 16.dp),
-                            tint = MaterialTheme.colorScheme.secondary
-                        )
+                        if (item.listStatus?.hasRepeated() == true) {
+                            Icon(
+                                painter = painterResource(R.drawable.round_repeat_24),
+                                contentDescription = stringResource(R.string.rewatching),
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
+
+                        if (item.listStatus?.hasNotes() == true) {
+                            Icon(
+                                painter = painterResource(R.drawable.round_notes_24),
+                                contentDescription = stringResource(R.string.notes),
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = if ((item.listStatus?.score
+                                        ?: 0) == 0
+                                ) Constants.UNKNOWN_CHAR
+                                else "${item.listStatus?.score}",
+                                modifier = Modifier.padding(start = 8.dp, end = 2.dp),
+                                color = MaterialTheme.colorScheme.secondary,
+                                fontSize = 16.sp,
+                            )
+                            Icon(
+                                painter = painterResource(R.drawable.ic_round_star_16),
+                                contentDescription = "star",
+                                modifier = Modifier.padding(end = 16.dp),
+                                tint = MaterialTheme.colorScheme.secondary
+                            )
+                        }
                     }
-                }
+                }//:Row
             }//:Column
 
             if (listStatus.isCurrent()) {

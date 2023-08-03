@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.BaseResponse
+import com.axiel7.moelist.utils.NumExtensions.isGreaterThanZero
 
 abstract class BaseMyListStatus : BaseResponse() {
     abstract val status: ListStatus
@@ -57,3 +58,7 @@ fun Int.repeatValueLocalized() = when (this) {
     5 -> stringResource(R.string.very_high_value)
     else -> stringResource(R.string.unknown)
 }
+
+fun BaseMyListStatus.hasRepeated() = isRepeating || repeatCount.isGreaterThanZero()
+
+fun BaseMyListStatus.hasNotes() = !comments.isNullOrBlank() || !tags.isNullOrEmpty()

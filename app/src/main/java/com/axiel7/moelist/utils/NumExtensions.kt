@@ -29,6 +29,8 @@ object NumExtensions {
     fun Int?.toStringPositiveValueOrUnknown() =
         if (this == 0) Constants.UNKNOWN_CHAR else this.toStringOrUnknown()
 
+    fun Int?.isGreaterThanZero() = this != null && this > 0
+
     fun Float?.toStringOrZero() = this?.toString() ?: "0.0"
 
     fun Float?.toStringOrUnknown() = this?.toString() ?: Constants.UNKNOWN_CHAR

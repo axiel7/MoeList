@@ -43,6 +43,8 @@ import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseUserMediaList
 import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.data.model.media.calculateProgressBarValue
+import com.axiel7.moelist.data.model.media.hasNotes
+import com.axiel7.moelist.data.model.media.hasRepeated
 import com.axiel7.moelist.data.model.media.isCurrent
 import com.axiel7.moelist.data.model.media.mediaFormatLocalized
 import com.axiel7.moelist.data.model.media.totalProgress
@@ -165,12 +167,33 @@ fun StandardUserMediaListItem(
                             }
                         }
 
-                        if (listStatus.isCurrent()) {
-                            OutlinedButton(onClick = onClickPlus) {
-                                Text(text = stringResource(R.string.plus_one))
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            verticalAlignment = Alignment.Bottom
+                        ) {
+                            if (item.listStatus?.hasRepeated() == true) {
+                                Icon(
+                                    painter = painterResource(R.drawable.round_repeat_24),
+                                    contentDescription = stringResource(R.string.rewatching),
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+
+                            if (item.listStatus?.hasNotes() == true) {
+                                Icon(
+                                    painter = painterResource(R.drawable.round_notes_24),
+                                    contentDescription = stringResource(R.string.notes),
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+
+                            if (listStatus.isCurrent()) {
+                                OutlinedButton(onClick = onClickPlus) {
+                                    Text(text = stringResource(R.string.plus_one))
+                                }
                             }
                         }
-                    }
+                    }//:Row
 
                     LinearProgressIndicator(
                         progress = calculateProgressBarValue(userProgress, totalProgress),
