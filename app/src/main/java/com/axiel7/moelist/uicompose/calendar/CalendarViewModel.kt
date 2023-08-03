@@ -8,7 +8,6 @@ import com.axiel7.moelist.App
 import com.axiel7.moelist.data.model.ApiParams
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.media.MediaSort
-import com.axiel7.moelist.data.model.media.numeric
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.uicompose.base.BaseViewModel
 import com.axiel7.moelist.utils.SeasonCalendar
@@ -50,7 +49,7 @@ class CalendarViewModel : BaseViewModel() {
             } else {
                 result.data.forEach { anime ->
                     anime.node.broadcast?.dayOfTheWeek?.let { day ->
-                        weekAnime[day.numeric() - 1].add(anime)
+                        weekAnime[day.numeric - 1].add(anime)
                     }
                 }
                 weekAnime = weekAnime.copyOf()

@@ -15,8 +15,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.axiel7.moelist.data.model.anime.AnimeRanking
-import com.axiel7.moelist.data.model.anime.airingInString
-import com.axiel7.moelist.data.model.media.userPreferredTitle
 import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_SMALL_HEIGHT
 import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_SMALL_WIDTH
 import com.axiel7.moelist.uicompose.composables.media.MediaPoster

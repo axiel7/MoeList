@@ -46,11 +46,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.axiel7.moelist.data.model.media.ListStatus
+import com.axiel7.moelist.data.model.media.ListStatus.Companion.listStatusValues
 import com.axiel7.moelist.data.model.media.ListType
 import com.axiel7.moelist.data.model.media.MediaType
-import com.axiel7.moelist.data.model.media.icon
-import com.axiel7.moelist.data.model.media.listStatusValues
-import com.axiel7.moelist.data.model.media.localized
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import kotlinx.coroutines.launch
 
@@ -108,7 +106,7 @@ fun UserMediaListWithFabView(
                     onClick = { scope.launch { statusSheetState.show() } }
                 ) {
                     Icon(
-                        painter = painterResource(selectedStatus.value.icon()),
+                        painter = painterResource(selectedStatus.value.icon),
                         contentDescription = "status",
                         modifier = Modifier.padding(end = 8.dp)
                     )
@@ -162,7 +160,7 @@ fun ListStatusSheet(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
-                        painter = painterResource(it.icon()),
+                        painter = painterResource(it.icon),
                         contentDescription = "check",
                         tint = if (isSelected) MaterialTheme.colorScheme.primary
                         else MaterialTheme.colorScheme.onSurfaceVariant

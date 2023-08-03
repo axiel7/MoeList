@@ -36,12 +36,6 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.WeekDay
-import com.axiel7.moelist.data.model.media.durationText
-import com.axiel7.moelist.data.model.media.localized
-import com.axiel7.moelist.data.model.media.mediaFormatLocalized
-import com.axiel7.moelist.data.model.media.numeric
-import com.axiel7.moelist.data.model.media.totalDuration
-import com.axiel7.moelist.data.model.media.userPreferredTitle
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.uicompose.composables.RoundedTabRowIndicator
 import com.axiel7.moelist.uicompose.composables.media.MediaItemDetailed
@@ -65,7 +59,7 @@ fun CalendarView(
     val context = LocalContext.current
     val viewModel: CalendarViewModel = viewModel()
     val pagerState = rememberPagerState(
-        initialPage = SeasonCalendar.currentWeekday.numeric() - 1,
+        initialPage = SeasonCalendar.currentWeekday.numeric - 1,
         pageCount = { WeekDay.values().size }
     )
     val coroutineScope = rememberCoroutineScope()
@@ -90,7 +84,7 @@ fun CalendarView(
             subtitle1 = {
                 Text(
                     text = buildString {
-                        append(item.node.mediaType?.mediaFormatLocalized())
+                        append(item.node.mediaType?.localized())
                         if (item.node.totalDuration()
                                 .toStringPositiveValueOrNull() != null
                         ) {

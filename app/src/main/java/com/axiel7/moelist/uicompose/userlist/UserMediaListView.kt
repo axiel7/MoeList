@@ -50,13 +50,10 @@ import com.axiel7.moelist.data.datastore.PreferencesDataStore.USE_GENERAL_LIST_S
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.rememberPreference
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
 import com.axiel7.moelist.data.model.manga.UserMangaList
-import com.axiel7.moelist.data.model.manga.isUsingVolumeProgress
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseUserMediaList
 import com.axiel7.moelist.data.model.media.ListType
 import com.axiel7.moelist.data.model.media.MediaType
-import com.axiel7.moelist.data.model.media.localized
-import com.axiel7.moelist.data.model.media.totalProgress
 import com.axiel7.moelist.uicompose.base.ListStyle
 import com.axiel7.moelist.uicompose.composables.OnBottomReached
 import com.axiel7.moelist.uicompose.composables.collapsable

@@ -26,10 +26,6 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.BaseRanking
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.RankingType
-import com.axiel7.moelist.data.model.media.durationText
-import com.axiel7.moelist.data.model.media.mediaFormatLocalized
-import com.axiel7.moelist.data.model.media.totalDuration
-import com.axiel7.moelist.data.model.media.userPreferredTitle
 import com.axiel7.moelist.uicompose.composables.OnBottomReached
 import com.axiel7.moelist.uicompose.composables.media.MediaItemDetailed
 import com.axiel7.moelist.uicompose.composables.media.MediaItemDetailedPlaceholder
@@ -46,7 +42,7 @@ fun MediaRankingListView(
     navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
     val context = LocalContext.current
-    val viewModel: MediaRankingViewModel = viewModel(key = rankingType.value) {
+    val viewModel: MediaRankingViewModel = viewModel(key = rankingType.name) {
         MediaRankingViewModel(mediaType, rankingType)
     }
     val shouldShowPlaceholder = viewModel.mediaList.isEmpty() && viewModel.isLoading
@@ -83,7 +79,7 @@ fun MediaRankingListView(
             subtitle1 = {
                 Text(
                     text = buildString {
-                        append(item.node.mediaType?.mediaFormatLocalized())
+                        append(item.node.mediaType?.localized())
                         if (item.node.totalDuration().toStringPositiveValueOrNull() != null) {
                             append(" (${item.node.durationText()})")
                         }

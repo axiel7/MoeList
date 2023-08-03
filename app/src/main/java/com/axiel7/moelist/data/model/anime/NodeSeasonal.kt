@@ -3,6 +3,8 @@ package com.axiel7.moelist.data.model.anime
 import com.axiel7.moelist.data.model.media.AlternativeTitles
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.MainPicture
+import com.axiel7.moelist.data.model.media.MediaFormat
+import com.axiel7.moelist.data.model.media.MediaStatus
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -21,11 +23,11 @@ data class NodeSeasonal(
     @SerialName("num_episodes")
     val numEpisodes: Int? = null,
     @SerialName("media_type")
-    override val mediaType: String? = null,
+    override val mediaType: MediaFormat? = null,
     @SerialName("start_season")
     val startSeason: StartSeason? = null,
     @SerialName("status")
-    override val status: String? = null,
+    override val status: MediaStatus? = null,
     @SerialName("mean")
     override val mean: Float? = null,
 ) : BaseMediaNode()

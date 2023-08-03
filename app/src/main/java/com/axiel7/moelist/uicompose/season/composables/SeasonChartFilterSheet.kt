@@ -24,8 +24,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.Season
-import com.axiel7.moelist.data.model.anime.icon
-import com.axiel7.moelist.data.model.anime.localized
 import com.axiel7.moelist.uicompose.composables.SelectableIconToggleButton
 import com.axiel7.moelist.uicompose.season.SeasonChartViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -79,7 +77,7 @@ fun SeasonChartFilterSheet(
             ) {
                 Season.values().forEach { season ->
                     SelectableIconToggleButton(
-                        icon = season.icon(),
+                        icon = season.icon,
                         tooltipText = season.localized(),
                         value = season,
                         selectedValue = viewModel.season.season,

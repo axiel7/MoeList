@@ -27,9 +27,7 @@ import com.axiel7.moelist.data.datastore.PreferencesDataStore.TITLE_LANG_PREFERE
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.defaultPreferencesDataStore
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.getValueSync
 import com.axiel7.moelist.data.model.anime.AnimeNode
-import com.axiel7.moelist.data.model.anime.nextAiringDayFormatted
 import com.axiel7.moelist.data.model.media.TitleLanguage
-import com.axiel7.moelist.data.model.media.title
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.uicompose.main.MainActivity
 import com.axiel7.moelist.uicompose.theme.AppWidgetColumn

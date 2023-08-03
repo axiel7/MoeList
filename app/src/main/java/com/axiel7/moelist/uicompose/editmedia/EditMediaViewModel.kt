@@ -12,9 +12,6 @@ import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseMyListStatus
 import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.data.model.media.MediaType
-import com.axiel7.moelist.data.model.media.isCurrent
-import com.axiel7.moelist.data.model.media.isPlanning
-import com.axiel7.moelist.data.model.media.totalDuration
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.data.repository.MangaRepository
 import com.axiel7.moelist.uicompose.base.BaseMediaViewModel

@@ -24,9 +24,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
-import com.axiel7.moelist.data.model.media.localized
-import com.axiel7.moelist.data.model.media.rankingAnimeValues
-import com.axiel7.moelist.data.model.media.rankingMangaValues
+import com.axiel7.moelist.data.model.media.RankingType.Companion.rankingAnimeValues
+import com.axiel7.moelist.data.model.media.RankingType.Companion.rankingMangaValues
 import com.axiel7.moelist.uicompose.base.TabRowItem
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.uicompose.composables.RoundedTabRowIndicator
@@ -48,7 +47,7 @@ fun MediaRankingView(
     val tabRowItems = remember {
         (if (mediaType == MediaType.ANIME) rankingAnimeValues else rankingMangaValues)
             .map {
-                TabRowItem(value = it, title = it.value)
+                TabRowItem(value = it, title = it.name)
             }
     }
     val pagerState = rememberPagerState { tabRowItems.size }

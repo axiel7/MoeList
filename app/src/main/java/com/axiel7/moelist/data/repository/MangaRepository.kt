@@ -14,7 +14,8 @@ import io.ktor.http.HttpStatusCode
 
 object MangaRepository {
 
-    const val LIST_STATUS_FIELDS = "num_times_reread,is_rereading,reread_value,priority,tags,comments"
+    const val LIST_STATUS_FIELDS =
+        "num_times_reread,is_rereading,reread_value,priority,tags,comments"
 
     const val MANGA_DETAILS_FIELDS =
         "id,title,main_picture,pictures,alternative_titles,start_date,end_date," +
@@ -118,8 +119,9 @@ object MangaRepository {
         page: String? = null
     ): Response<List<MangaRanking>>? {
         return try {
-            val result = if (page == null) App.api.getMangaRanking(apiParams, rankingType.value)
-            else App.api.getMangaRanking(page)
+            val result =
+                if (page == null) App.api.getMangaRanking(apiParams, rankingType.serialName)
+                else App.api.getMangaRanking(page)
             result.error?.let { BaseRepository.handleResponseError(it) }
             return result
         } catch (e: Exception) {

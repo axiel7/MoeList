@@ -9,8 +9,8 @@ import androidx.lifecycle.viewModelScope
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.PROFILE_PICTURE_PREFERENCE_KEY
-import com.axiel7.moelist.data.model.MangaStats
 import com.axiel7.moelist.data.model.User
+import com.axiel7.moelist.data.model.UserStats
 import com.axiel7.moelist.data.model.media.Stat
 import com.axiel7.moelist.data.repository.UserRepository
 import com.axiel7.moelist.uicompose.base.BaseViewModel
@@ -142,7 +142,7 @@ class ProfileViewModel : BaseViewModel() {
             ),
         )
     )
-    var userMangaStats by mutableStateOf<MangaStats?>(null)
+    var userMangaStats by mutableStateOf<UserStats.MangaStats?>(null)
 
     private suspend fun getUserMangaStats() {
         if (user?.name == null) return

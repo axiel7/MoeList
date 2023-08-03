@@ -21,10 +21,9 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.axiel7.moelist.R
+import com.axiel7.moelist.data.model.media.MediaSort.Companion.animeListSortItems
+import com.axiel7.moelist.data.model.media.MediaSort.Companion.mangaListSortItems
 import com.axiel7.moelist.data.model.media.MediaType
-import com.axiel7.moelist.data.model.media.animeListSortItems
-import com.axiel7.moelist.data.model.media.localized
-import com.axiel7.moelist.data.model.media.mangaListSortItems
 import com.axiel7.moelist.uicompose.userlist.UserMediaListViewModel
 
 @Composable

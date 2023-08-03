@@ -8,8 +8,9 @@ import com.axiel7.moelist.data.model.media.AlternativeTitles
 import com.axiel7.moelist.data.model.media.BaseMediaDetails
 import com.axiel7.moelist.data.model.media.Genre
 import com.axiel7.moelist.data.model.media.MainPicture
+import com.axiel7.moelist.data.model.media.MediaFormat
+import com.axiel7.moelist.data.model.media.MediaStatus
 import com.axiel7.moelist.data.model.media.Statistics
-import com.axiel7.moelist.data.model.media.localized
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.time.DurationUnit
@@ -41,8 +42,8 @@ data class AnimeDetails(
     @SerialName("updated_at")
     override val updatedAt: String? = null,
     @SerialName("media_type")
-    override val mediaType: String? = null,
-    override val status: String? = null,
+    override val mediaType: MediaFormat? = null,
+    override val status: MediaStatus? = null,
     override val genres: List<Genre>? = null,
     override val pictures: List<MainPicture>? = null,
     override val background: String? = null,
@@ -60,7 +61,7 @@ data class AnimeDetails(
     @SerialName("broadcast")
     val broadcast: Broadcast? = null,
     @SerialName("source")
-    val source: String? = null,
+    val source: AnimeSource? = null,
     @SerialName("average_episode_duration")
     val averageEpisodeDuration: Int? = null,
     @SerialName("rating")
@@ -73,62 +74,33 @@ data class AnimeDetails(
     val endingThemes: List<Theme>? = null,
     @SerialName("statistics")
     val statistics: Statistics? = null,
-) : BaseMediaDetails()
+) : BaseMediaDetails() {
 
-fun AnimeDetails.toAnimeNode() = AnimeNode(
-    id = id,
-    title = title ?: "",
-    alternativeTitles = alternativeTitles,
-    mainPicture = mainPicture,
-    startSeason = startSeason,
-    numEpisodes = numEpisodes,
-    numListUsers = numListUsers,
-    mediaType = mediaType,
-    status = status,
-    mean = mean,
-)
+    fun toAnimeNode() = AnimeNode(
+        id = id,
+        title = title ?: "",
+        alternativeTitles = alternativeTitles,
+        mainPicture = mainPicture,
+        startSeason = startSeason,
+        numEpisodes = numEpisodes,
+        numListUsers = numListUsers,
+        mediaType = mediaType,
+        status = status,
+        mean = mean,
+    )
 
-@Composable
-fun AnimeDetails.sourceLocalized() = when (this.source) {
-    "original" -> stringResource(R.string.original)
-    "manga" -> stringResource(R.string.manga)
-    "novel" -> stringResource(R.string.novel)
-    "light_novel" -> stringResource(R.string.light_novel)
-    "visual_novel" -> stringResource(R.string.visual_novel)
-    "game" -> stringResource(R.string.game)
-    "web_manga" -> stringResource(R.string.web_manga)
-    "music" -> stringResource(R.string.music)
-    "4_koma_manga" -> "4-Koma ${stringResource(R.string.manga)}"
-    else -> this.source
-}
-
-@Composable
-fun AnimeDetails.broadcastTimeText() = buildString {
-    if (broadcast?.dayOfTheWeek != null) {
-        append(broadcast.dayOfTheWeek.localized())
-        append(" ")
-        if (broadcast.startTime != null) {
-            append(broadcast.startTime)
-            append(" (JST)")
-            val airingIn = broadcast.airingInString()
-            if (airingIn.isNotEmpty()) {
-                append("\n$airingIn")
+    @Composable
+    fun episodeDurationLocalized() = when {
+        averageEpisodeDuration == null || averageEpisodeDuration <= 0 -> stringResource(R.string.unknown)
+        averageEpisodeDuration > 3600 -> {
+            val duration = averageEpisodeDuration.toDuration(DurationUnit.SECONDS)
+            duration.toComponents { hours, minutes, _, _ ->
+                "$hours ${stringResource(R.string.hour_abbreviation)} $minutes ${stringResource(R.string.minutes_abbreviation)}"
             }
         }
-    } else append(stringResource(R.string.unknown))
-}
-
-@Composable
-fun AnimeDetails.episodeDurationLocalized() = when {
-    averageEpisodeDuration == null || averageEpisodeDuration <= 0 -> stringResource(R.string.unknown)
-    averageEpisodeDuration > 3600 -> {
-        val duration = averageEpisodeDuration.toDuration(DurationUnit.SECONDS)
-        duration.toComponents { hours, minutes, _, _ ->
-            "$hours ${stringResource(R.string.hour_abbreviation)} $minutes ${stringResource(R.string.minutes_abbreviation)}"
-        }
+        averageEpisodeDuration == 3600 -> "1 ${stringResource(R.string.hour_abbreviation)}"
+        averageEpisodeDuration >= 60 -> "${averageEpisodeDuration / 60} ${stringResource(R.string.minutes_abbreviation)}"
+        averageEpisodeDuration < 60 -> "<1 ${stringResource(R.string.minutes_abbreviation)}"
+        else -> stringResource(R.string.unknown)
     }
-    averageEpisodeDuration == 3600 -> "1 ${stringResource(R.string.hour_abbreviation)}"
-    averageEpisodeDuration >= 60 -> "${averageEpisodeDuration / 60} ${stringResource(R.string.minutes_abbreviation)}"
-    averageEpisodeDuration < 60 -> "<1 ${stringResource(R.string.minutes_abbreviation)}"
-    else -> stringResource(R.string.unknown)
 }

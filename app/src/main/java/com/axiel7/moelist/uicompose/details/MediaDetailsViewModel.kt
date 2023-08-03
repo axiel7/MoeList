@@ -9,11 +9,9 @@ import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
 import com.axiel7.moelist.data.model.anime.Recommendations
 import com.axiel7.moelist.data.model.anime.RelatedAnime
-import com.axiel7.moelist.data.model.anime.toAnimeNode
 import com.axiel7.moelist.data.model.manga.MangaDetails
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
 import com.axiel7.moelist.data.model.manga.RelatedManga
-import com.axiel7.moelist.data.model.manga.toMangaNode
 import com.axiel7.moelist.data.model.media.BaseMediaDetails
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseMyListStatus

@@ -12,9 +12,9 @@ import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
 import com.axiel7.moelist.data.model.anime.Season
 import com.axiel7.moelist.data.model.anime.UserAnimeList
-import com.axiel7.moelist.data.model.anime.secondsUntilNextBroadcast
 import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.data.model.media.MediaSort
+import com.axiel7.moelist.data.model.media.MediaStatus
 import com.axiel7.moelist.data.model.media.RankingType
 import com.axiel7.moelist.data.network.Api
 import com.axiel7.moelist.data.network.KtorClient
@@ -65,7 +65,8 @@ object AnimeRepository {
         }
     }
 
-    const val LIST_STATUS_FIELDS = "num_times_rewatched,is_rewatching,rewatch_value,priority,tags,comments"
+    const val LIST_STATUS_FIELDS =
+        "num_times_rewatched,is_rewatching,rewatch_value,priority,tags,comments"
 
     const val ANIME_DETAILS_FIELDS =
         "id,title,main_picture,pictures,alternative_titles,start_date,end_date," +
@@ -174,8 +175,9 @@ object AnimeRepository {
         page: String? = null
     ): Response<List<AnimeRanking>>? {
         return try {
-            val result = if (page == null) App.api.getAnimeRanking(apiParams, rankingType.value)
-            else App.api.getAnimeRanking(page)
+            val result =
+                if (page == null) App.api.getAnimeRanking(apiParams, rankingType.serialName)
+                else App.api.getAnimeRanking(page)
             result.error?.let { BaseRepository.handleResponseError(it) }
             return result
         } catch (e: Exception) {
@@ -210,7 +212,7 @@ object AnimeRepository {
             )
 
             return result.data?.map { it.node }
-                ?.filter { it.broadcast != null && it.status == "currently_airing" }
+                ?.filter { it.broadcast != null && it.status == MediaStatus.AIRING }
                 ?.sortedBy { it.broadcast!!.secondsUntilNextBroadcast() }
         } catch (e: Exception) {
             null

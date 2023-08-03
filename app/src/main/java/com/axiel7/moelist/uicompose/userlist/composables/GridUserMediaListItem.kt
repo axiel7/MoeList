@@ -35,15 +35,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeNode
-import com.axiel7.moelist.data.model.anime.airingInShortString
 import com.axiel7.moelist.data.model.anime.exampleUserAnimeList
 import com.axiel7.moelist.data.model.manga.UserMangaList
-import com.axiel7.moelist.data.model.manga.isUsingVolumeProgress
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseUserMediaList
-import com.axiel7.moelist.data.model.media.totalProgress
-import com.axiel7.moelist.data.model.media.userPreferredTitle
-import com.axiel7.moelist.data.model.media.userProgress
+import com.axiel7.moelist.data.model.media.MediaStatus
 import com.axiel7.moelist.uicompose.composables.defaultPlaceholder
 import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_MEDIUM_HEIGHT
 import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_MEDIUM_WIDTH
@@ -60,7 +56,7 @@ fun GridUserMediaListItem(
     onLongClick: () -> Unit,
 ) {
     val broadcast = remember { (item.node as? AnimeNode)?.broadcast }
-    val isAiring = remember { broadcast != null && item.node.status == "currently_airing" }
+    val isAiring = remember { broadcast != null && item.node.status == MediaStatus.AIRING }
     Card(
         modifier = Modifier
             .fillMaxWidth()

@@ -32,8 +32,8 @@ abstract class BaseMediaDetails : BaseResponse() {
     abstract val nsfw: String?
     abstract val createdAt: String?
     abstract val updatedAt: String?
-    abstract val mediaType: String?
-    abstract val status: String?
+    abstract val mediaType: MediaFormat?
+    abstract val status: MediaStatus?
     abstract val genres: List<Genre>?
     abstract val pictures: List<MainPicture>?
     abstract val background: String?
@@ -45,97 +45,57 @@ abstract class BaseMediaDetails : BaseResponse() {
 
     override val error: String? = null
     override val message: String? = null
-}
 
-fun BaseMediaDetails.userPreferredTitle() = title(App.titleLanguage)
+    fun userPreferredTitle() = title(App.titleLanguage)
 
-fun BaseMediaDetails.title(language: TitleLanguage) = when (language) {
-    TitleLanguage.ROMAJI -> title
-    TitleLanguage.ENGLISH ->
-        if (alternativeTitles?.en.isNullOrBlank()) title
-        else alternativeTitles?.en ?: title
+    fun title(language: TitleLanguage) = when (language) {
+        TitleLanguage.ROMAJI -> title
+        TitleLanguage.ENGLISH ->
+            if (alternativeTitles?.en.isNullOrBlank()) title
+            else alternativeTitles?.en ?: title
 
-    TitleLanguage.JAPANESE ->
-        if (alternativeTitles?.ja.isNullOrBlank()) title
-        else alternativeTitles?.ja ?: title
-}
-
-@Composable
-fun BaseMediaDetails.durationText() = when (this) {
-    is AnimeDetails -> {
-        val stringValue = numEpisodes.toStringPositiveValueOrNull()
-        if (stringValue == null) stringResource(R.string.unknown)
-        else "$stringValue ${stringResource(R.string.episodes)}"
+        TitleLanguage.JAPANESE ->
+            if (alternativeTitles?.ja.isNullOrBlank()) title
+            else alternativeTitles?.ja ?: title
     }
 
-    is MangaDetails -> {
-        val stringValue = numChapters.toStringPositiveValueOrNull()
-        if (stringValue == null) stringResource(R.string.unknown)
-        else "$stringValue ${stringResource(R.string.chapters)}"
-    }
-
-    else -> stringResource(R.string.unknown)
-}
-
-/**
- * @return the total num of episodes or chapters
- */
-fun BaseMediaDetails.totalDuration() = when (this) {
-    is AnimeDetails -> numEpisodes
-    is MangaDetails -> numChapters
-    else -> null
-}
-
-@Composable
-fun String.mediaFormatLocalized() = when (this) {
-    "tv" -> stringResource(R.string.tv)
-    "ova" -> stringResource(R.string.ova)
-    "ona" -> stringResource(R.string.ona)
-    "movie" -> stringResource(R.string.movie)
-    "special" -> stringResource(R.string.special)
-    "music" -> stringResource(R.string.music)
-    "unknown" -> stringResource(R.string.unknown)
-    "manga" -> stringResource(R.string.manga)
-    "one_shot" -> stringResource(R.string.one_shot)
-    "manhwa" -> stringResource(R.string.manhwa)
-    "manhua" -> stringResource(R.string.manhua)
-    "novel" -> stringResource(R.string.novel)
-    "light_novel" -> stringResource(R.string.light_novel)
-    "doujinshi" -> stringResource(R.string.doujinshi)
-    else -> this
-}
-
-@Composable
-fun String.statusLocalized() = when (this) {
-    "currently_airing" -> stringResource(R.string.airing)
-    "finished_airing" -> stringResource(R.string.finished)
-    "not_yet_aired" -> stringResource(R.string.not_yet_aired)
-    "currently_publishing" -> stringResource(R.string.publishing)
-    "finished" -> stringResource(R.string.finished)
-    "on_hiatus" -> stringResource(R.string.on_hiatus)
-    "discontinued" -> stringResource(R.string.discontinued)
-    else -> this
-}
-
-@Composable
-fun BaseMediaDetails.rankText() = if (rank == null) "N/A" else "#$rank"
-
-@Composable
-fun BaseMediaDetails.synonymsJoined(): String? {
-    val joined = alternativeTitles?.synonyms?.joinToString(",\n")
-    return if (joined?.isNotBlank() == true) joined
-    else null
-}
-
-@Composable
-fun BaseMediaDetails.synopsisAndBackground() = buildAnnotatedString {
-    val hasSynopsis = !synopsis.isNullOrBlank()
-    if (hasSynopsis) append(synopsis)
-    if (!background.isNullOrBlank()) {
-        if (hasSynopsis) append("\n\n")
-        withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
-            append(stringResource(R.string.synopsis_background))
+    @Composable
+    fun durationText() = when (this) {
+        is AnimeDetails -> {
+            val stringValue = numEpisodes.toStringPositiveValueOrNull()
+            if (stringValue == null) stringResource(R.string.unknown)
+            else "$stringValue ${stringResource(R.string.episodes)}"
         }
-        append("\n$background")
+
+        is MangaDetails -> {
+            val stringValue = numChapters.toStringPositiveValueOrNull()
+            if (stringValue == null) stringResource(R.string.unknown)
+            else "$stringValue ${stringResource(R.string.chapters)}"
+        }
+
+        else -> stringResource(R.string.unknown)
+    }
+
+    @Composable
+    fun rankText() = if (rank == null) "N/A" else "#$rank"
+
+    @Composable
+    fun synonymsJoined(): String? {
+        val joined = alternativeTitles?.synonyms?.joinToString(",\n")
+        return if (joined?.isNotBlank() == true) joined
+        else null
+    }
+
+    @Composable
+    fun synopsisAndBackground() = buildAnnotatedString {
+        val hasSynopsis = !synopsis.isNullOrBlank()
+        if (hasSynopsis) append(synopsis)
+        if (!background.isNullOrBlank()) {
+            if (hasSynopsis) append("\n\n")
+            withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                append(stringResource(R.string.synopsis_background))
+            }
+            append("\n$background")
+        }
     }
 }

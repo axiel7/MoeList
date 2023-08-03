@@ -22,6 +22,10 @@ abstract class BaseMyListStatus : BaseResponse() {
 
     override val error: String? = null
     override val message: String? = null
+
+    fun hasRepeated() = isRepeating || repeatCount.isGreaterThanZero()
+
+    fun hasNotes() = !comments.isNullOrBlank() || !tags.isNullOrEmpty()
 }
 
 @Composable
@@ -58,7 +62,3 @@ fun Int.repeatValueLocalized() = when (this) {
     5 -> stringResource(R.string.very_high_value)
     else -> stringResource(R.string.unknown)
 }
-
-fun BaseMyListStatus.hasRepeated() = isRepeating || repeatCount.isGreaterThanZero()
-
-fun BaseMyListStatus.hasNotes() = !comments.isNullOrBlank() || !tags.isNullOrEmpty()

@@ -3,50 +3,65 @@ package com.axiel7.moelist.data.model.media
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
+import com.axiel7.moelist.data.model.base.Localizable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-enum class WeekDay(val value: String) {
+enum class WeekDay(
+    val value: String,
+    val numeric: Int
+) : Localizable {
     @SerialName("monday")
-    MONDAY("monday"),
+    MONDAY(
+        value = "monday",
+        numeric = 1
+    ),
 
     @SerialName("tuesday")
-    TUESDAY("tuesday"),
+    TUESDAY(
+        value  = "tuesday",
+        numeric = 2
+    ),
 
     @SerialName("wednesday")
-    WEDNESDAY("wednesday"),
+    WEDNESDAY(
+        value = "wednesday",
+        numeric = 3
+    ),
 
     @SerialName("thursday")
-    THURSDAY("thursday"),
+    THURSDAY(
+        value = "thursday",
+        numeric = 4
+    ),
 
     @SerialName("friday")
-    FRIDAY("friday"),
+    FRIDAY(
+        value = "friday",
+        numeric = 5
+    ),
 
     @SerialName("saturday")
-    SATURDAY("saturday"),
+    SATURDAY(
+        value = "saturday",
+        numeric = 6
+    ),
 
     @SerialName("sunday")
-    SUNDAY("sunday")
-}
+    SUNDAY(
+        value = "sunday",
+        numeric = 7
+    );
 
-fun WeekDay.numeric() = when (this) {
-    WeekDay.MONDAY -> 1
-    WeekDay.TUESDAY -> 2
-    WeekDay.WEDNESDAY -> 3
-    WeekDay.THURSDAY -> 4
-    WeekDay.FRIDAY -> 5
-    WeekDay.SATURDAY -> 6
-    WeekDay.SUNDAY -> 7
-}
-
-@Composable
-fun WeekDay.localized() = when (this) {
-    WeekDay.MONDAY -> stringResource(R.string.monday)
-    WeekDay.TUESDAY -> stringResource(R.string.tuesday)
-    WeekDay.WEDNESDAY -> stringResource(R.string.wednesday)
-    WeekDay.THURSDAY -> stringResource(R.string.thursday)
-    WeekDay.FRIDAY -> stringResource(R.string.friday)
-    WeekDay.SATURDAY -> stringResource(R.string.saturday)
-    WeekDay.SUNDAY -> stringResource(R.string.sunday)
+    @Composable
+    override fun localized() = when (this) {
+        MONDAY -> stringResource(R.string.monday)
+        TUESDAY -> stringResource(R.string.tuesday)
+        WEDNESDAY -> stringResource(R.string.wednesday)
+        THURSDAY -> stringResource(R.string.thursday)
+        FRIDAY -> stringResource(R.string.friday)
+        SATURDAY -> stringResource(R.string.saturday)
+        SUNDAY -> stringResource(R.string.sunday)
+    }
 }

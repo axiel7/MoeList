@@ -35,20 +35,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeNode
-import com.axiel7.moelist.data.model.anime.airingInString
 import com.axiel7.moelist.data.model.anime.exampleUserAnimeList
 import com.axiel7.moelist.data.model.manga.UserMangaList
-import com.axiel7.moelist.data.model.manga.isUsingVolumeProgress
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseUserMediaList
 import com.axiel7.moelist.data.model.media.ListStatus
-import com.axiel7.moelist.data.model.media.calculateProgressBarValue
-import com.axiel7.moelist.data.model.media.hasNotes
-import com.axiel7.moelist.data.model.media.hasRepeated
-import com.axiel7.moelist.data.model.media.isCurrent
-import com.axiel7.moelist.data.model.media.mediaFormatLocalized
-import com.axiel7.moelist.data.model.media.totalProgress
-import com.axiel7.moelist.data.model.media.userPreferredTitle
+import com.axiel7.moelist.data.model.media.MediaStatus
 import com.axiel7.moelist.uicompose.composables.defaultPlaceholder
 import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_SMALL_HEIGHT
 import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_SMALL_WIDTH
@@ -69,7 +61,7 @@ fun StandardUserMediaListItem(
     val totalProgress = remember { item.totalProgress() }
     val userProgress = remember { item.totalProgress() }
     val broadcast = remember { (item.node as? AnimeNode)?.broadcast }
-    val isAiring = remember { broadcast != null && item.node.status == "currently_airing" }
+    val isAiring = remember { broadcast != null && item.node.status == MediaStatus.AIRING }
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -135,7 +127,7 @@ fun StandardUserMediaListItem(
                     )
                     Text(
                         text = if (isAiring) broadcast!!.airingInString()
-                        else item.node.mediaType?.mediaFormatLocalized() ?: "",
+                        else item.node.mediaType?.localized() ?: "",
                         modifier = Modifier.padding(horizontal = 16.dp),
                         color = if (isAiring) MaterialTheme.colorScheme.primary
                         else MaterialTheme.colorScheme.onSurface
@@ -196,7 +188,7 @@ fun StandardUserMediaListItem(
                     }//:Row
 
                     LinearProgressIndicator(
-                        progress = calculateProgressBarValue(userProgress, totalProgress),
+                        progress = item.calculateProgressBarValue(),
                         modifier = Modifier.fillMaxWidth(),
                         color = MaterialTheme.colorScheme.primary,
                         trackColor = MaterialTheme.colorScheme.surfaceColorAtElevation(94.dp),

@@ -15,12 +15,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.rememberPreference
+import com.axiel7.moelist.data.model.media.ListStatus.Companion.listStatusAnimeValues
+import com.axiel7.moelist.data.model.media.ListStatus.Companion.listStatusMangaValues
 import com.axiel7.moelist.data.model.media.ListType
 import com.axiel7.moelist.data.model.media.MediaType
-import com.axiel7.moelist.data.model.media.icon
-import com.axiel7.moelist.data.model.media.listStatusAnimeValues
-import com.axiel7.moelist.data.model.media.listStatusMangaValues
-import com.axiel7.moelist.data.model.media.localized
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.uicompose.composables.preferences.ListPreferenceView
 
@@ -57,7 +55,7 @@ fun ListStyleSettingsView(
                     title = status.localized(),
                     entriesValues = listStyleEntries,
                     value = preference,
-                    icon = status.icon(),
+                    icon = status.icon,
                     onValueChange = {
                         preference = it
                     }
@@ -76,7 +74,7 @@ fun ListStyleSettingsView(
                     title = status.localized(),
                     entriesValues = listStyleEntries,
                     value = preference,
-                    icon = status.icon(),
+                    icon = status.icon,
                     onValueChange = {
                         preference = it
                     }

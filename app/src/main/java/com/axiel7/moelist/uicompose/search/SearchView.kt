@@ -41,14 +41,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeList
-import com.axiel7.moelist.data.model.anime.seasonYearText
 import com.axiel7.moelist.data.model.manga.MangaList
 import com.axiel7.moelist.data.model.media.BaseMediaList
 import com.axiel7.moelist.data.model.media.MediaType
-import com.axiel7.moelist.data.model.media.durationText
-import com.axiel7.moelist.data.model.media.mediaFormatLocalized
-import com.axiel7.moelist.data.model.media.totalDuration
-import com.axiel7.moelist.data.model.media.userPreferredTitle
 import com.axiel7.moelist.uicompose.composables.OnBottomReached
 import com.axiel7.moelist.uicompose.composables.media.MediaItemDetailed
 import com.axiel7.moelist.uicompose.composables.media.MediaItemDetailedPlaceholder
@@ -186,7 +181,7 @@ fun SearchView(
             subtitle1 = {
                 Text(
                     text = buildString {
-                        append(item.node.mediaType?.mediaFormatLocalized())
+                        append(item.node.mediaType?.localized())
                         if (item.node.totalDuration().toStringPositiveValueOrNull() != null) {
                             append(" (${item.node.durationText()})")
                         }
@@ -197,7 +192,7 @@ fun SearchView(
             subtitle2 = {
                 Text(
                     text = when (item) {
-                        is AnimeList -> item.node.startSeason.seasonYearText()
+                        is AnimeList -> item.node.startSeason?.seasonYearText() ?: stringResource(R.string.unknown)
                         is MangaList -> item.node.startDate ?: stringResource(R.string.unknown)
                         else -> stringResource(R.string.unknown)
                     },

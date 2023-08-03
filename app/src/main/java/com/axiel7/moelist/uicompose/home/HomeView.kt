@@ -38,9 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.R
-import com.axiel7.moelist.data.model.anime.icon
 import com.axiel7.moelist.data.model.media.MediaType
-import com.axiel7.moelist.data.model.media.userPreferredTitle
 import com.axiel7.moelist.uicompose.composables.HeaderHorizontalList
 import com.axiel7.moelist.uicompose.composables.collapsable
 import com.axiel7.moelist.uicompose.composables.media.MEDIA_ITEM_VERTICAL_HEIGHT
@@ -126,7 +124,7 @@ fun HomeView(
         ) {
             HomeCard(
                 text = stringResource(R.string.seasonal_chart),
-                icon = SeasonCalendar.currentSeason.icon(),
+                icon = SeasonCalendar.currentSeason.icon,
                 modifier = Modifier.weight(1f),
                 onClick = navigateToSeasonChart,
             )

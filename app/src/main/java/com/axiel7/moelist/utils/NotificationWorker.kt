@@ -25,8 +25,8 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.notificationsDataStore
+import com.axiel7.moelist.data.model.media.MediaStatus
 import com.axiel7.moelist.data.model.media.WeekDay
-import com.axiel7.moelist.data.model.media.numeric
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.uicompose.main.MainActivity
 import com.axiel7.moelist.utils.DateUtils.getNextDayOfWeek
@@ -56,7 +56,7 @@ class NotificationWorker(
 
         // remove periodic worker if anime ended
         val animeDetails = AnimeRepository.getAnimeAiringStatus(animeId)
-        if (animeDetails?.status != "currently_airing") {
+        if (animeDetails?.status != MediaStatus.AIRING) {
             removeAiringAnimeNotification(applicationContext, animeId)
             return Result.success()
         }
@@ -112,7 +112,7 @@ class NotificationWorker(
                 createAiringAnimeNotificationChannel(context)
             }
 
-            val airingDay = LocalDate.now().getNextDayOfWeek(DayOfWeek.of(weekDay.numeric()))
+            val airingDay = LocalDate.now().getNextDayOfWeek(DayOfWeek.of(weekDay.numeric))
             val startDateTime = LocalDateTime.of(airingDay, jpHour)
                 .atZone(SeasonCalendar.japanZoneId)
                 .withZoneSameInstant(ZoneId.systemDefault())

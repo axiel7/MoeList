@@ -6,6 +6,8 @@ import com.axiel7.moelist.data.model.media.AlternativeTitles
 import com.axiel7.moelist.data.model.media.BaseMediaDetails
 import com.axiel7.moelist.data.model.media.Genre
 import com.axiel7.moelist.data.model.media.MainPicture
+import com.axiel7.moelist.data.model.media.MediaFormat
+import com.axiel7.moelist.data.model.media.MediaStatus
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -35,8 +37,8 @@ data class MangaDetails(
     @SerialName("updated_at")
     override val updatedAt: String? = null,
     @SerialName("media_type")
-    override val mediaType: String? = null,
-    override val status: String? = null,
+    override val mediaType: MediaFormat? = null,
+    override val status: MediaStatus? = null,
     override val genres: List<Genre>? = null,
     override val pictures: List<MainPicture>? = null,
     override val background: String? = null,
@@ -56,18 +58,19 @@ data class MangaDetails(
     @SerialName("serialization")
     val serialization: List<Serialization>? = null,
 
-    ) : BaseMediaDetails()
+) : BaseMediaDetails() {
 
-fun MangaDetails.toMangaNode() = MangaNode(
-    id = id,
-    title = title ?: "",
-    alternativeTitles = alternativeTitles,
-    mainPicture = mainPicture,
-    startDate = startDate,
-    numVolumes = numVolumes,
-    numChapters = numChapters,
-    numListUsers = numListUsers,
-    mediaType = mediaType,
-    status = status,
-    mean = mean,
-)
+    fun toMangaNode() = MangaNode(
+        id = id,
+        title = title ?: "",
+        alternativeTitles = alternativeTitles,
+        mainPicture = mainPicture,
+        startDate = startDate,
+        numVolumes = numVolumes,
+        numChapters = numChapters,
+        numListUsers = numListUsers,
+        mediaType = mediaType,
+        status = status,
+        mean = mean,
+    )
+}

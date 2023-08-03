@@ -20,8 +20,5 @@ object Constants {
     const val LOGO_CREDIT_URL = "https://instagram.com/danielvd_art"
     const val GENERAL_HELP_CREDIT_URL = "https://github.com/Jeluchu"
 
-    // Anime/Manga Status
-    const val STATUS_AIRING = "currently_airing"
-
     const val UNKNOWN_CHAR = "─"
 }

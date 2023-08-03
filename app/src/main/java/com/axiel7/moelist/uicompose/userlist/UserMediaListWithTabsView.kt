@@ -21,11 +21,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
+import com.axiel7.moelist.data.model.media.ListStatus.Companion.listStatusValues
 import com.axiel7.moelist.data.model.media.ListType
 import com.axiel7.moelist.data.model.media.MediaType
-import com.axiel7.moelist.data.model.media.listStatusAnimeValues
-import com.axiel7.moelist.data.model.media.listStatusMangaValues
-import com.axiel7.moelist.data.model.media.localized
 import com.axiel7.moelist.uicompose.base.TabRowItem
 import com.axiel7.moelist.uicompose.composables.RoundedTabRowIndicator
 import kotlinx.coroutines.launch
@@ -42,7 +40,7 @@ fun UserMediaListWithTabsView(
 ) {
     val scope = rememberCoroutineScope()
     val tabRowItems = remember {
-        (if (mediaType == MediaType.ANIME) listStatusAnimeValues else listStatusMangaValues)
+        listStatusValues(mediaType)
             .map {
                 TabRowItem(
                     value = it,

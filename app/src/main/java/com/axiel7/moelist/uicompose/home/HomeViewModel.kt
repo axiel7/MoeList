@@ -8,10 +8,10 @@ import com.axiel7.moelist.data.model.anime.AnimeList
 import com.axiel7.moelist.data.model.anime.AnimeRanking
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.media.MediaSort
+import com.axiel7.moelist.data.model.media.MediaStatus
 import com.axiel7.moelist.data.model.media.RankingType
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.uicompose.base.BaseViewModel
-import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.SeasonCalendar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -46,7 +46,7 @@ class HomeViewModel : BaseViewModel() {
                 if (anime.node.broadcast != null
                     && !todayAnimes.contains(anime)
                     && anime.node.broadcast.dayOfTheWeek == SeasonCalendar.currentJapanWeekday
-                    && anime.node.status == Constants.STATUS_AIRING
+                    && anime.node.status == MediaStatus.AIRING
                 ) {
                     tempList.add(anime)
                 }

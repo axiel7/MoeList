@@ -51,7 +51,7 @@ data class MyMangaListStatus(
     @SerialName("comments")
     override val comments: String? = null
 
-) : BaseMyListStatus()
+) : BaseMyListStatus() {
 
-fun MyMangaListStatus.isUsingVolumeProgress() =
-    numVolumesRead > 0 && (progress == null || progress == 0)
+    fun isUsingVolumeProgress() = numVolumesRead > 0 && (progress == null || progress == 0)
+}

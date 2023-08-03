@@ -13,8 +13,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -44,15 +44,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.manga.MangaNode
+import com.axiel7.moelist.data.model.media.ListStatus.Companion.listStatusValues
 import com.axiel7.moelist.data.model.media.MediaType
-import com.axiel7.moelist.data.model.media.icon
-import com.axiel7.moelist.data.model.media.listStatusAnimeValues
-import com.axiel7.moelist.data.model.media.listStatusMangaValues
-import com.axiel7.moelist.data.model.media.localized
 import com.axiel7.moelist.data.model.media.priorityLocalized
 import com.axiel7.moelist.data.model.media.repeatValueLocalized
 import com.axiel7.moelist.data.model.media.scoreText
-import com.axiel7.moelist.data.model.media.totalDuration
 import com.axiel7.moelist.uicompose.base.BaseMediaViewModel
 import com.axiel7.moelist.uicompose.composables.ClickableOutlinedTextField
 import com.axiel7.moelist.uicompose.composables.SelectableIconToggleButton
@@ -79,8 +75,7 @@ fun EditMediaSheet(
     bottomPadding: Dp = 0.dp
 ) {
     val context = LocalContext.current
-    val statusValues =
-        if (mediaViewModel.mediaType == MediaType.ANIME) listStatusAnimeValues else listStatusMangaValues
+    val statusValues = listStatusValues(mediaViewModel.mediaType)
     val datePickerState = rememberDatePickerState()
     val viewModel = viewModel {
         EditMediaViewModel(
@@ -179,7 +174,7 @@ fun EditMediaSheet(
             ) {
                 statusValues.forEach { status ->
                     SelectableIconToggleButton(
-                        icon = status.icon(),
+                        icon = status.icon,
                         tooltipText = status.localized(),
                         value = status,
                         selectedValue = viewModel.status,
@@ -240,7 +235,7 @@ fun EditMediaSheet(
                 steps = 9
             )
 
-            Divider(modifier = Modifier.padding(vertical = 16.dp))
+            HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
 
             ClickableOutlinedTextField(
                 value = viewModel.startDate.toLocalized(),

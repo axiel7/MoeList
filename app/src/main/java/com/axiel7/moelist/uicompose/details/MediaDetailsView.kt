@@ -56,21 +56,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeDetails
-import com.axiel7.moelist.data.model.anime.broadcastTimeText
-import com.axiel7.moelist.data.model.anime.episodeDurationLocalized
-import com.axiel7.moelist.data.model.anime.seasonYearText
-import com.axiel7.moelist.data.model.anime.sourceLocalized
 import com.axiel7.moelist.data.model.manga.MangaDetails
 import com.axiel7.moelist.data.model.media.MediaType
-import com.axiel7.moelist.data.model.media.durationText
-import com.axiel7.moelist.data.model.media.mediaFormatLocalized
-import com.axiel7.moelist.data.model.media.nameLocalized
-import com.axiel7.moelist.data.model.media.rankText
-import com.axiel7.moelist.data.model.media.relationLocalized
-import com.axiel7.moelist.data.model.media.statusLocalized
-import com.axiel7.moelist.data.model.media.synonymsJoined
-import com.axiel7.moelist.data.model.media.synopsisAndBackground
-import com.axiel7.moelist.data.model.media.userPreferredTitle
 import com.axiel7.moelist.uicompose.composables.InfoTitle
 import com.axiel7.moelist.uicompose.composables.TextIconHorizontal
 import com.axiel7.moelist.uicompose.composables.TextIconVertical
@@ -217,7 +204,7 @@ fun MediaDetailsView(
                         fontWeight = FontWeight.Bold
                     )
                     TextIconHorizontal(
-                        text = viewModel.mediaDetails?.mediaType?.mediaFormatLocalized()
+                        text = viewModel.mediaDetails?.mediaType?.localized()
                             ?: "Loading",
                         icon = if (mediaType == MediaType.ANIME) R.drawable.ic_round_movie_24
                         else R.drawable.ic_round_menu_book_24,
@@ -233,7 +220,7 @@ fun MediaDetailsView(
                             .defaultPlaceholder(visible = viewModel.isLoading)
                     )
                     TextIconHorizontal(
-                        text = viewModel.mediaDetails?.status?.statusLocalized() ?: "Loading",
+                        text = viewModel.mediaDetails?.status?.localized() ?: "Loading",
                         icon = R.drawable.ic_round_rss_feed_24,
                         modifier = Modifier
                             .padding(bottom = 8.dp)
@@ -257,7 +244,7 @@ fun MediaDetailsView(
                     items(genres) {
                         AssistChip(
                             onClick = { },
-                            label = { Text(text = it.nameLocalized()) },
+                            label = { Text(text = it.localized()) },
                             modifier = Modifier.padding(start = 8.dp)
                         )
                     }
@@ -426,12 +413,12 @@ fun MediaDetailsView(
                 val animeDetails = viewModel.mediaDetails as? AnimeDetails
                 MediaInfoView(
                     title = stringResource(R.string.season),
-                    info = animeDetails?.startSeason.seasonYearText(),
+                    info = animeDetails?.startSeason?.seasonYearText(),
                     modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
                 )
                 MediaInfoView(
                     title = stringResource(R.string.broadcast),
-                    info = animeDetails?.broadcastTimeText(),
+                    info = animeDetails?.broadcast?.timeText(),
                     modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
                 )
                 MediaInfoView(
@@ -441,7 +428,7 @@ fun MediaDetailsView(
                 )
                 MediaInfoView(
                     title = stringResource(R.string.source),
-                    info = animeDetails?.sourceLocalized(),
+                    info = animeDetails?.source?.localized(),
                     modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
                 )
             }
@@ -501,7 +488,7 @@ fun MediaDetailsView(
                             modifier = Modifier.padding(end = 8.dp),
                             subtitle = {
                                 Text(
-                                    text = item.relationLocalized(),
+                                    text = item.relationType.localized(),
                                     color = MaterialTheme.colorScheme.outline,
                                     fontSize = 13.sp
                                 )
@@ -526,7 +513,7 @@ fun MediaDetailsView(
                             modifier = Modifier.padding(end = 8.dp),
                             subtitle = {
                                 Text(
-                                    text = item.relationLocalized(),
+                                    text = item.relationType.localized(),
                                     color = MaterialTheme.colorScheme.outline,
                                     fontSize = 13.sp
                                 )

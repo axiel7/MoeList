@@ -20,6 +20,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.notificationsDataStore
 import com.axiel7.moelist.data.model.anime.AnimeDetails
+import com.axiel7.moelist.data.model.media.MediaStatus
 import com.axiel7.moelist.uicompose.composables.BackIconButton
 import com.axiel7.moelist.uicompose.composables.ShareButton
 import com.axiel7.moelist.uicompose.composables.ViewInBrowserButton
@@ -46,13 +47,13 @@ fun MediaDetailsTopAppBar(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val savedForNotification = when (viewModel.mediaDetails?.status) {
-        "currently_airing" -> remember {
+        MediaStatus.AIRING -> remember {
             context.notificationsDataStore.data.map {
                 it[stringPreferencesKey(viewModel.mediaDetails!!.id.toString())]
             }
         }.collectAsState(initial = null)
 
-        "not_yet_aired" -> remember {
+        MediaStatus.NOT_AIRED -> remember {
             context.notificationsDataStore.data.map {
                 it[stringPreferencesKey("start_${viewModel.mediaDetails!!.id}")]
             }
@@ -72,8 +73,8 @@ fun MediaDetailsTopAppBar(
             BackIconButton(onClick = navigateBack)
         },
         actions = {
-            if (viewModel.mediaDetails?.status == "currently_airing"
-                || viewModel.mediaDetails?.status == "not_yet_aired"
+            if (viewModel.mediaDetails?.status == MediaStatus.AIRING
+                || viewModel.mediaDetails?.status == MediaStatus.NOT_AIRED
             ) {
                 IconButton(
                     onClick = {
@@ -84,7 +85,7 @@ fun MediaDetailsTopAppBar(
                                     || notificationPermission.status.isGranted
                                 ) {
                                     scope.launch {
-                                        if (details.status != "not_yet_aired"
+                                        if (details.status != MediaStatus.NOT_AIRED
                                             && details.broadcast?.dayOfTheWeek != null
                                             && details.broadcast.startTime != null
                                         ) {
@@ -96,7 +97,7 @@ fun MediaDetailsTopAppBar(
                                                 jpHour = LocalTime.parse(details.broadcast.startTime)
                                             )
                                             context.showToast(R.string.airing_notification_enabled)
-                                        } else if (details.status == "not_yet_aired"
+                                        } else if (details.status == MediaStatus.NOT_AIRED
                                             && details.startDate != null
                                         ) {
                                             val startDate = details.startDate.parseDate()
