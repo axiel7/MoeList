@@ -191,9 +191,9 @@
     <string name="genre_sci_fi">Bilim Kurgu</string>
     <string name="genre_seinen">Yetişkin</string>
     <string name="genre_shoujo">Genç Kızlar</string>
-    <string name="genre_shoujo_ai">Shoujo Ai</string>
+    <string name="genre_shoujo_ai" comment="AKA: Girls Love">Shoujo Ai</string>
     <string name="genre_shounen">Shounen</string>
-    <string name="genre_shounen_ai">Shounen Ai</string>
+    <string name="genre_shounen_ai" comment="AKA: Boys Love">Shounen Ai</string>
     <string name="genre_slice_of_life">Gündelik Hayat</string>
     <string name="genre_space">Uzay</string>
     <string name="genre_sports">Spor</string>
@@ -309,4 +309,5 @@
     <string name="rereading">Yeniden okunuyor</string>
     <string name="ago">%s önce</string>
     <string name="set_as_completed">Tamamlandı olarak işaretleyin?</string>
+    <string name="relation_character">Karakter</string>
 </resources>
