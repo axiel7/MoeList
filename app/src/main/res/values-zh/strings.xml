@@ -309,5 +309,5 @@
     <string name="rereading">重看</string>
     <string name="ago">%s前</string>
     <string name="set_as_completed">设为已完成？</string>
-    <string name="relation_character">Character</string>
+    <string name="relation_character">人物</string>
 </resources>
