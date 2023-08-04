@@ -191,9 +191,9 @@
     <string name="genre_sci_fi">Фантастика</string>
     <string name="genre_seinen">Сэйнэн</string>
     <string name="genre_shoujo">Сёдзё</string>
-    <string name="genre_shoujo_ai">Сёдзё-ай</string>
+    <string name="genre_shoujo_ai" comment="AKA: Girls Love">Сёдзё-ай</string>
     <string name="genre_shounen">Сёнэн</string>
-    <string name="genre_shounen_ai">Сёнэн-ай</string>
+    <string name="genre_shounen_ai" comment="AKA: Boys Love">Сёнэн-ай</string>
     <string name="genre_slice_of_life">Повседневность</string>
     <string name="genre_space">Космос</string>
     <string name="genre_sports">Спорт</string>
@@ -308,5 +308,6 @@
     <string name="rewatching">Снова учение</string>
     <string name="rereading">Повторное чтение</string>
     <string name="ago">%s назад</string>
-    <string name="set_as_completed" comment="Alternative: Mark as completed?">Отметить как завершенную?</string>
+    <string name="set_as_completed">Отметить как завершенную?</string>
+    <string name="relation_character">Персонаж</string>
 </resources>

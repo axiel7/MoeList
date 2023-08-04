@@ -191,9 +191,9 @@
     <string name="genre_sci_fi">Sci-Fi</string>
     <string name="genre_seinen">Seinen</string>
     <string name="genre_shoujo">Shoujo</string>
-    <string name="genre_shoujo_ai">Shoujo Ai</string>
+    <string name="genre_shoujo_ai" comment="AKA: Girls Love">Shoujo Ai</string>
     <string name="genre_shounen">Shounen</string>
-    <string name="genre_shounen_ai">Shounen Ai</string>
+    <string name="genre_shounen_ai" comment="AKA: Boys Love">Shounen Ai</string>
     <string name="genre_slice_of_life">Slice of Life</string>
     <string name="genre_space">Weltall</string>
     <string name="genre_sports">Sport</string>
@@ -308,5 +308,6 @@
     <string name="rewatching">Erneut Anschauen</string>
     <string name="rereading">Erneut Lesen</string>
     <string name="ago">Vor %s</string>
-    <string name="set_as_completed" comment="Alternative: Mark as completed?">Als abgeschlossen markieren?</string>
+    <string name="set_as_completed">Als abgeschlossen markieren?</string>
+    <string name="relation_character">Zeichen</string>
 </resources>

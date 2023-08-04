@@ -141,7 +141,7 @@
     <string name="title_seasonal">Сезонен</string>
     <string name="synopsis_icon">Разширяване на резюмето</string>
     <string name="error_not_found">Не е намерено</string>
-    <string name="relateds">Related</string>
+    <string name="relateds">Свързани</string>
     <string name="view_on_mal">Разгледай в MAL</string>
     <string name="share">Сподели</string>
     <string name="sort_title">Заглавие</string>
@@ -191,9 +191,9 @@
     <string name="genre_sci_fi">Sci-Fi</string>
     <string name="genre_seinen">Сейнен</string>
     <string name="genre_shoujo">Шоуджо</string>
-    <string name="genre_shoujo_ai">Шоуджо Ай</string>
+    <string name="genre_shoujo_ai" comment="AKA: Girls Love">Шоуджо Ай</string>
     <string name="genre_shounen">Шоунен</string>
-    <string name="genre_shounen_ai">Шоунен Ай</string>
+    <string name="genre_shounen_ai" comment="AKA: Boys Love">Шоунен Ай</string>
     <string name="genre_slice_of_life">Парче от Живота</string>
     <string name="genre_space">Космос</string>
     <string name="genre_sports">Спорт</string>
@@ -308,5 +308,6 @@
     <string name="rewatching">Гледане отново</string>
     <string name="rereading">Четене отново</string>
     <string name="ago">преди %s</string>
-    <string name="set_as_completed" comment="Alternative: Mark as completed?">Маркирайте като завършен?</string>
+    <string name="set_as_completed">Маркирайте като завършен?</string>
+    <string name="relation_character">Символ</string>
 </resources>

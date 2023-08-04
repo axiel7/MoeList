@@ -191,9 +191,9 @@
     <string name="genre_sci_fi">SF</string>
     <string name="genre_seinen">青年</string>
     <string name="genre_shoujo">少女</string>
-    <string name="genre_shoujo_ai">少女愛</string>
+    <string name="genre_shoujo_ai" comment="AKA: Girls Love">少女愛</string>
     <string name="genre_shounen">少年</string>
-    <string name="genre_shounen_ai">少年愛</string>
+    <string name="genre_shounen_ai" comment="AKA: Boys Love">少年愛</string>
     <string name="genre_slice_of_life">スライスオブライフ</string>
     <string name="genre_space">宇宙</string>
     <string name="genre_sports">スポーツ</string>
@@ -308,5 +308,6 @@
     <string name="rewatching">見直し中</string>
     <string name="rereading">再読中</string>
     <string name="ago">%s前</string>
-    <string name="set_as_completed" comment="Alternative: Mark as completed?">完了に設定しますか？</string>
+    <string name="set_as_completed">完了に設定しますか？</string>
+    <string name="relation_character">キャラクター</string>
 </resources>

@@ -141,7 +141,7 @@
     <string name="title_seasonal">Seasonal</string>
     <string name="synopsis_icon">Expand synopsis</string>
     <string name="error_not_found">Not found</string>
-    <string name="relateds">Related</string>
+    <string name="relateds">Související</string>
     <string name="view_on_mal">View on MAL</string>
     <string name="share">Share</string>
     <string name="sort_title">Title</string>
@@ -191,9 +191,9 @@
     <string name="genre_sci_fi">Sci-Fi</string>
     <string name="genre_seinen">Seinen</string>
     <string name="genre_shoujo">Shoujo</string>
-    <string name="genre_shoujo_ai">Shoujo Ai</string>
+    <string name="genre_shoujo_ai" comment="AKA: Girls Love">Shoujo Ai</string>
     <string name="genre_shounen">Shounen</string>
-    <string name="genre_shounen_ai">Shounen Ai</string>
+    <string name="genre_shounen_ai" comment="AKA: Boys Love">Shounen Ai</string>
     <string name="genre_slice_of_life">Slice of Life</string>
     <string name="genre_space">Space</string>
     <string name="genre_sports">Sports</string>
@@ -308,5 +308,6 @@
     <string name="rewatching">Opětovné sledování</string>
     <string name="rereading">Opětovné čtení</string>
     <string name="ago">Před %s</string>
-    <string name="set_as_completed" comment="Alternative: Mark as completed?">Označit jako dokončené?</string>
+    <string name="set_as_completed">Označit jako dokončené?</string>
+    <string name="relation_character">Postava</string>
 </resources>
