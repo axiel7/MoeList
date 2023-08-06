@@ -43,7 +43,6 @@ import com.axiel7.moelist.data.model.manga.UserMangaList
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseUserMediaList
 import com.axiel7.moelist.data.model.media.ListStatus
-import com.axiel7.moelist.data.model.media.MediaStatus
 import com.axiel7.moelist.uicompose.composables.defaultPlaceholder
 import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_SMALL_HEIGHT
 import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_SMALL_WIDTH
@@ -64,7 +63,7 @@ fun StandardUserMediaListItem(
     val totalProgress = remember { item.totalProgress() }
     val userProgress = remember { item.totalProgress() }
     val broadcast = remember { (item.node as? AnimeNode)?.broadcast }
-    val isAiring = remember { broadcast != null && item.node.status == MediaStatus.AIRING }
+    val isAiring = remember { item.isAiring }
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -129,11 +128,12 @@ fun StandardUserMediaListItem(
                         maxLines = 2
                     )
                     Text(
-                        text = if (isAiring) broadcast!!.airingInString()
+                        text = if (isAiring && broadcast != null) broadcast.airingInString()
+                        else if (isAiring) stringResource(R.string.airing)
                         else item.node.mediaType?.localized() ?: "",
                         modifier = Modifier.padding(horizontal = 16.dp),
                         color = if (isAiring) MaterialTheme.colorScheme.primary
-                        else MaterialTheme.colorScheme.onSurface
+                        else MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }//:Column
 

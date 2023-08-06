@@ -1,5 +1,6 @@
 package com.axiel7.moelist.data.model.media
 
+import com.axiel7.moelist.data.model.anime.AnimeNode
 import com.axiel7.moelist.data.model.anime.UserAnimeList
 import com.axiel7.moelist.data.model.manga.UserMangaList
 
@@ -38,4 +39,8 @@ abstract class BaseUserMediaList<T : BaseMediaNode> {
         return if (total == 0) 0f
         else (userProgress() ?: 0).div(total.toFloat())
     }
+
+    val isAiring
+        get() = node.status == MediaStatus.AIRING
+                || ((node as? AnimeNode)?.broadcast != null && node.status == MediaStatus.AIRING)
 }

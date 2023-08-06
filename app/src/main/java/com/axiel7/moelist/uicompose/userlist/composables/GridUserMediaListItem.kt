@@ -39,7 +39,6 @@ import com.axiel7.moelist.data.model.anime.exampleUserAnimeList
 import com.axiel7.moelist.data.model.manga.UserMangaList
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseUserMediaList
-import com.axiel7.moelist.data.model.media.MediaStatus
 import com.axiel7.moelist.uicompose.composables.defaultPlaceholder
 import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_MEDIUM_HEIGHT
 import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_MEDIUM_WIDTH
@@ -56,7 +55,7 @@ fun GridUserMediaListItem(
     onLongClick: () -> Unit,
 ) {
     val broadcast = remember { (item.node as? AnimeNode)?.broadcast }
-    val isAiring = remember { broadcast != null && item.node.status == MediaStatus.AIRING }
+    val isAiring = remember { item.isAiring }
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -122,7 +121,7 @@ fun GridUserMediaListItem(
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Text(
-                            text = broadcast!!.airingInShortString(),
+                            text = broadcast?.airingInShortString() ?: stringResource(R.string.airing),
                             modifier = Modifier.padding(end = 8.dp),
                             fontSize = 15.sp,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
