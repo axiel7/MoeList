@@ -64,6 +64,7 @@ import com.axiel7.moelist.utils.DateUtils.toEpochMillis
 import com.axiel7.moelist.utils.DateUtils.toLocalized
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import java.time.ZoneOffset
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -252,7 +253,9 @@ fun EditMediaSheet(
                     }
                 },
                 onClick = {
-                    datePickerState.selectedDateMillis = viewModel.startDate?.toEpochMillis()
+                    datePickerState.selectedDateMillis = viewModel.startDate?.toEpochMillis(
+                        offset = ZoneOffset.UTC
+                    )
                     viewModel.selectedDateType = 1
                     viewModel.openDatePicker = true
                 }
@@ -273,7 +276,9 @@ fun EditMediaSheet(
                     }
                 },
                 onClick = {
-                    datePickerState.selectedDateMillis = viewModel.endDate?.toEpochMillis()
+                    datePickerState.selectedDateMillis = viewModel.endDate?.toEpochMillis(
+                        offset = ZoneOffset.UTC
+                    )
                     viewModel.selectedDateType = 2
                     viewModel.openDatePicker = true
                 }

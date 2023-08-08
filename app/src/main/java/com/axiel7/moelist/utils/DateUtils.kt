@@ -9,6 +9,7 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
@@ -53,7 +54,7 @@ object DateUtils {
      */
     fun getLocalDateFromMillis(millis: Long): LocalDate? {
         return try {
-            Instant.ofEpochMilli(millis).atZone(ZoneId.systemDefault()).toLocalDate()
+            Instant.ofEpochMilli(millis).atZone(ZoneId.of("UTC")).toLocalDate()
         } catch (e: Exception) {
             null
         }
@@ -134,7 +135,9 @@ object DateUtils {
     fun String.toIsoFormat(inputFormat: DateTimeFormatter) =
         LocalDate.parse(this, inputFormat).toString()
 
-    fun LocalDate.toEpochMillis() = this.atStartOfDay().toInstant(defaultZoneOffset).toEpochMilli()
+    fun LocalDate.toEpochMillis(
+        offset: ZoneOffset = defaultZoneOffset
+    ) = this.atStartOfDay().toInstant(offset).toEpochMilli()
 
     fun LocalDate.getNextDayOfWeek(dayOfWeek: DayOfWeek): LocalDate =
         with(TemporalAdjusters.nextOrSame(dayOfWeek))
