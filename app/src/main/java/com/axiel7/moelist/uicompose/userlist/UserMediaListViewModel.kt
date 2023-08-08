@@ -93,11 +93,11 @@ class UserMediaListViewModel(
         override fun component2(): (BaseMyListStatus?) -> Unit = { value = it }
     }
     val mediaList = mutableStateListOf<BaseUserMediaList<out BaseMediaNode>>()
-    var nextPage: String? = null
-    var hasNextPage = true
+    private var nextPage: String? = null
+    private var hasNextPage = true
     var isLoadingList by mutableStateOf(false)
 
-    fun getUserList(page: String? = null) {
+    private fun getUserList(page: String? = null) {
         viewModelScope.launch(Dispatchers.IO) {
             isLoading = page == null
             isLoadingList = true
