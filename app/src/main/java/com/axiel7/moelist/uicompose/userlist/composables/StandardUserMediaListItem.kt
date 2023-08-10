@@ -61,7 +61,7 @@ fun StandardUserMediaListItem(
     onClickPlus: () -> Unit,
 ) {
     val totalProgress = remember { item.totalProgress() }
-    val userProgress = remember { item.userProgress() }
+    val userProgress = item.userProgress()
     val broadcast = remember { (item.node as? AnimeNode)?.broadcast }
     val isAiring = remember { item.isAiring }
     Card(
