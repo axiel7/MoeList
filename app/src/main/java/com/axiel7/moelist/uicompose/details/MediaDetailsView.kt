@@ -57,6 +57,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.axiel7.moelist.App
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.manga.MangaDetails
@@ -450,7 +451,7 @@ fun MediaDetailsView(
 
             //Characters
             if (mediaType == MediaType.ANIME) {
-                var showCharacters by remember { mutableStateOf(false) }
+                var showCharacters by remember { mutableStateOf(App.loadCharacters) }
 
                 InfoTitle(text = stringResource(R.string.characters))
                 if (showCharacters) {

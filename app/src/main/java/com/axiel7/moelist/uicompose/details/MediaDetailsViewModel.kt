@@ -89,7 +89,10 @@ class MediaDetailsViewModel(
             else if (mediaDetails!!.error != null) setErrorMessage(
                 mediaDetails!!.message ?: "Generic error"
             )
-            else isLoading = false
+            else {
+                isLoading = false
+                if (App.loadCharacters) getCharacters()
+            }
         }
     }
 

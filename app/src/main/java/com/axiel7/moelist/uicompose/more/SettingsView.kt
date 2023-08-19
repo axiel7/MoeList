@@ -22,6 +22,7 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.GENERAL_LIST_STYLE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.GRID_ITEMS_PER_ROW_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.LANG_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.LOAD_CHARACTERS_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.NSFW_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.START_TAB_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.THEME_PREFERENCE_KEY
@@ -88,6 +89,10 @@ fun SettingsView(
     var startTabPreference by rememberPreference(START_TAB_PREFERENCE_KEY, "last_used")
     var titleLangPreference by rememberPreference(TITLE_LANG_PREFERENCE_KEY, App.titleLanguage.name)
     var useListTabsPreference by rememberPreference(USE_LIST_TABS_PREFERENCE_KEY, App.useListTabs)
+    var loadCharactersPreference by rememberPreference(
+        LOAD_CHARACTERS_PREFERENCE_KEY,
+        App.loadCharacters
+    )
 
     DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.settings),
@@ -226,6 +231,15 @@ fun SettingsView(
                     context.showToast(
                         context.getString(R.string.changes_will_take_effect_on_app_restart)
                     )
+                }
+            )
+
+            SwitchPreferenceView(
+                title = "Always load characters",
+                value = loadCharactersPreference,
+                onValueChange = {
+                    loadCharactersPreference = it
+                    App.loadCharacters = it
                 }
             )
         }

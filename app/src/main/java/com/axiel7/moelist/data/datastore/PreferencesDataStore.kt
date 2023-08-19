@@ -50,6 +50,7 @@ object PreferencesDataStore {
     val START_TAB_PREFERENCE_KEY = stringPreferencesKey("start_tab")
     val TITLE_LANG_PREFERENCE_KEY = stringPreferencesKey("title_lang")
     val USE_LIST_TABS_PREFERENCE_KEY = booleanPreferencesKey("use_list_tabs")
+    val LOAD_CHARACTERS_PREFERENCE_KEY = booleanPreferencesKey("load_characters")
 
     val Context.defaultPreferencesDataStore by preferencesDataStore(name = "default")
     val Context.notificationsDataStore by preferencesDataStore(name = "notifications")

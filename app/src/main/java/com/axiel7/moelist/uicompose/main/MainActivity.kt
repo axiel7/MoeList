@@ -56,6 +56,7 @@ import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_PLANNED_LIST
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.GENERAL_LIST_STYLE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.GRID_ITEMS_PER_ROW_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.LAST_TAB_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.LOAD_CHARACTERS_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_COMPLETED_LIST_STYLE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_CURRENT_LIST_STYLE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_DROPPED_LIST_STYLE_PREFERENCE_KEY
@@ -224,6 +225,9 @@ class MainActivity : AppCompatActivity() {
         }
         defaultPreferencesDataStore.getValueSync(GRID_ITEMS_PER_ROW_PREFERENCE_KEY)?.let {
             App.gridItemsPerRow = it
+        }
+        defaultPreferencesDataStore.getValueSync(LOAD_CHARACTERS_PREFERENCE_KEY)?.let {
+            App.loadCharacters = it
         }
 
         // load preferences used later in another thread
