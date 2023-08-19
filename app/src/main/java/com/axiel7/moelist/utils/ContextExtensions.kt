@@ -66,8 +66,12 @@ object ContextExtensions {
             val defaultBrowser =
                 findBrowserIntentActivities(PackageManager.MATCH_DEFAULT_ONLY).firstOrNull()
             if (defaultBrowser != null) {
-                setPackage(defaultBrowser.activityInfo.packageName)
-                startActivity(this)
+                try {
+                    setPackage(defaultBrowser.activityInfo.packageName)
+                    startActivity(this)
+                } catch (e: ActivityNotFoundException) {
+                    startActivity(Intent.createChooser(this, null))
+                }
             } else {
                 val browsers = findBrowserIntentActivities(PackageManager.MATCH_ALL)
                 val intents = browsers.map {
@@ -76,7 +80,7 @@ object ContextExtensions {
                     }
                 }
                 startActivity(
-                    Intent.createChooser(this, getString(R.string.view_on_mal)).apply {
+                    Intent.createChooser(this, null).apply {
                         putExtra(Intent.EXTRA_INITIAL_INTENTS, intents.toTypedArray())
                     }
                 )
