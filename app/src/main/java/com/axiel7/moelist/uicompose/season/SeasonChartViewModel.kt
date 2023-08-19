@@ -35,8 +35,16 @@ class SeasonChartViewModel : BaseViewModel() {
 
     val years = ((SeasonCalendar.currentYear + 1) downTo BASE_YEAR).toList()
 
+    var sort by mutableStateOf(MediaSort.ANIME_NUM_USERS)
+        private set
+
+    fun onChangeSort(value: MediaSort) {
+        sort = value
+        params.sort = value.value
+    }
+
     private val params = ApiParams(
-        sort = MediaSort.ANIME_NUM_USERS.value,
+        sort = sort.value,
         nsfw = App.nsfw,
         fields = AnimeRepository.SEASONAL_FIELDS
     )
@@ -45,32 +53,30 @@ class SeasonChartViewModel : BaseViewModel() {
     var nextPage: String? = null
     var hasNextPage = false
 
-    fun getSeasonalAnime(page: String? = null) {
-        viewModelScope.launch(Dispatchers.IO) {
-            if (page == null) {
-                isLoading = true
-                nextPage = null
-                hasNextPage = false
-            }
-            val result = AnimeRepository.getSeasonalAnimes(
-                apiParams = params,
-                year = season.year,
-                season = season.season,
-                page = page
-            )
-
-            if (result?.data != null) {
-                if (page == null) animes.clear()
-                animes.addAll(result.data)
-
-                nextPage = result.paging?.next
-                hasNextPage = nextPage != null
-            } else {
-                setErrorMessage(result?.message ?: "Generic error")
-                hasNextPage = false
-            }
-            isLoading = false
+    fun getSeasonalAnime(page: String? = null) = viewModelScope.launch(Dispatchers.IO) {
+        if (page == null) {
+            isLoading = true
+            nextPage = null
+            hasNextPage = false
         }
+        val result = AnimeRepository.getSeasonalAnimes(
+            apiParams = params,
+            year = season.year,
+            season = season.season,
+            page = page
+        )
+
+        if (result?.data != null) {
+            if (page == null) animes.clear()
+            animes.addAll(result.data)
+
+            nextPage = result.paging?.next
+            hasNextPage = nextPage != null
+        } else {
+            setErrorMessage(result?.message ?: "Generic error")
+            hasNextPage = false
+        }
+        isLoading = false
     }
 
     companion object {

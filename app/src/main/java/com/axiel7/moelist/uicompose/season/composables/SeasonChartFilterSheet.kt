@@ -27,9 +27,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.Season
+import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.uicompose.composables.SelectableIconToggleButton
 import com.axiel7.moelist.uicompose.season.SeasonChartViewModel
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
+import com.axiel7.moelist.uicompose.userlist.composables.SortChip
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,7 +49,7 @@ fun SeasonChartFilterSheet(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 32.dp + bottomPadding),
+                .padding(bottom = 24.dp + bottomPadding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(
@@ -101,6 +103,28 @@ fun SeasonChartFilterSheet(
                         modifier = Modifier.padding(start = 8.dp)
                     )
                 }
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(text = stringResource(R.string.sort_by))
+
+                SortChip(
+                    text = viewModel.sort.localized(),
+                    onClick = {
+                        // add a dialog?
+                        if (viewModel.sort == MediaSort.ANIME_NUM_USERS) {
+                            viewModel.onChangeSort(MediaSort.ANIME_SCORE)
+                        } else {
+                            viewModel.onChangeSort(MediaSort.ANIME_NUM_USERS)
+                        }
+                    }
+                )
             }
         }
     }
