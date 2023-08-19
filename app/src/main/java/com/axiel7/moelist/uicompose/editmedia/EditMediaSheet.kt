@@ -202,7 +202,7 @@ fun EditMediaSheet(
                     label = stringResource(R.string.volumes),
                     progress = viewModel.volumeProgress,
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
-                    totalProgress = (viewModel.mediaInfo as MangaNode).numVolumes,
+                    totalProgress = (viewModel.mediaInfo as? MangaNode)?.numVolumes,
                     onValueChange = { viewModel.onChangeVolumeProgress(it.toIntOrNull()) },
                     onMinusClick = {
                         viewModel.onChangeVolumeProgress(
