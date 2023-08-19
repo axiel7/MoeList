@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class MainPicture(
     @SerialName("medium")
-    val medium: String,
+    val medium: String? = null,
     @SerialName("large")
-    val large: String
+    val large: String? = null
 )

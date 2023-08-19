@@ -342,4 +342,8 @@
     <string name="relation_character">Character</string>
     <string name="web_novel">Web Novel</string>
     <string name="mixed_media">Mixed Media</string>
+    <string name="role_main">Main</string>
+    <string name="role_supporting">Supporting</string>
+    <string name="view_characters">View Characters (Beta)</string>
+    <string name="characters">Characters</string>
 </resources>

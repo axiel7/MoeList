@@ -16,6 +16,7 @@ import com.axiel7.moelist.data.model.manga.MangaList
 import com.axiel7.moelist.data.model.manga.MangaRanking
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
 import com.axiel7.moelist.data.model.manga.UserMangaList
+import com.axiel7.moelist.data.model.media.Character
 import com.axiel7.moelist.utils.Constants.MAL_API_URL
 import com.axiel7.moelist.utils.Constants.MAL_OAUTH2_URL
 import io.ktor.client.HttpClient
@@ -163,6 +164,17 @@ class Api(private val client: HttpClient) {
     ): AnimeDetails = client.get("${MAL_API_URL}anime/$animeId") {
         parameter("fields", fields)
     }.body()
+
+    suspend fun getAnimeCharacters(
+        animeId: Int,
+        params: ApiParams
+    ): Response<List<Character>> = client.get("${MAL_API_URL}anime/$animeId/characters") {
+        parameter("limit", params.limit)
+        parameter("offset", params.offset)
+        parameter("fields", params.fields)
+    }.body()
+
+    suspend fun getAnimeCharacters(url: String): Response<List<Character>> = client.get(url).body()
 
     // Manga
 

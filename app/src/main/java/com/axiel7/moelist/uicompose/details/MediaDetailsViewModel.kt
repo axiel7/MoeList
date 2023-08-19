@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
+import com.axiel7.moelist.App
+import com.axiel7.moelist.data.model.ApiParams
 import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
 import com.axiel7.moelist.data.model.anime.Recommendations
@@ -15,6 +17,7 @@ import com.axiel7.moelist.data.model.manga.RelatedManga
 import com.axiel7.moelist.data.model.media.BaseMediaDetails
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseMyListStatus
+import com.axiel7.moelist.data.model.media.Character
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.data.repository.MangaRepository
@@ -50,6 +53,9 @@ class MediaDetailsViewModel(
     var recommendations = mutableStateListOf<Recommendations<BaseMediaNode>>()
     var picturesUrls = emptyArray<String>()
 
+    val characters = mutableStateListOf<Character>()
+    var isLoadingCharacters by mutableStateOf(false)
+
     @Suppress("UNCHECKED_CAST")
     fun getDetails(mediaId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -76,7 +82,8 @@ class MediaDetailsViewModel(
                 ?.let { recommendations.addAll(it) }
 
             picturesUrls = arrayOf(mediaDetails?.mainPicture?.large ?: "")
-                .plus(mediaDetails?.pictures?.map { it.large }?.toTypedArray() ?: emptyArray())
+                .plus(mediaDetails?.pictures?.map { it.large ?: it.medium ?: "" }
+                    ?.toTypedArray() ?: emptyArray())
 
             if (mediaDetails == null) setErrorMessage("Unable to reach server")
             else if (mediaDetails!!.error != null) setErrorMessage(
@@ -84,6 +91,29 @@ class MediaDetailsViewModel(
             )
             else isLoading = false
         }
+    }
+
+    private val charactersParams = ApiParams(
+        fields = AnimeRepository.CHARACTERS_FIELDS,
+        nsfw = App.nsfw
+    )
+
+    fun getCharacters() = viewModelScope.launch(Dispatchers.IO) {
+        if (mediaDetails == null) return@launch
+        isLoadingCharacters = true
+
+        val result = AnimeRepository.getAnimeCharacters(
+            animeId = mediaDetails!!.id,
+            apiParams = charactersParams,
+            page = null
+        )
+
+        if (result?.data != null) {
+            characters.addAll(result.data)
+        } else {
+            setErrorMessage(result?.message ?: "Error loading characters")
+        }
+        isLoadingCharacters = false
     }
 
     fun buildQueryFromThemeText(themeText: String): String {
