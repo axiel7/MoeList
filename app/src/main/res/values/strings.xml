@@ -340,4 +340,6 @@
     <string name="ago">%s ago</string>
     <string name="set_as_completed">Set as completed?</string>
     <string name="relation_character">Character</string>
+    <string name="web_novel">Web Novel</string>
+    <string name="mixed_media">Mixed Media</string>
 </resources>
