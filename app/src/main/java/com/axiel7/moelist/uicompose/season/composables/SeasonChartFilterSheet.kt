@@ -16,30 +16,32 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.Season
 import com.axiel7.moelist.uicompose.composables.SelectableIconToggleButton
 import com.axiel7.moelist.uicompose.season.SeasonChartViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import com.axiel7.moelist.uicompose.theme.MoeListTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SeasonChartFilterSheet(
-    coroutineScope: CoroutineScope,
+    onDismiss: () -> Unit,
     sheetState: SheetState,
     viewModel: SeasonChartViewModel,
     bottomPadding: Dp = 0.dp
 ) {
     ModalBottomSheet(
         sheetState = sheetState,
-        onDismissRequest = { coroutineScope.launch { sheetState.hide() } },
+        onDismissRequest = onDismiss,
         windowInsets = WindowInsets(0, 0, 0, 0)
     ) {
         Column(
@@ -54,16 +56,16 @@ fun SeasonChartFilterSheet(
                     .padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                TextButton(onClick = {
-                    coroutineScope.launch { sheetState.hide() }
-                }) {
+                TextButton(onClick = onDismiss) {
                     Text(text = stringResource(R.string.cancel))
                 }
 
-                Button(onClick = {
-                    viewModel.getSeasonalAnime()
-                    coroutineScope.launch { sheetState.hide() }
-                }) {
+                Button(
+                    onClick = {
+                        viewModel.getSeasonalAnime()
+                        onDismiss()
+                    }
+                ) {
                     Text(text = stringResource(R.string.apply))
                 }
             }
@@ -101,5 +103,18 @@ fun SeasonChartFilterSheet(
                 }
             }
         }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview
+@Composable
+fun SeasonChartFilterSheetPreview() {
+    MoeListTheme {
+        SeasonChartFilterSheet(
+            onDismiss = {},
+            sheetState = rememberModalBottomSheetState(),
+            viewModel = viewModel()
+        )
     }
 }
