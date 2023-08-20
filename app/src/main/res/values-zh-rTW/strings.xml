@@ -191,9 +191,9 @@
     <string name="genre_sci_fi">科幻</string>
     <string name="genre_seinen">青年</string>
     <string name="genre_shoujo">少女</string>
-    <string name="genre_shoujo_ai" comment="AKA: Girls Love">少女愛情</string>
+    <string name="genre_shoujo_ai">少女愛情</string>
     <string name="genre_shounen">少年</string>
-    <string name="genre_shounen_ai" comment="AKA: Boys Love">少年愛情</string>
+    <string name="genre_shounen_ai">少年愛情</string>
     <string name="genre_slice_of_life">日常</string>
     <string name="genre_space">太空</string>
     <string name="genre_sports">運動</string>
@@ -310,4 +310,10 @@
     <string name="ago">%s ago</string>
     <string name="set_as_completed">Set as completed?</string>
     <string name="relation_character">Character</string>
+    <string name="web_novel">Web Novel</string>
+    <string name="mixed_media" comment="this is an anime source. It indicates that there are various sources (Ex: manga and game) so you could also translate it as Various Sources">Mixed Media</string>
+    <string name="role_main" comment="character role in anime">Main</string>
+    <string name="role_supporting" comment="character role in anime. Can also be translated as Secondary">Supporting</string>
+    <string name="view_characters" comment="view anime characters">View Characters (Beta)</string>
+    <string name="characters" comment="anime characters">Characters</string>
 </resources>
