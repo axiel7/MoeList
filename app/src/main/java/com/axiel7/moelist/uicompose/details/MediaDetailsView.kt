@@ -61,6 +61,7 @@ import com.axiel7.moelist.App
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.manga.MangaDetails
+import com.axiel7.moelist.data.model.media.MediaStatus
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.uicompose.composables.InfoTitle
 import com.axiel7.moelist.uicompose.composables.TextIconHorizontal
@@ -422,7 +423,9 @@ fun MediaDetailsView(
                 )
                 MediaInfoView(
                     title = stringResource(R.string.broadcast),
-                    info = animeDetails?.broadcast?.timeText(),
+                    info = animeDetails?.broadcast?.timeText(
+                        isAiring = animeDetails.status == MediaStatus.AIRING
+                    ),
                     modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
                 )
                 MediaInfoView(
