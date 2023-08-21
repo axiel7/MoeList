@@ -311,9 +311,9 @@
     <string name="set_as_completed">Ditandai sebagai selesai?</string>
     <string name="relation_character">Karakter</string>
     <string name="web_novel">Web Novel</string>
-    <string name="mixed_media" comment="this is an anime source. It indicates that there are various sources (Ex: manga and game) so you could also translate it as Various Sources">Mixed Media</string>
-    <string name="role_main" comment="character role in anime">Main</string>
-    <string name="role_supporting" comment="character role in anime. Can also be translated as Secondary">Supporting</string>
-    <string name="view_characters" comment="view anime characters">View Characters (Beta)</string>
-    <string name="characters" comment="anime characters">Characters</string>
+    <string name="mixed_media" comment="this is an anime source. It indicates that there are various sources (Ex: manga and game) so you could also translate it as Various Sources">Media Campuran</string>
+    <string name="role_main" comment="character role in anime">Utama</string>
+    <string name="role_supporting" comment="character role in anime. Can also be translated as Secondary">Pendukung</string>
+    <string name="view_characters" comment="view anime characters">Lihat Karakter (Beta)</string>
+    <string name="characters" comment="anime characters">Karakter</string>
 </resources>
