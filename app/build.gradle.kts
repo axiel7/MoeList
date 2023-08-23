@@ -104,7 +104,7 @@ dependencies {
 
     implementation("androidx.glance:glance-appwidget:1.0.0-rc01")
 
-    val accompanistVersion = "0.30.1"
+    val accompanistVersion = "0.32.0"
     implementation("com.google.accompanist:accompanist-insets-ui:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-placeholder-material:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion")
@@ -123,7 +123,7 @@ dependencies {
     implementation("io.ktor:ktor-client-auth:$ktorVersion")
     implementation("io.ktor:ktor-client-logging:$ktorVersion")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
     //Utils
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
