@@ -1,4 +1,4 @@
-package com.axiel7.moelist.uicompose.airingwidget
+package com.axiel7.moelist.uicompose.widget
 
 import android.content.Context
 import android.content.Intent
