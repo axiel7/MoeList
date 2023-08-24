@@ -311,9 +311,53 @@
     <string name="set_as_completed">完了に設定しますか？</string>
     <string name="relation_character">キャラクター</string>
     <string name="web_novel">Webノベル</string>
-    <string name="mixed_media" comment="this is an anime source. It indicates that there are various sources (Ex: manga and game) so you could also translate it as Various Sources">Mixed Media</string>
-    <string name="role_main" comment="character role in anime">主人公</string>
-    <string name="role_supporting" comment="character role in anime. Can also be translated as Secondary">Supporting</string>
-    <string name="view_characters" comment="view anime characters">キャラクターを見る（Beta)</string>
-    <string name="characters" comment="anime characters">キャラクター</string>
+    <string name="mixed_media">Mixed Media</string>
+    <string name="role_main">主人公</string>
+    <string name="role_supporting">Supporting</string>
+    <string name="view_characters">キャラクターを見る（Beta)</string>
+    <string name="characters">キャラクター</string>
+    <string name="genre_adult_cast" comment="most of the characters are adult">大人</string>
+    <string name="genre_avant_garde">アバンギャルド</string>
+    <string name="genre_award_winning">Award Winning</string>
+    <string name="genre_gourmet" comment="can also be translated as Gastronomic">グルメ</string>
+    <string name="genre_suspense">サスペンス</string>
+    <string name="genre_erotica" comment="or erotic">エロティカ</string>
+    <string name="genre_anthropomorphic" comment="animals with human form/behavior">擬人観</string>
+    <string name="genre_cgdct">Cute Girls Doing Cute Things</string>
+    <string name="genre_childcare">Childcare</string>
+    <string name="genre_combat_sports">Combat Sports</string>
+    <string name="genre_crossdressing">Crossdressing</string>
+    <string name="genre_delinquents">Delinquents</string>
+    <string name="genre_detective">探偵</string>
+    <string name="genre_educational">Educational</string>
+    <string name="genre_gag_humor">Gag Humor</string>
+    <string name="genre_gore">血糊</string>
+    <string name="genre_high_stakes_game">High Stakes Game</string>
+    <string name="genre_idols_female">アイドル（女性）</string>
+    <string name="genre_idols_male">アイドル（男性）</string>
+    <string name="genre_isekai" comment="on most languages you can leave as it">異世界</string>
+    <string name="genre_iyashikei" comment="on most languages you can leave as it">癒し系</string>
+    <string name="genre_love_polygon">Love Polygon</string>
+    <string name="genre_magical_sex_shift">Magical Sex Shift</string>
+    <string name="genre_mahou_shoujo" comment="you can leave as it or translate as Magical Girl">魔法少女</string>
+    <string name="genre_medical">Medical</string>
+    <string name="genre_mythology">神話</string>
+    <string name="genre_organized_crime">Organized Crime</string>
+    <string name="genre_otaku_culture">オタク文化</string>
+    <string name="genre_performing_arts">Performing Arts</string>
+    <string name="genre_pets">ペット</string>
+    <string name="genre_racing">Racing</string>
+    <string name="genre_reincarnation">転生</string>
+    <string name="genre_reverse_harem">Reverse Harem</string>
+    <string name="genre_romantic_subtext" comment="when the romance is a secondary topic">Romantic Subtext</string>
+    <string name="genre_showbiz">芸能界</string>
+    <string name="genre_strategy_game">Strategy Game</string>
+    <string name="genre_survival">Survival</string>
+    <string name="genre_team_sports">Team Sports</string>
+    <string name="genre_time_travel">タイムトラベル</string>
+    <string name="genre_video_game">ゲーム</string>
+    <string name="genre_visual_arts">Visual Arts</string>
+    <string name="genre_workplace">Workplace</string>
+    <string name="genre_memoir" comment="You could translate it as Memories. From wikipedia: A memoir is any nonfiction narrative writing based on the author's personal memories.">回想録</string>
+    <string name="genre_villainess" comment="usually when the main character is a villain">Villainess</string>
 </resources>
