@@ -311,9 +311,53 @@
     <string name="set_as_completed">¿Marcar como completado?</string>
     <string name="relation_character">Personaje</string>
     <string name="web_novel">Novela Web</string>
-    <string name="mixed_media" comment="this is an anime source. It indicates that there are various sources (Ex: manga and game) so you could also translate it as Various Sources">Multimedia Mixta</string>
-    <string name="role_main" comment="character role in anime">Principal</string>
-    <string name="role_supporting" comment="character role in anime. Can also be translated as Secondary">Secundario</string>
-    <string name="view_characters" comment="view anime characters">Ver Personajes (Beta)</string>
-    <string name="characters" comment="anime characters">Personajes</string>
+    <string name="mixed_media">Multimedia Mixta</string>
+    <string name="role_main">Principal</string>
+    <string name="role_supporting">Secundario</string>
+    <string name="view_characters">Ver Personajes (Beta)</string>
+    <string name="characters">Personajes</string>
+    <string name="genre_adult_cast" comment="most of the characters are adult">Adultos</string>
+    <string name="genre_avant_garde">Avant Garde</string>
+    <string name="genre_award_winning">Ganador de Premios</string>
+    <string name="genre_gourmet" comment="can also be translated as Gastronomic">Gourmet</string>
+    <string name="genre_suspense">Suspense</string>
+    <string name="genre_erotica" comment="or erotic">Erótico</string>
+    <string name="genre_anthropomorphic" comment="animals with human form/behavior">Antropomórfico</string>
+    <string name="genre_cgdct">Chicas Lindas Haciendo Cosas Lindas</string>
+    <string name="genre_childcare">Cuidado de niños</string>
+    <string name="genre_combat_sports">Deportes de Combate</string>
+    <string name="genre_crossdressing">Crossdressing</string>
+    <string name="genre_delinquents">Delincuentes</string>
+    <string name="genre_detective">Detective</string>
+    <string name="genre_educational">Educacional</string>
+    <string name="genre_gag_humor">Humor Gag</string>
+    <string name="genre_gore">Gore</string>
+    <string name="genre_high_stakes_game">Juego de Apuestas</string>
+    <string name="genre_idols_female">Idols (Mujeres)</string>
+    <string name="genre_idols_male">Idols (Hombres)</string>
+    <string name="genre_isekai" comment="on most languages you can leave as it">Isekai</string>
+    <string name="genre_iyashikei" comment="on most languages you can leave as it">Iyashikei</string>
+    <string name="genre_love_polygon">Polígono Amoroso</string>
+    <string name="genre_magical_sex_shift">Mágico Cambio de Sexo</string>
+    <string name="genre_mahou_shoujo" comment="you can leave as it or translate as Magical Girl">Mahou Shoujo</string>
+    <string name="genre_medical">Médico</string>
+    <string name="genre_mythology">Mitología</string>
+    <string name="genre_organized_crime">Crimen Organizado</string>
+    <string name="genre_otaku_culture">Cultura Otaku</string>
+    <string name="genre_performing_arts">Artes Escénicas</string>
+    <string name="genre_pets">Mascotas</string>
+    <string name="genre_racing">Carreras</string>
+    <string name="genre_reincarnation">Reencarnación</string>
+    <string name="genre_reverse_harem">Harem Inverso</string>
+    <string name="genre_romantic_subtext" comment="when the romance is a secondary topic">Subtexto Romántico</string>
+    <string name="genre_showbiz">Mundo del Espectáculo</string>
+    <string name="genre_strategy_game">Juego de Estrategia</string>
+    <string name="genre_survival">Supervivencia</string>
+    <string name="genre_team_sports">Deportes de Equipo</string>
+    <string name="genre_time_travel">Viajes en el Tiempo</string>
+    <string name="genre_video_game">Videojuegos</string>
+    <string name="genre_visual_arts">Artes Visuales</string>
+    <string name="genre_workplace">Entorno de Trabajo</string>
+    <string name="genre_memoir" comment="You could translate it as Memories. From wikipedia: A memoir is any nonfiction narrative writing based on the author's personal memories.">Memorias</string>
+    <string name="genre_villainess" comment="usually when the main character is a villain">Villanos</string>
 </resources>
