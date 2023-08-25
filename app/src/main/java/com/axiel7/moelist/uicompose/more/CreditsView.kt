@@ -22,15 +22,15 @@ const val CREDITS_DESTINATION = "credits"
 
 val translationsCredits = mapOf(
     R.string.ukrainian to "@Sensetivity",
-    R.string.turkish to "@hsinankirdar",
+    R.string.turkish to "@hsinankirdar, @kyoya",
     R.string.brazilian to "@RickyM7, @SamOak",
     R.string.portuguese to "@SamOak, @DemiCool",
     R.string.russian to "@grin3671",
-    R.string.arabic to "@sakugaky, @WhiteCanvas, @Comikazie, @mlvin",
+    R.string.arabic to "@sakugaky, @WhiteCanvas, @Comikazie, @mlvin, @bobteen1",
     R.string.german to "@Secresa, @MaximilianGT500",
     R.string.bulgarian to "@itzlighter",
     R.string.czech to "@J4kub07, @gxs3lium",
-    R.string.french to "@mamanamgae, @frosqh",
+    R.string.french to "@mamanamgae, @frosqh, @Eria78, @nesquick",
     R.string.indonesian to "@Clxf12",
     R.string.chinese_traditional to "@jhih_yu_lin",
     R.string.chinese_simplified to "@bengerlorf",
