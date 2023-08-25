@@ -3,9 +3,9 @@ package com.axiel7.moelist.uicompose.composables
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
-import com.google.accompanist.placeholder.PlaceholderHighlight
-import com.google.accompanist.placeholder.material.fade
-import com.google.accompanist.placeholder.material.placeholder
+import io.github.fornewid.placeholder.foundation.PlaceholderHighlight
+import io.github.fornewid.placeholder.material3.fade
+import io.github.fornewid.placeholder.material3.placeholder
 
 fun Modifier.defaultPlaceholder(
     visible: Boolean
