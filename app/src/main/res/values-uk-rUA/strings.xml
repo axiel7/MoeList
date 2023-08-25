@@ -251,7 +251,6 @@
     <string name="english">Англійська</string>
     <string name="ukrainian">Українська</string>
     <string name="language">Мова</string>
-    <string name="sort_start_date">Дата початку</string>
     <string name="japanese">Японська</string>
     <string name="chinese_traditional">Китайська (традиційна)</string>
     <string name="select_date">Оберіть дату</string>
@@ -316,13 +315,13 @@
     <string name="role_supporting">Supporting</string>
     <string name="view_characters">View Characters (Beta)</string>
     <string name="characters">Characters</string>
-    <string name="genre_adult_cast" comment="most of the characters are adult">Adult Cast</string>
+    <string name="genre_adult_cast">Adult Cast</string>
     <string name="genre_avant_garde">Avant Garde</string>
     <string name="genre_award_winning">Award Winning</string>
-    <string name="genre_gourmet" comment="can also be translated as Gastronomic">Gourmet</string>
+    <string name="genre_gourmet">Gourmet</string>
     <string name="genre_suspense">Suspense</string>
-    <string name="genre_erotica" comment="or erotic">Erotica</string>
-    <string name="genre_anthropomorphic" comment="animals with human form/behavior">Anthropomorphic</string>
+    <string name="genre_erotica">Erotica</string>
+    <string name="genre_anthropomorphic">Anthropomorphic</string>
     <string name="genre_cgdct">Cute Girls Doing Cute Things</string>
     <string name="genre_childcare">Childcare</string>
     <string name="genre_combat_sports">Combat Sports</string>
@@ -335,11 +334,11 @@
     <string name="genre_high_stakes_game">High Stakes Game</string>
     <string name="genre_idols_female">Idols (Female)</string>
     <string name="genre_idols_male">Idols (Male)</string>
-    <string name="genre_isekai" comment="on most languages you can leave as it">Isekai</string>
-    <string name="genre_iyashikei" comment="on most languages you can leave as it">Iyashikei</string>
+    <string name="genre_isekai">Isekai</string>
+    <string name="genre_iyashikei">Iyashikei</string>
     <string name="genre_love_polygon">Love Polygon</string>
     <string name="genre_magical_sex_shift">Magical Sex Shift</string>
-    <string name="genre_mahou_shoujo" comment="you can leave as it or translate as Magical Girl">Mahou Shoujo</string>
+    <string name="genre_mahou_shoujo">Mahou Shoujo</string>
     <string name="genre_medical">Medical</string>
     <string name="genre_mythology">Mythology</string>
     <string name="genre_organized_crime">Organized Crime</string>
@@ -349,7 +348,7 @@
     <string name="genre_racing">Racing</string>
     <string name="genre_reincarnation">Reincarnation</string>
     <string name="genre_reverse_harem">Reverse Harem</string>
-    <string name="genre_romantic_subtext" comment="when the romance is a secondary topic">Romantic Subtext</string>
+    <string name="genre_romantic_subtext">Romantic Subtext</string>
     <string name="genre_showbiz">Showbiz</string>
     <string name="genre_strategy_game">Strategy Game</string>
     <string name="genre_survival">Survival</string>
@@ -358,6 +357,6 @@
     <string name="genre_video_game">Video Game</string>
     <string name="genre_visual_arts">Visual Arts</string>
     <string name="genre_workplace">Workplace</string>
-    <string name="genre_memoir" comment="You could translate it as Memories. From wikipedia: A memoir is any nonfiction narrative writing based on the author's personal memories.">Memoir</string>
-    <string name="genre_villainess" comment="usually when the main character is a villain">Villainess</string>
+    <string name="genre_memoir">Memoir</string>
+    <string name="genre_villainess">Villainess</string>
 </resources>
