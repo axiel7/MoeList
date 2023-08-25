@@ -20,6 +20,11 @@ import com.axiel7.moelist.utils.ContextExtensions.openLink
 
 const val CREDITS_DESTINATION = "credits"
 
+val contributorsCredits = mapOf(
+    "@uragiristereo" to "https://github.com/uragiristereo",
+    "@krishnapandey24" to "https://github.com/krishnapandey24",
+)
+
 val translationsCredits = mapOf(
     R.string.ukrainian to "@Sensetivity",
     R.string.turkish to "@hsinankirdar, @kyoya",
@@ -91,6 +96,15 @@ fun CreditsView(
                     context.openLink(LOGO_CREDIT_URL)
                 }
             )
+            HorizontalDivider()
+            contributorsCredits.forEach { (username, link) ->
+                MoreItem(
+                    title = username,
+                    onClick = {
+                        context.openLink(link)
+                    }
+                )
+            }
             HorizontalDivider()
             SettingsTitle(text = stringResource(R.string.translations))
             translationsCredits.forEach { (stringRes, credit) ->
