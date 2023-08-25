@@ -251,7 +251,6 @@
     <string name="english">İngilizce</string>
     <string name="ukrainian">Ukraynaca</string>
     <string name="language">Dil</string>
-    <string name="sort_start_date">Başlangıç tarihi</string>
     <string name="japanese">Japonca</string>
     <string name="chinese_traditional">Çince (Geleneksel)</string>
     <string name="select_date">Tarih seçin</string>
@@ -316,13 +315,13 @@
     <string name="role_supporting">Destekleyici</string>
     <string name="view_characters">Karakterleri Göster (Beta)</string>
     <string name="characters">Karakterler</string>
-    <string name="genre_adult_cast" comment="most of the characters are adult">Yetişkin Oyuncular</string>
+    <string name="genre_adult_cast">Yetişkin Oyuncular</string>
     <string name="genre_avant_garde">Avangart</string>
     <string name="genre_award_winning">Ödüllü</string>
-    <string name="genre_gourmet" comment="can also be translated as Gastronomic">Gurme</string>
+    <string name="genre_gourmet">Gurme</string>
     <string name="genre_suspense">Gerilim</string>
-    <string name="genre_erotica" comment="or erotic">Erotik</string>
-    <string name="genre_anthropomorphic" comment="animals/objects with human form/behavior">İnsan Biçimcilik</string>
+    <string name="genre_erotica">Erotik</string>
+    <string name="genre_anthropomorphic">İnsan Biçimcilik</string>
     <string name="genre_cgdct">Sevimli Kızlar Sevimli Şeyler Yapıyor</string>
     <string name="genre_childcare">Çocuk Bakımı</string>
     <string name="genre_combat_sports">Dövüş Sporları</string>
@@ -335,11 +334,11 @@
     <string name="genre_high_stakes_game">Yüksek Bahisli Oyun</string>
     <string name="genre_idols_female">İdol (Kadın)</string>
     <string name="genre_idols_male">İdol (Erkek)</string>
-    <string name="genre_isekai" comment="on most languages you can leave as it">Farklı Dünya (Isekai)</string>
-    <string name="genre_iyashikei" comment="on most languages you can leave as it">Iyashikei (İyileştirici)</string>
+    <string name="genre_isekai">Farklı Dünya (Isekai)</string>
+    <string name="genre_iyashikei">Iyashikei (İyileştirici)</string>
     <string name="genre_love_polygon">Aşk Çokgeni</string>
     <string name="genre_magical_sex_shift">Büyülü Cinsiyet Değişimi</string>
-    <string name="genre_mahou_shoujo" comment="you can leave as it or translate as Magical Girl">Sihirli Kız</string>
+    <string name="genre_mahou_shoujo">Sihirli Kız</string>
     <string name="genre_medical">Tıbbi</string>
     <string name="genre_mythology">Mitolojik</string>
     <string name="genre_organized_crime">Organize Suçlar</string>
@@ -349,7 +348,7 @@
     <string name="genre_racing">Yarış</string>
     <string name="genre_reincarnation">Reenkarnasyon</string>
     <string name="genre_reverse_harem">Ters Harem</string>
-    <string name="genre_romantic_subtext" comment="from MAL: Romantic Subtext is a narrative which can at first appear to be Romance. These plots feature one or more main couples which seem to have romantic interest in each other, and whose relationship(s) will be central to the main story. However, while the story will set the couple up for heartwarming or embarrassing moments, these encounters will not lead to any significant romantic development, and the characters will not strive to deepen the relationship beyond a certain boundary.">Romantizm Arkaplanda</string>
+    <string name="genre_romantic_subtext">Romantizm Arkaplanda</string>
     <string name="genre_showbiz">Gösteri Dünyası</string>
     <string name="genre_strategy_game">Strateji Oyunu</string>
     <string name="genre_survival">Hayatta Kalma</string>
@@ -358,6 +357,6 @@
     <string name="genre_video_game">Video Oyunu</string>
     <string name="genre_visual_arts">Görsel Sanatlar</string>
     <string name="genre_workplace">Çalışma Yeri</string>
-    <string name="genre_memoir" comment="You could translate it as Memories. From wikipedia: A memoir is any nonfiction narrative writing based on the author's personal memories.">Hatırat</string>
-    <string name="genre_villainess" comment="usually when the main character is a villain">Kötü Başrol</string>
+    <string name="genre_memoir">Hatırat</string>
+    <string name="genre_villainess">Kötü Başrol</string>
 </resources>
