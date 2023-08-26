@@ -331,13 +331,11 @@
     <string name="genre_educational">教育</string>
     <string name="genre_gag_humor">ユーモア</string>
     <string name="genre_gore">血糊</string>
-    <string name="genre_high_stakes_game">High Stakes Game</string>
     <string name="genre_idols_female">アイドル（女性）</string>
     <string name="genre_idols_male">アイドル（男性）</string>
     <string name="genre_isekai">異世界</string>
     <string name="genre_iyashikei">癒し系</string>
     <string name="genre_love_polygon">三角関係</string>
-    <string name="genre_magical_sex_shift">Magical Sex Shift</string>
     <string name="genre_mahou_shoujo">魔法少女</string>
     <string name="genre_medical">医療</string>
     <string name="genre_mythology">神話</string>
@@ -348,7 +346,6 @@
     <string name="genre_racing">レーシング</string>
     <string name="genre_reincarnation">転生</string>
     <string name="genre_reverse_harem">逆ハーレム</string>
-    <string name="genre_romantic_subtext">Romantic Subtext</string>
     <string name="genre_showbiz">芸能界</string>
     <string name="genre_strategy_game">マインドスポーツ</string>
     <string name="genre_survival">サバイバル</string>
