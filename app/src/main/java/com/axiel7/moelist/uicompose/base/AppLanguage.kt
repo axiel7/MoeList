@@ -17,6 +17,7 @@ enum class AppLanguage(val value: String) {
     PORTUGUESE("pt-PT"),
     PORTUGUESE_BRAZILIAN("pt-BR"),
     RUSSIAN("ru-RU"),
+    SLOVAK("sk"),
     SPANISH("es"),
     TURKISH("tr"),
     UKRAINIAN("uk-UA");
@@ -37,6 +38,7 @@ enum class AppLanguage(val value: String) {
             PORTUGUESE -> R.string.portuguese_native
             PORTUGUESE_BRAZILIAN -> R.string.brazilian_native
             RUSSIAN -> R.string.russian_native
+            SLOVAK -> R.string.slovak_native
             SPANISH -> R.string.spanish_native
             TURKISH -> R.string.turkish_native
             UKRAINIAN -> R.string.ukrainian_native
