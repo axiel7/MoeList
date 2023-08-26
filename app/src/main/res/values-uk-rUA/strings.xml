@@ -308,7 +308,7 @@
     <string name="rereading">Перечитую</string>
     <string name="ago">%s тому</string>
     <string name="set_as_completed">Позначити завершеним?</string>
-    <string name="relation_character">Характер</string>
+    <string name="relation_character">Персонаж</string>
     <string name="web_novel">Web Novel</string>
     <string name="mixed_media">Mixed Media</string>
     <string name="role_main">Main</string>
@@ -359,4 +359,6 @@
     <string name="genre_workplace">Workplace</string>
     <string name="genre_memoir">Memoir</string>
     <string name="genre_villainess">Villainess</string>
+    <string name="contributors">Contributors</string>
+    <string name="slovak">Slovak</string>
 </resources>
