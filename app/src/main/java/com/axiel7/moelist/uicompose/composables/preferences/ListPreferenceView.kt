@@ -74,7 +74,7 @@ fun ListPreferenceView(
             )
 
             Text(
-                text = stringResource(entriesValues[value]!!),
+                text = entriesValues[value]?.let { stringResource(it) } ?: "",
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 13.sp
             )
