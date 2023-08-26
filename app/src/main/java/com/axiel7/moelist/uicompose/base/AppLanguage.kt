@@ -9,7 +9,7 @@ enum class AppLanguage(val value: String) {
     BULGARIAN("bg-BG"),
     CHINESE_SIMPLIFIED("zh-Hans"),
     CHINESE_TRADITIONAL("zh-Hant"),
-    CZECH("cs-CZ"),
+    CZECH("cs"),
     FRENCH("fr"),
     GERMAN("de"),
     INDONESIAN("in-ID"),
