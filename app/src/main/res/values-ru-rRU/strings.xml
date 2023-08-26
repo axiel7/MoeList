@@ -256,7 +256,7 @@
     <string name="select_date">Выбор даты</string>
     <string name="total_rereads">Повторных прочтений</string>
     <string name="total_rewatches">Повторных просмотров</string>
-    <string name="chinese_simplified">Chinese (Simplified)</string>
+    <string name="chinese_simplified">Китайский (упрощённый)</string>
     <string name="related_anime">Похожие аниме</string>
     <string name="related_manga">Похожие манги</string>
     <string name="content">Контент</string>
@@ -359,4 +359,6 @@
     <string name="genre_workplace">Workplace</string>
     <string name="genre_memoir">Memoir</string>
     <string name="genre_villainess">Villainess</string>
+    <string name="contributors">Contributors</string>
+    <string name="slovak">Slovak</string>
 </resources>
