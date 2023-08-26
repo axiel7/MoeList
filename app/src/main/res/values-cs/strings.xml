@@ -318,7 +318,6 @@
     <string name="genre_adult_cast">Dospělé obsazení</string>
     <string name="genre_avant_garde">Avant Garde</string>
     <string name="genre_award_winning">Ocenění</string>
-    <string name="genre_gourmet">Gourmet</string>
     <string name="genre_suspense">Napínavý</string>
     <string name="genre_erotica">Erotika</string>
     <string name="genre_anthropomorphic">Antropomorfní</string>
@@ -359,6 +358,4 @@
     <string name="genre_workplace">Pracoviště</string>
     <string name="genre_memoir">Vzpomínky</string>
     <string name="genre_villainess">Záporák</string>
-    <string name="contributors">Contributors</string>
-    <string name="slovak">Slovak</string>
 </resources>
