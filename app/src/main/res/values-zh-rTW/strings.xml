@@ -191,9 +191,9 @@
     <string name="genre_sci_fi">科幻</string>
     <string name="genre_seinen">青年</string>
     <string name="genre_shoujo">少女</string>
-    <string name="genre_shoujo_ai" comment="AKA: Girls Love">少女愛情</string>
+    <string name="genre_shoujo_ai">少女愛情</string>
     <string name="genre_shounen">少年</string>
-    <string name="genre_shounen_ai" comment="AKA: Boys Love">少年愛情</string>
+    <string name="genre_shounen_ai">少年愛情</string>
     <string name="genre_slice_of_life">日常</string>
     <string name="genre_space">太空</string>
     <string name="genre_sports">運動</string>
@@ -256,6 +256,7 @@
     <string name="select_date">選擇日期</string>
     <string name="total_rereads">總重讀</string>
     <string name="total_rewatches">總重看</string>
+    <string name="chinese_simplified">中文 (簡體)</string>
     <string name="related_anime">相關動漫</string>
     <string name="related_manga">相關漫畫</string>
     <string name="content">內容</string>
@@ -293,19 +294,4 @@
     <string name="invalid_broadcast">無效的廣播</string>
     <string name="synopsis_background">背景</string>
     <string name="portuguese">葡萄牙文</string>
-    <string name="very_low_value">Very Low</string>
-    <string name="low_value">Low</string>
-    <string name="medium_value">Medium</string>
-    <string name="high_value">High</string>
-    <string name="very_high_value">Very High</string>
-    <string name="tags">Tags</string>
-    <string name="priority_value">Priority: %s</string>
-    <string name="rewatch_value">Rewatch Value: %s</string>
-    <string name="reread_value">Reread Value: %s</string>
-    <string name="notes">Notes</string>
-    <string name="rewatching">Rewatching</string>
-    <string name="rereading">Rereading</string>
-    <string name="ago">%s ago</string>
-    <string name="set_as_completed">Set as completed?</string>
-    <string name="relation_character">Character</string>
 </resources>

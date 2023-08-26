@@ -191,9 +191,9 @@
     <string name="genre_sci_fi">Ficção Científica</string>
     <string name="genre_seinen">Seinen</string>
     <string name="genre_shoujo">Shoujo</string>
-    <string name="genre_shoujo_ai" comment="AKA: Girls Love">Shoujo Ai</string>
+    <string name="genre_shoujo_ai">Shoujo Ai</string>
     <string name="genre_shounen">Shounen</string>
-    <string name="genre_shounen_ai" comment="AKA: Boys Love">Shounen Ai</string>
+    <string name="genre_shounen_ai">Shounen Ai</string>
     <string name="genre_slice_of_life">Vida Diária</string>
     <string name="genre_space">Espacial</string>
     <string name="genre_sports">Esportes</string>
@@ -256,6 +256,7 @@
     <string name="select_date">Selecionar data</string>
     <string name="total_rereads">Total Relido</string>
     <string name="total_rewatches">Total Reassistido</string>
+    <string name="chinese_simplified">Chinês (Simplificado)</string>
     <string name="related_anime">Anime Relacionado</string>
     <string name="related_manga">Mangá Relacionado</string>
     <string name="content">Conteúdo</string>
@@ -308,4 +309,11 @@
     <string name="ago">%s atrás</string>
     <string name="set_as_completed">Definir como concluído?</string>
     <string name="relation_character">Caráter</string>
+    <string name="web_novel">Web Novel</string>
+    <string name="mixed_media">Várias Fontes</string>
+    <string name="role_main">Principal</string>
+    <string name="role_supporting">Coadjuvante</string>
+    <string name="view_characters">Ver Personagens (Beta)</string>
+    <string name="characters">Personagens</string>
+    <string name="slovak">Eslovaco</string>
 </resources>

@@ -191,9 +191,9 @@
     <string name="genre_sci_fi">خيال علمي</string>
     <string name="genre_seinen">سينين</string>
     <string name="genre_shoujo">شوجو</string>
-    <string name="genre_shoujo_ai" comment="AKA: Girls Love">حب بنات</string>
+    <string name="genre_shoujo_ai">حب بنات</string>
     <string name="genre_shounen">شونين</string>
-    <string name="genre_shounen_ai" comment="AKA: Boys Love">حب فتيان</string>
+    <string name="genre_shounen_ai">حب فتيان</string>
     <string name="genre_slice_of_life">شريحة من الحياة</string>
     <string name="genre_space">فضاء</string>
     <string name="genre_sports">رياضي</string>
