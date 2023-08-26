@@ -256,7 +256,7 @@
     <string name="select_date">Selecionar data</string>
     <string name="total_rereads">Total Relido</string>
     <string name="total_rewatches">Total Reassistido</string>
-    <string name="chinese_simplified">Chinese (Simplified)</string>
+    <string name="chinese_simplified">Chinês (Simplificado)</string>
     <string name="related_anime">Anime Relacionado</string>
     <string name="related_manga">Mangá Relacionado</string>
     <string name="content">Conteúdo</string>
@@ -359,4 +359,6 @@
     <string name="genre_workplace">Workplace</string>
     <string name="genre_memoir">Memoir</string>
     <string name="genre_villainess">Villainess</string>
+    <string name="contributors">Contributors</string>
+    <string name="slovak">Slovak</string>
 </resources>
