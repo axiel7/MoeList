@@ -93,7 +93,7 @@ fun UserMediaListView(
     )
 
     val listStyle =
-        if (useGeneralListStyle) generalListStyle else listType.styleGlobalAppVariable.name
+        if (useGeneralListStyle) generalListStyle else listType.styleGlobalAppVariable.value
 
     @Composable
     fun StandardItemView(item: BaseUserMediaList<out BaseMediaNode>) {

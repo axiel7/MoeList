@@ -15,8 +15,8 @@ android {
         applicationId = "com.axiel7.moelist"
         minSdk = 23
         targetSdk = 34
-        versionCode = 119
-        versionName = "3.4.2"
+        versionCode = 121
+        versionName = "3.4.4"
         archivesName.set("moelist-v$versionName")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -70,7 +70,7 @@ android {
         jvmTarget = "1.8"
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.7"
+        kotlinCompilerExtensionVersion = "1.5.2"
     }
     packaging {
         resources {
@@ -86,29 +86,30 @@ dependencies {
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
 
-    implementation("androidx.browser:browser:1.5.0")
+    implementation("androidx.browser:browser:1.6.0")
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation("androidx.work:work-runtime-ktx:2.8.1")
     implementation("androidx.core:core-splashscreen:1.0.1")
 
     //Compose
-    implementation(platform("androidx.compose:compose-bom:2023.06.01"))
-    implementation("androidx.compose.material3:material3-android:1.2.0-alpha04")
+    implementation(platform("androidx.compose:compose-bom:2023.08.00"))
+    implementation("androidx.compose.material3:material3-android:1.2.0-alpha06")
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
-    implementation("androidx.compose.material3:material3-window-size-class:1.2.0-alpha04")
+    implementation("androidx.compose.material3:material3-window-size-class:1.2.0-alpha06")
 
     implementation("androidx.activity:activity-compose:1.7.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
-    implementation("androidx.navigation:navigation-compose:2.7.0-rc01")
+    implementation("androidx.navigation:navigation-compose:2.7.1")
 
     implementation("androidx.glance:glance-appwidget:1.0.0-rc01")
 
-    val accompanistVersion = "0.30.1"
+    val accompanistVersion = "0.32.0"
     implementation("com.google.accompanist:accompanist-insets-ui:$accompanistVersion")
-    implementation("com.google.accompanist:accompanist-placeholder-material:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-permissions:$accompanistVersion")
+
+    implementation("io.github.fornewid:placeholder-material3:1.0.1")
 
     //Test
     testImplementation("junit:junit:4.13.2")
@@ -123,7 +124,7 @@ dependencies {
     implementation("io.ktor:ktor-client-auth:$ktorVersion")
     implementation("io.ktor:ktor-client-logging:$ktorVersion")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
     //Utils
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")

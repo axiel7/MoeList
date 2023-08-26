@@ -20,22 +20,28 @@ import com.axiel7.moelist.utils.ContextExtensions.openLink
 
 const val CREDITS_DESTINATION = "credits"
 
+val contributorsCredits = mapOf(
+    "@uragiristereo" to "https://github.com/uragiristereo",
+    "@krishnapandey24" to "https://github.com/krishnapandey24",
+)
+
 val translationsCredits = mapOf(
-    R.string.ukrainian to "@Sensetivity",
-    R.string.turkish to "@hsinankirdar",
+    R.string.arabic to "@sakugaky, @WhiteCanvas, @Comikazie, @mlvin, @bobteen1",
+    R.string.bulgarian to "@itzlighter",
+    R.string.czech to "@J4kub07, @gxs3lium",
+    R.string.german to "@Secresa, @MaximilianGT500",
+    R.string.spanish to "@axiel7",
+    R.string.french to "@mamanamgae, @frosqh, @Eria78, @nesquick",
+    R.string.indonesian to "@Clxf12",
+    R.string.japanese to "@axiel7, @Ulong32, @watashibeme",
     R.string.brazilian to "@RickyM7, @SamOak",
     R.string.portuguese to "@SamOak, @DemiCool",
     R.string.russian to "@grin3671",
-    R.string.arabic to "@sakugaky, @WhiteCanvas, @Comikazie, @mlvin",
-    R.string.german to "@Secresa, @MaximilianGT500",
-    R.string.bulgarian to "@itzlighter",
-    R.string.czech to "@J4kub07",
-    R.string.french to "@mamanamgae, @frosqh",
-    R.string.indonesian to "@Clxf12",
-    R.string.chinese_traditional to "@jhih_yu_lin",
+    R.string.slovak to "@gxs3lium",
+    R.string.turkish to "@hsinankirdar, @kyoya",
+    R.string.ukrainian to "@Sensetivity",
     R.string.chinese_simplified to "@bengerlorf",
-    R.string.japanese to "@axiel7, @Ulong32, @watashibeme",
-    R.string.spanish to "@axiel7",
+    R.string.chinese_traditional to "@jhih_yu_lin",
 )
 
 @Composable
@@ -91,6 +97,15 @@ fun CreditsView(
                     context.openLink(LOGO_CREDIT_URL)
                 }
             )
+            HorizontalDivider()
+            contributorsCredits.forEach { (username, link) ->
+                MoreItem(
+                    title = username,
+                    onClick = {
+                        context.openLink(link)
+                    }
+                )
+            }
             HorizontalDivider()
             SettingsTitle(text = stringResource(R.string.translations))
             translationsCredits.forEach { (stringRes, credit) ->

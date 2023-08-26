@@ -20,7 +20,7 @@ fun DefaultScaffoldWithTopAppBar(
     contentWindowInsets: WindowInsets = WindowInsets.systemBars,
     content: @Composable (PaddingValues) -> Unit
 ) {
-    val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
+    val topAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(
         rememberTopAppBarState()
     )
     Scaffold(

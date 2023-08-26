@@ -37,7 +37,6 @@ import com.axiel7.moelist.data.model.manga.UserMangaList
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseUserMediaList
 import com.axiel7.moelist.data.model.media.ListStatus
-import com.axiel7.moelist.data.model.media.MediaStatus
 import com.axiel7.moelist.uicompose.composables.defaultPlaceholder
 import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_COMPACT_HEIGHT
 import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_SMALL_WIDTH
@@ -56,7 +55,7 @@ fun CompactUserMediaListItem(
     onClickPlus: () -> Unit,
 ) {
     val broadcast = remember { (item.node as? AnimeNode)?.broadcast }
-    val isAiring = remember { broadcast != null && item.node.status == MediaStatus.AIRING }
+    val isAiring = remember { item.isAiring }
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -123,7 +122,7 @@ fun CompactUserMediaListItem(
 
                 if (isAiring) {
                     Text(
-                        text = broadcast!!.airingInString(),
+                        text = broadcast?.airingInString() ?: stringResource(R.string.airing),
                         modifier = Modifier.padding(horizontal = 16.dp),
                         color = MaterialTheme.colorScheme.primary,
                         fontSize = 16.sp,

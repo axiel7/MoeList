@@ -12,6 +12,7 @@ import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
 import com.axiel7.moelist.data.model.anime.Season
 import com.axiel7.moelist.data.model.anime.UserAnimeList
+import com.axiel7.moelist.data.model.media.Character
 import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.MediaStatus
@@ -192,6 +193,23 @@ object AnimeRepository {
             App.api.getAnimeDetails(animeId, fields = "id,status")
         } catch (e: Exception) {
             null
+        }
+    }
+
+    const val CHARACTERS_FIELDS = "id,first_name,last_name,alternative_name,main_picture"
+
+    suspend fun getAnimeCharacters(
+        animeId: Int,
+        apiParams: ApiParams,
+        page: String? = null
+    ): Response<List<Character>>? {
+        return try {
+            val result = if (page == null) App.api.getAnimeCharacters(animeId, apiParams)
+            else App.api.getAnimeCharacters(page)
+            result.error?.let { BaseRepository.handleResponseError(it) }
+            return result
+        } catch (e: Exception) {
+            Response(message = e.message)
         }
     }
 

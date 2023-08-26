@@ -78,7 +78,7 @@ fun MinimalUserMediaListItem(
 
                 if (isAiring) {
                     Text(
-                        text = broadcast!!.airingInString(),
+                        text = broadcast?.airingInString() ?: stringResource(R.string.airing),
                         color = MaterialTheme.colorScheme.primary,
                         fontSize = 16.sp,
                         lineHeight = 19.sp,

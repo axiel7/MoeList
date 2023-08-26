@@ -21,6 +21,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AssistChip
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.HorizontalDivider
@@ -29,6 +30,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -38,6 +40,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -54,9 +57,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.axiel7.moelist.App
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.manga.MangaDetails
+import com.axiel7.moelist.data.model.media.MediaStatus
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.uicompose.composables.InfoTitle
 import com.axiel7.moelist.uicompose.composables.TextIconHorizontal
@@ -418,7 +423,9 @@ fun MediaDetailsView(
                 )
                 MediaInfoView(
                     title = stringResource(R.string.broadcast),
-                    info = animeDetails?.broadcast?.timeText(),
+                    info = animeDetails?.broadcast?.timeText(
+                        isAiring = animeDetails.status == MediaStatus.AIRING
+                    ),
                     modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
                 )
                 MediaInfoView(
@@ -443,6 +450,53 @@ fun MediaDetailsView(
                         .defaultPlaceholder(visible = viewModel.isLoading)
                         .padding(bottom = 8.dp)
                 )
+            }
+
+            //Characters
+            if (mediaType == MediaType.ANIME) {
+                var showCharacters by remember { mutableStateOf(App.loadCharacters) }
+
+                InfoTitle(text = stringResource(R.string.characters))
+                if (showCharacters) {
+                    LazyRow(
+                        modifier = Modifier.padding(top = 8.dp),
+                        contentPadding = PaddingValues(horizontal = 16.dp)
+                    ) {
+                        items(
+                            items = viewModel.characters,
+                            contentType = { it }
+                        ) { item ->
+                            MediaItemVertical(
+                                url = item.node.mainPicture?.medium,
+                                title = item.fullName,
+                                modifier = Modifier.padding(end = 8.dp),
+                                subtitle = {
+                                    Text(
+                                        text = item.role?.localized() ?: "",
+                                        color = MaterialTheme.colorScheme.outline,
+                                        fontSize = 13.sp
+                                    )
+                                },
+                                onClick = {}
+                            )
+                        }
+                        if (viewModel.isLoadingCharacters) {
+                            item {
+                                CircularProgressIndicator()
+                            }
+                        }
+                    }
+                } else {
+                    TextButton(
+                        onClick = {
+                            showCharacters = true
+                            viewModel.getCharacters()
+                        },
+                        modifier = Modifier.padding(8.dp)
+                    ) {
+                        Text(text = stringResource(R.string.view_characters))
+                    }
+                }
             }
 
             //Themes

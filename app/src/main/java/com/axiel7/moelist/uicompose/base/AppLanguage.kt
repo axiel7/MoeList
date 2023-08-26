@@ -5,21 +5,22 @@ import com.axiel7.moelist.R
 enum class AppLanguage(val value: String) {
     FOLLOW_SYSTEM("follow_system"),
     ENGLISH("en"),
-    ARABIC("ar-rSA"),
-    BULGARIAN("bg-rBG"),
+    ARABIC("ar-SA"),
+    BULGARIAN("bg-BG"),
     CHINESE_SIMPLIFIED("zh-Hans"),
     CHINESE_TRADITIONAL("zh-Hant"),
-    CZECH("cs-rCZ"),
+    CZECH("cs"),
     FRENCH("fr"),
     GERMAN("de"),
-    INDONESIAN("in-rID"),
+    INDONESIAN("in-ID"),
     JAPANESE("ja"),
-    PORTUGUESE("pt-rPT"),
-    PORTUGUESE_BRAZILIAN("pt-rBR"),
-    RUSSIAN("ru-rRU"),
+    PORTUGUESE("pt-PT"),
+    PORTUGUESE_BRAZILIAN("pt-BR"),
+    RUSSIAN("ru-RU"),
+    SLOVAK("sk"),
     SPANISH("es"),
     TURKISH("tr"),
-    UKRAINIAN("uk-rUA");
+    UKRAINIAN("uk-UA");
 
     val stringResNative
         get() = when (this) {
@@ -37,6 +38,7 @@ enum class AppLanguage(val value: String) {
             PORTUGUESE -> R.string.portuguese_native
             PORTUGUESE_BRAZILIAN -> R.string.brazilian_native
             RUSSIAN -> R.string.russian_native
+            SLOVAK -> R.string.slovak_native
             SPANISH -> R.string.spanish_native
             TURKISH -> R.string.turkish_native
             UKRAINIAN -> R.string.ukrainian_native

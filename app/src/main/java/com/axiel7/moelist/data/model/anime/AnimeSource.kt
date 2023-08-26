@@ -30,8 +30,14 @@ enum class AnimeSource : Localizable {
     @SerialName("web_manga")
     WEB_MANGA,
 
+    @SerialName("web_novel")
+    WEB_NOVEL,
+
     @SerialName("music")
     MUSIC,
+
+    @SerialName("mixed_media")
+    MIXED_MEDIA,
 
     @SerialName("4_koma_manga")
     YONKOMA_MANGA;
@@ -45,7 +51,9 @@ enum class AnimeSource : Localizable {
         VISUAL_NOVEL -> stringResource(R.string.visual_novel)
         GAME -> stringResource(R.string.game)
         WEB_MANGA -> stringResource(R.string.web_manga)
+        WEB_NOVEL -> stringResource(R.string.web_novel)
         MUSIC -> stringResource(R.string.music)
+        MIXED_MEDIA -> stringResource(R.string.mixed_media)
         YONKOMA_MANGA -> "4-Koma ${stringResource(R.string.manga)}"
     }
 }

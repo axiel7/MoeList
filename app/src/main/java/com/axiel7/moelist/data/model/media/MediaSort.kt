@@ -22,11 +22,11 @@ enum class MediaSort(val value: String) : Localizable {
         ANIME_TITLE -> stringResource(R.string.sort_title)
         ANIME_SCORE -> stringResource(R.string.sort_score)
         ANIME_NUM_USERS -> stringResource(R.string.members)
-        ANIME_START_DATE -> stringResource(R.string.sort_start_date)
+        ANIME_START_DATE -> stringResource(R.string.start_date)
         SCORE -> stringResource(R.string.sort_score)
         UPDATED -> stringResource(R.string.sort_last_updated)
         MANGA_TITLE -> stringResource(R.string.sort_title)
-        MANGA_START_DATE -> stringResource(R.string.sort_start_date)
+        MANGA_START_DATE -> stringResource(R.string.start_date)
     }
 
     companion object {

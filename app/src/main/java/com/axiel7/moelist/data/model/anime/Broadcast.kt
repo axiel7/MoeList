@@ -29,16 +29,18 @@ data class Broadcast(
 ) {
 
     @Composable
-    fun timeText() = buildString {
+    fun timeText(isAiring: Boolean) = buildString {
         if (dayOfTheWeek != null) {
             append(dayOfTheWeek.localized())
             append(" ")
             if (startTime != null) {
                 append(startTime)
                 append(" (JST)")
-                val airingIn = airingInString()
-                if (airingIn.isNotEmpty()) {
-                    append("\n$airingIn")
+                if (isAiring) {
+                    val airingIn = airingInString()
+                    if (airingIn.isNotEmpty()) {
+                        append("\n$airingIn")
+                    }
                 }
             }
         } else append(stringResource(R.string.unknown))

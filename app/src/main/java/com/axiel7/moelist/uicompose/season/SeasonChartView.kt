@@ -62,7 +62,7 @@ fun SeasonChartView(
 
     if (sheetState.isVisible) {
         SeasonChartFilterSheet(
-            coroutineScope = coroutineScope,
+            onDismiss = { coroutineScope.launch { sheetState.hide() } },
             sheetState = sheetState,
             viewModel = viewModel,
             bottomPadding = bottomBarPadding
