@@ -51,6 +51,8 @@
     <string name="view_profile_mal">Преглед на профила в MAL</string>
     <string name="airing_in">Поветряване в %s</string>
     <string name="score_value">Резултат: %s</string>
+    <string name="plus_one">+1</string>
+    <string name="minus_one">-1</string>
     <string name="add">Добавяне</string>
     <string name="invalid_number">Невалидно число</string>
     <string name="unknown">Неизвестно</string>
@@ -275,4 +277,5 @@
     <string name="ago">преди %s</string>
     <string name="set_as_completed">Маркирайте като завършен?</string>
     <string name="relation_character">Символ</string>
+    <string name="slovak">Словашки</string>
 </resources>
