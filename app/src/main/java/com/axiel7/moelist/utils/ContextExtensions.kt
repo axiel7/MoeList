@@ -153,6 +153,24 @@ object ContextExtensions {
                 startActivity(this)
             }
         } catch (e: ActivityNotFoundException) {
+            openInGoogleTranslate2(text)
+        } catch (e: Exception) {
+            Log.d("translate", e.toString())
+        }
+    }
+
+    fun Context.openInGoogleTranslate2(text: String) {
+        try {
+            Intent(Intent.ACTION_PROCESS_TEXT).apply {
+                component = ComponentName(
+                    "com.google.android.apps.translate",
+                    "com.google.android.apps.translate.copydrop.gm3.TapToTranslateActivity"
+                )
+                type = "text/plain"
+                putExtra(Intent.EXTRA_PROCESS_TEXT, text)
+                startActivity(this)
+            }
+        } catch (e: ActivityNotFoundException) {
             showToast("Google Translate not installed")
         } catch (e: Exception) {
             Log.d("translate", e.toString())
