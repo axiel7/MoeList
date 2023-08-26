@@ -256,7 +256,7 @@
     <string name="select_date">選擇日期</string>
     <string name="total_rereads">總重讀</string>
     <string name="total_rewatches">總重看</string>
-    <string name="chinese_simplified">Chinese (Simplified)</string>
+    <string name="chinese_simplified">中文 (簡體)</string>
     <string name="related_anime">相關動漫</string>
     <string name="related_manga">相關漫畫</string>
     <string name="content">內容</string>
@@ -359,4 +359,6 @@
     <string name="genre_workplace">Workplace</string>
     <string name="genre_memoir">Memoir</string>
     <string name="genre_villainess">Villainess</string>
+    <string name="contributors">Contributors</string>
+    <string name="slovak">Slovak</string>
 </resources>
