@@ -309,4 +309,5 @@
     <string name="ago">%s тому</string>
     <string name="set_as_completed">Позначити завершеним?</string>
     <string name="relation_character">Персонаж</string>
+    <string name="slovak">Словацька</string>
 </resources>
