@@ -7,19 +7,15 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.axiel7.moelist.App
@@ -64,7 +60,6 @@ import com.axiel7.moelist.uicompose.season.SeasonChartView
 import com.axiel7.moelist.uicompose.userlist.UserMediaListWithFabView
 import com.axiel7.moelist.uicompose.userlist.UserMediaListWithTabsView
 import com.axiel7.moelist.utils.StringExtensions.removeFirstAndLast
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun MainNavigation(
@@ -81,18 +76,6 @@ fun MainNavigation(
         App.accessToken ?: ""
     )
     val stringArrayType = remember { StringArrayNavType() }
-
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val systemUiController = rememberSystemUiController()
-    val backgroundColor = MaterialTheme.colorScheme.background
-
-    if (isCompactScreen) {
-        LaunchedEffect(navBackStackEntry) {
-            if (BottomDestination.routes.contains(navBackStackEntry?.destination?.route)) {
-                systemUiController.setStatusBarColor(backgroundColor)
-            } else systemUiController.setStatusBarColor(Color.Transparent)
-        }
-    }
 
     NavHost(
         navController = navController,

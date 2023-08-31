@@ -98,7 +98,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     implementation("androidx.compose.material3:material3-window-size-class:1.2.0-alpha06")
 
-    implementation("androidx.activity:activity-compose:1.7.2")
+    implementation("androidx.activity:activity-compose:1.8.0-alpha07")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
     implementation("androidx.navigation:navigation-compose:2.7.1")
 
@@ -106,7 +106,6 @@ dependencies {
 
     val accompanistVersion = "0.32.0"
     implementation("com.google.accompanist:accompanist-insets-ui:$accompanistVersion")
-    implementation("com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-permissions:$accompanistVersion")
 
     implementation("io.github.fornewid:placeholder-material3:1.0.1")

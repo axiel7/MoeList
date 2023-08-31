@@ -3,7 +3,9 @@ package com.axiel7.moelist.uicompose.main
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -22,10 +24,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -34,16 +36,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.WindowCompat
 import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.App
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.ACCESS_TOKEN_PREFERENCE_KEY
@@ -75,6 +76,7 @@ import com.axiel7.moelist.data.datastore.PreferencesDataStore.rememberPreference
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.TitleLanguage
 import com.axiel7.moelist.data.repository.LoginRepository
+import com.axiel7.moelist.uicompose.base.BottomDestination
 import com.axiel7.moelist.uicompose.base.BottomDestination.Companion.toBottomDestinationIndex
 import com.axiel7.moelist.uicompose.base.ListStyle
 import com.axiel7.moelist.uicompose.details.MEDIA_DETAILS_DESTINATION
@@ -82,6 +84,8 @@ import com.axiel7.moelist.uicompose.main.composables.MainBottomNavBar
 import com.axiel7.moelist.uicompose.main.composables.MainNavigationRail
 import com.axiel7.moelist.uicompose.main.composables.MainTopAppBar
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
+import com.axiel7.moelist.uicompose.theme.dark_scrim
+import com.axiel7.moelist.uicompose.theme.light_scrim
 import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.NumExtensions.toInt
 import kotlinx.coroutines.CoroutineScope
@@ -93,8 +97,8 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         // login intent
         if (intent.data?.toString()?.startsWith(Constants.MOELIST_PAGELINK) == true) {
@@ -138,23 +142,55 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             val themePreference by rememberPreference(THEME_PREFERENCE_KEY, theme)
+            val darkTheme = if (themePreference == "follow_system") isSystemInDarkTheme()
+            else themePreference == "dark" || themePreference == "black"
+
             val navController = rememberNavController()
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+
             val windowSizeClass = calculateWindowSizeClass(this)
+            val isCompactScreen = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact
 
             MoeListTheme(
-                darkTheme = if (themePreference == "follow_system") isSystemInDarkTheme()
-                else themePreference == "dark" || themePreference == "black",
+                darkTheme = darkTheme,
                 amoledColors = themePreference == "black"
             ) {
+                val backgroundColor = MaterialTheme.colorScheme.background
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = backgroundColor
                 ) {
                     MainView(
-                        windowSizeClass = windowSizeClass,
+                        isCompactScreen = isCompactScreen,
                         navController = navController,
                         lastTabOpened = lastTabOpened ?: 0
                     )
+
+                    DisposableEffect(darkTheme, navBackStackEntry) {
+                        var statusBarStyle = SystemBarStyle.auto(
+                            android.graphics.Color.TRANSPARENT,
+                            android.graphics.Color.TRANSPARENT
+                        ) { darkTheme }
+
+                        if (isCompactScreen
+                            && BottomDestination.routes.contains(navBackStackEntry?.destination?.route)
+                        ) {
+                            statusBarStyle =
+                                if (darkTheme) SystemBarStyle.dark(backgroundColor.toArgb())
+                                else SystemBarStyle.light(
+                                    backgroundColor.toArgb(),
+                                    dark_scrim.toArgb()
+                                )
+                        }
+                        enableEdgeToEdge(
+                            statusBarStyle = statusBarStyle,
+                            navigationBarStyle = SystemBarStyle.auto(
+                                light_scrim.toArgb(),
+                                dark_scrim.toArgb(),
+                            ) { darkTheme },
+                        )
+                        onDispose {}
+                    }
                 }
             }
 
@@ -264,7 +300,7 @@ class MainActivity : AppCompatActivity() {
 
 @Composable
 fun MainView(
-    windowSizeClass: WindowSizeClass,
+    isCompactScreen: Boolean,
     navController: NavHostController,
     lastTabOpened: Int
 ) {
@@ -273,7 +309,6 @@ fun MainView(
     val bottomBarState = remember { mutableStateOf(true) }
     var topBarHeightPx by remember { mutableFloatStateOf(0f) }
     val topBarOffsetY = remember { Animatable(0f) }
-    val isCompactScreen = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact
 
     Scaffold(
         topBar = {
@@ -345,15 +380,12 @@ fun MainView(
     }
 }
 
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Preview(showBackground = true)
 @Composable
 fun MainPreview() {
     MoeListTheme {
         MainView(
-            windowSizeClass = WindowSizeClass.calculateFromSize(
-                DpSize(width = 1280.dp, height = 1920.dp)
-            ),
+            isCompactScreen = true,
             navController = rememberNavController(),
             lastTabOpened = 0
         )
