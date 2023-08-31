@@ -19,10 +19,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -46,6 +42,9 @@ import com.axiel7.moelist.uicompose.base.ListStyle
 import com.axiel7.moelist.uicompose.composables.OnBottomReached
 import com.axiel7.moelist.uicompose.composables.collapsable
 import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_MEDIUM_WIDTH
+import com.axiel7.moelist.uicompose.composables.pullrefresh.PullRefreshIndicator
+import com.axiel7.moelist.uicompose.composables.pullrefresh.pullRefresh
+import com.axiel7.moelist.uicompose.composables.pullrefresh.rememberPullRefreshState
 import com.axiel7.moelist.uicompose.userlist.composables.CompactUserMediaListItem
 import com.axiel7.moelist.uicompose.userlist.composables.CompactUserMediaListItemPlaceholder
 import com.axiel7.moelist.uicompose.userlist.composables.GridUserMediaListItem
@@ -59,7 +58,6 @@ import com.axiel7.moelist.uicompose.userlist.composables.StandardUserMediaListIt
 const val ANIME_LIST_DESTINATION = "anime_list"
 const val MANGA_LIST_DESTINATION = "manga_list"
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun UserMediaListView(
     mediaList: List<BaseUserMediaList<out BaseMediaNode>>,
