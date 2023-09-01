@@ -318,7 +318,7 @@
     <string name="genre_adult_cast">Erwachsene Besetzung</string>
     <string name="genre_avant_garde">Avantgarde</string>
     <string name="genre_award_winning">Preisgekrönt</string>
-    <string name="genre_gourmet">Gourmet</string>
+    <string name="genre_gourmet" comment="can also be translated as Gastronomic.&#10;from MAL: Preparation and consumption of food or drink take focus in gourmet stories and the narrative is designed to feature numerous different dishes or beverages.">Gourmet</string>
     <string name="genre_suspense">Spannung</string>
     <string name="genre_erotica">Erotisch</string>
     <string name="genre_anthropomorphic">Anthropomorphismus</string>
