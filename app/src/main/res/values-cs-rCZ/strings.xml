@@ -318,7 +318,7 @@
     <string name="genre_adult_cast">Dospělé obsazení</string>
     <string name="genre_avant_garde">Avant Garde</string>
     <string name="genre_award_winning">Ocenění</string>
-    <string name="genre_gourmet">Vaření</string>
+    <string name="genre_gourmet" comment="can also be translated as Gastronomic.&#10;from MAL: Preparation and consumption of food or drink take focus in gourmet stories and the narrative is designed to feature numerous different dishes or beverages.">Vaření</string>
     <string name="genre_suspense">Napínavý</string>
     <string name="genre_erotica">Erotika</string>
     <string name="genre_anthropomorphic">Antropomorfní</string>
