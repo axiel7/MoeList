@@ -58,7 +58,9 @@ fun FullPosterView(
                 actions = {
                     ViewInBrowserButton(
                         onClick = {
-                            context.openLink(pictures[pagerState.currentPage])
+                            pictures.getOrNull(pagerState.currentPage)?.let { url ->
+                                context.openLink(url)
+                            }
                         }
                     )
                 }
