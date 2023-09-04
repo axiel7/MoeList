@@ -49,11 +49,11 @@ import com.axiel7.moelist.utils.UseCases
 
 const val SETTINGS_DESTINATION = "settings"
 
-val themeEntries = ThemeStyle.values().associate { it.name.lowercase() to it.stringRes }
-val languageEntries = AppLanguage.values().associate { it.value to it.stringResNative }
-val listStyleEntries = ListStyle.values().associate { it.value to it.stringRes }
-val itemsPerRowEntries = ItemsPerRow.values().associate { it.value.toString() to it.stringRes }
-val titleLanguageEntries = TitleLanguage.values().associate { it.name to it.stringRes }
+val themeEntries = ThemeStyle.entries.associate { it.name.lowercase() to it.stringRes }
+val languageEntries = AppLanguage.entries.associate { it.value to it.stringResNative }
+val listStyleEntries = ListStyle.entries.associate { it.value to it.stringRes }
+val itemsPerRowEntries = ItemsPerRow.entries.associate { it.value.toString() to it.stringRes }
+val titleLanguageEntries = TitleLanguage.entries.associate { it.name to it.stringRes }
 val startTabEntries = mapOf(
     "last_used" to R.string.last_used,
     BottomDestination.Home.value to R.string.title_home,

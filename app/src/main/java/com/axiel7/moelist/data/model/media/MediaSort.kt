@@ -30,7 +30,7 @@ enum class MediaSort(val value: String) : Localizable {
     }
 
     companion object {
-        fun forValue(value: String) = values().firstOrNull { it.value == value }
+        fun forValue(value: String) = entries.firstOrNull { it.value == value }
 
         val animeListSortItems = arrayOf(ANIME_TITLE, SCORE, UPDATED, ANIME_START_DATE)
 

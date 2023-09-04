@@ -79,7 +79,7 @@ fun SeasonChartFilterSheet(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Season.values().forEach { season ->
+                Season.entries.forEach { season ->
                     SelectableIconToggleButton(
                         icon = season.icon,
                         tooltipText = season.localized(),

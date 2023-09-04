@@ -60,7 +60,7 @@ fun CalendarView(
     val viewModel: CalendarViewModel = viewModel()
     val pagerState = rememberPagerState(
         initialPage = SeasonCalendar.currentWeekday.numeric - 1,
-        pageCount = { WeekDay.values().size }
+        pageCount = { WeekDay.entries.size }
     )
     val coroutineScope = rememberCoroutineScope()
 
@@ -140,7 +140,7 @@ fun CalendarView(
                     RoundedTabRowIndicator(tabPositions[pagerState.currentPage])
                 }
             ) {
-                WeekDay.values().forEachIndexed { index, weekDay ->
+                WeekDay.entries.forEachIndexed { index, weekDay ->
                     Tab(
                         selected = pagerState.currentPage == index,
                         onClick = { coroutineScope.launch { pagerState.animateScrollToPage(index) } },

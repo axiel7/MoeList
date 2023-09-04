@@ -15,7 +15,7 @@ enum class ListStyle(val value: String) {
     }
 
     companion object {
-        fun forValue(value: String) = ListStyle.values().firstOrNull { it.value == value }
+        fun forValue(value: String) = entries.firstOrNull { it.value == value }
     }
 }
 
