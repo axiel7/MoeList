@@ -24,7 +24,7 @@ fun FeedbackDialog(
             }
         },
         text = {
-            Column() {
+            Column {
                 MoreItem(
                     title = stringResource(R.string.github),
                     icon = R.drawable.ic_github,

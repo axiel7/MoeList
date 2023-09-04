@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.Velocity
  * Note that this modifier must be added above a scrolling container, such as a lazy column, in
  * order to receive scroll events. For example:
  *
- * @sample androidx.compose.material.samples.PullRefreshSample
  *
  * @param state The [PullRefreshState] associated with this pull-to-refresh component.
  * The state will be updated by this modifier.
@@ -57,7 +56,6 @@ fun Modifier.pullRefresh(
  * Note that this modifier must be added above a scrolling container, such as a lazy column, in
  * order to receive scroll events. For example:
  *
- * @sample androidx.compose.material.samples.CustomPullRefreshSample
  *
  * @param onPull Callback for dispatching vertical scroll delta, takes float pullDelta as argument.
  * Positive delta (pulling down) is dispatched only if the child does not consume it (i.e. pulling

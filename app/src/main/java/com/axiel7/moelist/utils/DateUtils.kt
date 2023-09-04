@@ -19,7 +19,7 @@ import java.util.TimeZone
 
 object DateUtils {
 
-    val defaultZoneOffset get() = ZonedDateTime.now(ZoneId.systemDefault()).offset
+    val defaultZoneOffset: ZoneOffset get() = ZonedDateTime.now(ZoneId.systemDefault()).offset
 
     fun unixtimeToStringDate(
         time: Long?,
