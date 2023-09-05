@@ -17,13 +17,15 @@
     <application
         android:name=".App"
         android:allowBackup="true"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:localeConfig="@xml/locales_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MySplash"
-        tools:ignore="AllowBackup">
+        tools:ignore="AllowBackup"
+        tools:targetApi="33">
 
         <activity
             android:name=".uicompose.main.MainActivity"
