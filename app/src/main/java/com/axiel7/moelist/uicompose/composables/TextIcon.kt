@@ -8,9 +8,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.PlainTooltipBox
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberPlainTooltipState
+import androidx.compose.material3.TooltipBox
+import androidx.compose.material3.TooltipDefaults
+import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -90,12 +91,13 @@ fun TextIconVertical(
     tooltip: String,
     isLoading: Boolean = false,
 ) {
-    val tooltipState = rememberPlainTooltipState()
+    val tooltipState = rememberTooltipState()
     val scope = rememberCoroutineScope()
 
-    PlainTooltipBox(
+    TooltipBox(
+        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
         tooltip = { Text(text = tooltip) },
-        tooltipState = tooltipState
+        state = tooltipState
     ) {
         TextIconVertical(
             text = text,

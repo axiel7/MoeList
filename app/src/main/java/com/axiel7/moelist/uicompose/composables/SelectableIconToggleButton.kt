@@ -4,12 +4,12 @@ import androidx.annotation.DrawableRes
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconToggleButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.PlainTooltipBox
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberPlainTooltipState
+import androidx.compose.material3.TooltipBox
+import androidx.compose.material3.TooltipDefaults
+import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import kotlinx.coroutines.launch
 
@@ -22,21 +22,21 @@ fun <T> SelectableIconToggleButton(
     selectedValue: T,
     onClick: (Boolean) -> Unit
 ) {
-    val tooltipState = rememberPlainTooltipState()
+    val tooltipState = rememberTooltipState()
     val scope = rememberCoroutineScope()
 
-    PlainTooltipBox(
+    TooltipBox(
+        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
         tooltip = { Text(tooltipText) },
         focusable = false,
-        tooltipState = tooltipState
+        state = tooltipState
     ) {
         FilledIconToggleButton(
             checked = value == selectedValue,
             onCheckedChange = {
                 scope.launch { tooltipState.show() }
                 onClick(it)
-            },
-            modifier = Modifier.tooltipTrigger()
+            }
         ) {
             Icon(painter = painterResource(icon), contentDescription = tooltipText)
         }
