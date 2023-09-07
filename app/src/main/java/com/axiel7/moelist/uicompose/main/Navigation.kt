@@ -383,7 +383,11 @@ fun MainNavigation(
 
         composable(SEARCH_DESTINATION) {
             SearchHostView(
+                isCompactScreen = isCompactScreen,
                 padding = padding,
+                navigateBack = {
+                    navController.popBackStack()
+                },
                 navigateToMediaDetails = { mediaType, mediaId ->
                     navController.navigate(
                         MEDIA_DETAILS_DESTINATION

@@ -314,7 +314,6 @@ fun MainView(
         topBar = {
             if (isCompactScreen) {
                 MainTopAppBar(
-                    bottomBarState = bottomBarState,
                     navController = navController,
                     modifier = Modifier
                         .graphicsLayer {

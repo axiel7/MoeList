@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -31,6 +32,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -44,6 +47,7 @@ import com.axiel7.moelist.data.model.anime.AnimeList
 import com.axiel7.moelist.data.model.manga.MangaList
 import com.axiel7.moelist.data.model.media.BaseMediaList
 import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.uicompose.composables.BackIconButton
 import com.axiel7.moelist.uicompose.composables.OnBottomReached
 import com.axiel7.moelist.uicompose.composables.media.MediaItemDetailed
 import com.axiel7.moelist.uicompose.composables.media.MediaItemDetailedPlaceholder
@@ -57,35 +61,50 @@ const val SEARCH_DESTINATION = "search"
 @Composable
 fun SearchHostView(
     padding: PaddingValues,
+    isCompactScreen: Boolean,
+    navigateBack: () -> Unit,
     navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
     var query by remember { mutableStateOf("") }
     val performSearch = remember { mutableStateOf(false) }
+    val focusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
 
     Column(
         modifier = Modifier
+            .statusBarsPadding()
             .padding(top = padding.calculateTopPadding())
             .fillMaxWidth()
     ) {
         TextField(
             value = query,
             onValueChange = { query = it },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .focusRequester(focusRequester),
             placeholder = { Text(text = stringResource(R.string.search)) },
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            leadingIcon = {
+                if (isCompactScreen) BackIconButton(onClick = navigateBack)
+            },
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(
-                onDone = { performSearch.value = true }
+                onSearch = { performSearch.value = true }
             ),
             singleLine = true,
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color.Transparent,
                 unfocusedContainerColor = Color.Transparent,
+                focusedIndicatorColor = MaterialTheme.colorScheme.outlineVariant,
+                unfocusedIndicatorColor = MaterialTheme.colorScheme.outlineVariant
             )
         )
         SearchView(
             query = query,
             performSearch = performSearch,
-            showAsGrid = true,
+            showAsGrid = !isCompactScreen,
             contentPadding = PaddingValues(bottom = padding.calculateBottomPadding()),
             navigateToMediaDetails = navigateToMediaDetails
         )
@@ -302,10 +321,10 @@ fun SearchView(
 @Composable
 fun SearchPreview() {
     MoeListTheme {
-        SearchView(
-            query = "one",
-            performSearch = remember { mutableStateOf(false) },
-            showAsGrid = false,
+        SearchHostView(
+            isCompactScreen = true,
+            padding = PaddingValues(),
+            navigateBack = {},
             navigateToMediaDetails = { _, _ -> }
         )
     }
