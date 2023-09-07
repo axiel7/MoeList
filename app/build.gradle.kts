@@ -103,7 +103,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
     implementation("androidx.navigation:navigation-compose:2.7.2")
 
-    implementation("androidx.glance:glance-appwidget:1.0.0-rc01")
+    implementation("androidx.glance:glance-appwidget:1.0.0")
 
     val accompanistVersion = "0.32.0"
     implementation("com.google.accompanist:accompanist-permissions:$accompanistVersion")
