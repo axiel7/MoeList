@@ -315,5 +315,13 @@
     <string name="role_supporting">Coadjuvante</string>
     <string name="view_characters">Ver Personagens (Beta)</string>
     <string name="characters">Personagens</string>
+    <string name="genre_adult_cast">Elenco Adulto</string>
+    <string name="genre_avant_garde">Vanguarda</string>
+    <string name="genre_award_winning">Premiado</string>
+    <string name="genre_gourmet" comment="can also be translated as Gastronomic.&#10;from MAL: Preparation and consumption of food or drink take focus in gourmet stories and the narrative is designed to feature numerous different dishes or beverages.">Gastronomia</string>
+    <string name="genre_suspense">Suspense</string>
+    <string name="genre_erotica">Erótica</string>
+    <string name="genre_anthropomorphic">Antropomórfico</string>
+    <string name="genre_cgdct">Fofuras Fazendo Fofices</string>
     <string name="slovak">Eslovaco</string>
 </resources>
