@@ -384,7 +384,7 @@ fun MainNavigation(
         composable(SEARCH_DESTINATION) {
             SearchHostView(
                 isCompactScreen = isCompactScreen,
-                padding = padding,
+                padding = if (isCompactScreen) PaddingValues() else padding,
                 navigateBack = {
                     navController.popBackStack()
                 },
