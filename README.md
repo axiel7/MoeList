@@ -25,6 +25,7 @@ Want an AniList version? Check [AniHyou](https://github.com/axiel7/AniHyou-andro
 * Anime/Manga details
 * Related Anime/Manga
 * Anime/Manga recommendations
+* Anime characters
 * Search Anime/Manga
 * Seasonal Anime Calendar
 * Search Anime by season
@@ -42,7 +43,7 @@ Want an AniList version? Check [AniHyou](https://github.com/axiel7/AniHyou-andro
 * View/add friends
 * View others userlists
 * MyAnimeList notifications/messages
-* Characters and voice actors
+* Manga characters and voice actors
 * [More](https://github.com/axiel7/MoeList/issues?q=is%3Aopen+is%3Aissue+label%3A%22api+limited%22)
 
 # Donate 💸
