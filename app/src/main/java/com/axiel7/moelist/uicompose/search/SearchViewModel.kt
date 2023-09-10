@@ -1,6 +1,9 @@
 package com.axiel7.moelist.uicompose.search
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.axiel7.moelist.App
 import com.axiel7.moelist.data.model.ApiParams
@@ -21,10 +24,11 @@ class SearchViewModel : BaseViewModel() {
     var nextPage: String? = null
     var hasNextPage = false
 
+    var mediaType by mutableStateOf(MediaType.ANIME)
+
     val mediaList = mutableStateListOf<BaseMediaList>()
 
     fun search(
-        mediaType: MediaType,
         query: String,
         page: String? = null
     ) {

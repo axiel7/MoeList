@@ -122,7 +122,6 @@ fun SearchView(
 ) {
     val context = LocalContext.current
     val viewModel: SearchViewModel = viewModel()
-    var mediaType by remember { mutableStateOf(MediaType.ANIME) }
     val shouldShowPlaceholder = query.isNotBlank() && viewModel.mediaList.isEmpty()
 
     LaunchedEffect(viewModel.message) {
@@ -132,12 +131,9 @@ fun SearchView(
         }
     }
 
-    LaunchedEffect(mediaType, performSearch.value) {
+    LaunchedEffect(viewModel.mediaType, performSearch.value) {
         if (query.isNotBlank() && performSearch.value) {
-            viewModel.search(
-                mediaType = mediaType,
-                query = query
-            )
+            viewModel.search(query = query)
             performSearch.value = false
         }
     }
@@ -145,7 +141,6 @@ fun SearchView(
     fun onLoadMore() {
         if (!viewModel.isLoading && viewModel.hasNextPage) {
             viewModel.search(
-                mediaType = mediaType,
                 query = query,
                 page = viewModel.nextPage
             )
@@ -156,15 +151,15 @@ fun SearchView(
     fun FilterRow() {
         Row {
             FilterChip(
-                selected = mediaType == MediaType.ANIME,
+                selected = viewModel.mediaType == MediaType.ANIME,
                 onClick = {
-                    mediaType = MediaType.ANIME
+                    viewModel.mediaType = MediaType.ANIME
                     if (query.isNotBlank()) performSearch.value = true
                 },
                 label = { Text(text = stringResource(R.string.anime)) },
                 modifier = Modifier.padding(start = 8.dp),
                 leadingIcon = {
-                    if (mediaType == MediaType.ANIME) {
+                    if (viewModel.mediaType == MediaType.ANIME) {
                         Icon(
                             painter = painterResource(R.drawable.round_check_24),
                             contentDescription = "check"
@@ -173,15 +168,15 @@ fun SearchView(
                 }
             )
             FilterChip(
-                selected = mediaType == MediaType.MANGA,
+                selected = viewModel.mediaType == MediaType.MANGA,
                 onClick = {
-                    mediaType = MediaType.MANGA
+                    viewModel.mediaType = MediaType.MANGA
                     if (query.isNotBlank()) performSearch.value = true
                 },
                 label = { Text(text = stringResource(R.string.manga)) },
                 modifier = Modifier.padding(start = 8.dp),
                 leadingIcon = {
-                    if (mediaType == MediaType.MANGA) {
+                    if (viewModel.mediaType == MediaType.MANGA) {
                         Icon(
                             painter = painterResource(R.drawable.round_check_24),
                             contentDescription = "check"
@@ -211,7 +206,9 @@ fun SearchView(
             subtitle2 = {
                 Text(
                     text = when (item) {
-                        is AnimeList -> item.node.startSeason?.seasonYearText() ?: stringResource(R.string.unknown)
+                        is AnimeList -> item.node.startSeason?.seasonYearText()
+                            ?: stringResource(R.string.unknown)
+
                         is MangaList -> item.node.startDate ?: stringResource(R.string.unknown)
                         else -> stringResource(R.string.unknown)
                     },
@@ -231,7 +228,7 @@ fun SearchView(
                 )
             },
             onClick = {
-                navigateToMediaDetails(mediaType, item.node.id)
+                navigateToMediaDetails(viewModel.mediaType, item.node.id)
             }
         )
     }
