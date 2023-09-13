@@ -323,5 +323,9 @@
     <string name="genre_erotica">Erótica</string>
     <string name="genre_anthropomorphic">Antropomórfico</string>
     <string name="genre_cgdct">Fofuras Fazendo Fofices</string>
+    <string name="genre_video_game">Jogo</string>
+    <string name="genre_memoir">Memória Literária</string>
+    <string name="genre_villainess">Vilã</string>
+    <string name="contributors">Contribuidores</string>
     <string name="slovak">Eslovaco</string>
 </resources>
