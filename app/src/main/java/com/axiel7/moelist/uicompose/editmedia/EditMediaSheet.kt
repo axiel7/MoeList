@@ -99,7 +99,7 @@ fun EditMediaSheet(
                     }
 
                     2 -> {
-                        viewModel.endDate = DateUtils.getLocalDateFromMillis(it)
+                        viewModel.finishDate = DateUtils.getLocalDateFromMillis(it)
                     }
                 }
             }
@@ -261,13 +261,13 @@ fun EditMediaSheet(
                 }
             )
             ClickableOutlinedTextField(
-                value = viewModel.endDate.toLocalized(),
+                value = viewModel.finishDate.toLocalized(),
                 onValueChange = { },
                 modifier = Modifier.padding(vertical = 8.dp),
                 label = { Text(text = stringResource(R.string.end_date)) },
                 trailingIcon = {
-                    if (viewModel.endDate != null) {
-                        IconButton(onClick = { viewModel.endDate = null }) {
+                    if (viewModel.finishDate != null) {
+                        IconButton(onClick = { viewModel.finishDate = null }) {
                             Icon(
                                 painter = painterResource(R.drawable.outline_cancel_24),
                                 contentDescription = stringResource(R.string.delete)
@@ -276,7 +276,7 @@ fun EditMediaSheet(
                     }
                 },
                 onClick = {
-                    datePickerState.selectedDateMillis = viewModel.endDate?.toEpochMillis(
+                    datePickerState.selectedDateMillis = viewModel.finishDate?.toEpochMillis(
                         offset = ZoneOffset.UTC
                     )
                     viewModel.selectedDateType = 2

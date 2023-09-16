@@ -67,7 +67,7 @@ object AnimeRepository {
     }
 
     const val LIST_STATUS_FIELDS =
-        "num_times_rewatched,is_rewatching,rewatch_value,priority,tags,comments"
+        "start_date,finish_date,num_times_rewatched,is_rewatching,rewatch_value,priority,tags,comments"
 
     const val ANIME_DETAILS_FIELDS =
         "id,title,main_picture,pictures,alternative_titles,start_date,end_date," +

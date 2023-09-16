@@ -33,7 +33,7 @@ class EditMediaViewModel(
     var volumeProgress by mutableStateOf<Int?>(0)
     var score by mutableIntStateOf(0)
     var startDate by mutableStateOf<LocalDate?>(null)
-    var endDate by mutableStateOf<LocalDate?>(null)
+    var finishDate by mutableStateOf<LocalDate?>(null)
     var isRepeating by mutableStateOf(false)
     var repeatCount by mutableIntStateOf(0)
     var repeatValue by mutableIntStateOf(0)
@@ -46,7 +46,7 @@ class EditMediaViewModel(
         status = myListStatus.status
         score = myListStatus.score
         startDate = DateUtils.getLocalDateFromDateString(myListStatus.startDate)
-        endDate = DateUtils.getLocalDateFromDateString(myListStatus.endDate)
+        finishDate = DateUtils.getLocalDateFromDateString(myListStatus.finishDate)
 
         progress = myListStatus.progress ?: 0
         (myListStatus as? MyMangaListStatus)?.numVolumesRead?.let { volumeProgress = it }
@@ -63,7 +63,7 @@ class EditMediaViewModel(
         if (isNewEntry && value.isCurrent()) {
             startDate = LocalDate.now()
         } else if (value == ListStatus.COMPLETED) {
-            endDate = LocalDate.now()
+            finishDate = LocalDate.now()
             mediaInfo?.totalDuration()?.let { if (it > 0) progress = it }
             if (mediaInfo is MangaNode) {
                 (mediaInfo as? MangaNode)?.numVolumes?.let { if (it > 0) volumeProgress = it }
@@ -155,8 +155,8 @@ class EditMediaViewModel(
             val startDateISO = startDate?.format(DateTimeFormatter.ISO_DATE)
             val startDateValue = if (startDateISO != myListStatus?.startDate)
                 startDateISO else null
-            val endDateISO = endDate?.format(DateTimeFormatter.ISO_DATE)
-            val endDateValue = if (endDateISO != myListStatus?.endDate)
+            val endDateISO = finishDate?.format(DateTimeFormatter.ISO_DATE)
+            val endDateValue = if (endDateISO != myListStatus?.finishDate)
                 endDateISO else null
 
             val result = if (mediaType == MediaType.ANIME)

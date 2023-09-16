@@ -11,7 +11,7 @@ abstract class BaseMyListStatus : BaseResponse() {
     abstract val score: Int
     abstract val updatedAt: String?
     abstract val startDate: String?
-    abstract val endDate: String?
+    abstract val finishDate: String?
     abstract val progress: Int?
     abstract val repeatCount: Int?
     abstract val repeatValue: Int?

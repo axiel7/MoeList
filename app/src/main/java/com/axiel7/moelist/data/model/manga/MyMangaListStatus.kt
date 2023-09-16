@@ -22,8 +22,8 @@ data class MyMangaListStatus(
     @SerialName("start_date")
     override val startDate: String? = null,
 
-    @SerialName("end_date")
-    override val endDate: String? = null,
+    @SerialName("finish_date")
+    override val finishDate: String? = null,
 
     @SerialName("num_chapters_read")
     override val progress: Int? = 0,

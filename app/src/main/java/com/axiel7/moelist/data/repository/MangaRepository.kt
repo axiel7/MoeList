@@ -15,7 +15,7 @@ import io.ktor.http.HttpStatusCode
 object MangaRepository {
 
     const val LIST_STATUS_FIELDS =
-        "num_times_reread,is_rereading,reread_value,priority,tags,comments"
+        "start_date,finish_date,num_times_reread,is_rereading,reread_value,priority,tags,comments"
 
     const val MANGA_DETAILS_FIELDS =
         "id,title,main_picture,pictures,alternative_titles,start_date,end_date," +
