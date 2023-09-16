@@ -39,7 +39,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -113,8 +112,14 @@ fun MediaDetailsView(
     val sheetState = rememberModalBottomSheetState()
     val bottomBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
-    var maxLinesSynopsis by remember { mutableIntStateOf(5) }
-    var iconExpand by remember { mutableIntStateOf(R.drawable.ic_round_keyboard_arrow_down_24) }
+    var isSynopsisExpanded by remember { mutableStateOf(false) }
+    val maxLinesSynopsis by remember {
+        derivedStateOf { if (isSynopsisExpanded) Int.MAX_VALUE else 5 }
+    }
+    val iconExpand by remember {
+        derivedStateOf {
+        if (isSynopsisExpanded) R.drawable.ic_round_keyboard_arrow_up_24 else R.drawable.ic_round_keyboard_arrow_down_24 }
+    }
     val isNewEntry by remember {
         derivedStateOf { viewModel.mediaDetails?.myListStatus == null }
     }
@@ -263,6 +268,7 @@ fun MediaDetailsView(
                         ?: AnnotatedString(stringResource(R.string.lorem_ipsun)),
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
+                        .clickable { isSynopsisExpanded = !isSynopsisExpanded }
                         .defaultPlaceholder(visible = viewModel.isLoading),
                     lineHeight = 20.sp,
                     overflow = TextOverflow.Ellipsis,
@@ -288,15 +294,7 @@ fun MediaDetailsView(
                 } else Spacer(modifier = Modifier.size(48.dp))
 
                 IconButton(
-                    onClick = {
-                        if (maxLinesSynopsis == 5) {
-                            maxLinesSynopsis = Int.MAX_VALUE
-                            iconExpand = R.drawable.ic_round_keyboard_arrow_up_24
-                        } else {
-                            maxLinesSynopsis = 5
-                            iconExpand = R.drawable.ic_round_keyboard_arrow_down_24
-                        }
-                    }
+                    onClick = { isSynopsisExpanded = !isSynopsisExpanded }
                 ) {
                     Icon(painter = painterResource(iconExpand), contentDescription = "expand")
                 }
