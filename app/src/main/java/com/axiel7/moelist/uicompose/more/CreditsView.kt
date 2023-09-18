@@ -93,9 +93,7 @@ fun CreditsView(
             MoreItem(
                 title = stringResource(R.string.api_help),
                 subtitle = "@Glodanif",
-                onClick = {
-                    context.openLink(LOGO_CREDIT_URL)
-                }
+                onClick = {}
             )
             HorizontalDivider()
             contributorsCredits.forEach { (username, link) ->
