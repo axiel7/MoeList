@@ -96,6 +96,7 @@ fun CreditsView(
                 onClick = {}
             )
             HorizontalDivider()
+            SettingsTitle(text = stringResource(R.string.contributors))
             contributorsCredits.forEach { (username, link) ->
                 MoreItem(
                     title = username,
