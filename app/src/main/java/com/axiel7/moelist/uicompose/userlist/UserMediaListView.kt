@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.axiel7.moelist.App
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.GENERAL_LIST_STYLE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.GRID_ITEMS_PER_ROW_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.RANDOM_LIST_ENTRY_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.USE_GENERAL_LIST_STYLE_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.rememberPreference
 import com.axiel7.moelist.data.model.media.BaseMediaNode
@@ -50,6 +51,7 @@ import com.axiel7.moelist.uicompose.userlist.composables.GridUserMediaListItem
 import com.axiel7.moelist.uicompose.userlist.composables.GridUserMediaListItemPlaceholder
 import com.axiel7.moelist.uicompose.userlist.composables.MinimalUserMediaListItem
 import com.axiel7.moelist.uicompose.userlist.composables.MinimalUserMediaListItemPlaceholder
+import com.axiel7.moelist.uicompose.userlist.composables.RandomChip
 import com.axiel7.moelist.uicompose.userlist.composables.SortChip
 import com.axiel7.moelist.uicompose.userlist.composables.StandardUserMediaListItem
 import com.axiel7.moelist.uicompose.userlist.composables.StandardUserMediaListItemPlaceholder
@@ -81,6 +83,10 @@ fun UserMediaListView(
     val generalListStyle by rememberPreference(
         GENERAL_LIST_STYLE_PREFERENCE_KEY,
         App.generalListStyle.value
+    )
+    val showRandomButton by rememberPreference(
+        RANDOM_LIST_ENTRY_PREFERENCE_KEY,
+        App.randomListButton
     )
 
     val listStyle =
@@ -202,6 +208,11 @@ fun UserMediaListView(
                             text = viewModel.listSort.localized(),
                             onClick = { viewModel.openSortDialog = true },
                         )
+                        if (showRandomButton) {
+                            RandomChip(
+                                onClick = { viewModel.getRandomIdOfList() }
+                            )
+                        }
                     }
                 }
                 items(
@@ -238,11 +249,18 @@ fun UserMediaListView(
                 ),
             ) {
                 item {
-                    SortChip(
-                        text = viewModel.listSort.localized(),
-                        onClick = { viewModel.openSortDialog = true },
-                        modifier = Modifier.padding(horizontal = 16.dp)
-                    )
+                    Row {
+                        SortChip(
+                            text = viewModel.listSort.localized(),
+                            onClick = { viewModel.openSortDialog = true },
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
+                        if (showRandomButton) {
+                            RandomChip(
+                                onClick = { viewModel.getRandomIdOfList() }
+                            )
+                        }
+                    }
                 }
                 when (listStyle) {
                     ListStyle.STANDARD.value -> {
@@ -314,6 +332,11 @@ fun UserMediaListView(
                             text = viewModel.listSort.localized(),
                             onClick = { viewModel.openSortDialog = true },
                         )
+                        if (showRandomButton) {
+                            RandomChip(
+                                onClick = { viewModel.getRandomIdOfList() }
+                            )
+                        }
                     }
                 }
                 when (listStyle) {

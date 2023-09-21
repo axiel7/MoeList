@@ -251,4 +251,37 @@ object AnimeRepository {
             null
         }
     }
+
+    suspend fun getAnimeIdsOfUserList(
+        status: ListStatus,
+        prefetchedList: List<UserAnimeList> = emptyList(),
+        page: String? = null
+    ): Response<List<Int>>? {
+        return try {
+            val result = if (page == null) App.api.getUserAnimeList(
+                status = status,
+                sort = MediaSort.UPDATED,
+                params = CommonApiParams(
+                    nsfw = App.nsfw,
+                    fields = "id",
+                    limit = 1000
+                )
+            ) else App.api.getUserAnimeList(page)
+            result.error?.let {
+                BaseRepository.handleResponseError(it)
+                return Response(error = result.error, message = result.message)
+            }
+            if (result.paging?.next != null) {
+                getAnimeIdsOfUserList(
+                    status = status,
+                    prefetchedList = prefetchedList.plus(result.data.orEmpty()),
+                    page = result.paging.next
+                )
+            } else return Response(
+                data = prefetchedList.plus(result.data.orEmpty()).map { it.node.id }
+            )
+        } catch (e: Exception) {
+            Response(message = e.message)
+        }
+    }
 }

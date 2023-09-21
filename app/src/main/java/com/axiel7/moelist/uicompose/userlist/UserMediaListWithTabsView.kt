@@ -33,6 +33,7 @@ import com.axiel7.moelist.data.model.media.ListStatus.Companion.listStatusValues
 import com.axiel7.moelist.data.model.media.ListType
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.uicompose.base.TabRowItem
+import com.axiel7.moelist.uicompose.composables.LoadingDialog
 import com.axiel7.moelist.uicompose.composables.RoundedTabRowIndicator
 import com.axiel7.moelist.uicompose.editmedia.EditMediaSheet
 import com.axiel7.moelist.uicompose.userlist.composables.MediaListSortDialog
@@ -116,6 +117,10 @@ fun UserMediaListWithTabsView(
                 SetAsCompletedDialog(viewModel = viewModel)
             }
 
+            if (viewModel.isLoadingRandom) {
+                LoadingDialog()
+            }
+
             if (editSheetState.isVisible) {
                 EditMediaSheet(
                     coroutineScope = scope,
@@ -123,6 +128,13 @@ fun UserMediaListWithTabsView(
                     mediaViewModel = viewModel,
                     bottomPadding = systemBarsPadding.calculateBottomPadding()
                 )
+            }
+
+            LaunchedEffect(viewModel.randomId) {
+                viewModel.randomId?.let { id ->
+                    navigateToMediaDetails(viewModel.mediaType, id)
+                    viewModel.randomId = null
+                }
             }
 
             LaunchedEffect(viewModel.message) {

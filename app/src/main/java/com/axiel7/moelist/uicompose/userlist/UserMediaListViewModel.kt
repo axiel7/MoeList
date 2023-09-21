@@ -101,7 +101,7 @@ class UserMediaListViewModel(
                 AnimeRepository.getUserAnimeList(
                     status = listStatus,
                     sort = listSort,
-                    commonApiParams =  params,
+                    commonApiParams = params,
                     page = page
                 )
             else
@@ -229,5 +229,19 @@ class UserMediaListViewModel(
             mediaList.removeIf { it.node.id == mediaId }
         }
         isLoading = false
+    }
+
+    var isLoadingRandom by mutableStateOf(false)
+    var randomId by mutableStateOf<Int?>(null)
+
+    fun getRandomIdOfList() = viewModelScope.launch(Dispatchers.IO) {
+        isLoadingRandom = true
+        val result = if (mediaType == MediaType.ANIME)
+            AnimeRepository.getAnimeIdsOfUserList(status = listStatus)
+        else MangaRepository.getMangaIdsOfUserList(status = listStatus)
+        isLoadingRandom = false
+        if (result != null) {
+            randomId = result.data?.random()
+        }
     }
 }

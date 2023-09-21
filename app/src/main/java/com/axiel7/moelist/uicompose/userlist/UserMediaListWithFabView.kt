@@ -52,6 +52,7 @@ import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.data.model.media.ListStatus.Companion.listStatusValues
 import com.axiel7.moelist.data.model.media.ListType
 import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.uicompose.composables.LoadingDialog
 import com.axiel7.moelist.uicompose.editmedia.EditMediaSheet
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.uicompose.userlist.composables.MediaListSortDialog
@@ -113,6 +114,10 @@ fun UserMediaListWithFabView(
         SetAsCompletedDialog(viewModel = viewModel)
     }
 
+    if (viewModel.isLoadingRandom) {
+        LoadingDialog()
+    }
+
     if (editSheetState.isVisible) {
         EditMediaSheet(
             coroutineScope = scope,
@@ -120,6 +125,13 @@ fun UserMediaListWithFabView(
             mediaViewModel = viewModel,
             bottomPadding = bottomBarPadding
         )
+    }
+
+    LaunchedEffect(viewModel.randomId) {
+        viewModel.randomId?.let { id ->
+            navigateToMediaDetails(viewModel.mediaType, id)
+            viewModel.randomId = null
+        }
     }
 
     LaunchedEffect(viewModel.message) {

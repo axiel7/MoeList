@@ -24,6 +24,7 @@ import com.axiel7.moelist.data.datastore.PreferencesDataStore.GRID_ITEMS_PER_ROW
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.LANG_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.LOAD_CHARACTERS_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.NSFW_PREFERENCE_KEY
+import com.axiel7.moelist.data.datastore.PreferencesDataStore.RANDOM_LIST_ENTRY_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.START_TAB_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.THEME_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.TITLE_LANG_PREFERENCE_KEY
@@ -92,6 +93,10 @@ fun SettingsView(
     var loadCharactersPreference by rememberPreference(
         LOAD_CHARACTERS_PREFERENCE_KEY,
         App.loadCharacters
+    )
+    var randomListEntryPreference by rememberPreference(
+        RANDOM_LIST_ENTRY_PREFERENCE_KEY,
+        App.randomListButton
     )
 
     DefaultScaffoldWithTopAppBar(
@@ -240,6 +245,14 @@ fun SettingsView(
                 onValueChange = {
                     loadCharactersPreference = it
                     App.loadCharacters = it
+                }
+            )
+            SwitchPreferenceView(
+                title = "Random button on anime/manga list",
+                value = randomListEntryPreference,
+                onValueChange = {
+                    randomListEntryPreference = it
+                    App.randomListButton = it
                 }
             )
         }

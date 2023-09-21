@@ -55,5 +55,6 @@ class App : Application() {
         var titleLanguage = TitleLanguage.ROMAJI
         var useListTabs = false
         var loadCharacters = false
+        var randomListButton = false
     }
 }
