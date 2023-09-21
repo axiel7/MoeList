@@ -29,8 +29,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.axiel7.moelist.data.model.manga.MyMangaListStatus
-import com.axiel7.moelist.data.model.manga.UserMangaList
 import com.axiel7.moelist.data.model.media.ListStatus.Companion.listStatusValues
 import com.axiel7.moelist.data.model.media.ListType
 import com.axiel7.moelist.data.model.media.MediaType
@@ -135,12 +133,9 @@ fun UserMediaListWithTabsView(
             }
 
             UserMediaListView(
-                mediaList = viewModel.mediaList,
+                viewModel = viewModel,
                 listType = ListType(status = tabRowItems[it].value, mediaType = mediaType),
-                listSort = viewModel.listSort,
                 isCompactScreen = isCompactScreen,
-                isLoading = viewModel.isLoading,
-                isLoadingList = viewModel.isLoadingList,
                 modifier = Modifier.padding(
                     bottom = systemBarsPadding.calculateBottomPadding() + 8.dp
                 ),
@@ -151,9 +146,6 @@ fun UserMediaListWithTabsView(
                     bottom = padding.calculateBottomPadding() +
                             systemBarsPadding.calculateBottomPadding()
                 ),
-                onLoadMore = viewModel::onLoadMore,
-                onRefresh = viewModel::refreshList,
-                onShowSortDialog = { viewModel.openSortDialog = true },
                 onShowEditSheet = { item ->
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     scope.launch {
@@ -161,17 +153,6 @@ fun UserMediaListWithTabsView(
                         editSheetState.show()
                     }
                 },
-                onUpdateProgress = { item ->
-                    val isVolumeProgress =
-                        (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress() == true
-                    viewModel.updateProgress(
-                        mediaId = item.node.id,
-                        progress = if (!isVolumeProgress) item.listStatus?.progress?.plus(1) else null,
-                        volumeProgress = if (isVolumeProgress) (item.listStatus as? MyMangaListStatus)
-                            ?.numVolumesRead?.plus(1) else null,
-                        totalProgress = item.totalProgress()
-                    )
-                }
             )
         }//:Pager
     }//:Column

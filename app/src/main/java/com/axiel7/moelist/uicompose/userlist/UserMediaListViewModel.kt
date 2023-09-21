@@ -139,7 +139,18 @@ class UserMediaListViewModel(
         }
     }
 
-    fun updateProgress(
+    fun onUpdateProgress(item: BaseUserMediaList<out BaseMediaNode>) {
+        val isVolumeProgress = (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress() == true
+        updateProgress(
+            mediaId = item.node.id,
+            progress = if (!isVolumeProgress) item.listStatus?.progress?.plus(1) else null,
+            volumeProgress = if (isVolumeProgress) (item.listStatus as? MyMangaListStatus)
+                ?.numVolumesRead?.plus(1) else null,
+            totalProgress = item.totalProgress()
+        )
+    }
+
+    private fun updateProgress(
         mediaId: Int,
         progress: Int? = null,
         volumeProgress: Int? = null,

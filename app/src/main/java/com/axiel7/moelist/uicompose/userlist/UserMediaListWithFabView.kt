@@ -48,8 +48,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.axiel7.moelist.data.model.manga.MyMangaListStatus
-import com.axiel7.moelist.data.model.manga.UserMangaList
 import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.data.model.media.ListStatus.Companion.listStatusValues
 import com.axiel7.moelist.data.model.media.ListType
@@ -157,21 +155,15 @@ fun UserMediaListWithFabView(
             .only(WindowInsetsSides.Horizontal)
     ) { childPadding ->
         UserMediaListView(
-            mediaList = viewModel.mediaList,
+            viewModel = viewModel,
             listType = listType,
-            listSort = viewModel.listSort,
             isCompactScreen = isCompactScreen,
-            isLoading = viewModel.isLoading,
-            isLoadingList = viewModel.isLoadingList,
             modifier = Modifier.padding(childPadding),
             nestedScrollConnection = nestedScrollConnection,
             navigateToMediaDetails = navigateToMediaDetails,
             topBarHeightPx = topBarHeightPx,
             topBarOffsetY = topBarOffsetY,
             contentPadding = padding,
-            onLoadMore = viewModel::onLoadMore,
-            onRefresh = viewModel::refreshList,
-            onShowSortDialog = { viewModel.openSortDialog = true },
             onShowEditSheet = { item ->
                 haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                 scope.launch {
@@ -179,17 +171,6 @@ fun UserMediaListWithFabView(
                     editSheetState.show()
                 }
             },
-            onUpdateProgress = { item ->
-                val isVolumeProgress =
-                    (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress() == true
-                viewModel.updateProgress(
-                    mediaId = item.node.id,
-                    progress = if (!isVolumeProgress) item.listStatus?.progress?.plus(1) else null,
-                    volumeProgress = if (isVolumeProgress) (item.listStatus as? MyMangaListStatus)
-                        ?.numVolumesRead?.plus(1) else null,
-                    totalProgress = item.totalProgress()
-                )
-            }
         )
     }//:Scaffold
 }
