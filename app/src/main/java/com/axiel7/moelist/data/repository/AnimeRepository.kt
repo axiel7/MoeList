@@ -2,7 +2,7 @@ package com.axiel7.moelist.data.repository
 
 import androidx.annotation.IntRange
 import com.axiel7.moelist.App
-import com.axiel7.moelist.data.model.ApiParams
+import com.axiel7.moelist.data.model.CommonApiParams
 import com.axiel7.moelist.data.model.Response
 import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.anime.AnimeList
@@ -31,14 +31,16 @@ object AnimeRepository {
         "alternative_titles{en,ja},start_season,broadcast,num_episodes,media_type,mean"
 
     suspend fun getSeasonalAnimes(
-        apiParams: ApiParams,
+        sort: MediaSort,
         year: Int,
         season: Season,
-        page: String? = null
+        commonApiParams: CommonApiParams,
+        page: String? = null,
     ): Response<List<AnimeSeasonal>>? {
         return try {
             val result = if (page == null) App.api.getSeasonalAnime(
-                params = apiParams,
+                sort = sort,
+                params = commonApiParams,
                 year = year,
                 season = season.value
             )
@@ -53,11 +55,11 @@ object AnimeRepository {
     const val RECOMMENDED_FIELDS = "alternative_titles{en,ja},mean"
 
     suspend fun getRecommendedAnimes(
-        apiParams: ApiParams,
+        commonApiParams: CommonApiParams,
         page: String? = null
     ): Response<List<AnimeList>>? {
         return try {
-            val result = if (page == null) App.api.getAnimeRecommendations(apiParams)
+            val result = if (page == null) App.api.getAnimeRecommendations(commonApiParams)
             else App.api.getAnimeRecommendations(page)
             result.error?.let { BaseRepository.handleResponseError(it) }
             return result
@@ -90,11 +92,17 @@ object AnimeRepository {
         "alternative_titles{en,ja},list_status{$LIST_STATUS_FIELDS},num_episodes,media_type,status,broadcast"
 
     suspend fun getUserAnimeList(
-        apiParams: ApiParams,
-        page: String? = null
+        status: ListStatus,
+        sort: MediaSort,
+        commonApiParams: CommonApiParams,
+        page: String? = null,
     ): Response<List<UserAnimeList>>? {
         return try {
-            val result = if (page == null) App.api.getUserAnimeList(apiParams)
+            val result = if (page == null) App.api.getUserAnimeList(
+                status = status,
+                sort = sort,
+                params = commonApiParams
+            )
             else App.api.getUserAnimeList(page)
             result.error?.let { BaseRepository.handleResponseError(it) }
             return result
@@ -105,7 +113,7 @@ object AnimeRepository {
 
     suspend fun updateAnimeEntry(
         animeId: Int,
-        status: String? = null,
+        status: ListStatus? = null,
         @IntRange(0, 10) score: Int? = null,
         watchedEpisodes: Int? = null,
         startDate: String? = null,
@@ -154,11 +162,15 @@ object AnimeRepository {
         "id,title,alternative_titles{en,ja},main_picture,mean,media_type,num_episodes,num_chapters,start_season"
 
     suspend fun searchAnime(
-        apiParams: ApiParams,
-        page: String? = null
+        query: String,
+        commonApiParams: CommonApiParams,
+        page: String? = null,
     ): Response<List<AnimeList>>? {
         return try {
-            val result = if (page == null) App.api.getAnimeList(apiParams)
+            val result = if (page == null) App.api.getAnimeList(
+                query = query,
+                params = commonApiParams
+            )
             else App.api.getAnimeList(page)
             result.error?.let { BaseRepository.handleResponseError(it) }
             return result
@@ -172,12 +184,15 @@ object AnimeRepository {
 
     suspend fun getAnimeRanking(
         rankingType: RankingType,
-        apiParams: ApiParams,
+        commonApiParams: CommonApiParams,
         page: String? = null
     ): Response<List<AnimeRanking>>? {
         return try {
             val result =
-                if (page == null) App.api.getAnimeRanking(apiParams, rankingType.serialName)
+                if (page == null) App.api.getAnimeRanking(
+                    rankingType = rankingType.serialName,
+                    params = commonApiParams,
+                )
                 else App.api.getAnimeRanking(page)
             result.error?.let { BaseRepository.handleResponseError(it) }
             return result
@@ -200,11 +215,11 @@ object AnimeRepository {
 
     suspend fun getAnimeCharacters(
         animeId: Int,
-        apiParams: ApiParams,
+        commonApiParams: CommonApiParams,
         page: String? = null
     ): Response<List<Character>>? {
         return try {
-            val result = if (page == null) App.api.getAnimeCharacters(animeId, apiParams)
+            val result = if (page == null) App.api.getAnimeCharacters(animeId, commonApiParams)
             else App.api.getAnimeCharacters(page)
             result.error?.let { BaseRepository.handleResponseError(it) }
             return result
@@ -221,9 +236,9 @@ object AnimeRepository {
         return try {
             val api = Api(KtorClient(token).ktorHttpClient)
             val result: Response<List<UserAnimeList>> = api.getUserAnimeList(
-                ApiParams(
-                    status = ListStatus.WATCHING.value,
-                    sort = MediaSort.ANIME_START_DATE.value,
+                status = ListStatus.WATCHING,
+                sort = MediaSort.ANIME_START_DATE,
+                params = CommonApiParams(
                     nsfw = nsfw.toInt(),
                     fields = "status,broadcast",
                 )

@@ -3,7 +3,7 @@ package com.axiel7.moelist.uicompose.ranking
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.viewModelScope
 import com.axiel7.moelist.App
-import com.axiel7.moelist.data.model.ApiParams
+import com.axiel7.moelist.data.model.CommonApiParams
 import com.axiel7.moelist.data.model.media.BaseRanking
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.RankingType
@@ -18,7 +18,7 @@ class MediaRankingViewModel(
     private val rankingType: RankingType
 ) : BaseViewModel() {
 
-    private val params = ApiParams(
+    private val params = CommonApiParams(
         nsfw = App.nsfw,
         fields = AnimeRepository.RANKING_FIELDS
     )

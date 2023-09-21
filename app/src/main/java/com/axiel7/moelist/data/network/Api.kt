@@ -2,7 +2,7 @@ package com.axiel7.moelist.data.network
 
 import androidx.annotation.IntRange
 import com.axiel7.moelist.data.model.AccessToken
-import com.axiel7.moelist.data.model.ApiParams
+import com.axiel7.moelist.data.model.CommonApiParams
 import com.axiel7.moelist.data.model.Response
 import com.axiel7.moelist.data.model.User
 import com.axiel7.moelist.data.model.anime.AnimeDetails
@@ -17,6 +17,8 @@ import com.axiel7.moelist.data.model.manga.MangaRanking
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
 import com.axiel7.moelist.data.model.manga.UserMangaList
 import com.axiel7.moelist.data.model.media.Character
+import com.axiel7.moelist.data.model.media.ListStatus
+import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.utils.Constants.MAL_API_URL
 import com.axiel7.moelist.utils.Constants.MAL_OAUTH2_URL
 import io.ktor.client.HttpClient
@@ -64,9 +66,10 @@ class Api(private val client: HttpClient) {
     // Anime
 
     suspend fun getAnimeList(
-        params: ApiParams
+        query: String,
+        params: CommonApiParams
     ): Response<List<AnimeList>> = client.get("${MAL_API_URL}anime") {
-        parameter("q", params.q)
+        parameter("q", query)
         parameter("limit", params.limit)
         parameter("offset", params.offset)
         parameter("nsfw", params.nsfw)
@@ -76,11 +79,12 @@ class Api(private val client: HttpClient) {
     suspend fun getAnimeList(url: String): Response<List<AnimeList>> = client.get(url).body()
 
     suspend fun getSeasonalAnime(
-        params: ApiParams,
+        sort: MediaSort,
+        params: CommonApiParams,
         year: Int,
         season: String
     ): Response<List<AnimeSeasonal>> = client.get("${MAL_API_URL}anime/season/$year/$season") {
-        parameter("sort", params.sort)
+        parameter("sort", sort.value)
         parameter("nsfw", params.nsfw)
         parameter("fields", params.fields)
         parameter("limit", params.limit)
@@ -90,8 +94,8 @@ class Api(private val client: HttpClient) {
         client.get(url).body()
 
     suspend fun getAnimeRanking(
-        params: ApiParams,
-        rankingType: String
+        rankingType: String,
+        params: CommonApiParams,
     ): Response<List<AnimeRanking>> = client.get("${MAL_API_URL}anime/ranking") {
         parameter("ranking_type", rankingType)
         parameter("nsfw", params.nsfw)
@@ -102,7 +106,7 @@ class Api(private val client: HttpClient) {
     suspend fun getAnimeRanking(url: String): Response<List<AnimeRanking>> = client.get(url).body()
 
     suspend fun getAnimeRecommendations(
-        params: ApiParams = ApiParams()
+        params: CommonApiParams = CommonApiParams()
     ): Response<List<AnimeList>> = client.get("${MAL_API_URL}anime/suggestions") {
         parameter("nsfw", params.nsfw)
         parameter("fields", params.fields)
@@ -113,10 +117,12 @@ class Api(private val client: HttpClient) {
         client.get(url).body()
 
     suspend fun getUserAnimeList(
-        params: ApiParams
+        status: ListStatus,
+        sort: MediaSort,
+        params: CommonApiParams
     ): Response<List<UserAnimeList>> = client.get("${MAL_API_URL}users/@me/animelist") {
-        parameter("status", params.status)
-        parameter("sort", params.sort)
+        parameter("status", status.value)
+        parameter("sort", sort.value)
         parameter("nsfw", params.nsfw)
         parameter("fields", params.fields)
     }.body()
@@ -126,7 +132,7 @@ class Api(private val client: HttpClient) {
 
     suspend fun updateUserAnimeList(
         animeId: Int,
-        status: String?,
+        status: ListStatus?,
         @IntRange(0, 10) score: Int?,
         watchedEpisodes: Int?,
         startDate: String?,
@@ -140,7 +146,7 @@ class Api(private val client: HttpClient) {
     ): MyAnimeListStatus = client.request("${MAL_API_URL}anime/$animeId/my_list_status") {
         method = HttpMethod.Patch
         setBody(FormDataContent(Parameters.build {
-            status?.let { append("status", it) }
+            status?.let { append("status", it.value) }
             score?.let { append("score", it.toString()) }
             watchedEpisodes?.let { append("num_watched_episodes", it.toString()) }
             startDate?.let { append("start_date", it) }
@@ -167,7 +173,7 @@ class Api(private val client: HttpClient) {
 
     suspend fun getAnimeCharacters(
         animeId: Int,
-        params: ApiParams
+        params: CommonApiParams
     ): Response<List<Character>> = client.get("${MAL_API_URL}anime/$animeId/characters") {
         parameter("limit", params.limit)
         parameter("offset", params.offset)
@@ -179,9 +185,10 @@ class Api(private val client: HttpClient) {
     // Manga
 
     suspend fun getMangaList(
-        params: ApiParams
+        query: String,
+        params: CommonApiParams
     ): Response<List<MangaList>> = client.get("${MAL_API_URL}manga") {
-        parameter("q", params.q)
+        parameter("q", query)
         parameter("limit", params.limit)
         parameter("offset", params.offset)
         parameter("nsfw", params.nsfw)
@@ -191,17 +198,19 @@ class Api(private val client: HttpClient) {
     suspend fun getMangaList(url: String): Response<List<MangaList>> = client.get(url).body()
 
     suspend fun getUserMangaList(
-        params: ApiParams
+        status: ListStatus,
+        sort: MediaSort,
+        params: CommonApiParams
     ): Response<List<UserMangaList>> = client.get("${MAL_API_URL}users/@me/mangalist") {
-        parameter("status", params.status)
-        parameter("sort", params.sort)
+        parameter("status", status.value)
+        parameter("sort", sort.value)
         parameter("nsfw", params.nsfw)
         parameter("fields", params.fields)
     }.body()
 
     suspend fun getMangaRanking(
-        params: ApiParams,
-        rankingType: String
+        rankingType: String,
+        params: CommonApiParams,
     ): Response<List<MangaRanking>> = client.get("${MAL_API_URL}manga/ranking") {
         parameter("ranking_type", rankingType)
         parameter("nsfw", params.nsfw)
@@ -216,7 +225,7 @@ class Api(private val client: HttpClient) {
 
     suspend fun updateUserMangaList(
         mangaId: Int,
-        status: String?,
+        status: ListStatus?,
         @IntRange(0, 10) score: Int?,
         chaptersRead: Int?,
         volumesRead: Int?,
@@ -231,7 +240,7 @@ class Api(private val client: HttpClient) {
     ): MyMangaListStatus = client.request("${MAL_API_URL}manga/$mangaId/my_list_status") {
         method = HttpMethod.Patch
         setBody(FormDataContent(Parameters.build {
-            status?.let { append("status", it) }
+            status?.let { append("status", it.value) }
             score?.let { append("score", it.toString()) }
             chaptersRead?.let { append("num_chapters_read", it.toString()) }
             volumesRead?.let { append("num_volumes_read", it.toString()) }

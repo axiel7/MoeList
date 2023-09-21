@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.axiel7.moelist.App
-import com.axiel7.moelist.data.model.ApiParams
+import com.axiel7.moelist.data.model.CommonApiParams
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.repository.AnimeRepository
@@ -16,8 +16,7 @@ import kotlinx.coroutines.launch
 
 class CalendarViewModel : BaseViewModel() {
 
-    private val params = ApiParams(
-        sort = MediaSort.ANIME_NUM_USERS.value,
+    private val params = CommonApiParams(
         nsfw = App.nsfw,
         fields = AnimeRepository.CALENDAR_FIELDS,
         limit = 300
@@ -39,9 +38,10 @@ class CalendarViewModel : BaseViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             isLoading = true
             val result = AnimeRepository.getSeasonalAnimes(
-                apiParams = params,
+                sort = MediaSort.ANIME_NUM_USERS,
                 year = SeasonCalendar.currentYear,
-                season = SeasonCalendar.currentSeason
+                season = SeasonCalendar.currentSeason,
+                commonApiParams = params,
             )
 
             if (result?.data == null || result.message != null) {

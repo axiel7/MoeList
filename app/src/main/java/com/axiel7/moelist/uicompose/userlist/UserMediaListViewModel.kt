@@ -10,7 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.axiel7.moelist.App
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_LIST_SORT_PREFERENCE_KEY
 import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_LIST_SORT_PREFERENCE_KEY
-import com.axiel7.moelist.data.model.ApiParams
+import com.axiel7.moelist.data.model.CommonApiParams
 import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
 import com.axiel7.moelist.data.model.anime.UserAnimeList
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
@@ -40,7 +40,6 @@ class UserMediaListViewModel(
 
     fun onStatusChanged(status: ListStatus) {
         listStatus = status
-        params.status = status.value
         refreshList()
     }
 
@@ -57,7 +56,6 @@ class UserMediaListViewModel(
                 else it[MANGA_LIST_SORT_PREFERENCE_KEY] = value.value
             }
             listSort = value
-            params.sort = listSort.value
             refreshList()
         }
     }
@@ -66,9 +64,7 @@ class UserMediaListViewModel(
     var openSetAtCompletedDialog by mutableStateOf(false)
     var lastItemUpdatedId = 0
 
-    private val params = ApiParams(
-        status = listStatus.value,
-        sort = listSort.value,
+    private val params = CommonApiParams(
         nsfw = App.nsfw,
         fields = if (mediaType == MediaType.ANIME) AnimeRepository.USER_ANIME_LIST_FIELDS
         else MangaRepository.USER_MANGA_LIST_FIELDS
@@ -102,9 +98,19 @@ class UserMediaListViewModel(
             isLoading = page == null
             isLoadingList = true
             val result = if (mediaType == MediaType.ANIME)
-                AnimeRepository.getUserAnimeList(params, page)
+                AnimeRepository.getUserAnimeList(
+                    status = listStatus,
+                    sort = listSort,
+                    commonApiParams =  params,
+                    page = page
+                )
             else
-                MangaRepository.getUserMangaList(params, page)
+                MangaRepository.getUserMangaList(
+                    status = listStatus,
+                    sort = listSort,
+                    commonApiParams = params,
+                    page = page
+                )
 
             if (result?.data != null) {
                 if (page == null) mediaList.clear()
@@ -201,11 +207,11 @@ class UserMediaListViewModel(
         val result = if (mediaType == MediaType.ANIME)
             AnimeRepository.updateAnimeEntry(
                 animeId = mediaId,
-                status = ListStatus.COMPLETED.value
+                status = ListStatus.COMPLETED
             )
         else MangaRepository.updateMangaEntry(
             mangaId = mediaId,
-            status = ListStatus.COMPLETED.value
+            status = ListStatus.COMPLETED
         )
 
         if (result != null) {

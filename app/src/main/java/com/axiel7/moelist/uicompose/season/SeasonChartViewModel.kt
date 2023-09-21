@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.axiel7.moelist.App
-import com.axiel7.moelist.data.model.ApiParams
+import com.axiel7.moelist.data.model.CommonApiParams
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.anime.Season
 import com.axiel7.moelist.data.model.anime.StartSeason
@@ -40,11 +40,9 @@ class SeasonChartViewModel : BaseViewModel() {
 
     fun onChangeSort(value: MediaSort) {
         sort = value
-        params.sort = value.value
     }
 
-    private val params = ApiParams(
-        sort = sort.value,
+    private val params = CommonApiParams(
         nsfw = App.nsfw,
         fields = AnimeRepository.SEASONAL_FIELDS
     )
@@ -60,9 +58,10 @@ class SeasonChartViewModel : BaseViewModel() {
             hasNextPage = false
         }
         val result = AnimeRepository.getSeasonalAnimes(
-            apiParams = params,
+            sort = sort,
             year = season.year,
             season = season.season,
+            commonApiParams = params,
             page = page
         )
 

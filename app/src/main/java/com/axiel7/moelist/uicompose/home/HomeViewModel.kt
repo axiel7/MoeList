@@ -3,7 +3,7 @@ package com.axiel7.moelist.uicompose.home
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.viewModelScope
 import com.axiel7.moelist.App
-import com.axiel7.moelist.data.model.ApiParams
+import com.axiel7.moelist.data.model.CommonApiParams
 import com.axiel7.moelist.data.model.anime.AnimeList
 import com.axiel7.moelist.data.model.anime.AnimeRanking
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
@@ -28,8 +28,7 @@ class HomeViewModel : BaseViewModel() {
         }
     }
 
-    private val paramsToday = ApiParams(
-        sort = MediaSort.ANIME_SCORE.value,
+    private val paramsToday = CommonApiParams(
         nsfw = App.nsfw,
         fields = AnimeRepository.TODAY_FIELDS,
         limit = 100
@@ -37,8 +36,8 @@ class HomeViewModel : BaseViewModel() {
     val todayAnimes = mutableStateListOf<AnimeRanking>()
     private suspend fun getTodayAiringAnimes() {
         val result = AnimeRepository.getAnimeRanking(
-            apiParams = paramsToday,
-            rankingType = RankingType.AIRING
+            rankingType = RankingType.AIRING,
+            commonApiParams = paramsToday,
         )
         if (result?.data != null) {
             val tempList = mutableListOf<AnimeRanking>()
@@ -59,8 +58,7 @@ class HomeViewModel : BaseViewModel() {
         }
     }
 
-    private val paramsSeasonal = ApiParams(
-        sort = MediaSort.ANIME_START_DATE.value,
+    private val paramsSeasonal = CommonApiParams(
         nsfw = App.nsfw,
         fields = "alternative_titles{en,ja},mean",
         limit = 25
@@ -70,9 +68,10 @@ class HomeViewModel : BaseViewModel() {
     private suspend fun getSeasonAnimes() {
         val currentStartSeason = SeasonCalendar.currentStartSeason
         val result = AnimeRepository.getSeasonalAnimes(
-            apiParams = paramsSeasonal,
+            sort = MediaSort.ANIME_START_DATE,
             year = currentStartSeason.year,
-            season = currentStartSeason.season
+            season = currentStartSeason.season,
+            commonApiParams = paramsSeasonal,
         )
         if (result?.data != null) {
             seasonAnimes.clear()
@@ -82,7 +81,7 @@ class HomeViewModel : BaseViewModel() {
         }
     }
 
-    private val paramsRecommended = ApiParams(
+    private val paramsRecommended = CommonApiParams(
         nsfw = App.nsfw,
         fields = AnimeRepository.RECOMMENDED_FIELDS,
         limit = 25

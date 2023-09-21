@@ -135,7 +135,7 @@ class EditMediaViewModel(
             isLoading = true
 
             val statusValue = if (status.value != myListStatus?.status?.value)
-                status.value else null
+                status else null
             val scoreValue = if (score != myListStatus?.score)
                 score else null
             val progressValue = if (progress != myListStatus?.progress)

@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.axiel7.moelist.App
-import com.axiel7.moelist.data.model.ApiParams
+import com.axiel7.moelist.data.model.CommonApiParams
 import com.axiel7.moelist.data.model.media.BaseMediaList
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.repository.AnimeRepository
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class SearchViewModel : BaseViewModel() {
 
-    private val params = ApiParams(
+    private val params = CommonApiParams(
         nsfw = App.nsfw,
         fields = AnimeRepository.SEARCH_FIELDS
     )
@@ -37,11 +37,18 @@ class SearchViewModel : BaseViewModel() {
                 mediaList.clear()
                 isLoading = true
             }
-            params.q = query
             val result = if (mediaType == MediaType.ANIME)
-                AnimeRepository.searchAnime(params, page)
+                AnimeRepository.searchAnime(
+                    query = query,
+                    commonApiParams = params,
+                    page = page
+                )
             else
-                MangaRepository.searchManga(params, page)
+                MangaRepository.searchManga(
+                    query = query,
+                    commonApiParams = params,
+                    page = page
+                )
 
             if (result?.data != null) {
                 mediaList.addAll(result.data)

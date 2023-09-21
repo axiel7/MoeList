@@ -2,13 +2,15 @@ package com.axiel7.moelist.data.repository
 
 import androidx.annotation.IntRange
 import com.axiel7.moelist.App
-import com.axiel7.moelist.data.model.ApiParams
+import com.axiel7.moelist.data.model.CommonApiParams
 import com.axiel7.moelist.data.model.Response
 import com.axiel7.moelist.data.model.manga.MangaDetails
 import com.axiel7.moelist.data.model.manga.MangaList
 import com.axiel7.moelist.data.model.manga.MangaRanking
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
 import com.axiel7.moelist.data.model.manga.UserMangaList
+import com.axiel7.moelist.data.model.media.ListStatus
+import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.RankingType
 import io.ktor.http.HttpStatusCode
 
@@ -37,11 +39,17 @@ object MangaRepository {
         "alternative_titles{en,ja},list_status{$LIST_STATUS_FIELDS},num_chapters,num_volumes,media_type,status"
 
     suspend fun getUserMangaList(
-        apiParams: ApiParams,
+        status: ListStatus,
+        sort: MediaSort,
+        commonApiParams: CommonApiParams,
         page: String? = null
     ): Response<List<UserMangaList>>? {
         return try {
-            val result = if (page == null) App.api.getUserMangaList(apiParams)
+            val result = if (page == null) App.api.getUserMangaList(
+                status = status,
+                sort = sort,
+                params = commonApiParams
+            )
             else App.api.getUserMangaList(page)
             result.error?.let { BaseRepository.handleResponseError(it) }
             return result
@@ -52,7 +60,7 @@ object MangaRepository {
 
     suspend fun updateMangaEntry(
         mangaId: Int,
-        status: String? = null,
+        status: ListStatus? = null,
         @IntRange(0, 10) score: Int? = null,
         chaptersRead: Int? = null,
         volumesRead: Int? = null,
@@ -100,11 +108,15 @@ object MangaRepository {
     }
 
     suspend fun searchManga(
-        apiParams: ApiParams,
+        query: String,
+        commonApiParams: CommonApiParams,
         page: String? = null
     ): Response<List<MangaList>>? {
         return try {
-            val result = if (page == null) App.api.getMangaList(apiParams)
+            val result = if (page == null) App.api.getMangaList(
+                query = query,
+                params = commonApiParams
+            )
             else App.api.getMangaList(page)
             result.error?.let { BaseRepository.handleResponseError(it) }
             return result
@@ -115,12 +127,15 @@ object MangaRepository {
 
     suspend fun getMangaRanking(
         rankingType: RankingType,
-        apiParams: ApiParams,
+        commonApiParams: CommonApiParams,
         page: String? = null
     ): Response<List<MangaRanking>>? {
         return try {
             val result =
-                if (page == null) App.api.getMangaRanking(apiParams, rankingType.serialName)
+                if (page == null) App.api.getMangaRanking(
+                    rankingType = rankingType.serialName,
+                    params = commonApiParams,
+                )
                 else App.api.getMangaRanking(page)
             result.error?.let { BaseRepository.handleResponseError(it) }
             return result

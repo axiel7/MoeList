@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.axiel7.moelist.App
-import com.axiel7.moelist.data.model.ApiParams
+import com.axiel7.moelist.data.model.CommonApiParams
 import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
 import com.axiel7.moelist.data.model.anime.Recommendations
@@ -96,7 +96,7 @@ class MediaDetailsViewModel(
         }
     }
 
-    private val charactersParams = ApiParams(
+    private val charactersParams = CommonApiParams(
         fields = AnimeRepository.CHARACTERS_FIELDS,
         nsfw = App.nsfw
     )
@@ -107,7 +107,7 @@ class MediaDetailsViewModel(
 
         val result = AnimeRepository.getAnimeCharacters(
             animeId = mediaDetails!!.id,
-            apiParams = charactersParams,
+            commonApiParams = charactersParams,
             page = null
         )
 
