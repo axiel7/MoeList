@@ -79,6 +79,7 @@ import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.ContextExtensions.getCurrentLanguageTag
 import com.axiel7.moelist.utils.ContextExtensions.openAction
 import com.axiel7.moelist.utils.ContextExtensions.openInGoogleTranslate
+import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.DateUtils.parseDateAndLocalize
 import com.axiel7.moelist.utils.NumExtensions
@@ -475,7 +476,9 @@ fun MediaDetailsView(
                                         fontSize = 13.sp
                                     )
                                 },
-                                onClick = {}
+                                onClick = {
+                                    context.openLink(Constants.CHARACTER_URL + item.node.id)
+                                }
                             )
                         }
                         if (viewModel.isLoadingCharacters) {
