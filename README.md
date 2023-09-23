@@ -51,17 +51,17 @@ Support the development of MoeList by making a donation via:
 
 [Ko-Fi](https://ko-fi.com/axiel7)
 
-Bitcoin
+BTC
 ```
 3KKjJuorh9se2jUo1Hr6MFgXhnBWbj5fTP
 ```
 
-Ethereum
+ETH
 ```
 0xBd20dD0e036B246F879EeFde52601f0fBbeC69c0
 ```
 
-Litecoin
+LTC
 ```
 MRw5XPLsM9SVf48tv4nwQoY12nMXaiVzmD
 ```
