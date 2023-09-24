@@ -99,9 +99,9 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     implementation("androidx.compose.material3:material3-window-size-class:1.2.0-alpha08")
 
-    implementation("androidx.activity:activity-compose:1.8.0-beta01")
+    implementation("androidx.activity:activity-compose:1.8.0-rc01")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
-    implementation("androidx.navigation:navigation-compose:2.7.2")
+    implementation("androidx.navigation:navigation-compose:2.7.3")
 
     implementation("androidx.glance:glance-appwidget:1.0.0")
 
