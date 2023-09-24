@@ -83,14 +83,10 @@ MRw5XPLsM9SVf48tv4nwQoY12nMXaiVzmD
 * [Coil](https://github.com/coil-kt/coil)
 
 # Building
-Create a file `app/src/main/java/com/axiel7/moelist/private/ClientId.kt` and put the following content:
+Put the following on your local.properties file:
 
-```kotlin
-package com.axiel7.moelist.private
-
-object ClientId {
-    const val CLIENT_ID = "your_mal_api_client_id"
-}
+```properties
+CLIENT_ID="your_mal_api_client_id"
 ```
 
 To get a Client ID, go to the [API panel](https://myanimelist.net/apiconfig) and create a new app with *App Type* set to `android` and *Redirect URL* set to `moelist://moelist.page.link/`
