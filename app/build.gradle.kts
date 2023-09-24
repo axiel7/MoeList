@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
+import java.util.Properties
 
 plugins {
     id("com.android.application")
@@ -7,6 +8,9 @@ plugins {
 }
 
 android.buildFeatures.buildConfig = true
+
+val properties = Properties()
+properties.load(project.rootProject.file("local.properties").reader())
 
 android {
     compileSdk = 34
@@ -39,6 +43,7 @@ android {
                 "proguard-rules.pro"
             )
             buildConfigField("boolean", "IS_DEBUG", "true")
+            buildConfigField("String", "CLIENT_ID", properties.getProperty("CLIENT_ID"))
         }
         release {
             isDebuggable = false
@@ -49,6 +54,7 @@ android {
                 "proguard-rules.pro"
             )
             buildConfigField("boolean", "IS_DEBUG", "false")
+            buildConfigField("String", "CLIENT_ID", properties.getProperty("CLIENT_ID"))
         }
     }
     splits {
