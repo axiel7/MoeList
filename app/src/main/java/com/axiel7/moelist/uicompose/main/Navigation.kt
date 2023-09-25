@@ -79,6 +79,16 @@ fun MainNavigation(
     )
     val stringArrayType = remember { StringArrayNavType() }
 
+    // common navigation actions
+    val navigateBack: () -> Unit = { navController.popBackStack() }
+    val navigateToMediaDetails: (MediaType, Int) -> Unit = { mediaType, mediaId ->
+        navController.navigate(
+            MEDIA_DETAILS_DESTINATION
+                .replace(MEDIA_TYPE_ARGUMENT, mediaType.name)
+                .replace(MEDIA_ID_ARGUMENT, mediaId.toString())
+        )
+    }
+
     NavHost(
         navController = navController,
         startDestination = BottomDestination.values
@@ -92,13 +102,7 @@ fun MainNavigation(
         composable(BottomDestination.Home.route) {
             HomeView(
                 isLoggedIn = accessTokenPreference.isNotEmpty(),
-                navigateToMediaDetails = { mediaType, mediaId ->
-                    navController.navigate(
-                        MEDIA_DETAILS_DESTINATION
-                            .replace(MEDIA_TYPE_ARGUMENT, mediaType.name)
-                            .replace(MEDIA_ID_ARGUMENT, mediaId.toString())
-                    )
-                },
+                navigateToMediaDetails = navigateToMediaDetails,
                 navigateToRanking = { mediaType ->
                     navController.navigate(
                         MEDIA_RANKING_DESTINATION
@@ -132,61 +136,29 @@ fun MainNavigation(
                         ?: MediaType.ANIME.name
                 ),
                 isCompactScreen = isCompactScreen,
-                navigateBack = {
-                    navController.popBackStack()
-                },
-                navigateToMediaDetails = { mediaType, mediaId ->
-                    navController.navigate(
-                        MEDIA_DETAILS_DESTINATION
-                            .replace(MEDIA_TYPE_ARGUMENT, mediaType.name)
-                            .replace(MEDIA_ID_ARGUMENT, mediaId.toString())
-                    )
-                }
+                navigateBack = navigateBack,
+                navigateToMediaDetails = navigateToMediaDetails
             )
         }
 
         composable(CALENDAR_DESTINATION) {
             CalendarView(
-                navigateBack = {
-                    navController.popBackStack()
-                },
-                navigateToMediaDetails = { mediaType, mediaId ->
-                    navController.navigate(
-                        MEDIA_DETAILS_DESTINATION
-                            .replace(MEDIA_TYPE_ARGUMENT, mediaType.name)
-                            .replace(MEDIA_ID_ARGUMENT, mediaId.toString())
-                    )
-                }
+                navigateBack = navigateBack,
+                navigateToMediaDetails = navigateToMediaDetails
             )
         }
 
         composable(SEASON_CHART_DESTINATION) {
             SeasonChartView(
-                navigateBack = {
-                    navController.popBackStack()
-                },
-                navigateToMediaDetails = { mediaType, mediaId ->
-                    navController.navigate(
-                        MEDIA_DETAILS_DESTINATION
-                            .replace(MEDIA_TYPE_ARGUMENT, mediaType.name)
-                            .replace(MEDIA_ID_ARGUMENT, mediaId.toString())
-                    )
-                }
+                navigateBack = navigateBack,
+                navigateToMediaDetails = navigateToMediaDetails
             )
         }
 
         composable(RECOMMENDATIONS_DESTINATION) {
             RecommendationsView(
-                navigateBack = {
-                    navController.popBackStack()
-                               },
-                navigateToMediaDetails = { mediaType, mediaId ->
-                    navController.navigate(
-                        MEDIA_DETAILS_DESTINATION
-                            .replace(MEDIA_TYPE_ARGUMENT, mediaType.name)
-                            .replace(MEDIA_ID_ARGUMENT, mediaId.toString())
-                    )
-                }
+                navigateBack = navigateBack,
+                navigateToMediaDetails = navigateToMediaDetails
             )
         }
 
@@ -198,13 +170,7 @@ fun MainNavigation(
                     UserMediaListWithTabsView(
                         mediaType = MediaType.ANIME,
                         isCompactScreen = isCompactScreen,
-                        navigateToMediaDetails = { mediaType, mediaId ->
-                            navController.navigate(
-                                MEDIA_DETAILS_DESTINATION
-                                    .replace(MEDIA_TYPE_ARGUMENT, mediaType.name)
-                                    .replace(MEDIA_ID_ARGUMENT, mediaId.toString())
-                            )
-                        },
+                        navigateToMediaDetails = navigateToMediaDetails,
                         topBarHeightPx = topBarHeightPx,
                         topBarOffsetY = topBarOffsetY,
                         padding = padding
@@ -212,13 +178,7 @@ fun MainNavigation(
                 else UserMediaListWithFabView(
                     mediaType = MediaType.ANIME,
                     isCompactScreen = isCompactScreen,
-                    navigateToMediaDetails = { mediaType, mediaId ->
-                        navController.navigate(
-                            MEDIA_DETAILS_DESTINATION
-                                .replace(MEDIA_TYPE_ARGUMENT, mediaType.name)
-                                .replace(MEDIA_ID_ARGUMENT, mediaId.toString())
-                        )
-                    },
+                    navigateToMediaDetails = navigateToMediaDetails,
                     topBarHeightPx = topBarHeightPx,
                     topBarOffsetY = topBarOffsetY,
                     padding = padding
@@ -234,13 +194,7 @@ fun MainNavigation(
                     UserMediaListWithTabsView(
                         mediaType = MediaType.MANGA,
                         isCompactScreen = isCompactScreen,
-                        navigateToMediaDetails = { mediaType, mediaId ->
-                            navController.navigate(
-                                MEDIA_DETAILS_DESTINATION
-                                    .replace(MEDIA_TYPE_ARGUMENT, mediaType.name)
-                                    .replace(MEDIA_ID_ARGUMENT, mediaId.toString())
-                            )
-                        },
+                        navigateToMediaDetails = navigateToMediaDetails,
                         topBarHeightPx = topBarHeightPx,
                         topBarOffsetY = topBarOffsetY,
                         padding = padding
@@ -248,13 +202,7 @@ fun MainNavigation(
                 else UserMediaListWithFabView(
                     mediaType = MediaType.MANGA,
                     isCompactScreen = isCompactScreen,
-                    navigateToMediaDetails = { mediaType, mediaId ->
-                        navController.navigate(
-                            MEDIA_DETAILS_DESTINATION
-                                .replace(MEDIA_TYPE_ARGUMENT, mediaType.name)
-                                .replace(MEDIA_ID_ARGUMENT, mediaId.toString())
-                        )
-                    },
+                    navigateToMediaDetails = navigateToMediaDetails,
                     topBarHeightPx = topBarHeightPx,
                     topBarOffsetY = topBarOffsetY,
                     padding = padding
@@ -284,38 +232,24 @@ fun MainNavigation(
                     navigateToListStyleSettings = {
                         navController.navigate(LIST_STYLE_SETTINGS_DESTINATION)
                     },
-                    navigateBack = {
-                        navController.popBackStack()
-                    }
+                    navigateBack = navigateBack
                 )
             }
             composable(LIST_STYLE_SETTINGS_DESTINATION) {
                 ListStyleSettingsView(
-                    navigateBack = {
-                        navController.popBackStack()
-                    }
+                    navigateBack = navigateBack
                 )
             }
 
             composable(NOTIFICATIONS_DESTINATION) {
                 NotificationsView(
-                    navigateBack = {
-                        navController.popBackStack()
-                    },
-                    navigateToMediaDetails = { mediaType, mediaId ->
-                        navController.navigate(
-                            MEDIA_DETAILS_DESTINATION
-                                .replace(MEDIA_TYPE_ARGUMENT, mediaType.name)
-                                .replace(MEDIA_ID_ARGUMENT, mediaId.toString())
-                        )
-                    }
+                    navigateBack = navigateBack,
+                    navigateToMediaDetails = navigateToMediaDetails
                 )
             }
             composable(ABOUT_DESTINATION) {
                 AboutView(
-                    navigateBack = {
-                        navController.popBackStack()
-                    },
+                    navigateBack = navigateBack,
                     navigateToCredits = {
                         navController.navigate(CREDITS_DESTINATION)
                     }
@@ -323,9 +257,7 @@ fun MainNavigation(
             }
             composable(CREDITS_DESTINATION) {
                 CreditsView(
-                    navigateBack = {
-                        navController.popBackStack()
-                    }
+                    navigateBack = navigateBack
                 )
             }
         }
@@ -342,16 +274,8 @@ fun MainNavigation(
                     ?.let { mediaType -> MediaType.valueOf(mediaType) } ?: MediaType.ANIME,
                 mediaId = navEntry.arguments?.getInt(MEDIA_ID_ARGUMENT.removeFirstAndLast()) ?: 0,
                 isLoggedIn = accessTokenPreference.isNotEmpty(),
-                navigateBack = {
-                    navController.popBackStack()
-                },
-                navigateToMediaDetails = { mediaType, mediaId ->
-                    navController.navigate(
-                        MEDIA_DETAILS_DESTINATION
-                            .replace(MEDIA_TYPE_ARGUMENT, mediaType.name)
-                            .replace(MEDIA_ID_ARGUMENT, mediaId.toString())
-                    )
-                },
+                navigateBack = navigateBack,
+                navigateToMediaDetails = navigateToMediaDetails,
                 navigateToFullPoster = { pictures ->
                     navController.navigate(
                         FULL_POSTER_DESTINATION
@@ -370,9 +294,7 @@ fun MainNavigation(
             FullPosterView(
                 pictures = navEntry.arguments?.getStringArray(PICTURES_ARGUMENT.removeFirstAndLast())
                     ?: emptyArray(),
-                navigateBack = {
-                    navController.popBackStack()
-                }
+                navigateBack = navigateBack
             )
         }
 
@@ -386,9 +308,7 @@ fun MainNavigation(
                 }
             } else {
                 ProfileView(
-                    navigateBack = {
-                        navController.popBackStack()
-                    },
+                    navigateBack = navigateBack,
                     navigateToFullPoster = { pictures ->
                         navController.navigate(
                             FULL_POSTER_DESTINATION
@@ -403,16 +323,8 @@ fun MainNavigation(
             SearchHostView(
                 isCompactScreen = isCompactScreen,
                 padding = if (isCompactScreen) PaddingValues() else padding,
-                navigateBack = {
-                    navController.popBackStack()
-                },
-                navigateToMediaDetails = { mediaType, mediaId ->
-                    navController.navigate(
-                        MEDIA_DETAILS_DESTINATION
-                            .replace(MEDIA_TYPE_ARGUMENT, mediaType.name)
-                            .replace(MEDIA_ID_ARGUMENT, mediaId.toString())
-                    )
-                },
+                navigateBack = navigateBack,
+                navigateToMediaDetails = navigateToMediaDetails,
             )
         }
     }//:NavHost
