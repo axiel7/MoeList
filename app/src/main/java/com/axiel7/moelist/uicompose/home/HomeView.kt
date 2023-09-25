@@ -64,6 +64,7 @@ fun HomeView(
     navigateToRanking: (MediaType) -> Unit,
     navigateToSeasonChart: () -> Unit,
     navigateToCalendar: () -> Unit,
+    navigateToRecommendations: () -> Unit,
     topBarHeightPx: Float,
     topBarOffsetY: Animatable<Float, AnimationVector1D>,
     padding: PaddingValues,
@@ -220,6 +221,7 @@ fun HomeView(
                             fontSize = 13.sp
                         )
                     },
+                    minLines = 2,
                     onClick = { navigateToMediaDetails(MediaType.ANIME, it.node.id) }
                 )
             }
@@ -231,7 +233,10 @@ fun HomeView(
         }
 
         //Recommended
-        HeaderHorizontalList(stringResource(R.string.recommendations), onClick = { })
+        HeaderHorizontalList(
+            text = stringResource(R.string.recommendations),
+            onClick = navigateToRecommendations
+        )
         if (!isLoggedIn) {
             Box(
                 modifier = Modifier
@@ -278,6 +283,7 @@ fun HomeView(
                             fontSize = 13.sp
                         )
                     },
+                    minLines = 2,
                     onClick = { navigateToMediaDetails(MediaType.ANIME, it.node.id) }
                 )
             }
@@ -330,6 +336,7 @@ fun HomePreview() {
                 navigateToRanking = {},
                 navigateToSeasonChart = {},
                 navigateToCalendar = {},
+                navigateToRecommendations = {},
                 padding = PaddingValues(),
                 topBarHeightPx = 0f,
                 topBarOffsetY = remember { Animatable(0f) }

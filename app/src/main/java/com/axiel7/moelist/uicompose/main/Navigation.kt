@@ -53,6 +53,8 @@ import com.axiel7.moelist.uicompose.profile.PROFILE_DESTINATION
 import com.axiel7.moelist.uicompose.profile.ProfileView
 import com.axiel7.moelist.uicompose.ranking.MEDIA_RANKING_DESTINATION
 import com.axiel7.moelist.uicompose.ranking.MediaRankingView
+import com.axiel7.moelist.uicompose.recommendations.RECOMMENDATIONS_DESTINATION
+import com.axiel7.moelist.uicompose.recommendations.RecommendationsView
 import com.axiel7.moelist.uicompose.search.SEARCH_DESTINATION
 import com.axiel7.moelist.uicompose.search.SearchHostView
 import com.axiel7.moelist.uicompose.season.SEASON_CHART_DESTINATION
@@ -109,6 +111,9 @@ fun MainNavigation(
                 navigateToCalendar = {
                     navController.navigate(CALENDAR_DESTINATION)
                 },
+                navigateToRecommendations = {
+                    navController.navigate(RECOMMENDATIONS_DESTINATION)
+                },
                 padding = padding,
                 topBarHeightPx = topBarHeightPx,
                 topBarOffsetY = topBarOffsetY,
@@ -160,6 +165,21 @@ fun MainNavigation(
                 navigateBack = {
                     navController.popBackStack()
                 },
+                navigateToMediaDetails = { mediaType, mediaId ->
+                    navController.navigate(
+                        MEDIA_DETAILS_DESTINATION
+                            .replace(MEDIA_TYPE_ARGUMENT, mediaType.name)
+                            .replace(MEDIA_ID_ARGUMENT, mediaId.toString())
+                    )
+                }
+            )
+        }
+
+        composable(RECOMMENDATIONS_DESTINATION) {
+            RecommendationsView(
+                navigateBack = {
+                    navController.popBackStack()
+                               },
                 navigateToMediaDetails = { mediaType, mediaId ->
                     navController.navigate(
                         MEDIA_DETAILS_DESTINATION
