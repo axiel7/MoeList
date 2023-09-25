@@ -26,10 +26,11 @@ const val MEDIA_ITEM_VERTICAL_HEIGHT = 200
 
 @Composable
 fun MediaItemVertical(
-    url: String?,
     title: String,
+    imageUrl: String?,
     modifier: Modifier = Modifier,
     subtitle: @Composable (() -> Unit)? = null,
+    minLines: Int = 1,
     onClick: () -> Unit,
 ) {
     Column(
@@ -43,7 +44,7 @@ fun MediaItemVertical(
         horizontalAlignment = Alignment.Start
     ) {
         MediaPoster(
-            url = url,
+            url = imageUrl,
             modifier = Modifier
                 .size(
                     width = MEDIA_POSTER_SMALL_WIDTH.dp,
@@ -54,13 +55,14 @@ fun MediaItemVertical(
         Text(
             text = title,
             modifier = Modifier
-                .padding(top = 8.dp, bottom = 4.dp),
+                .width(MEDIA_POSTER_SMALL_WIDTH.dp)
+                .padding(top = 2.dp, bottom = 4.dp),
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontSize = 15.sp,
-            lineHeight = 17.sp,
+            lineHeight = 18.sp,
             overflow = TextOverflow.Ellipsis,
             maxLines = 2,
-            minLines = 2
+            minLines = minLines
         )
 
         if (subtitle != null) {
@@ -70,9 +72,11 @@ fun MediaItemVertical(
 }
 
 @Composable
-fun MediaItemVerticalPlaceholder() {
+fun MediaItemVerticalPlaceholder(
+    modifier: Modifier = Modifier
+) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .size(
                 width = (MEDIA_POSTER_SMALL_WIDTH + 8).dp,
                 height = MEDIA_ITEM_VERTICAL_HEIGHT.dp
@@ -107,7 +111,7 @@ fun MediaItemVerticalPreview() {
     MoeListTheme {
         Surface {
             MediaItemVertical(
-                url = null,
+                imageUrl = null,
                 title = "This is a very large anime title that should serve as a preview example",
                 subtitle = {
                     SmallScoreIndicator(

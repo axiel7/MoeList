@@ -142,7 +142,6 @@ fun MainNavigation(
 
         composable(CALENDAR_DESTINATION) {
             CalendarView(
-                showAsGrid = !isCompactScreen,
                 navigateBack = {
                     navController.popBackStack()
                 },

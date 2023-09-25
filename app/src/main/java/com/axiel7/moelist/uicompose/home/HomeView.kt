@@ -211,7 +211,7 @@ fun HomeView(
                 contentType = { it.node }
             ) {
                 MediaItemVertical(
-                    url = it.node.mainPicture?.large,
+                    imageUrl = it.node.mainPicture?.large,
                     title = it.node.userPreferredTitle(),
                     modifier = Modifier.padding(end = 8.dp),
                     subtitle = {
@@ -269,7 +269,7 @@ fun HomeView(
                 contentType = { it.node }
             ) {
                 MediaItemVertical(
-                    url = it.node.mainPicture?.large,
+                    imageUrl = it.node.mainPicture?.large,
                     title = it.node.userPreferredTitle(),
                     modifier = Modifier.padding(end = 8.dp),
                     subtitle = {

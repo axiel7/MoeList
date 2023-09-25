@@ -466,7 +466,7 @@ fun MediaDetailsView(
                             contentType = { it }
                         ) { item ->
                             MediaItemVertical(
-                                url = item.node.mainPicture?.medium,
+                                imageUrl = item.node.mainPicture?.medium,
                                 title = item.fullName,
                                 modifier = Modifier.padding(end = 8.dp),
                                 subtitle = {
@@ -538,7 +538,7 @@ fun MediaDetailsView(
                 ) {
                     items(viewModel.relatedAnime) { item ->
                         MediaItemVertical(
-                            url = item.node.mainPicture?.large,
+                            imageUrl = item.node.mainPicture?.large,
                             title = item.node.userPreferredTitle(),
                             modifier = Modifier.padding(end = 8.dp),
                             subtitle = {
@@ -563,7 +563,7 @@ fun MediaDetailsView(
                 ) {
                     items(viewModel.relatedManga) { item ->
                         MediaItemVertical(
-                            url = item.node.mainPicture?.large,
+                            imageUrl = item.node.mainPicture?.large,
                             title = item.node.userPreferredTitle(),
                             modifier = Modifier.padding(end = 8.dp),
                             subtitle = {
@@ -590,7 +590,7 @@ fun MediaDetailsView(
                 ) {
                     items(viewModel.recommendations) { item ->
                         MediaItemVertical(
-                            url = item.node.mainPicture?.large,
+                            imageUrl = item.node.mainPicture?.large,
                             title = item.node.userPreferredTitle(),
                             modifier = Modifier.padding(end = 8.dp),
                             subtitle = {
