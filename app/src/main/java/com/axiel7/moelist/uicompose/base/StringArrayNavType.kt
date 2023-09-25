@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.navigation.NavType
 import kotlinx.serialization.json.Json
 
-class StringArrayNavType : NavType<Array<String>>(isNullableAllowed = false) {
+object StringArrayNavType : NavType<Array<String>>(isNullableAllowed = false) {
     override fun get(bundle: Bundle, key: String): Array<String>? {
         return bundle.getStringArray(key)
     }

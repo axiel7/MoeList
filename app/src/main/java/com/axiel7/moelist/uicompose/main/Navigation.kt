@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
@@ -77,7 +76,6 @@ fun MainNavigation(
         ACCESS_TOKEN_PREFERENCE_KEY,
         App.accessToken ?: ""
     )
-    val stringArrayType = remember { StringArrayNavType() }
 
     // common navigation actions
     val navigateBack: () -> Unit = { navController.popBackStack() }
@@ -288,7 +286,7 @@ fun MainNavigation(
         composable(
             FULL_POSTER_DESTINATION,
             arguments = listOf(
-                navArgument(PICTURES_ARGUMENT.removeFirstAndLast()) { type = stringArrayType }
+                navArgument(PICTURES_ARGUMENT.removeFirstAndLast()) { type = StringArrayNavType }
             )
         ) { navEntry ->
             FullPosterView(
