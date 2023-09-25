@@ -157,7 +157,6 @@ fun MainNavigation(
 
         composable(SEASON_CHART_DESTINATION) {
             SeasonChartView(
-                showAsGrid = !isCompactScreen,
                 navigateBack = {
                     navController.popBackStack()
                 },
