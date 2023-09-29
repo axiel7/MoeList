@@ -203,7 +203,10 @@ fun UserMediaListView(
                 item(
                     span = { GridItemSpan(maxCurrentLineSpan) }
                 ) {
-                    Row(modifier = Modifier.padding(horizontal = 8.dp)) {
+                    Row(
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
                         SortChip(
                             text = viewModel.listSort.localized(),
                             onClick = { viewModel.openSortDialog = true },
@@ -249,11 +252,13 @@ fun UserMediaListView(
                 ),
             ) {
                 item {
-                    Row {
+                    Row(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
                         SortChip(
                             text = viewModel.listSort.localized(),
                             onClick = { viewModel.openSortDialog = true },
-                            modifier = Modifier.padding(horizontal = 16.dp)
                         )
                         if (showRandomButton) {
                             RandomChip(
@@ -327,7 +332,10 @@ fun UserMediaListView(
                 item(
                     span = { GridItemSpan(maxLineSpan) }
                 ) {
-                    Row(modifier = Modifier.padding(horizontal = 8.dp)) {
+                    Row(
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
                         SortChip(
                             text = viewModel.listSort.localized(),
                             onClick = { viewModel.openSortDialog = true },
