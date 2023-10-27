@@ -55,13 +55,16 @@ enum class WeekDay(
     );
 
     @Composable
-    override fun localized() = when (this) {
-        MONDAY -> stringResource(R.string.monday)
-        TUESDAY -> stringResource(R.string.tuesday)
-        WEDNESDAY -> stringResource(R.string.wednesday)
-        THURSDAY -> stringResource(R.string.thursday)
-        FRIDAY -> stringResource(R.string.friday)
-        SATURDAY -> stringResource(R.string.saturday)
-        SUNDAY -> stringResource(R.string.sunday)
-    }
+    override fun localized() = stringResource(stringRes)
+
+    val stringRes
+        get() = when (this) {
+            MONDAY -> R.string.monday
+            TUESDAY -> R.string.tuesday
+            WEDNESDAY -> R.string.wednesday
+            THURSDAY -> R.string.thursday
+            FRIDAY -> R.string.friday
+            SATURDAY -> R.string.saturday
+            SUNDAY -> R.string.sunday
+        }
 }

@@ -25,13 +25,16 @@ enum class RankingType : Localizable {
     AIRING;
 
     @Composable
-    override fun localized() = when (this) {
-        SCORE -> stringResource(R.string.sort_score)
-        POPULARITY -> stringResource(R.string.popularity)
-        FAVORITE -> stringResource(R.string.favorite)
-        UPCOMING -> stringResource(R.string.upcoming)
-        AIRING -> stringResource(R.string.airing)
-    }
+    override fun localized() = stringResource(stringRes)
+
+    val stringRes
+        get() = when (this) {
+            SCORE -> R.string.sort_score
+            POPULARITY -> R.string.popularity
+            FAVORITE -> R.string.favorite
+            UPCOMING -> R.string.upcoming
+            AIRING -> R.string.airing
+        }
 
     val serialName
         get() = when (this) {

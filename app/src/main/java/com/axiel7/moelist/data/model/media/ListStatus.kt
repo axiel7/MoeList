@@ -60,15 +60,18 @@ enum class ListStatus(
     fun isPlanning() = this == PTW || this == PTR
 
     @Composable
-    override fun localized() = when (this) {
-        WATCHING -> stringResource(R.string.watching)
-        READING -> stringResource(R.string.reading)
-        COMPLETED -> stringResource(R.string.completed)
-        ON_HOLD -> stringResource(R.string.on_hold)
-        DROPPED -> stringResource(R.string.dropped)
-        PTW -> stringResource(R.string.ptw)
-        PTR -> stringResource(R.string.ptr)
-    }
+    override fun localized() = stringResource(stringRes)
+
+    val stringRes
+        get() = when (this) {
+            WATCHING -> R.string.watching
+            READING -> R.string.reading
+            COMPLETED -> R.string.completed
+            ON_HOLD -> R.string.on_hold
+            DROPPED -> R.string.dropped
+            PTW -> R.string.ptw
+            PTR -> R.string.ptr
+        }
 
     companion object {
 

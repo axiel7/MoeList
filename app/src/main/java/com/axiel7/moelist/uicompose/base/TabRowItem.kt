@@ -1,9 +1,10 @@
 package com.axiel7.moelist.uicompose.base
 
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 
 data class TabRowItem<T>(
     val value: T,
-    val title: String,
-    val icon: ImageVector? = null,
+    @StringRes val title: Int?,
+    @DrawableRes val icon: Int? = null,
 )

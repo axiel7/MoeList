@@ -1,9 +1,7 @@
 package com.axiel7.moelist.uicompose.calendar
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -18,15 +16,11 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ScrollableTabRow
-import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -36,20 +30,19 @@ import androidx.compose.ui.unit.dp
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.WeekDay
+import com.axiel7.moelist.uicompose.base.TabRowItem
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
-import com.axiel7.moelist.uicompose.composables.RoundedTabRowIndicator
+import com.axiel7.moelist.uicompose.composables.TabRowWithPager
 import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_SMALL_WIDTH
 import com.axiel7.moelist.uicompose.composables.media.MediaItemVertical
 import com.axiel7.moelist.uicompose.composables.media.MediaItemVerticalPlaceholder
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.SeasonCalendar
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 const val CALENDAR_DESTINATION = "calendar/{day}"
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CalendarView(
     viewModel: CalendarViewModel = koinViewModel(),
@@ -57,11 +50,6 @@ fun CalendarView(
     navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
     val context = LocalContext.current
-    val pagerState = rememberPagerState(
-        initialPage = SeasonCalendar.currentWeekday.numeric - 1,
-        pageCount = { WeekDay.entries.size }
-    )
-    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(viewModel.message) {
         if (viewModel.showMessage) {
@@ -75,81 +63,68 @@ fun CalendarView(
             viewModel.getSeasonAnime()
     }
 
+    val tabRowItems = remember {
+        WeekDay.entries.map {
+            TabRowItem(value = it, title = it.stringRes)
+        }.toTypedArray()
+    }
     DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.calendar),
         navigateBack = navigateBack,
         contentWindowInsets = WindowInsets.systemBars
             .only(WindowInsetsSides.Horizontal)
     ) { padding ->
-        Column(
+        TabRowWithPager(
+            tabs = tabRowItems,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-        ) {
-            ScrollableTabRow(
-                selectedTabIndex = pagerState.currentPage,
-                edgePadding = 8.dp,
-                indicator = { tabPositions ->
-                    RoundedTabRowIndicator(tabPositions[pagerState.currentPage])
-                }
+                .padding(padding),
+            initialPage = SeasonCalendar.currentWeekday.numeric - 1,
+            isTabScrollable = true
+        ) { page ->
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(minSize = MEDIA_POSTER_SMALL_WIDTH.dp),
+                modifier = Modifier.fillMaxHeight(),
+                contentPadding = PaddingValues(
+                    start = 8.dp,
+                    top = 8.dp,
+                    end = 8.dp,
+                    bottom = WindowInsets.navigationBars.asPaddingValues()
+                        .calculateBottomPadding()
+                ),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
             ) {
-                WeekDay.entries.forEachIndexed { index, weekDay ->
-                    Tab(
-                        selected = pagerState.currentPage == index,
-                        onClick = { coroutineScope.launch { pagerState.animateScrollToPage(index) } },
-                        text = { Text(text = weekDay.localized()) }
-                    )
+                items(
+                    items = viewModel.weekAnime[page],
+                    contentType = { it }
+                ) { item ->
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.TopCenter
+                    ) {
+                        MediaItemVertical(
+                            imageUrl = item.node.mainPicture?.large,
+                            title = item.node.title,
+                            subtitle = {
+                                Text(
+                                    text = item.node.broadcast?.startTime ?: "??",
+                                    color = MaterialTheme.colorScheme.outline
+                                )
+                            },
+                            minLines = 2,
+                            onClick = {
+                                navigateToMediaDetails(MediaType.ANIME, item.node.id)
+                            }
+                        )
+                    }
+                }
+                if (viewModel.isLoading) {
+                    items(10) {
+                        MediaItemVerticalPlaceholder()
+                    }
                 }
             }
-
-            HorizontalPager(
-                state = pagerState,
-                key = { WeekDay.entries[it] }
-            ) { page ->
-                LazyVerticalGrid(
-                    columns = GridCells.Adaptive(minSize = MEDIA_POSTER_SMALL_WIDTH.dp),
-                    modifier = Modifier.fillMaxHeight(),
-                    contentPadding = PaddingValues(
-                        start = 8.dp,
-                        top = 8.dp,
-                        end = 8.dp,
-                        bottom = WindowInsets.navigationBars.asPaddingValues()
-                            .calculateBottomPadding()
-                    ),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
-                ) {
-                    items(
-                        items = viewModel.weekAnime[page],
-                        contentType = { it }
-                    ) { item ->
-                        Box(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.TopCenter
-                        ) {
-                            MediaItemVertical(
-                                imageUrl = item.node.mainPicture?.large,
-                                title = item.node.title,
-                                subtitle = {
-                                    Text(
-                                        text = item.node.broadcast?.startTime ?: "??",
-                                        color = MaterialTheme.colorScheme.outline
-                                    )
-                                },
-                                minLines = 2,
-                                onClick = {
-                                    navigateToMediaDetails(MediaType.ANIME, item.node.id)
-                                }
-                            )
-                        }
-                    }
-                    if (viewModel.isLoading) {
-                        items(10) {
-                            MediaItemVerticalPlaceholder()
-                        }
-                    }
-                }
-            }//:Pager
         }//:Column
     }//:Scaffold
 }
