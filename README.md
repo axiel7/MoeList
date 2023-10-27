@@ -46,6 +46,33 @@ Want an AniList version? Check [AniHyou](https://github.com/axiel7/AniHyou-andro
 * Manga characters and voice actors
 * [More](https://github.com/axiel7/MoeList/issues?q=is%3Aopen+is%3Aissue+label%3A%22api+limited%22)
 
+# Other
+**Special thanks:**
+* [danielvd_art](https://instagram.com/danielvd_art) (Logo design)
+* [WSTxda](https://github.com/WSTxda) (New logo design)
+* [MaximilianGT500](https://github.com/MaximilianGT500) (Website)
+* [Jeluchu](https://github.com/Jeluchu)
+* [Glodanif](https://github.com/glodanif)
+
+**Libraries used:**
+* [Material3 Components](https://github.com/material-components/material-components-android)
+* [Jetpack Compose](https://developer.android.com/jetpack/compose)
+* [Ktor](https://ktor.io/)
+* [DataStore](https://developer.android.com/topic/libraries/architecture/datastore)
+* [WorkManager](https://developer.android.com/jetpack/androidx/releases/work)
+* [Koin](https://insert-koin.io)
+* [Jetpack Glance](https://developer.android.com/jetpack/compose/glance)
+* [Coil](https://github.com/coil-kt/coil)
+
+# Building
+Put the following on your local.properties file:
+
+```properties
+CLIENT_ID="your_mal_api_client_id"
+```
+
+To get a Client ID, go to the [API panel](https://myanimelist.net/apiconfig) and create a new app with *App Type* set to `android` and *Redirect URL* set to `moelist://moelist.page.link/`
+
 # Donate 💸
 Support the development of MoeList by making a donation via:
 
@@ -65,28 +92,3 @@ LTC
 ```
 MRw5XPLsM9SVf48tv4nwQoY12nMXaiVzmD
 ```
-
-# Other
-**Special thanks:**
-* [danielvd_art](https://instagram.com/danielvd_art) (Logo design)
-* [WSTxda](https://github.com/WSTxda) (New logo design)
-* [MaximilianGT500](https://github.com/MaximilianGT500) (Website)
-* [Jeluchu](https://github.com/Jeluchu)
-* [Glodanif](https://github.com/glodanif)
-
-**Libraries used:**
-* [Material3 Components](https://github.com/material-components/material-components-android)
-* [Jetpack Compose](https://developer.android.com/jetpack/compose)
-* [Ktor](https://ktor.io/)
-* [DataStore](https://developer.android.com/topic/libraries/architecture/datastore)
-* [WorkManager](https://developer.android.com/jetpack/androidx/releases/work)
-* [Coil](https://github.com/coil-kt/coil)
-
-# Building
-Put the following on your local.properties file:
-
-```properties
-CLIENT_ID="your_mal_api_client_id"
-```
-
-To get a Client ID, go to the [API panel](https://myanimelist.net/apiconfig) and create a new app with *App Type* set to `android` and *Redirect URL* set to `moelist://moelist.page.link/`
