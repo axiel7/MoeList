@@ -70,6 +70,7 @@ fun UserMediaListWithTabsView(
                 translationY = if (topBarOffsetY.value > -topPadding) topBarOffsetY.value
                 else -topPadding
             },
+        beyondBoundsPageCount = -1,
         isTabScrollable = true
     ) {
         val listStatus = tabRowItems[it].value

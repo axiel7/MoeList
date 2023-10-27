@@ -27,6 +27,7 @@ fun <T> TabRowWithPager(
     tabs: Array<TabRowItem<T>>,
     modifier: Modifier = Modifier,
     initialPage: Int = 0,
+    beyondBoundsPageCount: Int = 0,
     isTabScrollable: Boolean = false,
     isPrimaryTab: Boolean = true,
     pageContent: @Composable (Int) -> Unit,
@@ -88,10 +89,14 @@ fun <T> TabRowWithPager(
 
         HorizontalPager(
             state = state,
+            beyondBoundsPageCount = if (beyondBoundsPageCount < 0) 0 else beyondBoundsPageCount,
             key = { tabs[it].value!! }
         ) { page ->
-            if (page !in ((state.currentPage - 1)..(state.currentPage + 1))) {
-                // To make sure only one offscreen page is being composed
+            if (
+                page !in ((state.currentPage - (beyondBoundsPageCount + 1))
+                        ..(state.currentPage + (beyondBoundsPageCount + 1)))
+            ) {
+                // To make sure only X offscreen pages are being composed
                 return@HorizontalPager
             }
             pageContent(page)
