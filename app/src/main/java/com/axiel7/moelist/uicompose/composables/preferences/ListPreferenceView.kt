@@ -33,13 +33,13 @@ import androidx.compose.ui.unit.sp
 import com.axiel7.moelist.R
 
 @Composable
-fun ListPreferenceView(
+fun <T> ListPreferenceView(
     title: String,
-    entriesValues: Map<String, Int>,
+    entriesValues: Map<T, Int>,
     modifier: Modifier = Modifier,
-    value: String,
+    value: T,
     @DrawableRes icon: Int? = null,
-    onValueChange: (String) -> Unit
+    onValueChange: (T) -> Unit
 ) {
     val configuration = LocalConfiguration.current
     var openDialog by remember { mutableStateOf(false) }

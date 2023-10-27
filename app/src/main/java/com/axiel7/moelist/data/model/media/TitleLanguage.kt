@@ -11,4 +11,8 @@ enum class TitleLanguage {
             ENGLISH -> R.string.english
             JAPANESE -> R.string.japanese
         }
+
+    companion object {
+        val entriesLocalized = entries.associateWith { it.stringRes }
+    }
 }

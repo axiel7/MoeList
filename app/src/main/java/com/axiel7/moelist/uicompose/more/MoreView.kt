@@ -17,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -30,16 +29,16 @@ import com.axiel7.moelist.uicompose.composables.collapsable
 import com.axiel7.moelist.uicompose.more.composables.FeedbackDialog
 import com.axiel7.moelist.uicompose.more.composables.MoreItem
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
-import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.ContextExtensions.openLink
-import com.axiel7.moelist.utils.UseCases.logOut
-import kotlinx.coroutines.launch
+import com.axiel7.moelist.utils.MAL_ANNOUNCEMENTS_URL
+import com.axiel7.moelist.utils.MAL_NEWS_URL
+import org.koin.androidx.compose.koinViewModel
 
-const val MORE_TAB_DESTINATION = "more_tab"
 const val MORE_DESTINATION = "more"
 
 @Composable
 fun MoreView(
+    viewModel: MoreViewModel = koinViewModel(),
     navigateToSettings: () -> Unit,
     navigateToNotifications: () -> Unit,
     navigateToAbout: () -> Unit,
@@ -48,7 +47,6 @@ fun MoreView(
     padding: PaddingValues,
 ) {
     val context = LocalContext.current
-    val coroutineScope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
 
     var openFeedbackDialog by remember { mutableStateOf(false) }
@@ -86,14 +84,14 @@ fun MoreView(
             title = stringResource(R.string.anime_manga_news),
             subtitle = stringResource(R.string.news_summary),
             icon = R.drawable.ic_new_releases,
-            onClick = { context.openLink(Constants.MAL_NEWS_URL) }
+            onClick = { context.openLink(MAL_NEWS_URL) }
         )
 
         MoreItem(
             title = stringResource(R.string.mal_announcements),
             subtitle = stringResource(R.string.mal_announcements_summary),
             icon = R.drawable.ic_campaign,
-            onClick = { context.openLink(Constants.MAL_ANNOUNCEMENTS_URL) }
+            onClick = { context.openLink(MAL_ANNOUNCEMENTS_URL) }
         )
 
         HorizontalDivider()
@@ -131,7 +129,7 @@ fun MoreView(
             subtitle = stringResource(R.string.logout_summary),
             icon = R.drawable.ic_round_power_settings_new_24,
             onClick = {
-                coroutineScope.launch { context.logOut() }
+                viewModel.logOut()
             }
         )
     }

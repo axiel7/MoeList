@@ -5,12 +5,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.datastore.preferences.core.edit
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.axiel7.moelist.App
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_LIST_SORT_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_LIST_SORT_PREFERENCE_KEY
-import com.axiel7.moelist.data.model.CommonApiParams
 import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
 import com.axiel7.moelist.data.model.anime.UserAnimeList
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
@@ -19,18 +15,30 @@ import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseMyListStatus
 import com.axiel7.moelist.data.model.media.BaseUserMediaList
 import com.axiel7.moelist.data.model.media.ListStatus
+import com.axiel7.moelist.data.model.media.ListType
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.repository.AnimeRepository
+import com.axiel7.moelist.data.repository.DefaultPreferencesRepository
 import com.axiel7.moelist.data.repository.MangaRepository
 import com.axiel7.moelist.uicompose.base.BaseMediaViewModel
+import com.axiel7.moelist.uicompose.base.ItemsPerRow
+import com.axiel7.moelist.uicompose.base.ListStyle
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class UserMediaListViewModel(
-    override val mediaType: MediaType,
-    initialListStatus: ListStatus? = null,
-) : BaseMediaViewModel() {
+    savedStateHandle: SavedStateHandle,
+    private val animeRepository: AnimeRepository,
+    private val mangaRepository: MangaRepository,
+    private val defaultPreferencesRepository: DefaultPreferencesRepository,
+) : BaseMediaViewModel(savedStateHandle) {
+
+    private val initialListStatus: ListStatus? = null
 
     var listStatus by mutableStateOf(
         initialListStatus ?: if (mediaType == MediaType.ANIME) ListStatus.WATCHING
@@ -43,35 +51,37 @@ class UserMediaListViewModel(
         refreshList()
     }
 
-    var listSort by mutableStateOf(
-        if (mediaType == MediaType.ANIME) App.animeListSort
-        else App.mangaListSort
-    )
-        private set
+    val listSort = when (mediaType) {
+        MediaType.ANIME -> defaultPreferencesRepository.animeListSort
+        MediaType.MANGA -> defaultPreferencesRepository.mangaListSort
+    }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
     fun setSort(value: MediaSort) {
         viewModelScope.launch(Dispatchers.IO) {
-            App.dataStore?.edit {
-                if (mediaType == MediaType.ANIME) it[ANIME_LIST_SORT_PREFERENCE_KEY] = value.value
-                else it[MANGA_LIST_SORT_PREFERENCE_KEY] = value.value
+            when (mediaType) {
+                MediaType.ANIME -> defaultPreferencesRepository.setAnimeListSort(value)
+                MediaType.MANGA -> defaultPreferencesRepository.setMangaListSort(value)
             }
-            listSort = value
             refreshList()
         }
     }
+
+    val showRandomButton = defaultPreferencesRepository.randomListEntryEnabled
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
+    val itemsPerRow = defaultPreferencesRepository.gridItemsPerRow
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ItemsPerRow.DEFAULT)
+
+    var listStyle by mutableStateOf(ListStyle.STANDARD)
+        private set
 
     var openSortDialog by mutableStateOf(false)
     var openSetAtCompletedDialog by mutableStateOf(false)
     var lastItemUpdatedId = 0
 
-    private val params = CommonApiParams(
-        nsfw = App.nsfw,
-        fields = if (mediaType == MediaType.ANIME) AnimeRepository.USER_ANIME_LIST_FIELDS
-        else MangaRepository.USER_MANGA_LIST_FIELDS
-    )
-
     var selectedItem by mutableStateOf<BaseUserMediaList<*>?>(null)
-    override var myListStatus by object : MutableState<BaseMyListStatus?> {
+    override var _myListStatus by object : MutableState<BaseMyListStatus?> {
         override var value: BaseMyListStatus?
             get() = selectedItem?.listStatus
             set(value) {
@@ -93,38 +103,35 @@ class UserMediaListViewModel(
     private var hasNextPage = true
     var isLoadingList by mutableStateOf(false)
 
-    private fun getUserList(page: String? = null) {
-        viewModelScope.launch(Dispatchers.IO) {
-            isLoading = page == null
-            isLoadingList = true
-            val result = if (mediaType == MediaType.ANIME)
-                AnimeRepository.getUserAnimeList(
-                    status = listStatus,
-                    sort = listSort,
-                    commonApiParams = params,
-                    page = page
-                )
-            else
-                MangaRepository.getUserMangaList(
-                    status = listStatus,
-                    sort = listSort,
-                    commonApiParams = params,
-                    page = page
-                )
+    private fun getUserList(page: String? = null) = viewModelScope.launch(Dispatchers.IO) {
+        if (listSort.value == null) return@launch
+        isLoading = page == null
+        isLoadingList = true
+        val result = if (mediaType == MediaType.ANIME)
+            animeRepository.getUserAnimeList(
+                status = listStatus,
+                sort = listSort.value!!,
+                page = page
+            )
+        else
+            mangaRepository.getUserMangaList(
+                status = listStatus,
+                sort = listSort.value!!,
+                page = page
+            )
 
-            if (result?.data != null) {
-                if (page == null) mediaList.clear()
-                mediaList.addAll(result.data)
+        if (result?.data != null) {
+            if (page == null) mediaList.clear()
+            mediaList.addAll(result.data)
 
-                nextPage = result.paging?.next
-                hasNextPage = nextPage != null
-            } else {
-                setErrorMessage(result?.message ?: result?.error ?: "Generic error")
-                hasNextPage = false
-            }
-            isLoadingList = false
-            isLoading = false
+            nextPage = result.paging?.next
+            hasNextPage = nextPage != null
+        } else {
+            setErrorMessage(result?.message ?: result?.error ?: "Generic error")
+            hasNextPage = false
         }
+        isLoadingList = false
+        isLoading = false
     }
 
     fun refreshList() {
@@ -159,15 +166,16 @@ class UserMediaListViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             isLoading = true
             val result = if (mediaType == MediaType.ANIME)
-                AnimeRepository.updateAnimeEntry(
+                animeRepository.updateAnimeEntry(
                     animeId = mediaId,
                     watchedEpisodes = progress,
                 )
-            else MangaRepository.updateMangaEntry(
-                mangaId = mediaId,
-                chaptersRead = progress,
-                volumesRead = volumeProgress,
-            )
+            else
+                mangaRepository.updateMangaEntry(
+                    mangaId = mediaId,
+                    chaptersRead = progress,
+                    volumesRead = volumeProgress,
+                )
 
             if (result != null) {
                 val foundIndex = mediaList.indexOfFirst { it.node.id == mediaId }
@@ -193,7 +201,7 @@ class UserMediaListViewModel(
 
     fun onItemSelected(item: BaseUserMediaList<*>) {
         selectedItem = item
-        mediaInfo = item.node
+        _mediaInfo = item.node
     }
 
     private fun onMediaItemStatusChanged(myListStatus: BaseMyListStatus?) {
@@ -216,14 +224,15 @@ class UserMediaListViewModel(
     fun setAsCompleted(mediaId: Int) = viewModelScope.launch(Dispatchers.IO) {
         isLoading = true
         val result = if (mediaType == MediaType.ANIME)
-            AnimeRepository.updateAnimeEntry(
+            animeRepository.updateAnimeEntry(
                 animeId = mediaId,
                 status = ListStatus.COMPLETED
             )
-        else MangaRepository.updateMangaEntry(
-            mangaId = mediaId,
-            status = ListStatus.COMPLETED
-        )
+        else
+            mangaRepository.updateMangaEntry(
+                mangaId = mediaId,
+                status = ListStatus.COMPLETED
+            )
 
         if (result != null) {
             mediaList.removeIf { it.node.id == mediaId }
@@ -237,11 +246,30 @@ class UserMediaListViewModel(
     fun getRandomIdOfList() = viewModelScope.launch(Dispatchers.IO) {
         isLoadingRandom = true
         val result = if (mediaType == MediaType.ANIME)
-            AnimeRepository.getAnimeIdsOfUserList(status = listStatus)
-        else MangaRepository.getMangaIdsOfUserList(status = listStatus)
+            animeRepository.getAnimeIdsOfUserList(status = listStatus)
+        else
+            mangaRepository.getMangaIdsOfUserList(status = listStatus)
         isLoadingRandom = false
         if (result != null) {
             randomId = result.data?.random()
         }
+    }
+
+    init {
+        combine(
+            defaultPreferencesRepository.useGeneralListStyle,
+            defaultPreferencesRepository.generalListStyle
+        ) { useGeneral, generalStyle ->
+            if (useGeneral) {
+                listStyle = generalStyle
+            } else {
+                ListType(listStatus, mediaType)
+                    .stylePreference(defaultPreferencesRepository)
+                    .collect {
+                        listStyle = it
+                    }
+            }
+        }
+            .launchIn(viewModelScope)
     }
 }

@@ -106,7 +106,11 @@ dependencies {
     implementation("androidx.compose.material3:material3-window-size-class:1.2.0-alpha09")
 
     implementation("androidx.activity:activity-compose:1.8.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+
+    val lifecycleVersion = "2.6.2"
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycleVersion")
+
     implementation("androidx.navigation:navigation-compose:2.7.4")
 
     implementation("androidx.glance:glance-appwidget:1.0.0")
@@ -133,8 +137,14 @@ dependencies {
 
     //Utils
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
     //Image
     implementation("io.coil-kt:coil-compose:2.4.0")
 
+    //Koin
+    implementation(platform("io.insert-koin:koin-bom:3.5.1"))
+    implementation("io.insert-koin:koin-androidx-compose")
+    implementation("io.insert-koin:koin-androidx-compose-navigation")
+    implementation("io.insert-koin:koin-androidx-workmanager")
 }

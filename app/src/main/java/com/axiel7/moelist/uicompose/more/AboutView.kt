@@ -16,10 +16,10 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.uicompose.more.composables.MoreItem
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
-import com.axiel7.moelist.utils.Constants.DISCORD_SERVER_URL
-import com.axiel7.moelist.utils.Constants.GITHUB_REPO_URL
 import com.axiel7.moelist.utils.ContextExtensions.openAction
 import com.axiel7.moelist.utils.ContextExtensions.showToast
+import com.axiel7.moelist.utils.DISCORD_SERVER_URL
+import com.axiel7.moelist.utils.GITHUB_REPO_URL
 
 const val ABOUT_DESTINATION = "about"
 

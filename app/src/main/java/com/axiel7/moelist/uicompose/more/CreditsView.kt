@@ -13,10 +13,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.uicompose.more.composables.MoreItem
+import com.axiel7.moelist.uicompose.more.settings.SettingsTitle
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
-import com.axiel7.moelist.utils.Constants.GENERAL_HELP_CREDIT_URL
-import com.axiel7.moelist.utils.Constants.LOGO_CREDIT_URL
 import com.axiel7.moelist.utils.ContextExtensions.openLink
+import com.axiel7.moelist.utils.GENERAL_HELP_CREDIT_URL
+import com.axiel7.moelist.utils.LOGO_CREDIT_URL
 
 const val CREDITS_DESTINATION = "credits"
 

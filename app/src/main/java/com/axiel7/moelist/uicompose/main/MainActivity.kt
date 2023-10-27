@@ -1,7 +1,6 @@
 package com.axiel7.moelist.uicompose.main
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
@@ -41,44 +40,14 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.datastore.preferences.core.edit
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.App
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.ACCESS_TOKEN_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_COMPLETED_LIST_STYLE_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_CURRENT_LIST_STYLE_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_DROPPED_LIST_STYLE_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_LIST_SORT_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_PAUSED_LIST_STYLE_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.ANIME_PLANNED_LIST_STYLE_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.GENERAL_LIST_STYLE_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.GRID_ITEMS_PER_ROW_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.LAST_TAB_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.LOAD_CHARACTERS_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_COMPLETED_LIST_STYLE_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_CURRENT_LIST_STYLE_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_DROPPED_LIST_STYLE_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_LIST_SORT_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_PAUSED_LIST_STYLE_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.MANGA_PLANNED_LIST_STYLE_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.NSFW_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.START_TAB_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.THEME_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.TITLE_LANG_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.USE_GENERAL_LIST_STYLE_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.USE_LIST_TABS_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.defaultPreferencesDataStore
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.getValueSync
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.rememberPreference
-import com.axiel7.moelist.data.model.media.MediaSort
-import com.axiel7.moelist.data.model.media.TitleLanguage
-import com.axiel7.moelist.data.repository.LoginRepository
 import com.axiel7.moelist.uicompose.base.BottomDestination
 import com.axiel7.moelist.uicompose.base.BottomDestination.Companion.toBottomDestinationIndex
-import com.axiel7.moelist.uicompose.base.ListStyle
+import com.axiel7.moelist.uicompose.base.ThemeStyle
 import com.axiel7.moelist.uicompose.details.MEDIA_DETAILS_DESTINATION
 import com.axiel7.moelist.uicompose.main.composables.MainBottomNavBar
 import com.axiel7.moelist.uicompose.main.composables.MainNavigationRail
@@ -86,30 +55,37 @@ import com.axiel7.moelist.uicompose.main.composables.MainTopAppBar
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.uicompose.theme.dark_scrim
 import com.axiel7.moelist.uicompose.theme.light_scrim
-import com.axiel7.moelist.utils.Constants
-import com.axiel7.moelist.utils.NumExtensions.toInt
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import com.axiel7.moelist.utils.MOELIST_PAGELINK
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import org.koin.androidx.compose.KoinAndroidContext
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.annotation.KoinExperimentalAPI
 
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class, KoinExperimentalAPI::class)
 class MainActivity : AppCompatActivity() {
+
+    val viewModel by viewModel<MainViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
         // login intent
-        if (intent.data?.toString()?.startsWith(Constants.MOELIST_PAGELINK) == true) {
-            intent.data?.let { parseIntentData(it) }
+        if (intent.data?.toString()?.startsWith(MOELIST_PAGELINK) == true) {
+            intent.data?.let { viewModel.parseIntentData(it) }
         }
 
-        preloadPreferences()
+        App.accessToken = runBlocking { viewModel.accessToken.first() }
 
-        val startTab = defaultPreferencesDataStore.getValueSync(START_TAB_PREFERENCE_KEY)
+        runBlocking {
+            App.titleLanguage = viewModel.titleLanguage.first()
+        }
+
+        val startTab = runBlocking { viewModel.startTab.first() }
         var lastTabOpened =
-            intent.action?.toBottomDestinationIndex() ?: startTab?.toBottomDestinationIndex()
+            intent.action?.toBottomDestinationIndex() ?: startTab?.value?.toBottomDestinationIndex()
         var mediaId: Int? = null
         var mediaType: String? = null
         if (intent.action == "details") {
@@ -128,79 +104,84 @@ class MainActivity : AppCompatActivity() {
             }
         }
         if (lastTabOpened == null) {
-            lastTabOpened = defaultPreferencesDataStore.getValueSync(LAST_TAB_PREFERENCE_KEY)
+            lastTabOpened = runBlocking { viewModel.lastTab.first() }
         } else { // opened from intent or start tab setting
-            CoroutineScope(Dispatchers.IO).launch {
-                defaultPreferencesDataStore.edit {
-                    it[LAST_TAB_PREFERENCE_KEY] = lastTabOpened
-                }
-            }
+            viewModel.saveLastTab(lastTabOpened)
         }
 
-        val theme =
-            defaultPreferencesDataStore.getValueSync(THEME_PREFERENCE_KEY) ?: "follow_system"
+        val initialTheme = runBlocking { viewModel.theme.first() }
 
         setContent {
-            val themePreference by rememberPreference(THEME_PREFERENCE_KEY, theme)
-            val darkTheme = if (themePreference == "follow_system") isSystemInDarkTheme()
-            else themePreference == "dark" || themePreference == "black"
+            KoinAndroidContext {
+                val theme by viewModel.theme.collectAsStateWithLifecycle(initialValue = initialTheme)
+                val darkTheme = if (theme == ThemeStyle.FOLLOW_SYSTEM) isSystemInDarkTheme()
+                else theme == ThemeStyle.DARK || theme == ThemeStyle.BLACK
 
-            val navController = rememberNavController()
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val navController = rememberNavController()
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-            val windowSizeClass = calculateWindowSizeClass(this)
-            val isCompactScreen = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact
+                val windowSizeClass = calculateWindowSizeClass(this)
+                val isCompactScreen = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact
 
-            MoeListTheme(
-                darkTheme = darkTheme,
-                amoledColors = themePreference == "black"
-            ) {
-                val backgroundColor = MaterialTheme.colorScheme.background
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = backgroundColor
+                val accessToken by viewModel.accessToken.collectAsStateWithLifecycle(App.accessToken)
+                val useListTabs by viewModel.useListTabs.collectAsStateWithLifecycle()
+                val profilePicture by viewModel.profilePicture.collectAsStateWithLifecycle()
+
+                MoeListTheme(
+                    darkTheme = darkTheme,
+                    amoledColors = theme == ThemeStyle.BLACK
                 ) {
-                    MainView(
-                        isCompactScreen = isCompactScreen,
-                        navController = navController,
-                        lastTabOpened = lastTabOpened ?: 0
-                    )
-
-                    DisposableEffect(darkTheme, navBackStackEntry) {
-                        var statusBarStyle = SystemBarStyle.auto(
-                            android.graphics.Color.TRANSPARENT,
-                            android.graphics.Color.TRANSPARENT
-                        ) { darkTheme }
-
-                        if (isCompactScreen
-                            && BottomDestination.routes.contains(navBackStackEntry?.destination?.route)
-                        ) {
-                            statusBarStyle =
-                                if (darkTheme) SystemBarStyle.dark(backgroundColor.toArgb())
-                                else SystemBarStyle.light(
-                                    backgroundColor.toArgb(),
-                                    dark_scrim.toArgb()
-                                )
-                        }
-                        enableEdgeToEdge(
-                            statusBarStyle = statusBarStyle,
-                            navigationBarStyle = SystemBarStyle.auto(
-                                light_scrim.toArgb(),
-                                dark_scrim.toArgb(),
-                            ) { darkTheme },
+                    val backgroundColor = MaterialTheme.colorScheme.background
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = backgroundColor
+                    ) {
+                        MainView(
+                            isCompactScreen = isCompactScreen,
+                            isLoggedIn = !accessToken.isNullOrEmpty(),
+                            useListTabs = useListTabs,
+                            navController = navController,
+                            lastTabOpened = lastTabOpened,
+                            saveLastTab = viewModel::saveLastTab,
+                            profilePicture = profilePicture,
                         )
-                        onDispose {}
+
+                        DisposableEffect(darkTheme, navBackStackEntry) {
+                            var statusBarStyle = SystemBarStyle.auto(
+                                android.graphics.Color.TRANSPARENT,
+                                android.graphics.Color.TRANSPARENT
+                            ) { darkTheme }
+
+                            if (isCompactScreen
+                                && BottomDestination.routes.contains(navBackStackEntry?.destination?.route)
+                            ) {
+                                statusBarStyle =
+                                    if (darkTheme) SystemBarStyle.dark(backgroundColor.toArgb())
+                                    else SystemBarStyle.light(
+                                        backgroundColor.toArgb(),
+                                        dark_scrim.toArgb()
+                                    )
+                            }
+                            enableEdgeToEdge(
+                                statusBarStyle = statusBarStyle,
+                                navigationBarStyle = SystemBarStyle.auto(
+                                    light_scrim.toArgb(),
+                                    dark_scrim.toArgb(),
+                                ) { darkTheme },
+                            )
+                            onDispose {}
+                        }
                     }
                 }
-            }
 
-            LaunchedEffect(mediaId) {
-                if (mediaId != null && mediaId != 0 && mediaType != null) {
-                    navController.navigate(
-                        MEDIA_DETAILS_DESTINATION
-                            .replace("{mediaType}", mediaType)
-                            .replace("{mediaId}", mediaId.toString())
-                    )
+                LaunchedEffect(mediaId) {
+                    if (mediaId != null && mediaId != 0 && mediaType != null) {
+                        navController.navigate(
+                            MEDIA_DETAILS_DESTINATION
+                                .replace("{mediaType}", mediaType)
+                                .replace("{mediaId}", mediaId.toString())
+                        )
+                    }
                 }
             }
         }
@@ -208,92 +189,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        if (intent?.data?.toString()?.startsWith(Constants.MOELIST_PAGELINK) == true) {
-            intent.data?.let { parseIntentData(it) }
-        }
-    }
-
-    private fun parseIntentData(uri: Uri) {
-        val code = uri.getQueryParameter("code")
-        val receivedState = uri.getQueryParameter("state")
-        if (code != null && receivedState == LoginRepository.STATE) {
-            lifecycleScope.launch(Dispatchers.IO) { LoginRepository.getAccessToken(code) }
-        }
-    }
-
-    private fun preloadPreferences() {
-        //Cache DataStore in memory
-        lifecycleScope.launch {
-            defaultPreferencesDataStore.data.first()
-        }
-
-        defaultPreferencesDataStore.getValueSync(ACCESS_TOKEN_PREFERENCE_KEY)?.let {
-            App.createKtorClient(accessToken = it)
-        }
-        defaultPreferencesDataStore.getValueSync(NSFW_PREFERENCE_KEY)?.let {
-            App.nsfw = it.toInt()
-        }
-        defaultPreferencesDataStore.getValueSync(ANIME_LIST_SORT_PREFERENCE_KEY)?.let {
-            MediaSort.forValue(it)?.let { sort -> App.animeListSort = sort }
-        }
-        defaultPreferencesDataStore.getValueSync(MANGA_LIST_SORT_PREFERENCE_KEY)?.let {
-            MediaSort.forValue(it)?.let { sort -> App.mangaListSort = sort }
-        }
-
-        defaultPreferencesDataStore.getValueSync(GENERAL_LIST_STYLE_PREFERENCE_KEY)?.let {
-            ListStyle.forValue(it)?.let { mode -> App.generalListStyle = mode }
-        }
-        defaultPreferencesDataStore.getValueSync(USE_GENERAL_LIST_STYLE_PREFERENCE_KEY)?.let {
-            App.useGeneralListStyle = it
-        }
-        defaultPreferencesDataStore.getValueSync(ANIME_CURRENT_LIST_STYLE_PREFERENCE_KEY)?.let {
-            ListStyle.forValue(it)?.let { mode -> App.animeCurrentListStyle = mode }
-        }
-        defaultPreferencesDataStore.getValueSync(MANGA_CURRENT_LIST_STYLE_PREFERENCE_KEY)?.let {
-            ListStyle.forValue(it)?.let { mode -> App.mangaCurrentListStyle = mode }
-        }
-
-        defaultPreferencesDataStore.getValueSync(TITLE_LANG_PREFERENCE_KEY)?.let {
-            App.titleLanguage = TitleLanguage.valueOf(it)
-        }
-        defaultPreferencesDataStore.getValueSync(USE_LIST_TABS_PREFERENCE_KEY)?.let {
-            App.useListTabs = it
-        }
-        defaultPreferencesDataStore.getValueSync(GRID_ITEMS_PER_ROW_PREFERENCE_KEY)?.let {
-            App.gridItemsPerRow = it
-        }
-        defaultPreferencesDataStore.getValueSync(LOAD_CHARACTERS_PREFERENCE_KEY)?.let {
-            App.loadCharacters = it
-        }
-
-        // load preferences used later in another thread
-        lifecycleScope.launch(Dispatchers.IO) {
-            defaultPreferencesDataStore.getValueSync(ANIME_PLANNED_LIST_STYLE_PREFERENCE_KEY)?.let {
-                ListStyle.forValue(it)?.let { mode -> App.animePlannedListStyle = mode }
-            }
-            defaultPreferencesDataStore.getValueSync(ANIME_COMPLETED_LIST_STYLE_PREFERENCE_KEY)
-                ?.let {
-                    ListStyle.forValue(it)?.let { mode -> App.animeCompletedListStyle = mode }
-                }
-            defaultPreferencesDataStore.getValueSync(ANIME_PAUSED_LIST_STYLE_PREFERENCE_KEY)?.let {
-                ListStyle.forValue(it)?.let { mode -> App.animePausedListStyle = mode }
-            }
-            defaultPreferencesDataStore.getValueSync(ANIME_DROPPED_LIST_STYLE_PREFERENCE_KEY)?.let {
-                ListStyle.forValue(it)?.let { mode -> App.animeDroppedListStyle = mode }
-            }
-            defaultPreferencesDataStore.getValueSync(MANGA_PLANNED_LIST_STYLE_PREFERENCE_KEY)?.let {
-                ListStyle.forValue(it)?.let { mode -> App.mangaPlannedListStyle = mode }
-            }
-            defaultPreferencesDataStore.getValueSync(MANGA_COMPLETED_LIST_STYLE_PREFERENCE_KEY)
-                ?.let {
-                    ListStyle.forValue(it)?.let { mode -> App.mangaCompletedListStyle = mode }
-                }
-            defaultPreferencesDataStore.getValueSync(MANGA_PAUSED_LIST_STYLE_PREFERENCE_KEY)?.let {
-                ListStyle.forValue(it)?.let { mode -> App.mangaPausedListStyle = mode }
-            }
-            defaultPreferencesDataStore.getValueSync(MANGA_DROPPED_LIST_STYLE_PREFERENCE_KEY)?.let {
-                ListStyle.forValue(it)?.let { mode -> App.mangaDroppedListStyle = mode }
-            }
+        if (intent?.data?.toString()?.startsWith(MOELIST_PAGELINK) == true) {
+            intent.data?.let { viewModel.parseIntentData(it) }
         }
     }
 }
@@ -301,8 +198,12 @@ class MainActivity : AppCompatActivity() {
 @Composable
 fun MainView(
     isCompactScreen: Boolean,
+    isLoggedIn: Boolean,
+    useListTabs: Boolean,
     navController: NavHostController,
-    lastTabOpened: Int
+    lastTabOpened: Int,
+    saveLastTab: (Int) -> Unit,
+    profilePicture: String?,
 ) {
     val density = LocalDensity.current
 
@@ -314,6 +215,7 @@ fun MainView(
         topBar = {
             if (isCompactScreen) {
                 MainTopAppBar(
+                    profilePicture = profilePicture,
                     navController = navController,
                     modifier = Modifier
                         .graphicsLayer {
@@ -327,7 +229,7 @@ fun MainView(
                 MainBottomNavBar(
                     navController = navController,
                     bottomBarState = bottomBarState,
-                    lastTabOpened = lastTabOpened,
+                    onItemSelected = saveLastTab,
                     topBarOffsetY = topBarOffsetY,
                 )
             }
@@ -342,12 +244,14 @@ fun MainView(
             ) {
                 MainNavigationRail(
                     navController = navController,
-                    lastTabOpened = lastTabOpened,
+                    onItemSelected = saveLastTab,
                 )
                 MainNavigation(
                     navController = navController,
                     lastTabOpened = lastTabOpened,
+                    isLoggedIn = isLoggedIn,
                     isCompactScreen = false,
+                    useListTabs = useListTabs,
                     modifier = Modifier,
                     padding = PaddingValues(
                         start = padding.calculateStartPadding(LocalLayoutDirection.current),
@@ -366,7 +270,9 @@ fun MainView(
             MainNavigation(
                 navController = navController,
                 lastTabOpened = lastTabOpened,
+                isLoggedIn = isLoggedIn,
                 isCompactScreen = true,
+                useListTabs = useListTabs,
                 modifier = Modifier.padding(
                     start = padding.calculateStartPadding(LocalLayoutDirection.current),
                     end = padding.calculateEndPadding(LocalLayoutDirection.current),
@@ -385,8 +291,12 @@ fun MainPreview() {
     MoeListTheme {
         MainView(
             isCompactScreen = true,
+            isLoggedIn = false,
+            useListTabs = false,
             navController = rememberNavController(),
-            lastTabOpened = 0
+            lastTabOpened = 0,
+            saveLastTab = {},
+            profilePicture = null,
         )
     }
 }

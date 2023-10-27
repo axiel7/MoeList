@@ -34,7 +34,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import coil.compose.AsyncImage
 import com.axiel7.moelist.R
-import com.axiel7.moelist.data.datastore.PreferencesDataStore
 import com.axiel7.moelist.uicompose.home.HOME_DESTINATION
 import com.axiel7.moelist.uicompose.more.MORE_DESTINATION
 import com.axiel7.moelist.uicompose.profile.PROFILE_DESTINATION
@@ -45,6 +44,7 @@ import com.axiel7.moelist.uicompose.userlist.MANGA_LIST_DESTINATION
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainTopAppBar(
+    profilePicture: String?,
     navController: NavController,
     modifier: Modifier = Modifier,
 ) {
@@ -59,10 +59,6 @@ fun MainTopAppBar(
             }
         }
     }
-    val profilePictureUrl by PreferencesDataStore.rememberPreference(
-        PreferencesDataStore.PROFILE_PICTURE_PREFERENCE_KEY,
-        ""
-    )
 
     AnimatedVisibility(
         visible = isVisible,
@@ -99,7 +95,7 @@ fun MainTopAppBar(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 AsyncImage(
-                    model = profilePictureUrl,
+                    model = profilePicture,
                     contentDescription = "profile",
                     placeholder = painterResource(R.drawable.ic_round_account_circle_24),
                     error = painterResource(R.drawable.ic_round_account_circle_24),

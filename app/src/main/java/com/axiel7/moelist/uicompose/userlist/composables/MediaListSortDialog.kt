@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.axiel7.moelist.R
+import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.MediaSort.Companion.animeListSortItems
 import com.axiel7.moelist.data.model.media.MediaSort.Companion.mangaListSortItems
 import com.axiel7.moelist.data.model.media.MediaType
@@ -28,6 +29,7 @@ import com.axiel7.moelist.uicompose.userlist.UserMediaListViewModel
 
 @Composable
 fun MediaListSortDialog(
+    listSort: MediaSort,
     viewModel: UserMediaListViewModel
 ) {
     val configuration = LocalConfiguration.current
@@ -35,7 +37,7 @@ fun MediaListSortDialog(
         if (viewModel.mediaType == MediaType.ANIME) animeListSortItems else mangaListSortItems
     }
     var selectedIndex by remember {
-        mutableIntStateOf(sortOptions.indexOf(viewModel.listSort))
+        mutableIntStateOf(sortOptions.indexOf(listSort))
     }
     AlertDialog(
         onDismissRequest = { viewModel.openSortDialog = false },

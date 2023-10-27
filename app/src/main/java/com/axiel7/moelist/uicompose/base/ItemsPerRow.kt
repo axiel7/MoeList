@@ -29,4 +29,10 @@ enum class ItemsPerRow(val value: Int) {
             NINE -> R.string.nine
             TEN -> R.string.ten
         }
+
+    companion object {
+        fun valueOf(value: Int) = entries.find { it.value == value }
+
+        val entriesLocalized = entries.associateWith { it.stringRes }
+    }
 }

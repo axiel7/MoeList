@@ -8,7 +8,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
@@ -16,11 +15,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import androidx.navigation.navigation
-import com.axiel7.moelist.App
 import com.axiel7.moelist.R
-import com.axiel7.moelist.data.datastore.PreferencesDataStore
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.ACCESS_TOKEN_PREFERENCE_KEY
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.uicompose.base.BottomDestination
 import com.axiel7.moelist.uicompose.base.StringArrayNavType
@@ -40,14 +35,13 @@ import com.axiel7.moelist.uicompose.more.ABOUT_DESTINATION
 import com.axiel7.moelist.uicompose.more.AboutView
 import com.axiel7.moelist.uicompose.more.CREDITS_DESTINATION
 import com.axiel7.moelist.uicompose.more.CreditsView
-import com.axiel7.moelist.uicompose.more.LIST_STYLE_SETTINGS_DESTINATION
-import com.axiel7.moelist.uicompose.more.ListStyleSettingsView
-import com.axiel7.moelist.uicompose.more.MORE_DESTINATION
 import com.axiel7.moelist.uicompose.more.MoreView
-import com.axiel7.moelist.uicompose.more.NOTIFICATIONS_DESTINATION
-import com.axiel7.moelist.uicompose.more.NotificationsView
-import com.axiel7.moelist.uicompose.more.SETTINGS_DESTINATION
-import com.axiel7.moelist.uicompose.more.SettingsView
+import com.axiel7.moelist.uicompose.more.notifications.NOTIFICATIONS_DESTINATION
+import com.axiel7.moelist.uicompose.more.notifications.NotificationsView
+import com.axiel7.moelist.uicompose.more.settings.LIST_STYLE_SETTINGS_DESTINATION
+import com.axiel7.moelist.uicompose.more.settings.ListStyleSettingsView
+import com.axiel7.moelist.uicompose.more.settings.SETTINGS_DESTINATION
+import com.axiel7.moelist.uicompose.more.settings.SettingsView
 import com.axiel7.moelist.uicompose.profile.PROFILE_DESTINATION
 import com.axiel7.moelist.uicompose.profile.ProfileView
 import com.axiel7.moelist.uicompose.ranking.MEDIA_RANKING_DESTINATION
@@ -66,17 +60,14 @@ import com.axiel7.moelist.utils.StringExtensions.removeFirstAndLast
 fun MainNavigation(
     navController: NavHostController,
     lastTabOpened: Int,
+    isLoggedIn: Boolean,
     isCompactScreen: Boolean,
+    useListTabs: Boolean,
     modifier: Modifier,
     padding: PaddingValues,
     topBarHeightPx: Float,
     topBarOffsetY: Animatable<Float, AnimationVector1D>,
 ) {
-    val accessTokenPreference by PreferencesDataStore.rememberPreference(
-        ACCESS_TOKEN_PREFERENCE_KEY,
-        App.accessToken ?: ""
-    )
-
     // common navigation actions
     val navigateBack: () -> Unit = { navController.popBackStack() }
     val navigateToMediaDetails: (MediaType, Int) -> Unit = { mediaType, mediaId ->
@@ -99,7 +90,7 @@ fun MainNavigation(
     ) {
         composable(BottomDestination.Home.route) {
             HomeView(
-                isLoggedIn = accessTokenPreference.isNotEmpty(),
+                isLoggedIn = isLoggedIn,
                 navigateToMediaDetails = navigateToMediaDetails,
                 navigateToRanking = { mediaType ->
                     navController.navigate(
@@ -160,11 +151,19 @@ fun MainNavigation(
             )
         }
 
-        composable(BottomDestination.AnimeList.route) {
-            if (accessTokenPreference.isEmpty()) {
+        composable(
+            route = BottomDestination.AnimeList.route,
+            arguments = listOf(
+                navArgument(MEDIA_TYPE_ARGUMENT.removeFirstAndLast()) {
+                    type = NavType.StringType
+                    defaultValue = MediaType.ANIME.name
+                }
+            )
+        ) {
+            if (!isLoggedIn) {
                 LoginView()
             } else {
-                if (App.useListTabs)
+                if (useListTabs)
                     UserMediaListWithTabsView(
                         mediaType = MediaType.ANIME,
                         isCompactScreen = isCompactScreen,
@@ -184,11 +183,19 @@ fun MainNavigation(
             }
         }
 
-        composable(BottomDestination.MangaList.route) {
-            if (accessTokenPreference.isEmpty()) {
+        composable(
+            route = BottomDestination.MangaList.route,
+            arguments = listOf(
+                navArgument(MEDIA_TYPE_ARGUMENT.removeFirstAndLast()) {
+                    type = NavType.StringType
+                    defaultValue = MediaType.MANGA.name
+                }
+            )
+        ) {
+            if (!isLoggedIn) {
                 LoginView()
             } else {
-                if (App.useListTabs)
+                if (useListTabs)
                     UserMediaListWithTabsView(
                         mediaType = MediaType.MANGA,
                         isCompactScreen = isCompactScreen,
@@ -208,56 +215,58 @@ fun MainNavigation(
             }
         }
 
-        navigation(startDestination = MORE_DESTINATION, route = BottomDestination.More.route) {
-            composable(MORE_DESTINATION) {
-                MoreView(
-                    navigateToSettings = {
-                        navController.navigate(SETTINGS_DESTINATION)
-                    },
-                    navigateToNotifications = {
-                        navController.navigate(NOTIFICATIONS_DESTINATION)
-                    },
-                    navigateToAbout = {
-                        navController.navigate(ABOUT_DESTINATION)
-                    },
-                    padding = padding,
-                    topBarHeightPx = topBarHeightPx,
-                    topBarOffsetY = topBarOffsetY,
-                )
-            }
-            composable(SETTINGS_DESTINATION) {
-                SettingsView(
-                    navigateToListStyleSettings = {
-                        navController.navigate(LIST_STYLE_SETTINGS_DESTINATION)
-                    },
-                    navigateBack = navigateBack
-                )
-            }
-            composable(LIST_STYLE_SETTINGS_DESTINATION) {
-                ListStyleSettingsView(
-                    navigateBack = navigateBack
-                )
-            }
+        composable(BottomDestination.More.route) {
+            MoreView(
+                navigateToSettings = {
+                    navController.navigate(SETTINGS_DESTINATION)
+                },
+                navigateToNotifications = {
+                    navController.navigate(NOTIFICATIONS_DESTINATION)
+                },
+                navigateToAbout = {
+                    navController.navigate(ABOUT_DESTINATION)
+                },
+                padding = padding,
+                topBarHeightPx = topBarHeightPx,
+                topBarOffsetY = topBarOffsetY,
+            )
+        }
 
-            composable(NOTIFICATIONS_DESTINATION) {
-                NotificationsView(
-                    navigateBack = navigateBack,
-                    navigateToMediaDetails = navigateToMediaDetails
-                )
-            }
-            composable(ABOUT_DESTINATION) {
-                AboutView(
-                    navigateBack = navigateBack,
-                    navigateToCredits = {
-                        navController.navigate(CREDITS_DESTINATION)
-                    }
-                )
-            }
-            composable(CREDITS_DESTINATION) {
-                CreditsView(
-                    navigateBack = navigateBack
-                )
-            }
+        composable(SETTINGS_DESTINATION) {
+            SettingsView(
+                navigateToListStyleSettings = {
+                    navController.navigate(LIST_STYLE_SETTINGS_DESTINATION)
+                },
+                navigateBack = navigateBack
+            )
+        }
+
+        composable(LIST_STYLE_SETTINGS_DESTINATION) {
+            ListStyleSettingsView(
+                navigateBack = navigateBack
+            )
+        }
+
+        composable(NOTIFICATIONS_DESTINATION) {
+            NotificationsView(
+                navigateBack = navigateBack,
+                navigateToMediaDetails = navigateToMediaDetails
+            )
+        }
+
+        composable(ABOUT_DESTINATION) {
+            AboutView(
+                navigateBack = navigateBack,
+                navigateToCredits = {
+                    navController.navigate(CREDITS_DESTINATION)
+                }
+            )
+        }
+
+        composable(CREDITS_DESTINATION) {
+            CreditsView(
+                navigateBack = navigateBack
+            )
         }
 
         composable(
@@ -271,7 +280,7 @@ fun MainNavigation(
                 mediaType = navEntry.arguments?.getString(MEDIA_TYPE_ARGUMENT.removeFirstAndLast())
                     ?.let { mediaType -> MediaType.valueOf(mediaType) } ?: MediaType.ANIME,
                 mediaId = navEntry.arguments?.getInt(MEDIA_ID_ARGUMENT.removeFirstAndLast()) ?: 0,
-                isLoggedIn = accessTokenPreference.isNotEmpty(),
+                isLoggedIn = isLoggedIn,
                 navigateBack = navigateBack,
                 navigateToMediaDetails = navigateToMediaDetails,
                 navigateToFullPoster = { pictures ->
@@ -297,7 +306,7 @@ fun MainNavigation(
         }
 
         composable(PROFILE_DESTINATION) {
-            if (accessTokenPreference.isEmpty()) {
+            if (!isLoggedIn) {
                 DefaultScaffoldWithTopAppBar(
                     title = stringResource(R.string.title_profile),
                     navigateBack = { navController.popBackStack() }

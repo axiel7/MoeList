@@ -1,18 +1,25 @@
 package com.axiel7.moelist.data.repository
 
-import com.axiel7.moelist.App
 import com.axiel7.moelist.data.model.Response
 import com.axiel7.moelist.data.model.User
 import com.axiel7.moelist.data.model.UserStats
+import com.axiel7.moelist.data.network.Api
+import com.axiel7.moelist.data.network.JikanApi
 
-object UserRepository {
+class UserRepository(
+    private val api: Api,
+    private val jikanApi: JikanApi,
+    defaultPreferencesRepository: DefaultPreferencesRepository
+) : BaseRepository(api, defaultPreferencesRepository) {
 
-    private const val USER_FIELDS = "id,name,gender,location,joined_at,anime_statistics"
+    companion object {
+        private const val USER_FIELDS = "id,name,gender,location,joined_at,anime_statistics"
+    }
 
     suspend fun getMyUser(): User? {
         return try {
-            val result = App.api.getUser(USER_FIELDS)
-            result.error?.let { BaseRepository.handleResponseError(it) }
+            val result = api.getUser(USER_FIELDS)
+            result.error?.let { handleResponseError(it) }
             return result
         } catch (e: Exception) {
             null
@@ -23,7 +30,7 @@ object UserRepository {
         username: String
     ): Response<UserStats>? {
         return try {
-            App.jikanApi.getUserStats(username)
+            jikanApi.getUserStats(username)
         } catch (e: Exception) {
             null
         }

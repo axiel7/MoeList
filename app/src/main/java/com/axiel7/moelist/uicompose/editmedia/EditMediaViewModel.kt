@@ -4,11 +4,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.axiel7.moelist.data.model.anime.AnimeNode
 import com.axiel7.moelist.data.model.manga.MangaNode
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
-import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseMyListStatus
 import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.data.model.media.MediaType
@@ -22,11 +22,10 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class EditMediaViewModel(
-    override val mediaType: MediaType,
-    override var mediaInfo: BaseMediaNode?
-) : BaseMediaViewModel() {
-
-    override var myListStatus: BaseMyListStatus? = null
+    savedStateHandle: SavedStateHandle,
+    private val animeRepository: AnimeRepository,
+    private val mangaRepository: MangaRepository,
+) : BaseMediaViewModel(savedStateHandle) {
 
     var status by mutableStateOf(if (mediaType == MediaType.ANIME) ListStatus.PTW else ListStatus.PTR)
     var progress by mutableStateOf<Int?>(0)
@@ -42,7 +41,7 @@ class EditMediaViewModel(
     var comments by mutableStateOf<String?>(null)
 
     fun setEditVariables(myListStatus: BaseMyListStatus) {
-        this.myListStatus = myListStatus
+        _myListStatus = myListStatus
         status = myListStatus.status
         score = myListStatus.score
         startDate = DateUtils.getLocalDateFromDateString(myListStatus.startDate)
@@ -160,7 +159,7 @@ class EditMediaViewModel(
                 endDateISO else null
 
             val result = if (mediaType == MediaType.ANIME)
-                AnimeRepository.updateAnimeEntry(
+                animeRepository.updateAnimeEntry(
                     animeId = mediaInfo!!.id,
                     status = statusValue,
                     score = scoreValue,
@@ -175,7 +174,7 @@ class EditMediaViewModel(
                     comments = commentsValue
                 )
             else
-                MangaRepository.updateMangaEntry(
+                mangaRepository.updateMangaEntry(
                     mangaId = mediaInfo!!.id,
                     status = statusValue,
                     score = scoreValue,
@@ -192,7 +191,8 @@ class EditMediaViewModel(
                 )
 
             if (result != null && result.error == null) {
-                myListStatus = result
+                _myListStatus = result
+
                 updateSuccess = true
             } else {
                 updateSuccess = false
@@ -210,11 +210,11 @@ class EditMediaViewModel(
             if (mediaInfo == null) return@launch
             isLoading = true
             val result = if (mediaType == MediaType.ANIME)
-                AnimeRepository.deleteAnimeEntry(mediaInfo!!.id)
+                animeRepository.deleteAnimeEntry(mediaInfo!!.id)
             else
-                MangaRepository.deleteMangaEntry(mediaInfo!!.id)
+                mangaRepository.deleteMangaEntry(mediaInfo!!.id)
 
-            if (result) myListStatus = null
+            if (result) _myListStatus = null
             updateSuccess = result
             isLoading = false
         }

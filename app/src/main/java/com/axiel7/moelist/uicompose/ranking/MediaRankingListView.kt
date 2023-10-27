@@ -21,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.BaseRanking
 import com.axiel7.moelist.data.model.media.MediaType
@@ -33,6 +32,7 @@ import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.NumExtensions
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrUnknown
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MediaRankingListView(
@@ -42,9 +42,7 @@ fun MediaRankingListView(
     navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
     val context = LocalContext.current
-    val viewModel: MediaRankingViewModel = viewModel(key = rankingType.name) {
-        MediaRankingViewModel(mediaType, rankingType)
-    }
+    val viewModel: MediaRankingViewModel = koinViewModel(key = rankingType.name)
     val shouldShowPlaceholder = viewModel.mediaList.isEmpty() && viewModel.isLoading
 
     LaunchedEffect(viewModel.message) {
@@ -56,12 +54,12 @@ fun MediaRankingListView(
 
     LaunchedEffect(Unit) {
         if (!viewModel.isLoading && viewModel.nextPage == null && !viewModel.loadedAllPages)
-            viewModel.getRanking()
+            viewModel.getRanking(rankingType)
     }
 
     fun onLoadMore() {
         if (!viewModel.isLoading && viewModel.hasNextPage) {
-            viewModel.getRanking(viewModel.nextPage)
+            viewModel.getRanking(rankingType, viewModel.nextPage)
         }
     }
 

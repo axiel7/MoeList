@@ -12,4 +12,14 @@ enum class ThemeStyle {
             DARK -> R.string.theme_dark
             BLACK -> R.string.theme_black
         }
+
+    companion object {
+        fun valueOfOrNull(value: String) = try {
+            valueOf(value)
+        } catch (e: IllegalArgumentException) {
+            null
+        }
+
+        val entriesLocalized = entries.associateWith { it.stringRes }
+    }
 }

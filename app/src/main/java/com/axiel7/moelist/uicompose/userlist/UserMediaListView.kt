@@ -28,15 +28,10 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
-import com.axiel7.moelist.App
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.GENERAL_LIST_STYLE_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.GRID_ITEMS_PER_ROW_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.RANDOM_LIST_ENTRY_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.USE_GENERAL_LIST_STYLE_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.rememberPreference
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseUserMediaList
-import com.axiel7.moelist.data.model.media.ListType
+import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.uicompose.base.ListStyle
 import com.axiel7.moelist.uicompose.composables.OnBottomReached
@@ -62,7 +57,7 @@ const val MANGA_LIST_DESTINATION = "manga_list"
 @Composable
 fun UserMediaListView(
     viewModel: UserMediaListViewModel,
-    listType: ListType,
+    listSort: MediaSort,
     isCompactScreen: Boolean,
     modifier: Modifier = Modifier,
     nestedScrollConnection: NestedScrollConnection? = null,
@@ -72,33 +67,19 @@ fun UserMediaListView(
     contentPadding: PaddingValues = PaddingValues(),
     onShowEditSheet: (BaseUserMediaList<out BaseMediaNode>) -> Unit,
 ) {
+    val showRandomButton by viewModel.showRandomButton.collectAsStateWithLifecycle()
+
     val layoutDirection = LocalLayoutDirection.current
     val pullRefreshState =
         rememberPullRefreshState(viewModel.isLoading, onRefresh = viewModel::refreshList)
-
-    val useGeneralListStyle by rememberPreference(
-        USE_GENERAL_LIST_STYLE_PREFERENCE_KEY,
-        App.useGeneralListStyle
-    )
-    val generalListStyle by rememberPreference(
-        GENERAL_LIST_STYLE_PREFERENCE_KEY,
-        App.generalListStyle.value
-    )
-    val showRandomButton by rememberPreference(
-        RANDOM_LIST_ENTRY_PREFERENCE_KEY,
-        App.randomListButton
-    )
-
-    val listStyle =
-        if (useGeneralListStyle) generalListStyle else listType.styleGlobalAppVariable.value
 
     @Composable
     fun StandardItemView(item: BaseUserMediaList<out BaseMediaNode>) {
         StandardUserMediaListItem(
             item = item,
-            listStatus = listType.status,
+            listStatus = viewModel.listStatus,
             onClick = {
-                navigateToMediaDetails(listType.mediaType, item.node.id)
+                navigateToMediaDetails(viewModel.mediaType, item.node.id)
             },
             onLongClick = {
                 onShowEditSheet(item)
@@ -113,9 +94,9 @@ fun UserMediaListView(
     fun CompactItemView(item: BaseUserMediaList<out BaseMediaNode>) {
         CompactUserMediaListItem(
             item = item,
-            listStatus = listType.status,
+            listStatus = viewModel.listStatus,
             onClick = {
-                navigateToMediaDetails(listType.mediaType, item.node.id)
+                navigateToMediaDetails(viewModel.mediaType, item.node.id)
             },
             onLongClick = {
                 onShowEditSheet(item)
@@ -130,9 +111,9 @@ fun UserMediaListView(
     fun MinimalItemView(item: BaseUserMediaList<out BaseMediaNode>) {
         MinimalUserMediaListItem(
             item = item,
-            listStatus = listType.status,
+            listStatus = viewModel.listStatus,
             onClick = {
-                navigateToMediaDetails(listType.mediaType, item.node.id)
+                navigateToMediaDetails(viewModel.mediaType, item.node.id)
             },
             onLongClick = {
                 onShowEditSheet(item)
@@ -148,7 +129,7 @@ fun UserMediaListView(
         GridUserMediaListItem(
             item = item,
             onClick = {
-                navigateToMediaDetails(listType.mediaType, item.node.id)
+                navigateToMediaDetails(viewModel.mediaType, item.node.id)
             },
             onLongClick = {
                 onShowEditSheet(item)
@@ -172,17 +153,14 @@ fun UserMediaListView(
                 else Modifier
             )
 
-        if (listStyle == ListStyle.GRID.value) {
-            val itemsPerRow by rememberPreference(
-                GRID_ITEMS_PER_ROW_PREFERENCE_KEY,
-                App.gridItemsPerRow
-            )
+        if (viewModel.listStyle == ListStyle.GRID) {
+            val itemsPerRow by viewModel.itemsPerRow.collectAsStateWithLifecycle()
             val listState = rememberLazyGridState()
             listState.OnBottomReached(buffer = 6) {
                 viewModel.onLoadMore()
             }
             LazyVerticalGrid(
-                columns = if (itemsPerRow > 0) GridCells.Fixed(itemsPerRow)
+                columns = if (itemsPerRow.value > 0) GridCells.Fixed(itemsPerRow.value)
                 else GridCells.Adaptive(minSize = (MEDIA_POSTER_MEDIUM_WIDTH + 8).dp),
                 modifier = listModifier
                     .collapsable(
@@ -208,7 +186,7 @@ fun UserMediaListView(
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         SortChip(
-                            text = viewModel.listSort.localized(),
+                            text = listSort?.localized().orEmpty(),
                             onClick = { viewModel.openSortDialog = true },
                         )
                         if (showRandomButton) {
@@ -257,7 +235,7 @@ fun UserMediaListView(
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         SortChip(
-                            text = viewModel.listSort.localized(),
+                            text = listSort?.localized().orEmpty(),
                             onClick = { viewModel.openSortDialog = true },
                         )
                         if (showRandomButton) {
@@ -267,8 +245,8 @@ fun UserMediaListView(
                         }
                     }
                 }
-                when (listStyle) {
-                    ListStyle.STANDARD.value -> {
+                when (viewModel.listStyle) {
+                    ListStyle.STANDARD -> {
                         items(
                             items = viewModel.mediaList,
                             key = { it.node.id },
@@ -283,7 +261,7 @@ fun UserMediaListView(
                         }
                     }
 
-                    ListStyle.COMPACT.value -> {
+                    ListStyle.COMPACT -> {
                         items(
                             items = viewModel.mediaList,
                             key = { it.node.id },
@@ -298,7 +276,7 @@ fun UserMediaListView(
                         }
                     }
 
-                    ListStyle.MINIMAL.value -> {
+                    ListStyle.MINIMAL -> {
                         items(
                             items = viewModel.mediaList,
                             key = { it.node.id },
@@ -312,6 +290,8 @@ fun UserMediaListView(
                             }
                         }
                     }
+
+                    else -> {}
                 }
             }//:LazyColumn
         } else { // tablet ui
@@ -337,7 +317,7 @@ fun UserMediaListView(
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         SortChip(
-                            text = viewModel.listSort.localized(),
+                            text = listSort?.localized().orEmpty(),
                             onClick = { viewModel.openSortDialog = true },
                         )
                         if (showRandomButton) {
@@ -347,8 +327,8 @@ fun UserMediaListView(
                         }
                     }
                 }
-                when (listStyle) {
-                    ListStyle.STANDARD.value -> {
+                when (viewModel.listStyle) {
+                    ListStyle.STANDARD -> {
                         items(
                             items = viewModel.mediaList,
                             key = { it.node.id },
@@ -363,7 +343,7 @@ fun UserMediaListView(
                         }
                     }
 
-                    ListStyle.COMPACT.value -> {
+                    ListStyle.COMPACT -> {
                         items(
                             items = viewModel.mediaList,
                             key = { it.node.id },
@@ -378,7 +358,7 @@ fun UserMediaListView(
                         }
                     }
 
-                    ListStyle.MINIMAL.value -> {
+                    ListStyle.MINIMAL -> {
                         items(
                             items = viewModel.mediaList,
                             key = { it.node.id },
@@ -392,6 +372,8 @@ fun UserMediaListView(
                             }
                         }
                     }
+
+                    else -> {}
                 }
             }
         }

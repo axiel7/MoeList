@@ -1,8 +1,6 @@
 package com.axiel7.moelist.data.repository
 
 import androidx.annotation.IntRange
-import com.axiel7.moelist.App
-import com.axiel7.moelist.data.model.CommonApiParams
 import com.axiel7.moelist.data.model.Response
 import com.axiel7.moelist.data.model.manga.MangaDetails
 import com.axiel7.moelist.data.model.manga.MangaList
@@ -12,46 +10,55 @@ import com.axiel7.moelist.data.model.manga.UserMangaList
 import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.RankingType
+import com.axiel7.moelist.data.network.Api
 import io.ktor.http.HttpStatusCode
 
-object MangaRepository {
+class MangaRepository(
+    private val api: Api,
+    private val defaultPreferencesRepository: DefaultPreferencesRepository
+) : BaseRepository(api, defaultPreferencesRepository) {
 
-    const val LIST_STATUS_FIELDS =
-        "start_date,finish_date,num_times_reread,is_rereading,reread_value,priority,tags,comments"
-
-    const val MANGA_DETAILS_FIELDS =
-        "id,title,main_picture,pictures,alternative_titles,start_date,end_date," +
-                "synopsis,mean,rank,popularity,num_list_users,num_scoring_users,media_type,status,genres," +
-                "my_list_status{$LIST_STATUS_FIELDS},num_chapters,num_volumes,source,authors{first_name,last_name}," +
-                "serialization,related_anime{media_type},related_manga{media_type},recommendations,background"
+    companion object {
+        private const val LIST_STATUS_FIELDS =
+            "start_date,finish_date,num_times_reread,is_rereading,reread_value,priority,tags,comments"
+        private const val MANGA_DETAILS_FIELDS =
+            "id,title,main_picture,pictures,alternative_titles,start_date,end_date," +
+                    "synopsis,mean,rank,popularity,num_list_users,num_scoring_users,media_type,status,genres," +
+                    "my_list_status{$LIST_STATUS_FIELDS},num_chapters,num_volumes,source,authors{first_name,last_name}," +
+                    "serialization,related_anime{media_type},related_manga{media_type},recommendations,background"
+        private const val USER_MANGA_LIST_FIELDS =
+            "alternative_titles{en,ja},list_status{$LIST_STATUS_FIELDS},num_chapters,num_volumes,media_type,status"
+        private const val SEARCH_FIELDS =
+            "id,title,alternative_titles{en,ja},main_picture,mean,media_type,num_chapters"
+        private const val RANKING_FIELDS =
+            "alternative_titles{en,ja},mean,media_type,num_chapters,num_list_users"
+    }
 
     suspend fun getMangaDetails(
         mangaId: Int
     ): MangaDetails? {
         return try {
-            App.api.getMangaDetails(mangaId, MANGA_DETAILS_FIELDS)
+            api.getMangaDetails(mangaId, MANGA_DETAILS_FIELDS)
         } catch (e: Exception) {
             null
         }
     }
 
-    const val USER_MANGA_LIST_FIELDS =
-        "alternative_titles{en,ja},list_status{$LIST_STATUS_FIELDS},num_chapters,num_volumes,media_type,status"
-
     suspend fun getUserMangaList(
         status: ListStatus,
         sort: MediaSort,
-        commonApiParams: CommonApiParams,
         page: String? = null
     ): Response<List<UserMangaList>>? {
         return try {
-            val result = if (page == null) App.api.getUserMangaList(
+            val result = if (page == null) api.getUserMangaList(
                 status = status,
                 sort = sort,
-                params = commonApiParams
+                limit = null,
+                nsfw = defaultPreferencesRepository.nsfwInt(),
+                fields = USER_MANGA_LIST_FIELDS,
             )
-            else App.api.getUserMangaList(page)
-            result.error?.let { BaseRepository.handleResponseError(it) }
+            else api.getUserMangaList(page)
+            result.error?.let { handleResponseError(it) }
             return result
         } catch (e: Exception) {
             Response(message = e.message)
@@ -74,7 +81,7 @@ object MangaRepository {
         comments: String? = null,
     ): MyMangaListStatus? {
         return try {
-            val result = App.api.updateUserMangaList(
+            val result = api.updateUserMangaList(
                 mangaId,
                 status,
                 score,
@@ -89,7 +96,7 @@ object MangaRepository {
                 tags,
                 comments
             )
-            result.error?.let { BaseRepository.handleResponseError(it) }
+            result.error?.let { handleResponseError(it) }
             return result
         } catch (e: Exception) {
             null
@@ -100,7 +107,7 @@ object MangaRepository {
         mangaId: Int
     ): Boolean {
         return try {
-            val result = App.api.deleteMangaEntry(mangaId)
+            val result = api.deleteMangaEntry(mangaId)
             return result.status == HttpStatusCode.OK
         } catch (e: Exception) {
             false
@@ -109,16 +116,20 @@ object MangaRepository {
 
     suspend fun searchManga(
         query: String,
-        commonApiParams: CommonApiParams,
+        limit: Int,
+        offset: Int?,
         page: String? = null
     ): Response<List<MangaList>>? {
         return try {
-            val result = if (page == null) App.api.getMangaList(
+            val result = if (page == null) api.getMangaList(
                 query = query,
-                params = commonApiParams
+                limit = limit,
+                offset = offset,
+                nsfw = defaultPreferencesRepository.nsfwInt(),
+                fields = SEARCH_FIELDS,
             )
-            else App.api.getMangaList(page)
-            result.error?.let { BaseRepository.handleResponseError(it) }
+            else api.getMangaList(page)
+            result.error?.let { handleResponseError(it) }
             return result
         } catch (e: Exception) {
             Response(message = e.message)
@@ -127,17 +138,19 @@ object MangaRepository {
 
     suspend fun getMangaRanking(
         rankingType: RankingType,
-        commonApiParams: CommonApiParams,
+        limit: Int,
         page: String? = null
     ): Response<List<MangaRanking>>? {
         return try {
             val result =
-                if (page == null) App.api.getMangaRanking(
+                if (page == null) api.getMangaRanking(
                     rankingType = rankingType.serialName,
-                    params = commonApiParams,
+                    limit = limit,
+                    nsfw = defaultPreferencesRepository.nsfwInt(),
+                    fields = RANKING_FIELDS,
                 )
-                else App.api.getMangaRanking(page)
-            result.error?.let { BaseRepository.handleResponseError(it) }
+                else api.getMangaRanking(page)
+            result.error?.let { handleResponseError(it) }
             return result
         } catch (e: Exception) {
             Response(message = e.message)
@@ -150,17 +163,15 @@ object MangaRepository {
         page: String? = null
     ): Response<List<Int>>? {
         return try {
-            val result = if (page == null) App.api.getUserMangaList(
+            val result = if (page == null) api.getUserMangaList(
                 status = status,
                 sort = MediaSort.UPDATED,
-                params = CommonApiParams(
-                    nsfw = App.nsfw,
-                    fields = "id",
-                    limit = 1000
-                )
-            ) else App.api.getUserMangaList(page)
+                limit = 1000,
+                nsfw = defaultPreferencesRepository.nsfwInt(),
+                fields = "id",
+            ) else api.getUserMangaList(page)
             result.error?.let {
-                BaseRepository.handleResponseError(it)
+                handleResponseError(it)
                 return Response(error = result.error, message = result.message)
             }
             if (result.paging?.next != null) {

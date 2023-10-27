@@ -20,25 +20,25 @@ object NumExtensions {
 
     fun Int?.toStringOrZero() = this?.toString() ?: "0"
 
-    fun Int?.toStringOrUnknown() = this?.toString() ?: Constants.UNKNOWN_CHAR
+    fun Int?.toStringOrUnknown() = this?.toString() ?: UNKNOWN_CHAR
 
     /**
      * Returns a string representation of the Integer.
      * If the Integer is `<= 0` or `null` returns `"─"`.
      */
     fun Int?.toStringPositiveValueOrUnknown() =
-        if (this == 0) Constants.UNKNOWN_CHAR else this.toStringOrUnknown()
+        if (this == 0) UNKNOWN_CHAR else this.toStringOrUnknown()
 
     fun Int?.isGreaterThanZero() = this != null && this > 0
 
     fun Float?.toStringOrZero() = this?.toString() ?: "0.0"
 
-    fun Float?.toStringOrUnknown() = this?.toString() ?: Constants.UNKNOWN_CHAR
+    fun Float?.toStringOrUnknown() = this?.toString() ?: UNKNOWN_CHAR
 
     /**
      * Returns a string representation of the Float.
      * If the Float is `<= 0` or `null` returns `"─"`.
      */
     fun Float?.toStringPositiveValueOrUnknown() =
-        if (this == 0f) Constants.UNKNOWN_CHAR else this.toStringOrUnknown()
+        if (this == 0f) UNKNOWN_CHAR else this.toStringOrUnknown()
 }

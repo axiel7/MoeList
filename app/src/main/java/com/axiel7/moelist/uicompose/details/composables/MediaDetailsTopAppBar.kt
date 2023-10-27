@@ -16,9 +16,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.datastore.preferences.core.stringPreferencesKey
 import com.axiel7.moelist.R
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.notificationsDataStore
 import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.media.MediaStatus
 import com.axiel7.moelist.uicompose.composables.BackIconButton
@@ -28,11 +26,9 @@ import com.axiel7.moelist.uicompose.details.MediaDetailsViewModel
 import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.DateUtils.parseDate
-import com.axiel7.moelist.utils.NotificationWorker
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.time.LocalTime
 
@@ -48,15 +44,11 @@ fun MediaDetailsTopAppBar(
     val scope = rememberCoroutineScope()
     val savedForNotification = when (viewModel.mediaDetails?.status) {
         MediaStatus.AIRING -> remember {
-            context.notificationsDataStore.data.map {
-                it[stringPreferencesKey(viewModel.mediaDetails!!.id.toString())]
-            }
+            viewModel.getNotification(viewModel.mediaDetails!!.id)
         }.collectAsState(initial = null)
 
         MediaStatus.NOT_AIRED -> remember {
-            context.notificationsDataStore.data.map {
-                it[stringPreferencesKey("start_${viewModel.mediaDetails!!.id}")]
-            }
+            viewModel.getStartNotification(viewModel.mediaDetails!!.id)
         }.collectAsState(initial = null)
 
         else -> remember { mutableStateOf(null) }
@@ -89,8 +81,7 @@ fun MediaDetailsTopAppBar(
                                             && details.broadcast?.dayOfTheWeek != null
                                             && details.broadcast.startTime != null
                                         ) {
-                                            NotificationWorker.scheduleAiringAnimeNotification(
-                                                context = context,
+                                            viewModel.scheduleAiringAnimeNotification(
                                                 title = details.title ?: "",
                                                 animeId = details.id,
                                                 weekDay = details.broadcast.dayOfTheWeek,
@@ -102,8 +93,7 @@ fun MediaDetailsTopAppBar(
                                         ) {
                                             val startDate = details.startDate.parseDate()
                                             if (startDate != null) {
-                                                NotificationWorker.scheduleAnimeStartNotification(
-                                                    context = context,
+                                                viewModel.scheduleAnimeStartNotification(
                                                     title = details.title ?: "",
                                                     animeId = details.id,
                                                     startDate = startDate
@@ -127,8 +117,7 @@ fun MediaDetailsTopAppBar(
                                 }
                             } else {
                                 scope.launch {
-                                    NotificationWorker.removeAiringAnimeNotification(
-                                        context = context,
+                                    viewModel.removeAiringAnimeNotification(
                                         animeId = details.id
                                     )
                                     context.showToast("Notification disabled")

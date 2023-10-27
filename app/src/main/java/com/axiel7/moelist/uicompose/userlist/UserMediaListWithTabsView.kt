@@ -19,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -28,9 +29,8 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.axiel7.moelist.data.model.media.ListStatus.Companion.listStatusValues
-import com.axiel7.moelist.data.model.media.ListType
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.uicompose.base.TabRowItem
 import com.axiel7.moelist.uicompose.composables.LoadingDialog
@@ -40,6 +40,7 @@ import com.axiel7.moelist.uicompose.userlist.composables.MediaListSortDialog
 import com.axiel7.moelist.uicompose.userlist.composables.SetAsCompletedDialog
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.navigation.koinNavViewModel
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -105,12 +106,14 @@ fun UserMediaListWithTabsView(
             key = { tabRowItems[it].value }
         ) {
             val listStatus = tabRowItems[it].value
-            val viewModel = viewModel(key = listStatus.toString()) {
-                UserMediaListViewModel(mediaType, initialListStatus = listStatus)
-            }
+            val viewModel: UserMediaListViewModel = koinNavViewModel(key = listStatus.name)
+            val listSort by viewModel.listSort.collectAsStateWithLifecycle()
 
-            if (viewModel.openSortDialog) {
-                MediaListSortDialog(viewModel = viewModel)
+            if (viewModel.openSortDialog && listSort != null) {
+                MediaListSortDialog(
+                    listSort = listSort!!,
+                    viewModel = viewModel
+                )
             }
 
             if (viewModel.openSetAtCompletedDialog) {
@@ -144,28 +147,30 @@ fun UserMediaListWithTabsView(
                 }
             }
 
-            UserMediaListView(
-                viewModel = viewModel,
-                listType = ListType(status = tabRowItems[it].value, mediaType = mediaType),
-                isCompactScreen = isCompactScreen,
-                modifier = Modifier.padding(
-                    bottom = systemBarsPadding.calculateBottomPadding() + 8.dp
-                ),
-                navigateToMediaDetails = navigateToMediaDetails,
-                topBarHeightPx = topBarHeightPx,
-                topBarOffsetY = topBarOffsetY,
-                contentPadding = PaddingValues(
-                    bottom = padding.calculateBottomPadding() +
-                            systemBarsPadding.calculateBottomPadding()
-                ),
-                onShowEditSheet = { item ->
-                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                    scope.launch {
-                        viewModel.onItemSelected(item)
-                        editSheetState.show()
-                    }
-                },
-            )
+            if (listSort != null) {
+                UserMediaListView(
+                    viewModel = viewModel,
+                    listSort = listSort!!,
+                    isCompactScreen = isCompactScreen,
+                    modifier = Modifier.padding(
+                        bottom = systemBarsPadding.calculateBottomPadding() + 8.dp
+                    ),
+                    navigateToMediaDetails = navigateToMediaDetails,
+                    topBarHeightPx = topBarHeightPx,
+                    topBarOffsetY = topBarOffsetY,
+                    contentPadding = PaddingValues(
+                        bottom = padding.calculateBottomPadding() +
+                                systemBarsPadding.calculateBottomPadding()
+                    ),
+                    onShowEditSheet = { item ->
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        scope.launch {
+                            viewModel.onItemSelected(item)
+                            editSheetState.show()
+                        }
+                    },
+                )
+            }
         }//:Pager
     }//:Column
 }

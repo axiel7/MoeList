@@ -7,7 +7,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
 import com.axiel7.moelist.uicompose.home.HOME_DESTINATION
-import com.axiel7.moelist.uicompose.more.MORE_TAB_DESTINATION
+import com.axiel7.moelist.uicompose.more.MORE_DESTINATION
 import com.axiel7.moelist.uicompose.profile.PROFILE_DESTINATION
 import com.axiel7.moelist.uicompose.userlist.ANIME_LIST_DESTINATION
 import com.axiel7.moelist.uicompose.userlist.MANGA_LIST_DESTINATION
@@ -53,7 +53,7 @@ sealed class BottomDestination(
 
     data object More : BottomDestination(
         value = "more",
-        route = MORE_TAB_DESTINATION,
+        route = MORE_DESTINATION,
         title = R.string.more,
         icon = R.drawable.ic_more_horizontal,
         iconSelected = R.drawable.ic_more_horizontal

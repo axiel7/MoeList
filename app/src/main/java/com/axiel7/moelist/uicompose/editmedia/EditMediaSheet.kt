@@ -41,7 +41,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.manga.MangaNode
 import com.axiel7.moelist.data.model.media.ListStatus.Companion.listStatusValues
@@ -53,7 +52,6 @@ import com.axiel7.moelist.uicompose.base.BaseMediaViewModel
 import com.axiel7.moelist.uicompose.composables.ClickableOutlinedTextField
 import com.axiel7.moelist.uicompose.composables.SelectableIconToggleButton
 import com.axiel7.moelist.uicompose.composables.TextCheckBox
-import com.axiel7.moelist.uicompose.details.MediaDetailsViewModel
 import com.axiel7.moelist.uicompose.editmedia.composables.DeleteMediaEntryDialog
 import com.axiel7.moelist.uicompose.editmedia.composables.EditMediaDatePicker
 import com.axiel7.moelist.uicompose.editmedia.composables.EditMediaProgressRow
@@ -64,12 +62,14 @@ import com.axiel7.moelist.utils.DateUtils.toEpochMillis
 import com.axiel7.moelist.utils.DateUtils.toLocalized
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 import java.time.ZoneOffset
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditMediaSheet(
+    viewModel: EditMediaViewModel = koinViewModel(),
     coroutineScope: CoroutineScope,
     sheetState: SheetState,
     mediaViewModel: BaseMediaViewModel,
@@ -78,12 +78,7 @@ fun EditMediaSheet(
     val context = LocalContext.current
     val statusValues = listStatusValues(mediaViewModel.mediaType)
     val datePickerState = rememberDatePickerState()
-    val viewModel = viewModel {
-        EditMediaViewModel(
-            mediaType = mediaViewModel.mediaType,
-            mediaInfo = mediaViewModel.mediaInfo
-        )
-    }
+
     val isNewEntry by remember {
         derivedStateOf { mediaViewModel.myListStatus == null }
     }
@@ -118,7 +113,7 @@ fun EditMediaSheet(
     }
 
     LaunchedEffect(mediaViewModel.mediaInfo) {
-        viewModel.mediaInfo = mediaViewModel.mediaInfo
+        viewModel.setMediaInfo(mediaViewModel.mediaInfo)
         mediaViewModel.myListStatus?.let {
             viewModel.setEditVariables(it)
         }
@@ -126,7 +121,7 @@ fun EditMediaSheet(
 
     LaunchedEffect(viewModel.updateSuccess) {
         if (viewModel.updateSuccess) {
-            mediaViewModel.myListStatus = viewModel.myListStatus
+            mediaViewModel.setMyListStatus(viewModel.myListStatus)
             viewModel.updateSuccess = false
             coroutineScope.launch { sheetState.hide() }
         }
@@ -388,7 +383,7 @@ fun EditMediaSheetPreview() {
         EditMediaSheet(
             coroutineScope = rememberCoroutineScope(),
             sheetState = rememberModalBottomSheetState(),
-            mediaViewModel = viewModel { MediaDetailsViewModel(MediaType.ANIME) }
+            mediaViewModel = koinViewModel()
         )
     }
 }

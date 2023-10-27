@@ -35,8 +35,8 @@ import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.data.model.media.MediaStatus
 import com.axiel7.moelist.uicompose.composables.defaultPlaceholder
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
-import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrUnknown
+import com.axiel7.moelist.utils.UNKNOWN_CHAR
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -134,9 +134,7 @@ fun MinimalUserMediaListItem(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = if ((item.listStatus?.score
-                                        ?: 0) == 0
-                                ) Constants.UNKNOWN_CHAR
+                                text = if ((item.listStatus?.score ?: 0) == 0) UNKNOWN_CHAR
                                 else "${item.listStatus?.score}",
                                 modifier = Modifier.padding(start = 8.dp, end = 2.dp),
                                 color = MaterialTheme.colorScheme.secondary,

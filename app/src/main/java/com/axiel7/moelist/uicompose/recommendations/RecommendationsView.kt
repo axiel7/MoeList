@@ -24,7 +24,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
@@ -34,15 +33,16 @@ import com.axiel7.moelist.uicompose.composables.media.MediaItemDetailedPlacehold
 import com.axiel7.moelist.uicompose.composables.media.MediaItemVertical
 import com.axiel7.moelist.uicompose.composables.media.SmallScoreIndicator
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
+import org.koin.androidx.compose.koinViewModel
 
 const val RECOMMENDATIONS_DESTINATION = "recommendations"
 
 @Composable
 fun RecommendationsView(
+    viewModel: RecommendationsViewModel = koinViewModel(),
     navigateBack: () -> Unit,
     navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
-    val viewModel: RecommendationsViewModel = viewModel()
     val bottomBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
     LaunchedEffect(Unit) {
