@@ -31,7 +31,8 @@ import com.axiel7.moelist.uicompose.userlist.composables.MediaListSortDialog
 import com.axiel7.moelist.uicompose.userlist.composables.SetAsCompletedDialog
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.navigation.koinNavViewModel
+import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -72,7 +73,10 @@ fun UserMediaListWithTabsView(
         isTabScrollable = true
     ) {
         val listStatus = tabRowItems[it].value
-        val viewModel: UserMediaListViewModel = koinNavViewModel(key = listStatus.name)
+        val viewModel: UserMediaListViewModel = koinViewModel(
+            key = listStatus.name,
+            parameters = { parametersOf(listStatus) }
+        )
         val listSort by viewModel.listSort.collectAsStateWithLifecycle()
 
         if (viewModel.openSortDialog && listSort != null) {

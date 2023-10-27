@@ -57,7 +57,7 @@ import com.axiel7.moelist.uicompose.userlist.composables.MediaListSortDialog
 import com.axiel7.moelist.uicompose.userlist.composables.SetAsCompletedDialog
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.navigation.koinNavViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,7 +73,7 @@ fun UserMediaListWithFabView(
     val scope = rememberCoroutineScope()
     val haptic = LocalHapticFeedback.current
 
-    val viewModel: UserMediaListViewModel = koinNavViewModel()
+    val viewModel: UserMediaListViewModel = koinViewModel()
     val listSort by viewModel.listSort.collectAsStateWithLifecycle()
 
     val statusSheetState = rememberModalBottomSheetState()

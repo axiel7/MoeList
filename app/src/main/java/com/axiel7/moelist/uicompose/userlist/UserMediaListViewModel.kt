@@ -32,13 +32,12 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class UserMediaListViewModel(
+    initialListStatus: ListStatus? = null,
     savedStateHandle: SavedStateHandle,
     private val animeRepository: AnimeRepository,
     private val mangaRepository: MangaRepository,
     private val defaultPreferencesRepository: DefaultPreferencesRepository,
 ) : BaseMediaViewModel(savedStateHandle) {
-
-    private val initialListStatus: ListStatus? = null
 
     var listStatus by mutableStateOf(
         initialListStatus ?: if (mediaType == MediaType.ANIME) ListStatus.WATCHING

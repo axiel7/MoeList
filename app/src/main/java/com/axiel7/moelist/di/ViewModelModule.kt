@@ -39,6 +39,14 @@ val viewModelModule = module {
     viewModelOf(::RecommendationsViewModel)
     viewModelOf(::SearchViewModel)
     viewModelOf(::SeasonChartViewModel)
-    viewModelOf(::UserMediaListViewModel)
+    viewModel { params ->
+        UserMediaListViewModel(
+            initialListStatus = params.getOrNull(),
+            savedStateHandle = get(),
+            animeRepository = get(),
+            mangaRepository = get(),
+            defaultPreferencesRepository = get()
+        )
+    }
     viewModelOf(::MoreViewModel)
 }
