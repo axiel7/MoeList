@@ -186,7 +186,7 @@ fun UserMediaListView(
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         SortChip(
-                            text = listSort?.localized().orEmpty(),
+                            text = listSort.localized(),
                             onClick = { viewModel.openSortDialog = true },
                         )
                         if (showRandomButton) {
@@ -235,7 +235,7 @@ fun UserMediaListView(
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         SortChip(
-                            text = listSort?.localized().orEmpty(),
+                            text = listSort.localized(),
                             onClick = { viewModel.openSortDialog = true },
                         )
                         if (showRandomButton) {
@@ -317,7 +317,7 @@ fun UserMediaListView(
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         SortChip(
-                            text = listSort?.localized().orEmpty(),
+                            text = listSort.localized(),
                             onClick = { viewModel.openSortDialog = true },
                         )
                         if (showRandomButton) {
