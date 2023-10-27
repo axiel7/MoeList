@@ -4,8 +4,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import com.axiel7.moelist.App
-import com.axiel7.moelist.data.model.CommonApiParams
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.repository.AnimeRepository
@@ -14,13 +12,9 @@ import com.axiel7.moelist.utils.SeasonCalendar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CalendarViewModel : BaseViewModel() {
-
-    private val params = CommonApiParams(
-        nsfw = App.nsfw,
-        fields = AnimeRepository.CALENDAR_FIELDS,
-        limit = 300
-    )
+class CalendarViewModel(
+    private val animeRepository: AnimeRepository
+) : BaseViewModel() {
 
     var weekAnime by mutableStateOf(
         arrayOf<MutableList<AnimeSeasonal>>(
@@ -37,11 +31,12 @@ class CalendarViewModel : BaseViewModel() {
     fun getSeasonAnime() {
         viewModelScope.launch(Dispatchers.IO) {
             isLoading = true
-            val result = AnimeRepository.getSeasonalAnimes(
+            val result = animeRepository.getSeasonalAnimes(
                 sort = MediaSort.ANIME_NUM_USERS,
                 year = SeasonCalendar.currentYear,
                 season = SeasonCalendar.currentSeason,
-                commonApiParams = params,
+                limit = 300,
+                fields = AnimeRepository.CALENDAR_FIELDS
             )
 
             if (result?.data == null || result.message != null) {

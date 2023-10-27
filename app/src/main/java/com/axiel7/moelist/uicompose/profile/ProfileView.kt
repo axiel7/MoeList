@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,7 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
@@ -34,23 +35,25 @@ import com.axiel7.moelist.uicompose.composables.TextIconHorizontal
 import com.axiel7.moelist.uicompose.composables.defaultPlaceholder
 import com.axiel7.moelist.uicompose.profile.composables.UserStatsView
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
-import com.axiel7.moelist.utils.Constants
 import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.DateUtils.parseDateAndLocalize
+import com.axiel7.moelist.utils.MAL_PROFILE_URL
 import com.axiel7.moelist.utils.StringExtensions.toNavArgument
+import org.koin.androidx.compose.koinViewModel
 import java.time.format.DateTimeFormatter
 
 const val PROFILE_DESTINATION = "profile"
 
 @Composable
 fun ProfileView(
+    viewModel: ProfileViewModel = koinViewModel(),
     navigateBack: () -> Unit,
     navigateToFullPoster: (String) -> Unit,
 ) {
     val context = LocalContext.current
-    val viewModel: ProfileViewModel = viewModel()
     val scrollState = rememberScrollState()
+    val picture by viewModel.profilePictureUrl.collectAsStateWithLifecycle()
 
     LaunchedEffect(viewModel.message) {
         if (viewModel.showMessage) {
@@ -78,7 +81,7 @@ fun ProfileView(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 AsyncImage(
-                    model = viewModel.profilePictureUrl,
+                    model = picture,
                     contentDescription = "profile",
                     placeholder = painterResource(R.drawable.ic_round_account_circle_24),
                     error = painterResource(R.drawable.ic_round_account_circle_24),
@@ -89,9 +92,7 @@ fun ProfileView(
                         .defaultPlaceholder(visible = viewModel.isLoading)
                         .clickable {
                             navigateToFullPoster(
-                                arrayOf(
-                                    viewModel.profilePictureUrl ?: ""
-                                ).toNavArgument()
+                                arrayOf(picture.orEmpty()).toNavArgument()
                             )
                         }
                 )
@@ -158,7 +159,7 @@ fun ProfileView(
             HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
 
             TextButton(
-                onClick = { context.openLink(Constants.MAL_PROFILE_URL + viewModel.user?.name) },
+                onClick = { context.openLink(MAL_PROFILE_URL + viewModel.user?.name) },
                 modifier = Modifier.padding(bottom = 16.dp)
             ) {
                 Text(

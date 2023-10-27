@@ -1,8 +1,6 @@
 package com.axiel7.moelist.data.repository
 
 import androidx.annotation.IntRange
-import com.axiel7.moelist.App
-import com.axiel7.moelist.data.model.CommonApiParams
 import com.axiel7.moelist.data.model.Response
 import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.anime.AnimeList
@@ -18,93 +16,107 @@ import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.MediaStatus
 import com.axiel7.moelist.data.model.media.RankingType
 import com.axiel7.moelist.data.network.Api
-import com.axiel7.moelist.data.network.KtorClient
-import com.axiel7.moelist.utils.NumExtensions.toInt
 import io.ktor.http.HttpStatusCode
 
-object AnimeRepository {
+class AnimeRepository(
+    private val api: Api,
+    private val defaultPreferencesRepository: DefaultPreferencesRepository
+) : BaseRepository(api, defaultPreferencesRepository) {
 
-    const val TODAY_FIELDS = "alternative_titles{en,ja},broadcast,mean,start_season,status"
-    const val CALENDAR_FIELDS =
-        "alternative_titles{en,ja},broadcast,mean,start_season,status,media_type,num_episodes"
-    const val SEASONAL_FIELDS =
-        "alternative_titles{en,ja},start_season,broadcast,num_episodes,media_type,mean"
+    companion object {
+        const val TODAY_FIELDS =
+            "alternative_titles{en,ja},broadcast,mean,start_season,status"
+        const val CALENDAR_FIELDS =
+            "alternative_titles{en,ja},broadcast,mean,start_season,status,media_type,num_episodes"
+        const val SEASONAL_FIELDS =
+            "alternative_titles{en,ja},start_season,broadcast,num_episodes,media_type,mean"
+        private const val RECOMMENDED_FIELDS = "alternative_titles{en,ja},mean"
+        private const val LIST_STATUS_FIELDS =
+            "start_date,finish_date,num_times_rewatched,is_rewatching,rewatch_value,priority,tags,comments"
+        private const val ANIME_DETAILS_FIELDS =
+            "id,title,main_picture,pictures,alternative_titles,start_date,end_date," +
+                    "synopsis,mean,rank,popularity,num_list_users,num_scoring_users,media_type,status,genres," +
+                    "my_list_status{$LIST_STATUS_FIELDS},num_episodes,start_season,broadcast,source," +
+                    "average_episode_duration,studios,opening_themes,ending_themes,related_anime{media_type}," +
+                    "related_manga{media_type},recommendations,background"
+        private const val USER_ANIME_LIST_FIELDS =
+            "alternative_titles{en,ja},list_status{$LIST_STATUS_FIELDS},num_episodes,media_type,status,broadcast"
+        private const val SEARCH_FIELDS =
+            "id,title,alternative_titles{en,ja},main_picture,mean,media_type,num_episodes,start_season"
+        const val RANKING_FIELDS =
+            "alternative_titles{en,ja},mean,media_type,num_episodes,num_list_users"
+        private const val CHARACTERS_FIELDS =
+            "id,first_name,last_name,alternative_name,main_picture"
+    }
 
     suspend fun getSeasonalAnimes(
         sort: MediaSort,
         year: Int,
         season: Season,
-        commonApiParams: CommonApiParams,
+        limit: Int,
+        fields: String?,
         page: String? = null,
     ): Response<List<AnimeSeasonal>>? {
         return try {
-            val result = if (page == null) App.api.getSeasonalAnime(
+            val result = if (page == null) api.getSeasonalAnime(
                 sort = sort,
-                params = commonApiParams,
                 year = year,
-                season = season.value
+                season = season.value,
+                limit = limit,
+                nsfw = defaultPreferencesRepository.nsfwInt(),
+                fields = fields,
             )
-            else App.api.getSeasonalAnime(page)
-            result.error?.let { BaseRepository.handleResponseError(it) }
+            else api.getSeasonalAnime(page)
+            result.error?.let { handleResponseError(it) }
             return result
         } catch (e: Exception) {
             Response(message = e.message)
         }
     }
 
-    const val RECOMMENDED_FIELDS = "alternative_titles{en,ja},mean"
-
     suspend fun getRecommendedAnimes(
-        commonApiParams: CommonApiParams,
+        limit: Int,
         page: String? = null
     ): Response<List<AnimeList>>? {
         return try {
-            val result = if (page == null) App.api.getAnimeRecommendations(commonApiParams)
-            else App.api.getAnimeRecommendations(page)
-            result.error?.let { BaseRepository.handleResponseError(it) }
+            val result = if (page == null) api.getAnimeRecommendations(
+                limit = limit,
+                nsfw = defaultPreferencesRepository.nsfwInt(),
+                fields = RECOMMENDED_FIELDS
+            )
+            else api.getAnimeRecommendations(page)
+            result.error?.let { handleResponseError(it) }
             return result
         } catch (e: Exception) {
             Response(message = e.message)
         }
     }
-
-    const val LIST_STATUS_FIELDS =
-        "start_date,finish_date,num_times_rewatched,is_rewatching,rewatch_value,priority,tags,comments"
-
-    const val ANIME_DETAILS_FIELDS =
-        "id,title,main_picture,pictures,alternative_titles,start_date,end_date," +
-                "synopsis,mean,rank,popularity,num_list_users,num_scoring_users,media_type,status,genres," +
-                "my_list_status{$LIST_STATUS_FIELDS},num_episodes,start_season,broadcast,source," +
-                "average_episode_duration,studios,opening_themes,ending_themes,related_anime{media_type}," +
-                "related_manga{media_type},recommendations,background"
 
     suspend fun getAnimeDetails(
         animeId: Int
     ): AnimeDetails? {
         return try {
-            App.api.getAnimeDetails(animeId, ANIME_DETAILS_FIELDS)
+            api.getAnimeDetails(animeId, ANIME_DETAILS_FIELDS)
         } catch (e: Exception) {
             null
         }
     }
 
-    const val USER_ANIME_LIST_FIELDS =
-        "alternative_titles{en,ja},list_status{$LIST_STATUS_FIELDS},num_episodes,media_type,status,broadcast"
-
     suspend fun getUserAnimeList(
         status: ListStatus,
         sort: MediaSort,
-        commonApiParams: CommonApiParams,
         page: String? = null,
     ): Response<List<UserAnimeList>>? {
         return try {
-            val result = if (page == null) App.api.getUserAnimeList(
+            val result = if (page == null) api.getUserAnimeList(
                 status = status,
                 sort = sort,
-                params = commonApiParams
+                limit = null,
+                nsfw = defaultPreferencesRepository.nsfwInt(),
+                fields = USER_ANIME_LIST_FIELDS
             )
-            else App.api.getUserAnimeList(page)
-            result.error?.let { BaseRepository.handleResponseError(it) }
+            else api.getUserAnimeList(page)
+            result.error?.let { handleResponseError(it) }
             return result
         } catch (e: Exception) {
             Response(message = e.message)
@@ -126,7 +138,7 @@ object AnimeRepository {
         comments: String? = null,
     ): MyAnimeListStatus? {
         return try {
-            val result = App.api.updateUserAnimeList(
+            val result = api.updateUserAnimeList(
                 animeId,
                 status,
                 score,
@@ -140,7 +152,7 @@ object AnimeRepository {
                 tags,
                 comments
             )
-            result.error?.let { BaseRepository.handleResponseError(it) }
+            result.error?.let { handleResponseError(it) }
             return result
         } catch (e: Exception) {
             null
@@ -151,50 +163,52 @@ object AnimeRepository {
         animeId: Int
     ): Boolean {
         return try {
-            val result = App.api.deleteAnimeEntry(animeId)
+            val result = api.deleteAnimeEntry(animeId)
             return result.status == HttpStatusCode.OK
         } catch (e: Exception) {
             false
         }
     }
 
-    const val SEARCH_FIELDS =
-        "id,title,alternative_titles{en,ja},main_picture,mean,media_type,num_episodes,num_chapters,start_season"
-
     suspend fun searchAnime(
         query: String,
-        commonApiParams: CommonApiParams,
+        limit: Int,
+        offset: Int?,
         page: String? = null,
     ): Response<List<AnimeList>>? {
         return try {
-            val result = if (page == null) App.api.getAnimeList(
+            val result = if (page == null) api.getAnimeList(
                 query = query,
-                params = commonApiParams
+                limit = limit,
+                offset = offset,
+                nsfw = defaultPreferencesRepository.nsfwInt(),
+                fields = SEARCH_FIELDS,
             )
-            else App.api.getAnimeList(page)
-            result.error?.let { BaseRepository.handleResponseError(it) }
+            else api.getAnimeList(page)
+            result.error?.let { handleResponseError(it) }
             return result
         } catch (e: Exception) {
             Response(message = e.message)
         }
     }
 
-    const val RANKING_FIELDS =
-        "alternative_titles{en,ja},mean,media_type,num_episodes,num_chapters,num_list_users"
 
     suspend fun getAnimeRanking(
         rankingType: RankingType,
-        commonApiParams: CommonApiParams,
+        limit: Int,
+        fields: String?,
         page: String? = null
     ): Response<List<AnimeRanking>>? {
         return try {
             val result =
-                if (page == null) App.api.getAnimeRanking(
+                if (page == null) api.getAnimeRanking(
                     rankingType = rankingType.serialName,
-                    params = commonApiParams,
+                    limit = limit,
+                    nsfw = defaultPreferencesRepository.nsfwInt(),
+                    fields = fields,
                 )
-                else App.api.getAnimeRanking(page)
-            result.error?.let { BaseRepository.handleResponseError(it) }
+                else api.getAnimeRanking(page)
+            result.error?.let { handleResponseError(it) }
             return result
         } catch (e: Exception) {
             Response(message = e.message)
@@ -205,23 +219,27 @@ object AnimeRepository {
         animeId: Int
     ): AnimeDetails? {
         return try {
-            App.api.getAnimeDetails(animeId, fields = "id,status")
+            api.getAnimeDetails(animeId, fields = "id,status")
         } catch (e: Exception) {
             null
         }
     }
 
-    const val CHARACTERS_FIELDS = "id,first_name,last_name,alternative_name,main_picture"
-
     suspend fun getAnimeCharacters(
         animeId: Int,
-        commonApiParams: CommonApiParams,
+        limit: Int?,
+        offset: Int?,
         page: String? = null
     ): Response<List<Character>>? {
         return try {
-            val result = if (page == null) App.api.getAnimeCharacters(animeId, commonApiParams)
-            else App.api.getAnimeCharacters(page)
-            result.error?.let { BaseRepository.handleResponseError(it) }
+            val result = if (page == null) api.getAnimeCharacters(
+                animeId = animeId,
+                limit = limit,
+                offset = offset,
+                fields = CHARACTERS_FIELDS,
+            )
+            else api.getAnimeCharacters(page)
+            result.error?.let { handleResponseError(it) }
             return result
         } catch (e: Exception) {
             Response(message = e.message)
@@ -229,19 +247,14 @@ object AnimeRepository {
     }
 
     // widget
-    suspend fun getAiringAnimeOnList(
-        token: String,
-        nsfw: Boolean
-    ): List<AnimeNode>? {
+    suspend fun getAiringAnimeOnList(): List<AnimeNode>? {
         return try {
-            val api = Api(KtorClient(token).ktorHttpClient)
             val result: Response<List<UserAnimeList>> = api.getUserAnimeList(
                 status = ListStatus.WATCHING,
                 sort = MediaSort.ANIME_START_DATE,
-                params = CommonApiParams(
-                    nsfw = nsfw.toInt(),
-                    fields = "status,broadcast",
-                )
+                limit = null,
+                nsfw = defaultPreferencesRepository.nsfwInt(),
+                fields = "status,broadcast"
             )
 
             return result.data?.map { it.node }
@@ -258,17 +271,15 @@ object AnimeRepository {
         page: String? = null
     ): Response<List<Int>>? {
         return try {
-            val result = if (page == null) App.api.getUserAnimeList(
+            val result = if (page == null) api.getUserAnimeList(
                 status = status,
                 sort = MediaSort.UPDATED,
-                params = CommonApiParams(
-                    nsfw = App.nsfw,
-                    fields = "id",
-                    limit = 1000
-                )
-            ) else App.api.getUserAnimeList(page)
+                limit = 1000,
+                nsfw = defaultPreferencesRepository.nsfwInt(),
+                fields = "id",
+            ) else api.getUserAnimeList(page)
             result.error?.let {
-                BaseRepository.handleResponseError(it)
+                handleResponseError(it)
                 return Response(error = result.error, message = result.message)
             }
             if (result.paging?.next != null) {

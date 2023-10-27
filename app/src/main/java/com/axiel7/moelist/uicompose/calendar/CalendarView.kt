@@ -33,7 +33,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.WeekDay
@@ -46,17 +45,18 @@ import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.SeasonCalendar
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 
 const val CALENDAR_DESTINATION = "calendar/{day}"
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CalendarView(
+    viewModel: CalendarViewModel = koinViewModel(),
     navigateBack: () -> Unit,
     navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
     val context = LocalContext.current
-    val viewModel: CalendarViewModel = viewModel()
     val pagerState = rememberPagerState(
         initialPage = SeasonCalendar.currentWeekday.numeric - 1,
         pageCount = { WeekDay.entries.size }

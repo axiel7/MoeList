@@ -1,42 +1,33 @@
 package com.axiel7.moelist.data.repository
 
-import androidx.datastore.preferences.core.edit
 import com.axiel7.moelist.App
 import com.axiel7.moelist.BuildConfig
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.ACCESS_TOKEN_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.REFRESH_TOKEN_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.getValueSync
+import com.axiel7.moelist.data.network.Api
+import kotlinx.coroutines.flow.first
 
-object BaseRepository {
+abstract class BaseRepository(
+    private val api: Api,
+    private val defaultPreferencesRepository: DefaultPreferencesRepository
+) {
     suspend fun handleResponseError(error: String) {
         when (error) {
             "invalid_token" -> {
-                val refreshToken = App.dataStore?.getValueSync(REFRESH_TOKEN_PREFERENCE_KEY)
+                val refreshToken = defaultPreferencesRepository.refreshToken.first()
                 if (refreshToken != null) {
                     try {
-                        val newToken = App.api.getAccessToken(
+                        val newToken = api.getAccessToken(
                             clientId = BuildConfig.CLIENT_ID,
                             refreshToken = refreshToken
                         )
-                        App.dataStore?.edit {
-                            it[ACCESS_TOKEN_PREFERENCE_KEY] = newToken.accessToken!!
-                            it[REFRESH_TOKEN_PREFERENCE_KEY] = newToken.refreshToken!!
-                        }
-                        App.createKtorClient(newToken.accessToken!!)
+                        defaultPreferencesRepository.saveTokens(newToken)
+                        App.accessToken = newToken.accessToken
                     } catch (e: Exception) {
-                        deleteAccessToken()
+                        defaultPreferencesRepository.removeTokens()
                     }
                 } else {
-                    deleteAccessToken()
+                    defaultPreferencesRepository.removeTokens()
                 }
             }
-        }
-    }
-
-    private suspend fun deleteAccessToken() {
-        App.dataStore?.edit {
-            it.remove(ACCESS_TOKEN_PREFERENCE_KEY)
-            it.remove(REFRESH_TOKEN_PREFERENCE_KEY)
         }
     }
 }

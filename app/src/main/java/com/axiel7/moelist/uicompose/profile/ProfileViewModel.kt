@@ -4,28 +4,30 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
-import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.viewModelScope
-import com.axiel7.moelist.App
 import com.axiel7.moelist.R
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.PROFILE_PICTURE_PREFERENCE_KEY
 import com.axiel7.moelist.data.model.User
 import com.axiel7.moelist.data.model.UserStats
 import com.axiel7.moelist.data.model.media.Stat
+import com.axiel7.moelist.data.repository.DefaultPreferencesRepository
 import com.axiel7.moelist.data.repository.UserRepository
 import com.axiel7.moelist.uicompose.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class ProfileViewModel : BaseViewModel() {
+class ProfileViewModel(
+    private val userRepository: UserRepository,
+    private val defaultPreferencesRepository: DefaultPreferencesRepository
+) : BaseViewModel() {
 
     init {
         isLoading = true
-        App.dataStore?.data?.map {
-            profilePictureUrl = it[PROFILE_PICTURE_PREFERENCE_KEY]
-        }
     }
+
+    val profilePictureUrl = defaultPreferencesRepository.profilePicture
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 
     var user by mutableStateOf<User?>(null)
     var animeStats = mutableStateOf(
@@ -57,12 +59,11 @@ class ProfileViewModel : BaseViewModel() {
             ),
         )
     )
-    var profilePictureUrl by mutableStateOf<String?>(null)
 
     fun getMyUser() {
         isLoading = true
         viewModelScope.launch(Dispatchers.IO) {
-            user = UserRepository.getMyUser()
+            user = userRepository.getMyUser()
 
             if (user == null || user?.message != null) {
                 setErrorMessage(user?.message ?: "Generic error")
@@ -97,11 +98,8 @@ class ProfileViewModel : BaseViewModel() {
                 )
                 animeStats.value = tempStatList
             }
-            if (user?.picture != null && user?.picture != profilePictureUrl) {
-                App.dataStore?.edit {
-                    it[PROFILE_PICTURE_PREFERENCE_KEY] = user!!.picture!!
-                }
-                profilePictureUrl = user!!.picture!!
+            if (user?.picture != null && user?.picture != profilePictureUrl.value) {
+                defaultPreferencesRepository.setProfilePicture(user!!.picture!!)
             }
 
             isLoading = false
@@ -147,7 +145,7 @@ class ProfileViewModel : BaseViewModel() {
     private suspend fun getUserMangaStats() {
         if (user?.name == null) return
         // convert the username to lowercase because a bug in the api
-        val result = UserRepository.getUserStats(username = user!!.name!!.lowercase())
+        val result = userRepository.getUserStats(username = user!!.name!!.lowercase())
 
         result?.data?.manga?.let { stats ->
             val tempStatList = mutableListOf<Stat>()

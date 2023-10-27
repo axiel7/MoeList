@@ -55,8 +55,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.axiel7.moelist.App
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.manga.MangaDetails
@@ -75,19 +74,23 @@ import com.axiel7.moelist.uicompose.details.composables.MediaDetailsTopAppBar
 import com.axiel7.moelist.uicompose.details.composables.MediaInfoView
 import com.axiel7.moelist.uicompose.editmedia.EditMediaSheet
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
-import com.axiel7.moelist.utils.Constants
+import com.axiel7.moelist.utils.ANIME_URL
+import com.axiel7.moelist.utils.CHARACTER_URL
+import com.axiel7.moelist.utils.ContextExtensions.copyToClipBoard
 import com.axiel7.moelist.utils.ContextExtensions.getCurrentLanguageTag
 import com.axiel7.moelist.utils.ContextExtensions.openAction
 import com.axiel7.moelist.utils.ContextExtensions.openInGoogleTranslate
 import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.DateUtils.parseDateAndLocalize
+import com.axiel7.moelist.utils.MANGA_URL
 import com.axiel7.moelist.utils.NumExtensions
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
 import com.axiel7.moelist.utils.StringExtensions.toNavArgument
 import com.axiel7.moelist.utils.StringExtensions.toStringOrNull
-import com.axiel7.moelist.utils.UseCases.copyToClipBoard
+import com.axiel7.moelist.utils.YOUTUBE_QUERY_URL
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 
 const val MEDIA_TYPE_ARGUMENT = "{mediaType}"
 const val MEDIA_ID_ARGUMENT = "{mediaId}"
@@ -96,6 +99,7 @@ const val MEDIA_DETAILS_DESTINATION = "details/$MEDIA_TYPE_ARGUMENT/$MEDIA_ID_AR
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun MediaDetailsView(
+    viewModel: MediaDetailsViewModel = koinViewModel(),
     mediaType: MediaType,
     mediaId: Int,
     isLoggedIn: Boolean,
@@ -104,7 +108,6 @@ fun MediaDetailsView(
     navigateToFullPoster: (String) -> Unit,
 ) {
     val context = LocalContext.current
-    val viewModel: MediaDetailsViewModel = viewModel { MediaDetailsViewModel(mediaType) }
 
     val scrollState = rememberScrollState()
     val topAppBarScrollBehavior =
@@ -151,8 +154,8 @@ fun MediaDetailsView(
         topBar = {
             MediaDetailsTopAppBar(
                 viewModel = viewModel,
-                mediaUrl = if (mediaType == MediaType.ANIME) Constants.ANIME_URL + mediaId
-                else Constants.MANGA_URL + mediaId,
+                mediaUrl = if (mediaType == MediaType.ANIME) ANIME_URL + mediaId
+                else MANGA_URL + mediaId,
                 navigateBack = navigateBack,
                 scrollBehavior = topAppBarScrollBehavior,
             )
@@ -453,10 +456,11 @@ fun MediaDetailsView(
 
             //Characters
             if (mediaType == MediaType.ANIME) {
-                var showCharacters by remember { mutableStateOf(App.loadCharacters) }
+                val loadCharacters by viewModel.loadCharacters.collectAsStateWithLifecycle()
+                var showCharacters by remember { mutableStateOf(false) }
 
                 InfoTitle(text = stringResource(R.string.characters))
-                if (showCharacters) {
+                if (showCharacters || loadCharacters) {
                     LazyRow(
                         modifier = Modifier.padding(top = 8.dp),
                         contentPadding = PaddingValues(horizontal = 16.dp)
@@ -477,7 +481,7 @@ fun MediaDetailsView(
                                     )
                                 },
                                 onClick = {
-                                    context.openLink(Constants.CHARACTER_URL + item.node.id)
+                                    context.openLink(CHARACTER_URL + item.node.id)
                                 }
                             )
                         }
@@ -507,7 +511,7 @@ fun MediaDetailsView(
                     themes.forEach { theme ->
                         AnimeThemeItem(text = theme.text, onClick = {
                             context.openAction(
-                                Constants.YOUTUBE_QUERY_URL + viewModel.buildQueryFromThemeText(
+                                YOUTUBE_QUERY_URL + viewModel.buildQueryFromThemeText(
                                     theme.text
                                 )
                             )
@@ -520,7 +524,7 @@ fun MediaDetailsView(
                     themes.forEach { theme ->
                         AnimeThemeItem(text = theme.text, onClick = {
                             context.openAction(
-                                Constants.YOUTUBE_QUERY_URL + viewModel.buildQueryFromThemeText(
+                                YOUTUBE_QUERY_URL + viewModel.buildQueryFromThemeText(
                                     theme.text
                                 )
                             )

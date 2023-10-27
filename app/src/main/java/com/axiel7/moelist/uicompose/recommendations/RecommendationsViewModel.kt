@@ -2,21 +2,15 @@ package com.axiel7.moelist.uicompose.recommendations
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.viewModelScope
-import com.axiel7.moelist.App
-import com.axiel7.moelist.data.model.CommonApiParams
 import com.axiel7.moelist.data.model.anime.AnimeList
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.uicompose.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class RecommendationsViewModel : BaseViewModel() {
-
-    private val params = CommonApiParams(
-        nsfw = App.nsfw,
-        fields = AnimeRepository.RECOMMENDED_FIELDS,
-        limit = 25
-    )
+class RecommendationsViewModel(
+    private val animeRepository: AnimeRepository
+) : BaseViewModel() {
 
     val animes = mutableStateListOf<AnimeList>()
     private var nextPage: String? = null
@@ -27,7 +21,10 @@ class RecommendationsViewModel : BaseViewModel() {
             isLoading = true
             nextPage = null
         }
-        val result = AnimeRepository.getRecommendedAnimes(params)
+        val result = animeRepository.getRecommendedAnimes(
+            limit = 25,
+            page = page
+        )
         if (result?.data != null) {
             if (page == null) animes.clear()
             animes.addAll(result.data)

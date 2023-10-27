@@ -5,8 +5,6 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import com.axiel7.moelist.App
-import com.axiel7.moelist.data.model.CommonApiParams
 import com.axiel7.moelist.data.model.media.BaseMediaList
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.repository.AnimeRepository
@@ -15,12 +13,11 @@ import com.axiel7.moelist.uicompose.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SearchViewModel : BaseViewModel() {
+class SearchViewModel(
+    private val animeRepository: AnimeRepository,
+    private val mangaRepository: MangaRepository,
+) : BaseViewModel() {
 
-    private val params = CommonApiParams(
-        nsfw = App.nsfw,
-        fields = AnimeRepository.SEARCH_FIELDS
-    )
     var nextPage: String? = null
     var hasNextPage = false
 
@@ -38,15 +35,17 @@ class SearchViewModel : BaseViewModel() {
                 isLoading = true
             }
             val result = if (mediaType == MediaType.ANIME)
-                AnimeRepository.searchAnime(
+                animeRepository.searchAnime(
                     query = query,
-                    commonApiParams = params,
+                    limit = 25,
+                    offset = null,
                     page = page
                 )
             else
-                MangaRepository.searchManga(
+                mangaRepository.searchManga(
                     query = query,
-                    commonApiParams = params,
+                    limit = 25,
+                    offset = null,
                     page = page
                 )
 

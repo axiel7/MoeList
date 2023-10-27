@@ -36,7 +36,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.uicompose.composables.HeaderHorizontalList
@@ -52,6 +51,7 @@ import com.axiel7.moelist.uicompose.home.composables.HomeCard
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.SeasonCalendar
+import org.koin.androidx.compose.koinViewModel
 import kotlin.random.Random
 
 const val HOME_DESTINATION = "home"
@@ -59,6 +59,7 @@ const val HOME_DESTINATION = "home"
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeView(
+    viewModel: HomeViewModel = koinViewModel(),
     isLoggedIn: Boolean,
     navigateToMediaDetails: (MediaType, Int) -> Unit,
     navigateToRanking: (MediaType) -> Unit,
@@ -70,7 +71,6 @@ fun HomeView(
     padding: PaddingValues,
 ) {
     val context = LocalContext.current
-    val viewModel: HomeViewModel = viewModel()
     val scrollState = rememberScrollState()
     val airingListState = rememberLazyListState()
     val seasonListState = rememberLazyListState()

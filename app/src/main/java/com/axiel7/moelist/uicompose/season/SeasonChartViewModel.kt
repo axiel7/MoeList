@@ -5,8 +5,6 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import com.axiel7.moelist.App
-import com.axiel7.moelist.data.model.CommonApiParams
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.anime.Season
 import com.axiel7.moelist.data.model.anime.StartSeason
@@ -17,7 +15,9 @@ import com.axiel7.moelist.utils.SeasonCalendar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SeasonChartViewModel : BaseViewModel() {
+class SeasonChartViewModel(
+    private val animeRepository: AnimeRepository
+) : BaseViewModel() {
 
     var season by mutableStateOf(SeasonCalendar.currentStartSeason)
         private set
@@ -42,11 +42,6 @@ class SeasonChartViewModel : BaseViewModel() {
         sort = value
     }
 
-    private val params = CommonApiParams(
-        nsfw = App.nsfw,
-        fields = AnimeRepository.SEASONAL_FIELDS
-    )
-
     val animes = mutableStateListOf<AnimeSeasonal>()
     var nextPage: String? = null
     var hasNextPage = false
@@ -57,11 +52,12 @@ class SeasonChartViewModel : BaseViewModel() {
             nextPage = null
             hasNextPage = false
         }
-        val result = AnimeRepository.getSeasonalAnimes(
+        val result = animeRepository.getSeasonalAnimes(
             sort = sort,
             year = season.year,
             season = season.season,
-            commonApiParams = params,
+            limit = 25,
+            fields = AnimeRepository.SEASONAL_FIELDS,
             page = page
         )
 

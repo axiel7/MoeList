@@ -22,25 +22,24 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import com.axiel7.moelist.R
-import com.axiel7.moelist.data.datastore.PreferencesDataStore
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.TITLE_LANG_PREFERENCE_KEY
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.defaultPreferencesDataStore
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.getValueSync
 import com.axiel7.moelist.data.model.anime.AnimeNode
-import com.axiel7.moelist.data.model.media.TitleLanguage
 import com.axiel7.moelist.data.repository.AnimeRepository
+import com.axiel7.moelist.data.repository.DefaultPreferencesRepository
 import com.axiel7.moelist.uicompose.main.MainActivity
 import com.axiel7.moelist.uicompose.theme.AppWidgetColumn
 import com.axiel7.moelist.uicompose.theme.glanceStringResource
+import kotlinx.coroutines.flow.first
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class AiringWidget : GlanceAppWidget() {
+class AiringWidget : GlanceAppWidget(), KoinComponent {
+
+    private val defaultPreferencesRepository: DefaultPreferencesRepository by inject()
+    private val animeRepository: AnimeRepository by inject()
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
-        val titleLanguage = TitleLanguage.valueOf(
-            context.defaultPreferencesDataStore.getValueSync(TITLE_LANG_PREFERENCE_KEY)
-                ?: TitleLanguage.ROMAJI.name
-        )
-        val animeList = getAiringAnime(context)
+        val titleLanguage = defaultPreferencesRepository.titleLang.first()
+        val animeList = getAiringAnime()
 
         provideContent {
             GlanceTheme {
@@ -103,17 +102,13 @@ class AiringWidget : GlanceAppWidget() {
             }
         }
     }
-}
 
-suspend fun getAiringAnime(context: Context): List<AnimeNode>? {
-    return try {
-        val token = context.defaultPreferencesDataStore
-            .getValueSync(PreferencesDataStore.ACCESS_TOKEN_PREFERENCE_KEY)!!
-        val nsfw = context.defaultPreferencesDataStore
-            .getValueSync(PreferencesDataStore.NSFW_PREFERENCE_KEY) ?: false
-        AnimeRepository.getAiringAnimeOnList(token = token, nsfw = nsfw)!!
-    } catch (e: Exception) {
-        null
+    private suspend fun getAiringAnime(): List<AnimeNode>? {
+        return try {
+            animeRepository.getAiringAnimeOnList()!!
+        } catch (e: Exception) {
+            null
+        }
     }
 }
 

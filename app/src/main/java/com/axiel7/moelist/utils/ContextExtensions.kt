@@ -2,6 +2,8 @@ package com.axiel7.moelist.utils
 
 import android.app.Activity
 import android.content.ActivityNotFoundException
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.ContextWrapper
@@ -15,6 +17,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
@@ -44,6 +47,18 @@ object ContextExtensions {
             type = "text/plain"
             startActivity(Intent.createChooser(this, null))
         }
+    }
+
+    fun Context.copyToClipBoard(text: String) {
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
+        clipboard?.setPrimaryClip(ClipData.newPlainText("title", text))
+        showToast(getString(R.string.copied))
+    }
+
+    fun changeLocale(language: String) {
+        val appLocale = if (language == "follow_system") LocaleListCompat.getEmptyLocaleList()
+        else LocaleListCompat.forLanguageTags(language)
+        AppCompatDelegate.setApplicationLocales(appLocale)
     }
 
     /** Open link in Chrome Custom Tabs */

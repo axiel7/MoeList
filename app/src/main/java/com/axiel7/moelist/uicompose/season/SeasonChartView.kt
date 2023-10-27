@@ -31,7 +31,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
@@ -44,17 +43,18 @@ import com.axiel7.moelist.uicompose.season.composables.SeasonChartFilterSheet
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 
 const val SEASON_CHART_DESTINATION = "season_chart"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SeasonChartView(
+    viewModel: SeasonChartViewModel = koinViewModel(),
     navigateBack: () -> Unit,
     navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
     val context = LocalContext.current
-    val viewModel: SeasonChartViewModel = viewModel()
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
     val bottomBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()

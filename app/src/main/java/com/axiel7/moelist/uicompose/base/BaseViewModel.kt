@@ -17,5 +17,6 @@ abstract class BaseViewModel : ViewModel() {
 
     companion object {
         const val GENERIC_ERROR = "Generic Error"
+        const val FLOW_TIMEOUT = 5_000L
     }
 }

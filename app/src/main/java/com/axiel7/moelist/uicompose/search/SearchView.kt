@@ -41,7 +41,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeList
 import com.axiel7.moelist.data.model.manga.MangaList
@@ -55,6 +54,7 @@ import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrUnknown
+import org.koin.androidx.compose.koinViewModel
 
 const val SEARCH_DESTINATION = "search"
 
@@ -114,6 +114,7 @@ fun SearchHostView(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchView(
+    viewModel: SearchViewModel = koinViewModel(),
     query: String,
     performSearch: MutableState<Boolean>,
     showAsGrid: Boolean,
@@ -121,7 +122,6 @@ fun SearchView(
     navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
     val context = LocalContext.current
-    val viewModel: SearchViewModel = viewModel()
     val shouldShowPlaceholder = query.isNotBlank() && viewModel.mediaList.isEmpty()
 
     LaunchedEffect(viewModel.message) {

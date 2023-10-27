@@ -1,4 +1,4 @@
-package com.axiel7.moelist.uicompose.more
+package com.axiel7.moelist.uicompose.more.settings
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -8,24 +8,25 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.axiel7.moelist.R
-import com.axiel7.moelist.data.datastore.PreferencesDataStore.rememberPreference
 import com.axiel7.moelist.data.model.media.ListStatus.Companion.listStatusAnimeValues
 import com.axiel7.moelist.data.model.media.ListStatus.Companion.listStatusMangaValues
-import com.axiel7.moelist.data.model.media.ListType
 import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.uicompose.base.ListStyle
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.uicompose.composables.preferences.ListPreferenceView
+import org.koin.androidx.compose.koinViewModel
 
 const val LIST_STYLE_SETTINGS_DESTINATION = "list_style_settings"
 
 @Composable
 fun ListStyleSettingsView(
+    viewModel: ListStyleSettingsViewModel = koinViewModel(),
     navigateBack: () -> Unit,
 ) {
     DefaultScaffoldWithTopAppBar(
@@ -45,38 +46,32 @@ fun ListStyleSettingsView(
 
             SettingsTitle(text = stringResource(R.string.title_anime_list))
             listStatusAnimeValues.forEach { status ->
-                val listType = ListType(status, MediaType.ANIME)
-                var preference by rememberPreference(
-                    listType.stylePreferenceKey,
-                    listType.styleGlobalAppVariable.value
-                )
+                val style by viewModel.getListStyle(MediaType.ANIME, status)
+                    .collectAsStateWithLifecycle()
 
                 ListPreferenceView(
                     title = status.localized(),
-                    entriesValues = listStyleEntries,
-                    value = preference,
+                    entriesValues = ListStyle.entriesLocalized,
+                    value = style ?: ListStyle.STANDARD,
                     icon = status.icon,
                     onValueChange = {
-                        preference = it
+                        viewModel.setListStyle(MediaType.ANIME, status, it)
                     }
                 )
             }
 
             SettingsTitle(text = stringResource(R.string.title_manga_list))
             listStatusMangaValues.forEach { status ->
-                val listType = ListType(status, MediaType.MANGA)
-                var preference by rememberPreference(
-                    listType.stylePreferenceKey,
-                    listType.styleGlobalAppVariable.value
-                )
+                val style by viewModel.getListStyle(MediaType.MANGA, status)
+                    .collectAsStateWithLifecycle()
 
                 ListPreferenceView(
                     title = status.localized(),
-                    entriesValues = listStyleEntries,
-                    value = preference,
+                    entriesValues = ListStyle.entriesLocalized,
+                    value = style ?: ListStyle.STANDARD,
                     icon = status.icon,
                     onValueChange = {
-                        preference = it
+                        viewModel.setListStyle(MediaType.MANGA, status, it)
                     }
                 )
             }

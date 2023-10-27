@@ -43,4 +43,10 @@ enum class AppLanguage(val value: String) {
             TURKISH -> R.string.turkish_native
             UKRAINIAN -> R.string.ukrainian_native
         }
+
+    companion object {
+        fun valueOf(isoTag: String) = entries.find { it.value == isoTag }
+
+        val entriesLocalized = entries.associateWith { it.stringResNative }
+    }
 }
