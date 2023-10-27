@@ -176,7 +176,9 @@ fun MediaDetailsView(
                     contentDescription = "edit"
                 )
                 Text(
-                    text = stringResource(if (isNewEntry) R.string.add else R.string.edit),
+                    text = if (isNewEntry) stringResource(R.string.add)
+                    else viewModel.mediaDetails?.myListStatus?.status?.localized()
+                        ?: stringResource(R.string.edit),
                     modifier = Modifier.padding(start = 16.dp, end = 8.dp)
                 )
             }
