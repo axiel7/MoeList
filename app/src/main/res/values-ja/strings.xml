@@ -16,7 +16,7 @@
     <string name="studios">スタジオ</string>
     <string name="edit">編集</string>
     <string name="authors">作者</string>
-    <string name="volumes">単行本</string>
+    <string name="volumes">巻</string>
     <string name="serialization">連載</string>
     <string name="login">ログイン</string>
     <string name="no_results">該当なし</string>
@@ -194,7 +194,7 @@
     <string name="genre_shoujo_ai">少女愛</string>
     <string name="genre_shounen">少年</string>
     <string name="genre_shounen_ai">少年愛</string>
-    <string name="genre_slice_of_life">スライスオブライフ</string>
+    <string name="genre_slice_of_life">日常</string>
     <string name="genre_space">宇宙</string>
     <string name="genre_sports">スポーツ</string>
     <string name="genre_superpower">スーパーパワー</string>
