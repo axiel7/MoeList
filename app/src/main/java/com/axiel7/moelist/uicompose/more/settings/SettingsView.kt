@@ -155,8 +155,8 @@ fun SettingsView(
             SettingsTitle(text = stringResource(R.string.experimental))
 
             SwitchPreferenceView(
-                title = "Enable list tabs",
-                subtitle = "Use tabs in Anime/Manga list instead of Floating Action Button",
+                title = stringResource(R.string.enable_list_tabs),
+                subtitle = stringResource(R.string.enable_list_tabs_subtitle),
                 value = useListTabs,
                 onValueChange = {
                     viewModel.setUseListTabs(it)
@@ -167,12 +167,12 @@ fun SettingsView(
             )
 
             SwitchPreferenceView(
-                title = "Always load characters",
+                title = stringResource(R.string.always_load_characters),
                 value = loadCharacters,
                 onValueChange = viewModel::setLoadCharacters
             )
             SwitchPreferenceView(
-                title = "Random button on anime/manga list",
+                title = stringResource(R.string.random_button_on_list),
                 value = randomListEntryEnabled,
                 onValueChange = viewModel::setRandomListEntryEnabled
             )
