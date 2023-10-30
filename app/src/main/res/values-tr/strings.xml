@@ -361,4 +361,8 @@
     <string name="genre_villainess">Kötü Başrol</string>
     <string name="contributors">Katkıda Bulunanlar</string>
     <string name="slovak">Slovakça</string>
+    <string name="enable_list_tabs">Liste sekmelerini etkinleştir</string>
+    <string name="enable_list_tabs_subtitle">Yüzen Eylem Düğmesi yerine Anime/Manga listesindeki sekmeleri kullan</string>
+    <string name="always_load_characters">Karakterleri her zaman yükle</string>
+    <string name="random_button_on_list">Anime/Manga listesinde rastgele düğme</string>
 </resources>
