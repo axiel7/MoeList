@@ -318,7 +318,7 @@
     <string name="genre_adult_cast">Yetişkin Oyuncular</string>
     <string name="genre_avant_garde">Avangart</string>
     <string name="genre_award_winning">Ödüllü</string>
-    <string name="genre_gourmet" comment="can also be translated as Gastronomic.&#10;from MAL: Preparation and consumption of food or drink take focus in gourmet stories and the narrative is designed to feature numerous different dishes or beverages.">Gurme</string>
+    <string name="genre_gourmet">Gurme</string>
     <string name="genre_suspense">Gerilim</string>
     <string name="genre_erotica">Erotik</string>
     <string name="genre_anthropomorphic">İnsan Biçimcilik</string>
