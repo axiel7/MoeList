@@ -361,4 +361,8 @@
     <string name="genre_villainess">Penjahat</string>
     <string name="contributors">Kontribusi</string>
     <string name="slovak">Slovakia</string>
+    <string name="enable_list_tabs">Aktifkan daftar tab</string>
+    <string name="enable_list_tabs_subtitle">Gunakan tab di daftar Anime/Manga alih-alih Menggunakan Tombol Aksi Mengambang</string>
+    <string name="always_load_characters">Selalu memuat karakter</string>
+    <string name="random_button_on_list">Tombol acak pada daftar anime/manga</string>
 </resources>
