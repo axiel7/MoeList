@@ -328,4 +328,8 @@
     <string name="genre_villainess">Zloduch</string>
     <string name="contributors">Prispievatelia</string>
     <string name="slovak">Slovenčina</string>
+    <string name="enable_list_tabs">Povolenie kariet zoznamu</string>
+    <string name="enable_list_tabs_subtitle">Používanie kariet v zozname Anime/Manga namiesto plávajúceho tlačidla akcie</string>
+    <string name="always_load_characters">Vždy načítajte postáv</string>
+    <string name="random_button_on_list">Náhodné tlačidlo v zozname anime/manga</string>
 </resources>
