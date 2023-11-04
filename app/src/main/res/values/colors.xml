@@ -3,37 +3,5 @@
     <color name="colorMoeList">#5c6bc0</color>
     <color name="colorPlaceHolder">#dedede</color>
 
-    <!-- Material3 colors -->
-    <!-- Auto-Generated from Material Theme Builder -->
-    <color name="seed">#5C6BC0</color>
     <color name="md_theme_primary">#4858AB</color>
-    <color name="md_theme_onPrimary">#FFFFFF</color>
-    <color name="md_theme_primaryContainer">#DEE0FF</color>
-    <color name="md_theme_onPrimaryContainer">#00105B</color>
-    <color name="md_theme_secondary">#5B5D72</color>
-    <color name="md_theme_onSecondary">#FFFFFF</color>
-    <color name="md_theme_secondaryContainer">#DFE1F9</color>
-    <color name="md_theme_onSecondaryContainer">#181A2C</color>
-    <color name="md_theme_tertiary">#4858AB</color>
-    <color name="md_theme_onTertiary">#FFFFFF</color>
-    <color name="md_theme_tertiaryContainer">#DEE0FF</color>
-    <color name="md_theme_onTertiaryContainer">#00105B</color>
-    <color name="md_theme_error">#BA1A1A</color>
-    <color name="md_theme_errorContainer">#FFDAD6</color>
-    <color name="md_theme_onError">#FFFFFF</color>
-    <color name="md_theme_onErrorContainer">#410002</color>
-    <color name="md_theme_background">#FEFBFF</color>
-    <color name="md_theme_onBackground">#1B1B1F</color>
-    <color name="md_theme_surface">#FEFBFF</color>
-    <color name="md_theme_onSurface">#1B1B1F</color>
-    <color name="md_theme_surfaceVariant">#E3E1EC</color>
-    <color name="md_theme_onSurfaceVariant">#46464F</color>
-    <color name="md_theme_outline">#767680</color>
-    <color name="md_theme_inverseOnSurface">#F3F0F4</color>
-    <color name="md_theme_inverseSurface">#303034</color>
-    <color name="md_theme_inversePrimary">#BAC3FF</color>
-    <color name="md_theme_shadow">#000000</color>
-    <color name="md_theme_surfaceTint">#4858AB</color>
-    <color name="md_theme_surfaceTintColor">#4858AB</color>
-
 </resources>
