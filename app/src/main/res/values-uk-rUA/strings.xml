@@ -328,4 +328,8 @@
     <string name="genre_villainess">Лиходійка</string>
     <string name="contributors">Співавтори</string>
     <string name="slovak">Словацька</string>
+    <string name="enable_list_tabs">Увімкнути вкладки списку</string>
+    <string name="enable_list_tabs_subtitle">Використовуйте вкладки у списку аніме/манга замість плаваючої кнопки дії</string>
+    <string name="always_load_characters">Завжди завантажувати персонажів</string>
+    <string name="random_button_on_list">Випадкова кнопка у списку аніме/манги</string>
 </resources>
