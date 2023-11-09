@@ -24,6 +24,9 @@
     <string name="completed">Completato</string>
     <string name="dropped">Abbandonati</string>
     <string name="settings">Impostazioni</string>
+    <string name="anime_ranking">Classifica Anime</string>
+    <string name="manga_ranking">Classifica Manga</string>
+    <string name="seasonal_chart">Grafico Stagionale</string>
     <string name="random">Casuale</string>
     <string name="today">Oggi</string>
     <string name="nothing_today">Niente per oggi\n( ≧Д≦)</string>
@@ -34,6 +37,7 @@
     <string name="rewatched">Rivisti</string>
     <string name="view_profile_mal">Vedi profilo su MAL</string>
     <string name="airing_in">In arrivo in %s</string>
+    <string name="score_value">Voto: %s</string>
     <string name="plus_one">+1</string>
     <string name="minus_one">-1</string>
     <string name="add">Aggiungi</string>
@@ -80,6 +84,7 @@
     <string name="logout_summary">Esci solo da MoeList, non da MAL.</string>
     <string name="version">Versione</string>
     <string name="discord_summary">Entra nel server ufficiale!</string>
+    <string name="github_summary">Metti una stella alla repository!</string>
     <string name="credits_summary">Persone che mi hanno aiutato</string>
     <string name="feedback">Invia feedback</string>
     <string name="theme_light">Chiaro</string>
@@ -89,7 +94,9 @@
     <string name="view_on_mal">Visualizza su MAL</string>
     <string name="share">Condividi</string>
     <string name="sort_title">Titolo</string>
+    <string name="sort_score">Voto</string>
     <string name="sort_by">Ordina per</string>
+    <string name="ok">OK</string>
     <string name="support">Supporto</string>
     <string name="logo_design">Design del logo</string>
     <string name="general_help">Aiuto generale</string>
@@ -104,6 +111,7 @@
     <string name="genre_adventure">Avventura</string>
     <string name="genre_cars">Auto</string>
     <string name="genre_comedy">Commedia</string>
+    <string name="genre_dementia">Demenza</string>
     <string name="genre_demons">Demoni</string>
     <string name="genre_ecchi">Ecchi</string>
     <string name="genre_fantasy">Fantasia</string>
@@ -139,6 +147,7 @@
     <string name="hour_abbreviation">h</string>
     <string name="minutes_abbreviation">min</string>
     <string name="theme_black">Nero</string>
+    <string name="aired_ago">In onda %s fa</string>
     <string name="anime_stats">Statistiche Anime</string>
     <string name="delete_confirmation">Sei sicuro di voler eliminare questa voce?</string>
     <string name="bulgarian">Bulgaro</string>
@@ -148,6 +157,7 @@
     <string name="mal_announcements">Annunci MyAnimeList</string>
     <string name="about">Info</string>
     <string name="mal_announcements_summary">Aggiornamenti, modifiche e aggiunte a MAL.</string>
+    <string name="news_summary">Ultime informazioni sul settore.</string>
     <string name="more">Altro</string>
     <string name="favorite">Preferiti</string>
     <string name="use_external_browser">Usa browser esterno</string>
@@ -194,6 +204,7 @@
     <string name="characters">Personaggi</string>
     <string name="genre_gore">Gore</string>
     <string name="genre_isekai">Isekai</string>
+    <string name="genre_reincarnation">Reincarnazione</string>
     <string name="genre_survival">Sopravvivenza</string>
     <string name="contributors">Contributori</string>
     <string name="slovak">Slovacco</string>
