@@ -19,7 +19,11 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,9 +41,6 @@ import com.axiel7.moelist.uicompose.base.ListStyle
 import com.axiel7.moelist.uicompose.composables.OnBottomReached
 import com.axiel7.moelist.uicompose.composables.collapsable
 import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_MEDIUM_WIDTH
-import com.axiel7.moelist.uicompose.composables.pullrefresh.PullRefreshIndicator
-import com.axiel7.moelist.uicompose.composables.pullrefresh.pullRefresh
-import com.axiel7.moelist.uicompose.composables.pullrefresh.rememberPullRefreshState
 import com.axiel7.moelist.uicompose.userlist.composables.CompactUserMediaListItem
 import com.axiel7.moelist.uicompose.userlist.composables.CompactUserMediaListItemPlaceholder
 import com.axiel7.moelist.uicompose.userlist.composables.GridUserMediaListItem
@@ -54,6 +55,7 @@ import com.axiel7.moelist.uicompose.userlist.composables.StandardUserMediaListIt
 const val ANIME_LIST_DESTINATION = "anime_list"
 const val MANGA_LIST_DESTINATION = "manga_list"
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserMediaListView(
     viewModel: UserMediaListViewModel,
@@ -70,8 +72,15 @@ fun UserMediaListView(
     val showRandomButton by viewModel.showRandomButton.collectAsStateWithLifecycle()
 
     val layoutDirection = LocalLayoutDirection.current
-    val pullRefreshState =
-        rememberPullRefreshState(viewModel.isLoading, onRefresh = viewModel::refreshList)
+    val pullRefreshState = rememberPullToRefreshState()
+    if (pullRefreshState.isRefreshing) {
+        LaunchedEffect(true) {
+            viewModel.refreshList()
+        }
+    }
+    LaunchedEffect(viewModel.isLoading) {
+        if (!viewModel.isLoading) pullRefreshState.endRefresh()
+    }
 
     @Composable
     fun StandardItemView(item: BaseUserMediaList<out BaseMediaNode>) {
@@ -140,7 +149,7 @@ fun UserMediaListView(
     Box(
         modifier = modifier
             .clipToBounds()
-            .pullRefresh(pullRefreshState)
+            .nestedScroll(pullRefreshState.nestedScrollConnection)
             .fillMaxSize(),
         contentAlignment = Alignment.TopCenter
     ) {
@@ -378,12 +387,9 @@ fun UserMediaListView(
             }
         }
 
-        PullRefreshIndicator(
-            refreshing = viewModel.isLoading,
+        PullToRefreshContainer(
             state = pullRefreshState,
-            modifier = Modifier
-                .padding(top = contentPadding.calculateTopPadding())
-                .align(Alignment.TopCenter)
+            modifier = Modifier.align(Alignment.TopCenter)
         )
     }//:Box
 }
