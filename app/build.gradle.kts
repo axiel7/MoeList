@@ -95,7 +95,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
 
-    implementation("androidx.browser:browser:1.6.0")
+    implementation("androidx.browser:browser:1.7.0")
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation("androidx.work:work-runtime-ktx:2.8.1")
     implementation("androidx.core:core-splashscreen:1.0.1")
@@ -107,7 +107,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     implementation("androidx.compose.material3:material3-window-size-class:1.2.0-alpha09")
 
-    implementation("androidx.activity:activity-compose:1.8.0")
+    implementation("androidx.activity:activity-compose:1.8.1")
 
     val lifecycleVersion = "2.6.2"
     implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion")
@@ -128,17 +128,17 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     //Ktor
-    val ktorVersion = "2.3.5"
+    val ktorVersion = "2.3.6"
     implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
     implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
     implementation("io.ktor:ktor-client-auth:$ktorVersion")
     implementation("io.ktor:ktor-client-logging:$ktorVersion")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.1")
 
     //Utils
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
     //Image
