@@ -26,7 +26,7 @@ fun LoadingDialog(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                CircularProgressIndicator(progress = 0.7f)
+                CircularProgressIndicator(progress = { 0.7f })
                 Text(text = text)
             }
         }

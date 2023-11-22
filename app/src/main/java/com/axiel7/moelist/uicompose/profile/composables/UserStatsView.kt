@@ -76,6 +76,7 @@ fun UserStatsView(
                             )
                         },
                         border = SuggestionChipDefaults.suggestionChipBorder(
+                            enabled = true,
                             borderColor = it.color
                         )
                     )

@@ -191,7 +191,7 @@ fun StandardUserMediaListItem(
                     }//:Row
 
                     LinearProgressIndicator(
-                        progress = item.calculateProgressBarValue(),
+                        progress = { item.calculateProgressBarValue() },
                         modifier = Modifier.fillMaxWidth(),
                         color = MaterialTheme.colorScheme.primary,
                         trackColor = MaterialTheme.colorScheme.surfaceColorAtElevation(94.dp),

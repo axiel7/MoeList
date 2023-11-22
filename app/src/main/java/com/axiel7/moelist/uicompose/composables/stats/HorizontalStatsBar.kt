@@ -47,6 +47,7 @@ fun HorizontalStatsBar(
                     modifier = Modifier.padding(end = 8.dp),
                     icon = { Text(text = String.format("%.0f", it.value)) },
                     border = SuggestionChipDefaults.suggestionChipBorder(
+                        enabled = true,
                         borderColor = it.color
                     )
                 )
