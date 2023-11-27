@@ -37,12 +37,12 @@ val translationsCredits = mapOf(
     R.string.japanese to "@axiel7, @Ulong32, @watashibeme",
     R.string.brazilian to "@RickyM7, @SamOak",
     R.string.portuguese to "@SamOak, @DemiCool",
-    R.string.russian to "@grin3671",
+    R.string.russian to "@grin3671, @Ronner231",
     R.string.slovak to "@gxs3lium",
     R.string.turkish to "@hsinankirdar, @kyoya",
     R.string.ukrainian to "@Sensetivity",
     R.string.chinese_simplified to "@bengerlorf",
-    R.string.chinese_traditional to "@jhih_yu_lin",
+    R.string.chinese_traditional to "@jhih_yu_lin, @web790709",
 )
 
 @Composable
