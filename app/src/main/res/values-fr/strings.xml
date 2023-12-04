@@ -285,7 +285,7 @@
     <string name="genre_adult_cast">Adultes</string>
     <string name="genre_avant_garde">Avant Garde</string>
     <string name="genre_award_winning">Gagnant du Prix</string>
-    <string name="genre_gourmet" comment="can also be translated as Gastronomic.&#10;from MAL: Preparation and consumption of food or drink take focus in gourmet stories and the narrative is designed to feature numerous different dishes or beverages.">Gourmet</string>
+    <string name="genre_gourmet">Gourmet</string>
     <string name="genre_suspense">Suspense</string>
     <string name="genre_erotica">Érotique</string>
     <string name="genre_anthropomorphic">Anthropomorphique</string>
@@ -328,4 +328,8 @@
     <string name="genre_villainess">Mauvaise</string>
     <string name="contributors">Contributeurs</string>
     <string name="slovak">Slovaque</string>
+    <string name="enable_list_tabs">Activer les onglets de liste</string>
+    <string name="enable_list_tabs_subtitle">Utiliser les onglets dans la liste Anime/Manga au lieu du bouton d\'action flottant</string>
+    <string name="always_load_characters">Toujours charger les caractères</string>
+    <string name="random_button_on_list">Bouton aléatoire sur la liste des anime/manga</string>
 </resources>

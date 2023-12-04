@@ -275,7 +275,7 @@
     <string name="rereading">Relendo</string>
     <string name="ago">%s atrás</string>
     <string name="set_as_completed">Definir como concluído?</string>
-    <string name="relation_character">Carácter</string>
+    <string name="relation_character">Personagem</string>
     <string name="web_novel">Web Novel</string>
     <string name="mixed_media">Média Mista</string>
     <string name="role_main">Principal</string>
@@ -285,7 +285,7 @@
     <string name="genre_adult_cast">Elenco Adulto</string>
     <string name="genre_avant_garde">Avant Garde</string>
     <string name="genre_award_winning">Prémio Vencedor</string>
-    <string name="genre_gourmet" comment="can also be translated as Gastronomic.&#10;from MAL: Preparation and consumption of food or drink take focus in gourmet stories and the narrative is designed to feature numerous different dishes or beverages.">Gourmet</string>
+    <string name="genre_gourmet">Gourmet</string>
     <string name="genre_suspense">Suspense</string>
     <string name="genre_erotica">Erótica</string>
     <string name="genre_anthropomorphic">Antropomorfismo</string>
@@ -328,4 +328,8 @@
     <string name="genre_villainess">Vilania</string>
     <string name="contributors">Contribuintes</string>
     <string name="slovak">Eslovaco</string>
+    <string name="enable_list_tabs">Ativar os separadores da lista</string>
+    <string name="enable_list_tabs_subtitle">Utilizar separadores na lista Anime/Manga em vez do Botão de Ação Flutuante</string>
+    <string name="always_load_characters">Carregar sempre personagens</string>
+    <string name="random_button_on_list">Botão aleatório na lista de anime/manga</string>
 </resources>

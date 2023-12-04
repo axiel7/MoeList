@@ -285,7 +285,7 @@
     <string name="genre_adult_cast">Yetişkin Oyuncular</string>
     <string name="genre_avant_garde">Avangart</string>
     <string name="genre_award_winning">Ödüllü</string>
-    <string name="genre_gourmet" comment="can also be translated as Gastronomic.&#10;from MAL: Preparation and consumption of food or drink take focus in gourmet stories and the narrative is designed to feature numerous different dishes or beverages.">Gurme</string>
+    <string name="genre_gourmet">Gurme</string>
     <string name="genre_suspense">Gerilim</string>
     <string name="genre_erotica">Erotik</string>
     <string name="genre_anthropomorphic">İnsan Biçimcilik</string>
@@ -328,4 +328,8 @@
     <string name="genre_villainess">Kötü Başrol</string>
     <string name="contributors">Katkıda Bulunanlar</string>
     <string name="slovak">Slovakça</string>
+    <string name="enable_list_tabs">Liste sekmelerini etkinleştir</string>
+    <string name="enable_list_tabs_subtitle">Yüzen Eylem Düğmesi yerine Anime/Manga listesindeki sekmeleri kullan</string>
+    <string name="always_load_characters">Karakterleri her zaman yükle</string>
+    <string name="random_button_on_list">Anime/Manga listesinde rastgele düğme</string>
 </resources>

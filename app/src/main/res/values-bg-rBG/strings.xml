@@ -57,12 +57,16 @@
     <string name="users_scores">Потребителски рейтинг</string>
     <string name="popularity">Популярност</string>
     <string name="error_server">Грешки при свързването към сървъра</string>
+    <string name="tv">TV</string>
+    <string name="ova">OVA</string>
+    <string name="ona">ONA</string>
     <string name="movie">Филм</string>
     <string name="special">Специални</string>
     <string name="music">Музика</string>
     <string name="manga">Манга</string>
     <string name="anime">Аниме</string>
     <string name="one_shot">Един път</string>
+    <string name="manhwa">Manhwa</string>
     <string name="novel">Роман</string>
     <string name="airing">Поветряване</string>
     <string name="finished">Завършено</string>
@@ -138,6 +142,7 @@
     <string name="genre_dementia">Деменция</string>
     <string name="genre_demons">Демони</string>
     <string name="genre_drama">Драма</string>
+    <string name="genre_ecchi">Ecchi</string>
     <string name="genre_fantasy">Фентъзи</string>
     <string name="genre_game">Игра</string>
     <string name="genre_harem">Харем</string>

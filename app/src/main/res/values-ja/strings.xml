@@ -285,7 +285,7 @@
     <string name="genre_adult_cast">大人</string>
     <string name="genre_avant_garde">アバンギャルド</string>
     <string name="genre_award_winning">受賞歴</string>
-    <string name="genre_gourmet" comment="can also be translated as Gastronomic.&#10;from MAL: Preparation and consumption of food or drink take focus in gourmet stories and the narrative is designed to feature numerous different dishes or beverages.">グルメ</string>
+    <string name="genre_gourmet">グルメ</string>
     <string name="genre_suspense">サスペンス</string>
     <string name="genre_erotica">エロティカ</string>
     <string name="genre_anthropomorphic">擬人観</string>

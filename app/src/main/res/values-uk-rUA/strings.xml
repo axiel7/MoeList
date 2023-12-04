@@ -285,7 +285,7 @@
     <string name="genre_adult_cast">Дорослі актори</string>
     <string name="genre_avant_garde">Авангард</string>
     <string name="genre_award_winning">З відзнакою</string>
-    <string name="genre_gourmet" comment="can also be translated as Gastronomic.&#10;from MAL: Preparation and consumption of food or drink take focus in gourmet stories and the narrative is designed to feature numerous different dishes or beverages.">Кулінарія</string>
+    <string name="genre_gourmet">Кулінарія</string>
     <string name="genre_suspense">Саспенс</string>
     <string name="genre_erotica">Еротика</string>
     <string name="genre_anthropomorphic">Антропоморфізм</string>
@@ -328,4 +328,8 @@
     <string name="genre_villainess">Лиходійка</string>
     <string name="contributors">Співавтори</string>
     <string name="slovak">Словацька</string>
+    <string name="enable_list_tabs">Увімкнути вкладки списку</string>
+    <string name="enable_list_tabs_subtitle">Використовуйте вкладки у списку аніме/манга замість плаваючої кнопки дії</string>
+    <string name="always_load_characters">Завжди завантажувати персонажів</string>
+    <string name="random_button_on_list">Випадкова кнопка у списку аніме/манги</string>
 </resources>
