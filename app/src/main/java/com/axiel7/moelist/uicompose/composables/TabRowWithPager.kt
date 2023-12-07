@@ -2,9 +2,11 @@ package com.axiel7.moelist.uicompose.composables
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PrimaryScrollableTabRow
@@ -65,15 +67,18 @@ fun <T> TabRowWithPager(
                 PrimaryScrollableTabRow(
                     selectedTabIndex = state.currentPage,
                     edgePadding = 16.dp,
+                    divider = {},
                     tabs = tabsLayout
                 )
             } else {
                 SecondaryScrollableTabRow(
                     selectedTabIndex = state.currentPage,
                     edgePadding = 16.dp,
+                    divider = {},
                     tabs = tabsLayout
                 )
             }
+            HorizontalDivider(modifier = Modifier.fillMaxWidth())
         } else {
             if (isPrimaryTab) {
                 PrimaryTabRow(
