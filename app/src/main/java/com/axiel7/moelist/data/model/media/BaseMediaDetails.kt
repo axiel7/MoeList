@@ -16,7 +16,7 @@ import com.axiel7.moelist.data.model.manga.MangaDetails
 import com.axiel7.moelist.data.model.manga.RelatedManga
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
 
-abstract class BaseMediaDetails : BaseResponse() {
+abstract class BaseMediaDetails : BaseResponse {
     abstract val id: Int
     abstract val title: String?
     abstract val mainPicture: MainPicture?

@@ -11,4 +11,4 @@ data class Response<T>(
     val paging: Paging? = null,
     override val error: String? = null,
     override val message: String? = null,
-) : BaseResponse()
+) : BaseResponse

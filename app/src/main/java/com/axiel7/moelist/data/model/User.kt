@@ -25,4 +25,4 @@ data class User(
 
     override val message: String? = null,
     override val error: String? = null,
-) : BaseResponse()
+) : BaseResponse

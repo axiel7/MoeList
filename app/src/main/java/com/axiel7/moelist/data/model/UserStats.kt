@@ -31,7 +31,7 @@ data class UserStats(
         override val repeat: Int,
         @SerialName("episodes_watched")
         val episodesWatched: Int,
-    ) : MediaStats()
+    ) : MediaStats
 
     @Serializable
     data class MangaStats(
@@ -57,18 +57,17 @@ data class UserStats(
         val chaptersRead: Int,
         @SerialName("volumes_read")
         val volumesRead: Int,
-    ) : MediaStats()
+    ) : MediaStats
 
-    @Serializable
-    abstract class MediaStats {
-        abstract val days: Float
-        abstract val meanScore: Float
-        abstract val current: Int
-        abstract val completed: Int
-        abstract val onHold: Int
-        abstract val dropped: Int
-        abstract val planned: Int
-        abstract val totalEntries: Int
-        abstract val repeat: Int
+    interface MediaStats {
+        val days: Float
+        val meanScore: Float
+        val current: Int
+        val completed: Int
+        val onHold: Int
+        val dropped: Int
+        val planned: Int
+        val totalEntries: Int
+        val repeat: Int
     }
 }

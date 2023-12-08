@@ -6,7 +6,7 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.BaseResponse
 import com.axiel7.moelist.utils.NumExtensions.isGreaterThanZero
 
-abstract class BaseMyListStatus : BaseResponse() {
+abstract class BaseMyListStatus : BaseResponse {
     abstract val status: ListStatus
     abstract val score: Int
     abstract val updatedAt: String?

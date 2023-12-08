@@ -11,4 +11,4 @@ data class RelatedManga(
     override val node: MangaNode,
     @SerialName("relation_type")
     override val relationType: RelationType,
-) : BaseRelated()
+) : BaseRelated

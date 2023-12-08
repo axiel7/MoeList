@@ -2,10 +2,10 @@ package com.axiel7.moelist.data.model
 
 import kotlinx.serialization.SerialName
 
-abstract class BaseResponse {
+interface BaseResponse {
     @SerialName("error")
-    abstract val error: String?
+    val error: String?
 
     @SerialName("message")
-    abstract val message: String?
+    val message: String?
 }

@@ -13,5 +13,5 @@ data class AnimeRanking(
     override val ranking: Ranking? = null,
     @SerialName("ranking_type")
     override val rankingType: RankingType? = null,
-) : BaseRanking()
+) : BaseRanking
 

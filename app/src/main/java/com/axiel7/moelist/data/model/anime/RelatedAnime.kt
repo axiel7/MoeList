@@ -11,4 +11,4 @@ data class RelatedAnime(
     override val node: AnimeNode,
     @SerialName("relation_type")
     override val relationType: RelationType,
-) : BaseRelated()
+) : BaseRelated
