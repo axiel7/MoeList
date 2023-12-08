@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
@@ -165,9 +166,6 @@ fun UserMediaListView(
         if (viewModel.listStyle == ListStyle.GRID) {
             val itemsPerRow by viewModel.itemsPerRow.collectAsStateWithLifecycle()
             val listState = rememberLazyGridState()
-            listState.OnBottomReached(buffer = 6) {
-                viewModel.onLoadMore()
-            }
             LazyVerticalGrid(
                 columns = if (itemsPerRow.value > 0) GridCells.Fixed(itemsPerRow.value)
                 else GridCells.Adaptive(minSize = (MEDIA_POSTER_MEDIUM_WIDTH + 8).dp),
@@ -215,6 +213,18 @@ fun UserMediaListView(
                 if (viewModel.isLoadingList) {
                     items(9, contentType = { it }) {
                         GridUserMediaListItemPlaceholder()
+                    }
+                }
+                item(contentType = { 0 }) {
+                    if (viewModel.hasNextPage) {
+                        Box(modifier = Modifier.align(Alignment.Center)) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.align(Alignment.Center)
+                            )
+                        }
+                        LaunchedEffect(true) {
+                            viewModel.onLoadMore()
+                        }
                     }
                 }
             }
@@ -304,13 +314,8 @@ fun UserMediaListView(
                 }
             }//:LazyColumn
         } else { // tablet ui
-            val listState = rememberLazyGridState()
-            listState.OnBottomReached(buffer = 3) {
-                viewModel.onLoadMore()
-            }
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
-                state = listState,
                 contentPadding = PaddingValues(
                     start = contentPadding.calculateStartPadding(layoutDirection),
                     top = contentPadding.calculateTopPadding() + 8.dp,
@@ -383,6 +388,18 @@ fun UserMediaListView(
                     }
 
                     else -> {}
+                }
+                item(contentType = { 0 }) {
+                    if (viewModel.hasNextPage) {
+                        Box(modifier = Modifier.align(Alignment.Center)) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.align(Alignment.Center)
+                            )
+                        }
+                        LaunchedEffect(true) {
+                            viewModel.onLoadMore()
+                        }
+                    }
                 }
             }
         }
