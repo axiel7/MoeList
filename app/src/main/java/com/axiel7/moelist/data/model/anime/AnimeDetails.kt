@@ -78,7 +78,7 @@ data class AnimeDetails(
 
     fun toAnimeNode() = AnimeNode(
         id = id,
-        title = title ?: "",
+        title = title.orEmpty(),
         alternativeTitles = alternativeTitles,
         mainPicture = mainPicture,
         startSeason = startSeason,

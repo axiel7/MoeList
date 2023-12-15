@@ -94,8 +94,8 @@ class MediaDetailsViewModel(
             (mediaDetails?.recommendations as? List<Recommendations<BaseMediaNode>>)
                 ?.let { recommendations.addAll(it) }
 
-            picturesUrls = arrayOf(mediaDetails?.mainPicture?.large ?: "")
-                .plus(mediaDetails?.pictures?.map { it.large ?: it.medium ?: "" }
+            picturesUrls = arrayOf(mediaDetails?.mainPicture?.large.orEmpty())
+                .plus(mediaDetails?.pictures?.map { it.large ?: it.medium.orEmpty() }
                     ?.toTypedArray() ?: emptyArray())
 
             if (mediaDetails == null) setErrorMessage("Unable to reach server")

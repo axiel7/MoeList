@@ -47,7 +47,7 @@ fun AiringAnimeHorizontalItem(item: AnimeRanking, onClick: () -> Unit) {
                 modifier = Modifier.padding(bottom = 4.dp)
             )
             Text(
-                text = item.node.broadcast?.airingInString() ?: "",
+                text = item.node.broadcast?.airingInString().orEmpty(),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(bottom = 8.dp)
             )

@@ -84,7 +84,7 @@ class NotificationWorker(
 
         val builder = NotificationCompat.Builder(applicationContext, AIRING_ANIME_CHANNEL_ID)
             .setContentTitle(applicationContext.getString(R.string.airing))
-            .setContentText(animeTitle ?: "")
+            .setContentText(animeTitle.orEmpty())
             .setSmallIcon(R.drawable.ic_moelist_logo_white)
             .setAutoCancel(true)
             .setContentIntent(resultPendingIntent)

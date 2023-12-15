@@ -328,7 +328,7 @@ fun MediaDetailsView(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 TextIconVertical(
-                    text = viewModel.mediaDetails?.rankText() ?: "",
+                    text = viewModel.mediaDetails?.rankText().orEmpty(),
                     icon = R.drawable.ic_round_bar_chart_24,
                     tooltip = stringResource(R.string.top_ranked)
                 )
@@ -477,7 +477,7 @@ fun MediaDetailsView(
                                 modifier = Modifier.padding(end = 8.dp),
                                 subtitle = {
                                     Text(
-                                        text = item.role?.localized() ?: "",
+                                        text = item.role?.localized().orEmpty(),
                                         color = MaterialTheme.colorScheme.outline,
                                         fontSize = 13.sp
                                     )

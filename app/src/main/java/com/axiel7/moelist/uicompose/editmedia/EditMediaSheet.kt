@@ -280,7 +280,7 @@ fun EditMediaSheet(
             )
 
             OutlinedTextField(
-                value = viewModel.tags ?: "",
+                value = viewModel.tags.orEmpty(),
                 onValueChange = {
                     viewModel.tags = it
                 },
@@ -349,7 +349,7 @@ fun EditMediaSheet(
             )
 
             OutlinedTextField(
-                value = viewModel.comments ?: "",
+                value = viewModel.comments.orEmpty(),
                 onValueChange = {
                     viewModel.comments = it
                 },

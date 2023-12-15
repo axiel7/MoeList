@@ -79,7 +79,7 @@ fun NotificationsView(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = notifications?.get(key) as? String ?: "",
+                        text = (notifications?.get(key) as? String).orEmpty(),
                         modifier = Modifier.padding(horizontal = 8.dp)
                     )
                     IconButton(

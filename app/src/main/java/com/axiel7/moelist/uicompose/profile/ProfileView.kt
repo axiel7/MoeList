@@ -119,7 +119,7 @@ fun ProfileView(
 
                     viewModel.user?.birthday?.let { birthday ->
                         TextIconHorizontal(
-                            text = birthday.parseDateAndLocalize() ?: "",
+                            text = birthday.parseDateAndLocalize().orEmpty(),
                             icon = R.drawable.ic_round_cake_24,
                             modifier = Modifier.padding(bottom = 8.dp)
                         )
@@ -127,9 +127,9 @@ fun ProfileView(
 
                     TextIconHorizontal(
                         text = if (viewModel.user?.joinedAt != null)
-                            viewModel.user?.joinedAt!!.parseDateAndLocalize(
+                            viewModel.user?.joinedAt?.parseDateAndLocalize(
                                 inputFormat = DateTimeFormatter.ISO_DATE_TIME
-                            ) ?: ""
+                            ).orEmpty()
                         else "Loading...",
                         icon = R.drawable.ic_round_access_time_24,
                         modifier = Modifier

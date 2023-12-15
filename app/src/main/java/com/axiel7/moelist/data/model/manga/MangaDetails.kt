@@ -62,7 +62,7 @@ data class MangaDetails(
 
     fun toMangaNode() = MangaNode(
         id = id,
-        title = title ?: "",
+        title = title.orEmpty(),
         alternativeTitles = alternativeTitles,
         mainPicture = mainPicture,
         startDate = startDate,

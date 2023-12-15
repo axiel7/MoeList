@@ -82,7 +82,7 @@ fun MediaDetailsTopAppBar(
                                             && details.broadcast.startTime != null
                                         ) {
                                             viewModel.scheduleAiringAnimeNotification(
-                                                title = details.title ?: "",
+                                                title = details.title.orEmpty(),
                                                 animeId = details.id,
                                                 weekDay = details.broadcast.dayOfTheWeek,
                                                 jpHour = LocalTime.parse(details.broadcast.startTime)
@@ -94,7 +94,7 @@ fun MediaDetailsTopAppBar(
                                             val startDate = details.startDate.parseDate()
                                             if (startDate != null) {
                                                 viewModel.scheduleAnimeStartNotification(
-                                                    title = details.title ?: "",
+                                                    title = details.title.orEmpty(),
                                                     animeId = details.id,
                                                     startDate = startDate
                                                 )
