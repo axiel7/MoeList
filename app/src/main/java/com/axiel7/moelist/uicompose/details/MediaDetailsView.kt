@@ -473,7 +473,7 @@ fun MediaDetailsView(
                         ) { item ->
                             MediaItemVertical(
                                 imageUrl = item.node.mainPicture?.medium,
-                                title = item.fullName,
+                                title = item.fullName(),
                                 modifier = Modifier.padding(end = 8.dp),
                                 subtitle = {
                                     Text(

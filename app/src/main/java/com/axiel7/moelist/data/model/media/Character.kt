@@ -6,6 +6,7 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.base.Localizable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.apache.commons.text.StringEscapeUtils
 
 @Serializable
 data class Character(
@@ -43,5 +44,10 @@ data class Character(
         }
     }
 
-    val fullName get() = "${node.firstName ?: ""} ${node.lastName ?: ""}"
+    fun fullName(): String {
+        // MAL API returns special characters escaped
+        val firstNameUnescaped = StringEscapeUtils.unescapeHtml4(node.firstName.orEmpty())
+        val lastNameUnescaped = StringEscapeUtils.unescapeHtml4(node.lastName.orEmpty())
+        return "$firstNameUnescaped $lastNameUnescaped"
+    }
 }
