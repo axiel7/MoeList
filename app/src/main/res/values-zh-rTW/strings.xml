@@ -290,7 +290,7 @@
     <string name="genre_erotica">色情作品</string>
     <string name="genre_anthropomorphic">擬人化</string>
     <string name="genre_cgdct">萌系百合</string>
-    <string name="genre_childcare">育兒</string>
+    <string name="genre_childcare">親子教養</string>
     <string name="genre_combat_sports">格鬥運動</string>
     <string name="genre_crossdressing">變裝</string>
     <string name="genre_delinquents">不良少年</string>
@@ -330,6 +330,6 @@
     <string name="slovak">斯洛伐克文</string>
     <string name="enable_list_tabs">開啓清單分頁</string>
     <string name="enable_list_tabs_subtitle">在動畫/漫畫清單中以分頁取代懸浮動作按鈕</string>
-    <string name="always_load_characters">永遠顯示角色列表</string>
+    <string name="always_load_characters">一律顯示角色列表</string>
     <string name="random_button_on_list">在動畫/漫畫清單上的隨機按鈕</string>
 </resources>
