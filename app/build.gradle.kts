@@ -147,7 +147,7 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.5.0")
 
     //Koin
-    implementation(platform("io.insert-koin:koin-bom:3.5.1"))
+    implementation(platform("io.insert-koin:koin-bom:3.5.3"))
     implementation("io.insert-koin:koin-androidx-compose")
     implementation("io.insert-koin:koin-androidx-compose-navigation")
     implementation("io.insert-koin:koin-androidx-workmanager")
