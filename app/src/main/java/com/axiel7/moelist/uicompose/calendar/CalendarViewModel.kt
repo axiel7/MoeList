@@ -4,11 +4,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import com.axiel7.moelist.data.model.anime.AnimeSeasonal
-import com.axiel7.moelist.data.model.media.MediaSort
+import com.axiel7.moelist.data.model.anime.AnimeRanking
+import com.axiel7.moelist.data.model.media.RankingType
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.uicompose.base.BaseViewModel
-import com.axiel7.moelist.utils.SeasonCalendar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -17,7 +16,7 @@ class CalendarViewModel(
 ) : BaseViewModel() {
 
     var weekAnime by mutableStateOf(
-        arrayOf<MutableList<AnimeSeasonal>>(
+        arrayOf<MutableList<AnimeRanking>>(
             mutableListOf(),//0: MONDAY
             mutableListOf(),//1: TUESDAY
             mutableListOf(),//2: WEDNESDAY
@@ -31,10 +30,8 @@ class CalendarViewModel(
     fun getSeasonAnime() {
         viewModelScope.launch(Dispatchers.IO) {
             isLoading = true
-            val result = animeRepository.getSeasonalAnimes(
-                sort = MediaSort.ANIME_NUM_USERS,
-                year = SeasonCalendar.currentYear,
-                season = SeasonCalendar.currentSeason,
+            val result = animeRepository.getAnimeRanking(
+                rankingType = RankingType.AIRING,
                 limit = 300,
                 fields = AnimeRepository.CALENDAR_FIELDS
             )
