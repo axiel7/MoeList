@@ -1,5 +1,6 @@
 package com.axiel7.moelist.data.model.manga
 
+import androidx.compose.runtime.Immutable
 import com.axiel7.moelist.data.model.anime.Recommendations
 import com.axiel7.moelist.data.model.anime.RelatedAnime
 import com.axiel7.moelist.data.model.media.AlternativeTitles
@@ -11,6 +12,7 @@ import com.axiel7.moelist.data.model.media.MediaStatus
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@Immutable
 @Serializable
 data class MangaDetails(
     override val id: Int = 0,

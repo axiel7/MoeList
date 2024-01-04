@@ -1,6 +1,7 @@
 package com.axiel7.moelist.data.model.anime
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.manga.RelatedManga
@@ -16,6 +17,7 @@ import kotlinx.serialization.Serializable
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
+@Immutable
 @Serializable
 data class AnimeDetails(
     override val id: Int = 0,
