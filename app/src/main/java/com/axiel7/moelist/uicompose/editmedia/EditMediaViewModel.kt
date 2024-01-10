@@ -54,7 +54,7 @@ class EditMediaViewModel(
         repeatValue = myListStatus.repeatValue ?: 0
         priority = myListStatus.priority
         tags = myListStatus.tags?.joinToString()
-        comments = myListStatus.comments
+        comments = myListStatus.notesEscaped()
     }
 
     fun onChangeStatus(value: ListStatus, isNewEntry: Boolean = false) {
@@ -150,7 +150,7 @@ class EditMediaViewModel(
                 repeatValue else null
             val priorityValue = if (priority != myListStatus?.priority) priority else null
             val tagsValue = if (tags != myListStatus?.tags?.joinToString()) tags else null
-            val commentsValue = if (comments != myListStatus?.comments) comments else null
+            val commentsValue = if (comments != myListStatus?.notesEscaped()) comments else null
             val startDateISO = startDate?.format(DateTimeFormatter.ISO_DATE)
             val startDateValue = if (startDateISO != myListStatus?.startDate)
                 startDateISO else null

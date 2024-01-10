@@ -5,6 +5,7 @@ import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.BaseResponse
 import com.axiel7.moelist.utils.NumExtensions.isGreaterThanZero
+import org.apache.commons.text.StringEscapeUtils
 
 abstract class BaseMyListStatus : BaseResponse {
     abstract val status: ListStatus
@@ -26,6 +27,9 @@ abstract class BaseMyListStatus : BaseResponse {
     fun hasRepeated() = isRepeating || repeatCount.isGreaterThanZero()
 
     fun hasNotes() = !comments.isNullOrBlank() || !tags.isNullOrEmpty()
+
+    // MAL API returns special characters escaped
+    fun notesEscaped() = StringEscapeUtils.unescapeHtml4(comments)
 }
 
 @Composable
