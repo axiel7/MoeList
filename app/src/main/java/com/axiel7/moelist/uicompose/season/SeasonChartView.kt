@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
+import com.axiel7.moelist.uicompose.composables.TextIconHorizontal
 import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_SMALL_WIDTH
 import com.axiel7.moelist.uicompose.composables.media.MediaItemDetailedPlaceholder
 import com.axiel7.moelist.uicompose.composables.media.MediaItemVertical
@@ -40,6 +42,7 @@ import com.axiel7.moelist.uicompose.composables.media.SmallScoreIndicator
 import com.axiel7.moelist.uicompose.season.composables.SeasonChartFilterSheet
 import com.axiel7.moelist.uicompose.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
+import com.axiel7.moelist.utils.NumExtensions.format
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
@@ -131,6 +134,17 @@ fun SeasonChartView(
                                 score = item.node.mean,
                                 fontSize = 13.sp
                             )
+                        },
+                        subtitle2 = {
+                            item.node.numListUsers?.format()?.let { users ->
+                                TextIconHorizontal(
+                                    text = users,
+                                    icon = R.drawable.ic_round_group_24,
+                                    color = MaterialTheme.colorScheme.outline,
+                                    fontSize = 13.sp,
+                                    iconSize = 16.dp
+                                )
+                            }
                         },
                         minLines = 2,
                         onClick = {

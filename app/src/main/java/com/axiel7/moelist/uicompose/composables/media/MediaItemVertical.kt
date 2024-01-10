@@ -30,6 +30,7 @@ fun MediaItemVertical(
     imageUrl: String?,
     modifier: Modifier = Modifier,
     subtitle: @Composable (() -> Unit)? = null,
+    subtitle2: @Composable (() -> Unit)? = null,
     minLines: Int = 1,
     onClick: () -> Unit,
 ) {
@@ -65,9 +66,8 @@ fun MediaItemVertical(
             minLines = minLines
         )
 
-        if (subtitle != null) {
-            subtitle()
-        }
+        subtitle?.let { it() }
+        subtitle2?.let { it() }
     }
 }
 

@@ -29,7 +29,7 @@ class AnimeRepository(
         const val CALENDAR_FIELDS =
             "alternative_titles{en,ja},broadcast,mean,start_season,status,media_type,num_episodes"
         const val SEASONAL_FIELDS =
-            "alternative_titles{en,ja},start_season,broadcast,num_episodes,media_type,mean"
+            "alternative_titles{en,ja},start_season,broadcast,num_episodes,media_type,mean,num_list_users"
         private const val RECOMMENDED_FIELDS = "alternative_titles{en,ja},mean"
         private const val LIST_STATUS_FIELDS =
             "start_date,finish_date,num_times_rewatched,is_rewatching,rewatch_value,priority,tags,comments"
