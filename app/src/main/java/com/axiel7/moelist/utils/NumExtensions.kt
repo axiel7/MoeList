@@ -5,7 +5,13 @@ import java.text.NumberFormat
 
 object NumExtensions {
 
-    val numberFormat: NumberFormat = NumberFormat.getInstance()
+    private val numberFormat: NumberFormat = NumberFormat.getInstance()
+
+    fun Number.format(): String? = try {
+        numberFormat.format(this)
+    } catch (e: IllegalArgumentException) {
+        null
+    }
 
     /**
      * @return if true 1 else 0

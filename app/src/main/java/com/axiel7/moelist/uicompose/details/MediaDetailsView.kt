@@ -84,10 +84,11 @@ import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.DateUtils.parseDateAndLocalize
 import com.axiel7.moelist.utils.MANGA_URL
-import com.axiel7.moelist.utils.NumExtensions
+import com.axiel7.moelist.utils.NumExtensions.format
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
 import com.axiel7.moelist.utils.StringExtensions.toNavArgument
 import com.axiel7.moelist.utils.StringExtensions.toStringOrNull
+import com.axiel7.moelist.utils.UNKNOWN_CHAR
 import com.axiel7.moelist.utils.YOUTUBE_QUERY_URL
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -335,18 +336,14 @@ fun MediaDetailsView(
                 VerticalDivider(modifier = Modifier.height(32.dp))
 
                 TextIconVertical(
-                    text = NumExtensions.numberFormat.format(
-                        viewModel.mediaDetails?.numScoringUsers ?: 0
-                    ),
+                    text = viewModel.mediaDetails?.numScoringUsers?.format() ?: UNKNOWN_CHAR,
                     icon = R.drawable.ic_round_thumbs_up_down_24,
                     tooltip = stringResource(R.string.users_scores)
                 )
                 VerticalDivider(modifier = Modifier.height(32.dp))
 
                 TextIconVertical(
-                    text = NumExtensions.numberFormat.format(
-                        viewModel.mediaDetails?.numListUsers ?: 0
-                    ),
+                    text = viewModel.mediaDetails?.numListUsers?.format() ?: UNKNOWN_CHAR,
                     icon = R.drawable.ic_round_group_24,
                     tooltip = stringResource(R.string.members)
                 )
@@ -601,7 +598,7 @@ fun MediaDetailsView(
                             modifier = Modifier.padding(end = 8.dp),
                             subtitle = {
                                 TextIconHorizontal(
-                                    text = NumExtensions.numberFormat.format(item.numRecommendations),
+                                    text = item.numRecommendations.format() ?: UNKNOWN_CHAR,
                                     icon = R.drawable.ic_round_thumbs_up_down_16,
                                     color = MaterialTheme.colorScheme.outline,
                                     fontSize = 13.sp
