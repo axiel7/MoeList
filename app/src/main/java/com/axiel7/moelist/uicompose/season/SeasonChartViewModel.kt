@@ -44,7 +44,7 @@ class SeasonChartViewModel(
 
     val animes = mutableStateListOf<AnimeSeasonal>()
     var nextPage: String? = null
-    var hasNextPage = false
+    var hasNextPage by mutableStateOf(false)
 
     fun getSeasonalAnime(page: String? = null) = viewModelScope.launch(Dispatchers.IO) {
         if (page == null) {

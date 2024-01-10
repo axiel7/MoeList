@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -34,7 +33,6 @@ import androidx.compose.ui.unit.sp
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.uicompose.composables.DefaultScaffoldWithTopAppBar
-import com.axiel7.moelist.uicompose.composables.OnBottomReached
 import com.axiel7.moelist.uicompose.composables.media.MEDIA_POSTER_SMALL_WIDTH
 import com.axiel7.moelist.uicompose.composables.media.MediaItemDetailedPlaceholder
 import com.axiel7.moelist.uicompose.composables.media.MediaItemVertical
@@ -102,10 +100,6 @@ fun SeasonChartView(
         contentWindowInsets = WindowInsets.systemBars
             .only(WindowInsetsSides.Horizontal)
     ) { padding ->
-        val listState = rememberLazyGridState()
-        listState.OnBottomReached(buffer = 3) {
-            onLoadMore()
-        }
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = MEDIA_POSTER_SMALL_WIDTH.dp),
             modifier = Modifier
@@ -148,6 +142,13 @@ fun SeasonChartView(
             if (viewModel.isLoading) {
                 items(12) {
                     MediaItemDetailedPlaceholder()
+                }
+            }
+            item(contentType = { 0 }) {
+                if (viewModel.hasNextPage) {
+                    LaunchedEffect(viewModel.hasNextPage) {
+                        onLoadMore()
+                    }
                 }
             }
         }
