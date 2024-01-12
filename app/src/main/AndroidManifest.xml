@@ -28,7 +28,7 @@
         tools:targetApi="33">
 
         <activity
-            android:name=".uicompose.main.MainActivity"
+            android:name=".ui.main.MainActivity"
             android:configChanges="keyboard|orientation|screenSize"
             android:exported="true">
             <intent-filter>
@@ -86,7 +86,7 @@
         </service>
 
         <receiver
-            android:name=".uicompose.widget.AiringWidgetReceiver"
+            android:name=".ui.widget.AiringWidgetReceiver"
             android:enabled="@bool/glance_appwidget_available"
             android:exported="false">
             <intent-filter>

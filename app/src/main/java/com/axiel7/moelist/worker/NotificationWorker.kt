@@ -29,7 +29,7 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaStatus
 import com.axiel7.moelist.data.model.media.WeekDay
 import com.axiel7.moelist.data.repository.AnimeRepository
-import com.axiel7.moelist.uicompose.main.MainActivity
+import com.axiel7.moelist.ui.main.MainActivity
 import com.axiel7.moelist.utils.DateUtils
 import com.axiel7.moelist.utils.DateUtils.getNextDayOfWeek
 import com.axiel7.moelist.utils.SeasonCalendar
