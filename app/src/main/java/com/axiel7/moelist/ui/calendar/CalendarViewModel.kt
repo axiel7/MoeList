@@ -1,52 +1,39 @@
 package com.axiel7.moelist.ui.calendar
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import com.axiel7.moelist.data.model.anime.AnimeRanking
-import com.axiel7.moelist.data.model.media.RankingType
 import com.axiel7.moelist.data.repository.AnimeRepository
-import com.axiel7.moelist.ui.base.BaseViewModel
+import com.axiel7.moelist.ui.base.viewmodel.BaseViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class CalendarViewModel(
     private val animeRepository: AnimeRepository
-) : BaseViewModel() {
+) : BaseViewModel<CalendarUiState>(), CalendarEvent {
 
-    var weekAnime by mutableStateOf(
-        arrayOf<MutableList<AnimeRanking>>(
-            mutableListOf(),//0: MONDAY
-            mutableListOf(),//1: TUESDAY
-            mutableListOf(),//2: WEDNESDAY
-            mutableListOf(),//3: THURSDAY
-            mutableListOf(),//4: FRIDAY
-            mutableListOf(),//5: SATURDAY
-            mutableListOf(),//6: SUNDAY
-        )
-    )
+    override val mutableUiState = MutableStateFlow(CalendarUiState(isLoading = true))
 
-    fun getSeasonAnime() {
+    init {
         viewModelScope.launch(Dispatchers.IO) {
-            isLoading = true
-            val result = animeRepository.getAnimeRanking(
-                rankingType = RankingType.AIRING,
-                limit = 300,
-                fields = AnimeRepository.CALENDAR_FIELDS
-            )
+            val result = animeRepository.getWeeklyAnime()
 
-            if (result?.data == null || result.message != null) {
-                setErrorMessage(result?.message ?: "Generic error")
-            } else {
-                result.data.forEach { anime ->
-                    anime.node.broadcast?.dayOfTheWeek?.let { day ->
-                        weekAnime[day.numeric - 1].add(anime)
-                    }
+            if (result.wasError) {
+                showMessage(result.message)
+            } else if (result.data != null) {
+                mutableUiState.update {
+                    it.copy(
+                        mondayAnime = result.data[0],
+                        tuesdayAnime = result.data[1],
+                        wednesdayAnime = result.data[2],
+                        thursdayAnime = result.data[3],
+                        fridayAnime = result.data[4],
+                        saturdayAnime = result.data[5],
+                        sundayAnime = result.data[6]
+                    )
                 }
-                weekAnime = weekAnime.copyOf()
             }
-            isLoading = false
+            setLoading(false)
         }
     }
 }

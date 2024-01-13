@@ -1,4 +1,4 @@
-package com.axiel7.moelist.ui.base
+package com.axiel7.moelist.ui.base.navigation
 
 import android.os.Bundle
 import androidx.navigation.NavType

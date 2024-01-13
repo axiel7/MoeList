@@ -2,26 +2,39 @@ package com.axiel7.moelist.ui.more.notifications
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.axiel7.moelist.ui.base.viewmodel.BaseViewModel
 import com.axiel7.moelist.worker.NotificationWorkerManager
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class NotificationsViewModel(
     dataStore: DataStore<Preferences>,
     private val notificationWorkerManager: NotificationWorkerManager,
-) : ViewModel() {
+) : BaseViewModel<NotificationsUiState>(), NotificationsEvent {
 
-    val notifications = dataStore.data
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+    override val mutableUiState = MutableStateFlow(NotificationsUiState())
 
-    fun removeNotification(animeId: Int) = viewModelScope.launch {
-        notificationWorkerManager.removeAiringAnimeNotification(animeId)
+    override fun removeNotification(animeId: Int) {
+        viewModelScope.launch {
+            notificationWorkerManager.removeAiringAnimeNotification(animeId)
+        }
     }
 
-    fun removeAllNotifications() = viewModelScope.launch {
-        notificationWorkerManager.removeAllNotifications()
+    override fun removeAllNotifications() {
+        viewModelScope.launch {
+            notificationWorkerManager.removeAllNotifications()
+        }
+    }
+
+    init {
+        dataStore.data
+            .onEach { notifications ->
+                mutableUiState.update { it.copy(notifications = notifications) }
+            }
+            .launchIn(viewModelScope)
     }
 }

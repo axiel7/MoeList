@@ -9,9 +9,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -22,7 +19,8 @@ import com.axiel7.moelist.data.model.media.MediaStatus
 import com.axiel7.moelist.ui.composables.BackIconButton
 import com.axiel7.moelist.ui.composables.ShareButton
 import com.axiel7.moelist.ui.composables.ViewInBrowserButton
-import com.axiel7.moelist.ui.details.MediaDetailsViewModel
+import com.axiel7.moelist.ui.details.MediaDetailsEvent
+import com.axiel7.moelist.ui.details.MediaDetailsUiState
 import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.DateUtils.parseDate
@@ -35,23 +33,19 @@ import java.time.LocalTime
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
 fun MediaDetailsTopAppBar(
-    viewModel: MediaDetailsViewModel,
-    mediaUrl: String,
+    uiState: MediaDetailsUiState,
+    event: MediaDetailsEvent?,
     scrollBehavior: TopAppBarScrollBehavior,
     navigateBack: () -> Unit
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val savedForNotification = when (viewModel.mediaDetails?.status) {
-        MediaStatus.AIRING -> remember {
-            viewModel.getNotification(viewModel.mediaDetails!!.id)
-        }.collectAsState(initial = null)
+    val savedForNotification = when (uiState.mediaDetails?.status) {
+        MediaStatus.AIRING -> uiState.notification
 
-        MediaStatus.NOT_AIRED -> remember {
-            viewModel.getStartNotification(viewModel.mediaDetails!!.id)
-        }.collectAsState(initial = null)
+        MediaStatus.NOT_AIRED -> uiState.startNotification
 
-        else -> remember { mutableStateOf(null) }
+        else -> null
     }
     val notificationPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         rememberPermissionState(
@@ -65,13 +59,13 @@ fun MediaDetailsTopAppBar(
             BackIconButton(onClick = navigateBack)
         },
         actions = {
-            if (viewModel.mediaDetails?.status == MediaStatus.AIRING
-                || viewModel.mediaDetails?.status == MediaStatus.NOT_AIRED
+            if (uiState.mediaDetails?.status == MediaStatus.AIRING
+                || uiState.mediaDetails?.status == MediaStatus.NOT_AIRED
             ) {
                 IconButton(
                     onClick = {
-                        val enable = savedForNotification.value == null
-                        (viewModel.mediaDetails as? AnimeDetails)?.let { details ->
+                        val enable = savedForNotification == null
+                        (uiState.mediaDetails as? AnimeDetails)?.let { details ->
                             if (enable) {
                                 if (notificationPermission == null
                                     || notificationPermission.status.isGranted
@@ -81,7 +75,7 @@ fun MediaDetailsTopAppBar(
                                             && details.broadcast?.dayOfTheWeek != null
                                             && details.broadcast.startTime != null
                                         ) {
-                                            viewModel.scheduleAiringAnimeNotification(
+                                            event?.scheduleAiringAnimeNotification(
                                                 title = details.title.orEmpty(),
                                                 animeId = details.id,
                                                 weekDay = details.broadcast.dayOfTheWeek,
@@ -93,7 +87,7 @@ fun MediaDetailsTopAppBar(
                                         ) {
                                             val startDate = details.startDate.parseDate()
                                             if (startDate != null) {
-                                                viewModel.scheduleAnimeStartNotification(
+                                                event?.scheduleAnimeStartNotification(
                                                     title = details.title.orEmpty(),
                                                     animeId = details.id,
                                                     startDate = startDate
@@ -117,9 +111,7 @@ fun MediaDetailsTopAppBar(
                                 }
                             } else {
                                 scope.launch {
-                                    viewModel.removeAiringAnimeNotification(
-                                        animeId = details.id
-                                    )
+                                    event?.removeAiringAnimeNotification(animeId = details.id)
                                     context.showToast("Notification disabled")
                                 }
                             }
@@ -128,16 +120,16 @@ fun MediaDetailsTopAppBar(
                 ) {
                     Icon(
                         painter = painterResource(
-                            if (savedForNotification.value != null) R.drawable.round_notifications_active_24
+                            if (savedForNotification != null) R.drawable.round_notifications_active_24
                             else R.drawable.round_notifications_off_24
                         ),
                         contentDescription = "notification"
                     )
                 }
             }
-            ViewInBrowserButton(onClick = { context.openLink(mediaUrl) })
+            ViewInBrowserButton(onClick = { context.openLink(uiState.mediaDetails?.malUrl.orEmpty()) })
 
-            ShareButton(url = mediaUrl)
+            ShareButton(url = uiState.mediaDetails?.malUrl.orEmpty())
         },
         scrollBehavior = scrollBehavior
     )

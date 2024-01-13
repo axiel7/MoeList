@@ -6,11 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
-import com.axiel7.moelist.ui.home.HOME_DESTINATION
-import com.axiel7.moelist.ui.more.MORE_DESTINATION
-import com.axiel7.moelist.ui.profile.PROFILE_DESTINATION
-import com.axiel7.moelist.ui.userlist.ANIME_LIST_DESTINATION
-import com.axiel7.moelist.ui.userlist.MANGA_LIST_DESTINATION
+import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.ui.base.navigation.NavArgument
+import com.axiel7.moelist.ui.base.navigation.NavDestination
 
 sealed class BottomDestination(
     val value: String,
@@ -21,7 +19,7 @@ sealed class BottomDestination(
 ) {
     data object Home : BottomDestination(
         value = "home",
-        route = HOME_DESTINATION,
+        route = NavDestination.HomeTab.route(),
         title = R.string.title_home,
         icon = R.drawable.ic_outline_home_24,
         iconSelected = R.drawable.ic_round_home_24
@@ -29,7 +27,9 @@ sealed class BottomDestination(
 
     data object AnimeList : BottomDestination(
         value = "anime",
-        route = ANIME_LIST_DESTINATION,
+        route = NavDestination.AnimeTab.putArguments(
+            mapOf(NavArgument.MediaType to MediaType.ANIME.name)
+        ),
         title = R.string.title_anime_list,
         icon = R.drawable.ic_outline_local_movies_24,
         iconSelected = R.drawable.ic_round_local_movies_24
@@ -37,7 +37,9 @@ sealed class BottomDestination(
 
     data object MangaList : BottomDestination(
         value = "manga",
-        route = MANGA_LIST_DESTINATION,
+        route = NavDestination.MangaTab.putArguments(
+            mapOf(NavArgument.MediaType to MediaType.MANGA.name)
+        ),
         title = R.string.title_manga_list,
         icon = R.drawable.ic_outline_book_24,
         iconSelected = R.drawable.ic_round_book_24
@@ -45,7 +47,7 @@ sealed class BottomDestination(
 
     data object Profile : BottomDestination(
         value = "profile",
-        route = PROFILE_DESTINATION,
+        route = NavDestination.Profile.route(),
         title = R.string.title_profile,
         icon = R.drawable.ic_outline_person_24,
         iconSelected = R.drawable.ic_round_person_24
@@ -53,7 +55,7 @@ sealed class BottomDestination(
 
     data object More : BottomDestination(
         value = "more",
-        route = MORE_DESTINATION,
+        route = NavDestination.MoreTab.route(),
         title = R.string.more,
         icon = R.drawable.ic_more_horizontal,
         iconSelected = R.drawable.ic_more_horizontal

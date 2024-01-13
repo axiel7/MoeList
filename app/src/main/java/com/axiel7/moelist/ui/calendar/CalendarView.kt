@@ -17,20 +17,22 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.WeekDay
-import com.axiel7.moelist.ui.base.TabRowItem
+import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.ui.composables.TabRowWithPager
 import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_SMALL_WIDTH
@@ -41,47 +43,50 @@ import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.SeasonCalendar
 import org.koin.androidx.compose.koinViewModel
 
-const val CALENDAR_DESTINATION = "calendar/{day}"
-
 @Composable
 fun CalendarView(
-    viewModel: CalendarViewModel = koinViewModel(),
-    navigateBack: () -> Unit,
-    navigateToMediaDetails: (MediaType, Int) -> Unit,
+    navActionManager: NavActionManager
+) {
+    val viewModel: CalendarViewModel = koinViewModel()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    CalendarContent(
+        uiState = uiState,
+        event = viewModel,
+        navActionManager = navActionManager,
+    )
+}
+
+@Composable
+private fun CalendarContent(
+    uiState: CalendarUiState,
+    event: CalendarEvent?,
+    navActionManager: NavActionManager,
 ) {
     val context = LocalContext.current
 
-    LaunchedEffect(viewModel.message) {
-        if (viewModel.showMessage) {
-            context.showToast(viewModel.message)
-            viewModel.showMessage = false
+    if (uiState.message != null) {
+        LaunchedEffect(uiState.message) {
+            context.showToast(uiState.message)
+            event?.onMessageDisplayed()
         }
     }
 
-    LaunchedEffect(Unit) {
-        if (viewModel.weekAnime[0].isEmpty())
-            viewModel.getSeasonAnime()
-    }
-
-    val tabRowItems = remember {
-        WeekDay.entries.map {
-            TabRowItem(value = it, title = it.stringRes)
-        }.toTypedArray()
-    }
     DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.calendar),
-        navigateBack = navigateBack,
+        navigateBack = navActionManager::goBack,
         contentWindowInsets = WindowInsets.systemBars
             .only(WindowInsetsSides.Horizontal)
     ) { padding ->
         TabRowWithPager(
-            tabs = tabRowItems,
+            tabs = WeekDay.tabRowItems,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding),
-            initialPage = SeasonCalendar.currentWeekday.numeric - 1,
+            initialPage = SeasonCalendar.currentWeekday.ordinal,
             isTabScrollable = true
         ) { page ->
+            val weekday = page + 1
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(minSize = MEDIA_POSTER_SMALL_WIDTH.dp),
                 modifier = Modifier.fillMaxHeight(),
@@ -96,7 +101,7 @@ fun CalendarView(
                 horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
             ) {
                 items(
-                    items = viewModel.weekAnime[page],
+                    items = uiState.weekAnime(weekday),
                     contentType = { it }
                 ) { item ->
                     Box(
@@ -114,12 +119,12 @@ fun CalendarView(
                             },
                             minLines = 2,
                             onClick = {
-                                navigateToMediaDetails(MediaType.ANIME, item.node.id)
+                                navActionManager.toMediaDetails(MediaType.ANIME, item.node.id)
                             }
                         )
                     }
                 }
-                if (viewModel.isLoading) {
+                if (uiState.isLoading) {
                     items(10) {
                         MediaItemVerticalPlaceholder()
                     }
@@ -129,13 +134,16 @@ fun CalendarView(
     }//:Scaffold
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun CalendarPreview() {
     MoeListTheme {
-        CalendarView(
-            navigateBack = {},
-            navigateToMediaDetails = { _, _ -> }
-        )
+        Surface {
+            CalendarContent(
+                uiState = CalendarUiState(),
+                event = null,
+                navActionManager = NavActionManager.rememberNavActionManager()
+            )
+        }
     }
 }

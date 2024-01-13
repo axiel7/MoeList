@@ -1,16 +1,18 @@
-package com.axiel7.moelist.ui.more
+package com.axiel7.moelist.ui.more.credits
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.axiel7.moelist.R
+import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.ui.more.composables.MoreItem
 import com.axiel7.moelist.ui.more.settings.SettingsTitle
@@ -18,8 +20,6 @@ import com.axiel7.moelist.ui.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.GENERAL_HELP_CREDIT_URL
 import com.axiel7.moelist.utils.LOGO_CREDIT_URL
-
-const val CREDITS_DESTINATION = "credits"
 
 val contributorsCredits = mapOf(
     "@uragiristereo" to "https://github.com/uragiristereo",
@@ -47,14 +47,14 @@ val translationsCredits = mapOf(
 
 @Composable
 fun CreditsView(
-    navigateBack: () -> Unit,
+    navActionManager: NavActionManager
 ) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()
 
     DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.credits),
-        navigateBack = navigateBack
+        navigateBack = navActionManager::goBack
     ) {
         Column(
             modifier = Modifier
@@ -119,12 +119,14 @@ fun CreditsView(
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun CreditsPreview() {
     MoeListTheme {
-        CreditsView(
-            navigateBack = {}
-        )
+        Surface {
+            CreditsView(
+                navActionManager = NavActionManager.rememberNavActionManager()
+            )
+        }
     }
 }

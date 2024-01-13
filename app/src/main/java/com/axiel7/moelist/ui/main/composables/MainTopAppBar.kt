@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -34,14 +33,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import coil.compose.AsyncImage
 import com.axiel7.moelist.R
-import com.axiel7.moelist.ui.home.HOME_DESTINATION
-import com.axiel7.moelist.ui.more.MORE_DESTINATION
-import com.axiel7.moelist.ui.profile.PROFILE_DESTINATION
-import com.axiel7.moelist.ui.search.SEARCH_DESTINATION
-import com.axiel7.moelist.ui.userlist.ANIME_LIST_DESTINATION
-import com.axiel7.moelist.ui.userlist.MANGA_LIST_DESTINATION
+import com.axiel7.moelist.ui.base.BottomDestination
+import com.axiel7.moelist.ui.base.navigation.NavDestination
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainTopAppBar(
     profilePicture: String?,
@@ -52,7 +46,10 @@ fun MainTopAppBar(
     val isVisible by remember {
         derivedStateOf {
             when (navBackStackEntry?.destination?.route) {
-                HOME_DESTINATION, ANIME_LIST_DESTINATION, MANGA_LIST_DESTINATION, MORE_DESTINATION,
+                BottomDestination.Home.route,
+                BottomDestination.AnimeList.route,
+                BottomDestination.MangaList.route,
+                BottomDestination.More.route,
                 null -> true
 
                 else -> false
@@ -66,7 +63,7 @@ fun MainTopAppBar(
         exit = slideOutVertically(targetOffsetY = { -it })
     ) {
         Card(
-            onClick = { navController.navigate(SEARCH_DESTINATION) },
+            onClick = { navController.navigate(NavDestination.Search.route()) },
             modifier = modifier
                 .statusBarsPadding()
                 .fillMaxWidth()
@@ -102,7 +99,7 @@ fun MainTopAppBar(
                     modifier = Modifier
                         .clip(RoundedCornerShape(100))
                         .size(32.dp)
-                        .clickable { navController.navigate(PROFILE_DESTINATION) }
+                        .clickable { navController.navigate(NavDestination.Profile.route()) }
                 )
             }
         }//:Card

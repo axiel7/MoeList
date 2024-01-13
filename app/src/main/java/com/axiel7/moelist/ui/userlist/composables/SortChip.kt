@@ -8,6 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
+import com.axiel7.moelist.ui.userlist.UserMediaListEvent
+import com.axiel7.moelist.ui.userlist.UserMediaListUiState
 
 @Composable
 fun SortChip(
@@ -25,5 +27,18 @@ fun SortChip(
                 contentDescription = stringResource(R.string.sort_by)
             )
         }
+    )
+}
+
+@Composable
+fun SortChip(
+    uiState: UserMediaListUiState,
+    event: UserMediaListEvent?,
+    modifier: Modifier = Modifier
+) {
+    SortChip(
+        text = uiState.listSort?.localized() ?: stringResource(R.string.sort_by),
+        onClick = { event?.toggleSortDialog(true) },
+        modifier = modifier,
     )
 }

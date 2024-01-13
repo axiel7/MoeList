@@ -1,64 +1,91 @@
 package com.axiel7.moelist.ui.search
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import com.axiel7.moelist.data.model.media.BaseMediaList
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.data.repository.MangaRepository
-import com.axiel7.moelist.ui.base.BaseViewModel
+import com.axiel7.moelist.ui.base.viewmodel.BaseViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
     private val animeRepository: AnimeRepository,
     private val mangaRepository: MangaRepository,
-) : BaseViewModel() {
+) : BaseViewModel<SearchUiState>(), SearchEvent {
 
-    var nextPage: String? = null
-    var hasNextPage = false
+    override val mutableUiState = MutableStateFlow(SearchUiState())
 
-    var mediaType by mutableStateOf(MediaType.ANIME)
+    override fun loadMore() {
+        if (mutableUiState.value.canLoadMore) {
+            mutableUiState.update { it.copy(loadMore = true) }
+        }
+    }
 
-    val mediaList = mutableStateListOf<BaseMediaList>()
+    override fun search(query: String) {
+        mutableUiState.update { it.copy(query = query, performSearch = true) }
+    }
 
-    fun search(
-        query: String,
-        page: String? = null
-    ) {
+    override fun onChangeMediaType(value: MediaType) {
+        mutableUiState.update { it.copy(mediaType = value, performSearch = true) }
+    }
+
+    init {
         viewModelScope.launch(Dispatchers.IO) {
-            if (page == null) {
-                mediaList.clear()
-                isLoading = true
-            }
-            val result = if (mediaType == MediaType.ANIME)
-                animeRepository.searchAnime(
-                    query = query,
-                    limit = 25,
-                    offset = null,
-                    page = page
-                )
-            else
-                mangaRepository.searchManga(
-                    query = query,
-                    limit = 25,
-                    offset = null,
-                    page = page
-                )
+            mutableUiState
+                .distinctUntilChanged { old, new ->
+                    old.performSearch == new.performSearch
+                            && old.loadMore == new.loadMore
+                            && old.mediaType == new.mediaType
+                            && old.query == new.query
+                }
+                .filter { it.query.isNotBlank() && (it.performSearch || it.loadMore) }
+                .collectLatest { uiState ->
+                    setLoading(uiState.nextPage == null)
 
-            if (result?.data != null) {
-                mediaList.addAll(result.data)
+                    val result = if (uiState.mediaType == MediaType.ANIME) {
+                        animeRepository.searchAnime(
+                            query = uiState.query,
+                            limit = 25,
+                            page = uiState.nextPage
+                        )
+                    } else {
+                        mangaRepository.searchManga(
+                            query = uiState.query,
+                            limit = 25,
+                            page = uiState.nextPage
+                        )
+                    }
 
-                nextPage = result.paging?.next
-                hasNextPage = nextPage != null
-            } else {
-                setErrorMessage(result?.message ?: "Generic error")
-                hasNextPage = false
-            }
-            isLoading = false
+                    if (result.data != null) {
+                        if (uiState.performSearch) uiState.mediaList.clear()
+                        uiState.mediaList.addAll(result.data)
+
+                        mutableUiState.update {
+                            it.copy(
+                                performSearch = false,
+                                noResults = result.data.isEmpty(),
+                                loadMore = false,
+                                nextPage = result.paging?.next,
+                                isLoading = false
+                            )
+                        }
+                    } else {
+                        mutableUiState.update {
+                            it.copy(
+                                performSearch = false,
+                                loadMore = false,
+                                nextPage = null,
+                                isLoading = false,
+                                message = result.message
+                            )
+                        }
+                    }
+                }
         }
     }
 }

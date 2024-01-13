@@ -25,7 +25,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -36,8 +36,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.HeaderHorizontalList
 import com.axiel7.moelist.ui.composables.collapsable
 import com.axiel7.moelist.ui.composables.media.MEDIA_ITEM_VERTICAL_HEIGHT
@@ -54,21 +56,38 @@ import com.axiel7.moelist.utils.SeasonCalendar
 import org.koin.androidx.compose.koinViewModel
 import kotlin.random.Random
 
-const val HOME_DESTINATION = "home"
-
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeView(
-    viewModel: HomeViewModel = koinViewModel(),
     isLoggedIn: Boolean,
-    navigateToMediaDetails: (MediaType, Int) -> Unit,
-    navigateToRanking: (MediaType) -> Unit,
-    navigateToSeasonChart: () -> Unit,
-    navigateToCalendar: () -> Unit,
-    navigateToRecommendations: () -> Unit,
+    navActionManager: NavActionManager,
     topBarHeightPx: Float,
     topBarOffsetY: Animatable<Float, AnimationVector1D>,
     padding: PaddingValues,
+) {
+    val viewModel: HomeViewModel = koinViewModel()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    HomeViewContent(
+        uiState = uiState,
+        event = viewModel,
+        isLoggedIn = isLoggedIn,
+        navActionManager = navActionManager,
+        topBarHeightPx = topBarHeightPx,
+        topBarOffsetY = topBarOffsetY,
+        padding = padding,
+    )
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun HomeViewContent(
+    uiState: HomeUiState,
+    event: HomeEvent?,
+    isLoggedIn: Boolean,
+    navActionManager: NavActionManager,
+    topBarHeightPx: Float = 0f,
+    topBarOffsetY: Animatable<Float, AnimationVector1D> = Animatable(0f),
+    padding: PaddingValues = PaddingValues(),
 ) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()
@@ -76,15 +95,15 @@ fun HomeView(
     val seasonListState = rememberLazyListState()
     val recommendListState = rememberLazyListState()
 
-    LaunchedEffect(viewModel.message) {
-        if (viewModel.showMessage) {
-            context.showToast(viewModel.message)
-            viewModel.showMessage = false
+    LaunchedEffect(uiState.message) {
+        if (uiState.message != null) {
+            context.showToast(uiState.message)
+            event?.onMessageDisplayed()
         }
     }
 
     LaunchedEffect(isLoggedIn) {
-        viewModel.initRequestChain(isLoggedIn)
+        event?.initRequestChain(isLoggedIn)
     }
 
     Column(
@@ -106,7 +125,7 @@ fun HomeView(
                 icon = R.drawable.ic_round_movie_24,
                 modifier = Modifier.weight(1f),
                 onClick = {
-                    navigateToRanking(MediaType.ANIME)
+                    navActionManager.toMediaRanking(MediaType.ANIME)
                 },
             )
 
@@ -115,7 +134,7 @@ fun HomeView(
                 icon = R.drawable.ic_round_menu_book_24,
                 modifier = Modifier.weight(1f),
                 onClick = {
-                    navigateToRanking(MediaType.MANGA)
+                    navActionManager.toMediaRanking(MediaType.MANGA)
                 },
             )
         }
@@ -127,23 +146,23 @@ fun HomeView(
                 text = stringResource(R.string.seasonal_chart),
                 icon = SeasonCalendar.currentSeason.icon,
                 modifier = Modifier.weight(1f),
-                onClick = navigateToSeasonChart,
+                onClick = navActionManager::toSeasonChart,
             )
 
             HomeCard(
                 text = stringResource(R.string.calendar),
                 icon = R.drawable.ic_round_event_24,
                 modifier = Modifier.weight(1f),
-                onClick = navigateToCalendar,
+                onClick = navActionManager::toCalendar,
             )
         }
 
         // Airing
         HeaderHorizontalList(
             text = stringResource(R.string.today),
-            onClick = navigateToCalendar
+            onClick = navActionManager::toCalendar
         )
-        if (!viewModel.isLoading && viewModel.todayAnimes.isEmpty()) {
+        if (!uiState.isLoading && uiState.todayAnimes.isEmpty()) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -164,18 +183,18 @@ fun HomeView(
             flingBehavior = rememberSnapFlingBehavior(lazyListState = airingListState)
         ) {
             items(
-                items = viewModel.todayAnimes,
+                items = uiState.todayAnimes,
                 key = { it.node.id },
                 contentType = { it.node }
             ) {
                 AiringAnimeHorizontalItem(
                     item = it,
                     onClick = {
-                        navigateToMediaDetails(MediaType.ANIME, it.node.id)
+                        navActionManager.toMediaDetails(MediaType.ANIME, it.node.id)
                     }
                 )
             }
-            if (viewModel.isLoading) {
+            if (uiState.isLoading) {
                 items(5) {
                     MediaItemDetailedPlaceholder()
                 }
@@ -185,9 +204,9 @@ fun HomeView(
         // This Season
         HeaderHorizontalList(
             text = stringResource(R.string.this_season),
-            onClick = navigateToSeasonChart
+            onClick = navActionManager::toSeasonChart
         )
-        if (!viewModel.isLoading && viewModel.seasonAnimes.isEmpty()) {
+        if (!uiState.isLoading && uiState.seasonAnimes.isEmpty()) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -207,7 +226,8 @@ fun HomeView(
             contentPadding = PaddingValues(horizontal = 16.dp),
             flingBehavior = rememberSnapFlingBehavior(lazyListState = seasonListState)
         ) {
-            items(viewModel.seasonAnimes,
+            items(
+                items = uiState.seasonAnimes,
                 key = { it.node.id },
                 contentType = { it.node }
             ) {
@@ -222,10 +242,12 @@ fun HomeView(
                         )
                     },
                     minLines = 2,
-                    onClick = { navigateToMediaDetails(MediaType.ANIME, it.node.id) }
+                    onClick = {
+                        navActionManager.toMediaDetails(MediaType.ANIME, it.node.id)
+                    }
                 )
             }
-            if (viewModel.isLoading) {
+            if (uiState.isLoading) {
                 items(10) {
                     MediaItemVerticalPlaceholder()
                 }
@@ -235,7 +257,7 @@ fun HomeView(
         //Recommended
         HeaderHorizontalList(
             text = stringResource(R.string.recommendations),
-            onClick = navigateToRecommendations
+            onClick = navActionManager::toRecommendations
         )
         if (!isLoggedIn) {
             Box(
@@ -249,7 +271,7 @@ fun HomeView(
                     textAlign = TextAlign.Center
                 )
             }
-        } else if (!viewModel.isLoading && viewModel.recommendedAnimes.isEmpty()) {
+        } else if (!uiState.isLoading && uiState.recommendedAnimes.isEmpty()) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -269,7 +291,8 @@ fun HomeView(
             contentPadding = PaddingValues(horizontal = 16.dp),
             flingBehavior = rememberSnapFlingBehavior(lazyListState = recommendListState)
         ) {
-            items(viewModel.recommendedAnimes,
+            items(
+                items = uiState.recommendedAnimes,
                 key = { it.node.id },
                 contentType = { it.node }
             ) {
@@ -284,10 +307,12 @@ fun HomeView(
                         )
                     },
                     minLines = 2,
-                    onClick = { navigateToMediaDetails(MediaType.ANIME, it.node.id) }
+                    onClick = {
+                        navActionManager.toMediaDetails(MediaType.ANIME, it.node.id)
+                    }
                 )
             }
-            if (viewModel.isLoading) {
+            if (uiState.isLoading) {
                 items(10) {
                     MediaItemVerticalPlaceholder()
                 }
@@ -305,7 +330,7 @@ fun HomeView(
                 onClick = {
                     val type = if (Random.nextBoolean()) MediaType.ANIME else MediaType.MANGA
                     val id = Random.nextInt(from = 0, until = 6000)
-                    navigateToMediaDetails(type, id)
+                    navActionManager.toMediaDetails(type, id)
                 }
             ) {
                 Icon(
@@ -325,21 +350,16 @@ fun HomeView(
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun HomePreview() {
     MoeListTheme {
         Surface {
-            HomeView(
+            HomeViewContent(
+                uiState = HomeUiState(),
+                event = null,
                 isLoggedIn = false,
-                navigateToMediaDetails = { _, _ -> },
-                navigateToRanking = {},
-                navigateToSeasonChart = {},
-                navigateToCalendar = {},
-                navigateToRecommendations = {},
-                padding = PaddingValues(),
-                topBarHeightPx = 0f,
-                topBarOffsetY = remember { Animatable(0f) }
+                navActionManager = NavActionManager.rememberNavActionManager()
             )
         }
     }

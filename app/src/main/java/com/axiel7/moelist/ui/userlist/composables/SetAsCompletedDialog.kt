@@ -6,26 +6,28 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
-import com.axiel7.moelist.ui.userlist.UserMediaListViewModel
+import com.axiel7.moelist.ui.userlist.UserMediaListEvent
+import com.axiel7.moelist.ui.userlist.UserMediaListUiState
 
 @Composable
 fun SetAsCompletedDialog(
-    viewModel: UserMediaListViewModel
+    uiState: UserMediaListUiState,
+    event: UserMediaListEvent?
 ) {
     AlertDialog(
-        onDismissRequest = { viewModel.openSetAtCompletedDialog = false },
+        onDismissRequest = { event?.toggleSetAsCompleteDialog(false) },
         confirmButton = {
             TextButton(
                 onClick = {
-                    viewModel.setAsCompleted(viewModel.lastItemUpdatedId)
-                    viewModel.openSetAtCompletedDialog = false
+                    uiState.lastItemUpdatedId?.let { event?.setAsCompleted(it) }
+                    event?.toggleSetAsCompleteDialog(false)
                 }
             ) {
                 Text(text = stringResource(R.string.ok))
             }
         },
         dismissButton = {
-            TextButton(onClick = { viewModel.openSetAtCompletedDialog = false }) {
+            TextButton(onClick = { event?.toggleSetAsCompleteDialog(false) }) {
                 Text(text = stringResource(R.string.cancel))
             }
         },

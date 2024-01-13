@@ -6,24 +6,21 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
-import com.axiel7.moelist.ui.editmedia.EditMediaViewModel
 
 @Composable
-fun DeleteMediaEntryDialog(viewModel: EditMediaViewModel) {
+fun DeleteMediaEntryDialog(
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit
+) {
     AlertDialog(
-        onDismissRequest = { viewModel.openDeleteDialog = false },
+        onDismissRequest = onDismiss,
         confirmButton = {
-            TextButton(
-                onClick = {
-                    viewModel.deleteEntry()
-                    viewModel.openDeleteDialog = false
-                }
-            ) {
+            TextButton(onClick = onConfirm) {
                 Text(text = stringResource(R.string.ok))
             }
         },
         dismissButton = {
-            TextButton(onClick = { viewModel.openDeleteDialog = false }) {
+            TextButton(onClick = onDismiss) {
                 Text(text = stringResource(R.string.cancel))
             }
         },

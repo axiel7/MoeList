@@ -130,7 +130,7 @@ fun StandardUserMediaListItem(
                     Text(
                         text = if (isAiring && broadcast != null) broadcast.airingInString()
                         else if (isAiring) stringResource(R.string.airing)
-                        else item.node.mediaType?.localized().orEmpty(),
+                        else item.node.mediaFormat?.localized().orEmpty(),
                         modifier = Modifier.padding(horizontal = 16.dp),
                         color = if (isAiring) MaterialTheme.colorScheme.primary
                         else MaterialTheme.colorScheme.onSurfaceVariant

@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -30,6 +31,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.ui.composables.TextIconHorizontal
 import com.axiel7.moelist.ui.composables.defaultPlaceholder
@@ -39,36 +41,42 @@ import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.DateUtils.parseDateAndLocalize
 import com.axiel7.moelist.utils.MAL_PROFILE_URL
-import com.axiel7.moelist.utils.StringExtensions.toNavArgument
 import org.koin.androidx.compose.koinViewModel
 import java.time.format.DateTimeFormatter
 
-const val PROFILE_DESTINATION = "profile"
-
 @Composable
 fun ProfileView(
-    viewModel: ProfileViewModel = koinViewModel(),
-    navigateBack: () -> Unit,
-    navigateToFullPoster: (String) -> Unit,
+    navActionManager: NavActionManager
+) {
+    val viewModel: ProfileViewModel = koinViewModel()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    ProfileViewContent(
+        uiState = uiState,
+        event = viewModel,
+        navActionManager = navActionManager
+    )
+}
+
+@Composable
+private fun ProfileViewContent(
+    uiState: ProfileUiState,
+    event: ProfileEvent?,
+    navActionManager: NavActionManager
 ) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()
-    val picture by viewModel.profilePictureUrl.collectAsStateWithLifecycle()
 
-    LaunchedEffect(viewModel.message) {
-        if (viewModel.showMessage) {
-            context.showToast(viewModel.message)
-            viewModel.showMessage = false
+    LaunchedEffect(uiState.message) {
+        if (uiState.message != null) {
+            context.showToast(uiState.message)
+            event?.onMessageDisplayed()
         }
-    }
-
-    LaunchedEffect(Unit) {
-        if (viewModel.user == null) viewModel.getMyUser()
     }
 
     DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.title_profile),
-        navigateBack = navigateBack
+        navigateBack = navActionManager::goBack
     ) { padding ->
         Column(
             modifier = Modifier
@@ -81,7 +89,7 @@ fun ProfileView(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 AsyncImage(
-                    model = picture,
+                    model = uiState.profilePictureUrl,
                     contentDescription = "profile",
                     placeholder = painterResource(R.drawable.ic_round_account_circle_24),
                     error = painterResource(R.drawable.ic_round_account_circle_24),
@@ -89,26 +97,26 @@ fun ProfileView(
                         .padding(16.dp)
                         .clip(RoundedCornerShape(100))
                         .size(100.dp)
-                        .defaultPlaceholder(visible = viewModel.isLoading)
+                        .defaultPlaceholder(visible = uiState.isLoading)
                         .clickable {
-                            navigateToFullPoster(
-                                arrayOf(picture.orEmpty()).toNavArgument()
+                            navActionManager.toFullPoster(
+                                listOf(uiState.profilePictureUrl.orEmpty())
                             )
                         }
                 )
 
                 Column {
                     Text(
-                        text = viewModel.user?.name ?: "Loading...",
+                        text = uiState.user?.name ?: "Loading...",
                         modifier = Modifier
                             .padding(vertical = 8.dp)
-                            .defaultPlaceholder(visible = viewModel.isLoading),
+                            .defaultPlaceholder(visible = uiState.isLoading),
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold
                     )
 
-                    viewModel.user?.location?.let { location ->
+                    uiState.user?.location?.let { location ->
                         if (location.isNotBlank())
                             TextIconHorizontal(
                                 text = location,
@@ -117,7 +125,7 @@ fun ProfileView(
                             )
                     }
 
-                    viewModel.user?.birthday?.let { birthday ->
+                    uiState.user?.birthday?.let { birthday ->
                         TextIconHorizontal(
                             text = birthday.parseDateAndLocalize().orEmpty(),
                             icon = R.drawable.ic_round_cake_24,
@@ -126,15 +134,15 @@ fun ProfileView(
                     }
 
                     TextIconHorizontal(
-                        text = if (viewModel.user?.joinedAt != null)
-                            viewModel.user?.joinedAt?.parseDateAndLocalize(
+                        text = if (uiState.user?.joinedAt != null)
+                            uiState.user.joinedAt.parseDateAndLocalize(
                                 inputFormat = DateTimeFormatter.ISO_DATE_TIME
                             ).orEmpty()
                         else "Loading...",
                         icon = R.drawable.ic_round_access_time_24,
                         modifier = Modifier
                             .padding(bottom = 8.dp)
-                            .defaultPlaceholder(visible = viewModel.isLoading)
+                            .defaultPlaceholder(visible = uiState.isLoading)
                     )
                 }
             }//:Row
@@ -143,23 +151,21 @@ fun ProfileView(
 
             //Stats
             UserStatsView(
-                viewModel = viewModel,
+                uiState = uiState,
                 mediaType = MediaType.ANIME,
-                isLoading = viewModel.isLoading
             )
 
             HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
 
             UserStatsView(
-                viewModel = viewModel,
+                uiState = uiState,
                 mediaType = MediaType.MANGA,
-                isLoading = viewModel.isLoadingManga
             )
 
             HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
 
             TextButton(
-                onClick = { context.openLink(MAL_PROFILE_URL + viewModel.user?.name) },
+                onClick = { context.openLink(MAL_PROFILE_URL + uiState.user?.name) },
                 modifier = Modifier.padding(bottom = 16.dp)
             ) {
                 Text(
@@ -171,13 +177,16 @@ fun ProfileView(
     }//:Scaffold
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun ProfilePreview() {
     MoeListTheme {
-        ProfileView(
-            navigateBack = {},
-            navigateToFullPoster = {}
-        )
+        Surface {
+            ProfileViewContent(
+                uiState = ProfileUiState(),
+                event = null,
+                navActionManager = NavActionManager.rememberNavActionManager()
+            )
+        }
     }
 }

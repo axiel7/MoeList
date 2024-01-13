@@ -1,7 +1,8 @@
-package com.axiel7.moelist.ui.more
+package com.axiel7.moelist.ui.more.about
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -13,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.axiel7.moelist.BuildConfig
 import com.axiel7.moelist.R
+import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.ui.more.composables.MoreItem
 import com.axiel7.moelist.ui.theme.MoeListTheme
@@ -21,19 +23,16 @@ import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.DISCORD_SERVER_URL
 import com.axiel7.moelist.utils.GITHUB_REPO_URL
 
-const val ABOUT_DESTINATION = "about"
-
 @Composable
 fun AboutView(
-    navigateBack: () -> Unit,
-    navigateToCredits: () -> Unit,
+    navActionManager: NavActionManager
 ) {
     val context = LocalContext.current
     var versionClicks by remember { mutableIntStateOf(0) }
 
     DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.about),
-        navigateBack = navigateBack
+        navigateBack = navActionManager::goBack
     ) {
         Column(
             modifier = Modifier.padding(it)
@@ -69,19 +68,20 @@ fun AboutView(
                 title = stringResource(R.string.credits),
                 subtitle = stringResource(R.string.credits_summary),
                 icon = R.drawable.ic_round_group_24,
-                onClick = navigateToCredits
+                onClick = navActionManager::toCredits
             )
         }
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun AboutPreview() {
     MoeListTheme {
-        AboutView(
-            navigateBack = {},
-            navigateToCredits = {}
-        )
+        Surface {
+            AboutView(
+                navActionManager = NavActionManager.rememberNavActionManager()
+            )
+        }
     }
 }

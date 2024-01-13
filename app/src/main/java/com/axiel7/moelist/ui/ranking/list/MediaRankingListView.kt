@@ -1,4 +1,4 @@
-package com.axiel7.moelist.ui.ranking
+package com.axiel7.moelist.ui.ranking.list
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
@@ -12,52 +12,71 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.BaseRanking
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.RankingType
+import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.OnBottomReached
 import com.axiel7.moelist.ui.composables.TextIconHorizontal
 import com.axiel7.moelist.ui.composables.media.MediaItemDetailed
 import com.axiel7.moelist.ui.composables.media.MediaItemDetailedPlaceholder
+import com.axiel7.moelist.ui.ranking.MediaRankingEvent
+import com.axiel7.moelist.ui.ranking.MediaRankingUiState
+import com.axiel7.moelist.ui.ranking.MediaRankingViewModel
+import com.axiel7.moelist.ui.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.NumExtensions.format
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrUnknown
 import com.axiel7.moelist.utils.UNKNOWN_CHAR
 import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun MediaRankingListView(
     mediaType: MediaType,
     rankingType: RankingType,
-    showAsGrid: Boolean,
-    navigateToMediaDetails: (MediaType, Int) -> Unit,
+    isCompactScreen: Boolean,
+    navActionManager: NavActionManager,
+) {
+    val viewModel: MediaRankingViewModel =
+        koinViewModel(key = rankingType.name) { parametersOf(rankingType) }
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    MediaRankingListViewContent(
+        uiState = uiState,
+        event = viewModel,
+        mediaType = mediaType,
+        isCompactScreen = isCompactScreen,
+        navActionManager = navActionManager,
+    )
+}
+
+@Composable
+private fun MediaRankingListViewContent(
+    uiState: MediaRankingUiState,
+    event: MediaRankingEvent?,
+    mediaType: MediaType,
+    isCompactScreen: Boolean,
+    navActionManager: NavActionManager,
 ) {
     val context = LocalContext.current
-    val viewModel: MediaRankingViewModel = koinViewModel(key = rankingType.name)
-    val shouldShowPlaceholder = viewModel.mediaList.isEmpty() && viewModel.isLoading
+    val shouldShowPlaceholder = uiState.mediaList.isEmpty() && uiState.isLoading
 
-    LaunchedEffect(viewModel.message) {
-        if (viewModel.showMessage) {
-            context.showToast(viewModel.message)
-            viewModel.showMessage = false
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        if (!viewModel.isLoading && viewModel.nextPage == null && !viewModel.loadedAllPages)
-            viewModel.getRanking(rankingType)
-    }
-
-    fun onLoadMore() {
-        if (!viewModel.isLoading && viewModel.hasNextPage) {
-            viewModel.getRanking(rankingType, viewModel.nextPage)
+    LaunchedEffect(uiState.message) {
+        if (uiState.message != null) {
+            context.showToast(uiState.message)
+            event?.onMessageDisplayed()
         }
     }
 
@@ -75,7 +94,7 @@ fun MediaRankingListView(
             subtitle1 = {
                 Text(
                     text = buildString {
-                        append(item.node.mediaType?.localized())
+                        append(item.node.mediaFormat?.localized())
                         if (item.node.totalDuration().toStringPositiveValueOrNull() != null) {
                             append(" (${item.node.durationText()})")
                         }
@@ -98,15 +117,15 @@ fun MediaRankingListView(
                 )
             },
             onClick = {
-                navigateToMediaDetails(mediaType, item.node.id)
+                navActionManager.toMediaDetails(mediaType, item.node.id)
             }
         )
     }
 
-    if (showAsGrid) {
+    if (!isCompactScreen) {
         val listState = rememberLazyGridState()
         listState.OnBottomReached(buffer = 3) {
-            onLoadMore()
+            event?.loadMore()
         }
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
@@ -117,7 +136,7 @@ fun MediaRankingListView(
             ),
         ) {
             items(
-                items = viewModel.mediaList,
+                items = uiState.mediaList,
                 key = { it.node.id },
                 contentType = { it.node }
             ) { item ->
@@ -132,7 +151,7 @@ fun MediaRankingListView(
     } else {
         val listState = rememberLazyListState()
         listState.OnBottomReached(buffer = 3) {
-            onLoadMore()
+            event?.loadMore()
         }
         LazyColumn(
             contentPadding = PaddingValues(
@@ -142,7 +161,7 @@ fun MediaRankingListView(
             state = listState
         ) {
             items(
-                items = viewModel.mediaList,
+                items = uiState.mediaList,
                 key = { it.node.id },
                 contentType = { it.node }
             ) { item ->
@@ -154,5 +173,21 @@ fun MediaRankingListView(
                 }
             }
         }//:LazyColumn
+    }
+}
+
+@Preview
+@Composable
+fun MediaRankingPreview() {
+    MoeListTheme {
+        Surface {
+            MediaRankingListViewContent(
+                uiState = MediaRankingUiState(rankingType = RankingType.SCORE),
+                event = null,
+                mediaType = MediaType.ANIME,
+                isCompactScreen = true,
+                navActionManager = NavActionManager.rememberNavActionManager()
+            )
+        }
     }
 }

@@ -27,7 +27,7 @@ data class AnimeNode(
     @SerialName("num_list_users")
     override val numListUsers: Int? = null,
     @SerialName("media_type")
-    override val mediaType: MediaFormat? = null,
+    override val mediaFormat: MediaFormat? = null,
     @SerialName("status")
     override val status: MediaStatus? = null,
     @SerialName("mean")

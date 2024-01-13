@@ -56,7 +56,7 @@ class AnimeRepository(
         limit: Int,
         fields: String?,
         page: String? = null,
-    ): Response<List<AnimeSeasonal>>? {
+    ): Response<List<AnimeSeasonal>> {
         return try {
             val result = if (page == null) api.getSeasonalAnime(
                 sort = sort,
@@ -77,7 +77,7 @@ class AnimeRepository(
     suspend fun getRecommendedAnimes(
         limit: Int,
         page: String? = null
-    ): Response<List<AnimeList>>? {
+    ): Response<List<AnimeList>> {
         return try {
             val result = if (page == null) api.getAnimeRecommendations(
                 limit = limit,
@@ -106,7 +106,7 @@ class AnimeRepository(
         status: ListStatus,
         sort: MediaSort,
         page: String? = null,
-    ): Response<List<UserAnimeList>>? {
+    ): Response<List<UserAnimeList>> {
         return try {
             val result = if (page == null) api.getUserAnimeList(
                 status = status,
@@ -173,9 +173,9 @@ class AnimeRepository(
     suspend fun searchAnime(
         query: String,
         limit: Int,
-        offset: Int?,
+        offset: Int? = null,
         page: String? = null,
-    ): Response<List<AnimeList>>? {
+    ): Response<List<AnimeList>> {
         return try {
             val result = if (page == null) api.getAnimeList(
                 query = query,
@@ -198,7 +198,7 @@ class AnimeRepository(
         limit: Int,
         fields: String?,
         page: String? = null
-    ): Response<List<AnimeRanking>>? {
+    ): Response<List<AnimeRanking>> {
         return try {
             val result =
                 if (page == null) api.getAnimeRanking(
@@ -212,6 +212,39 @@ class AnimeRepository(
             return result
         } catch (e: Exception) {
             Response(message = e.message)
+        }
+    }
+
+    suspend fun getWeeklyAnime(
+        fields: String? = CALENDAR_FIELDS
+    ): Response<Array<MutableList<AnimeRanking>>> {
+        val rankResponse = getAnimeRanking(
+            rankingType = RankingType.AIRING,
+            limit = 300,
+            fields = fields
+        )
+        return if (rankResponse.isSuccess) {
+            val tempWeekArray = arrayOf<MutableList<AnimeRanking>>(
+                mutableListOf(),//0: MONDAY
+                mutableListOf(),//1: TUESDAY
+                mutableListOf(),//2: WEDNESDAY
+                mutableListOf(),//3: THURSDAY
+                mutableListOf(),//4: FRIDAY
+                mutableListOf(),//5: SATURDAY
+                mutableListOf(),//6: SUNDAY
+            )
+            rankResponse.data?.forEach { anime ->
+                anime.node.broadcast?.dayOfTheWeek?.let { day ->
+                    tempWeekArray[day.ordinal].add(anime)
+                }
+            }
+
+            Response(data = tempWeekArray)
+        } else {
+            Response(
+                message = rankResponse.message,
+                error = rankResponse.error,
+            )
         }
     }
 
@@ -230,7 +263,7 @@ class AnimeRepository(
         limit: Int?,
         offset: Int?,
         page: String? = null
-    ): Response<List<Character>>? {
+    ): Response<List<Character>> {
         return try {
             val result = if (page == null) api.getAnimeCharacters(
                 animeId = animeId,
@@ -269,7 +302,7 @@ class AnimeRepository(
         status: ListStatus,
         prefetchedList: List<UserAnimeList> = emptyList(),
         page: String? = null
-    ): Response<List<Int>>? {
+    ): Response<List<Int>> {
         return try {
             val result = if (page == null) api.getUserAnimeList(
                 status = status,

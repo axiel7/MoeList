@@ -15,9 +15,12 @@ abstract class BaseMediaNode {
     abstract val alternativeTitles: AlternativeTitles?
     abstract val mainPicture: MainPicture?
     open val numListUsers: Int? = null
-    abstract val mediaType: MediaFormat?
+    abstract val mediaFormat: MediaFormat?
     abstract val status: MediaStatus?
     abstract val mean: Float?
+
+    val mediaType
+        get() = if (this is MangaNode) MediaType.MANGA else MediaType.ANIME
 
     fun userPreferredTitle() = title(App.titleLanguage)
 

@@ -22,7 +22,7 @@ val exampleUserAnimeList = UserAnimeList(
         title = "This is a large anime or manga title",
         broadcast = Broadcast(WeekDay.SUNDAY, "12:00"),
         numEpisodes = 12,
-        mediaType = MediaFormat.TV,
+        mediaFormat = MediaFormat.TV,
         status = MediaStatus.AIRING,
         mean = 8f
     ),

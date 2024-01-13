@@ -16,16 +16,15 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,11 +40,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeList
 import com.axiel7.moelist.data.model.manga.MangaList
 import com.axiel7.moelist.data.model.media.BaseMediaList
 import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.BackIconButton
 import com.axiel7.moelist.ui.composables.OnBottomReached
 import com.axiel7.moelist.ui.composables.media.MediaItemDetailed
@@ -56,14 +57,11 @@ import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrUnknown
 import org.koin.androidx.compose.koinViewModel
 
-const val SEARCH_DESTINATION = "search"
-
 @Composable
 fun SearchHostView(
-    padding: PaddingValues,
     isCompactScreen: Boolean,
-    navigateBack: () -> Unit,
-    navigateToMediaDetails: (MediaType, Int) -> Unit,
+    navActionManager: NavActionManager,
+    padding: PaddingValues,
 ) {
     var query by remember { mutableStateOf("") }
     val performSearch = remember { mutableStateOf(false) }
@@ -87,7 +85,7 @@ fun SearchHostView(
                 .focusRequester(focusRequester),
             placeholder = { Text(text = stringResource(R.string.search)) },
             leadingIcon = {
-                if (isCompactScreen) BackIconButton(onClick = navigateBack)
+                if (isCompactScreen) BackIconButton(onClick = navActionManager::goBack)
             },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(
@@ -103,87 +101,80 @@ fun SearchHostView(
         )
         SearchView(
             query = query,
-            performSearch = performSearch,
-            showAsGrid = !isCompactScreen,
+            isCompactScreen = isCompactScreen,
+            navActionManager = navActionManager,
             contentPadding = PaddingValues(bottom = padding.calculateBottomPadding()),
-            navigateToMediaDetails = navigateToMediaDetails
         )
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchView(
-    viewModel: SearchViewModel = koinViewModel(),
     query: String,
-    performSearch: MutableState<Boolean>,
-    showAsGrid: Boolean,
+    isCompactScreen: Boolean,
+    navActionManager: NavActionManager,
+    contentPadding: PaddingValues,
+) {
+    val viewModel: SearchViewModel = koinViewModel()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    SearchViewContent(
+        uiState = uiState,
+        event = viewModel,
+        query = query,
+        isCompactScreen = isCompactScreen,
+        navActionManager = navActionManager,
+        contentPadding = contentPadding,
+    )
+}
+
+@Composable
+private fun SearchViewContent(
+    uiState: SearchUiState,
+    event: SearchEvent?,
+    query: String,
+    isCompactScreen: Boolean,
+    navActionManager: NavActionManager,
     contentPadding: PaddingValues = PaddingValues(),
-    navigateToMediaDetails: (MediaType, Int) -> Unit,
 ) {
     val context = LocalContext.current
-    val shouldShowPlaceholder = query.isNotBlank() && viewModel.mediaList.isEmpty()
+    val shouldShowPlaceholder = query.isNotBlank() && uiState.mediaList.isEmpty()
 
-    LaunchedEffect(viewModel.message) {
-        if (viewModel.showMessage) {
-            context.showToast(viewModel.message)
-            viewModel.showMessage = false
+    LaunchedEffect(uiState.message) {
+        if (uiState.message != null) {
+            context.showToast(uiState.message)
+            event?.onMessageDisplayed()
         }
     }
 
-    LaunchedEffect(viewModel.mediaType, performSearch.value) {
+    /*LaunchedEffect(viewModel.mediaType, performSearch.value) {
         if (query.isNotBlank() && performSearch.value) {
             viewModel.search(query = query)
             performSearch.value = false
         }
-    }
-
-    fun onLoadMore() {
-        if (!viewModel.isLoading && viewModel.hasNextPage) {
-            viewModel.search(
-                query = query,
-                page = viewModel.nextPage
-            )
-        }
-    }
+    }*/
 
     @Composable
     fun FilterRow() {
         Row {
-            FilterChip(
-                selected = viewModel.mediaType == MediaType.ANIME,
-                onClick = {
-                    viewModel.mediaType = MediaType.ANIME
-                    if (query.isNotBlank()) performSearch.value = true
-                },
-                label = { Text(text = stringResource(R.string.anime)) },
-                modifier = Modifier.padding(start = 8.dp),
-                leadingIcon = {
-                    if (viewModel.mediaType == MediaType.ANIME) {
-                        Icon(
-                            painter = painterResource(R.drawable.round_check_24),
-                            contentDescription = "check"
-                        )
+            MediaType.entries.forEach {
+                FilterChip(
+                    selected = uiState.mediaType == it,
+                    onClick = {
+                        event?.onChangeMediaType(it)
+                    },
+                    label = { Text(text = it.localized()) },
+                    modifier = Modifier.padding(start = 8.dp),
+                    leadingIcon = {
+                        if (uiState.mediaType == it) {
+                            Icon(
+                                painter = painterResource(R.drawable.round_check_24),
+                                contentDescription = "check"
+                            )
+                        }
                     }
-                }
-            )
-            FilterChip(
-                selected = viewModel.mediaType == MediaType.MANGA,
-                onClick = {
-                    viewModel.mediaType = MediaType.MANGA
-                    if (query.isNotBlank()) performSearch.value = true
-                },
-                label = { Text(text = stringResource(R.string.manga)) },
-                modifier = Modifier.padding(start = 8.dp),
-                leadingIcon = {
-                    if (viewModel.mediaType == MediaType.MANGA) {
-                        Icon(
-                            painter = painterResource(R.drawable.round_check_24),
-                            contentDescription = "check"
-                        )
-                    }
-                }
-            )
+                )
+            }
         }
     }
 
@@ -195,7 +186,7 @@ fun SearchView(
             subtitle1 = {
                 Text(
                     text = buildString {
-                        append(item.node.mediaType?.localized())
+                        append(item.node.mediaFormat?.localized())
                         if (item.node.totalDuration().toStringPositiveValueOrNull() != null) {
                             append(" (${item.node.durationText()})")
                         }
@@ -228,7 +219,7 @@ fun SearchView(
                 )
             },
             onClick = {
-                navigateToMediaDetails(viewModel.mediaType, item.node.id)
+                navActionManager.toMediaDetails(uiState.mediaType, item.node.id)
             }
         )
     }
@@ -246,10 +237,10 @@ fun SearchView(
         }
     }
 
-    if (showAsGrid) {
+    if (!isCompactScreen) {
         val listState = rememberLazyGridState()
         listState.OnBottomReached(buffer = 4) {
-            onLoadMore()
+            event?.loadMore()
         }
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
@@ -263,17 +254,17 @@ fun SearchView(
                 FilterRow()
             }
             items(
-                items = viewModel.mediaList,
+                items = uiState.mediaList,
                 contentType = { it.node }
             ) {
                 ItemView(item = it)
             }
             if (shouldShowPlaceholder) {
-                if (viewModel.isLoading) {
+                if (uiState.isLoading) {
                     items(6) {
                         MediaItemDetailedPlaceholder()
                     }
-                } else if (performSearch.value) {
+                } else if (uiState.noResults) {
                     item(
                         span = { GridItemSpan(maxLineSpan) }
                     ) {
@@ -285,7 +276,7 @@ fun SearchView(
     } else {
         val listState = rememberLazyListState()
         listState.OnBottomReached(buffer = 3) {
-            onLoadMore()
+            event?.loadMore()
         }
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
@@ -294,17 +285,17 @@ fun SearchView(
         ) {
             item { FilterRow() }
             items(
-                items = viewModel.mediaList,
+                items = uiState.mediaList,
                 contentType = { it.node }
             ) {
                 ItemView(item = it)
             }
             if (shouldShowPlaceholder) {
-                if (viewModel.isLoading) {
+                if (uiState.isLoading) {
                     items(10) {
                         MediaItemDetailedPlaceholder()
                     }
-                } else if (performSearch.value) {
+                } else if (uiState.noResults) {
                     item {
                         NoResultsText()
                     }
@@ -314,15 +305,18 @@ fun SearchView(
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun SearchPreview() {
     MoeListTheme {
-        SearchHostView(
-            isCompactScreen = true,
-            padding = PaddingValues(),
-            navigateBack = {},
-            navigateToMediaDetails = { _, _ -> }
-        )
+        Surface {
+            SearchViewContent(
+                uiState = SearchUiState(),
+                event = null,
+                query = "",
+                isCompactScreen = false,
+                navActionManager = NavActionManager.rememberNavActionManager()
+            )
+        }
     }
 }

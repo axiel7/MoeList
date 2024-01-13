@@ -29,6 +29,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
@@ -61,6 +62,7 @@ import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.manga.MangaDetails
 import com.axiel7.moelist.data.model.media.MediaStatus
 import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.InfoTitle
 import com.axiel7.moelist.ui.composables.TextIconHorizontal
 import com.axiel7.moelist.ui.composables.TextIconVertical
@@ -74,7 +76,6 @@ import com.axiel7.moelist.ui.details.composables.MediaDetailsTopAppBar
 import com.axiel7.moelist.ui.details.composables.MediaInfoView
 import com.axiel7.moelist.ui.editmedia.EditMediaSheet
 import com.axiel7.moelist.ui.theme.MoeListTheme
-import com.axiel7.moelist.utils.ANIME_URL
 import com.axiel7.moelist.utils.CHARACTER_URL
 import com.axiel7.moelist.utils.ContextExtensions.copyToClipBoard
 import com.axiel7.moelist.utils.ContextExtensions.getCurrentLanguageTag
@@ -83,37 +84,45 @@ import com.axiel7.moelist.utils.ContextExtensions.openInGoogleTranslate
 import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.DateUtils.parseDateAndLocalize
-import com.axiel7.moelist.utils.MANGA_URL
 import com.axiel7.moelist.utils.NumExtensions.format
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
-import com.axiel7.moelist.utils.StringExtensions.toNavArgument
+import com.axiel7.moelist.utils.StringExtensions.buildQueryFromThemeText
 import com.axiel7.moelist.utils.StringExtensions.toStringOrNull
 import com.axiel7.moelist.utils.UNKNOWN_CHAR
 import com.axiel7.moelist.utils.YOUTUBE_QUERY_URL
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
-const val MEDIA_TYPE_ARGUMENT = "{mediaType}"
-const val MEDIA_ID_ARGUMENT = "{mediaId}"
-const val MEDIA_DETAILS_DESTINATION = "details/$MEDIA_TYPE_ARGUMENT/$MEDIA_ID_ARGUMENT"
+@Composable
+fun MediaDetailsView(
+    isLoggedIn: Boolean,
+    navActionManager: NavActionManager
+) {
+    val viewModel: MediaDetailsViewModel = koinViewModel()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    MediaDetailsContent(
+        uiState = uiState,
+        event = viewModel,
+        isLoggedIn = isLoggedIn,
+        navActionManager = navActionManager,
+    )
+}
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun MediaDetailsView(
-    viewModel: MediaDetailsViewModel = koinViewModel(),
-    mediaType: MediaType,
-    mediaId: Int,
+private fun MediaDetailsContent(
+    uiState: MediaDetailsUiState,
+    event: MediaDetailsEvent?,
     isLoggedIn: Boolean,
-    navigateBack: () -> Unit,
-    navigateToMediaDetails: (MediaType, Int) -> Unit,
-    navigateToFullPoster: (String) -> Unit,
+    navActionManager: NavActionManager
 ) {
     val context = LocalContext.current
 
     val scrollState = rememberScrollState()
     val topAppBarScrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
-    val coroutineScope = rememberCoroutineScope()
+    val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
     val bottomBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
@@ -123,41 +132,40 @@ fun MediaDetailsView(
     }
     val iconExpand by remember {
         derivedStateOf {
-        if (isSynopsisExpanded) R.drawable.ic_round_keyboard_arrow_up_24 else R.drawable.ic_round_keyboard_arrow_down_24 }
-    }
-    val isNewEntry by remember {
-        derivedStateOf { viewModel.mediaDetails?.myListStatus == null }
+            if (isSynopsisExpanded) R.drawable.ic_round_keyboard_arrow_up_24
+            else R.drawable.ic_round_keyboard_arrow_down_24
+        }
     }
     val isCurrentLanguageEn = remember { getCurrentLanguageTag()?.startsWith("en") }
 
-    if (sheetState.isVisible) {
+    if (sheetState.isVisible && uiState.mediaInfo != null) {
         EditMediaSheet(
-            coroutineScope = coroutineScope,
             sheetState = sheetState,
-            mediaViewModel = viewModel,
-            bottomPadding = bottomBarPadding
+            mediaInfo = uiState.mediaInfo!!,
+            myListStatus = uiState.myListStatus,
+            bottomPadding = bottomBarPadding,
+            onEdited = { status, removed ->
+                scope.launch { sheetState.hide() }
+                event?.onChangedMyListStatus(status, removed)
+            },
+            onDismissed = { scope.launch { sheetState.hide() } }
         )
     }
 
-    LaunchedEffect(viewModel.message) {
-        if (viewModel.showMessage) {
-            context.showToast(viewModel.message)
-            viewModel.showMessage = false
+    if (uiState.message != null) {
+        LaunchedEffect(uiState.message) {
+            context.showToast(uiState.message)
+            event?.onMessageDisplayed()
         }
-    }
-
-    LaunchedEffect(mediaId) {
-        if (viewModel.mediaDetails == null) viewModel.getDetails(mediaId)
     }
 
     Scaffold(
         modifier = Modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
         topBar = {
             MediaDetailsTopAppBar(
-                viewModel = viewModel,
-                mediaUrl = if (mediaType == MediaType.ANIME) ANIME_URL + mediaId
-                else MANGA_URL + mediaId,
-                navigateBack = navigateBack,
+                uiState = uiState,
+                event = event,
+                navigateBack = navActionManager::goBack,
                 scrollBehavior = topAppBarScrollBehavior,
             )
         },
@@ -165,20 +173,20 @@ fun MediaDetailsView(
             ExtendedFloatingActionButton(
                 onClick = {
                     if (isLoggedIn) {
-                        if (viewModel.mediaDetails != null) coroutineScope.launch { sheetState.show() }
+                        if (uiState.mediaDetails != null) scope.launch { sheetState.show() }
                     } else context.showToast(context.getString(R.string.please_login_to_use_this_feature))
                 }
             ) {
                 Icon(
                     painter = painterResource(
-                        if (isNewEntry) R.drawable.ic_round_add_24
+                        if (uiState.isNewEntry) R.drawable.ic_round_add_24
                         else R.drawable.ic_round_edit_24
                     ),
                     contentDescription = "edit"
                 )
                 Text(
-                    text = if (isNewEntry) stringResource(R.string.add)
-                    else viewModel.mediaDetails?.myListStatus?.status?.localized()
+                    text = if (uiState.isNewEntry) stringResource(R.string.add)
+                    else uiState.mediaDetails?.myListStatus?.status?.localized()
                         ?: stringResource(R.string.edit),
                     modifier = Modifier.padding(start = 16.dp, end = 8.dp)
                 )
@@ -193,27 +201,27 @@ fun MediaDetailsView(
         ) {
             Row {
                 MediaPoster(
-                    url = viewModel.mediaDetails?.mainPicture?.large,
+                    url = uiState.mediaDetails?.mainPicture?.large,
                     modifier = Modifier
                         .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
                         .size(
                             width = MEDIA_POSTER_BIG_WIDTH.dp,
                             height = MEDIA_POSTER_BIG_HEIGHT.dp
                         )
-                        .defaultPlaceholder(visible = viewModel.isLoading)
+                        .defaultPlaceholder(visible = uiState.isLoading)
                         .clickable {
-                            navigateToFullPoster(viewModel.picturesUrls.toNavArgument())
+                            navActionManager.toFullPoster(uiState.picturesUrls)
                         }
                 )
                 Column {
                     Text(
-                        text = viewModel.mediaDetails?.userPreferredTitle() ?: "Loading",
+                        text = uiState.mediaDetails?.userPreferredTitle() ?: "Loading",
                         modifier = Modifier
                             .padding(bottom = 8.dp, end = 8.dp)
-                            .defaultPlaceholder(visible = viewModel.isLoading)
+                            .defaultPlaceholder(visible = uiState.isLoading)
                             .combinedClickable(
                                 onLongClick = {
-                                    viewModel.mediaDetails?.title?.let { context.copyToClipBoard(it) }
+                                    uiState.mediaDetails?.title?.let { context.copyToClipBoard(it) }
                                 },
                                 onClick = { }
                             ),
@@ -221,34 +229,33 @@ fun MediaDetailsView(
                         fontWeight = FontWeight.Bold
                     )
                     TextIconHorizontal(
-                        text = viewModel.mediaDetails?.mediaType?.localized()
-                            ?: "Loading",
-                        icon = if (mediaType == MediaType.ANIME) R.drawable.ic_round_movie_24
+                        text = uiState.mediaDetails?.mediaType?.localized() ?: "Loading",
+                        icon = if (uiState.isAnime) R.drawable.ic_round_movie_24
                         else R.drawable.ic_round_menu_book_24,
                         modifier = Modifier
                             .padding(bottom = 8.dp)
-                            .defaultPlaceholder(visible = viewModel.isLoading)
+                            .defaultPlaceholder(visible = uiState.isLoading)
                     )
                     TextIconHorizontal(
-                        text = viewModel.mediaDetails?.durationText() ?: "Loading",
+                        text = uiState.mediaDetails?.durationText() ?: "Loading",
                         icon = R.drawable.ic_round_timer_24,
                         modifier = Modifier
                             .padding(bottom = 8.dp)
-                            .defaultPlaceholder(visible = viewModel.isLoading)
+                            .defaultPlaceholder(visible = uiState.isLoading)
                     )
                     TextIconHorizontal(
-                        text = viewModel.mediaDetails?.status?.localized() ?: "Loading",
+                        text = uiState.mediaDetails?.status?.localized() ?: "Loading",
                         icon = R.drawable.ic_round_rss_feed_24,
                         modifier = Modifier
                             .padding(bottom = 8.dp)
-                            .defaultPlaceholder(visible = viewModel.isLoading)
+                            .defaultPlaceholder(visible = uiState.isLoading)
                     )
                     TextIconHorizontal(
-                        text = viewModel.mediaDetails?.mean.toStringOrNull() ?: "??",
+                        text = uiState.mediaDetails?.mean.toStringOrNull() ?: "??",
                         icon = R.drawable.ic_round_details_star_24,
                         modifier = Modifier
                             .padding(bottom = 8.dp)
-                            .defaultPlaceholder(visible = viewModel.isLoading)
+                            .defaultPlaceholder(visible = uiState.isLoading)
                     )
                 }
             }//:Row
@@ -257,26 +264,24 @@ fun MediaDetailsView(
             LazyRow(
                 contentPadding = PaddingValues(horizontal = 8.dp)
             ) {
-                viewModel.mediaDetails?.genres?.let { genres ->
-                    items(genres) {
-                        AssistChip(
-                            onClick = { },
-                            label = { Text(text = it.localized()) },
-                            modifier = Modifier.padding(start = 8.dp)
-                        )
-                    }
+                items(uiState.mediaDetails?.genres.orEmpty()) {
+                    AssistChip(
+                        onClick = { },
+                        label = { Text(text = it.localized()) },
+                        modifier = Modifier.padding(start = 8.dp)
+                    )
                 }
             }
 
             //Synopsis
             SelectionContainer {
                 Text(
-                    text = viewModel.mediaDetails?.synopsisAndBackground()
+                    text = uiState.mediaDetails?.synopsisAndBackground()
                         ?: AnnotatedString(stringResource(R.string.lorem_ipsun)),
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
                         .clickable { isSynopsisExpanded = !isSynopsisExpanded }
-                        .defaultPlaceholder(visible = viewModel.isLoading),
+                        .defaultPlaceholder(visible = uiState.isLoading),
                     lineHeight = 20.sp,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = maxLinesSynopsis
@@ -290,9 +295,11 @@ fun MediaDetailsView(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 if (isCurrentLanguageEn == false) {
-                    IconButton(onClick = {
-                        viewModel.mediaDetails?.synopsis?.let { context.openInGoogleTranslate(it) }
-                    }) {
+                    IconButton(
+                        onClick = {
+                            uiState.mediaDetails?.synopsis?.let { context.openInGoogleTranslate(it) }
+                        }
+                    ) {
                         Icon(
                             painter = painterResource(R.drawable.ic_outline_translate_24),
                             contentDescription = stringResource(R.string.translate)
@@ -308,7 +315,7 @@ fun MediaDetailsView(
 
                 IconButton(
                     onClick = {
-                        viewModel.mediaDetails?.synopsis?.let { context.copyToClipBoard(it) }
+                        uiState.mediaDetails?.synopsis?.let { context.copyToClipBoard(it) }
                     }
                 ) {
                     Icon(
@@ -324,33 +331,33 @@ fun MediaDetailsView(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)
-                    .defaultPlaceholder(visible = viewModel.isLoading),
+                    .defaultPlaceholder(visible = uiState.isLoading),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 TextIconVertical(
-                    text = viewModel.mediaDetails?.rankText().orEmpty(),
+                    text = uiState.mediaDetails?.rankText().orEmpty(),
                     icon = R.drawable.ic_round_bar_chart_24,
                     tooltip = stringResource(R.string.top_ranked)
                 )
                 VerticalDivider(modifier = Modifier.height(32.dp))
 
                 TextIconVertical(
-                    text = viewModel.mediaDetails?.numScoringUsers?.format() ?: UNKNOWN_CHAR,
+                    text = uiState.mediaDetails?.numScoringUsers?.format() ?: UNKNOWN_CHAR,
                     icon = R.drawable.ic_round_thumbs_up_down_24,
                     tooltip = stringResource(R.string.users_scores)
                 )
                 VerticalDivider(modifier = Modifier.height(32.dp))
 
                 TextIconVertical(
-                    text = viewModel.mediaDetails?.numListUsers?.format() ?: UNKNOWN_CHAR,
+                    text = uiState.mediaDetails?.numListUsers?.format() ?: UNKNOWN_CHAR,
                     icon = R.drawable.ic_round_group_24,
                     tooltip = stringResource(R.string.members)
                 )
                 VerticalDivider(modifier = Modifier.height(32.dp))
 
                 TextIconVertical(
-                    text = "# ${viewModel.mediaDetails?.popularity}",
+                    text = "# ${uiState.mediaDetails?.popularity}",
                     icon = R.drawable.ic_round_trending_up_24,
                     tooltip = stringResource(R.string.popularity)
                 )
@@ -358,114 +365,113 @@ fun MediaDetailsView(
 
             //Info
             InfoTitle(text = stringResource(R.string.more_info))
-            if (mediaType == MediaType.MANGA) {
+            if (!uiState.isAnime) {
                 SelectionContainer {
                     MediaInfoView(
                         title = stringResource(R.string.authors),
-                        info = (viewModel.mediaDetails as? MangaDetails)?.authors
+                        info = (uiState.mediaDetails as? MangaDetails)?.authors
                             ?.joinToString { "${it.node.firstName} ${it.node.lastName}" },
-                        modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
+                        modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
                     )
                 }
                 MediaInfoView(
                     title = stringResource(R.string.volumes),
-                    info = (viewModel.mediaDetails as? MangaDetails)?.numVolumes.toStringPositiveValueOrNull(),
-                    modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
+                    info = (uiState.mediaDetails as? MangaDetails)?.numVolumes.toStringPositiveValueOrNull(),
+                    modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
                 )
                 HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
             }
-            viewModel.mediaDetails?.synonymsJoined()?.let { synonyms ->
+            uiState.mediaDetails?.synonymsJoined()?.let { synonyms ->
                 SelectionContainer {
                     MediaInfoView(
                         title = stringResource(R.string.synonyms),
                         info = synonyms,
-                        modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
+                        modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
                     )
                 }
             }
             SelectionContainer {
                 MediaInfoView(
                     title = stringResource(R.string.jp_title),
-                    info = viewModel.mediaDetails?.alternativeTitles?.ja,
-                    modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
+                    info = uiState.mediaDetails?.alternativeTitles?.ja,
+                    modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
                 )
             }
             SelectionContainer {
                 MediaInfoView(
                     title = stringResource(R.string.romaji),
-                    info = viewModel.mediaDetails?.title,
-                    modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
+                    info = uiState.mediaDetails?.title,
+                    modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
                 )
             }
             SelectionContainer {
                 MediaInfoView(
                     title = stringResource(R.string.english),
-                    info = viewModel.mediaDetails?.alternativeTitles?.en,
-                    modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
+                    info = uiState.mediaDetails?.alternativeTitles?.en,
+                    modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
                 )
             }
             HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
             MediaInfoView(
                 title = stringResource(R.string.start_date),
-                info = viewModel.mediaDetails?.startDate?.parseDateAndLocalize(),
-                modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
+                info = uiState.mediaDetails?.startDate?.parseDateAndLocalize(),
+                modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
             )
             MediaInfoView(
                 title = stringResource(R.string.end_date),
-                info = viewModel.mediaDetails?.endDate?.parseDateAndLocalize(),
-                modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
+                info = uiState.mediaDetails?.endDate?.parseDateAndLocalize(),
+                modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
             )
-            if (mediaType == MediaType.ANIME) {
-                val animeDetails = viewModel.mediaDetails as? AnimeDetails
+            if (uiState.isAnime) {
+                val animeDetails = uiState.mediaDetails as? AnimeDetails
                 MediaInfoView(
                     title = stringResource(R.string.season),
                     info = animeDetails?.startSeason?.seasonYearText(),
-                    modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
+                    modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
                 )
                 MediaInfoView(
                     title = stringResource(R.string.broadcast),
                     info = animeDetails?.broadcast?.timeText(
                         isAiring = animeDetails.status == MediaStatus.AIRING
                     ),
-                    modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
+                    modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
                 )
                 MediaInfoView(
                     title = stringResource(R.string.duration),
                     info = animeDetails?.episodeDurationLocalized(),
-                    modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
+                    modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
                 )
                 MediaInfoView(
                     title = stringResource(R.string.source),
                     info = animeDetails?.source?.localized(),
-                    modifier = Modifier.defaultPlaceholder(visible = viewModel.isLoading)
+                    modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
                 )
             }
             HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
             SelectionContainer {
                 MediaInfoView(
                     title = stringResource(
-                        id = if (mediaType == MediaType.ANIME) R.string.studios else R.string.serialization
+                        id = if (uiState.isAnime) R.string.studios else R.string.serialization
                     ),
-                    info = viewModel.studioSerializationJoined,
+                    info = uiState.studioSerializationJoined,
                     modifier = Modifier
-                        .defaultPlaceholder(visible = viewModel.isLoading)
+                        .defaultPlaceholder(visible = uiState.isLoading)
                         .padding(bottom = 8.dp)
                 )
             }
 
             //Characters
-            if (mediaType == MediaType.ANIME) {
-                val loadCharacters by viewModel.loadCharacters.collectAsStateWithLifecycle()
+            if (uiState.isAnime) {
                 var showCharacters by remember { mutableStateOf(false) }
 
                 InfoTitle(text = stringResource(R.string.characters))
-                if (showCharacters || loadCharacters) {
+                if (showCharacters || uiState.isLoadingCharacters) {
                     LazyRow(
                         modifier = Modifier.padding(top = 8.dp),
                         contentPadding = PaddingValues(horizontal = 16.dp)
                     ) {
                         items(
-                            items = viewModel.characters,
+                            items = uiState.characters,
                             contentType = { it }
                         ) { item ->
                             MediaItemVertical(
@@ -484,7 +490,7 @@ fun MediaDetailsView(
                                 }
                             )
                         }
-                        if (viewModel.isLoadingCharacters) {
+                        if (uiState.isLoadingCharacters) {
                             item {
                                 CircularProgressIndicator()
                             }
@@ -494,7 +500,7 @@ fun MediaDetailsView(
                     TextButton(
                         onClick = {
                             showCharacters = true
-                            viewModel.getCharacters()
+                            event?.getCharacters()
                         },
                         modifier = Modifier.padding(8.dp)
                     ) {
@@ -504,67 +510,44 @@ fun MediaDetailsView(
             }
 
             //Themes
-            if (mediaType == MediaType.ANIME) {
-                (viewModel.mediaDetails as? AnimeDetails)?.openingThemes?.let { themes ->
+            if (uiState.isAnime) {
+                (uiState.mediaDetails as? AnimeDetails)?.openingThemes?.let { themes ->
                     InfoTitle(text = stringResource(R.string.opening))
                     themes.forEach { theme ->
-                        AnimeThemeItem(text = theme.text, onClick = {
-                            context.openAction(
-                                YOUTUBE_QUERY_URL + viewModel.buildQueryFromThemeText(
-                                    theme.text
+                        AnimeThemeItem(
+                            text = theme.text,
+                            onClick = {
+                                context.openAction(
+                                    YOUTUBE_QUERY_URL + theme.text.buildQueryFromThemeText()
                                 )
-                            )
-                        })
+                            }
+                        )
                     }
                 }
 
-                (viewModel.mediaDetails as? AnimeDetails)?.endingThemes?.let { themes ->
+                (uiState.mediaDetails as? AnimeDetails)?.endingThemes?.let { themes ->
                     InfoTitle(text = stringResource(R.string.ending))
                     themes.forEach { theme ->
-                        AnimeThemeItem(text = theme.text, onClick = {
-                            context.openAction(
-                                YOUTUBE_QUERY_URL + viewModel.buildQueryFromThemeText(
-                                    theme.text
-                                )
-                            )
-                        })
-                    }
-                }
-            }
-
-            //Related
-            if (viewModel.relatedAnime.isNotEmpty()) {
-                InfoTitle(text = stringResource(R.string.related_anime))
-                LazyRow(
-                    modifier = Modifier.padding(top = 8.dp),
-                    contentPadding = PaddingValues(horizontal = 16.dp)
-                ) {
-                    items(viewModel.relatedAnime) { item ->
-                        MediaItemVertical(
-                            imageUrl = item.node.mainPicture?.large,
-                            title = item.node.userPreferredTitle(),
-                            modifier = Modifier.padding(end = 8.dp),
-                            subtitle = {
-                                Text(
-                                    text = item.relationType.localized(),
-                                    color = MaterialTheme.colorScheme.outline,
-                                    fontSize = 13.sp
-                                )
-                            },
+                        AnimeThemeItem(
+                            text = theme.text,
                             onClick = {
-                                navigateToMediaDetails(MediaType.ANIME, item.node.id)
+                                context.openAction(
+                                    YOUTUBE_QUERY_URL + theme.text.buildQueryFromThemeText()
+                                )
                             }
                         )
                     }
                 }
             }
-            if (viewModel.relatedManga.isNotEmpty()) {
-                InfoTitle(text = stringResource(R.string.related_manga))
+
+            //Related
+            if (uiState.relatedAnime.isNotEmpty()) {
+                InfoTitle(text = stringResource(R.string.related_anime))
                 LazyRow(
                     modifier = Modifier.padding(top = 8.dp),
                     contentPadding = PaddingValues(horizontal = 16.dp)
                 ) {
-                    items(viewModel.relatedManga) { item ->
+                    items(uiState.relatedAnime) { item ->
                         MediaItemVertical(
                             imageUrl = item.node.mainPicture?.large,
                             title = item.node.userPreferredTitle(),
@@ -577,7 +560,32 @@ fun MediaDetailsView(
                                 )
                             },
                             onClick = {
-                                navigateToMediaDetails(MediaType.MANGA, item.node.id)
+                                navActionManager.toMediaDetails(MediaType.ANIME, item.node.id)
+                            }
+                        )
+                    }
+                }
+            }
+            if (uiState.relatedManga.isNotEmpty()) {
+                InfoTitle(text = stringResource(R.string.related_manga))
+                LazyRow(
+                    modifier = Modifier.padding(top = 8.dp),
+                    contentPadding = PaddingValues(horizontal = 16.dp)
+                ) {
+                    items(uiState.relatedManga) { item ->
+                        MediaItemVertical(
+                            imageUrl = item.node.mainPicture?.large,
+                            title = item.node.userPreferredTitle(),
+                            modifier = Modifier.padding(end = 8.dp),
+                            subtitle = {
+                                Text(
+                                    text = item.relationType.localized(),
+                                    color = MaterialTheme.colorScheme.outline,
+                                    fontSize = 13.sp
+                                )
+                            },
+                            onClick = {
+                                navActionManager.toMediaDetails(MediaType.MANGA, item.node.id)
                             }
                         )
                     }
@@ -585,13 +593,13 @@ fun MediaDetailsView(
             }
 
             //Recommendations
-            if (viewModel.recommendations.isNotEmpty()) {
+            if (uiState.recommendations.isNotEmpty()) {
                 InfoTitle(text = stringResource(R.string.recommendations))
                 LazyRow(
                     modifier = Modifier.padding(top = 8.dp),
                     contentPadding = PaddingValues(horizontal = 16.dp)
                 ) {
-                    items(viewModel.recommendations) { item ->
+                    items(uiState.recommendations) { item ->
                         MediaItemVertical(
                             imageUrl = item.node.mainPicture?.large,
                             title = item.node.userPreferredTitle(),
@@ -604,8 +612,12 @@ fun MediaDetailsView(
                                     fontSize = 13.sp
                                 )
                             },
+                            minLines = 2,
                             onClick = {
-                                navigateToMediaDetails(mediaType, item.node.id)
+                                navActionManager.toMediaDetails(
+                                    mediaType = item.node.mediaType,
+                                    id = item.node.id
+                                )
                             }
                         )
                     }
@@ -615,17 +627,17 @@ fun MediaDetailsView(
     }//:Scaffold
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun MediaDetailsPreview() {
     MoeListTheme {
-        MediaDetailsView(
-            mediaType = MediaType.ANIME,
-            mediaId = 1,
-            isLoggedIn = false,
-            navigateBack = {},
-            navigateToMediaDetails = { _, _ -> },
-            navigateToFullPoster = {}
-        )
+        Surface {
+            MediaDetailsContent(
+                uiState = MediaDetailsUiState(),
+                event = null,
+                isLoggedIn = false,
+                navActionManager = NavActionManager.rememberNavActionManager()
+            )
+        }
     }
 }

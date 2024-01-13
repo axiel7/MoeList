@@ -13,6 +13,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.axiel7.moelist.R
+import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.collapsable
 import com.axiel7.moelist.ui.more.composables.FeedbackDialog
 import com.axiel7.moelist.ui.more.composables.MoreItem
@@ -34,17 +36,31 @@ import com.axiel7.moelist.utils.MAL_ANNOUNCEMENTS_URL
 import com.axiel7.moelist.utils.MAL_NEWS_URL
 import org.koin.androidx.compose.koinViewModel
 
-const val MORE_DESTINATION = "more"
-
 @Composable
 fun MoreView(
-    viewModel: MoreViewModel = koinViewModel(),
-    navigateToSettings: () -> Unit,
-    navigateToNotifications: () -> Unit,
-    navigateToAbout: () -> Unit,
+    navActionManager: NavActionManager,
     topBarHeightPx: Float,
     topBarOffsetY: Animatable<Float, AnimationVector1D>,
     padding: PaddingValues,
+) {
+    val viewModel: MoreViewModel = koinViewModel()
+
+    MoreViewContent(
+        event = viewModel,
+        navActionManager = navActionManager,
+        topBarHeightPx = topBarHeightPx,
+        topBarOffsetY = topBarOffsetY,
+        padding = padding,
+    )
+}
+
+@Composable
+private fun MoreViewContent(
+    event: MoreEvent?,
+    navActionManager: NavActionManager,
+    topBarHeightPx: Float = 0f,
+    topBarOffsetY: Animatable<Float, AnimationVector1D> = Animatable(0f),
+    padding: PaddingValues = PaddingValues(),
 ) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()
@@ -99,19 +115,19 @@ fun MoreView(
         MoreItem(
             title = stringResource(R.string.notifications),
             icon = R.drawable.round_notifications_24,
-            onClick = navigateToNotifications
+            onClick = navActionManager::toNotifications
         )
 
         MoreItem(
             title = stringResource(R.string.settings),
             icon = R.drawable.ic_round_settings_24,
-            onClick = navigateToSettings
+            onClick = navActionManager::toSettings
         )
 
         MoreItem(
             title = stringResource(R.string.about),
             icon = R.drawable.ic_info,
-            onClick = navigateToAbout
+            onClick = navActionManager::toAbout
         )
 
         MoreItem(
@@ -129,23 +145,21 @@ fun MoreView(
             subtitle = stringResource(R.string.logout_summary),
             icon = R.drawable.ic_round_power_settings_new_24,
             onClick = {
-                viewModel.logOut()
+                event?.logOut()
             }
         )
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun MorePreview() {
     MoeListTheme {
-        MoreView(
-            navigateToSettings = {},
-            navigateToNotifications = {},
-            navigateToAbout = {},
-            padding = PaddingValues(),
-            topBarHeightPx = 0f,
-            topBarOffsetY = remember { Animatable(0f) }
-        )
+        Surface {
+            MoreViewContent(
+                event = null,
+                navActionManager = NavActionManager.rememberNavActionManager()
+            )
+        }
     }
 }

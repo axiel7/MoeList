@@ -22,14 +22,13 @@ import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.ui.composables.TextIconVertical
 import com.axiel7.moelist.ui.composables.defaultPlaceholder
 import com.axiel7.moelist.ui.composables.stats.DonutChart
-import com.axiel7.moelist.ui.profile.ProfileViewModel
+import com.axiel7.moelist.ui.profile.ProfileUiState
 import com.axiel7.moelist.utils.NumExtensions.toStringOrZero
 
 @Composable
 fun UserStatsView(
-    viewModel: ProfileViewModel,
+    uiState: ProfileUiState,
     mediaType: MediaType,
-    isLoading: Boolean
 ) {
     Text(
         text = if (mediaType == MediaType.ANIME) stringResource(R.string.anime_stats)
@@ -46,38 +45,38 @@ fun UserStatsView(
         verticalAlignment = Alignment.CenterVertically
     ) {
         DonutChart(
-            stats = if (mediaType == MediaType.ANIME) viewModel.animeStats else viewModel.mangaStats,
+            stats = if (mediaType == MediaType.ANIME) uiState.animeStats else uiState.mangaStats,
             centerContent = {
                 Text(
                     text = stringResource(R.string.total_entries).format(
                         if (mediaType == MediaType.ANIME)
-                            viewModel.animeStats.value.sumOf { it.value.toInt() }
-                        else viewModel.mangaStats.value.sumOf { it.value.toInt() }
+                            uiState.animeStats.sumOf { it.value.toInt() }
+                        else uiState.mangaStats.sumOf { it.value.toInt() }
                     ),
                     modifier = Modifier
                         .width(100.dp)
-                        .defaultPlaceholder(visible = isLoading),
+                        .defaultPlaceholder(visible = uiState.isLoading),
                     textAlign = TextAlign.Center
                 )
             }
         )
 
         Column {
-            (if (mediaType == MediaType.ANIME) viewModel.animeStats else viewModel.mangaStats).value
+            (if (mediaType == MediaType.ANIME) uiState.animeStats else uiState.mangaStats)
                 .forEach {
                     SuggestionChip(
                         onClick = { },
-                        label = { Text(text = stringResource(it.title)) },
+                        label = { Text(text = it.type.localized()) },
                         modifier = Modifier.padding(horizontal = 8.dp),
                         icon = {
                             Text(
                                 text = String.format("%.0f", it.value),
-                                modifier = Modifier.defaultPlaceholder(visible = isLoading)
+                                modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
                             )
                         },
                         border = SuggestionChipDefaults.suggestionChipBorder(
                             enabled = true,
-                            borderColor = it.color
+                            borderColor = it.type.primaryColor()
                         )
                     )
                 }
@@ -92,50 +91,50 @@ fun UserStatsView(
     ) {
         TextIconVertical(
             text = if (mediaType == MediaType.ANIME)
-                viewModel.user?.animeStatistics?.numDays.toStringOrZero()
-            else viewModel.userMangaStats?.days.toStringOrZero(),
+                uiState.user?.animeStatistics?.numDays.toStringOrZero()
+            else uiState.userMangaStats?.days.toStringOrZero(),
             icon = R.drawable.ic_round_event_24,
             tooltip = stringResource(R.string.days),
-            isLoading = isLoading
+            isLoading = uiState.isLoading
         )
         if (mediaType == MediaType.ANIME) {
             TextIconVertical(
-                text = viewModel.user?.animeStatistics?.numEpisodes.toStringOrZero(),
+                text = uiState.user?.animeStatistics?.numEpisodes.toStringOrZero(),
                 icon = R.drawable.play_circle_outline_24,
                 tooltip = stringResource(R.string.episodes),
-                isLoading = isLoading
+                isLoading = uiState.isLoading
             )
         } else {
             TextIconVertical(
-                text = viewModel.userMangaStats?.chaptersRead.toStringOrZero(),
+                text = uiState.userMangaStats?.chaptersRead.toStringOrZero(),
                 icon = R.drawable.ic_round_menu_book_24,
                 tooltip = stringResource(R.string.chapters),
-                isLoading = isLoading
+                isLoading = uiState.isLoading
             )
             TextIconVertical(
-                text = viewModel.userMangaStats?.volumesRead.toStringOrZero(),
+                text = uiState.userMangaStats?.volumesRead.toStringOrZero(),
                 icon = R.drawable.ic_outline_book_24,
                 tooltip = stringResource(R.string.volumes),
-                isLoading = isLoading
+                isLoading = uiState.isLoading
             )
         }
 
         TextIconVertical(
             text = if (mediaType == MediaType.ANIME)
-                viewModel.user?.animeStatistics?.meanScore.toStringOrZero()
-            else viewModel.userMangaStats?.meanScore.toStringOrZero(),
+                uiState.user?.animeStatistics?.meanScore.toStringOrZero()
+            else uiState.userMangaStats?.meanScore.toStringOrZero(),
             icon = R.drawable.ic_round_details_star_24,
             tooltip = stringResource(R.string.mean_score),
-            isLoading = isLoading
+            isLoading = uiState.isLoading
         )
         TextIconVertical(
             text = if (mediaType == MediaType.ANIME)
-                viewModel.user?.animeStatistics?.numTimesRewatched.toStringOrZero()
-            else viewModel.userMangaStats?.repeat.toStringOrZero(),
+                uiState.user?.animeStatistics?.numTimesRewatched.toStringOrZero()
+            else uiState.userMangaStats?.repeat.toStringOrZero(),
             icon = R.drawable.round_repeat_24,
             tooltip = if (mediaType == MediaType.ANIME) stringResource(R.string.rewatched)
             else stringResource(R.string.total_rereads),
-            isLoading = isLoading
+            isLoading = uiState.isLoading
         )
     }
 }

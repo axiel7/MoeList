@@ -25,7 +25,6 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
@@ -33,12 +32,10 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseUserMediaList
-import com.axiel7.moelist.data.model.media.MediaSort
-import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.ui.base.ListStyle
+import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.OnBottomReached
 import com.axiel7.moelist.ui.composables.collapsable
 import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_MEDIUM_WIDTH
@@ -53,49 +50,44 @@ import com.axiel7.moelist.ui.userlist.composables.SortChip
 import com.axiel7.moelist.ui.userlist.composables.StandardUserMediaListItem
 import com.axiel7.moelist.ui.userlist.composables.StandardUserMediaListItemPlaceholder
 
-const val ANIME_LIST_DESTINATION = "anime_list"
-const val MANGA_LIST_DESTINATION = "manga_list"
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserMediaListView(
-    viewModel: UserMediaListViewModel,
-    listSort: MediaSort,
+    uiState: UserMediaListUiState,
+    event: UserMediaListEvent?,
+    navActionManager: NavActionManager,
     isCompactScreen: Boolean,
     modifier: Modifier = Modifier,
     nestedScrollConnection: NestedScrollConnection? = null,
-    navigateToMediaDetails: (MediaType, Int) -> Unit,
     topBarHeightPx: Float,
     topBarOffsetY: Animatable<Float, AnimationVector1D>,
     contentPadding: PaddingValues = PaddingValues(),
     onShowEditSheet: (BaseUserMediaList<out BaseMediaNode>) -> Unit,
 ) {
-    val showRandomButton by viewModel.showRandomButton.collectAsStateWithLifecycle()
-
     val layoutDirection = LocalLayoutDirection.current
     val pullRefreshState = rememberPullToRefreshState()
     if (pullRefreshState.isRefreshing) {
         LaunchedEffect(true) {
-            viewModel.refreshList()
+            event?.refreshList()
         }
     }
-    LaunchedEffect(viewModel.isLoading) {
-        if (!viewModel.isLoading) pullRefreshState.endRefresh()
+    LaunchedEffect(uiState.isLoading) {
+        if (!uiState.isLoading) pullRefreshState.endRefresh()
     }
 
     @Composable
     fun StandardItemView(item: BaseUserMediaList<out BaseMediaNode>) {
         StandardUserMediaListItem(
             item = item,
-            listStatus = viewModel.listStatus,
+            listStatus = uiState.listStatus,
             onClick = {
-                navigateToMediaDetails(viewModel.mediaType, item.node.id)
+                navActionManager.toMediaDetails(uiState.mediaType, item.node.id)
             },
             onLongClick = {
                 onShowEditSheet(item)
             },
             onClickPlus = {
-                viewModel.onUpdateProgress(item)
+                event?.onUpdateProgress(item)
             }
         )
     }
@@ -104,15 +96,15 @@ fun UserMediaListView(
     fun CompactItemView(item: BaseUserMediaList<out BaseMediaNode>) {
         CompactUserMediaListItem(
             item = item,
-            listStatus = viewModel.listStatus,
+            listStatus = uiState.listStatus,
             onClick = {
-                navigateToMediaDetails(viewModel.mediaType, item.node.id)
+                navActionManager.toMediaDetails(uiState.mediaType, item.node.id)
             },
             onLongClick = {
                 onShowEditSheet(item)
             },
             onClickPlus = {
-                viewModel.onUpdateProgress(item)
+                event?.onUpdateProgress(item)
             }
         )
     }
@@ -121,15 +113,15 @@ fun UserMediaListView(
     fun MinimalItemView(item: BaseUserMediaList<out BaseMediaNode>) {
         MinimalUserMediaListItem(
             item = item,
-            listStatus = viewModel.listStatus,
+            listStatus = uiState.listStatus,
             onClick = {
-                navigateToMediaDetails(viewModel.mediaType, item.node.id)
+                navActionManager.toMediaDetails(uiState.mediaType, item.node.id)
             },
             onLongClick = {
                 onShowEditSheet(item)
             },
             onClickPlus = {
-                viewModel.onUpdateProgress(item)
+                event?.onUpdateProgress(item)
             }
         )
     }
@@ -139,7 +131,7 @@ fun UserMediaListView(
         GridUserMediaListItem(
             item = item,
             onClick = {
-                navigateToMediaDetails(viewModel.mediaType, item.node.id)
+                navActionManager.toMediaDetails(uiState.mediaType, item.node.id)
             },
             onLongClick = {
                 onShowEditSheet(item)
@@ -163,11 +155,10 @@ fun UserMediaListView(
                 else Modifier
             )
 
-        if (viewModel.listStyle == ListStyle.GRID) {
-            val itemsPerRow by viewModel.itemsPerRow.collectAsStateWithLifecycle()
+        if (uiState.listStyle == ListStyle.GRID) {
             val listState = rememberLazyGridState()
             LazyVerticalGrid(
-                columns = if (itemsPerRow.value > 0) GridCells.Fixed(itemsPerRow.value)
+                columns = if (uiState.itemsPerRow.value > 0) GridCells.Fixed(uiState.itemsPerRow.value)
                 else GridCells.Adaptive(minSize = (MEDIA_POSTER_MEDIUM_WIDTH + 8).dp),
                 modifier = listModifier
                     .collapsable(
@@ -192,38 +183,35 @@ fun UserMediaListView(
                         modifier = Modifier.padding(horizontal = 8.dp),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        SortChip(
-                            text = listSort.localized(),
-                            onClick = { viewModel.openSortDialog = true },
-                        )
-                        if (showRandomButton) {
+                        SortChip(uiState, event)
+                        if (uiState.showRandomButton) {
                             RandomChip(
-                                onClick = { viewModel.getRandomIdOfList() }
+                                onClick = { event?.getRandomIdOfList() }
                             )
                         }
                     }
                 }
                 items(
-                    items = viewModel.mediaList,
+                    items = uiState.mediaList,
                     key = { it.node.id },
                     contentType = { it.node }
                 ) { item ->
                     GridItemView(item = item)
                 }
-                if (viewModel.isLoadingList) {
+                if (uiState.isLoadingMore) {
                     items(9, contentType = { it }) {
                         GridUserMediaListItemPlaceholder()
                     }
                 }
                 item(contentType = { 0 }) {
-                    if (viewModel.hasNextPage) {
+                    if (uiState.canLoadMore) {
                         Box(modifier = Modifier.align(Alignment.Center)) {
                             CircularProgressIndicator(
                                 modifier = Modifier.align(Alignment.Center)
                             )
                         }
                         LaunchedEffect(true) {
-                            viewModel.onLoadMore()
+                            event?.loadMore()
                         }
                     }
                 }
@@ -231,7 +219,7 @@ fun UserMediaListView(
         } else if (isCompactScreen) {
             val listState = rememberLazyListState()
             listState.OnBottomReached(buffer = 3) {
-                viewModel.onLoadMore()
+                event?.loadMore()
             }
             LazyColumn(
                 modifier = listModifier
@@ -253,27 +241,24 @@ fun UserMediaListView(
                         modifier = Modifier.padding(horizontal = 16.dp),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        SortChip(
-                            text = listSort.localized(),
-                            onClick = { viewModel.openSortDialog = true },
-                        )
-                        if (showRandomButton) {
+                        SortChip(uiState, event)
+                        if (uiState.showRandomButton) {
                             RandomChip(
-                                onClick = { viewModel.getRandomIdOfList() }
+                                onClick = { event?.getRandomIdOfList() }
                             )
                         }
                     }
                 }
-                when (viewModel.listStyle) {
+                when (uiState.listStyle) {
                     ListStyle.STANDARD -> {
                         items(
-                            items = viewModel.mediaList,
+                            items = uiState.mediaList,
                             key = { it.node.id },
                             contentType = { it.node }
                         ) { item ->
                             StandardItemView(item = item)
                         }
-                        if (viewModel.isLoadingList) {
+                        if (uiState.isLoadingMore) {
                             items(5, contentType = { it }) {
                                 StandardUserMediaListItemPlaceholder()
                             }
@@ -282,13 +267,13 @@ fun UserMediaListView(
 
                     ListStyle.COMPACT -> {
                         items(
-                            items = viewModel.mediaList,
+                            items = uiState.mediaList,
                             key = { it.node.id },
                             contentType = { it.node }
                         ) { item ->
                             CompactItemView(item = item)
                         }
-                        if (viewModel.isLoadingList) {
+                        if (uiState.isLoadingMore) {
                             items(5, contentType = { it }) {
                                 CompactUserMediaListItemPlaceholder()
                             }
@@ -297,13 +282,13 @@ fun UserMediaListView(
 
                     ListStyle.MINIMAL -> {
                         items(
-                            items = viewModel.mediaList,
+                            items = uiState.mediaList,
                             key = { it.node.id },
                             contentType = { it.node }
                         ) { item ->
                             MinimalItemView(item = item)
                         }
-                        if (viewModel.isLoadingList) {
+                        if (uiState.isLoadingMore) {
                             items(5, contentType = { it }) {
                                 MinimalUserMediaListItemPlaceholder()
                             }
@@ -330,27 +315,24 @@ fun UserMediaListView(
                         modifier = Modifier.padding(horizontal = 8.dp),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        SortChip(
-                            text = listSort.localized(),
-                            onClick = { viewModel.openSortDialog = true },
-                        )
-                        if (showRandomButton) {
+                        SortChip(uiState, event)
+                        if (uiState.showRandomButton) {
                             RandomChip(
-                                onClick = { viewModel.getRandomIdOfList() }
+                                onClick = { event?.getRandomIdOfList() }
                             )
                         }
                     }
                 }
-                when (viewModel.listStyle) {
+                when (uiState.listStyle) {
                     ListStyle.STANDARD -> {
                         items(
-                            items = viewModel.mediaList,
+                            items = uiState.mediaList,
                             key = { it.node.id },
                             contentType = { it.node }
                         ) { item ->
                             StandardItemView(item = item)
                         }
-                        if (viewModel.isLoadingList) {
+                        if (uiState.isLoadingMore) {
                             items(5, contentType = { it }) {
                                 StandardUserMediaListItemPlaceholder()
                             }
@@ -359,13 +341,13 @@ fun UserMediaListView(
 
                     ListStyle.COMPACT -> {
                         items(
-                            items = viewModel.mediaList,
+                            items = uiState.mediaList,
                             key = { it.node.id },
                             contentType = { it.node }
                         ) { item ->
                             CompactItemView(item = item)
                         }
-                        if (viewModel.isLoadingList) {
+                        if (uiState.isLoadingMore) {
                             items(5, contentType = { it }) {
                                 CompactUserMediaListItemPlaceholder()
                             }
@@ -374,13 +356,13 @@ fun UserMediaListView(
 
                     ListStyle.MINIMAL -> {
                         items(
-                            items = viewModel.mediaList,
+                            items = uiState.mediaList,
                             key = { it.node.id },
                             contentType = { it.node }
                         ) { item ->
                             MinimalItemView(item = item)
                         }
-                        if (viewModel.isLoadingList) {
+                        if (uiState.isLoadingMore) {
                             items(5, contentType = { it }) {
                                 MinimalUserMediaListItemPlaceholder()
                             }
@@ -390,14 +372,14 @@ fun UserMediaListView(
                     else -> {}
                 }
                 item(contentType = { 0 }) {
-                    if (viewModel.hasNextPage) {
+                    if (uiState.canLoadMore) {
                         Box(modifier = Modifier.align(Alignment.Center)) {
                             CircularProgressIndicator(
                                 modifier = Modifier.align(Alignment.Center)
                             )
                         }
                         LaunchedEffect(true) {
-                            viewModel.onLoadMore()
+                            event?.loadMore()
                         }
                     }
                 }

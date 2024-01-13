@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,27 +24,38 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.ui.theme.MoeListTheme
 import org.koin.androidx.compose.koinViewModel
 
-const val NOTIFICATIONS_DESTINATION = "notifications"
-
 @Composable
 fun NotificationsView(
-    viewModel: NotificationsViewModel = koinViewModel(),
-    navigateBack: () -> Unit,
-    navigateToMediaDetails: (MediaType, Int) -> Unit,
+    navActionManager: NavActionManager
 ) {
-    val notifications by viewModel.notifications.collectAsStateWithLifecycle()
+    val viewModel: NotificationsViewModel = koinViewModel()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    NotificationsViewContent(
+        uiState = uiState,
+        event = viewModel,
+        navActionManager = navActionManager,
+    )
+}
+
+@Composable
+private fun NotificationsViewContent(
+    uiState: NotificationsUiState,
+    event: NotificationsEvent?,
+    navActionManager: NavActionManager,
+) {
     DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.notifications),
-        navigateBack = navigateBack,
+        navigateBack = navActionManager::goBack,
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 onClick = {
-                    viewModel.removeAllNotifications()
+                    event?.removeAllNotifications()
                 }
             ) {
                 Icon(
@@ -63,14 +75,16 @@ fun NotificationsView(
                 .fillMaxWidth(),
             contentPadding = PaddingValues(8.dp)
         ) {
-            items(notifications?.asMap()?.keys?.toTypedArray().orEmpty()) { key ->
+            items(
+                items = uiState.notifications?.asMap()?.keys?.toTypedArray().orEmpty()
+            ) { key ->
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
-                            navigateToMediaDetails(
-                                MediaType.ANIME,
-                                key
+                            navActionManager.toMediaDetails(
+                                mediaType = MediaType.ANIME,
+                                id = key
                                     .toString()
                                     .toInt()
                             )
@@ -79,12 +93,12 @@ fun NotificationsView(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = (notifications?.get(key) as? String).orEmpty(),
+                        text = (uiState.notifications?.get(key) as? String).orEmpty(),
                         modifier = Modifier.padding(horizontal = 8.dp)
                     )
                     IconButton(
                         onClick = {
-                            viewModel.removeNotification(key.name.toIntOrNull() ?: 0)
+                            event?.removeNotification(key.name.toIntOrNull() ?: 0)
                         }
                     ) {
                         Icon(
@@ -98,13 +112,16 @@ fun NotificationsView(
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun NotificationsPreview() {
     MoeListTheme {
-        NotificationsView(
-            navigateBack = {},
-            navigateToMediaDetails = { _, _ -> },
-        )
+        Surface {
+            NotificationsViewContent(
+                uiState = NotificationsUiState(),
+                event = null,
+                navActionManager = NavActionManager.rememberNavActionManager()
+            )
+        }
     }
 }

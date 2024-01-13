@@ -7,8 +7,8 @@ import com.axiel7.moelist.ui.home.HomeViewModel
 import com.axiel7.moelist.ui.main.MainViewModel
 import com.axiel7.moelist.ui.more.MoreViewModel
 import com.axiel7.moelist.ui.more.notifications.NotificationsViewModel
-import com.axiel7.moelist.ui.more.settings.ListStyleSettingsViewModel
 import com.axiel7.moelist.ui.more.settings.SettingsViewModel
+import com.axiel7.moelist.ui.more.settings.list.ListStyleSettingsViewModel
 import com.axiel7.moelist.ui.profile.ProfileViewModel
 import com.axiel7.moelist.ui.ranking.MediaRankingViewModel
 import com.axiel7.moelist.ui.recommendations.RecommendationsViewModel
@@ -35,14 +35,21 @@ val viewModelModule = module {
         )
     }
     viewModelOf(::ProfileViewModel)
-    viewModelOf(::MediaRankingViewModel)
+    viewModel { parameters ->
+        MediaRankingViewModel(
+            rankingType = parameters.get(),
+            savedStateHandle = get(),
+            animeRepository = get(),
+            mangaRepository = get()
+        )
+    }
     viewModelOf(::RecommendationsViewModel)
     viewModelOf(::SearchViewModel)
     viewModelOf(::SeasonChartViewModel)
     viewModel { params ->
         UserMediaListViewModel(
+            mediaType = params.get(),
             initialListStatus = params.getOrNull(),
-            savedStateHandle = get(),
             animeRepository = get(),
             mangaRepository = get(),
             defaultPreferencesRepository = get()

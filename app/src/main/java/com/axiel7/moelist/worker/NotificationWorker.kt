@@ -121,7 +121,7 @@ class NotificationWorkerManager(
             createAiringAnimeNotificationChannel(context)
         }
 
-        val airingDay = LocalDate.now().getNextDayOfWeek(DayOfWeek.of(weekDay.numeric))
+        val airingDay = LocalDate.now().getNextDayOfWeek(DayOfWeek.of(weekDay.ordinal + 1))
         val startDateTime = LocalDateTime.of(airingDay, jpHour)
             .atZone(SeasonCalendar.japanZoneId)
             .withZoneSameInstant(ZoneId.systemDefault())

@@ -1,80 +1,95 @@
 package com.axiel7.moelist.ui.season
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.anime.Season
 import com.axiel7.moelist.data.model.anime.StartSeason
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.repository.AnimeRepository
-import com.axiel7.moelist.ui.base.BaseViewModel
-import com.axiel7.moelist.utils.SeasonCalendar
+import com.axiel7.moelist.ui.base.viewmodel.BaseViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SeasonChartViewModel(
     private val animeRepository: AnimeRepository
-) : BaseViewModel() {
+) : BaseViewModel<SeasonChartUiState>(), SeasonChartEvent {
 
-    var season by mutableStateOf(SeasonCalendar.currentStartSeason)
-        private set
+    override val mutableUiState = MutableStateFlow(SeasonChartUiState())
 
-    fun setSeason(
-        season: Season? = null,
-        year: Int? = null
-    ) {
-        when {
-            season != null && year != null -> this.season = StartSeason(year, season)
-            season != null -> this.season = this.season.copy(season = season)
-            year != null -> this.season = this.season.copy(year = year)
+    override fun loadMore() {
+        if (mutableUiState.value.canLoadMore) {
+            mutableUiState.update { it.copy(loadMore = true) }
         }
     }
 
-    val years = ((SeasonCalendar.currentYear + 1) downTo BASE_YEAR).toList()
-
-    var sort by mutableStateOf(MediaSort.ANIME_NUM_USERS)
-        private set
-
-    fun onChangeSort(value: MediaSort) {
-        sort = value
+    override fun setSeason(season: Season?, year: Int?) {
+        mutableUiState.update {
+            it.copy(
+                season = when {
+                    season != null && year != null -> StartSeason(year, season)
+                    season != null -> it.season.copy(season = season)
+                    year != null -> it.season.copy(year = year)
+                    else -> it.season
+                }
+            )
+        }
     }
 
-    val animes = mutableStateListOf<AnimeSeasonal>()
-    var nextPage: String? = null
-    var hasNextPage by mutableStateOf(false)
-
-    fun getSeasonalAnime(page: String? = null) = viewModelScope.launch(Dispatchers.IO) {
-        if (page == null) {
-            isLoading = true
-            nextPage = null
-            hasNextPage = false
-        }
-        val result = animeRepository.getSeasonalAnimes(
-            sort = sort,
-            year = season.year,
-            season = season.season,
-            limit = 25,
-            fields = AnimeRepository.SEASONAL_FIELDS,
-            page = page
-        )
-
-        if (result?.data != null) {
-            if (page == null) animes.clear()
-            animes.addAll(result.data)
-
-            nextPage = result.paging?.next
-            hasNextPage = nextPage != null
-        } else {
-            setErrorMessage(result?.message ?: "Generic error")
-            hasNextPage = false
-        }
-        isLoading = false
+    override fun onChangeSort(value: MediaSort) {
+        mutableUiState.update { it.copy(sort = value) }
     }
 
-    companion object {
-        const val BASE_YEAR = 1917
+    override fun onApplyFilters() {
+        mutableUiState.update { it.copy(loadMore = true, nextPage = null) }
+    }
+
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            mutableUiState
+                .distinctUntilChanged { old, new ->
+                    old.loadMore == new.loadMore
+                            && old.season == new.season
+                            && old.sort == new.sort
+                }
+                .filter { it.loadMore }
+                .collectLatest { uiState ->
+                    setLoading(uiState.nextPage == null)
+
+                    val result = animeRepository.getSeasonalAnimes(
+                        sort = uiState.sort,
+                        year = uiState.season.year,
+                        season = uiState.season.season,
+                        limit = 25,
+                        fields = AnimeRepository.SEASONAL_FIELDS,
+                        page = uiState.nextPage,
+                    )
+
+                    if (result.data != null) {
+                        if (uiState.nextPage == null) uiState.animes.clear()
+                        uiState.animes.addAll(result.data)
+
+                        mutableUiState.update {
+                            it.copy(
+                                nextPage = result.paging?.next,
+                                loadMore = false,
+                                isLoading = false
+                            )
+                        }
+                    } else {
+                        mutableUiState.update {
+                            it.copy(
+                                nextPage = null,
+                                loadMore = false,
+                                isLoading = false,
+                                message = result.message
+                            )
+                        }
+                    }
+                }
+        }
     }
 }

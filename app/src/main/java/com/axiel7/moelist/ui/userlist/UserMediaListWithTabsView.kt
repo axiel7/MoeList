@@ -24,6 +24,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.axiel7.moelist.data.model.media.ListStatus.Companion.listStatusValues
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.ui.base.TabRowItem
+import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.LoadingDialog
 import com.axiel7.moelist.ui.composables.TabRowWithPager
 import com.axiel7.moelist.ui.editmedia.EditMediaSheet
@@ -39,7 +40,7 @@ import org.koin.core.parameter.parametersOf
 fun UserMediaListWithTabsView(
     mediaType: MediaType,
     isCompactScreen: Boolean,
-    navigateToMediaDetails: (MediaType, Int) -> Unit,
+    navActionManager: NavActionManager,
     topBarHeightPx: Float,
     topBarOffsetY: Animatable<Float, AnimationVector1D>,
     padding: PaddingValues,
@@ -76,57 +77,65 @@ fun UserMediaListWithTabsView(
         val listStatus = tabRowItems[it].value
         val viewModel: UserMediaListViewModel = koinViewModel(
             key = listStatus.name,
-            parameters = { parametersOf(listStatus) }
+            parameters = { parametersOf(mediaType, listStatus) }
         )
-        val listSort by viewModel.listSort.collectAsStateWithLifecycle()
+        val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-        if (viewModel.openSortDialog && listSort != null) {
+        if (uiState.openSortDialog && uiState.listSort != null) {
             MediaListSortDialog(
-                listSort = listSort!!,
-                viewModel = viewModel
+                uiState = uiState,
+                event = viewModel
             )
         }
 
-        if (viewModel.openSetAtCompletedDialog) {
-            SetAsCompletedDialog(viewModel = viewModel)
+        if (uiState.openSetAtCompletedDialog) {
+            SetAsCompletedDialog(
+                uiState = uiState,
+                event = viewModel
+            )
         }
 
-        if (viewModel.isLoadingRandom) {
+        if (uiState.isLoadingRandom) {
             LoadingDialog()
         }
 
-        if (editSheetState.isVisible) {
+        if (editSheetState.isVisible && uiState.mediaInfo != null) {
             EditMediaSheet(
-                coroutineScope = scope,
                 sheetState = editSheetState,
-                mediaViewModel = viewModel,
-                bottomPadding = systemBarsPadding.calculateBottomPadding()
+                mediaInfo = uiState.mediaInfo!!,
+                myListStatus = uiState.myListStatus,
+                bottomPadding = systemBarsPadding.calculateBottomPadding(),
+                onEdited = { status, removed ->
+                    scope.launch { editSheetState.hide() }
+                    viewModel.onChangeItemMyListStatus(status, removed)
+                },
+                onDismissed = { scope.launch { editSheetState.hide() } }
             )
         }
 
-        LaunchedEffect(viewModel.randomId) {
-            viewModel.randomId?.let { id ->
-                navigateToMediaDetails(viewModel.mediaType, id)
-                viewModel.randomId = null
+        LaunchedEffect(uiState.randomId) {
+            uiState.randomId?.let { id ->
+                navActionManager.toMediaDetails(uiState.mediaType, id)
+                viewModel.onRandomIdOpen()
             }
         }
 
-        LaunchedEffect(viewModel.message) {
-            if (viewModel.showMessage) {
-                context.showToast(viewModel.message)
-                viewModel.showMessage = false
+        LaunchedEffect(uiState.message) {
+            if (uiState.message != null) {
+                context.showToast(uiState.message.orEmpty())
+                viewModel.onMessageDisplayed()
             }
         }
 
-        if (listSort != null) {
+        if (uiState.listSort != null) {
             UserMediaListView(
-                viewModel = viewModel,
-                listSort = listSort!!,
+                uiState = uiState,
+                event = viewModel,
+                navActionManager = navActionManager,
                 isCompactScreen = isCompactScreen,
                 modifier = Modifier.padding(
                     bottom = systemBarsPadding.calculateBottomPadding() + 8.dp
                 ),
-                navigateToMediaDetails = navigateToMediaDetails,
                 topBarHeightPx = topBarHeightPx,
                 topBarOffsetY = topBarOffsetY,
                 contentPadding = PaddingValues(

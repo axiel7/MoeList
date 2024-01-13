@@ -14,6 +14,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -24,21 +25,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.Season
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.ui.composables.SelectableIconToggleButton
-import com.axiel7.moelist.ui.season.SeasonChartViewModel
+import com.axiel7.moelist.ui.season.SeasonChartEvent
+import com.axiel7.moelist.ui.season.SeasonChartUiState
 import com.axiel7.moelist.ui.theme.MoeListTheme
 import com.axiel7.moelist.ui.userlist.composables.SortChip
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SeasonChartFilterSheet(
+    uiState: SeasonChartUiState,
+    event: SeasonChartEvent?,
+    onApply: () -> Unit,
     onDismiss: () -> Unit,
     sheetState: SheetState,
-    viewModel: SeasonChartViewModel,
     bottomPadding: Dp = 0.dp
 ) {
     ModalBottomSheet(
@@ -62,12 +65,7 @@ fun SeasonChartFilterSheet(
                     Text(text = stringResource(R.string.cancel))
                 }
 
-                Button(
-                    onClick = {
-                        viewModel.getSeasonalAnime()
-                        onDismiss()
-                    }
-                ) {
+                Button(onClick = onApply) {
                     Text(text = stringResource(R.string.apply))
                 }
             }
@@ -84,9 +82,9 @@ fun SeasonChartFilterSheet(
                         icon = season.icon,
                         tooltipText = season.localized(),
                         value = season,
-                        selectedValue = viewModel.season.season,
+                        selectedValue = uiState.season.season,
                         onClick = {
-                            viewModel.setSeason(season = season)
+                            event?.setSeason(season = season)
                         }
                     )
                 }
@@ -95,10 +93,10 @@ fun SeasonChartFilterSheet(
             LazyRow(
                 contentPadding = PaddingValues(horizontal = 8.dp)
             ) {
-                items(viewModel.years) {
+                items(SeasonChartUiState.years) {
                     FilterChip(
-                        selected = viewModel.season.year == it,
-                        onClick = { viewModel.setSeason(year = it) },
+                        selected = uiState.season.year == it,
+                        onClick = { event?.setSeason(year = it) },
                         label = { Text(text = it.toString()) },
                         modifier = Modifier.padding(start = 8.dp)
                     )
@@ -115,13 +113,13 @@ fun SeasonChartFilterSheet(
                 Text(text = stringResource(R.string.sort_by))
 
                 SortChip(
-                    text = viewModel.sort.localized(),
+                    text = uiState.sort.localized(),
                     onClick = {
                         // add a dialog?
-                        if (viewModel.sort == MediaSort.ANIME_NUM_USERS) {
-                            viewModel.onChangeSort(MediaSort.ANIME_SCORE)
+                        if (uiState.sort == MediaSort.ANIME_NUM_USERS) {
+                            event?.onChangeSort(MediaSort.ANIME_SCORE)
                         } else {
-                            viewModel.onChangeSort(MediaSort.ANIME_NUM_USERS)
+                            event?.onChangeSort(MediaSort.ANIME_NUM_USERS)
                         }
                     }
                 )
@@ -135,10 +133,14 @@ fun SeasonChartFilterSheet(
 @Composable
 fun SeasonChartFilterSheetPreview() {
     MoeListTheme {
-        SeasonChartFilterSheet(
-            onDismiss = {},
-            sheetState = rememberModalBottomSheetState(),
-            viewModel = viewModel()
-        )
+        Surface {
+            SeasonChartFilterSheet(
+                uiState = SeasonChartUiState(),
+                event = null,
+                onApply = {},
+                onDismiss = {},
+                sheetState = rememberModalBottomSheetState(),
+            )
+        }
     }
 }

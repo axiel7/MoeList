@@ -10,25 +10,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.RankingType.Companion.rankingAnimeValues
 import com.axiel7.moelist.data.model.media.RankingType.Companion.rankingMangaValues
 import com.axiel7.moelist.ui.base.TabRowItem
+import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.ui.composables.TabRowWithPager
-import com.axiel7.moelist.ui.details.MEDIA_TYPE_ARGUMENT
-import com.axiel7.moelist.ui.theme.MoeListTheme
-
-const val MEDIA_RANKING_DESTINATION = "ranking/$MEDIA_TYPE_ARGUMENT"
+import com.axiel7.moelist.ui.ranking.list.MediaRankingListView
 
 @Composable
 fun MediaRankingView(
     mediaType: MediaType,
     isCompactScreen: Boolean,
-    navigateBack: () -> Unit,
-    navigateToMediaDetails: (MediaType, Int) -> Unit,
+    navActionManager: NavActionManager,
 ) {
     val tabRowItems = remember {
         (if (mediaType == MediaType.ANIME) rankingAnimeValues else rankingMangaValues)
@@ -42,7 +38,7 @@ fun MediaRankingView(
             if (mediaType == MediaType.ANIME) R.string.anime_ranking
             else R.string.manga_ranking
         ),
-        navigateBack = navigateBack,
+        navigateBack = navActionManager::goBack,
         contentWindowInsets = WindowInsets.systemBars
             .only(WindowInsetsSides.Horizontal)
     ) { padding ->
@@ -56,22 +52,9 @@ fun MediaRankingView(
             MediaRankingListView(
                 mediaType = mediaType,
                 rankingType = tabRowItems[it].value,
-                showAsGrid = !isCompactScreen,
-                navigateToMediaDetails = navigateToMediaDetails
+                isCompactScreen = isCompactScreen,
+                navActionManager = navActionManager,
             )
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun MediaRankingPreview() {
-    MoeListTheme {
-        MediaRankingView(
-            mediaType = MediaType.MANGA,
-            isCompactScreen = true,
-            navigateBack = {},
-            navigateToMediaDetails = { _, _ -> }
-        )
     }
 }

@@ -48,7 +48,7 @@ class MangaRepository(
         status: ListStatus,
         sort: MediaSort,
         page: String? = null
-    ): Response<List<UserMangaList>>? {
+    ): Response<List<UserMangaList>> {
         return try {
             val result = if (page == null) api.getUserMangaList(
                 status = status,
@@ -117,9 +117,9 @@ class MangaRepository(
     suspend fun searchManga(
         query: String,
         limit: Int,
-        offset: Int?,
+        offset: Int? = null,
         page: String? = null
-    ): Response<List<MangaList>>? {
+    ): Response<List<MangaList>> {
         return try {
             val result = if (page == null) api.getMangaList(
                 query = query,
@@ -140,7 +140,7 @@ class MangaRepository(
         rankingType: RankingType,
         limit: Int,
         page: String? = null
-    ): Response<List<MangaRanking>>? {
+    ): Response<List<MangaRanking>> {
         return try {
             val result =
                 if (page == null) api.getMangaRanking(
@@ -161,7 +161,7 @@ class MangaRepository(
         status: ListStatus,
         prefetchedList: List<UserMangaList> = emptyList(),
         page: String? = null
-    ): Response<List<Int>>? {
+    ): Response<List<Int>> {
         return try {
             val result = if (page == null) api.getUserMangaList(
                 status = status,

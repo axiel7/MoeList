@@ -20,10 +20,6 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.axiel7.moelist.ui.base.BottomDestination
 import com.axiel7.moelist.ui.base.BottomDestination.Companion.Icon
-import com.axiel7.moelist.ui.home.HOME_DESTINATION
-import com.axiel7.moelist.ui.more.MORE_DESTINATION
-import com.axiel7.moelist.ui.userlist.ANIME_LIST_DESTINATION
-import com.axiel7.moelist.ui.userlist.MANGA_LIST_DESTINATION
 import kotlinx.coroutines.launch
 
 @Composable
@@ -39,8 +35,13 @@ fun MainBottomNavBar(
     val isVisible by remember {
         derivedStateOf {
             when (navBackStackEntry?.destination?.route) {
-                HOME_DESTINATION, ANIME_LIST_DESTINATION, MANGA_LIST_DESTINATION, MORE_DESTINATION,
-                null -> bottomBarState.value
+                BottomDestination.Home.route,
+                BottomDestination.AnimeList.route,
+                BottomDestination.MangaList.route,
+                BottomDestination.More.route,
+                null -> {
+                    bottomBarState.value
+                }
 
                 else -> false
             }

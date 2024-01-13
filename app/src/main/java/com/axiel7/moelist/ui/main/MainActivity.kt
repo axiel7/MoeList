@@ -45,10 +45,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.App
+import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.ui.base.BottomDestination
 import com.axiel7.moelist.ui.base.BottomDestination.Companion.toBottomDestinationIndex
 import com.axiel7.moelist.ui.base.ThemeStyle
-import com.axiel7.moelist.ui.details.MEDIA_DETAILS_DESTINATION
+import com.axiel7.moelist.ui.base.navigation.NavActionManager
+import com.axiel7.moelist.ui.base.navigation.NavActionManager.Companion.rememberNavActionManager
 import com.axiel7.moelist.ui.main.composables.MainBottomNavBar
 import com.axiel7.moelist.ui.main.composables.MainNavigationRail
 import com.axiel7.moelist.ui.main.composables.MainTopAppBar
@@ -87,10 +89,10 @@ class MainActivity : AppCompatActivity() {
         var lastTabOpened =
             intent.action?.toBottomDestinationIndex() ?: startTab?.value?.toBottomDestinationIndex()
         var mediaId: Int? = null
-        var mediaType: String? = null
+        var mediaTypeArg: String? = null
         if (intent.action == "details") {
             mediaId = intent.getIntExtra("media_id", 0)
-            mediaType = intent.getStringExtra("media_type")?.uppercase()
+            mediaTypeArg = intent.getStringExtra("media_type")?.uppercase()
         } else if (intent.data != null) {
             // Manually handle deep links because the uri pattern in the compose navigation
             // matches this -> https://myanimelist.net/manga/11514
@@ -99,7 +101,7 @@ class MainActivity : AppCompatActivity() {
             val malSchemeIndex = intent.dataString?.indexOf("myanimelist.net")
             if (malSchemeIndex != null && malSchemeIndex != -1) {
                 val linkSplit = intent.dataString!!.substring(malSchemeIndex).split('/')
-                mediaType = linkSplit[1].uppercase()
+                mediaTypeArg = linkSplit[1].uppercase()
                 mediaId = linkSplit[2].toIntOrNull()
             }
         }
@@ -118,6 +120,7 @@ class MainActivity : AppCompatActivity() {
                 else theme == ThemeStyle.DARK || theme == ThemeStyle.BLACK
 
                 val navController = rememberNavController()
+                val navActionManager = rememberNavActionManager(navController)
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
 
                 val windowSizeClass = calculateWindowSizeClass(this)
@@ -141,6 +144,7 @@ class MainActivity : AppCompatActivity() {
                             isLoggedIn = !accessToken.isNullOrEmpty(),
                             useListTabs = useListTabs,
                             navController = navController,
+                            navActionManager = navActionManager,
                             lastTabOpened = lastTabOpened,
                             saveLastTab = viewModel::saveLastTab,
                             profilePicture = profilePicture,
@@ -175,12 +179,9 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 LaunchedEffect(mediaId) {
-                    if (mediaId != null && mediaId != 0 && mediaType != null) {
-                        navController.navigate(
-                            MEDIA_DETAILS_DESTINATION
-                                .replace("{mediaType}", mediaType)
-                                .replace("{mediaId}", mediaId.toString())
-                        )
+                    if (mediaId != null && mediaId != 0 && mediaTypeArg != null) {
+                        val mediaType = MediaType.valueOf(mediaTypeArg)
+                        navActionManager.toMediaDetails(mediaType, mediaId)
                     }
                 }
             }
@@ -201,6 +202,7 @@ fun MainView(
     isLoggedIn: Boolean,
     useListTabs: Boolean,
     navController: NavHostController,
+    navActionManager: NavActionManager,
     lastTabOpened: Int,
     saveLastTab: (Int) -> Unit,
     profilePicture: String?,
@@ -248,6 +250,7 @@ fun MainView(
                 )
                 MainNavigation(
                     navController = navController,
+                    navActionManager = navActionManager,
                     lastTabOpened = lastTabOpened,
                     isLoggedIn = isLoggedIn,
                     isCompactScreen = false,
@@ -269,6 +272,7 @@ fun MainView(
             }
             MainNavigation(
                 navController = navController,
+                navActionManager = navActionManager,
                 lastTabOpened = lastTabOpened,
                 isLoggedIn = isLoggedIn,
                 isCompactScreen = true,
@@ -285,18 +289,21 @@ fun MainView(
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun MainPreview() {
     MoeListTheme {
-        MainView(
-            isCompactScreen = true,
-            isLoggedIn = false,
-            useListTabs = false,
-            navController = rememberNavController(),
-            lastTabOpened = 0,
-            saveLastTab = {},
-            profilePicture = null,
-        )
+        Surface {
+            MainView(
+                isCompactScreen = true,
+                isLoggedIn = false,
+                useListTabs = false,
+                navController = rememberNavController(),
+                navActionManager = rememberNavActionManager(),
+                lastTabOpened = 0,
+                saveLastTab = {},
+                profilePicture = null,
+            )
+        }
     }
 }

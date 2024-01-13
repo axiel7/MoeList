@@ -4,55 +4,32 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.base.Localizable
+import com.axiel7.moelist.ui.base.TabRowItem
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-enum class WeekDay(
-    val value: String,
-    val numeric: Int
-) : Localizable {
+enum class WeekDay : Localizable {
     @SerialName("monday")
-    MONDAY(
-        value = "monday",
-        numeric = 1
-    ),
+    MONDAY,
 
     @SerialName("tuesday")
-    TUESDAY(
-        value  = "tuesday",
-        numeric = 2
-    ),
+    TUESDAY,
 
     @SerialName("wednesday")
-    WEDNESDAY(
-        value = "wednesday",
-        numeric = 3
-    ),
+    WEDNESDAY,
 
     @SerialName("thursday")
-    THURSDAY(
-        value = "thursday",
-        numeric = 4
-    ),
+    THURSDAY,
 
     @SerialName("friday")
-    FRIDAY(
-        value = "friday",
-        numeric = 5
-    ),
+    FRIDAY,
 
     @SerialName("saturday")
-    SATURDAY(
-        value = "saturday",
-        numeric = 6
-    ),
+    SATURDAY,
 
     @SerialName("sunday")
-    SUNDAY(
-        value = "sunday",
-        numeric = 7
-    );
+    SUNDAY;
 
     @Composable
     override fun localized() = stringResource(stringRes)
@@ -67,4 +44,9 @@ enum class WeekDay(
             SATURDAY -> R.string.saturday
             SUNDAY -> R.string.sunday
         }
+
+    companion object {
+        val tabRowItems =
+            entries.map { TabRowItem(value = it, title = it.stringRes) }.toTypedArray()
+    }
 }

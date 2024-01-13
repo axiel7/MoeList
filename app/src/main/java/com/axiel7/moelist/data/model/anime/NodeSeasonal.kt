@@ -25,7 +25,7 @@ data class NodeSeasonal(
     @SerialName("num_list_users")
     override val numListUsers: Int? = null,
     @SerialName("media_type")
-    override val mediaType: MediaFormat? = null,
+    override val mediaFormat: MediaFormat? = null,
     @SerialName("start_season")
     val startSeason: StartSeason? = null,
     @SerialName("status")

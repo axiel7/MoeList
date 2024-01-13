@@ -16,16 +16,19 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.ui.composables.OnBottomReached
 import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_SMALL_WIDTH
@@ -35,29 +38,37 @@ import com.axiel7.moelist.ui.composables.media.SmallScoreIndicator
 import com.axiel7.moelist.ui.theme.MoeListTheme
 import org.koin.androidx.compose.koinViewModel
 
-const val RECOMMENDATIONS_DESTINATION = "recommendations"
-
 @Composable
 fun RecommendationsView(
-    viewModel: RecommendationsViewModel = koinViewModel(),
-    navigateBack: () -> Unit,
-    navigateToMediaDetails: (MediaType, Int) -> Unit,
+    navActionManager: NavActionManager
+) {
+    val viewModel: RecommendationsViewModel = koinViewModel()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    RecommendationsViewContent(
+        uiState = uiState,
+        event = viewModel,
+        navActionManager = navActionManager
+    )
+}
+
+@Composable
+private fun RecommendationsViewContent(
+    uiState: RecommendationsUiState,
+    event: RecommendationsEvent?,
+    navActionManager: NavActionManager,
 ) {
     val bottomBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
-    LaunchedEffect(Unit) {
-        if (viewModel.animes.isEmpty()) viewModel.getRecommendedAnimes()
-    }
-
     DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.recommendations),
-        navigateBack = navigateBack,
+        navigateBack = navActionManager::goBack,
         contentWindowInsets = WindowInsets.systemBars
             .only(WindowInsetsSides.Horizontal)
     ) { padding ->
         val listState = rememberLazyGridState()
         listState.OnBottomReached(buffer = 3) {
-            viewModel.loadMore()
+            event?.loadMore()
         }
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = MEDIA_POSTER_SMALL_WIDTH.dp),
@@ -74,7 +85,7 @@ fun RecommendationsView(
             horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
         ) {
             items(
-                items = viewModel.animes,
+                items = uiState.animes,
                 key = { it.node.id },
                 contentType = { it.node }
             ) { item ->
@@ -93,12 +104,12 @@ fun RecommendationsView(
                         },
                         minLines = 2,
                         onClick = {
-                            navigateToMediaDetails(MediaType.ANIME, item.node.id)
+                            navActionManager.toMediaDetails(MediaType.ANIME, item.node.id)
                         }
                     )
                 }
             }
-            if (viewModel.isLoading) {
+            if (uiState.isLoading) {
                 items(12) {
                     MediaItemDetailedPlaceholder()
                 }
@@ -111,9 +122,12 @@ fun RecommendationsView(
 @Composable
 fun RecommendationsViewPreview() {
     MoeListTheme {
-        RecommendationsView(
-            navigateBack = {},
-            navigateToMediaDetails = { _, _ -> }
-        )
+        Surface {
+            RecommendationsViewContent(
+                uiState = RecommendationsUiState(),
+                event = null,
+                navActionManager = NavActionManager.rememberNavActionManager()
+            )
+        }
     }
 }

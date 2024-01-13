@@ -84,7 +84,7 @@ data class Broadcast(
 
     private fun dateTimeUntilNextBroadcast(): LocalDateTime? =
         if (startTime != null && dayOfTheWeek != null) {
-            val airingDay = LocalDate.now().getNextDayOfWeek(DayOfWeek.of(dayOfTheWeek.numeric))
+            val airingDay = LocalDate.now().getNextDayOfWeek(DayOfWeek.of(dayOfTheWeek.ordinal + 1))
             val airingTime = LocalTime.parse(startTime)
             LocalDateTime.of(airingDay, airingTime)
                 .atZone(SeasonCalendar.japanZoneId)

@@ -25,32 +25,37 @@ import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.MediaSort.Companion.animeListSortItems
 import com.axiel7.moelist.data.model.media.MediaSort.Companion.mangaListSortItems
 import com.axiel7.moelist.data.model.media.MediaType
-import com.axiel7.moelist.ui.userlist.UserMediaListViewModel
+import com.axiel7.moelist.ui.userlist.UserMediaListEvent
+import com.axiel7.moelist.ui.userlist.UserMediaListUiState
 
 @Composable
 fun MediaListSortDialog(
-    listSort: MediaSort,
-    viewModel: UserMediaListViewModel
+    uiState: UserMediaListUiState,
+    event: UserMediaListEvent?,
 ) {
     val configuration = LocalConfiguration.current
     val sortOptions = remember {
-        if (viewModel.mediaType == MediaType.ANIME) animeListSortItems else mangaListSortItems
+        if (uiState.mediaType == MediaType.ANIME) animeListSortItems else mangaListSortItems
     }
     var selectedIndex by remember {
-        mutableIntStateOf(sortOptions.indexOf(listSort))
+        mutableIntStateOf(sortOptions.indexOf(uiState.listSort ?: MediaSort.SCORE))
     }
     AlertDialog(
-        onDismissRequest = { viewModel.openSortDialog = false },
+        onDismissRequest = { event?.toggleSortDialog(false) },
         confirmButton = {
-            TextButton(onClick = {
-                viewModel.setSort(sortOptions[selectedIndex])
-                viewModel.openSortDialog = false
-            }) {
+            TextButton(
+                onClick = {
+                    sortOptions.getOrNull(selectedIndex)?.let {
+                        event?.onChangeSort(it)
+                        event?.toggleSortDialog(false)
+                    }
+                }
+            ) {
                 Text(text = stringResource(R.string.ok))
             }
         },
         dismissButton = {
-            TextButton(onClick = { viewModel.openSortDialog = false }) {
+            TextButton(onClick = { event?.toggleSortDialog(false) }) {
                 Text(text = stringResource(R.string.cancel))
             }
         },

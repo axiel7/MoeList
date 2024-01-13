@@ -19,9 +19,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,8 +33,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.ui.composables.TextIconHorizontal
 import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_SMALL_WIDTH
@@ -46,52 +50,59 @@ import com.axiel7.moelist.utils.NumExtensions.format
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
-const val SEASON_CHART_DESTINATION = "season_chart"
+@Composable
+fun SeasonChartView(
+    navActionManager: NavActionManager
+) {
+    val viewModel: SeasonChartViewModel = koinViewModel()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    SeasonChartViewContent(
+        uiState = uiState,
+        event = viewModel,
+        navActionManager = navActionManager
+    )
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SeasonChartView(
-    viewModel: SeasonChartViewModel = koinViewModel(),
-    navigateBack: () -> Unit,
-    navigateToMediaDetails: (MediaType, Int) -> Unit,
+private fun SeasonChartViewContent(
+    uiState: SeasonChartUiState,
+    event: SeasonChartEvent?,
+    navActionManager: NavActionManager
 ) {
     val context = LocalContext.current
-    val coroutineScope = rememberCoroutineScope()
+    val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
     val bottomBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
     if (sheetState.isVisible) {
         SeasonChartFilterSheet(
-            onDismiss = { coroutineScope.launch { sheetState.hide() } },
+            uiState = uiState,
+            event = event,
+            onApply = {
+                scope.launch { sheetState.hide() }
+                event?.onApplyFilters()
+            },
+            onDismiss = { scope.launch { sheetState.hide() } },
             sheetState = sheetState,
-            viewModel = viewModel,
             bottomPadding = bottomBarPadding
         )
     }
 
-    LaunchedEffect(viewModel.message) {
-        if (viewModel.showMessage) {
-            context.showToast(viewModel.message)
-            viewModel.showMessage = false
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        if (viewModel.animes.isEmpty()) viewModel.getSeasonalAnime()
-    }
-
-    fun onLoadMore() {
-        if (!viewModel.isLoading && viewModel.hasNextPage) {
-            viewModel.getSeasonalAnime(viewModel.nextPage)
+    LaunchedEffect(uiState.message) {
+        if (uiState.message != null) {
+            context.showToast(uiState.message)
+            event?.onMessageDisplayed()
         }
     }
 
     DefaultScaffoldWithTopAppBar(
-        title = viewModel.season.seasonYearText(),
-        navigateBack = navigateBack,
+        title = uiState.season.seasonYearText(),
+        navigateBack = navActionManager::goBack,
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { coroutineScope.launch { sheetState.show() } },
+                onClick = { scope.launch { sheetState.show() } },
                 modifier = Modifier.padding(WindowInsets.navigationBars.asPaddingValues())
             ) {
                 Icon(
@@ -118,7 +129,7 @@ fun SeasonChartView(
             horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
         ) {
             items(
-                items = viewModel.animes,
+                items = uiState.animes,
                 key = { it.node.id },
                 contentType = { it.node }
             ) { item ->
@@ -148,34 +159,35 @@ fun SeasonChartView(
                         },
                         minLines = 2,
                         onClick = {
-                            navigateToMediaDetails(MediaType.ANIME, item.node.id)
+                            navActionManager.toMediaDetails(MediaType.ANIME, item.node.id)
                         }
                     )
                 }
             }
-            if (viewModel.isLoading) {
+            if (uiState.isLoading) {
                 items(12) {
                     MediaItemDetailedPlaceholder()
                 }
             }
             item(contentType = { 0 }) {
-                if (viewModel.hasNextPage) {
-                    LaunchedEffect(viewModel.hasNextPage) {
-                        onLoadMore()
-                    }
+                LaunchedEffect(uiState.nextPage) {
+                    event?.loadMore()
                 }
             }
         }
     }//:Scaffold
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun SeasonChartPreview() {
     MoeListTheme {
-        SeasonChartView(
-            navigateBack = {},
-            navigateToMediaDetails = { _, _ -> }
-        )
+        Surface {
+            SeasonChartViewContent(
+                uiState = SeasonChartUiState(),
+                event = null,
+                navActionManager = NavActionManager.rememberNavActionManager()
+            )
+        }
     }
 }

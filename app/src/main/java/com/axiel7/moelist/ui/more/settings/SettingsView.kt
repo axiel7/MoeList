@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,6 +25,7 @@ import com.axiel7.moelist.ui.base.ItemsPerRow
 import com.axiel7.moelist.ui.base.ListStyle
 import com.axiel7.moelist.ui.base.StartTab
 import com.axiel7.moelist.ui.base.ThemeStyle
+import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.ui.composables.preferences.ListPreferenceView
 import com.axiel7.moelist.ui.composables.preferences.PlainPreferenceView
@@ -33,31 +35,31 @@ import com.axiel7.moelist.utils.ContextExtensions.openByDefaultSettings
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import org.koin.androidx.compose.navigation.koinNavViewModel
 
-const val SETTINGS_DESTINATION = "settings"
-
 @Composable
 fun SettingsView(
-    viewModel: SettingsViewModel = koinNavViewModel(),
-    navigateToListStyleSettings: () -> Unit,
-    navigateBack: () -> Unit,
+    navActionManager: NavActionManager
+) {
+    val viewModel: SettingsViewModel = koinNavViewModel()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    SettingsViewContent(
+        uiState = uiState,
+        event = viewModel,
+        navActionManager = navActionManager,
+    )
+}
+
+@Composable
+private fun SettingsViewContent(
+    uiState: SettingsUiState,
+    event: SettingsEvent?,
+    navActionManager: NavActionManager
 ) {
     val context = LocalContext.current
 
-    val lang by viewModel.lang.collectAsStateWithLifecycle()
-    val theme by viewModel.theme.collectAsStateWithLifecycle()
-    val nsfw by viewModel.nsfw.collectAsStateWithLifecycle()
-    val useGeneralListStyle by viewModel.useGeneralListStyle.collectAsStateWithLifecycle()
-    val generalListStyle by viewModel.generalListStyle.collectAsStateWithLifecycle()
-    val itemsPerRow by viewModel.itemsPerRow.collectAsStateWithLifecycle()
-    val startTab by viewModel.startTab.collectAsStateWithLifecycle()
-    val titleLang by viewModel.titleLang.collectAsStateWithLifecycle()
-    val useListTabs by viewModel.useListTabs.collectAsStateWithLifecycle()
-    val loadCharacters by viewModel.loadCharacters.collectAsStateWithLifecycle()
-    val randomListEntryEnabled by viewModel.randomListEntryEnabled.collectAsStateWithLifecycle()
-
     DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.settings),
-        navigateBack = navigateBack
+        navigateBack = navActionManager::goBack
     ) { padding ->
         Column(
             modifier = Modifier
@@ -69,66 +71,64 @@ fun SettingsView(
             ListPreferenceView(
                 title = stringResource(R.string.theme),
                 entriesValues = ThemeStyle.entriesLocalized,
-                value = theme,
+                value = uiState.theme,
                 icon = R.drawable.ic_round_color_lens_24,
-                onValueChange = viewModel::setTheme
+                onValueChange = { event?.setTheme(it) }
             )
 
             ListPreferenceView(
                 title = stringResource(R.string.language),
                 entriesValues = AppLanguage.entriesLocalized,
-                value = lang,
+                value = uiState.language,
                 icon = R.drawable.ic_round_language_24,
-                onValueChange = viewModel::setLang
+                onValueChange = { event?.setLanguage(it) }
             )
 
             ListPreferenceView(
                 title = stringResource(R.string.title_language),
                 entriesValues = TitleLanguage.entriesLocalized,
-                value = titleLang,
+                value = uiState.titleLanguage,
                 icon = R.drawable.round_title_24,
-                onValueChange = viewModel::setTitleLang
+                onValueChange = { event?.setTitleLanguage(it) }
             )
 
             ListPreferenceView(
                 title = stringResource(R.string.default_section),
                 entriesValues = StartTab.entriesLocalized,
-                value = startTab ?: StartTab.LAST_USED,
+                value = uiState.startTab,
                 icon = R.drawable.ic_round_home_24,
-                onValueChange = viewModel::setStartTab
+                onValueChange = { event?.setStartTab(it) }
             )
 
             SwitchPreferenceView(
                 title = stringResource(R.string.use_separated_list_styles),
-                value = !useGeneralListStyle,
-                onValueChange = {
-                    viewModel.setUseGeneralListStyle(!it)
-                }
+                value = !uiState.useGeneralListStyle,
+                onValueChange = { event?.setUseGeneralListStyle(!it) }
             )
 
-            if (useGeneralListStyle) {
+            if (uiState.useGeneralListStyle) {
                 ListPreferenceView(
                     title = stringResource(R.string.list_style),
                     entriesValues = ListStyle.entriesLocalized,
-                    value = generalListStyle,
+                    value = uiState.generalListStyle,
                     icon = R.drawable.round_format_list_bulleted_24,
-                    onValueChange = viewModel::setGeneralListStyle
+                    onValueChange = { event?.setGeneralListStyle(it) }
                 )
             } else {
                 PlainPreferenceView(
                     title = stringResource(R.string.list_style),
                     icon = R.drawable.round_format_list_bulleted_24,
-                    onClick = navigateToListStyleSettings
+                    onClick = navActionManager::toListStyleSettings
                 )
             }
 
-            if (generalListStyle == ListStyle.GRID || !useGeneralListStyle) {
+            if (uiState.generalListStyle == ListStyle.GRID || !uiState.useGeneralListStyle) {
                 ListPreferenceView(
                     title = stringResource(R.string.items_per_row),
                     entriesValues = ItemsPerRow.entriesLocalized,
-                    value = itemsPerRow,
+                    value = uiState.itemsPerRow,
                     icon = R.drawable.round_grid_view_24,
-                    onValueChange = viewModel::setItemsPerRow
+                    onValueChange = { event?.setItemsPerRow(it) }
                 )
             }
 
@@ -137,9 +137,9 @@ fun SettingsView(
             SwitchPreferenceView(
                 title = stringResource(R.string.show_nsfw),
                 subtitle = stringResource(R.string.nsfw_summary),
-                value = nsfw,
+                value = uiState.showNsfw,
                 icon = R.drawable.no_adult_content_24,
-                onValueChange = viewModel::setNsfw
+                onValueChange = { event?.setShowNsfw(it) }
             )
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -157,9 +157,9 @@ fun SettingsView(
             SwitchPreferenceView(
                 title = stringResource(R.string.enable_list_tabs),
                 subtitle = stringResource(R.string.enable_list_tabs_subtitle),
-                value = useListTabs,
+                value = uiState.useListTabs,
                 onValueChange = {
-                    viewModel.setUseListTabs(it)
+                    event?.setUseListTabs(it)
                     context.showToast(
                         context.getString(R.string.changes_will_take_effect_on_app_restart)
                     )
@@ -168,13 +168,13 @@ fun SettingsView(
 
             SwitchPreferenceView(
                 title = stringResource(R.string.always_load_characters),
-                value = loadCharacters,
-                onValueChange = viewModel::setLoadCharacters
+                value = uiState.loadCharacters,
+                onValueChange = { event?.setLoadCharacters(it) }
             )
             SwitchPreferenceView(
                 title = stringResource(R.string.random_button_on_list),
-                value = randomListEntryEnabled,
-                onValueChange = viewModel::setRandomListEntryEnabled
+                value = uiState.randomListEntryEnabled,
+                onValueChange = { event?.setRandomListEntryEnabled(it) }
             )
         }
     }
@@ -192,13 +192,16 @@ fun SettingsTitle(text: String) {
     )
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun SettingsPreview() {
     MoeListTheme {
-        SettingsView(
-            navigateToListStyleSettings = {},
-            navigateBack = {}
-        )
+        Surface {
+            SettingsViewContent(
+                uiState = SettingsUiState(),
+                event = null,
+                navActionManager = NavActionManager.rememberNavActionManager()
+            )
+        }
     }
 }

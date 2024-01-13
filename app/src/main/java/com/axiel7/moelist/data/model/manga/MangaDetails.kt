@@ -39,7 +39,7 @@ data class MangaDetails(
     @SerialName("updated_at")
     override val updatedAt: String? = null,
     @SerialName("media_type")
-    override val mediaType: MediaFormat? = null,
+    override val mediaFormat: MediaFormat? = null,
     override val status: MediaStatus? = null,
     override val genres: List<Genre>? = null,
     override val pictures: List<MainPicture>? = null,
@@ -60,7 +60,7 @@ data class MangaDetails(
     @SerialName("serialization")
     val serialization: List<Serialization>? = null,
 
-) : BaseMediaDetails() {
+    ) : BaseMediaDetails() {
 
     fun toMangaNode() = MangaNode(
         id = id,
@@ -71,7 +71,7 @@ data class MangaDetails(
         numVolumes = numVolumes,
         numChapters = numChapters,
         numListUsers = numListUsers,
-        mediaType = mediaType,
+        mediaFormat = mediaFormat,
         status = status,
         mean = mean,
     )

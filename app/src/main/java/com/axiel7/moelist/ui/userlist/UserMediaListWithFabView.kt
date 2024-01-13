@@ -25,6 +25,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetState
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -50,6 +51,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.data.model.media.ListStatus.Companion.listStatusValues
 import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.LoadingDialog
 import com.axiel7.moelist.ui.editmedia.EditMediaSheet
 import com.axiel7.moelist.ui.theme.MoeListTheme
@@ -58,23 +60,45 @@ import com.axiel7.moelist.ui.userlist.composables.SetAsCompletedDialog
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserMediaListWithFabView(
     mediaType: MediaType,
     isCompactScreen: Boolean,
-    navigateToMediaDetails: (MediaType, Int) -> Unit,
+    navActionManager: NavActionManager,
     topBarHeightPx: Float,
     topBarOffsetY: Animatable<Float, AnimationVector1D>,
     padding: PaddingValues,
 ) {
+    val viewModel: UserMediaListViewModel = koinViewModel { parametersOf(mediaType) }
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    UserMediaListWithFabViewContent(
+        uiState = uiState,
+        event = viewModel,
+        navActionManager = navActionManager,
+        isCompactScreen = isCompactScreen,
+        topBarHeightPx = topBarHeightPx,
+        topBarOffsetY = topBarOffsetY,
+        padding = padding,
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun UserMediaListWithFabViewContent(
+    uiState: UserMediaListUiState,
+    event: UserMediaListEvent?,
+    navActionManager: NavActionManager,
+    isCompactScreen: Boolean,
+    topBarHeightPx: Float = 0f,
+    topBarOffsetY: Animatable<Float, AnimationVector1D> = Animatable(0f),
+    padding: PaddingValues = PaddingValues(),
+) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val haptic = LocalHapticFeedback.current
-
-    val viewModel: UserMediaListViewModel = koinViewModel()
-    val listSort by viewModel.listSort.collectAsStateWithLifecycle()
 
     val statusSheetState = rememberModalBottomSheetState()
     val editSheetState = rememberModalBottomSheetState()
@@ -92,52 +116,54 @@ fun UserMediaListWithFabView(
 
     if (statusSheetState.isVisible) {
         ListStatusSheet(
-            mediaType = mediaType,
-            selectedStatus = viewModel.listStatus,
+            mediaType = uiState.mediaType,
+            selectedStatus = uiState.listStatus,
             sheetState = statusSheetState,
             bottomPadding = bottomBarPadding,
-            onStatusChanged = viewModel::onStatusChanged,
+            onStatusChanged = { event?.onChangeStatus(it) },
             onDismiss = {
                 scope.launch { statusSheetState.hide() }
             }
         )
     }
 
-    if (viewModel.openSortDialog && listSort != null) {
-        MediaListSortDialog(
-            listSort = listSort!!,
-            viewModel = viewModel
-        )
+    if (uiState.openSortDialog && uiState.listSort != null) {
+        MediaListSortDialog(uiState, event)
     }
 
-    if (viewModel.openSetAtCompletedDialog) {
-        SetAsCompletedDialog(viewModel = viewModel)
+    if (uiState.openSetAtCompletedDialog) {
+        SetAsCompletedDialog(uiState, event)
     }
 
-    if (viewModel.isLoadingRandom) {
+    if (uiState.isLoadingRandom) {
         LoadingDialog()
     }
 
-    if (editSheetState.isVisible) {
+    if (editSheetState.isVisible && uiState.mediaInfo != null) {
         EditMediaSheet(
-            coroutineScope = scope,
             sheetState = editSheetState,
-            mediaViewModel = viewModel,
-            bottomPadding = bottomBarPadding
+            mediaInfo = uiState.mediaInfo!!,
+            myListStatus = uiState.myListStatus,
+            bottomPadding = bottomBarPadding,
+            onEdited = { status, removed ->
+                scope.launch { editSheetState.hide() }
+                event?.onChangeItemMyListStatus(status, removed)
+            },
+            onDismissed = { scope.launch { editSheetState.hide() } }
         )
     }
 
-    LaunchedEffect(viewModel.randomId) {
-        viewModel.randomId?.let { id ->
-            navigateToMediaDetails(viewModel.mediaType, id)
-            viewModel.randomId = null
+    LaunchedEffect(uiState.randomId) {
+        uiState.randomId?.let { id ->
+            event?.onRandomIdOpen()
+            navActionManager.toMediaDetails(uiState.mediaType, id)
         }
     }
 
-    LaunchedEffect(viewModel.message) {
-        if (viewModel.showMessage) {
-            context.showToast(viewModel.message)
-            viewModel.showMessage = false
+    LaunchedEffect(uiState.message) {
+        if (uiState.message != null) {
+            context.showToast(uiState.message)
+            event?.onMessageDisplayed()
         }
     }
 
@@ -155,32 +181,32 @@ fun UserMediaListWithFabView(
                     onClick = { scope.launch { statusSheetState.show() } }
                 ) {
                     Icon(
-                        painter = painterResource(viewModel.listStatus.icon),
+                        painter = painterResource(uiState.listStatus.icon),
                         contentDescription = "status",
                         modifier = Modifier.padding(end = 8.dp)
                     )
-                    Text(text = viewModel.listStatus.localized())
+                    Text(text = uiState.listStatus.localized())
                 }
             }
         },
         contentWindowInsets = WindowInsets.systemBars
             .only(WindowInsetsSides.Horizontal)
     ) { childPadding ->
-        if (listSort != null) {
+        if (uiState.listSort != null) {
             UserMediaListView(
-                viewModel = viewModel,
-                listSort = listSort!!,
+                uiState = uiState,
+                event = event,
+                navActionManager = navActionManager,
                 isCompactScreen = isCompactScreen,
                 modifier = Modifier.padding(childPadding),
                 nestedScrollConnection = nestedScrollConnection,
-                navigateToMediaDetails = navigateToMediaDetails,
                 topBarHeightPx = topBarHeightPx,
                 topBarOffsetY = topBarOffsetY,
                 contentPadding = padding,
                 onShowEditSheet = { item ->
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     scope.launch {
-                        viewModel.onItemSelected(item)
+                        event?.onItemSelected(item)
                         editSheetState.show()
                     }
                 },
@@ -238,17 +264,20 @@ fun ListStatusSheet(
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun UserMediaListHostPreview() {
     MoeListTheme {
-        UserMediaListWithFabView(
-            mediaType = MediaType.ANIME,
-            isCompactScreen = true,
-            navigateToMediaDetails = { _, _ -> },
-            topBarHeightPx = 0f,
-            topBarOffsetY = remember { Animatable(0f) },
-            padding = PaddingValues(),
-        )
+        Surface {
+            UserMediaListWithFabViewContent(
+                uiState = UserMediaListUiState(
+                    mediaType = MediaType.ANIME,
+                    listStatus = ListStatus.WATCHING
+                ),
+                event = null,
+                navActionManager = NavActionManager.rememberNavActionManager(),
+                isCompactScreen = true
+            )
+        }
     }
 }

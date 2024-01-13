@@ -7,8 +7,10 @@ import kotlinx.coroutines.launch
 
 class MoreViewModel(
     private val loginRepository: LoginRepository
-) : ViewModel() {
-    fun logOut() = viewModelScope.launch {
-        loginRepository.logOut()
+) : ViewModel(), MoreEvent {
+    override fun logOut() {
+        viewModelScope.launch {
+            loginRepository.logOut()
+        }
     }
 }

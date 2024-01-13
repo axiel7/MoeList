@@ -1,4 +1,4 @@
-package com.axiel7.moelist.ui.details
+package com.axiel7.moelist.ui.fullposter
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -29,23 +30,21 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.BackIconButton
 import com.axiel7.moelist.ui.composables.ViewInBrowserButton
 import com.axiel7.moelist.ui.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.openLink
 import kotlinx.coroutines.launch
 
-const val PICTURES_ARGUMENT = "{pictures}"
-const val FULL_POSTER_DESTINATION = "full_poster/$PICTURES_ARGUMENT"
-
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun FullPosterView(
     pictures: Array<String>,
-    navigateBack: () -> Unit,
+    navActionManager: NavActionManager,
 ) {
     val context = LocalContext.current
-    val coroutineScope = rememberCoroutineScope()
+    val scope = rememberCoroutineScope()
     val pagerState = rememberPagerState { pictures.size }
 
     Scaffold(
@@ -53,7 +52,7 @@ fun FullPosterView(
             TopAppBar(
                 title = { },
                 navigationIcon = {
-                    BackIconButton(onClick = navigateBack)
+                    BackIconButton(onClick = navActionManager::goBack)
                 },
                 actions = {
                     ViewInBrowserButton(
@@ -109,7 +108,7 @@ fun FullPosterView(
                             .background(color)
                             .size(8.dp)
                             .clickable {
-                                coroutineScope.launch { pagerState.animateScrollToPage(index) }
+                                scope.launch { pagerState.animateScrollToPage(index) }
                             }
                     )
                 }
@@ -118,13 +117,15 @@ fun FullPosterView(
     }//: Scaffold
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun FullPosterPreview() {
     MoeListTheme {
-        FullPosterView(
-            pictures = arrayOf("", ""),
-            navigateBack = {}
-        )
+        Surface {
+            FullPosterView(
+                pictures = arrayOf("", ""),
+                navActionManager = NavActionManager.rememberNavActionManager()
+            )
+        }
     }
 }
