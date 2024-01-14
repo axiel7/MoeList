@@ -4,6 +4,7 @@
     <string name="title_anime_list">動畫</string>
     <string name="title_manga_list">漫畫</string>
     <string name="stats">統計</string>
+    <string name="more_info">更多資訊</string>
     <string name="synonyms">同義詞</string>
     <string name="jp_title">日文</string>
     <string name="start_date">開始日期</string>
@@ -15,7 +16,7 @@
     <string name="studios">工作室</string>
     <string name="edit">編輯</string>
     <string name="authors">作者</string>
-    <string name="volumes">音量</string>
+    <string name="volumes">冊數</string>
     <string name="serialization">連載</string>
     <string name="login">登入</string>
     <string name="no_results">找不到任何結果</string>
@@ -331,4 +332,10 @@
     <string name="enable_list_tabs_subtitle">在動畫/漫畫清單中以分頁取代懸浮動作按鈕</string>
     <string name="always_load_characters">一律顯示角色列表</string>
     <string name="random_button_on_list">在動畫/漫畫清單上的隨機按鈕</string>
+    <string name="new_anime">新動畫</string>
+    <string name="continuing_anime">續播</string>
+    <string name="previous_season">前一季</string>
+    <string name="current_season">本季</string>
+    <string name="next_season">下一季</string>
+    <string name="status_distribution" comment="anime stats: users list status distribution">狀態分布</string>
 </resources>
