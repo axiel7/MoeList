@@ -5,5 +5,5 @@ enum class NavArgument(
 ) {
     MediaType(ArgumentType.String),
     MediaId(ArgumentType.Int),
-    Pictures(ArgumentType.String),
+    Pictures(ArgumentType.StringArray),
 }
