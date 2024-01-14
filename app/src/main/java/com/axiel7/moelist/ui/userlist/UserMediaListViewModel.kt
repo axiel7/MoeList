@@ -77,15 +77,27 @@ class UserMediaListViewModel(
     override fun onChangeItemMyListStatus(value: BaseMyListStatus?, removed: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             mutableUiState.value.run {
-                if (value != null && selectedItem != null) {
+                if (selectedItem != null) {
                     val foundIndex = mediaList.indexOfFirst { it.node.id == selectedItem.node.id }
                     if (foundIndex != -1) {
-                        if (mediaType == MediaType.ANIME) {
-                            mediaList[foundIndex] = (mediaList[foundIndex] as UserAnimeList)
-                                .copy(listStatus = myListStatus as MyAnimeListStatus)
-                        } else if (mediaType == MediaType.MANGA) {
-                            mediaList[foundIndex] = (mediaList[foundIndex] as UserMangaList)
-                                .copy(listStatus = myListStatus as MyMangaListStatus)
+                        if (removed) {
+                            mediaList.removeAt(foundIndex)
+                        } else if (value != null) {
+                            val statusChanged =
+                                value.status != mediaList[foundIndex].listStatus?.status
+                            when {
+                                statusChanged -> mediaList.removeAt(foundIndex)
+
+                                mediaType == MediaType.ANIME -> {
+                                    mediaList[foundIndex] = (mediaList[foundIndex] as UserAnimeList)
+                                        .copy(listStatus = value as MyAnimeListStatus)
+                                }
+
+                                mediaType == MediaType.MANGA -> {
+                                    mediaList[foundIndex] = (mediaList[foundIndex] as UserMangaList)
+                                        .copy(listStatus = value as MyMangaListStatus)
+                                }
+                            }
                         }
                     }
                 }
