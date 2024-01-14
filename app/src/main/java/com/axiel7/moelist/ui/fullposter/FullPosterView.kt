@@ -40,7 +40,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun FullPosterView(
-    pictures: Array<String>,
+    pictures: List<String>,
     navActionManager: NavActionManager,
 ) {
     val context = LocalContext.current
@@ -123,7 +123,7 @@ fun FullPosterPreview() {
     MoeListTheme {
         Surface {
             FullPosterView(
-                pictures = arrayOf("", ""),
+                pictures = listOf("", ""),
                 navActionManager = NavActionManager.rememberNavActionManager()
             )
         }

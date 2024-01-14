@@ -12,14 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.ui.base.BottomDestination
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
-import com.axiel7.moelist.ui.base.navigation.NavActionManager.Companion.rememberNavActionManager
-import com.axiel7.moelist.ui.base.navigation.NavArgument
-import com.axiel7.moelist.ui.base.navigation.NavDestination
+import com.axiel7.moelist.ui.base.navigation.Route
 import com.axiel7.moelist.ui.calendar.CalendarView
 import com.axiel7.moelist.ui.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.ui.details.MediaDetailsView
@@ -39,6 +36,7 @@ import com.axiel7.moelist.ui.search.SearchHostView
 import com.axiel7.moelist.ui.season.SeasonChartView
 import com.axiel7.moelist.ui.userlist.UserMediaListWithFabView
 import com.axiel7.moelist.ui.userlist.UserMediaListWithTabsView
+import com.uragiristereo.serializednavigationextension.navigation.compose.composable
 
 @Composable
 fun MainNavigation(
@@ -63,7 +61,7 @@ fun MainNavigation(
         popEnterTransition = { fadeIn(tween(400)) },
         popExitTransition = { fadeOut(tween(400)) }
     ) {
-        composable(BottomDestination.Home.route) {
+        composable<Route.Tab.Home> {
             HomeView(
                 isLoggedIn = isLoggedIn,
                 navActionManager = navActionManager,
@@ -73,10 +71,7 @@ fun MainNavigation(
             )
         }
 
-        composable(
-            route = BottomDestination.AnimeList.route,
-            arguments = NavDestination.AnimeTab.namedNavArguments
-        ) {
+        composable<Route.Tab.Anime> {
             if (!isLoggedIn) {
                 LoginView()
             } else {
@@ -102,10 +97,7 @@ fun MainNavigation(
             }
         }
 
-        composable(
-            route = BottomDestination.MangaList.route,
-            arguments = NavDestination.MangaTab.namedNavArguments
-        ) {
+        composable<Route.Tab.Manga> {
             if (!isLoggedIn) {
                 LoginView()
             } else {
@@ -131,7 +123,7 @@ fun MainNavigation(
             }
         }
 
-        composable(BottomDestination.More.route) {
+        composable<Route.Tab.More> {
             MoreView(
                 navActionManager = navActionManager,
                 padding = padding,
@@ -140,90 +132,81 @@ fun MainNavigation(
             )
         }
 
-        composable(
-            route = NavDestination.MediaRanking.route(),
-            arguments = NavDestination.MediaRanking.namedNavArguments
-        ) { navEntry ->
+        composable<Route.MediaRanking> {
+            val args = rememberNavArgsOf()
+
             MediaRankingView(
-                mediaType = MediaType.valueOf(
-                    navEntry.arguments?.getString(NavArgument.MediaType.name)
-                        ?: MediaType.ANIME.name
-                ),
+                mediaType = args?.mediaType ?: MediaType.ANIME,
                 isCompactScreen = isCompactScreen,
                 navActionManager = navActionManager,
             )
         }
 
-        composable(NavDestination.Calendar.route()) {
+        composable<Route.Calendar> {
             CalendarView(
                 navActionManager = navActionManager
             )
         }
 
-        composable(NavDestination.SeasonChart.route()) {
+        composable<Route.SeasonChart> {
             SeasonChartView(
                 navActionManager = navActionManager
             )
         }
 
-        composable(NavDestination.Recommendations.route()) {
+        composable<Route.Recommendations> {
             RecommendationsView(
                 navActionManager = navActionManager
             )
         }
 
-        composable(NavDestination.Settings.route()) {
+        composable<Route.Settings> {
             SettingsView(
                 navActionManager = navActionManager
             )
         }
 
-        composable(NavDestination.ListStyleSettings.route()) {
+        composable<Route.ListStyleSettings> {
             ListStyleSettingsView(
                 navActionManager = navActionManager
             )
         }
 
-        composable(NavDestination.Notifications.route()) {
+        composable<Route.Notifications> {
             NotificationsView(
                 navActionManager = navActionManager
             )
         }
 
-        composable(NavDestination.About.route()) {
+        composable<Route.About> {
             AboutView(
                 navActionManager = navActionManager
             )
         }
 
-        composable(NavDestination.Credits.route()) {
+        composable<Route.Credits> {
             CreditsView(
                 navActionManager = navActionManager
             )
         }
 
-        composable(
-            route = NavDestination.MediaDetails.route(),
-            arguments = NavDestination.MediaDetails.namedNavArguments
-        ) {
+        composable<Route.MediaDetails> {
             MediaDetailsView(
                 isLoggedIn = isLoggedIn,
                 navActionManager = navActionManager
             )
         }
 
-        composable(
-            route = NavDestination.FullPoster.route(),
-            arguments = NavDestination.FullPoster.namedNavArguments
-        ) { navEntry ->
+        composable<Route.FullPoster> {
+            val args = rememberNavArgsOf()
+
             FullPosterView(
-                pictures = navEntry.arguments?.getStringArray(NavArgument.Pictures.name)
-                    ?: emptyArray(),
+                pictures = args?.pictures ?: emptyList(),
                 navActionManager = navActionManager
             )
         }
 
-        composable(NavDestination.Profile.route()) {
+        composable<Route.Profile> {
             if (!isLoggedIn) {
                 DefaultScaffoldWithTopAppBar(
                     title = stringResource(R.string.title_profile),
@@ -238,7 +221,7 @@ fun MainNavigation(
             }
         }
 
-        composable(NavDestination.Search.route()) {
+        composable<Route.Search> {
             SearchHostView(
                 isCompactScreen = isCompactScreen,
                 padding = if (isCompactScreen) PaddingValues() else padding,

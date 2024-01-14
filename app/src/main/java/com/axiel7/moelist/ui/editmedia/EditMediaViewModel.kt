@@ -10,9 +10,10 @@ import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.data.repository.MangaRepository
-import com.axiel7.moelist.ui.base.navigation.NavArgument
+import com.axiel7.moelist.ui.base.navigation.Route
 import com.axiel7.moelist.ui.base.viewmodel.BaseViewModel
 import com.axiel7.moelist.utils.DateUtils
+import com.uragiristereo.serializednavigationextension.runtime.navArgsFlowOf
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -31,10 +32,9 @@ class EditMediaViewModel(
     private val mangaRepository: MangaRepository,
 ) : BaseViewModel<EditMediaUiState>(), EditMediaEvent {
 
-    private val mediaType =
-        savedStateHandle.getStateFlow(NavArgument.MediaType.name, MediaType.ANIME.name)
-            .map { MediaType.valueOf(it) }
-            .stateIn(viewModelScope, SharingStarted.Eagerly, MediaType.ANIME)
+    private val mediaType = savedStateHandle.navArgsFlowOf<Route.MediaDetails>()
+        .map { it?.mediaType ?: MediaType.ANIME }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, MediaType.ANIME)
 
     override val mutableUiState = MutableStateFlow(EditMediaUiState(mediaType = mediaType.value))
 

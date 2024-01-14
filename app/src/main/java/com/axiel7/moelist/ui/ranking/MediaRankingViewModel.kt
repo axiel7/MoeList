@@ -6,8 +6,9 @@ import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.RankingType
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.data.repository.MangaRepository
-import com.axiel7.moelist.ui.base.navigation.NavArgument
+import com.axiel7.moelist.ui.base.navigation.Route
 import com.axiel7.moelist.ui.base.viewmodel.BaseViewModel
+import com.uragiristereo.serializednavigationextension.runtime.navArgsFlowOf
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -26,10 +27,9 @@ class MediaRankingViewModel(
     private val mangaRepository: MangaRepository,
 ) : BaseViewModel<MediaRankingUiState>(), MediaRankingEvent {
 
-    private val mediaType = savedStateHandle
-        .getStateFlow<String?>(NavArgument.MediaType.name, null)
+    private val mediaType = savedStateHandle.navArgsFlowOf<Route.MediaRanking>()
+        .map { it?.mediaType }
         .filterNotNull()
-        .map { MediaType.valueOf(it) }
 
     override val mutableUiState = MutableStateFlow(MediaRankingUiState(rankingType))
 

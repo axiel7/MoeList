@@ -33,7 +33,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import coil.compose.AsyncImage
 import com.axiel7.moelist.R
 import com.axiel7.moelist.ui.base.BottomDestination
-import com.axiel7.moelist.ui.base.navigation.NavDestination
+import com.axiel7.moelist.ui.base.navigation.Route
+import com.uragiristereo.serializednavigationextension.runtime.navigate
 
 @Composable
 fun MainTopAppBar(
@@ -62,7 +63,7 @@ fun MainTopAppBar(
         exit = slideOutVertically(targetOffsetY = { -it })
     ) {
         Card(
-            onClick = { navController.navigate(NavDestination.Search.route()) },
+            onClick = { navController.navigate(Route.Search) },
             modifier = modifier
                 .statusBarsPadding()
                 .fillMaxWidth()
@@ -98,7 +99,7 @@ fun MainTopAppBar(
                     modifier = Modifier
                         .clip(RoundedCornerShape(100))
                         .size(32.dp)
-                        .clickable { navController.navigate(NavDestination.Profile.route()) }
+                        .clickable { navController.navigate(Route.Profile) }
                 )
             }
         }//:Card

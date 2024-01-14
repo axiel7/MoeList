@@ -6,9 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
-import com.axiel7.moelist.data.model.media.MediaType
-import com.axiel7.moelist.ui.base.navigation.NavArgument
-import com.axiel7.moelist.ui.base.navigation.NavDestination
+import com.axiel7.moelist.ui.base.navigation.Route
+import com.uragiristereo.serializednavigationextension.runtime.routeOf
 
 sealed class BottomDestination(
     val value: String,
@@ -19,7 +18,7 @@ sealed class BottomDestination(
 ) {
     data object Home : BottomDestination(
         value = "home",
-        route = NavDestination.HomeTab.route(),
+        route = routeOf<Route.Tab.Home>(),
         title = R.string.title_home,
         icon = R.drawable.ic_outline_home_24,
         iconSelected = R.drawable.ic_round_home_24
@@ -27,9 +26,7 @@ sealed class BottomDestination(
 
     data object AnimeList : BottomDestination(
         value = "anime",
-        route = NavDestination.AnimeTab.putArguments(
-            mapOf(NavArgument.MediaType to MediaType.ANIME.name)
-        ),
+        route = routeOf<Route.Tab.Anime>(),
         title = R.string.title_anime_list,
         icon = R.drawable.ic_outline_local_movies_24,
         iconSelected = R.drawable.ic_round_local_movies_24
@@ -37,9 +34,7 @@ sealed class BottomDestination(
 
     data object MangaList : BottomDestination(
         value = "manga",
-        route = NavDestination.MangaTab.putArguments(
-            mapOf(NavArgument.MediaType to MediaType.MANGA.name)
-        ),
+        route = routeOf<Route.Tab.Manga>(),
         title = R.string.title_manga_list,
         icon = R.drawable.ic_outline_book_24,
         iconSelected = R.drawable.ic_round_book_24
@@ -47,7 +42,7 @@ sealed class BottomDestination(
 
     data object Profile : BottomDestination(
         value = "profile",
-        route = NavDestination.Profile.route(),
+        route = routeOf<Route.Profile>(),
         title = R.string.title_profile,
         icon = R.drawable.ic_outline_person_24,
         iconSelected = R.drawable.ic_round_person_24
@@ -55,7 +50,7 @@ sealed class BottomDestination(
 
     data object More : BottomDestination(
         value = "more",
-        route = NavDestination.MoreTab.route(),
+        route = routeOf<Route.Tab.More>(),
         title = R.string.more,
         icon = R.drawable.ic_more_horizontal,
         iconSelected = R.drawable.ic_more_horizontal

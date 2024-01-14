@@ -14,9 +14,10 @@ import com.axiel7.moelist.data.model.media.WeekDay
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.data.repository.DefaultPreferencesRepository
 import com.axiel7.moelist.data.repository.MangaRepository
-import com.axiel7.moelist.ui.base.navigation.NavArgument
+import com.axiel7.moelist.ui.base.navigation.Route
 import com.axiel7.moelist.ui.base.viewmodel.BaseViewModel
 import com.axiel7.moelist.worker.NotificationWorkerManager
+import com.uragiristereo.serializednavigationextension.runtime.navArgsFlowOf
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,12 +46,9 @@ class MediaDetailsViewModel(
     defaultPreferencesRepository: DefaultPreferencesRepository,
 ) : BaseViewModel<MediaDetailsUiState>(), MediaDetailsEvent {
 
-    private val mediaType =
-        savedStateHandle.getStateFlow(NavArgument.MediaType.name, MediaType.ANIME.name)
-            .map { MediaType.valueOf(it) }
-
-    private val mediaId = savedStateHandle.getStateFlow<Int?>(NavArgument.MediaId.name, null)
-        .filterNotNull()
+    private val args = savedStateHandle.navArgsFlowOf<Route.MediaDetails>().filterNotNull()
+    private val mediaType = args.map { it.mediaType }
+    private val mediaId = args.map { it.mediaId }
 
     override val mutableUiState = MutableStateFlow(MediaDetailsUiState())
 
