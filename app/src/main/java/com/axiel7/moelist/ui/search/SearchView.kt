@@ -53,6 +53,7 @@ import com.axiel7.moelist.ui.composables.media.MediaItemDetailed
 import com.axiel7.moelist.ui.composables.media.MediaItemDetailedPlaceholder
 import com.axiel7.moelist.ui.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
+import com.axiel7.moelist.utils.DateUtils.parseDateAndLocalize
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrUnknown
 import org.koin.androidx.compose.koinViewModel
@@ -177,7 +178,8 @@ private fun SearchViewContent(
                         is AnimeList -> item.node.startSeason?.seasonYearText()
                             ?: stringResource(R.string.unknown)
 
-                        is MangaList -> item.node.startDate ?: stringResource(R.string.unknown)
+                        is MangaList -> item.node.startDate?.parseDateAndLocalize()
+                            ?: stringResource(R.string.unknown)
                         else -> stringResource(R.string.unknown)
                     },
                     color = MaterialTheme.colorScheme.onSurfaceVariant
