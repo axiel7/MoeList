@@ -7,6 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.data.model.media.MediaType
+import com.uragiristereo.serializednavigationextension.runtime.navigate
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -19,67 +20,60 @@ class NavActionManager(
     }
 
     fun toMediaRanking(mediaType: MediaType) {
-        navController.navigate(
-            NavDestination.MediaRanking
-                .putArguments(mapOf(NavArgument.MediaType to mediaType.name))
-        )
+        navController.navigate(Route.MediaRanking(mediaType))
     }
 
     fun toMediaDetails(mediaType: MediaType, id: Int) {
         navController.navigate(
-            NavDestination.MediaDetails
-                .putArguments(mapOf(
-                    NavArgument.MediaType to mediaType.name,
-                    NavArgument.MediaId to id.toString()
-                ))
+            Route.MediaDetails(
+                mediaType = mediaType,
+                mediaId = id,
+            )
         )
     }
 
     fun toCalendar() {
-        navController.navigate(NavDestination.Calendar.route())
+        navController.navigate(Route.Calendar)
     }
 
     fun toSeasonChart() {
-        navController.navigate(NavDestination.SeasonChart.route())
+        navController.navigate(Route.SeasonChart)
     }
 
     fun toRecommendations() {
-        navController.navigate(NavDestination.Recommendations.route())
+        navController.navigate(Route.Recommendations)
     }
 
     fun toProfile() {
-        navController.navigate(NavDestination.Profile.route())
+        navController.navigate(Route.Profile)
     }
 
     fun toSearch() {
-        navController.navigate(NavDestination.Search.route())
+        navController.navigate(Route.Search)
     }
 
     fun toFullPoster(pictures: List<String>) {
-        navController.navigate(
-            NavDestination.FullPoster
-                .putArguments(mapOf(NavArgument.Pictures to pictures.toNavArgument()))
-        )
+        navController.navigate(Route.FullPoster(pictures))
     }
 
     fun toSettings() {
-        navController.navigate(NavDestination.Settings.route())
+        navController.navigate(Route.Settings)
     }
 
     fun toListStyleSettings() {
-        navController.navigate(NavDestination.ListStyleSettings.route())
+        navController.navigate(Route.ListStyleSettings)
     }
 
     fun toNotifications() {
-        navController.navigate(NavDestination.Notifications.route())
+        navController.navigate(Route.Notifications)
     }
 
     fun toAbout() {
-        navController.navigate(NavDestination.About.route())
+        navController.navigate(Route.About)
     }
 
     fun toCredits() {
-        navController.navigate(NavDestination.Credits.route())
+        navController.navigate(Route.Credits)
     }
 
     companion object {

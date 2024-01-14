@@ -21,7 +21,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.axiel7.moelist.R
 import com.axiel7.moelist.ui.base.BottomDestination
 import com.axiel7.moelist.ui.base.BottomDestination.Companion.Icon
-import com.axiel7.moelist.ui.base.navigation.NavDestination
+import com.axiel7.moelist.ui.base.navigation.Route
+import com.uragiristereo.serializednavigationextension.runtime.navigate
 
 @Composable
 fun MainNavigationRail(
@@ -34,7 +35,7 @@ fun MainNavigationRail(
             FloatingActionButton(
                 onClick = {
                     onItemSelected(-1)
-                    navController.navigate(NavDestination.Search.route()) {
+                    navController.navigate(Route.Search) {
                         popUpTo(navController.graph.findStartDestination().id) {
                             saveState = true
                         }
