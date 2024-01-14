@@ -1,6 +1,5 @@
 package com.axiel7.moelist.ui.editmedia
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.axiel7.moelist.data.model.manga.MangaNode
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
@@ -10,33 +9,22 @@ import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.data.repository.MangaRepository
-import com.axiel7.moelist.ui.base.navigation.Route
 import com.axiel7.moelist.ui.base.viewmodel.BaseViewModel
 import com.axiel7.moelist.utils.DateUtils
-import com.uragiristereo.serializednavigationextension.runtime.navArgsFlowOf
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class EditMediaViewModel(
-    savedStateHandle: SavedStateHandle,
+    mediaType: MediaType,
     private val animeRepository: AnimeRepository,
     private val mangaRepository: MangaRepository,
 ) : BaseViewModel<EditMediaUiState>(), EditMediaEvent {
 
-    private val mediaType = savedStateHandle.navArgsFlowOf<Route.MediaDetails>()
-        .map { it?.mediaType ?: MediaType.ANIME }
-        .stateIn(viewModelScope, SharingStarted.Eagerly, MediaType.ANIME)
-
-    override val mutableUiState = MutableStateFlow(EditMediaUiState(mediaType = mediaType.value))
+    override val mutableUiState = MutableStateFlow(EditMediaUiState(mediaType = mediaType))
 
     override fun setMediaInfo(value: BaseMediaNode) {
         mutableUiState.update { it.copy(mediaInfo = value) }
@@ -286,7 +274,7 @@ class EditMediaViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val mediaId = mutableUiState.value.mediaInfo?.id ?: return@launch
             setLoading(true)
-            val result = if (mediaType.value == MediaType.ANIME) {
+            val result = if (mutableUiState.value.mediaType == MediaType.ANIME) {
                 animeRepository.deleteAnimeEntry(mediaId)
             } else {
                 mangaRepository.deleteMangaEntry(mediaId)
@@ -306,13 +294,5 @@ class EditMediaViewModel(
 
     override fun onDismiss() {
         mutableUiState.update { it.copy(updateSuccess = null) }
-    }
-
-    init {
-        mediaType
-            .onEach { value ->
-                mutableUiState.update { it.copy(mediaType = value) }
-            }
-            .launchIn(viewModelScope)
     }
 }

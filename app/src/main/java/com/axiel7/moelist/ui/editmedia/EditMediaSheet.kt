@@ -62,6 +62,7 @@ import com.axiel7.moelist.utils.DateUtils
 import com.axiel7.moelist.utils.DateUtils.toEpochMillis
 import com.axiel7.moelist.utils.DateUtils.toLocalized
 import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 import java.time.ZoneOffset
 import kotlin.math.roundToInt
 
@@ -75,7 +76,7 @@ fun EditMediaSheet(
     onEdited: (BaseMyListStatus?, removed: Boolean) -> Unit,
     onDismissed: () -> Unit
 ) {
-    val viewModel: EditMediaViewModel = koinViewModel()
+    val viewModel: EditMediaViewModel = koinViewModel { parametersOf(mediaInfo.mediaType) }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(mediaInfo) {
