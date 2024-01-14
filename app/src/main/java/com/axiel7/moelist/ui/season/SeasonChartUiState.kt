@@ -4,6 +4,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
+import com.axiel7.moelist.data.model.anime.SeasonType
 import com.axiel7.moelist.data.model.anime.StartSeason
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.ui.base.state.PagedUiState
@@ -14,6 +15,7 @@ data class SeasonChartUiState(
     val season: StartSeason = SeasonCalendar.currentStartSeason,
     val sort: MediaSort = MediaSort.ANIME_NUM_USERS,
     val isNew: Boolean = true,
+    val seasonType: SeasonType? = SeasonType.CURRENT,
     val animes: SnapshotStateList<AnimeSeasonal> = mutableStateListOf(),
     override val nextPage: String? = null,
     override val loadMore: Boolean = true,

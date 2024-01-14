@@ -14,7 +14,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SheetState
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -28,6 +31,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.Season
+import com.axiel7.moelist.data.model.anime.SeasonType
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.ui.composables.SelectableIconToggleButton
 import com.axiel7.moelist.ui.season.SeasonChartEvent
@@ -68,6 +72,25 @@ fun SeasonChartFilterSheet(
 
                 Button(onClick = onApply) {
                     Text(text = stringResource(R.string.apply))
+                }
+            }
+
+            SingleChoiceSegmentedButtonRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+            ) {
+                SeasonType.entries.forEach {
+                    SegmentedButton(
+                        selected = it == uiState.seasonType,
+                        onClick = { event?.setSeason(it) },
+                        shape = SegmentedButtonDefaults.itemShape(
+                            index = it.ordinal,
+                            count = SeasonType.entries.size
+                        )
+                    ) {
+                        Text(text = it.localized())
+                    }
                 }
             }
 

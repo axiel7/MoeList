@@ -2,6 +2,7 @@ package com.axiel7.moelist.ui.season
 
 import androidx.lifecycle.viewModelScope
 import com.axiel7.moelist.data.model.anime.Season
+import com.axiel7.moelist.data.model.anime.SeasonType
 import com.axiel7.moelist.data.model.anime.StartSeason
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.repository.AnimeRepository
@@ -27,14 +28,25 @@ class SeasonChartViewModel(
     }
 
     override fun setSeason(season: Season?, year: Int?) {
+        mutableUiState.update { uiState ->
+            val startSeason = when {
+                season != null && year != null -> StartSeason(year, season)
+                season != null -> uiState.season.copy(season = season)
+                year != null -> uiState.season.copy(year = year)
+                else -> uiState.season
+            }
+            uiState.copy(
+                season = startSeason,
+                seasonType = SeasonType.entries.find { it.season == startSeason }
+            )
+        }
+    }
+
+    override fun setSeason(type: SeasonType) {
         mutableUiState.update {
             it.copy(
-                season = when {
-                    season != null && year != null -> StartSeason(year, season)
-                    season != null -> it.season.copy(season = season)
-                    year != null -> it.season.copy(year = year)
-                    else -> it.season
-                }
+                season = type.season,
+                seasonType = type
             )
         }
     }

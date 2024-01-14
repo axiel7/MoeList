@@ -31,10 +31,34 @@ object SeasonCalendar {
         else -> Season.SPRING
     }
 
+    private val nextSeason = when (currentSeason) {
+        Season.WINTER -> Season.SPRING
+        Season.SPRING -> Season.SUMMER
+        Season.SUMMER -> Season.FALL
+        Season.FALL -> Season.WINTER
+    }
+
+    private val prevSeason = when (currentSeason) {
+        Season.WINTER -> Season.FALL
+        Season.SPRING -> Season.WINTER
+        Season.SUMMER -> Season.SPRING
+        Season.FALL -> Season.SUMMER
+    }
+
     val currentStartSeason = StartSeason(
         // if december, the season is next year winter
         year = if (month == 11) currentYear + 1 else currentYear,
         season = currentSeason
+    )
+
+    val nextStartSeason = StartSeason(
+        year = if (nextSeason == Season.WINTER) currentYear + 1 else currentYear,
+        season = nextSeason
+    )
+
+    val prevStartSeason = StartSeason(
+        year = if (prevSeason == Season.FALL) currentYear - 1 else currentYear,
+        season = prevSeason
     )
 
     val currentWeekday = when (weekDay) {
