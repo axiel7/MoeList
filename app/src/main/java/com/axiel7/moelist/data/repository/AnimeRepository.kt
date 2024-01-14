@@ -53,6 +53,7 @@ class AnimeRepository(
         sort: MediaSort,
         year: Int,
         season: Season,
+        isNew: Boolean? = null,
         limit: Int,
         fields: String?,
         page: String? = null,
@@ -68,7 +69,17 @@ class AnimeRepository(
             )
             else api.getSeasonalAnime(page)
             result.error?.let { handleResponseError(it) }
-            return result
+            return if (isNew != null) {
+                result.copy(
+                    // filter for new or continuing anime
+                    data = result.data?.filter {
+                        if (isNew) it.node.startSeason?.year == year
+                        else it.node.startSeason?.year != year
+                    }
+                )
+            } else {
+                result
+            }
         } catch (e: Exception) {
             Response(message = e.message)
         }

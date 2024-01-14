@@ -7,5 +7,6 @@ import com.axiel7.moelist.ui.base.event.PagedUiEvent
 interface SeasonChartEvent : PagedUiEvent {
     fun setSeason(season: Season? = null, year: Int? = null)
     fun onChangeSort(value: MediaSort)
+    fun onChangeIsNew(value: Boolean)
     fun onApplyFilters()
 }

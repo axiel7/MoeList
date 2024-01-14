@@ -13,6 +13,7 @@ import com.axiel7.moelist.utils.SeasonCalendar
 data class SeasonChartUiState(
     val season: StartSeason = SeasonCalendar.currentStartSeason,
     val sort: MediaSort = MediaSort.ANIME_NUM_USERS,
+    val isNew: Boolean = true,
     val animes: SnapshotStateList<AnimeSeasonal> = mutableStateListOf(),
     override val nextPage: String? = null,
     override val loadMore: Boolean = true,

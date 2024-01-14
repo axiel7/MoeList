@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
@@ -110,17 +111,26 @@ fun SeasonChartFilterSheet(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = stringResource(R.string.sort_by))
-
                 SortChip(
                     text = uiState.sort.localized(),
                     onClick = {
-                        // add a dialog?
                         if (uiState.sort == MediaSort.ANIME_NUM_USERS) {
                             event?.onChangeSort(MediaSort.ANIME_SCORE)
                         } else {
                             event?.onChangeSort(MediaSort.ANIME_NUM_USERS)
                         }
+                    }
+                )
+                AssistChip(
+                    onClick = {
+                        event?.onChangeIsNew(!uiState.isNew)
+                    },
+                    label = {
+                        Text(
+                            text = stringResource(
+                                id = if (uiState.isNew) R.string.new_anime else R.string.continuing_anime
+                            )
+                        )
                     }
                 )
             }

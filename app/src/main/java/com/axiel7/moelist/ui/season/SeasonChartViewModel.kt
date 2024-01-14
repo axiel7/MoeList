@@ -43,6 +43,10 @@ class SeasonChartViewModel(
         mutableUiState.update { it.copy(sort = value) }
     }
 
+    override fun onChangeIsNew(value: Boolean) {
+        mutableUiState.update { it.copy(isNew = value) }
+    }
+
     override fun onApplyFilters() {
         mutableUiState.update { it.copy(loadMore = true, nextPage = null) }
     }
@@ -63,6 +67,7 @@ class SeasonChartViewModel(
                         sort = uiState.sort,
                         year = uiState.season.year,
                         season = uiState.season.season,
+                        isNew = uiState.isNew,
                         limit = 25,
                         fields = AnimeRepository.SEASONAL_FIELDS,
                         page = uiState.nextPage,

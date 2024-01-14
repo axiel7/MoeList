@@ -363,4 +363,6 @@
     <string name="enable_list_tabs_subtitle">Use tabs in Anime/Manga list instead of Floating Action Button</string>
     <string name="always_load_characters">Always load characters</string>
     <string name="random_button_on_list">Random button on anime/manga list</string>
+    <string name="new_anime">New</string>
+    <string name="continuing_anime">Continuing</string>
 </resources>
