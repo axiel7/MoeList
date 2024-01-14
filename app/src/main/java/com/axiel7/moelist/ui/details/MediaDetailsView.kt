@@ -123,7 +123,13 @@ private fun MediaDetailsContent(
     val topAppBarScrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
     val scope = rememberCoroutineScope()
+
     val sheetState = rememberModalBottomSheetState()
+    var showSheet by remember { mutableStateOf(false) }
+    fun hideSheet() {
+        scope.launch { sheetState.hide() }.invokeOnCompletion { showSheet = false }
+    }
+
     val bottomBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
     var isSynopsisExpanded by remember { mutableStateOf(false) }
@@ -138,17 +144,17 @@ private fun MediaDetailsContent(
     }
     val isCurrentLanguageEn = remember { getCurrentLanguageTag()?.startsWith("en") }
 
-    if (sheetState.isVisible && uiState.mediaInfo != null) {
+    if (showSheet && uiState.mediaInfo != null) {
         EditMediaSheet(
             sheetState = sheetState,
             mediaInfo = uiState.mediaInfo!!,
             myListStatus = uiState.myListStatus,
             bottomPadding = bottomBarPadding,
             onEdited = { status, removed ->
-                scope.launch { sheetState.hide() }
+                hideSheet()
                 event?.onChangedMyListStatus(status, removed)
             },
-            onDismissed = { scope.launch { sheetState.hide() } }
+            onDismissed = { hideSheet() }
         )
     }
 
@@ -172,9 +178,11 @@ private fun MediaDetailsContent(
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 onClick = {
-                    if (isLoggedIn) {
-                        if (uiState.mediaDetails != null) scope.launch { sheetState.show() }
-                    } else context.showToast(context.getString(R.string.please_login_to_use_this_feature))
+                    if (isLoggedIn && uiState.mediaDetails != null) {
+                        showSheet = true
+                    } else {
+                        context.showToast(context.getString(R.string.please_login_to_use_this_feature))
+                    }
                 }
             ) {
                 Icon(

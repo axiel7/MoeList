@@ -24,7 +24,10 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -73,18 +76,24 @@ private fun SeasonChartViewContent(
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+
     val sheetState = rememberModalBottomSheetState()
+    var showSheet by remember { mutableStateOf(false) }
+    fun hideSheet() {
+        scope.launch { sheetState.hide() }.invokeOnCompletion { showSheet = false }
+    }
+
     val bottomBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
-    if (sheetState.isVisible) {
+    if (showSheet) {
         SeasonChartFilterSheet(
             uiState = uiState,
             event = event,
             onApply = {
-                scope.launch { sheetState.hide() }
+                hideSheet()
                 event?.onApplyFilters()
             },
-            onDismiss = { scope.launch { sheetState.hide() } },
+            onDismiss = { hideSheet() },
             sheetState = sheetState,
             bottomPadding = bottomBarPadding
         )
@@ -102,7 +111,7 @@ private fun SeasonChartViewContent(
         navigateBack = navActionManager::goBack,
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { scope.launch { sheetState.show() } },
+                onClick = { showSheet = true },
                 modifier = Modifier.padding(WindowInsets.navigationBars.asPaddingValues())
             ) {
                 Icon(

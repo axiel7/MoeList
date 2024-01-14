@@ -101,7 +101,17 @@ private fun UserMediaListWithFabViewContent(
     val haptic = LocalHapticFeedback.current
 
     val statusSheetState = rememberModalBottomSheetState()
+    var showStatusSheet by remember { mutableStateOf(false) }
+    fun hideStatusSheet() {
+        scope.launch { statusSheetState.hide() }.invokeOnCompletion { showStatusSheet = false }
+    }
+
     val editSheetState = rememberModalBottomSheetState()
+    var showEditSheet by remember { mutableStateOf(false) }
+    fun hideEditSheet() {
+        scope.launch { editSheetState.hide() }.invokeOnCompletion { showEditSheet = false }
+    }
+
     var isFabVisible by remember { mutableStateOf(true) }
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
@@ -114,7 +124,7 @@ private fun UserMediaListWithFabViewContent(
     }
     val bottomBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
-    if (statusSheetState.isVisible) {
+    if (showStatusSheet) {
         ListStatusSheet(
             mediaType = uiState.mediaType,
             selectedStatus = uiState.listStatus,
@@ -122,7 +132,7 @@ private fun UserMediaListWithFabViewContent(
             bottomPadding = bottomBarPadding,
             onStatusChanged = { event?.onChangeStatus(it) },
             onDismiss = {
-                scope.launch { statusSheetState.hide() }
+                hideStatusSheet()
             }
         )
     }
@@ -139,17 +149,19 @@ private fun UserMediaListWithFabViewContent(
         LoadingDialog()
     }
 
-    if (editSheetState.isVisible && uiState.mediaInfo != null) {
+    if (showEditSheet && uiState.mediaInfo != null) {
         EditMediaSheet(
             sheetState = editSheetState,
             mediaInfo = uiState.mediaInfo!!,
             myListStatus = uiState.myListStatus,
             bottomPadding = bottomBarPadding,
             onEdited = { status, removed ->
-                scope.launch { editSheetState.hide() }
+                hideEditSheet()
                 event?.onChangeItemMyListStatus(status, removed)
             },
-            onDismissed = { scope.launch { editSheetState.hide() } }
+            onDismissed = {
+                hideEditSheet()
+            }
         )
     }
 
@@ -178,7 +190,7 @@ private fun UserMediaListWithFabViewContent(
                 exit = slideOutVertically(targetOffsetY = { it * 2 }),
             ) {
                 ExtendedFloatingActionButton(
-                    onClick = { scope.launch { statusSheetState.show() } }
+                    onClick = { showStatusSheet = true }
                 ) {
                     Icon(
                         painter = painterResource(uiState.listStatus.icon),
@@ -205,11 +217,9 @@ private fun UserMediaListWithFabViewContent(
                 contentPadding = padding,
                 onShowEditSheet = { item ->
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                    scope.launch {
-                        event?.onItemSelected(item)
-                        editSheetState.show()
-                    }
-                },
+                    event?.onItemSelected(item)
+                    showEditSheet = true
+                }
             )
         }
     }//:Scaffold
