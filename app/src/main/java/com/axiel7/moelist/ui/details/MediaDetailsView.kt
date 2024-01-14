@@ -71,6 +71,7 @@ import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_BIG_HEIGHT
 import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_BIG_WIDTH
 import com.axiel7.moelist.ui.composables.media.MediaItemVertical
 import com.axiel7.moelist.ui.composables.media.MediaPoster
+import com.axiel7.moelist.ui.composables.stats.HorizontalStatsBar
 import com.axiel7.moelist.ui.details.composables.AnimeThemeItem
 import com.axiel7.moelist.ui.details.composables.MediaDetailsTopAppBar
 import com.axiel7.moelist.ui.details.composables.MediaInfoView
@@ -614,7 +615,7 @@ private fun MediaDetailsContent(
             if (uiState.recommendations.isNotEmpty()) {
                 InfoTitle(text = stringResource(R.string.recommendations))
                 LazyRow(
-                    modifier = Modifier.padding(top = 8.dp),
+                    modifier = Modifier.padding(vertical = 8.dp),
                     contentPadding = PaddingValues(horizontal = 16.dp)
                 ) {
                     items(uiState.recommendations) { item ->
@@ -640,6 +641,13 @@ private fun MediaDetailsContent(
                         )
                     }
                 }
+            }
+
+            (uiState.mediaDetails as? AnimeDetails)?.statistics?.status?.toStats()?.let { stats ->
+                InfoTitle(text = stringResource(R.string.status_distribution))
+                HorizontalStatsBar(
+                    stats = stats
+                )
             }
         }//:Column
     }//:Scaffold

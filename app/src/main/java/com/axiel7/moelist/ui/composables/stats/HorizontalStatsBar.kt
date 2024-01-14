@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.SuggestionChip
-import androidx.compose.material3.SuggestionChipDefaults
+import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.ElevatedAssistChip
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +22,7 @@ import com.axiel7.moelist.data.model.base.LocalizableAndColorable
 import com.axiel7.moelist.data.model.media.Stat
 import com.axiel7.moelist.ui.composables.Rectangle
 import com.axiel7.moelist.ui.theme.MoeListTheme
+import com.axiel7.moelist.utils.NumExtensions.format
 
 @Composable
 fun <T : LocalizableAndColorable> HorizontalStatsBar(
@@ -38,15 +39,21 @@ fun <T : LocalizableAndColorable> HorizontalStatsBar(
             contentPadding = PaddingValues(8.dp)
         ) {
             items(stats) {
-                SuggestionChip(
+                ElevatedAssistChip(
                     onClick = { },
                     label = { Text(text = it.type.localized()) },
-                    modifier = Modifier.padding(end = 8.dp),
-                    icon = { Text(text = String.format("%.0f", it.value)) },
-                    border = SuggestionChipDefaults.suggestionChipBorder(
-                        enabled = true,
-                        borderColor = it.type.primaryColor()
-                    )
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    leadingIcon = {
+                        Text(
+                            text = it.value.format() ?: it.value.toString(),
+                            color = it.type.onPrimaryColor()
+                        )
+                    },
+                    colors = AssistChipDefaults.elevatedAssistChipColors(
+                        containerColor = it.type.primaryColor(),
+                        labelColor = it.type.onPrimaryColor(),
+                        leadingIconContentColor = it.type.onPrimaryColor()
+                    ),
                 )
             }
         }
@@ -62,8 +69,11 @@ fun <T : LocalizableAndColorable> HorizontalStatsBar(
         }
 
         Text(
-            text = stringResource(R.string.total_entries).format(String.format("%.0f", totalValue)),
-            modifier = Modifier.padding(8.dp)
+            text = stringResource(
+                id = R.string.total_entries,
+                totalValue.format() ?: totalValue.toString()
+            ),
+            modifier = Modifier.padding(16.dp)
         )
     }
 }

@@ -368,4 +368,5 @@
     <string name="previous_season">Previous</string>
     <string name="current_season">Current</string>
     <string name="next_season">Next</string>
+    <string name="status_distribution">Status distribution</string>
 </resources>
