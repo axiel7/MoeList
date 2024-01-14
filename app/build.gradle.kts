@@ -114,8 +114,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycleVersion")
 
-    implementation("androidx.navigation:navigation-compose:2.7.6")
-
     implementation("androidx.glance:glance-appwidget:1.0.0")
 
     val accompanistVersion = "0.32.0"
@@ -151,4 +149,9 @@ dependencies {
     implementation("io.insert-koin:koin-androidx-compose")
     implementation("io.insert-koin:koin-androidx-compose-navigation")
     implementation("io.insert-koin:koin-androidx-workmanager")
+
+    //Serialized Navigation
+    val serializedNavigationVersion = "e23f84fc1f" // TODO: use proper versioning once the library is released
+    implementation("com.github.uragiristereo.serialized-navigation-extension:navigation-compose:$serializedNavigationVersion")
+    implementation("com.github.uragiristereo.serialized-navigation-extension:serializer-kotlinx:$serializedNavigationVersion")
 }
