@@ -365,18 +365,18 @@ private fun MediaDetailsContent(
 
             //Info
             InfoTitle(text = stringResource(R.string.more_info))
-            if (!uiState.isAnime) {
+            if (uiState.mediaDetails is MangaDetails) {
                 SelectionContainer {
                     MediaInfoView(
                         title = stringResource(R.string.authors),
-                        info = (uiState.mediaDetails as? MangaDetails)?.authors
+                        info = uiState.mediaDetails.authors
                             ?.joinToString { "${it.node.firstName} ${it.node.lastName}" },
                         modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
                     )
                 }
                 MediaInfoView(
                     title = stringResource(R.string.volumes),
-                    info = (uiState.mediaDetails as? MangaDetails)?.numVolumes.toStringPositiveValueOrNull(),
+                    info = uiState.mediaDetails.numVolumes.toStringPositiveValueOrNull(),
                     modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
                 )
                 HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
@@ -422,28 +422,27 @@ private fun MediaDetailsContent(
                 info = uiState.mediaDetails?.endDate?.parseDateAndLocalize(),
                 modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
             )
-            if (uiState.isAnime) {
-                val animeDetails = uiState.mediaDetails as? AnimeDetails
+            if (uiState.mediaDetails is AnimeDetails) {
                 MediaInfoView(
                     title = stringResource(R.string.season),
-                    info = animeDetails?.startSeason?.seasonYearText(),
+                    info = uiState.mediaDetails.startSeason?.seasonYearText(),
                     modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
                 )
                 MediaInfoView(
                     title = stringResource(R.string.broadcast),
-                    info = animeDetails?.broadcast?.timeText(
-                        isAiring = animeDetails.status == MediaStatus.AIRING
+                    info = uiState.mediaDetails.broadcast?.timeText(
+                        isAiring = uiState.mediaDetails.status == MediaStatus.AIRING
                     ),
                     modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
                 )
                 MediaInfoView(
                     title = stringResource(R.string.duration),
-                    info = animeDetails?.episodeDurationLocalized(),
+                    info = uiState.mediaDetails.episodeDurationLocalized(),
                     modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
                 )
                 MediaInfoView(
                     title = stringResource(R.string.source),
-                    info = animeDetails?.source?.localized(),
+                    info = uiState.mediaDetails.source?.localized(),
                     modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
                 )
             }
@@ -510,8 +509,8 @@ private fun MediaDetailsContent(
             }
 
             //Themes
-            if (uiState.isAnime) {
-                (uiState.mediaDetails as? AnimeDetails)?.openingThemes?.let { themes ->
+            if (uiState.mediaDetails is AnimeDetails) {
+                uiState.mediaDetails.openingThemes?.let { themes ->
                     InfoTitle(text = stringResource(R.string.opening))
                     themes.forEach { theme ->
                         AnimeThemeItem(
@@ -525,7 +524,7 @@ private fun MediaDetailsContent(
                     }
                 }
 
-                (uiState.mediaDetails as? AnimeDetails)?.endingThemes?.let { themes ->
+                uiState.mediaDetails.endingThemes?.let { themes ->
                     InfoTitle(text = stringResource(R.string.ending))
                     themes.forEach { theme ->
                         AnimeThemeItem(
