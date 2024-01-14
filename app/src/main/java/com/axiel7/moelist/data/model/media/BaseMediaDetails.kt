@@ -14,6 +14,8 @@ import com.axiel7.moelist.data.model.anime.Recommendations
 import com.axiel7.moelist.data.model.anime.RelatedAnime
 import com.axiel7.moelist.data.model.manga.MangaDetails
 import com.axiel7.moelist.data.model.manga.RelatedManga
+import com.axiel7.moelist.utils.ANIME_URL
+import com.axiel7.moelist.utils.MANGA_URL
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
 
 abstract class BaseMediaDetails : BaseResponse {
@@ -32,7 +34,7 @@ abstract class BaseMediaDetails : BaseResponse {
     abstract val nsfw: String?
     abstract val createdAt: String?
     abstract val updatedAt: String?
-    abstract val mediaType: MediaFormat?
+    abstract val mediaFormat: MediaFormat?
     abstract val status: MediaStatus?
     abstract val genres: List<Genre>?
     abstract val pictures: List<MainPicture>?
@@ -45,6 +47,12 @@ abstract class BaseMediaDetails : BaseResponse {
 
     override val error: String? = null
     override val message: String? = null
+
+    val mediaType
+        get() = if (this is MangaDetails) MediaType.MANGA else MediaType.ANIME
+
+    val malUrl
+        get() = if (this is MangaDetails) MANGA_URL + id else ANIME_URL + id
 
     fun userPreferredTitle() = title(App.titleLanguage)
 

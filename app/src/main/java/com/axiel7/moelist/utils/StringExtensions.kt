@@ -1,9 +1,5 @@
 package com.axiel7.moelist.utils
 
-import android.net.Uri
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-
 object StringExtensions {
     /**
      * Returns a string representation of the object.
@@ -17,7 +13,13 @@ object StringExtensions {
      */
     fun Any?.toStringOrEmpty() = this.toString().let { if (it == "null") "" else it }
 
-    fun Array<String>.toNavArgument(): String = Uri.encode(Json.encodeToString(this))
-
-    fun String.removeFirstAndLast() = substring(1, length - 1)
+    /**
+     * Format the opening/ending text from MAL to use it on YouTube search
+     */
+    fun String.buildQueryFromThemeText() = this
+        .replace(" ", "+")
+        .replace("\"", "")
+        .replaceFirst(Regex("#?\\d*:"), "") // theme number
+        .replace(Regex("\\(ep.*\\)"), "") // episodes
+        .trim()
 }

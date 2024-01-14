@@ -29,7 +29,7 @@ class MangaRepository(
         private const val USER_MANGA_LIST_FIELDS =
             "alternative_titles{en,ja},list_status{$LIST_STATUS_FIELDS},num_chapters,num_volumes,media_type,status"
         private const val SEARCH_FIELDS =
-            "id,title,alternative_titles{en,ja},main_picture,mean,media_type,num_chapters"
+            "id,title,alternative_titles{en,ja},main_picture,mean,media_type,num_chapters,start_date"
         private const val RANKING_FIELDS =
             "alternative_titles{en,ja},mean,media_type,num_chapters,num_list_users"
     }
@@ -48,7 +48,7 @@ class MangaRepository(
         status: ListStatus,
         sort: MediaSort,
         page: String? = null
-    ): Response<List<UserMangaList>>? {
+    ): Response<List<UserMangaList>> {
         return try {
             val result = if (page == null) api.getUserMangaList(
                 status = status,
@@ -117,9 +117,9 @@ class MangaRepository(
     suspend fun searchManga(
         query: String,
         limit: Int,
-        offset: Int?,
+        offset: Int? = null,
         page: String? = null
-    ): Response<List<MangaList>>? {
+    ): Response<List<MangaList>> {
         return try {
             val result = if (page == null) api.getMangaList(
                 query = query,
@@ -140,7 +140,7 @@ class MangaRepository(
         rankingType: RankingType,
         limit: Int,
         page: String? = null
-    ): Response<List<MangaRanking>>? {
+    ): Response<List<MangaRanking>> {
         return try {
             val result =
                 if (page == null) api.getMangaRanking(
@@ -161,7 +161,7 @@ class MangaRepository(
         status: ListStatus,
         prefetchedList: List<UserMangaList> = emptyList(),
         page: String? = null
-    ): Response<List<Int>>? {
+    ): Response<List<Int>> {
         return try {
             val result = if (page == null) api.getUserMangaList(
                 status = status,

@@ -11,8 +11,8 @@ data class ListType(
     ) = when (status) {
         ListStatus.WATCHING -> defaultPreferencesRepository.animeCurrentListStyle
         ListStatus.READING -> defaultPreferencesRepository.mangaCurrentListStyle
-        ListStatus.PTW -> defaultPreferencesRepository.animePlannedListStyle
-        ListStatus.PTR -> defaultPreferencesRepository.mangaPlannedListStyle
+        ListStatus.PLAN_TO_WATCH -> defaultPreferencesRepository.animePlannedListStyle
+        ListStatus.PLAN_TO_READ -> defaultPreferencesRepository.mangaPlannedListStyle
         ListStatus.COMPLETED ->
             if (mediaType == MediaType.ANIME) defaultPreferencesRepository.animeCompletedListStyle
             else defaultPreferencesRepository.mangaCompletedListStyle

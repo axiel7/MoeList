@@ -28,11 +28,11 @@ class UserRepository(
 
     suspend fun getUserStats(
         username: String
-    ): Response<UserStats>? {
+    ): Response<UserStats> {
         return try {
             jikanApi.getUserStats(username)
         } catch (e: Exception) {
-            null
+            Response(message = e.message)
         }
     }
 }

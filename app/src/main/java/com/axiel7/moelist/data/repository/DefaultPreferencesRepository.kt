@@ -12,11 +12,11 @@ import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.TitleLanguage
 import com.axiel7.moelist.di.getValue
 import com.axiel7.moelist.di.setValue
-import com.axiel7.moelist.uicompose.base.AppLanguage
-import com.axiel7.moelist.uicompose.base.ItemsPerRow
-import com.axiel7.moelist.uicompose.base.ListStyle
-import com.axiel7.moelist.uicompose.base.StartTab
-import com.axiel7.moelist.uicompose.base.ThemeStyle
+import com.axiel7.moelist.ui.base.AppLanguage
+import com.axiel7.moelist.ui.base.ItemsPerRow
+import com.axiel7.moelist.ui.base.ListStyle
+import com.axiel7.moelist.ui.base.StartTab
+import com.axiel7.moelist.ui.base.ThemeStyle
 import com.axiel7.moelist.utils.NumExtensions.toInt
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
