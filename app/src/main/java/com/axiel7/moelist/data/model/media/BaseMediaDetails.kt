@@ -70,9 +70,10 @@ abstract class BaseMediaDetails : BaseResponse {
     @Composable
     fun durationText() = when (this) {
         is AnimeDetails -> {
+            val epDuration = episodeDurationLocalized()
             val stringValue = numEpisodes.toStringPositiveValueOrNull()
             if (stringValue == null) stringResource(R.string.unknown)
-            else "$stringValue ${stringResource(R.string.episodes)}"
+            else "$stringValue ${stringResource(R.string.episodes)} ($epDuration)"
         }
 
         is MangaDetails -> {

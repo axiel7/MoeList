@@ -161,10 +161,6 @@ class MediaDetailsViewModel(
                 if (mediaDetails == null) showMessage("Unable to reach server")
                 else if (mediaDetails.error != null) showMessage(mediaDetails.error)
                 else {
-                    val studiosSerialization =
-                        (mediaDetails as? AnimeDetails)?.studios?.joinToString { it.name }
-                            ?: (mediaDetails as? MangaDetails)?.serialization?.joinToString { it.node.name }
-
                     val recommendations =
                         (mediaDetails.recommendations as? List<Recommendations<BaseMediaNode>>).orEmpty()
 
@@ -175,7 +171,6 @@ class MediaDetailsViewModel(
                     mutableUiState.update {
                         it.copy(
                             mediaDetails = mediaDetails,
-                            studioSerializationJoined = studiosSerialization,
                             relatedAnime = mediaDetails.relatedAnime.orEmpty(),
                             relatedManga = mediaDetails.relatedManga.orEmpty(),
                             recommendations = recommendations,

@@ -1,6 +1,9 @@
 package com.axiel7.moelist.data.model.manga
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.res.stringResource
+import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.Recommendations
 import com.axiel7.moelist.data.model.anime.RelatedAnime
 import com.axiel7.moelist.data.model.media.AlternativeTitles
@@ -59,8 +62,14 @@ data class MangaDetails(
     val authors: List<Author>? = null,
     @SerialName("serialization")
     val serialization: List<Serialization>? = null,
+) : BaseMediaDetails() {
 
-    ) : BaseMediaDetails() {
+    @Composable
+    fun volumesText() = if (numVolumes != null && numVolumes > 0) {
+        "$numVolumes ${stringResource(R.string.volumes)}"
+    } else {
+        stringResource(R.string.unknown)
+    }
 
     fun toMangaNode() = MangaNode(
         id = id,

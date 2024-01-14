@@ -15,7 +15,6 @@ import com.axiel7.moelist.ui.base.state.UiState
 @Immutable
 data class MediaDetailsUiState(
     val mediaDetails: BaseMediaDetails? = null,
-    val studioSerializationJoined: String? = null,
     val relatedAnime: List<RelatedAnime> = emptyList(),
     val relatedManga: List<RelatedManga> = emptyList(),
     val recommendations: List<Recommendations<BaseMediaNode>> = emptyList(),
@@ -41,4 +40,9 @@ data class MediaDetailsUiState(
         get() = mediaDetails?.myListStatus == null
 
     val isAnime get() = mediaDetails is AnimeDetails
+
+    val studiosJoined = (mediaDetails as? AnimeDetails)?.studios?.joinToString { it.name }
+
+    val serializationJoined =
+        (mediaDetails as? MangaDetails)?.serialization?.joinToString { it.node.name }
 }

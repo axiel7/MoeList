@@ -85,7 +85,6 @@ import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.DateUtils.parseDateAndLocalize
 import com.axiel7.moelist.utils.NumExtensions.format
-import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
 import com.axiel7.moelist.utils.StringExtensions.buildQueryFromThemeText
 import com.axiel7.moelist.utils.StringExtensions.toStringOrNull
 import com.axiel7.moelist.utils.UNKNOWN_CHAR
@@ -214,42 +213,49 @@ private fun MediaDetailsContent(
                         }
                 )
                 Column {
-                    Text(
-                        text = uiState.mediaDetails?.userPreferredTitle() ?: "Loading",
-                        modifier = Modifier
-                            .padding(bottom = 8.dp, end = 8.dp)
-                            .defaultPlaceholder(visible = uiState.isLoading)
-                            .combinedClickable(
-                                onLongClick = {
-                                    uiState.mediaDetails?.title?.let { context.copyToClipBoard(it) }
-                                },
-                                onClick = { }
-                            ),
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight.Bold
-                    )
                     TextIconHorizontal(
                         text = uiState.mediaDetails?.mediaType?.localized() ?: "Loading",
-                        icon = if (uiState.isAnime) R.drawable.ic_round_movie_24
-                        else R.drawable.ic_round_menu_book_24,
+                        icon = if (uiState.isAnime) R.drawable.ic_round_local_movies_24
+                        else R.drawable.ic_round_book_24,
                         modifier = Modifier
                             .padding(bottom = 8.dp)
                             .defaultPlaceholder(visible = uiState.isLoading)
                     )
                     TextIconHorizontal(
                         text = uiState.mediaDetails?.durationText() ?: "Loading",
-                        icon = R.drawable.ic_round_timer_24,
+                        icon = if (uiState.isAnime) R.drawable.ic_round_timer_24
+                        else R.drawable.ic_round_menu_book_24,
                         modifier = Modifier
                             .padding(bottom = 8.dp)
                             .defaultPlaceholder(visible = uiState.isLoading)
                     )
+                    if (uiState.mediaDetails is MangaDetails) {
+                        TextIconHorizontal(
+                            text = uiState.mediaDetails.volumesText(),
+                            icon = R.drawable.round_bookmark_24,
+                            modifier = Modifier
+                                .padding(bottom = 8.dp)
+                                .defaultPlaceholder(visible = uiState.isLoading)
+                        )
+                    }
                     TextIconHorizontal(
                         text = uiState.mediaDetails?.status?.localized() ?: "Loading",
-                        icon = R.drawable.ic_round_rss_feed_24,
+                        icon = if (uiState.isAnime) R.drawable.ic_round_rss_feed_24
+                        else R.drawable.round_drive_file_rename_outline_24,
                         modifier = Modifier
                             .padding(bottom = 8.dp)
                             .defaultPlaceholder(visible = uiState.isLoading)
                     )
+                    if (uiState.mediaDetails is AnimeDetails) {
+                        TextIconHorizontal(
+                            text = uiState.mediaDetails.startSeason?.year?.toString()
+                                ?: stringResource(R.string.unknown),
+                            icon = R.drawable.ic_round_event_24,
+                            modifier = Modifier
+                                .padding(bottom = 8.dp)
+                                .defaultPlaceholder(visible = uiState.isLoading)
+                        )
+                    }
                     TextIconHorizontal(
                         text = uiState.mediaDetails?.mean.toStringOrNull() ?: "??",
                         icon = R.drawable.ic_round_details_star_24,
@@ -259,6 +265,22 @@ private fun MediaDetailsContent(
                     )
                 }
             }//:Row
+
+            // Title
+            Text(
+                text = uiState.mediaDetails?.userPreferredTitle() ?: "Loading",
+                modifier = Modifier
+                    .padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
+                    .defaultPlaceholder(visible = uiState.isLoading)
+                    .combinedClickable(
+                        onLongClick = {
+                            uiState.mediaDetails?.title?.let { context.copyToClipBoard(it) }
+                        },
+                        onClick = { }
+                    ),
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold
+            )
 
             //Genres
             LazyRow(
@@ -374,11 +396,55 @@ private fun MediaDetailsContent(
                         modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
                     )
                 }
+                SelectionContainer {
+                    MediaInfoView(
+                        title = stringResource(R.string.serialization),
+                        info = uiState.serializationJoined,
+                        modifier = Modifier
+                            .defaultPlaceholder(visible = uiState.isLoading)
+                    )
+                }
+                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+            }
+            MediaInfoView(
+                title = stringResource(R.string.start_date),
+                info = uiState.mediaDetails?.startDate?.parseDateAndLocalize(),
+                modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
+            )
+            MediaInfoView(
+                title = stringResource(R.string.end_date),
+                info = uiState.mediaDetails?.endDate?.parseDateAndLocalize(),
+                modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
+            )
+            if (uiState.mediaDetails is AnimeDetails) {
                 MediaInfoView(
-                    title = stringResource(R.string.volumes),
-                    info = uiState.mediaDetails.numVolumes.toStringPositiveValueOrNull(),
+                    title = stringResource(R.string.season),
+                    info = uiState.mediaDetails.startSeason?.seasonYearText(),
                     modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
                 )
+                MediaInfoView(
+                    title = stringResource(R.string.broadcast),
+                    info = uiState.mediaDetails.broadcast?.timeText(
+                        isAiring = uiState.mediaDetails.status == MediaStatus.AIRING
+                    ),
+                    modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
+                )
+                MediaInfoView(
+                    title = stringResource(R.string.source),
+                    info = uiState.mediaDetails.source?.localized(),
+                    modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
+                )
+            }
+            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+            if (uiState.mediaDetails is AnimeDetails) {
+                SelectionContainer {
+                    MediaInfoView(
+                        title = stringResource(R.string.studios),
+                        info = uiState.studiosJoined,
+                        modifier = Modifier
+                            .defaultPlaceholder(visible = uiState.isLoading)
+                    )
+                }
                 HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
             }
             uiState.mediaDetails?.synonymsJoined()?.let { synonyms ->
@@ -409,53 +475,6 @@ private fun MediaDetailsContent(
                     title = stringResource(R.string.english),
                     info = uiState.mediaDetails?.alternativeTitles?.en,
                     modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
-                )
-            }
-            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-            MediaInfoView(
-                title = stringResource(R.string.start_date),
-                info = uiState.mediaDetails?.startDate?.parseDateAndLocalize(),
-                modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
-            )
-            MediaInfoView(
-                title = stringResource(R.string.end_date),
-                info = uiState.mediaDetails?.endDate?.parseDateAndLocalize(),
-                modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
-            )
-            if (uiState.mediaDetails is AnimeDetails) {
-                MediaInfoView(
-                    title = stringResource(R.string.season),
-                    info = uiState.mediaDetails.startSeason?.seasonYearText(),
-                    modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
-                )
-                MediaInfoView(
-                    title = stringResource(R.string.broadcast),
-                    info = uiState.mediaDetails.broadcast?.timeText(
-                        isAiring = uiState.mediaDetails.status == MediaStatus.AIRING
-                    ),
-                    modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
-                )
-                MediaInfoView(
-                    title = stringResource(R.string.duration),
-                    info = uiState.mediaDetails.episodeDurationLocalized(),
-                    modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
-                )
-                MediaInfoView(
-                    title = stringResource(R.string.source),
-                    info = uiState.mediaDetails.source?.localized(),
-                    modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
-                )
-            }
-            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-            SelectionContainer {
-                MediaInfoView(
-                    title = stringResource(
-                        id = if (uiState.isAnime) R.string.studios else R.string.serialization
-                    ),
-                    info = uiState.studioSerializationJoined,
-                    modifier = Modifier
-                        .defaultPlaceholder(visible = uiState.isLoading)
-                        .padding(bottom = 8.dp)
                 )
             }
 

@@ -5,7 +5,7 @@
     <string name="title_manga_list">Manga</string>
     <string name="lorem_ipsun" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
     <string name="stats">Stats</string>
-    <string name="more_info">More Info</string>
+    <string name="more_info">More information</string>
     <string name="synonyms">Synonyms</string>
     <string name="jp_title">Japanese</string>
     <string name="start_date">Start Date</string>
