@@ -27,11 +27,23 @@ class SearchViewModel(
     }
 
     override fun search(query: String) {
-        mutableUiState.update { it.copy(query = query, performSearch = true) }
+        mutableUiState.update {
+            it.copy(
+                query = query,
+                performSearch = true,
+                nextPage = null
+            )
+        }
     }
 
     override fun onChangeMediaType(value: MediaType) {
-        mutableUiState.update { it.copy(mediaType = value, performSearch = true) }
+        mutableUiState.update {
+            it.copy(
+                mediaType = value,
+                performSearch = true,
+                nextPage = null
+            )
+        }
     }
 
     init {

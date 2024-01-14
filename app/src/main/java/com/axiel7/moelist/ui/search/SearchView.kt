@@ -63,8 +63,10 @@ fun SearchHostView(
     navActionManager: NavActionManager,
     padding: PaddingValues,
 ) {
+    val viewModel: SearchViewModel = koinViewModel()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     var query by remember { mutableStateOf("") }
-    val performSearch = remember { mutableStateOf(false) }
     val focusRequester = remember { FocusRequester() }
 
     LaunchedEffect(Unit) {
@@ -89,7 +91,7 @@ fun SearchHostView(
             },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(
-                onSearch = { performSearch.value = true }
+                onSearch = { viewModel.search(query) }
             ),
             singleLine = true,
             colors = TextFieldDefaults.colors(
@@ -99,33 +101,15 @@ fun SearchHostView(
                 unfocusedIndicatorColor = MaterialTheme.colorScheme.outlineVariant
             )
         )
-        SearchView(
+        SearchViewContent(
+            uiState = uiState,
+            event = viewModel,
             query = query,
             isCompactScreen = isCompactScreen,
             navActionManager = navActionManager,
             contentPadding = PaddingValues(bottom = padding.calculateBottomPadding()),
         )
     }
-}
-
-@Composable
-fun SearchView(
-    query: String,
-    isCompactScreen: Boolean,
-    navActionManager: NavActionManager,
-    contentPadding: PaddingValues,
-) {
-    val viewModel: SearchViewModel = koinViewModel()
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    SearchViewContent(
-        uiState = uiState,
-        event = viewModel,
-        query = query,
-        isCompactScreen = isCompactScreen,
-        navActionManager = navActionManager,
-        contentPadding = contentPadding,
-    )
 }
 
 @Composable
@@ -146,13 +130,6 @@ private fun SearchViewContent(
             event?.onMessageDisplayed()
         }
     }
-
-    /*LaunchedEffect(viewModel.mediaType, performSearch.value) {
-        if (query.isNotBlank() && performSearch.value) {
-            viewModel.search(query = query)
-            performSearch.value = false
-        }
-    }*/
 
     @Composable
     fun FilterRow() {
