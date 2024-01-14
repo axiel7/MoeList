@@ -30,6 +30,7 @@ fun UserStatsView(
     uiState: ProfileUiState,
     mediaType: MediaType,
 ) {
+    val isLoading = if (mediaType == MediaType.MANGA) uiState.isLoadingManga else uiState.isLoading
     Text(
         text = if (mediaType == MediaType.ANIME) stringResource(R.string.anime_stats)
         else stringResource(R.string.manga_stats),
@@ -55,7 +56,7 @@ fun UserStatsView(
                     ),
                     modifier = Modifier
                         .width(100.dp)
-                        .defaultPlaceholder(visible = uiState.isLoading),
+                        .defaultPlaceholder(visible = isLoading),
                     textAlign = TextAlign.Center
                 )
             }
@@ -71,7 +72,7 @@ fun UserStatsView(
                         icon = {
                             Text(
                                 text = String.format("%.0f", it.value),
-                                modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
+                                modifier = Modifier.defaultPlaceholder(visible = isLoading)
                             )
                         },
                         border = SuggestionChipDefaults.suggestionChipBorder(
@@ -95,27 +96,27 @@ fun UserStatsView(
             else uiState.userMangaStats?.days.toStringOrZero(),
             icon = R.drawable.ic_round_event_24,
             tooltip = stringResource(R.string.days),
-            isLoading = uiState.isLoading
+            isLoading = isLoading
         )
         if (mediaType == MediaType.ANIME) {
             TextIconVertical(
                 text = uiState.user?.animeStatistics?.numEpisodes.toStringOrZero(),
                 icon = R.drawable.play_circle_outline_24,
                 tooltip = stringResource(R.string.episodes),
-                isLoading = uiState.isLoading
+                isLoading = isLoading
             )
         } else {
             TextIconVertical(
                 text = uiState.userMangaStats?.chaptersRead.toStringOrZero(),
                 icon = R.drawable.ic_round_menu_book_24,
                 tooltip = stringResource(R.string.chapters),
-                isLoading = uiState.isLoading
+                isLoading = isLoading
             )
             TextIconVertical(
                 text = uiState.userMangaStats?.volumesRead.toStringOrZero(),
                 icon = R.drawable.ic_outline_book_24,
                 tooltip = stringResource(R.string.volumes),
-                isLoading = uiState.isLoading
+                isLoading = isLoading
             )
         }
 
@@ -125,7 +126,7 @@ fun UserStatsView(
             else uiState.userMangaStats?.meanScore.toStringOrZero(),
             icon = R.drawable.ic_round_details_star_24,
             tooltip = stringResource(R.string.mean_score),
-            isLoading = uiState.isLoading
+            isLoading = isLoading
         )
         TextIconVertical(
             text = if (mediaType == MediaType.ANIME)
@@ -134,7 +135,7 @@ fun UserStatsView(
             icon = R.drawable.round_repeat_24,
             tooltip = if (mediaType == MediaType.ANIME) stringResource(R.string.rewatched)
             else stringResource(R.string.total_rereads),
-            isLoading = uiState.isLoading
+            isLoading = isLoading
         )
     }
 }
