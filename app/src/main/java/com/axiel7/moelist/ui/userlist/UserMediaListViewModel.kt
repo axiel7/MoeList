@@ -47,7 +47,14 @@ class UserMediaListViewModel(
     )
 
     override fun onChangeStatus(value: ListStatus) {
-        mutableUiState.update { it.copy(listStatus = value) }
+        mutableUiState.update {
+            it.mediaList.clear()
+            it.copy(
+                listStatus = value,
+                nextPage = null,
+                loadMore = true
+            )
+        }
     }
 
     override fun onChangeSort(value: MediaSort) {
@@ -56,7 +63,14 @@ class UserMediaListViewModel(
                 MediaType.ANIME -> defaultPreferencesRepository.setAnimeListSort(value)
                 MediaType.MANGA -> defaultPreferencesRepository.setMangaListSort(value)
             }
-            mutableUiState.update { it.copy(listSort = value) }
+            mutableUiState.update {
+                it.mediaList.clear()
+                it.copy(
+                    listSort = value,
+                    nextPage = null,
+                    loadMore = true
+                )
+            }
         }
     }
 
@@ -78,24 +92,6 @@ class UserMediaListViewModel(
             }
         }
     }
-
-    /*override var _myListStatus by object : MutableState<BaseMyListStatus?> {
-        override var value: BaseMyListStatus?
-            get() = selectedItem?.listStatus
-            set(value) {
-                when (value) {
-                    is MyAnimeListStatus -> selectedItem =
-                        (selectedItem as? UserAnimeList)?.copy(listStatus = value)
-
-                    is MyMangaListStatus -> selectedItem =
-                        (selectedItem as? UserMangaList)?.copy(listStatus = value)
-                }
-                onMediaItemStatusChanged(value)
-            }
-
-        override fun component1(): BaseMyListStatus? = value
-        override fun component2(): (BaseMyListStatus?) -> Unit = { value = it }
-    }*/
 
     override fun refreshList() {
         mutableUiState.update { it.copy(nextPage = null, loadMore = true) }
