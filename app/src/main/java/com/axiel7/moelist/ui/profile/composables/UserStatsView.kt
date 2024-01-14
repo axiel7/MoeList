@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.SuggestionChip
-import androidx.compose.material3.SuggestionChipDefaults
+import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.ElevatedAssistChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -65,20 +65,22 @@ fun UserStatsView(
         Column {
             (if (mediaType == MediaType.ANIME) uiState.animeStats else uiState.mangaStats)
                 .forEach {
-                    SuggestionChip(
+                    ElevatedAssistChip(
                         onClick = { },
                         label = { Text(text = it.type.localized()) },
                         modifier = Modifier.padding(horizontal = 8.dp),
-                        icon = {
+                        leadingIcon = {
                             Text(
                                 text = String.format("%.0f", it.value),
-                                modifier = Modifier.defaultPlaceholder(visible = isLoading)
+                                modifier = Modifier.defaultPlaceholder(visible = isLoading),
+                                color = it.type.onPrimaryColor()
                             )
                         },
-                        border = SuggestionChipDefaults.suggestionChipBorder(
-                            enabled = true,
-                            borderColor = it.type.primaryColor()
-                        )
+                        colors = AssistChipDefaults.elevatedAssistChipColors(
+                            containerColor = it.type.primaryColor(),
+                            labelColor = it.type.onPrimaryColor(),
+                            leadingIconContentColor = it.type.onPrimaryColor()
+                        ),
                     )
                 }
         }
