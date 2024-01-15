@@ -4,6 +4,7 @@
     <string name="title_anime_list">Anime</string>
     <string name="title_manga_list">Manga</string>
     <string name="stats">İstatistikler</string>
+    <string name="more_info">Daha Fazla Bilgi</string>
     <string name="synonyms">Eş anlamlılar</string>
     <string name="jp_title">Japonca</string>
     <string name="start_date">Başlangıç Tarihi</string>
@@ -331,4 +332,10 @@
     <string name="enable_list_tabs_subtitle">Yüzen Eylem Düğmesi yerine Anime/Manga listesindeki sekmeleri kullan</string>
     <string name="always_load_characters">Karakterleri her zaman yükle</string>
     <string name="random_button_on_list">Anime/Manga listesinde rastgele düğme</string>
+    <string name="new_anime">Yeni</string>
+    <string name="continuing_anime">Devam ediliyor</string>
+    <string name="previous_season">Önceki</string>
+    <string name="current_season">Şimdiki</string>
+    <string name="next_season">Sonraki</string>
+    <string name="status_distribution" comment="anime stats: users list status distribution">Durum dağılımı</string>
 </resources>
