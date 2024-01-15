@@ -4,6 +4,7 @@
     <string name="title_anime_list">Аниме</string>
     <string name="title_manga_list">Манга</string>
     <string name="stats">Статистика</string>
+    <string name="more_info">Больше информации</string>
     <string name="synonyms">Синонимы</string>
     <string name="jp_title">Оригинал</string>
     <string name="start_date">Дата начала</string>
@@ -331,4 +332,10 @@
     <string name="enable_list_tabs_subtitle">Использовать вкладки в списке аниме/манга вместо плавающей кнопки действия</string>
     <string name="always_load_characters">Всегда загружать персонажей</string>
     <string name="random_button_on_list">Случайная кнопка в списке аниме/манги</string>
+    <string name="new_anime">Новое</string>
+    <string name="continuing_anime">Продолжается</string>
+    <string name="previous_season">Предыдущий</string>
+    <string name="current_season">Текущий</string>
+    <string name="next_season">Следующий</string>
+    <string name="status_distribution" comment="anime stats: users list status distribution">Статус распределение</string>
 </resources>
