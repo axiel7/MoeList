@@ -9,7 +9,7 @@
     <string name="jp_title">日文</string>
     <string name="start_date">開始日期</string>
     <string name="end_date">結束日期</string>
-    <string name="season">季</string>
+    <string name="season">季度</string>
     <string name="broadcast">播出時間</string>
     <string name="duration">每集長度</string>
     <string name="source">來源</string>
