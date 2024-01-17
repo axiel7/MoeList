@@ -4,6 +4,7 @@
     <string name="title_anime_list">Anime</string>
     <string name="title_manga_list">Manga</string>
     <string name="stats">Statistik</string>
+    <string name="more_info">Informasi lainnya</string>
     <string name="synonyms">Kesamaan</string>
     <string name="jp_title">Jepang</string>
     <string name="start_date">Tanggal Mulai</string>
@@ -331,4 +332,10 @@
     <string name="enable_list_tabs_subtitle">Gunakan tab di daftar Anime/Manga alih-alih Menggunakan Tombol Aksi Mengambang</string>
     <string name="always_load_characters">Selalu memuat karakter</string>
     <string name="random_button_on_list">Tombol acak pada daftar anime/manga</string>
+    <string name="new_anime">Baru</string>
+    <string name="continuing_anime">Melanjutkan</string>
+    <string name="previous_season">Sebelumnya</string>
+    <string name="current_season">Saat ini</string>
+    <string name="next_season">Berikut</string>
+    <string name="status_distribution" comment="anime stats: users list status distribution">Status distribusi</string>
 </resources>
