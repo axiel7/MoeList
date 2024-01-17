@@ -1,5 +1,6 @@
 package com.axiel7.moelist.ui.details
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
@@ -223,9 +224,17 @@ private fun MediaDetailsContent(
                 )
                 Column {
                     TextIconHorizontal(
-                        text = uiState.mediaDetails?.mediaType?.localized() ?: "Loading",
+                        text = uiState.mediaDetails?.mediaFormat?.localized() ?: "Loading",
                         icon = if (uiState.isAnime) R.drawable.ic_round_local_movies_24
                         else R.drawable.ic_round_book_24,
+                        modifier = Modifier
+                            .padding(bottom = 8.dp)
+                            .defaultPlaceholder(visible = uiState.isLoading)
+                    )
+                    TextIconHorizontal(
+                        text = uiState.mediaDetails?.status?.localized() ?: "Loading",
+                        icon = if (uiState.isAnime) R.drawable.ic_round_rss_feed_24
+                        else R.drawable.round_drive_file_rename_outline_24,
                         modifier = Modifier
                             .padding(bottom = 8.dp)
                             .defaultPlaceholder(visible = uiState.isLoading)
@@ -247,14 +256,6 @@ private fun MediaDetailsContent(
                                 .defaultPlaceholder(visible = uiState.isLoading)
                         )
                     }
-                    TextIconHorizontal(
-                        text = uiState.mediaDetails?.status?.localized() ?: "Loading",
-                        icon = if (uiState.isAnime) R.drawable.ic_round_rss_feed_24
-                        else R.drawable.round_drive_file_rename_outline_24,
-                        modifier = Modifier
-                            .padding(bottom = 8.dp)
-                            .defaultPlaceholder(visible = uiState.isLoading)
-                    )
                     if (uiState.mediaDetails is AnimeDetails) {
                         TextIconHorizontal(
                             text = uiState.mediaDetails.startSeason?.year?.toString()
@@ -312,6 +313,7 @@ private fun MediaDetailsContent(
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
                         .clickable { isSynopsisExpanded = !isSynopsisExpanded }
+                        .animateContentSize()
                         .defaultPlaceholder(visible = uiState.isLoading),
                     lineHeight = 20.sp,
                     overflow = TextOverflow.Ellipsis,
@@ -512,6 +514,7 @@ private fun MediaDetailsContent(
                                         fontSize = 13.sp
                                     )
                                 },
+                                minLines = 2,
                                 onClick = {
                                     context.openLink(CHARACTER_URL + item.node.id)
                                 }
@@ -636,7 +639,8 @@ private fun MediaDetailsContent(
                                     text = item.numRecommendations.format() ?: UNKNOWN_CHAR,
                                     icon = R.drawable.ic_round_thumbs_up_down_16,
                                     color = MaterialTheme.colorScheme.outline,
-                                    fontSize = 13.sp
+                                    fontSize = 13.sp,
+                                    iconSize = 20.dp,
                                 )
                             },
                             minLines = 2,
