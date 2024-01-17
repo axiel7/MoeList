@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.axiel7.moelist.App
 import com.axiel7.moelist.data.model.AccessToken
+import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.TitleLanguage
 import com.axiel7.moelist.di.getValue
@@ -67,6 +68,20 @@ class DefaultPreferencesRepository(
     val profilePicture = dataStore.getValue(PROFILE_PICTURE_KEY)
     suspend fun setProfilePicture(value: String) {
         dataStore.setValue(PROFILE_PICTURE_KEY, value)
+    }
+
+    val animeListStatus = dataStore.getValue(ANIME_LIST_STATUS_KEY, ListStatus.WATCHING.name)
+        .map { ListStatus.valueOf(it) }
+
+    suspend fun setAnimeListStatus(value: ListStatus) {
+        dataStore.setValue(ANIME_LIST_STATUS_KEY, value.name)
+    }
+
+    val mangaListStatus = dataStore.getValue(MANGA_LIST_STATUS_KEY, ListStatus.READING.name)
+        .map { ListStatus.valueOf(it) }
+
+    suspend fun setMangaListStatus(value: ListStatus) {
+        dataStore.setValue(MANGA_LIST_STATUS_KEY, value.name)
     }
 
     val animeListSort = dataStore.getValue(ANIME_LIST_SORT_KEY, MediaSort.ANIME_TITLE.value)
@@ -221,6 +236,9 @@ class DefaultPreferencesRepository(
         private val THEME_KEY = stringPreferencesKey("theme")
         private val LAST_TAB_KEY = intPreferencesKey("last_tab")
         private val PROFILE_PICTURE_KEY = stringPreferencesKey("profile_picture")
+
+        private val ANIME_LIST_STATUS_KEY = stringPreferencesKey("anime_list_status")
+        private val MANGA_LIST_STATUS_KEY = stringPreferencesKey("manga_list_status")
         private val ANIME_LIST_SORT_KEY = stringPreferencesKey("anime_list_sort")
         private val MANGA_LIST_SORT_KEY = stringPreferencesKey("manga_list_sort")
 

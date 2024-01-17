@@ -42,7 +42,7 @@ import com.axiel7.moelist.utils.UNKNOWN_CHAR
 @Composable
 fun MinimalUserMediaListItem(
     item: BaseUserMediaList<out BaseMediaNode>,
-    listStatus: ListStatus,
+    listStatus: ListStatus?,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
     onClickPlus: () -> Unit,
@@ -151,7 +151,7 @@ fun MinimalUserMediaListItem(
                 }//:Row
             }//:Column
 
-            if (listStatus.isCurrent()) {
+            if (listStatus?.isCurrent() == true) {
                 OutlinedButton(onClick = onClickPlus) {
                     Text(text = stringResource(R.string.plus_one))
                 }

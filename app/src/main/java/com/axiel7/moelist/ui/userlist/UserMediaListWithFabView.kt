@@ -44,10 +44,12 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.data.model.media.ListStatus.Companion.listStatusValues
 import com.axiel7.moelist.data.model.media.MediaType
@@ -124,7 +126,7 @@ private fun UserMediaListWithFabViewContent(
     }
     val bottomBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
-    if (showStatusSheet) {
+    if (showStatusSheet && uiState.listStatus != null) {
         ListStatusSheet(
             mediaType = uiState.mediaType,
             selectedStatus = uiState.listStatus,
@@ -193,11 +195,13 @@ private fun UserMediaListWithFabViewContent(
                     onClick = { showStatusSheet = true }
                 ) {
                     Icon(
-                        painter = painterResource(uiState.listStatus.icon),
+                        painter = painterResource(
+                            id = uiState.listStatus?.icon ?: R.drawable.round_format_list_bulleted_24
+                        ),
                         contentDescription = "status",
                         modifier = Modifier.padding(end = 8.dp)
                     )
-                    Text(text = uiState.listStatus.localized())
+                    Text(text = uiState.listStatus?.localized() ?: stringResource(R.string.loading))
                 }
             }
         },

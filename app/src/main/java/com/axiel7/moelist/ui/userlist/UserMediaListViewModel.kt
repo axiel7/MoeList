@@ -38,22 +38,32 @@ class UserMediaListViewModel(
     private val defaultPreferencesRepository: DefaultPreferencesRepository,
 ) : BaseViewModel<UserMediaListUiState>(), UserMediaListEvent {
 
+    private val defaultListStatus = when (mediaType) {
+        MediaType.ANIME -> ListStatus.WATCHING
+        MediaType.MANGA -> ListStatus.READING
+    }
+
     override val mutableUiState = MutableStateFlow(
         UserMediaListUiState(
             mediaType = mediaType,
             listStatus = initialListStatus
-                ?: if (mediaType == MediaType.MANGA) ListStatus.READING else ListStatus.WATCHING
         )
     )
 
     override fun onChangeStatus(value: ListStatus) {
-        mutableUiState.update {
-            it.mediaList.clear()
-            it.copy(
-                listStatus = value,
-                nextPage = null,
-                loadMore = true
-            )
+        viewModelScope.launch {
+            mutableUiState.update {
+                when (it.mediaType) {
+                    MediaType.ANIME -> defaultPreferencesRepository.setAnimeListStatus(value)
+                    MediaType.MANGA -> defaultPreferencesRepository.setMangaListStatus(value)
+                }
+                it.mediaList.clear()
+                it.copy(
+                    listStatus = value,
+                    nextPage = null,
+                    loadMore = true
+                )
+            }
         }
     }
 
@@ -207,9 +217,13 @@ class UserMediaListViewModel(
             mutableUiState.run {
                 emit(value.copy(isLoadingRandom = true))
                 val result = if (value.mediaType == MediaType.ANIME) {
-                    animeRepository.getAnimeIdsOfUserList(status = value.listStatus)
+                    animeRepository.getAnimeIdsOfUserList(
+                        status = value.listStatus ?: defaultListStatus
+                    )
                 } else {
-                    mangaRepository.getMangaIdsOfUserList(status = value.listStatus)
+                    mangaRepository.getMangaIdsOfUserList(
+                        status = value.listStatus ?: defaultListStatus
+                    )
                 }
                 if (result.data != null) {
                     emit(
@@ -230,6 +244,20 @@ class UserMediaListViewModel(
     }
 
     init {
+        // For now we only support list status remembering on default FAB view,
+        // implementing this with Tabs would require another ViewModel.
+        if (initialListStatus == null) {
+            val listStatusFlow = when (mediaType) {
+                MediaType.ANIME -> defaultPreferencesRepository.animeListStatus
+                MediaType.MANGA -> defaultPreferencesRepository.mangaListStatus
+            }
+            listStatusFlow
+                .onEach { value ->
+                    mutableUiState.update { it.copy(listStatus = value) }
+                }
+                .launchIn(viewModelScope)
+        }
+
         // sort
         val listSortFlow = when (mediaType) {
             MediaType.ANIME -> defaultPreferencesRepository.animeListSort
@@ -250,8 +278,9 @@ class UserMediaListViewModel(
                 mutableUiState.update { it.copy(listStyle = generalStyle) }
             } else {
                 mutableUiState
+                    .filter { it.listStatus != null }
                     .flatMapLatest {
-                        ListType(it.listStatus, it.mediaType)
+                        ListType(it.listStatus!!, it.mediaType)
                             .stylePreference(defaultPreferencesRepository)
                     }.collect { listStyle ->
                         mutableUiState.update { it.copy(listStyle = listStyle) }
@@ -280,7 +309,7 @@ class UserMediaListViewModel(
                             && old.listStatus == new.listStatus
                             && old.listSort == new.listSort
                 }
-                .filter { it.listSort != null && it.loadMore }
+                .filter { it.listStatus != null && it.listSort != null && it.loadMore }
                 .collectLatest { uiState ->
                     mutableUiState.update {
                         it.copy(
@@ -290,13 +319,13 @@ class UserMediaListViewModel(
                     }
                     val result = if (uiState.mediaType == MediaType.ANIME) {
                         animeRepository.getUserAnimeList(
-                            status = uiState.listStatus,
+                            status = uiState.listStatus!!,
                             sort = uiState.listSort!!,
                             page = uiState.nextPage
                         )
                     } else {
                         mangaRepository.getUserMangaList(
-                            status = uiState.listStatus,
+                            status = uiState.listStatus!!,
                             sort = uiState.listSort!!,
                             page = uiState.nextPage
                         )

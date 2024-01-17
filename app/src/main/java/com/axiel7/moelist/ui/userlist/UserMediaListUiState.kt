@@ -18,7 +18,7 @@ import com.axiel7.moelist.ui.base.state.PagedUiState
 @Stable
 data class UserMediaListUiState(
     val mediaType: MediaType,
-    val listStatus: ListStatus,
+    val listStatus: ListStatus?,
     val listSort: MediaSort? = null,
     val listStyle: ListStyle = ListStyle.STANDARD,
     val itemsPerRow: ItemsPerRow = ItemsPerRow.DEFAULT,
