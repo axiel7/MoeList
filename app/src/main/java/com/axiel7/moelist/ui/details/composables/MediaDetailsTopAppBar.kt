@@ -54,7 +54,7 @@ fun MediaDetailsTopAppBar(
     } else null
 
     TopAppBar(
-        title = { Text(stringResource(R.string.title_details)) },
+        title = { },
         navigationIcon = {
             BackIconButton(onClick = navigateBack)
         },
