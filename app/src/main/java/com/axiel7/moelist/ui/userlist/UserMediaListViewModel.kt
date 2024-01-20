@@ -225,7 +225,7 @@ class UserMediaListViewModel(
                         status = value.listStatus ?: defaultListStatus
                     )
                 }
-                if (result.data != null) {
+                if (!result.data.isNullOrEmpty()) {
                     emit(
                         value.copy(
                             randomId = result.data.random(),
