@@ -1,6 +1,13 @@
 package com.axiel7.moelist
 
 import android.app.Application
+import coil3.ImageLoader
+import coil3.PlatformContext
+import coil3.SingletonImageLoader
+import coil3.disk.DiskCache
+import coil3.disk.directory
+import coil3.memory.MemoryCache
+import coil3.request.crossfade
 import com.axiel7.moelist.data.model.media.TitleLanguage
 import com.axiel7.moelist.di.dataStoreModule
 import com.axiel7.moelist.di.networkModule
@@ -15,7 +22,7 @@ import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.component.KoinComponent
 import org.koin.core.context.startKoin
 
-class App : Application(), KoinComponent {
+class App : Application(), KoinComponent, SingletonImageLoader.Factory {
 
     override fun onCreate() {
         super.onCreate()
@@ -31,6 +38,22 @@ class App : Application(), KoinComponent {
             modules(networkModule, dataStoreModule, repositoryModule, viewModelModule, workerModule)
         }
     }
+
+    override fun newImageLoader(context: PlatformContext) =
+        ImageLoader.Builder(this)
+            .memoryCache {
+                MemoryCache.Builder()
+                    .maxSizePercent(context, percent = 0.25)
+                    .build()
+            }
+            .diskCache {
+                DiskCache.Builder()
+                    .directory(cacheDir.resolve("image_cache"))
+                    .maxSizePercent(0.02)
+                    .build()
+            }
+            .crossfade(true)
+            .build()
 
     companion object {
         var accessToken: String? = null
