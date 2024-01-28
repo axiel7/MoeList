@@ -160,9 +160,6 @@ private fun SettingsViewContent(
                 value = uiState.useListTabs,
                 onValueChange = {
                     event?.setUseListTabs(it)
-                    context.showToast(
-                        context.getString(R.string.changes_will_take_effect_on_app_restart)
-                    )
                 }
             )
 
