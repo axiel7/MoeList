@@ -6,10 +6,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.AssistChipDefaults
-import androidx.compose.material3.ElevatedAssistChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -22,7 +22,9 @@ import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.ui.composables.TextIconVertical
 import com.axiel7.moelist.ui.composables.defaultPlaceholder
 import com.axiel7.moelist.ui.composables.stats.DonutChart
+import com.axiel7.moelist.ui.composables.stats.StatChip
 import com.axiel7.moelist.ui.profile.ProfileUiState
+import com.axiel7.moelist.utils.NumExtensions.format
 import com.axiel7.moelist.utils.NumExtensions.toStringOrZero
 
 @Composable
@@ -31,6 +33,11 @@ fun UserStatsView(
     mediaType: MediaType,
 ) {
     val isLoading = if (mediaType == MediaType.MANGA) uiState.isLoadingManga else uiState.isLoading
+    val stats = remember(uiState) {
+        if (mediaType == MediaType.ANIME) uiState.animeStats else uiState.mangaStats
+    }
+    val total = remember(stats) { stats.sumOf { it.value.toInt() } }
+
     Text(
         text = if (mediaType == MediaType.ANIME) stringResource(R.string.anime_stats)
         else stringResource(R.string.manga_stats),
@@ -46,14 +53,10 @@ fun UserStatsView(
         verticalAlignment = Alignment.CenterVertically
     ) {
         DonutChart(
-            stats = if (mediaType == MediaType.ANIME) uiState.animeStats else uiState.mangaStats,
+            stats = stats,
             centerContent = {
                 Text(
-                    text = stringResource(R.string.total_entries).format(
-                        if (mediaType == MediaType.ANIME)
-                            uiState.animeStats.sumOf { it.value.toInt() }
-                        else uiState.mangaStats.sumOf { it.value.toInt() }
-                    ),
+                    text = stringResource(R.string.total_entries, total),
                     modifier = Modifier
                         .width(100.dp)
                         .defaultPlaceholder(visible = isLoading),
@@ -62,27 +65,16 @@ fun UserStatsView(
             }
         )
 
+        val scope = rememberCoroutineScope()
         Column {
-            (if (mediaType == MediaType.ANIME) uiState.animeStats else uiState.mangaStats)
-                .forEach {
-                    ElevatedAssistChip(
-                        onClick = { },
-                        label = { Text(text = it.type.localized()) },
-                        modifier = Modifier.padding(horizontal = 8.dp),
-                        leadingIcon = {
-                            Text(
-                                text = String.format("%.0f", it.value),
-                                modifier = Modifier.defaultPlaceholder(visible = isLoading),
-                                color = it.type.onPrimaryColor()
-                            )
-                        },
-                        colors = AssistChipDefaults.elevatedAssistChipColors(
-                            containerColor = it.type.primaryColor(),
-                            labelColor = it.type.onPrimaryColor(),
-                            leadingIconContentColor = it.type.onPrimaryColor()
-                        ),
-                    )
-                }
+            stats.forEach {
+                val percentage = remember(total) { (it.value * 100 / total).format() }
+                StatChip(
+                    stat = it,
+                    tooltipText = "$percentage%",
+                    scope = scope,
+                )
+            }
         }
     }
 

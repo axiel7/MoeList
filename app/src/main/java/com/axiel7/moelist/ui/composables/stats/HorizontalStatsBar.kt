@@ -6,12 +6,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.AssistChipDefaults
-import androidx.compose.material3.ElevatedAssistChip
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
@@ -33,27 +32,20 @@ fun <T : LocalizableAndColorable> HorizontalStatsBar(
     }
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp
+    val scope = rememberCoroutineScope()
 
     Column {
         LazyRow(
             contentPadding = PaddingValues(8.dp)
         ) {
             items(stats) {
-                ElevatedAssistChip(
-                    onClick = { },
-                    label = { Text(text = it.type.localized()) },
-                    modifier = Modifier.padding(horizontal = 8.dp),
-                    leadingIcon = {
-                        Text(
-                            text = it.value.format() ?: it.value.toString(),
-                            color = it.type.onPrimaryColor()
-                        )
-                    },
-                    colors = AssistChipDefaults.elevatedAssistChipColors(
-                        containerColor = it.type.primaryColor(),
-                        labelColor = it.type.onPrimaryColor(),
-                        leadingIconContentColor = it.type.onPrimaryColor()
-                    ),
+                val percentage = remember(totalValue) {
+                    (it.value * 100 / totalValue).format()
+                }
+                StatChip(
+                    stat = it,
+                    tooltipText = "$percentage%",
+                    scope = scope,
                 )
             }
         }
