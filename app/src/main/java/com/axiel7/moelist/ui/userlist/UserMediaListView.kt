@@ -59,8 +59,8 @@ fun UserMediaListView(
     isCompactScreen: Boolean,
     modifier: Modifier = Modifier,
     nestedScrollConnection: NestedScrollConnection? = null,
-    topBarHeightPx: Float,
-    topBarOffsetY: Animatable<Float, AnimationVector1D>,
+    topBarHeightPx: Float = 0f,
+    topBarOffsetY: Animatable<Float, AnimationVector1D> = Animatable(0f),
     contentPadding: PaddingValues = PaddingValues(),
     onShowEditSheet: (BaseUserMediaList<out BaseMediaNode>) -> Unit,
 ) {
@@ -171,7 +171,7 @@ fun UserMediaListView(
                     start = contentPadding.calculateStartPadding(layoutDirection) + 8.dp,
                     top = contentPadding.calculateTopPadding() + 8.dp,
                     end = contentPadding.calculateEndPadding(layoutDirection) + 8.dp,
-                    bottom = 8.dp
+                    bottom = contentPadding.calculateBottomPadding() + 8.dp
                 ),
                 verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Bottom),
                 horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
@@ -233,7 +233,7 @@ fun UserMediaListView(
                     start = contentPadding.calculateStartPadding(layoutDirection),
                     top = contentPadding.calculateTopPadding() + 8.dp,
                     end = contentPadding.calculateEndPadding(layoutDirection),
-                    bottom = 8.dp
+                    bottom = contentPadding.calculateBottomPadding() + 8.dp
                 ),
             ) {
                 item {
@@ -305,7 +305,7 @@ fun UserMediaListView(
                     start = contentPadding.calculateStartPadding(layoutDirection),
                     top = contentPadding.calculateTopPadding() + 8.dp,
                     end = contentPadding.calculateEndPadding(layoutDirection),
-                    bottom = 8.dp
+                    bottom = contentPadding.calculateBottomPadding() + 8.dp
                 ),
             ) {
                 item(

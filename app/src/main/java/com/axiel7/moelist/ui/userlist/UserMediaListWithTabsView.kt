@@ -1,7 +1,5 @@
 package com.axiel7.moelist.ui.userlist
 
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
@@ -17,11 +15,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.axiel7.moelist.data.model.media.ListStatus.Companion.listStatusValues
 import com.axiel7.moelist.data.model.media.MediaType
@@ -43,8 +39,6 @@ fun UserMediaListWithTabsView(
     mediaType: MediaType,
     isCompactScreen: Boolean,
     navActionManager: NavActionManager,
-    topBarHeightPx: Float,
-    topBarOffsetY: Animatable<Float, AnimationVector1D>,
     padding: PaddingValues,
 ) {
     val context = LocalContext.current
@@ -69,15 +63,7 @@ fun UserMediaListWithTabsView(
         modifier = Modifier
             .padding(
                 top = padding.calculateTopPadding(),
-            )
-            .graphicsLayer {
-                val topPadding = padding.calculateTopPadding().value +
-                        systemBarsPadding.calculateTopPadding().value +
-                        systemBarsPadding.calculateBottomPadding().value
-
-                translationY = if (topBarOffsetY.value > -topPadding) topBarOffsetY.value
-                else -topPadding
-            },
+            ),
         beyondBoundsPageCount = -1,
         isTabScrollable = true
     ) {
@@ -140,11 +126,6 @@ fun UserMediaListWithTabsView(
                 event = viewModel,
                 navActionManager = navActionManager,
                 isCompactScreen = isCompactScreen,
-                modifier = Modifier.padding(
-                    bottom = systemBarsPadding.calculateBottomPadding() + 8.dp
-                ),
-                topBarHeightPx = topBarHeightPx,
-                topBarOffsetY = topBarOffsetY,
                 contentPadding = PaddingValues(
                     bottom = padding.calculateBottomPadding() +
                             systemBarsPadding.calculateBottomPadding()

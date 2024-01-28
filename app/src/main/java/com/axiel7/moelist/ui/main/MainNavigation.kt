@@ -80,8 +80,6 @@ fun MainNavigation(
                         mediaType = MediaType.ANIME,
                         isCompactScreen = isCompactScreen,
                         navActionManager = navActionManager,
-                        topBarHeightPx = topBarHeightPx,
-                        topBarOffsetY = topBarOffsetY,
                         padding = padding
                     )
                 } else {
@@ -106,8 +104,6 @@ fun MainNavigation(
                         mediaType = MediaType.MANGA,
                         isCompactScreen = isCompactScreen,
                         navActionManager = navActionManager,
-                        topBarHeightPx = topBarHeightPx,
-                        topBarOffsetY = topBarOffsetY,
                         padding = padding
                     )
                 } else {
