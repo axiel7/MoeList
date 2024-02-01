@@ -337,5 +337,5 @@
     <string name="previous_season">Anterior</string>
     <string name="current_season">Atual</string>
     <string name="next_season">Próxima</string>
-    <string name="status_distribution" comment="anime stats: users list status distribution">Distribuição de estado</string>
+    <string name="status_distribution">Distribuição de estado</string>
 </resources>
