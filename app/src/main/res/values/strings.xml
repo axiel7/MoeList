@@ -369,4 +369,7 @@
     <string name="current_season">Current</string>
     <string name="next_season">Next</string>
     <string name="status_distribution">Status distribution</string>
+    <string name="tv_special">TV Special</string>
+    <string name="cm">CM</string>
+    <string name="pv">PV</string>
 </resources>

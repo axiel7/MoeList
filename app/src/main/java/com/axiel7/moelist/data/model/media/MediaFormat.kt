@@ -10,6 +10,9 @@ enum class MediaFormat : Localizable {
     @SerialName("tv")
     TV,
 
+    @SerialName("tv_special")
+    TV_SPECIAL,
+
     @SerialName("ova")
     OVA,
 
@@ -21,6 +24,12 @@ enum class MediaFormat : Localizable {
 
     @SerialName("special")
     SPECIAL,
+
+    @SerialName("cm")
+    CM,
+
+    @SerialName("pv")
+    PV,
 
     @SerialName("music")
     MUSIC,
@@ -52,10 +61,13 @@ enum class MediaFormat : Localizable {
     @Composable
     override fun localized() = when (this) {
         TV -> stringResource(R.string.tv)
+        TV_SPECIAL -> stringResource(R.string.tv_special)
         OVA -> stringResource(R.string.ova)
         ONA -> stringResource(R.string.ona)
         MOVIE -> stringResource(R.string.movie)
         SPECIAL -> stringResource(R.string.special)
+        CM -> stringResource(R.string.cm)
+        PV -> stringResource(R.string.pv)
         MUSIC -> stringResource(R.string.music)
         UNKNOWN -> stringResource(R.string.unknown)
         MANGA -> stringResource(R.string.manga)
