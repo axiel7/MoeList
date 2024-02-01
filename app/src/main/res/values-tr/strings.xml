@@ -337,5 +337,5 @@
     <string name="previous_season">Önceki</string>
     <string name="current_season">Şimdiki</string>
     <string name="next_season">Sonraki</string>
-    <string name="status_distribution" comment="anime stats: users list status distribution">Durum dağılımı</string>
+    <string name="status_distribution">Durum dağılımı</string>
 </resources>
