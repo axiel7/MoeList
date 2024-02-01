@@ -337,5 +337,5 @@
     <string name="previous_season">Sebelumnya</string>
     <string name="current_season">Saat ini</string>
     <string name="next_season">Berikut</string>
-    <string name="status_distribution" comment="anime stats: users list status distribution">Status distribusi</string>
+    <string name="status_distribution">Status distribusi</string>
 </resources>
