@@ -4,11 +4,12 @@
     <string name="title_anime_list">アニメ</string>
     <string name="title_manga_list">マンガ</string>
     <string name="stats">ランキング</string>
+    <string name="more_info">情報</string>
     <string name="synonyms">同義語</string>
     <string name="jp_title">日本語</string>
     <string name="start_date">公開日</string>
     <string name="end_date">終了日</string>
-    <string name="season">季節</string>
+    <string name="season">シーズン</string>
     <string name="broadcast">配信</string>
     <string name="duration">放送時間</string>
     <string name="source">原作</string>
@@ -35,11 +36,11 @@
     <string name="settings">設定</string>
     <string name="anime_ranking">アニメランキング</string>
     <string name="manga_ranking">漫画ランキング</string>
-    <string name="seasonal_chart">季節チャート</string>
+    <string name="seasonal_chart">シーズンチャート</string>
     <string name="random">ランダム</string>
     <string name="today">今日</string>
     <string name="nothing_today">今日は何もありません\n( ≧Д≦)</string>
-    <string name="this_season">今シーズン</string>
+    <string name="this_season">今のシーズン</string>
     <string name="recommendations">おすすめ</string>
     <string name="total_entries">合計：%s</string>
     <string name="mean_score">平均スコア</string>
@@ -324,4 +325,13 @@
     <string name="genre_villainess">悪役</string>
     <string name="contributors">提供者</string>
     <string name="slovak">スロバキア語</string>
+    <string name="new_anime">新規</string>
+    <string name="continuing_anime">継続</string>
+    <string name="previous_season">前のシーズン</string>
+    <string name="current_season">今のシーズン</string>
+    <string name="next_season">次のシーズン</string>
+    <string name="status_distribution">ステータスの内訳</string>
+    <string name="tv_special">TV　スペシャル</string>
+    <string name="cm" comment="Anime format: Comercial Message">CM</string>
+    <string name="pv" comment="Anime format: Promotional Video">PV</string>
 </resources>
