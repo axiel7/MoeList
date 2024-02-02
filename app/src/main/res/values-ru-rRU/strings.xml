@@ -338,4 +338,7 @@
     <string name="current_season">Текущий</string>
     <string name="next_season">Следующий</string>
     <string name="status_distribution">Статус распределение</string>
+    <string name="tv_special">Специально ТВ</string>
+    <string name="cm" comment="Anime format: Comercial Message">КС</string>
+    <string name="pv" comment="Anime format: Promotional Video">РВ</string>
 </resources>
