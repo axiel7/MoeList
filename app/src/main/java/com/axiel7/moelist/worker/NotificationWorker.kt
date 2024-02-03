@@ -96,7 +96,7 @@ class NotificationWorker(
                     Manifest.permission.POST_NOTIFICATIONS
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                return Result.failure()
+                return Result.retry()
             }
             notify(animeId, builder.build())
         }
