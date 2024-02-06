@@ -338,4 +338,7 @@
     <string name="current_season">Atual</string>
     <string name="next_season">Próxima</string>
     <string name="status_distribution">Distribuição de estado</string>
+    <string name="tv_special">Especial de TV</string>
+    <string name="cm" comment="Anime format: Comercial Message">CM</string>
+    <string name="pv" comment="Anime format: Promotional Video">PV</string>
 </resources>
