@@ -6,8 +6,8 @@
 
 Another unofficial Android MAL client
 
-[<img alt="Google Play" height="80" src="https://play.google.com/intl/en_US/badges/images/generic/en_badge_web_generic.png"/>](https://play.google.com/store/apps/details?id=com.axiel7.moelist)
-[<img alt="Google Play" height="80" src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"/>](https://apt.izzysoft.de/fdroid/index/apk/com.axiel7.moelist)
+[<img alt="Get it on Google Play" height="80" src="https://play.google.com/intl/en_US/badges/images/generic/en_badge_web_generic.png"/>](https://play.google.com/store/apps/details?id=com.axiel7.moelist)
+[<img alt="Get it on IzzyOnDroid" height="80" src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png"/>](https://apt.izzysoft.de/fdroid/index/apk/com.axiel7.moelist)
 
 Get early beta versions and follow the development on the official Discord server:
 
