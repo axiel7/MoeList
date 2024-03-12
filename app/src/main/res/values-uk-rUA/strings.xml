@@ -262,7 +262,7 @@
     <string name="synopsis_background">Контекст</string>
     <string name="portuguese">Португальська</string>
     <string name="very_low_value">Дуже низьке</string>
-    <string name="low_value">Низьке</string>
+    <string name="low_value">Низький</string>
     <string name="medium_value">Середнє</string>
     <string name="high_value">Високе</string>
     <string name="very_high_value">Дуже високе</string>
