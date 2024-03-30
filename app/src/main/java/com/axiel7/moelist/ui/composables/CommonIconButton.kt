@@ -9,11 +9,22 @@ import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
 import com.axiel7.moelist.utils.ContextExtensions.openShareSheet
 
+fun singleClick(onClick: () -> Unit): () -> Unit {
+    var latest = 0L
+    return {
+        val now = System.currentTimeMillis()
+        if (now - latest >= 1000) {
+            onClick()
+            latest = now
+        }
+    }
+}
+
 @Composable
 fun BackIconButton(
     onClick: () -> Unit
 ) {
-    IconButton(onClick = onClick) {
+    IconButton(onClick = singleClick(onClick)) {
         Icon(painter = painterResource(R.drawable.ic_arrow_back), contentDescription = "arrow_back")
     }
 }
