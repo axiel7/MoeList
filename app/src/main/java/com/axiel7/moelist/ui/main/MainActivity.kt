@@ -74,10 +74,7 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
-        // login intent
-        if (intent.data?.toString()?.startsWith(MOELIST_PAGELINK) == true) {
-            intent.data?.let { viewModel.parseIntentData(it) }
-        }
+        checkLoginIntent(intent)
 
         App.accessToken = runBlocking { viewModel.accessToken.first() }
 
@@ -85,32 +82,11 @@ class MainActivity : AppCompatActivity() {
             App.titleLanguage = viewModel.titleLanguage.first()
         }
 
-        val startTab = runBlocking { viewModel.startTab.first() }
-        var lastTabOpened =
-            intent.action?.toBottomDestinationIndex() ?: startTab?.value?.toBottomDestinationIndex()
-        var mediaId: Int? = null
-        var mediaTypeArg: String? = null
-        if (intent.action == "details") {
-            mediaId = intent.getIntExtra("media_id", 0)
-            mediaTypeArg = intent.getStringExtra("media_type")?.uppercase()
-        } else if (intent.data != null) {
-            // Manually handle deep links because the uri pattern in the compose navigation
-            // matches this -> https://myanimelist.net/manga/11514
-            // but not this -> https://myanimelist.net/manga/11514/Otoyomegatari
-            //TODO: find a better solution :)
-            val malSchemeIndex = intent.dataString?.indexOf("myanimelist.net")
-            if (malSchemeIndex != null && malSchemeIndex != -1) {
-                val linkSplit = intent.dataString!!.substring(malSchemeIndex).split('/')
-                mediaTypeArg = linkSplit[1].uppercase()
-                mediaId = linkSplit[2].toIntOrNull()
-            }
-        }
-        if (lastTabOpened == null) {
-            lastTabOpened = runBlocking { viewModel.lastTab.first() }
-        } else { // opened from intent or start tab setting
-            viewModel.saveLastTab(lastTabOpened)
-        }
+        val mediaIdAndType = findMediaIdAndTypeFromIntent()
+        val mediaId = mediaIdAndType?.first
+        val mediaTypeArg = mediaIdAndType?.second
 
+        val lastTabOpened = findLastTabOpened()
         val initialTheme = runBlocking { viewModel.theme.first() }
         val initialUseBlackColors = runBlocking { viewModel.useBlackColors.first() }
 
@@ -183,7 +159,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 LaunchedEffect(mediaId) {
-                    if (mediaId != null && mediaId != 0 && mediaTypeArg != null) {
+                    if (mediaId != null && mediaTypeArg != null) {
                         val mediaType = MediaType.valueOf(mediaTypeArg)
                         navActionManager.toMediaDetails(mediaType, mediaId)
                     }
@@ -194,9 +170,47 @@ class MainActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+        checkLoginIntent(intent)
+    }
+
+    private fun checkLoginIntent(intent: Intent?) {
         if (intent?.data?.toString()?.startsWith(MOELIST_PAGELINK) == true) {
             intent.data?.let { viewModel.parseIntentData(it) }
         }
+    }
+
+    private fun findLastTabOpened(): Int {
+        val startTab = runBlocking { viewModel.startTab.first() }
+        var lastTabOpened =
+            intent.action?.toBottomDestinationIndex() ?: startTab?.value?.toBottomDestinationIndex()
+
+        if (lastTabOpened == null) {
+            lastTabOpened = runBlocking { viewModel.lastTab.first() }
+        } else { // opened from intent or start tab setting
+            viewModel.saveLastTab(lastTabOpened)
+        }
+        return lastTabOpened
+    }
+
+    private fun findMediaIdAndTypeFromIntent(): Pair<Int, String>? {
+        if (intent.action == "details") {
+            val mediaId = intent.getIntExtra("media_id", 0)
+            val mediaType = intent.getStringExtra("media_type")?.uppercase()
+            if (mediaId != 0 && mediaType != null) return mediaId to mediaType
+        } else if (intent.data != null) {
+            // Manually handle deep links because the uri pattern in the compose navigation
+            // matches this -> https://myanimelist.net/manga/11514
+            // but not this -> https://myanimelist.net/manga/11514/Otoyomegatari
+            //TODO: find a better solution :)
+            val malSchemeIndex = intent.dataString?.indexOf("myanimelist.net")
+            if (malSchemeIndex != null && malSchemeIndex != -1) {
+                val linkSplit = intent.dataString?.substring(malSchemeIndex)?.split('/').orEmpty()
+                val mediaType = linkSplit.getOrNull(1)?.uppercase()
+                val mediaId = linkSplit.getOrNull(2)?.toIntOrNull()
+                if (mediaType != null && mediaId != null) return mediaId to mediaType
+            }
+        }
+        return null
     }
 }
 

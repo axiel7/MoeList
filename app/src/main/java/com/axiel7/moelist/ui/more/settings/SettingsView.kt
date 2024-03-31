@@ -32,7 +32,6 @@ import com.axiel7.moelist.ui.composables.preferences.PlainPreferenceView
 import com.axiel7.moelist.ui.composables.preferences.SwitchPreferenceView
 import com.axiel7.moelist.ui.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.openByDefaultSettings
-import com.axiel7.moelist.utils.ContextExtensions.showToast
 import org.koin.androidx.compose.navigation.koinNavViewModel
 
 @Composable
