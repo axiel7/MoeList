@@ -339,6 +339,6 @@
     <string name="next_season">Наступний</string>
     <string name="status_distribution">Розподіл статусу</string>
     <string name="tv_special">Телевізійна спецпрограма</string>
-    <string name="cm" comment="Anime format: Comercial Message">КП</string>
-    <string name="pv" comment="Anime format: Promotional Video">РВ</string>
+    <string name="cm">КП</string>
+    <string name="pv">РВ</string>
 </resources>
