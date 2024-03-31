@@ -28,6 +28,8 @@ class MainViewModel(
     val theme = defaultPreferencesRepository.theme
         .stateIn(viewModelScope, SharingStarted.Eagerly, ThemeStyle.FOLLOW_SYSTEM)
 
+    val useBlackColors = defaultPreferencesRepository.useBlackColors
+
     val accessToken = defaultPreferencesRepository.accessToken
 
     val useListTabs = defaultPreferencesRepository.useListTabs

@@ -76,6 +76,12 @@ private fun SettingsViewContent(
                 onValueChange = { event?.setTheme(it) }
             )
 
+            SwitchPreferenceView(
+                title = stringResource(R.string.black_theme_variant),
+                value = uiState.useBlackColors,
+                onValueChange = { event?.setUseBlackColors(it) }
+            )
+
             ListPreferenceView(
                 title = stringResource(R.string.language),
                 entriesValues = AppLanguage.entriesLocalized,

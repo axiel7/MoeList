@@ -77,7 +77,7 @@ private val DarkColors = darkColorScheme(
     scrim = md_theme_dark_scrim,
 )
 
-private fun ColorScheme.toAmoled() = this.copy(
+private fun ColorScheme.toBlack() = this.copy(
     background = md_theme_black_background,
     surface = md_theme_black_background,
     surfaceVariant = surfaceVariant.copy(alpha = 0.4f).compositeOver(md_theme_black_background)
@@ -87,19 +87,19 @@ private fun ColorScheme.toAmoled() = this.copy(
 fun MoeListTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = true,
-    amoledColors: Boolean = false,
+    useBlackColors: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context).let {
-                return@let if (amoledColors) it.toAmoled() else it
+                return@let if (useBlackColors) it.toBlack() else it
             }
             else dynamicLightColorScheme(context)
         }
 
-        darkTheme -> if (amoledColors) DarkColors.toAmoled() else DarkColors
+        darkTheme -> if (useBlackColors) DarkColors.toBlack() else DarkColors
         else -> LightColors
     }
 

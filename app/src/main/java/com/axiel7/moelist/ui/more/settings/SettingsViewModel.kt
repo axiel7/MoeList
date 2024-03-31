@@ -39,6 +39,12 @@ class SettingsViewModel(
         }
     }
 
+    override fun setUseBlackColors(value: Boolean) {
+        viewModelScope.launch {
+            defaultPreferencesRepository.setUseBlackColors(value)
+        }
+    }
+
     override fun setShowNsfw(value: Boolean) {
         viewModelScope.launch {
             defaultPreferencesRepository.setNsfw(value)
@@ -103,6 +109,12 @@ class SettingsViewModel(
         defaultPreferencesRepository.theme
             .onEach { value ->
                 mutableUiState.update { it.copy(theme = value) }
+            }
+            .launchIn(viewModelScope)
+
+        defaultPreferencesRepository.useBlackColors
+            .onEach { value ->
+                mutableUiState.update { it.copy(useBlackColors = value) }
             }
             .launchIn(viewModelScope)
 

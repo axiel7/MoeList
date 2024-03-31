@@ -60,6 +60,11 @@ class DefaultPreferencesRepository(
         dataStore.setValue(THEME_KEY, value.name)
     }
 
+    val useBlackColors = dataStore.getValue(USE_BLACK_COLORS_KEY, false)
+    suspend fun setUseBlackColors(value: Boolean) {
+        dataStore.setValue(USE_BLACK_COLORS_KEY, value)
+    }
+
     val lastTab = dataStore.getValue(LAST_TAB_KEY, 0)
     suspend fun setLastTab(value: Int) {
         dataStore.setValue(LAST_TAB_KEY, value)
@@ -234,6 +239,7 @@ class DefaultPreferencesRepository(
         private val NSFW_KEY = booleanPreferencesKey("nsfw")
         private val LANG_KEY = stringPreferencesKey("lang")
         private val THEME_KEY = stringPreferencesKey("theme")
+        private val USE_BLACK_COLORS_KEY = booleanPreferencesKey("use_black_colors")
         private val LAST_TAB_KEY = intPreferencesKey("last_tab")
         private val PROFILE_PICTURE_KEY = stringPreferencesKey("profile_picture")
 

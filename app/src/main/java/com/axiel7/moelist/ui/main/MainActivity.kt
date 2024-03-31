@@ -112,12 +112,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         val initialTheme = runBlocking { viewModel.theme.first() }
+        val initialUseBlackColors = runBlocking { viewModel.useBlackColors.first() }
 
         setContent {
             KoinAndroidContext {
                 val theme by viewModel.theme.collectAsStateWithLifecycle(initialValue = initialTheme)
-                val darkTheme = if (theme == ThemeStyle.FOLLOW_SYSTEM) isSystemInDarkTheme()
-                else theme == ThemeStyle.DARK || theme == ThemeStyle.BLACK
+                val useBlackColors by viewModel.useBlackColors.collectAsStateWithLifecycle(
+                    initialValue = initialUseBlackColors
+                )
+                val isDark = if (theme == ThemeStyle.FOLLOW_SYSTEM) isSystemInDarkTheme()
+                else theme == ThemeStyle.DARK
 
                 val navController = rememberNavController()
                 val navActionManager = rememberNavActionManager(navController)
@@ -131,8 +135,8 @@ class MainActivity : AppCompatActivity() {
                 val profilePicture by viewModel.profilePicture.collectAsStateWithLifecycle()
 
                 MoeListTheme(
-                    darkTheme = darkTheme,
-                    amoledColors = theme == ThemeStyle.BLACK
+                    darkTheme = isDark,
+                    useBlackColors = useBlackColors
                 ) {
                     val backgroundColor = MaterialTheme.colorScheme.background
                     Surface(
@@ -150,17 +154,17 @@ class MainActivity : AppCompatActivity() {
                             profilePicture = profilePicture,
                         )
 
-                        DisposableEffect(darkTheme, navBackStackEntry) {
+                        DisposableEffect(isDark, navBackStackEntry) {
                             var statusBarStyle = SystemBarStyle.auto(
                                 android.graphics.Color.TRANSPARENT,
                                 android.graphics.Color.TRANSPARENT
-                            ) { darkTheme }
+                            ) { isDark }
 
                             if (isCompactScreen
                                 && BottomDestination.routes.contains(navBackStackEntry?.destination?.route)
                             ) {
                                 statusBarStyle =
-                                    if (darkTheme) SystemBarStyle.dark(backgroundColor.toArgb())
+                                    if (isDark) SystemBarStyle.dark(backgroundColor.toArgb())
                                     else SystemBarStyle.light(
                                         backgroundColor.toArgb(),
                                         dark_scrim.toArgb()
@@ -171,7 +175,7 @@ class MainActivity : AppCompatActivity() {
                                 navigationBarStyle = SystemBarStyle.auto(
                                     light_scrim.toArgb(),
                                     dark_scrim.toArgb(),
-                                ) { darkTheme },
+                                ) { isDark },
                             )
                             onDispose {}
                         }
