@@ -332,6 +332,6 @@
     <string name="next_season">次のシーズン</string>
     <string name="status_distribution">ステータスの内訳</string>
     <string name="tv_special">TV　スペシャル</string>
-    <string name="cm" comment="Anime format: Comercial Message">CM</string>
-    <string name="pv" comment="Anime format: Promotional Video">PV</string>
+    <string name="cm">CM</string>
+    <string name="pv">PV</string>
 </resources>
