@@ -339,6 +339,6 @@
     <string name="next_season">Sonraki</string>
     <string name="status_distribution">Durum dağılımı</string>
     <string name="tv_special">TV Özel</string>
-    <string name="cm" comment="Anime format: Comercial Message">CM</string>
-    <string name="pv" comment="Anime format: Promotional Video">PV</string>
+    <string name="cm">CM</string>
+    <string name="pv">PV</string>
 </resources>
