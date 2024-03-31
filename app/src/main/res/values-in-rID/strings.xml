@@ -339,6 +339,6 @@
     <string name="next_season">Berikut</string>
     <string name="status_distribution">Status distribusi</string>
     <string name="tv_special">TV Spesial</string>
-    <string name="cm" comment="Anime format: Comercial Message">CM</string>
-    <string name="pv" comment="Anime format: Promotional Video">PV</string>
+    <string name="cm">CM</string>
+    <string name="pv">PV</string>
 </resources>
