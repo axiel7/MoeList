@@ -79,7 +79,6 @@ object TranslateUtils {
 
     private fun Context.openInDeepLMini(text: String): Boolean {
         return try {
-            copyToClipBoard(text)
             Intent(Intent.ACTION_PROCESS_TEXT).apply {
                 component = ComponentName(
                     "com.deepl.mobiletranslator",
