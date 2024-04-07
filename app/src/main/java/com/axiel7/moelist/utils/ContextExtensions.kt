@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.ClipData
 import android.content.ClipboardManager
-import android.content.ComponentName
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
@@ -13,7 +12,6 @@ import android.content.pm.ResolveInfo
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
-import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
@@ -150,45 +148,4 @@ object ContextExtensions {
     }
 
     fun getCurrentLanguageTag() = LocaleListCompat.getAdjustedDefault()[0]?.toLanguageTag()
-
-    fun Context.openInGoogleTranslate(text: String) {
-        try {
-            Intent(Intent.ACTION_SEND).apply {
-                putExtra(Intent.EXTRA_TEXT, text)
-                putExtra("key_text_input", text)
-                putExtra("key_text_output", "")
-                putExtra("key_language_from", "en")
-                putExtra("key_language_to", getCurrentLanguageTag())
-                putExtra("key_suggest_translation", "")
-                putExtra("key_from_floating_window", false)
-                component = ComponentName(
-                    "com.google.android.apps.translate",
-                    "com.google.android.apps.translate.TranslateActivity"
-                )
-                startActivity(this)
-            }
-        } catch (e: ActivityNotFoundException) {
-            openInGoogleTranslate2(text)
-        } catch (e: Exception) {
-            Log.d("translate", e.toString())
-        }
-    }
-
-    fun Context.openInGoogleTranslate2(text: String) {
-        try {
-            Intent(Intent.ACTION_PROCESS_TEXT).apply {
-                component = ComponentName(
-                    "com.google.android.apps.translate",
-                    "com.google.android.apps.translate.copydrop.gm3.TapToTranslateActivity"
-                )
-                type = "text/plain"
-                putExtra(Intent.EXTRA_PROCESS_TEXT, text)
-                startActivity(this)
-            }
-        } catch (e: ActivityNotFoundException) {
-            showToast("Google Translate not installed")
-        } catch (e: Exception) {
-            Log.d("translate", e.toString())
-        }
-    }
 }

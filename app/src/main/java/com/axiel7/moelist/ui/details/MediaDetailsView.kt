@@ -82,13 +82,13 @@ import com.axiel7.moelist.utils.CHARACTER_URL
 import com.axiel7.moelist.utils.ContextExtensions.copyToClipBoard
 import com.axiel7.moelist.utils.ContextExtensions.getCurrentLanguageTag
 import com.axiel7.moelist.utils.ContextExtensions.openAction
-import com.axiel7.moelist.utils.ContextExtensions.openInGoogleTranslate
 import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.DateUtils.parseDateAndLocalize
 import com.axiel7.moelist.utils.NumExtensions.format
 import com.axiel7.moelist.utils.StringExtensions.buildQueryFromThemeText
 import com.axiel7.moelist.utils.StringExtensions.toStringOrNull
+import com.axiel7.moelist.utils.TranslateUtils.openTranslator
 import com.axiel7.moelist.utils.UNKNOWN_CHAR
 import com.axiel7.moelist.utils.YOUTUBE_QUERY_URL
 import kotlinx.coroutines.launch
@@ -330,7 +330,7 @@ private fun MediaDetailsContent(
                 if (isCurrentLanguageEn == false) {
                     IconButton(
                         onClick = {
-                            uiState.mediaDetails?.synopsis?.let { context.openInGoogleTranslate(it) }
+                            uiState.mediaDetails?.synopsis?.let { context.openTranslator(it) }
                         }
                     ) {
                         Icon(
