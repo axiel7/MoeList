@@ -294,6 +294,7 @@ private fun MediaDetailsContent(
 
             //Genres
             LazyRow(
+                modifier = Modifier.padding(bottom = 4.dp),
                 contentPadding = PaddingValues(horizontal = 8.dp)
             ) {
                 items(uiState.mediaDetails?.genres.orEmpty()) {
@@ -586,7 +587,8 @@ private fun MediaDetailsContent(
                                 Text(
                                     text = item.relationType.localized(),
                                     color = MaterialTheme.colorScheme.outline,
-                                    fontSize = 13.sp
+                                    fontSize = 13.sp,
+                                    lineHeight = 14.sp
                                 )
                             },
                             onClick = {
@@ -611,7 +613,8 @@ private fun MediaDetailsContent(
                                 Text(
                                     text = item.relationType.localized(),
                                     color = MaterialTheme.colorScheme.outline,
-                                    fontSize = 13.sp
+                                    fontSize = 13.sp,
+                                    lineHeight = 14.sp
                                 )
                             },
                             onClick = {
