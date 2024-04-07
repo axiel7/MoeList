@@ -4,7 +4,7 @@
     <string name="title_anime_list">Anime</string>
     <string name="title_manga_list">Mangá</string>
     <string name="stats">Estatísticas</string>
-    <string name="more_info">Mais Informações</string>
+    <string name="more_info">Mais informação</string>
     <string name="synonyms">Sinônimos</string>
     <string name="jp_title">Japonês</string>
     <string name="start_date">Data de Início</string>
@@ -332,4 +332,13 @@
     <string name="enable_list_tabs_subtitle">Use guias na lista de animes/mangás em vez do botão de ação flutuante</string>
     <string name="always_load_characters">Sempre carregar caracteres</string>
     <string name="random_button_on_list">Botão aleatório na lista de anime/mangá</string>
+    <string name="new_anime">Novo</string>
+    <string name="continuing_anime">Continuando</string>
+    <string name="previous_season">Anterior</string>
+    <string name="current_season">Atual</string>
+    <string name="next_season">Próxima</string>
+    <string name="status_distribution">Distribuição de estado</string>
+    <string name="tv_special">Especial de TV</string>
+    <string name="cm">CM</string>
+    <string name="pv">PV</string>
 </resources>

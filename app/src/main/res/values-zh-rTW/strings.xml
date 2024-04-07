@@ -9,14 +9,14 @@
     <string name="jp_title">日文</string>
     <string name="start_date">開始日期</string>
     <string name="end_date">結束日期</string>
-    <string name="season">季</string>
+    <string name="season">季度</string>
     <string name="broadcast">播出時間</string>
     <string name="duration">每集長度</string>
     <string name="source">來源</string>
     <string name="studios">工作室</string>
     <string name="edit">編輯</string>
     <string name="authors">作者</string>
-    <string name="volumes">音量</string>
+    <string name="volumes">冊數</string>
     <string name="serialization">連載</string>
     <string name="login">登入</string>
     <string name="no_results">找不到任何結果</string>
@@ -36,7 +36,7 @@
     <string name="settings">設定</string>
     <string name="anime_ranking">動畫排行榜</string>
     <string name="manga_ranking">漫畫排行榜</string>
-    <string name="seasonal_chart">季節性圖表</string>
+    <string name="seasonal_chart">季度表</string>
     <string name="random">隨機</string>
     <string name="today">今天</string>
     <string name="nothing_today">今天什麼都沒有\n( ≧Д≦)</string>
@@ -75,7 +75,7 @@
     <string name="spring">春季</string>
     <string name="summer">夏季</string>
     <string name="fall">秋季</string>
-    <string name="original">原始</string>
+    <string name="original">原創動畫</string>
     <string name="light_novel">輕小說</string>
     <string name="visual_novel">視覺小說</string>
     <string name="game">遊戲</string>
@@ -282,7 +282,7 @@
     <string name="role_supporting">配角</string>
     <string name="view_characters">查看登場人物 (測試中)</string>
     <string name="characters">主角</string>
-    <string name="genre_adult_cast">成年人</string>
+    <string name="genre_adult_cast">社會派動畫</string>
     <string name="genre_avant_garde">前衛</string>
     <string name="genre_award_winning">獲獎</string>
     <string name="genre_gourmet">美食料理</string>
@@ -290,7 +290,7 @@
     <string name="genre_erotica">色情作品</string>
     <string name="genre_anthropomorphic">擬人化</string>
     <string name="genre_cgdct">萌系百合</string>
-    <string name="genre_childcare">育兒</string>
+    <string name="genre_childcare">親子教養</string>
     <string name="genre_combat_sports">格鬥運動</string>
     <string name="genre_crossdressing">變裝</string>
     <string name="genre_delinquents">不良少年</string>
@@ -302,7 +302,7 @@
     <string name="genre_idols_female">偶像 (女)</string>
     <string name="genre_idols_male">偶像(男)</string>
     <string name="genre_isekai">異世界</string>
-    <string name="genre_iyashikei">Iyashikei</string>
+    <string name="genre_iyashikei">療癒系</string>
     <string name="genre_love_polygon">多角戀</string>
     <string name="genre_magical_sex_shift">性轉</string>
     <string name="genre_mahou_shoujo">魔法少女</string>
@@ -316,7 +316,7 @@
     <string name="genre_reincarnation">重生</string>
     <string name="genre_reverse_harem">乙女</string>
     <string name="genre_romantic_subtext">胃痛番</string>
-    <string name="genre_showbiz">娛樂新聞</string>
+    <string name="genre_showbiz">演藝圈</string>
     <string name="genre_strategy_game">戰略遊戲</string>
     <string name="genre_survival">求生</string>
     <string name="genre_team_sports">團體運動</string>
@@ -330,6 +330,16 @@
     <string name="slovak">斯洛伐克文</string>
     <string name="enable_list_tabs">開啓清單分頁</string>
     <string name="enable_list_tabs_subtitle">在動畫/漫畫清單中以分頁取代懸浮動作按鈕</string>
-    <string name="always_load_characters">永遠顯示角色列表</string>
+    <string name="always_load_characters">一律顯示角色列表</string>
     <string name="random_button_on_list">在動畫/漫畫清單上的隨機按鈕</string>
+    <string name="new_anime">新動畫</string>
+    <string name="continuing_anime">續播</string>
+    <string name="previous_season">前一季</string>
+    <string name="current_season">本季</string>
+    <string name="next_season">下一季</string>
+    <string name="status_distribution">狀態分布</string>
+    <string name="tv_special">特別節目</string>
+    <string name="cm">廣告</string>
+    <string name="pv">預告片</string>
+    <string name="black_theme_variant">黑色主題變體</string>
 </resources>

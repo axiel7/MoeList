@@ -332,4 +332,13 @@
     <string name="enable_list_tabs_subtitle">Yüzen Eylem Düğmesi yerine Anime/Manga listesindeki sekmeleri kullan</string>
     <string name="always_load_characters">Karakterleri her zaman yükle</string>
     <string name="random_button_on_list">Anime/Manga listesinde rastgele düğme</string>
+    <string name="new_anime">Yeni</string>
+    <string name="continuing_anime">Devam ediliyor</string>
+    <string name="previous_season">Önceki</string>
+    <string name="current_season">Şimdiki</string>
+    <string name="next_season">Sonraki</string>
+    <string name="status_distribution">Durum dağılımı</string>
+    <string name="tv_special">TV Özel</string>
+    <string name="cm">CM</string>
+    <string name="pv">PV</string>
 </resources>
