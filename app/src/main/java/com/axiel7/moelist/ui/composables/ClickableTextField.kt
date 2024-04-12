@@ -1,11 +1,13 @@
 package com.axiel7.moelist.ui.composables
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun ClickableOutlinedTextField(
@@ -33,6 +35,7 @@ fun ClickableOutlinedTextField(
             disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
             unfocusedTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
             disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            selectionColors = TextSelectionColors(Color.Transparent, Color.Transparent),
         )
     )
 }
