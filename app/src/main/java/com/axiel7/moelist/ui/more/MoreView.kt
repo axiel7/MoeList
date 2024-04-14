@@ -38,6 +38,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MoreView(
+    isLoggedIn: Boolean,
     navActionManager: NavActionManager,
     topBarHeightPx: Float,
     topBarOffsetY: Animatable<Float, AnimationVector1D>,
@@ -51,11 +52,13 @@ fun MoreView(
         topBarHeightPx = topBarHeightPx,
         topBarOffsetY = topBarOffsetY,
         padding = padding,
+        isLoggedIn = isLoggedIn
     )
 }
 
 @Composable
 private fun MoreViewContent(
+    isLoggedIn: Boolean,
     event: MoreEvent?,
     navActionManager: NavActionManager,
     topBarHeightPx: Float = 0f,
@@ -138,16 +141,18 @@ private fun MoreViewContent(
             }
         )
 
-        HorizontalDivider()
+        if (isLoggedIn) {
+            HorizontalDivider()
 
-        MoreItem(
-            title = stringResource(R.string.logout),
-            subtitle = stringResource(R.string.logout_summary),
-            icon = R.drawable.ic_round_power_settings_new_24,
-            onClick = {
-                event?.logOut()
-            }
-        )
+            MoreItem(
+                title = stringResource(R.string.logout),
+                subtitle = stringResource(R.string.logout_summary),
+                icon = R.drawable.ic_round_power_settings_new_24,
+                onClick = {
+                    event?.logOut()
+                }
+            )
+        }
     }
 }
 
@@ -158,7 +163,8 @@ fun MorePreview() {
         Surface {
             MoreViewContent(
                 event = null,
-                navActionManager = NavActionManager.rememberNavActionManager()
+                navActionManager = NavActionManager.rememberNavActionManager(),
+                isLoggedIn = true
             )
         }
     }
