@@ -172,7 +172,8 @@ class EditMediaViewModel(
     override fun onChangeRepeatCount(value: Int?) {
         mutableUiState.update {
             it.copy(
-                repeatCount = if (value != null && value >= 0) value else it.repeatCount
+                repeatCount = if (value != null && value >= 0 || value == null) value
+                else it.repeatCount
             )
         }
     }
