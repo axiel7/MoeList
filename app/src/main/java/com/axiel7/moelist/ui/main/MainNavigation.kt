@@ -125,6 +125,7 @@ fun MainNavigation(
                 padding = padding,
                 topBarHeightPx = topBarHeightPx,
                 topBarOffsetY = topBarOffsetY,
+                isLoggedIn = isLoggedIn
             )
         }
 
