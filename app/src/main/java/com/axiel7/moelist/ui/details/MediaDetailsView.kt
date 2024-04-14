@@ -177,7 +177,7 @@ private fun MediaDetailsContent(
             )
         },
         floatingActionButton = {
-            if(isLoggedIn) {
+            if (isLoggedIn) {
                 ExtendedFloatingActionButton(
                     onClick = {
                         if (uiState.mediaDetails != null) {
