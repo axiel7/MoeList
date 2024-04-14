@@ -177,28 +177,30 @@ private fun MediaDetailsContent(
             )
         },
         floatingActionButton = {
-            ExtendedFloatingActionButton(
-                onClick = {
-                    if (isLoggedIn && uiState.mediaDetails != null) {
-                        showSheet = true
-                    } else {
-                        context.showToast(context.getString(R.string.please_login_to_use_this_feature))
+            if (isLoggedIn) {
+                ExtendedFloatingActionButton(
+                    onClick = {
+                        if (uiState.mediaDetails != null) {
+                            showSheet = true
+                        } else {
+                            context.showToast(context.getString(R.string.please_login_to_use_this_feature))
+                        }
                     }
+                ) {
+                    Icon(
+                        painter = painterResource(
+                            if (uiState.isNewEntry) R.drawable.ic_round_add_24
+                            else R.drawable.ic_round_edit_24
+                        ),
+                        contentDescription = "edit"
+                    )
+                    Text(
+                        text = if (uiState.isNewEntry) stringResource(R.string.add)
+                        else uiState.mediaDetails?.myListStatus?.status?.localized()
+                            ?: stringResource(R.string.edit),
+                        modifier = Modifier.padding(start = 16.dp, end = 8.dp)
+                    )
                 }
-            ) {
-                Icon(
-                    painter = painterResource(
-                        if (uiState.isNewEntry) R.drawable.ic_round_add_24
-                        else R.drawable.ic_round_edit_24
-                    ),
-                    contentDescription = "edit"
-                )
-                Text(
-                    text = if (uiState.isNewEntry) stringResource(R.string.add)
-                    else uiState.mediaDetails?.myListStatus?.status?.localized()
-                        ?: stringResource(R.string.edit),
-                    modifier = Modifier.padding(start = 16.dp, end = 8.dp)
-                )
             }
         }
     ) { padding ->
