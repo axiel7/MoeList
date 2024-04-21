@@ -141,7 +141,7 @@ dependencies {
     //Utils
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
-    implementation("org.apache.commons:commons-text:1.11.0")
+    implementation("org.apache.commons:commons-text:1.12.0")
 
     //Image
     val coilVersion = "3.0.0-alpha06"
