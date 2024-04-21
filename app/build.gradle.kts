@@ -110,7 +110,7 @@ dependencies {
     implementation("androidx.compose.material3:material3-android:$materialVersion")
     implementation("androidx.compose.material3:material3-window-size-class:$materialVersion")
 
-    implementation("androidx.activity:activity-compose:1.8.2")
+    implementation("androidx.activity:activity-compose:1.9.0")
 
     val lifecycleVersion = "2.7.0"
     implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion")
