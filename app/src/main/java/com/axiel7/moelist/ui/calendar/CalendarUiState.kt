@@ -1,8 +1,10 @@
 package com.axiel7.moelist.ui.calendar
 
+import androidx.compose.runtime.Immutable
 import com.axiel7.moelist.data.model.anime.AnimeRanking
 import com.axiel7.moelist.ui.base.state.UiState
 
+@Immutable
 data class CalendarUiState(
     val mondayAnime: List<AnimeRanking> = emptyList(),
     val tuesdayAnime: List<AnimeRanking> = emptyList(),
