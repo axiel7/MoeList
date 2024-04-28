@@ -51,13 +51,12 @@ fun SeasonChartFilterSheet(
     sheetState: SheetState,
     bottomPadding: Dp = 0.dp
 ) {
-
     val scrollState = rememberLazyListState()
 
-    LaunchedEffect(key1 = true) {
-        scrollState.scrollToItem(SeasonChartUiState.years.indexOf(uiState.season.year))
+    LaunchedEffect(sheetState.isVisible) {
+        val index = SeasonChartUiState.years.indexOf(uiState.season.year)
+        if (index != -1) scrollState.scrollToItem(index)
     }
-
 
     ModalBottomSheet(
         sheetState = sheetState,
