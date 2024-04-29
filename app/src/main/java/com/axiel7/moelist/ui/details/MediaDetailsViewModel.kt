@@ -21,7 +21,6 @@ import com.uragiristereo.serializednavigationextension.runtime.navArgsFlowOf
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
@@ -30,7 +29,6 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -51,9 +49,6 @@ class MediaDetailsViewModel(
     private val mediaId = args.map { it.mediaId }
 
     override val mutableUiState = MutableStateFlow(MediaDetailsUiState())
-
-    private val loadCharacters = defaultPreferencesRepository.loadCharacters
-        .stateIn(viewModelScope, SharingStarted.Eagerly, false)
 
     override fun onChangedMyListStatus(value: BaseMyListStatus?, removed: Boolean) {
         mutableUiState.update {
@@ -173,11 +168,11 @@ class MediaDetailsViewModel(
                             relatedManga = mediaDetails.relatedManga.orEmpty(),
                             recommendations = recommendations,
                             picturesUrls = picturesUrls,
+                            isLoading = false
                         )
                     }
 
-                    setLoading(false)
-                    if (loadCharacters.first()) {
+                    if (defaultPreferencesRepository.loadCharacters.first()) {
                         getCharacters()
                     }
                 }

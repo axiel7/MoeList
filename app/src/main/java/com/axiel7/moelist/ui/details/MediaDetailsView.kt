@@ -497,7 +497,7 @@ private fun MediaDetailsContent(
                 var showCharacters by remember { mutableStateOf(false) }
 
                 InfoTitle(text = stringResource(R.string.characters))
-                if (showCharacters || uiState.isLoadingCharacters) {
+                if (uiState.characters.isNotEmpty() || uiState.isLoadingCharacters) {
                     LazyRow(
                         modifier = Modifier.padding(top = 8.dp),
                         contentPadding = PaddingValues(horizontal = 16.dp)
