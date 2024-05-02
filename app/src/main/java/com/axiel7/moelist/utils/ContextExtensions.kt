@@ -64,9 +64,14 @@ object ContextExtensions {
             .build()
         CustomTabsIntent.Builder()
             .setDefaultColorSchemeParams(colors)
-            .build().apply {
+            .build()
+            .apply {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                launchUrl(this@openCustomTab, Uri.parse(url))
+                try {
+                    launchUrl(this@openCustomTab, Uri.parse(url))
+                } catch (e: ActivityNotFoundException) {
+                    openLink(url)
+                }
             }
     }
 
