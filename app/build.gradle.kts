@@ -96,7 +96,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
 
     implementation("androidx.browser:browser:1.8.0")
-    implementation("androidx.datastore:datastore-preferences:1.1.0")
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
     implementation("androidx.work:work-runtime:2.9.0")
     implementation("androidx.core:core-splashscreen:1.0.1")
 
