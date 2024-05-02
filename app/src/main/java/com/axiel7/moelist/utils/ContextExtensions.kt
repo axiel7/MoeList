@@ -1,11 +1,9 @@
 package com.axiel7.moelist.utils
 
-import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
@@ -139,12 +137,6 @@ object ContextExtensions {
         } catch (e: Exception) {
             showToast(e.message ?: "Error")
         }
-    }
-
-    fun Context.getActivity(): Activity? = when (this) {
-        is Activity -> this
-        is ContextWrapper -> baseContext.getActivity()
-        else -> null
     }
 
     fun getCurrentLanguageTag() = LocaleListCompat.getAdjustedDefault()[0]?.toLanguageTag()
