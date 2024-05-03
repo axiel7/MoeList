@@ -40,7 +40,6 @@ fun HomeCard(
                 modifier = Modifier
                     .padding(end = 8.dp)
                     .size(18.dp),
-                tint = MaterialTheme.colorScheme.primary
             )
             Text(
                 text = text,

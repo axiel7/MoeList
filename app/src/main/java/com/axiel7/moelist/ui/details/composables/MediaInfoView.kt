@@ -1,5 +1,6 @@
 package com.axiel7.moelist.ui.details.composables
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.selection.SelectionContainer
@@ -29,8 +30,10 @@ fun MediaInfoView(
             modifier = Modifier.weight(1f),
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
-        SelectionContainer(modifier = Modifier.weight(1.4f)) {
-            Text(text = info ?: stringResource(R.string.unknown))
+        Column(modifier = Modifier.weight(1.4f)) {
+            SelectionContainer {
+                Text(text = info ?: stringResource(R.string.unknown))
+            }
         }
     }
 }

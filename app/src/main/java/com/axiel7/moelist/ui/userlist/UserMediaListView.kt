@@ -21,13 +21,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -66,14 +65,6 @@ fun UserMediaListView(
 ) {
     val layoutDirection = LocalLayoutDirection.current
     val pullRefreshState = rememberPullToRefreshState()
-    if (pullRefreshState.isRefreshing) {
-        LaunchedEffect(true) {
-            event?.refreshList()
-        }
-    }
-    LaunchedEffect(uiState.isLoading) {
-        if (!uiState.isLoading) pullRefreshState.endRefresh()
-    }
 
     @Composable
     fun StandardItemView(item: BaseUserMediaList<out BaseMediaNode>) {
@@ -139,12 +130,11 @@ fun UserMediaListView(
         )
     }
 
-    Box(
-        modifier = modifier
-            .clipToBounds()
-            .nestedScroll(pullRefreshState.nestedScrollConnection)
-            .fillMaxSize(),
-        contentAlignment = Alignment.TopCenter
+    PullToRefreshBox(
+        isRefreshing = uiState.isLoading,
+        onRefresh = { event?.refreshList() },
+        modifier = modifier.fillMaxSize(),
+        state = pullRefreshState,
     ) {
         val listModifier = Modifier
             .fillMaxWidth()
@@ -385,10 +375,5 @@ fun UserMediaListView(
                 }
             }
         }
-
-        PullToRefreshContainer(
-            state = pullRefreshState,
-            modifier = Modifier.align(Alignment.TopCenter)
-        )
     }//:Box
 }

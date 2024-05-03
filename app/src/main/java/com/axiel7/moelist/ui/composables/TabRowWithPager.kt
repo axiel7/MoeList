@@ -95,7 +95,7 @@ fun <T> TabRowWithPager(
 
         HorizontalPager(
             state = state,
-            beyondBoundsPageCount = if (beyondBoundsPageCount < 0) 0 else beyondBoundsPageCount,
+            beyondViewportPageCount = if (beyondBoundsPageCount < 0) 0 else beyondBoundsPageCount,
             key = { tabs[it].value!! }
         ) { page ->
             if (

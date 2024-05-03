@@ -106,7 +106,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
 
-    val materialVersion = "1.2.1"
+    val materialVersion = "1.3.0-alpha06"
     implementation("androidx.compose.material3:material3-android:$materialVersion")
     implementation("androidx.compose.material3:material3-window-size-class:$materialVersion")
 

@@ -153,7 +153,7 @@ private fun EditMediaSheetContent(
     ModalBottomSheet(
         sheetState = sheetState,
         onDismissRequest = onDismissed,
-        windowInsets = WindowInsets(0, 0, 0, 0)
+        contentWindowInsets = { WindowInsets(0, 0, 0, 0) }
     ) {
         Column(
             modifier = Modifier
@@ -237,7 +237,7 @@ private fun EditMediaSheetContent(
             Slider(
                 value = uiState.score.toFloat(),
                 onValueChange = { event?.onChangeScore(it.roundToInt()) },
-                modifier = Modifier.padding(horizontal = 16.dp),
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                 valueRange = 0f..10f,
                 steps = 9
             )
@@ -305,7 +305,7 @@ private fun EditMediaSheetContent(
             Slider(
                 value = uiState.priority.toFloat(),
                 onValueChange = { event?.onChangePriority(it.roundToInt()) },
-                modifier = Modifier.padding(horizontal = 16.dp),
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                 valueRange = 0f..2f,
                 steps = 1
             )
@@ -351,7 +351,7 @@ private fun EditMediaSheetContent(
             Slider(
                 value = uiState.repeatValue.toFloat(),
                 onValueChange = { event?.onChangeRepeatValue(it.roundToInt()) },
-                modifier = Modifier.padding(horizontal = 16.dp),
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                 valueRange = 0f..5f,
                 steps = 4
             )
