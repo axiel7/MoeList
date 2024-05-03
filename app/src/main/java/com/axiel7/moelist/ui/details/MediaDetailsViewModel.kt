@@ -172,7 +172,9 @@ class MediaDetailsViewModel(
                         )
                     }
 
-                    if (defaultPreferencesRepository.loadCharacters.first()) {
+                    if (mediaType == MediaType.ANIME
+                        && defaultPreferencesRepository.loadCharacters.first()
+                    ) {
                         getCharacters()
                     }
                 }
