@@ -225,6 +225,21 @@ private fun MediaDetailsContent(
                         }
                 )
                 Column {
+                    // Title
+                    Text(
+                        text = uiState.mediaDetails?.userPreferredTitle() ?: "Loading",
+                        modifier = Modifier
+                            .padding(end = 8.dp, bottom = 8.dp)
+                            .defaultPlaceholder(visible = uiState.isLoading)
+                            .combinedClickable(
+                                onLongClick = {
+                                    uiState.mediaDetails?.title?.let { context.copyToClipBoard(it) }
+                                },
+                                onClick = { }
+                            ),
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
                     TextIconHorizontal(
                         text = uiState.mediaDetails?.mediaFormat?.localized() ?: "Loading",
                         icon = if (uiState.isAnime) R.drawable.ic_round_local_movies_24
@@ -249,20 +264,10 @@ private fun MediaDetailsContent(
                             .padding(bottom = 8.dp)
                             .defaultPlaceholder(visible = uiState.isLoading)
                     )
-                    if (uiState.mediaDetails is MangaDetails) {
+                    if (uiState.mediaDetails is MangaDetails && uiState.mediaDetails.hasVolumes) {
                         TextIconHorizontal(
                             text = uiState.mediaDetails.volumesText(),
                             icon = R.drawable.round_bookmark_24,
-                            modifier = Modifier
-                                .padding(bottom = 8.dp)
-                                .defaultPlaceholder(visible = uiState.isLoading)
-                        )
-                    }
-                    if (uiState.mediaDetails is AnimeDetails) {
-                        TextIconHorizontal(
-                            text = uiState.mediaDetails.startSeason?.year?.toString()
-                                ?: stringResource(R.string.unknown),
-                            icon = R.drawable.ic_round_event_24,
                             modifier = Modifier
                                 .padding(bottom = 8.dp)
                                 .defaultPlaceholder(visible = uiState.isLoading)
@@ -277,22 +282,6 @@ private fun MediaDetailsContent(
                     )
                 }
             }//:Row
-
-            // Title
-            Text(
-                text = uiState.mediaDetails?.userPreferredTitle() ?: "Loading",
-                modifier = Modifier
-                    .padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
-                    .defaultPlaceholder(visible = uiState.isLoading)
-                    .combinedClickable(
-                        onLongClick = {
-                            uiState.mediaDetails?.title?.let { context.copyToClipBoard(it) }
-                        },
-                        onClick = { }
-                    ),
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Bold
-            )
 
             //Genres
             LazyRow(
@@ -309,55 +298,58 @@ private fun MediaDetailsContent(
             }
 
             //Synopsis
-            SelectionContainer {
-                Text(
-                    text = uiState.mediaDetails?.synopsisAndBackground()
-                        ?: AnnotatedString(stringResource(R.string.lorem_ipsun)),
+            val synopsisAndBackground = uiState.mediaDetails?.synopsisAndBackground()
+            if (uiState.isLoading || !synopsisAndBackground.isNullOrEmpty()) {
+                SelectionContainer {
+                    Text(
+                        text = synopsisAndBackground
+                            ?: AnnotatedString(stringResource(R.string.lorem_ipsun)),
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .clickable { isSynopsisExpanded = !isSynopsisExpanded }
+                            .animateContentSize()
+                            .defaultPlaceholder(visible = uiState.isLoading),
+                        lineHeight = 20.sp,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = maxLinesSynopsis
+                    )
+                }
+                Row(
                     modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .clickable { isSynopsisExpanded = !isSynopsisExpanded }
-                        .animateContentSize()
-                        .defaultPlaceholder(visible = uiState.isLoading),
-                    lineHeight = 20.sp,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = maxLinesSynopsis
-                )
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                if (isCurrentLanguageEn == false) {
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    if (isCurrentLanguageEn == false) {
+                        IconButton(
+                            onClick = {
+                                uiState.mediaDetails?.synopsis?.let { context.openTranslator(it) }
+                            }
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_outline_translate_24),
+                                contentDescription = stringResource(R.string.translate)
+                            )
+                        }
+                    } else Spacer(modifier = Modifier.size(48.dp))
+
+                    IconButton(
+                        onClick = { isSynopsisExpanded = !isSynopsisExpanded }
+                    ) {
+                        Icon(painter = painterResource(iconExpand), contentDescription = "expand")
+                    }
+
                     IconButton(
                         onClick = {
-                            uiState.mediaDetails?.synopsis?.let { context.openTranslator(it) }
+                            uiState.mediaDetails?.synopsis?.let { context.copyToClipBoard(it) }
                         }
                     ) {
                         Icon(
-                            painter = painterResource(R.drawable.ic_outline_translate_24),
-                            contentDescription = stringResource(R.string.translate)
+                            painter = painterResource(R.drawable.round_content_copy_24),
+                            contentDescription = stringResource(R.string.copied)
                         )
                     }
-                } else Spacer(modifier = Modifier.size(48.dp))
-
-                IconButton(
-                    onClick = { isSynopsisExpanded = !isSynopsisExpanded }
-                ) {
-                    Icon(painter = painterResource(iconExpand), contentDescription = "expand")
-                }
-
-                IconButton(
-                    onClick = {
-                        uiState.mediaDetails?.synopsis?.let { context.copyToClipBoard(it) }
-                    }
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.round_content_copy_24),
-                        contentDescription = "copy"
-                    )
                 }
             }
 
@@ -401,7 +393,13 @@ private fun MediaDetailsContent(
 
             //Info
             InfoTitle(text = stringResource(R.string.more_info))
-            if (uiState.mediaDetails is MangaDetails) {
+            if (uiState.mediaDetails is AnimeDetails) {
+                MediaInfoView(
+                    title = stringResource(R.string.duration),
+                    info = uiState.mediaDetails.episodeDurationLocalized(),
+                    modifier = Modifier.defaultPlaceholder(visible = uiState.isLoading)
+                )
+            } else if (uiState.mediaDetails is MangaDetails) {
                 SelectionContainer {
                     MediaInfoView(
                         title = stringResource(R.string.authors),

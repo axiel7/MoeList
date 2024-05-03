@@ -64,8 +64,10 @@ data class MangaDetails(
     val serialization: List<Serialization>? = null,
 ) : BaseMediaDetails() {
 
+    val hasVolumes = numVolumes != null && numVolumes > 0
+
     @Composable
-    fun volumesText() = if (numVolumes != null && numVolumes > 0) {
+    fun volumesText() = if (hasVolumes) {
         "$numVolumes ${stringResource(R.string.volumes)}"
     } else {
         stringResource(R.string.unknown)
