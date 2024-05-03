@@ -9,6 +9,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeDetails
@@ -35,6 +36,7 @@ fun MediaDetailsTopAppBar(
     navigateBack: () -> Unit
 ) {
     val context = LocalContext.current
+    val isPreview = LocalInspectionMode.current
     val savedForNotification = when (uiState.mediaDetails?.status) {
         MediaStatus.AIRING -> uiState.notification
         MediaStatus.NOT_AIRED -> uiState.startNotification
@@ -84,7 +86,8 @@ fun MediaDetailsTopAppBar(
         }
     }
 
-    val notificationPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+    val notificationPermission =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !isPreview) {
         rememberPermissionState(
             permission = Manifest.permission.POST_NOTIFICATIONS,
             onPermissionResult = { onClickNotification(it) }
