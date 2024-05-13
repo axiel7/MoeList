@@ -84,6 +84,8 @@ class EditMediaViewModel(
                             && it.status != ListStatus.COMPLETED
 
                 val newStatus = when {
+                    it.isRepeating -> it.status
+
                     isUpdatingFromPlanning
                             || isUpdatingFromAutoCompleted -> {
                         if (it.mediaType == MediaType.ANIME) ListStatus.WATCHING else ListStatus.READING
