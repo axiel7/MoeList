@@ -10,6 +10,7 @@ import coil3.memory.MemoryCache
 import coil3.request.crossfade
 import com.axiel7.moelist.data.model.media.TitleLanguage
 import com.axiel7.moelist.di.dataStoreModule
+import com.axiel7.moelist.di.databaseModule
 import com.axiel7.moelist.di.networkModule
 import com.axiel7.moelist.di.repositoryModule
 import com.axiel7.moelist.di.viewModelModule
@@ -35,7 +36,14 @@ class App : Application(), KoinComponent, SingletonImageLoader.Factory {
             }
             androidContext(this@App)
             workManagerFactory()
-            modules(networkModule, dataStoreModule, repositoryModule, viewModelModule, workerModule)
+            modules(
+                networkModule,
+                dataStoreModule,
+                repositoryModule,
+                viewModelModule,
+                workerModule,
+                databaseModule,
+            )
         }
     }
 
