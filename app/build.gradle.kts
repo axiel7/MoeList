@@ -5,6 +5,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.serialization")
+    id("com.google.devtools.ksp")
 }
 
 android.buildFeatures.buildConfig = true
@@ -80,6 +81,9 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.12"
+    }
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
     }
     packaging {
         resources {
@@ -158,4 +162,10 @@ dependencies {
     val serializedNavigationVersion = "e23f84fc1f" // TODO: use proper versioning once the library is released
     implementation("com.github.uragiristereo.serialized-navigation-extension:navigation-compose:$serializedNavigationVersion")
     implementation("com.github.uragiristereo.serialized-navigation-extension:serializer-kotlinx:$serializedNavigationVersion")
+
+    //Room
+    val roomVersion = "2.6.1"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    ksp("androidx.room:room-compiler:$roomVersion")
 }
