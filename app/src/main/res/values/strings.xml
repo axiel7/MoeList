@@ -356,4 +356,5 @@
     <string name="cm">CM</string>
     <string name="pv">PV</string>
     <string name="black_theme_variant">Black theme variant</string>
+    <string name="polish_native" translatable="false">Polski</string>
 </resources>
