@@ -1,9 +1,11 @@
 package com.axiel7.moelist.ui.search
 
 import androidx.lifecycle.viewModelScope
+import com.axiel7.moelist.data.model.SearchHistory
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.data.repository.MangaRepository
+import com.axiel7.moelist.data.repository.SearchHistoryRepository
 import com.axiel7.moelist.ui.base.viewmodel.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,6 +18,7 @@ import kotlinx.coroutines.launch
 class SearchViewModel(
     private val animeRepository: AnimeRepository,
     private val mangaRepository: MangaRepository,
+    private val searchHistoryRepository: SearchHistoryRepository,
 ) : BaseViewModel<SearchUiState>(), SearchEvent {
 
     override val mutableUiState = MutableStateFlow(SearchUiState())
@@ -34,6 +37,7 @@ class SearchViewModel(
                 nextPage = null
             )
         }
+        onSaveSearchHistory(query)
     }
 
     override fun onChangeMediaType(value: MediaType) {
@@ -43,6 +47,18 @@ class SearchViewModel(
                 performSearch = true,
                 nextPage = null
             )
+        }
+    }
+
+    override fun onSaveSearchHistory(query: String) {
+        viewModelScope.launch {
+            searchHistoryRepository.addItem(query)
+        }
+    }
+
+    override fun onRemoveSearchHistory(item: SearchHistory) {
+        viewModelScope.launch {
+            searchHistoryRepository.deleteItem(item)
         }
     }
 
@@ -98,6 +114,14 @@ class SearchViewModel(
                         }
                     }
                 }
+        }
+
+        viewModelScope.launch {
+            searchHistoryRepository.getItems().collect { searchHistoryList ->
+                mutableUiState.update {
+                    it.copy(searchHistoryList = searchHistoryList)
+                }
+            }
         }
     }
 }

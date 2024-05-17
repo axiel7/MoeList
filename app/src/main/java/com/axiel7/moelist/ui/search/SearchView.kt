@@ -1,11 +1,15 @@
 package com.axiel7.moelist.ui.search
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -28,21 +32,27 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.axiel7.moelist.R
+import com.axiel7.moelist.data.model.SearchHistory
 import com.axiel7.moelist.data.model.anime.AnimeList
 import com.axiel7.moelist.data.model.manga.MangaList
 import com.axiel7.moelist.data.model.media.BaseMediaList
@@ -68,7 +78,9 @@ fun SearchHostView(
     val viewModel: SearchViewModel = koinViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    var query by remember { mutableStateOf("") }
+    var query by rememberSaveable(stateSaver = TextFieldValue.Saver) {
+        mutableStateOf(TextFieldValue())
+    }
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -96,7 +108,7 @@ fun SearchHostView(
             keyboardActions = KeyboardActions(
                 onSearch = {
                     keyboardController?.hide()
-                    viewModel.search(query)
+                    viewModel.search(query.text)
                 }
             ),
             singleLine = true,
@@ -110,7 +122,13 @@ fun SearchHostView(
         SearchViewContent(
             uiState = uiState,
             event = viewModel,
-            query = query,
+            query = query.text,
+            onQueryChange = {
+                query = TextFieldValue(
+                    text = it,
+                    selection = TextRange(it.length),
+                )
+            },
             isCompactScreen = isCompactScreen,
             navActionManager = navActionManager,
             contentPadding = PaddingValues(bottom = padding.calculateBottomPadding()),
@@ -118,17 +136,21 @@ fun SearchHostView(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun SearchViewContent(
     uiState: SearchUiState,
     event: SearchEvent?,
     query: String,
+    onQueryChange: (String) -> Unit,
     isCompactScreen: Boolean,
     navActionManager: NavActionManager,
     contentPadding: PaddingValues = PaddingValues(),
 ) {
     val context = LocalContext.current
     val shouldShowPlaceholder = query.isNotBlank() && uiState.mediaList.isEmpty()
+    val shouldShowSearchHistory = (query.isBlank() || !uiState.noResults)
+            && uiState.mediaList.isEmpty() && !uiState.isLoading
 
     LaunchedEffect(uiState.message) {
         if (uiState.message != null) {
@@ -221,6 +243,43 @@ private fun SearchViewContent(
         }
     }
 
+    @Composable
+    fun SearchHistoryItem(
+        item: SearchHistory,
+        onClick: () -> Unit,
+        onLongClick: () -> Unit,
+        modifier: Modifier = Modifier,
+    ) {
+        val hapticFeedback = LocalHapticFeedback.current
+
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .combinedClickable(
+                    onClick = onClick,
+                    onLongClick = {
+                        hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                        onLongClick()
+                    },
+                )
+                .padding(
+                    horizontal = 16.dp,
+                    vertical = 12.dp,
+                ),
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_history_24),
+                contentDescription = item.keyword,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            Text(
+                text = item.keyword,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+    }
+
     if (!isCompactScreen) {
         val listState = rememberLazyGridState()
         listState.OnBottomReached(buffer = 4) {
@@ -236,6 +295,25 @@ private fun SearchViewContent(
                 span = { GridItemSpan(maxLineSpan) }
             ) {
                 FilterRow()
+            }
+            if (shouldShowSearchHistory) {
+                items(
+                    items = uiState.searchHistoryList,
+                    key = { "search_history_${it.keyword}" },
+                    span = { GridItemSpan(maxLineSpan) },
+                ) { item ->
+                    SearchHistoryItem(
+                        item = item,
+                        onClick = {
+                            onQueryChange(item.keyword)
+                            event?.search(item.keyword)
+                        },
+                        onLongClick = {
+                            event?.onRemoveSearchHistory(item)
+                        },
+                        modifier = Modifier.animateItem(),
+                    )
+                }
             }
             items(
                 items = uiState.mediaList,
@@ -268,6 +346,24 @@ private fun SearchViewContent(
             contentPadding = contentPadding
         ) {
             item { FilterRow() }
+            if (shouldShowSearchHistory) {
+                items(
+                    items = uiState.searchHistoryList,
+                    key = { "search_history_${it.keyword}" },
+                ) { item ->
+                    SearchHistoryItem(
+                        item = item,
+                        onClick = {
+                            onQueryChange(item.keyword)
+                            event?.search(item.keyword)
+                        },
+                        onLongClick = {
+                            event?.onRemoveSearchHistory(item)
+                        },
+                        modifier = Modifier.animateItem(),
+                    )
+                }
+            }
             items(
                 items = uiState.mediaList,
                 contentType = { it.node }
@@ -298,6 +394,7 @@ fun SearchPreview() {
                 uiState = SearchUiState(),
                 event = null,
                 query = "",
+                onQueryChange = {},
                 isCompactScreen = false,
                 navActionManager = NavActionManager.rememberNavActionManager()
             )
