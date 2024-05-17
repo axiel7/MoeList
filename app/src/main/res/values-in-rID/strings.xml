@@ -209,7 +209,9 @@
     <string name="favorite">Favorit</string>
     <string name="use_external_browser">Gunakan browser eksternal</string>
     <string name="calendar">Kalender</string>
+    <string name="english">Inggris</string>
     <string name="language">Bahasa</string>
+    <string name="japanese">Jepang</string>
     <string name="total_rereads">Total Dibaca ulang</string>
     <string name="total_rewatches">Total Ditonton ulang</string>
     <string name="related_anime">Anime Terkait</string>

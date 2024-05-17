@@ -209,7 +209,9 @@
     <string name="favorite">Избранные</string>
     <string name="use_external_browser">Показать в браузере</string>
     <string name="calendar">Календарь</string>
+    <string name="english">Английский</string>
     <string name="language">Язык</string>
+    <string name="japanese">Японский</string>
     <string name="total_rereads">Повторных прочтений</string>
     <string name="total_rewatches">Повторных просмотров</string>
     <string name="related_anime">Похожие аниме</string>

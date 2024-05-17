@@ -209,7 +209,9 @@
     <string name="favorite">お気に入り</string>
     <string name="use_external_browser">外部ブラウザーを使用する</string>
     <string name="calendar">カレンダー</string>
+    <string name="english">英語</string>
     <string name="language">言語</string>
+    <string name="japanese">日本語</string>
     <string name="total_rereads">合計閲覧数</string>
     <string name="total_rewatches">合計視聴数</string>
     <string name="related_anime">関連するアニメ</string>

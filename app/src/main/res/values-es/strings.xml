@@ -209,7 +209,9 @@
     <string name="favorite">Favorito</string>
     <string name="use_external_browser">Usar navegador web externo</string>
     <string name="calendar">Calendario</string>
+    <string name="english">Inglés</string>
     <string name="language">Idioma</string>
+    <string name="japanese">Japonés</string>
     <string name="total_rereads">Total de relecturas</string>
     <string name="total_rewatches">Total de vuelto a ver</string>
     <string name="related_anime">Anime relacionados</string>

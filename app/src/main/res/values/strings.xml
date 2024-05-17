@@ -213,7 +213,9 @@
     <string name="favorite">Favorite</string>
     <string name="use_external_browser">Use external browser</string>
     <string name="calendar">Calendar</string>
+    <string name="english">English</string>
     <string name="language">Language</string>
+    <string name="japanese">Japanese</string>
     <string name="total_rereads">Total Rereads</string>
     <string name="total_rewatches">Total Rewatches</string>
     <string name="english_native" translatable="false">English</string>

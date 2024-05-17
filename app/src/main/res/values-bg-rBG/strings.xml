@@ -195,6 +195,7 @@
     <string name="aired_ago">Излъчен %s преди</string>
     <string name="anime_stats">Аниме Статистики</string>
     <string name="delete_confirmation">Сигурни ли сте, че искате да изтриете това?</string>
+    <string name="japanese">Японски</string>
     <string name="related_anime">Свързани анимета</string>
     <string name="related_manga">Свързани манга</string>
     <string name="content">Съдържание</string>

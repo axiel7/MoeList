@@ -208,7 +208,9 @@
     <string name="favorite">المفضلة</string>
     <string name="use_external_browser">استخدام متصفح خارجي</string>
     <string name="calendar">التقويم</string>
+    <string name="english">الإنجليزية</string>
     <string name="language">اللغة</string>
+    <string name="japanese">اليابانية</string>
     <string name="total_rereads">إعادة القراءة</string>
     <string name="total_rewatches">إعادة المشاهدة</string>
     <string name="related_anime">أنميات ذات الصلة</string>

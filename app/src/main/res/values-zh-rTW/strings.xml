@@ -209,7 +209,9 @@
     <string name="favorite">我的最愛</string>
     <string name="use_external_browser">使用外部瀏覽器</string>
     <string name="calendar">週期表</string>
+    <string name="english">英文</string>
     <string name="language">語言</string>
+    <string name="japanese">日語</string>
     <string name="total_rereads">總重讀</string>
     <string name="total_rewatches">總重看</string>
     <string name="related_anime">相關動畫</string>

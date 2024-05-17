@@ -176,7 +176,9 @@
     <string name="favorite">Preferiti</string>
     <string name="use_external_browser">Usa browser esterno</string>
     <string name="calendar">Calendario</string>
+    <string name="english">Inglese</string>
     <string name="language">Lingua</string>
+    <string name="japanese">Giapponese</string>
     <string name="related_anime">Anime Correlati</string>
     <string name="related_manga">Manga Correlati</string>
     <string name="content">Contenuto</string>

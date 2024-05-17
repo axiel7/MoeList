@@ -208,7 +208,9 @@
     <string name="favorite">Obľúbené</string>
     <string name="use_external_browser">Použij externý prehliadač</string>
     <string name="calendar">Kalendár</string>
+    <string name="english">Angličtina</string>
     <string name="language">Jazyk</string>
+    <string name="japanese">Japončina</string>
     <string name="total_rereads">Celkové opätovné čítanie</string>
     <string name="total_rewatches">Celkové opätovné sledovanie</string>
     <string name="related_anime">Súvisiace anime</string>
