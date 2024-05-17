@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.compose.dropUnlessResumed
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.BaseRanking
 import com.axiel7.moelist.data.model.media.MediaType
@@ -116,7 +117,7 @@ private fun MediaRankingListViewContent(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             },
-            onClick = {
+            onClick = dropUnlessResumed {
                 navActionManager.toMediaDetails(mediaType, item.node.id)
             }
         )

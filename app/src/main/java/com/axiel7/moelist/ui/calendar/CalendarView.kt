@@ -29,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.compose.dropUnlessResumed
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.WeekDay
@@ -74,7 +75,7 @@ private fun CalendarContent(
 
     DefaultScaffoldWithTopAppBar(
         title = stringResource(R.string.calendar),
-        navigateBack = navActionManager::goBack,
+        navigateBack = dropUnlessResumed { navActionManager.goBack() },
         contentWindowInsets = WindowInsets.systemBars
             .only(WindowInsetsSides.Horizontal)
     ) { padding ->
@@ -118,7 +119,7 @@ private fun CalendarContent(
                                 )
                             },
                             minLines = 2,
-                            onClick = {
+                            onClick = dropUnlessResumed {
                                 navActionManager.toMediaDetails(MediaType.ANIME, item.node.id)
                             }
                         )

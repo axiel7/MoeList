@@ -37,6 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.compose.dropUnlessResumed
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
@@ -124,7 +125,7 @@ private fun HomeViewContent(
                 text = stringResource(R.string.anime_ranking),
                 icon = R.drawable.ic_round_movie_24,
                 modifier = Modifier.weight(1f),
-                onClick = {
+                onClick = dropUnlessResumed {
                     navActionManager.toMediaRanking(MediaType.ANIME)
                 },
             )
@@ -133,7 +134,7 @@ private fun HomeViewContent(
                 text = stringResource(R.string.manga_ranking),
                 icon = R.drawable.ic_round_menu_book_24,
                 modifier = Modifier.weight(1f),
-                onClick = {
+                onClick = dropUnlessResumed {
                     navActionManager.toMediaRanking(MediaType.MANGA)
                 },
             )
@@ -146,21 +147,25 @@ private fun HomeViewContent(
                 text = stringResource(R.string.seasonal_chart),
                 icon = SeasonCalendar.currentSeason.icon,
                 modifier = Modifier.weight(1f),
-                onClick = navActionManager::toSeasonChart,
+                onClick = dropUnlessResumed {
+                    navActionManager.toSeasonChart()
+                },
             )
 
             HomeCard(
                 text = stringResource(R.string.calendar),
                 icon = R.drawable.ic_round_event_24,
                 modifier = Modifier.weight(1f),
-                onClick = navActionManager::toCalendar,
+                onClick = dropUnlessResumed {
+                    navActionManager.toCalendar()
+                },
             )
         }
 
         // Airing
         HeaderHorizontalList(
             text = stringResource(R.string.today),
-            onClick = navActionManager::toCalendar
+            onClick = dropUnlessResumed { navActionManager.toCalendar() }
         )
         if (!uiState.isLoading && uiState.todayAnimes.isEmpty()) {
             Box(
@@ -189,7 +194,7 @@ private fun HomeViewContent(
             ) {
                 AiringAnimeHorizontalItem(
                     item = it,
-                    onClick = {
+                    onClick = dropUnlessResumed {
                         navActionManager.toMediaDetails(MediaType.ANIME, it.node.id)
                     }
                 )
@@ -204,7 +209,7 @@ private fun HomeViewContent(
         // This Season
         HeaderHorizontalList(
             text = stringResource(R.string.this_season),
-            onClick = navActionManager::toSeasonChart
+            onClick = dropUnlessResumed { navActionManager.toSeasonChart() }
         )
         if (!uiState.isLoading && uiState.seasonAnimes.isEmpty()) {
             Box(
@@ -242,7 +247,7 @@ private fun HomeViewContent(
                         )
                     },
                     minLines = 2,
-                    onClick = {
+                    onClick = dropUnlessResumed {
                         navActionManager.toMediaDetails(MediaType.ANIME, it.node.id)
                     }
                 )
@@ -257,7 +262,7 @@ private fun HomeViewContent(
         //Recommended
         HeaderHorizontalList(
             text = stringResource(R.string.recommendations),
-            onClick = navActionManager::toRecommendations
+            onClick = dropUnlessResumed { navActionManager.toRecommendations() }
         )
         if (!isLoggedIn) {
             Box(
@@ -307,7 +312,7 @@ private fun HomeViewContent(
                         )
                     },
                     minLines = 2,
-                    onClick = {
+                    onClick = dropUnlessResumed {
                         navActionManager.toMediaDetails(MediaType.ANIME, it.node.id)
                     }
                 )
@@ -327,7 +332,7 @@ private fun HomeViewContent(
         ) {
             //Random
             OutlinedButton(
-                onClick = {
+                onClick = dropUnlessResumed {
                     val type = if (Random.nextBoolean()) MediaType.ANIME else MediaType.MANGA
                     val id = Random.nextInt(from = 0, until = 6000)
                     navActionManager.toMediaDetails(type, id)

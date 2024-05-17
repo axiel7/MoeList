@@ -31,6 +31,7 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.dropUnlessResumed
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseUserMediaList
 import com.axiel7.moelist.ui.base.ListStyle
@@ -71,7 +72,7 @@ fun UserMediaListView(
         StandardUserMediaListItem(
             item = item,
             listStatus = uiState.listStatus,
-            onClick = {
+            onClick = dropUnlessResumed {
                 navActionManager.toMediaDetails(uiState.mediaType, item.node.id)
             },
             onLongClick = {
@@ -88,7 +89,7 @@ fun UserMediaListView(
         CompactUserMediaListItem(
             item = item,
             listStatus = uiState.listStatus,
-            onClick = {
+            onClick = dropUnlessResumed {
                 navActionManager.toMediaDetails(uiState.mediaType, item.node.id)
             },
             onLongClick = {
@@ -105,7 +106,7 @@ fun UserMediaListView(
         MinimalUserMediaListItem(
             item = item,
             listStatus = uiState.listStatus,
-            onClick = {
+            onClick = dropUnlessResumed {
                 navActionManager.toMediaDetails(uiState.mediaType, item.node.id)
             },
             onLongClick = {
@@ -121,7 +122,7 @@ fun UserMediaListView(
     fun GridItemView(item: BaseUserMediaList<out BaseMediaNode>) {
         GridUserMediaListItem(
             item = item,
-            onClick = {
+            onClick = dropUnlessResumed {
                 navActionManager.toMediaDetails(uiState.mediaType, item.node.id)
             },
             onLongClick = {

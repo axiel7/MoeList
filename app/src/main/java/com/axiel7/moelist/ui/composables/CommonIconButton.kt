@@ -6,25 +6,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.dropUnlessResumed
 import com.axiel7.moelist.R
 import com.axiel7.moelist.utils.ContextExtensions.openShareSheet
-
-fun singleClick(onClick: () -> Unit): () -> Unit {
-    var latest = 0L
-    return {
-        val now = System.currentTimeMillis()
-        if (now - latest >= 1000) {
-            onClick()
-            latest = now
-        }
-    }
-}
 
 @Composable
 fun BackIconButton(
     onClick: () -> Unit
 ) {
-    IconButton(onClick = singleClick(onClick)) {
+    IconButton(onClick = dropUnlessResumed { onClick() }) {
         Icon(painter = painterResource(R.drawable.ic_arrow_back), contentDescription = "arrow_back")
     }
 }
@@ -33,7 +23,7 @@ fun BackIconButton(
 fun ViewInBrowserButton(
     onClick: () -> Unit
 ) {
-    IconButton(onClick = onClick) {
+    IconButton(onClick = dropUnlessResumed { onClick() }) {
         Icon(
             painter = painterResource(R.drawable.ic_open_in_browser),
             contentDescription = stringResource(R.string.view_on_mal)

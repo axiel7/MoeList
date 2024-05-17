@@ -51,6 +51,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.compose.dropUnlessResumed
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.SearchHistory
 import com.axiel7.moelist.data.model.anime.AnimeList
@@ -224,7 +225,7 @@ private fun SearchViewContent(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             },
-            onClick = {
+            onClick = dropUnlessResumed {
                 navActionManager.toMediaDetails(uiState.mediaType, item.node.id)
             }
         )

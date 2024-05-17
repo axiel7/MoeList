@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.compose.dropUnlessResumed
 import coil3.compose.AsyncImage
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
@@ -98,11 +99,11 @@ private fun ProfileViewContent(
                         .clip(RoundedCornerShape(100))
                         .size(100.dp)
                         .defaultPlaceholder(visible = uiState.isLoading)
-                        .clickable {
+                        .clickable(onClick = dropUnlessResumed {
                             navActionManager.toFullPoster(
                                 listOf(uiState.profilePictureUrl.orEmpty())
                             )
-                        }
+                        })
                 )
 
                 Column {

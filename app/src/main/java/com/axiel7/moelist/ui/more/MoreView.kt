@@ -25,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.dropUnlessResumed
 import com.axiel7.moelist.R
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.collapsable
@@ -118,19 +119,19 @@ private fun MoreViewContent(
         MoreItem(
             title = stringResource(R.string.notifications),
             icon = R.drawable.round_notifications_24,
-            onClick = navActionManager::toNotifications
+            onClick = dropUnlessResumed { navActionManager.toNotifications() }
         )
 
         MoreItem(
             title = stringResource(R.string.settings),
             icon = R.drawable.ic_round_settings_24,
-            onClick = navActionManager::toSettings
+            onClick = dropUnlessResumed { navActionManager.toSettings() }
         )
 
         MoreItem(
             title = stringResource(R.string.about),
             icon = R.drawable.ic_info,
-            onClick = navActionManager::toAbout
+            onClick = dropUnlessResumed { navActionManager.toAbout() }
         )
 
         MoreItem(

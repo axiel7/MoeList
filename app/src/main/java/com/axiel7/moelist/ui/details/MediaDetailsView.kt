@@ -58,6 +58,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.compose.dropUnlessResumed
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.manga.MangaDetails
@@ -172,7 +173,7 @@ private fun MediaDetailsContent(
             MediaDetailsTopAppBar(
                 uiState = uiState,
                 event = event,
-                navigateBack = navActionManager::goBack,
+                navigateBack = dropUnlessResumed { navActionManager.goBack() },
                 scrollBehavior = topAppBarScrollBehavior,
             )
         },
@@ -220,9 +221,9 @@ private fun MediaDetailsContent(
                             height = MEDIA_POSTER_BIG_HEIGHT.dp
                         )
                         .defaultPlaceholder(visible = uiState.isLoading)
-                        .clickable {
+                        .clickable(onClick = dropUnlessResumed {
                             navActionManager.toFullPoster(uiState.picturesUrls)
-                        }
+                        })
                 )
                 Column {
                     // Title
@@ -591,7 +592,7 @@ private fun MediaDetailsContent(
                                     lineHeight = 14.sp
                                 )
                             },
-                            onClick = {
+                            onClick = dropUnlessResumed {
                                 navActionManager.toMediaDetails(MediaType.ANIME, item.node.id)
                             }
                         )
@@ -617,7 +618,7 @@ private fun MediaDetailsContent(
                                     lineHeight = 14.sp
                                 )
                             },
-                            onClick = {
+                            onClick = dropUnlessResumed {
                                 navActionManager.toMediaDetails(MediaType.MANGA, item.node.id)
                             }
                         )
@@ -647,7 +648,7 @@ private fun MediaDetailsContent(
                                 )
                             },
                             minLines = 2,
-                            onClick = {
+                            onClick = dropUnlessResumed {
                                 navActionManager.toMediaDetails(
                                     mediaType = item.node.mediaType,
                                     id = item.node.id

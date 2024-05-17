@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.dropUnlessResumed
 import com.axiel7.moelist.BuildConfig
 import com.axiel7.moelist.R
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
@@ -68,7 +69,7 @@ fun AboutView(
                 title = stringResource(R.string.credits),
                 subtitle = stringResource(R.string.credits_summary),
                 icon = R.drawable.ic_round_group_24,
-                onClick = navActionManager::toCredits
+                onClick = dropUnlessResumed { navActionManager.toCredits() }
             )
         }
     }

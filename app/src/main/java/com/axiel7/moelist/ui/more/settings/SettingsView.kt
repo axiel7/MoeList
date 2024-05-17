@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.compose.dropUnlessResumed
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.TitleLanguage
 import com.axiel7.moelist.ui.base.AppLanguage
@@ -123,7 +124,7 @@ private fun SettingsViewContent(
                 PlainPreferenceView(
                     title = stringResource(R.string.list_style),
                     icon = R.drawable.round_format_list_bulleted_24,
-                    onClick = navActionManager::toListStyleSettings
+                    onClick = dropUnlessResumed { navActionManager.toListStyleSettings() }
                 )
             }
 
