@@ -80,7 +80,7 @@ android {
         jvmTarget = "1.8"
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.12"
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
     ksp {
         arg("room.schemaLocation", "$projectDir/schemas")
