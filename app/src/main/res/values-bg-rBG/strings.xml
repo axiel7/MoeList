@@ -129,11 +129,6 @@
     <string name="general_help">Обща помощ</string>
     <string name="api_help">MyAnimeList API помощ</string>
     <string name="translations">Преводи</string>
-    <string name="turkish">Турски</string>
-    <string name="brazilian">Бразилски</string>
-    <string name="russian">Руски</string>
-    <string name="arabic">Арабски</string>
-    <string name="spanish">Испански</string>
     <string name="genre_action">Действие</string>
     <string name="genre_adventure">Приключение</string>
     <string name="genre_cars">Коли</string>
@@ -190,7 +185,6 @@
     <string name="discontinued">Прекратено</string>
     <string name="opening">Отваряне на теми</string>
     <string name="ending">Крайни теми</string>
-    <string name="german">Немски</string>
     <string name="copied">Копирано!</string>
     <string name="login_browser_warning">Опитай с друг браузър ако не можеш да влезеш.</string>
     <string name="parent_story">Родителска история</string>
@@ -201,9 +195,6 @@
     <string name="aired_ago">Излъчен %s преди</string>
     <string name="anime_stats">Аниме Статистики</string>
     <string name="delete_confirmation">Сигурни ли сте, че искате да изтриете това?</string>
-    <string name="bulgarian">Български</string>
-    <string name="french">Френски</string>
-    <string name="japanese">Японски</string>
     <string name="related_anime">Свързани анимета</string>
     <string name="related_manga">Свързани манга</string>
     <string name="content">Съдържание</string>
@@ -220,8 +211,6 @@
     <string name="delete_all">Изтрий всичко</string>
     <string name="manga_stats">Статистики на мангата</string>
     <string name="last_used">Последно използван</string>
-    <string name="czech">Чешки</string>
-    <string name="indonesian">Индонезийски</string>
     <string name="romaji">Ромаджи</string>
     <string name="title_language">Език на заглавието</string>
     <string name="experimental">Експериментален</string>
@@ -239,7 +228,6 @@
     <string name="invalid_start_date">Невалидна начална дата</string>
     <string name="invalid_broadcast">Невалидно излъчване</string>
     <string name="synopsis_background">Контекст</string>
-    <string name="portuguese">Португалски</string>
     <string name="very_low_value">Много ниско</string>
     <string name="low_value">Нисък</string>
     <string name="medium_value">Среден</string>
@@ -255,5 +243,4 @@
     <string name="ago">преди %s</string>
     <string name="set_as_completed">Маркирайте като завършен?</string>
     <string name="relation_character">Символ</string>
-    <string name="slovak">Словашки</string>
 </resources>

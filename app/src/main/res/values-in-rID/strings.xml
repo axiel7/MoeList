@@ -130,11 +130,6 @@
     <string name="general_help">Bantuan umum</string>
     <string name="api_help">Bantuan API MyAnimeList</string>
     <string name="translations">Penerjemahan</string>
-    <string name="turkish">Turki</string>
-    <string name="brazilian">Brazil</string>
-    <string name="russian">Rusia</string>
-    <string name="arabic">Arab</string>
-    <string name="spanish">Spanyol</string>
     <string name="genre_action">Aksi</string>
     <string name="genre_adventure">Petualangan</string>
     <string name="genre_cars">Mobil</string>
@@ -193,7 +188,6 @@
     <string name="discontinued">Dihentikan</string>
     <string name="opening">Lagu Opening</string>
     <string name="ending">Lagu Ending</string>
-    <string name="german">Jerman</string>
     <string name="copied">Disalin!</string>
     <string name="login_browser_warning">Coba dengan browser lain jika tidak bisa masuk.</string>
     <string name="parent_story">Cerita utama</string>
@@ -204,8 +198,6 @@
     <string name="aired_ago">Tayang %s lalu</string>
     <string name="anime_stats">Statistik Anime</string>
     <string name="delete_confirmation">Apakah anda yakin ingin menghapus entri ini?</string>
-    <string name="bulgarian">Bulgaria</string>
-    <string name="french">Prancis</string>
     <string name="loading">Memuat</string>
     <string name="anime_manga_news"><![CDATA[Berita Anime & Manga]]></string>
     <string name="mal_announcements">Pengumuman MyAnimeList</string>
@@ -217,14 +209,9 @@
     <string name="favorite">Favorit</string>
     <string name="use_external_browser">Gunakan browser eksternal</string>
     <string name="calendar">Kalender</string>
-    <string name="english">Inggris</string>
-    <string name="ukrainian">Ukraina</string>
     <string name="language">Bahasa</string>
-    <string name="japanese">Jepang</string>
-    <string name="chinese_traditional">China (Tradisional)</string>
     <string name="total_rereads">Total Dibaca ulang</string>
     <string name="total_rewatches">Total Ditonton ulang</string>
-    <string name="chinese_simplified">China (Sederhana)</string>
     <string name="related_anime">Anime Terkait</string>
     <string name="related_manga">Manga Terkait</string>
     <string name="content">Konten</string>
@@ -241,8 +228,6 @@
     <string name="delete_all">Hapus semua</string>
     <string name="manga_stats">Statistik Manga</string>
     <string name="last_used">Terakhir digunakan</string>
-    <string name="czech">Ceko</string>
-    <string name="indonesian">Indonesia</string>
     <string name="romaji">Romaji</string>
     <string name="title_language">Judul bahasa</string>
     <string name="experimental">Experimen</string>
@@ -260,7 +245,6 @@
     <string name="invalid_start_date">Tanggal mulai tidak sesuai</string>
     <string name="invalid_broadcast">Tayangan tidak valid</string>
     <string name="synopsis_background">Latar belakang</string>
-    <string name="portuguese">Portugis</string>
     <string name="very_low_value">Sangat Rendah</string>
     <string name="low_value">Rendah</string>
     <string name="medium_value">Sedang</string>
@@ -327,7 +311,6 @@
     <string name="genre_memoir">Memoire</string>
     <string name="genre_villainess">Penjahat</string>
     <string name="contributors">Kontribusi</string>
-    <string name="slovak">Slovakia</string>
     <string name="enable_list_tabs">Aktifkan daftar tab</string>
     <string name="enable_list_tabs_subtitle">Gunakan tab di daftar Anime/Manga alih-alih Menggunakan Tombol Aksi Mengambang</string>
     <string name="always_load_characters">Selalu memuat karakter</string>

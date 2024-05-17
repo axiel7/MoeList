@@ -129,11 +129,6 @@
     <string name="general_help">المساعدة العامة</string>
     <string name="api_help">المساعدة بـ MyAnimeList API</string>
     <string name="translations">المترجمون</string>
-    <string name="turkish">التركية</string>
-    <string name="brazilian">البرازيلية</string>
-    <string name="russian">الروسية</string>
-    <string name="arabic">العربية</string>
-    <string name="spanish">الإسبانية</string>
     <string name="genre_action">أكشن</string>
     <string name="genre_adventure">مغامرة</string>
     <string name="genre_cars">سيارات</string>
@@ -192,7 +187,6 @@
     <string name="discontinued">توقف البث</string>
     <string name="opening">اغنية المقدمة</string>
     <string name="ending">اغنية الخاتمة</string>
-    <string name="german">الألمانية</string>
     <string name="copied">تم النسخ!</string>
     <string name="login_browser_warning">حاول مع متصفح آخر إذا لم تتمكن من تسجيل الدخول.</string>
     <string name="parent_story">القصة الأم</string>
@@ -203,8 +197,6 @@
     <string name="aired_ago">تم بثه منذ %s</string>
     <string name="anime_stats">إحصائيات الأنيمي</string>
     <string name="delete_confirmation">هل أنت متأكد أنك تريد حذف هذا المدخل؟</string>
-    <string name="bulgarian">البلغارية</string>
-    <string name="french">الفرنسية</string>
     <string name="loading">تحميل</string>
     <string name="anime_manga_news"><![CDATA[أخبار الأنيمي و المانجا]]></string>
     <string name="mal_announcements">إعلانات MyAnimeList</string>
@@ -216,14 +208,9 @@
     <string name="favorite">المفضلة</string>
     <string name="use_external_browser">استخدام متصفح خارجي</string>
     <string name="calendar">التقويم</string>
-    <string name="english">الإنجليزية</string>
-    <string name="ukrainian">الأوكرانية</string>
     <string name="language">اللغة</string>
-    <string name="japanese">اليابانية</string>
-    <string name="chinese_traditional">الصينية (التقليدية)</string>
     <string name="total_rereads">إعادة القراءة</string>
     <string name="total_rewatches">إعادة المشاهدة</string>
-    <string name="chinese_simplified">الصينية (المبسطة)</string>
     <string name="related_anime">أنميات ذات الصلة</string>
     <string name="related_manga">مانجا ذات الصلة</string>
     <string name="content">المحتوى</string>
@@ -240,8 +227,6 @@
     <string name="delete_all">حذف الكل</string>
     <string name="manga_stats">إحصائيات المانجا</string>
     <string name="last_used">المستخدم أخيراً</string>
-    <string name="czech">التشيكية</string>
-    <string name="indonesian">الإندونيسية</string>
     <string name="romaji">روماجي</string>
     <string name="title_language">لغة العنوان</string>
     <string name="experimental">تجريبي</string>
@@ -259,7 +244,6 @@
     <string name="invalid_start_date">تاريخ البث غير صالح</string>
     <string name="invalid_broadcast">توقيت بث غير صالح</string>
     <string name="synopsis_background">معلومات أساسية</string>
-    <string name="portuguese">البرتغالية</string>
     <string name="very_low_value">منخفض جداً</string>
     <string name="low_value">منخفض</string>
     <string name="medium_value">متوسط</string>

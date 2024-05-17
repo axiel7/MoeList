@@ -130,11 +130,6 @@
     <string name="general_help">一般幫助</string>
     <string name="api_help">MyAnimeList API 幫助</string>
     <string name="translations">翻譯</string>
-    <string name="turkish">土耳其文</string>
-    <string name="brazilian">葡萄牙文 （巴西）</string>
-    <string name="russian">俄文</string>
-    <string name="arabic">阿拉伯文</string>
-    <string name="spanish">西班牙文</string>
     <string name="genre_action">動作</string>
     <string name="genre_adventure">冒險</string>
     <string name="genre_cars">車</string>
@@ -193,7 +188,6 @@
     <string name="discontinued">停止</string>
     <string name="opening">主題曲</string>
     <string name="ending">片尾曲</string>
-    <string name="german">德文</string>
     <string name="copied">已複製！</string>
     <string name="login_browser_warning">如果您無法登入，請嘗試使用其它瀏覽器。</string>
     <string name="parent_story">主要故事</string>
@@ -204,8 +198,6 @@
     <string name="aired_ago">%s前播出</string>
     <string name="anime_stats">動畫統計</string>
     <string name="delete_confirmation">您確定要刪除此條目嗎？</string>
-    <string name="bulgarian">保加利亞文</string>
-    <string name="french">法文</string>
     <string name="loading">載入中</string>
     <string name="anime_manga_news"><![CDATA[動畫與漫畫新聞]]></string>
     <string name="mal_announcements">MyAnimeList 公告</string>
@@ -217,14 +209,9 @@
     <string name="favorite">我的最愛</string>
     <string name="use_external_browser">使用外部瀏覽器</string>
     <string name="calendar">週期表</string>
-    <string name="english">英文</string>
-    <string name="ukrainian">烏克蘭文</string>
     <string name="language">語言</string>
-    <string name="japanese">日語</string>
-    <string name="chinese_traditional">中文 (繁體)</string>
     <string name="total_rereads">總重讀</string>
     <string name="total_rewatches">總重看</string>
-    <string name="chinese_simplified">中文 (簡體)</string>
     <string name="related_anime">相關動畫</string>
     <string name="related_manga">相關漫畫</string>
     <string name="content">內容</string>
@@ -241,8 +228,6 @@
     <string name="delete_all">全部刪除</string>
     <string name="manga_stats">漫畫統計</string>
     <string name="last_used">最後使用</string>
-    <string name="czech">捷克文</string>
-    <string name="indonesian">印尼文</string>
     <string name="romaji">羅馬字</string>
     <string name="title_language">標題語言</string>
     <string name="experimental">實驗功能</string>
@@ -260,7 +245,6 @@
     <string name="invalid_start_date">無效的開始日期</string>
     <string name="invalid_broadcast">無效的廣播</string>
     <string name="synopsis_background">背景</string>
-    <string name="portuguese">葡萄牙文</string>
     <string name="very_low_value">非常低</string>
     <string name="low_value">低</string>
     <string name="medium_value">普通</string>
@@ -327,7 +311,6 @@
     <string name="genre_memoir">重溫舊夢</string>
     <string name="genre_villainess">惡役令孃</string>
     <string name="contributors">貢獻者</string>
-    <string name="slovak">斯洛伐克文</string>
     <string name="enable_list_tabs">開啓清單分頁</string>
     <string name="enable_list_tabs_subtitle">在動畫/漫畫清單中以分頁取代懸浮動作按鈕</string>
     <string name="always_load_characters">一律顯示角色列表</string>

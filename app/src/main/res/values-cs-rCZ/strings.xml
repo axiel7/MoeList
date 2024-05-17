@@ -129,11 +129,6 @@
     <string name="general_help">Všeobecná pomoc</string>
     <string name="api_help">Nápověda pro MyAnimeList API</string>
     <string name="translations">Překladatelé</string>
-    <string name="turkish">Turecko</string>
-    <string name="brazilian">Brazilština</string>
-    <string name="russian">Ruština</string>
-    <string name="arabic">Arabština</string>
-    <string name="spanish">Španělština</string>
     <string name="genre_action">Akce</string>
     <string name="genre_adventure">Dobrodružné</string>
     <string name="genre_cars">Auta</string>
@@ -192,7 +187,6 @@
     <string name="discontinued">Přerušeno</string>
     <string name="opening">Intro</string>
     <string name="ending">Outro</string>
-    <string name="german">Němčina</string>
     <string name="copied">Zkopírováno!</string>
     <string name="login_browser_warning">Zkus jiný prohlížeč pokud se ti nejde přihlásit.</string>
     <string name="parent_story">Nadřazený příběh</string>
@@ -203,8 +197,6 @@
     <string name="aired_ago">Vysíláno před %s</string>
     <string name="anime_stats">Anime statistiky</string>
     <string name="delete_confirmation">Opravdu chceš smazat tento záznam?</string>
-    <string name="bulgarian">Bulharština</string>
-    <string name="french">Francouzština</string>
     <string name="loading">Načítání</string>
     <string name="anime_manga_news"><![CDATA[Anime & Manga Novinky]]></string>
     <string name="mal_announcements">MyAnimeList Oznámení</string>
@@ -216,14 +208,9 @@
     <string name="favorite">Oblíbené</string>
     <string name="use_external_browser">Použij externí prohlížeč</string>
     <string name="calendar">Kalendář</string>
-    <string name="english">Angličtina</string>
-    <string name="ukrainian">Ukrajinština</string>
     <string name="language">Jazyk</string>
-    <string name="japanese">Japonština</string>
-    <string name="chinese_traditional">Čínština (Tradiční)</string>
     <string name="total_rereads">Celkem znovupřečtení</string>
     <string name="total_rewatches">Celkem znovupřehrátí</string>
-    <string name="chinese_simplified">Čínština (Zjednodušená)</string>
     <string name="related_anime">Související Anime</string>
     <string name="related_manga">Související Manga</string>
     <string name="content">Obsah</string>
@@ -240,8 +227,6 @@
     <string name="delete_all">Odstranit vše</string>
     <string name="manga_stats">Manga statistiky</string>
     <string name="last_used">Naposledy použité</string>
-    <string name="czech">Česky</string>
-    <string name="indonesian">Indonésky</string>
     <string name="romaji">Romaji</string>
     <string name="title_language">Jazyk titulku</string>
     <string name="experimental">Experimentální</string>
@@ -259,7 +244,6 @@
     <string name="invalid_start_date">Neplatné datum zahájení</string>
     <string name="invalid_broadcast">Neplatné vysílání</string>
     <string name="synopsis_background">Kontext</string>
-    <string name="portuguese">Portugalština</string>
     <string name="very_low_value">Velmi nízká</string>
     <string name="low_value">Nízká</string>
     <string name="medium_value">Střední</string>
@@ -326,7 +310,6 @@
     <string name="genre_memoir">Vzpomínky</string>
     <string name="genre_villainess">Záporák</string>
     <string name="contributors">K vývoji přispěli</string>
-    <string name="slovak">Slovenština</string>
     <string name="enable_list_tabs">Povolení karet seznamu</string>
     <string name="enable_list_tabs_subtitle">Použití karet v seznamu Anime/Manga místo plovoucího akčního tlačítka</string>
     <string name="always_load_characters">Vždy načtěte znaky</string>

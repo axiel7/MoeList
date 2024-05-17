@@ -130,11 +130,6 @@
     <string name="general_help">Общая поддержка</string>
     <string name="api_help">Помощь с MyAnimeList API</string>
     <string name="translations">Переводы</string>
-    <string name="turkish">Турецкий</string>
-    <string name="brazilian">Бразильский</string>
-    <string name="russian">Русский</string>
-    <string name="arabic">Арабский</string>
-    <string name="spanish">Испанский</string>
     <string name="genre_action">Экшен</string>
     <string name="genre_adventure">Приключения</string>
     <string name="genre_cars">Машины</string>
@@ -193,7 +188,6 @@
     <string name="discontinued">Прекращено</string>
     <string name="opening">Открывающие темы</string>
     <string name="ending">Закрывающие темы</string>
-    <string name="german">Немецкий</string>
     <string name="copied">Скопировано!</string>
     <string name="login_browser_warning">Попробуйте использовать другой браузер, если вы не можете войти.</string>
     <string name="parent_story">Основная история</string>
@@ -204,8 +198,6 @@
     <string name="aired_ago">Вышло %s назад</string>
     <string name="anime_stats">Аниме Статистика</string>
     <string name="delete_confirmation">Вы уверены, что хотите удалить эту запись?</string>
-    <string name="bulgarian">Болгарский</string>
-    <string name="french">Французский</string>
     <string name="loading">Загрузка</string>
     <string name="anime_manga_news"><![CDATA[Новости аниме и манги]]></string>
     <string name="mal_announcements">Объявления от MyAnimeList</string>
@@ -217,14 +209,9 @@
     <string name="favorite">Избранные</string>
     <string name="use_external_browser">Показать в браузере</string>
     <string name="calendar">Календарь</string>
-    <string name="english">Английский</string>
-    <string name="ukrainian">Украинский</string>
     <string name="language">Язык</string>
-    <string name="japanese">Японский</string>
-    <string name="chinese_traditional">Китайский (традиционный)</string>
     <string name="total_rereads">Повторных прочтений</string>
     <string name="total_rewatches">Повторных просмотров</string>
-    <string name="chinese_simplified">Китайский (упрощённый)</string>
     <string name="related_anime">Похожие аниме</string>
     <string name="related_manga">Похожие манги</string>
     <string name="content">Контент</string>
@@ -241,8 +228,6 @@
     <string name="delete_all">Удалить все</string>
     <string name="manga_stats">Статистика манги</string>
     <string name="last_used">Последнее использование</string>
-    <string name="czech">Чехия</string>
-    <string name="indonesian">Индонезийский</string>
     <string name="romaji">Romaji</string>
     <string name="title_language">Язык названия</string>
     <string name="experimental">Экспериментальная</string>
@@ -260,7 +245,6 @@
     <string name="invalid_start_date">Неверная дата начала</string>
     <string name="invalid_broadcast">Некорректная передача</string>
     <string name="synopsis_background">Фон</string>
-    <string name="portuguese">Португальский</string>
     <string name="very_low_value">Очень низкий</string>
     <string name="low_value">Низкий</string>
     <string name="medium_value">Средний</string>
@@ -327,7 +311,6 @@
     <string name="genre_memoir">Мемуар</string>
     <string name="genre_villainess">Злодейство</string>
     <string name="contributors">Вкладчики</string>
-    <string name="slovak">Словацкий</string>
     <string name="enable_list_tabs">Включить вкладки списка</string>
     <string name="enable_list_tabs_subtitle">Использовать вкладки в списке аниме/манга вместо плавающей кнопки действия</string>
     <string name="always_load_characters">Всегда загружать персонажей</string>

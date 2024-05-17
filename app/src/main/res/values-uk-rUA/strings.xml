@@ -130,11 +130,6 @@
     <string name="general_help">Загальна допомога</string>
     <string name="api_help">Допомога з MyAnimeList API</string>
     <string name="translations">Перекладачі</string>
-    <string name="turkish">Турецькою</string>
-    <string name="brazilian">Бразильською</string>
-    <string name="russian">Російською</string>
-    <string name="arabic">Арабською</string>
-    <string name="spanish">Іспанською</string>
     <string name="genre_action">Екшн</string>
     <string name="genre_adventure">Пригоди</string>
     <string name="genre_cars">Автомобілі</string>
@@ -193,7 +188,6 @@
     <string name="discontinued">Припинено</string>
     <string name="opening">Відкриваючі теми</string>
     <string name="ending">Закриваючі теми</string>
-    <string name="german">Німецькою</string>
     <string name="copied">Скопійовано!</string>
     <string name="login_browser_warning">Якщо ви не можете увійти спробуйте інший браузер.</string>
     <string name="parent_story">Головна історія</string>
@@ -204,8 +198,6 @@
     <string name="aired_ago">Транслювалося %s тому</string>
     <string name="anime_stats">Аніме Статистика</string>
     <string name="delete_confirmation">Ви дійсно бажаєте видалити цей запис?</string>
-    <string name="bulgarian">Болгарська</string>
-    <string name="french">Французька</string>
     <string name="loading">Завантаження</string>
     <string name="anime_manga_news"><![CDATA[Новини аніме та манґи]]></string>
     <string name="mal_announcements">Оголошення MyAnimeList</string>
@@ -217,14 +209,9 @@
     <string name="favorite">Вибрані</string>
     <string name="use_external_browser">Використовувати зовнішній браузер</string>
     <string name="calendar">Календар</string>
-    <string name="english">Англійська</string>
-    <string name="ukrainian">Українська</string>
     <string name="language">Мова</string>
-    <string name="japanese">Японська</string>
-    <string name="chinese_traditional">Китайська (традиційна)</string>
     <string name="total_rereads">Повторних перечитувань</string>
     <string name="total_rewatches">Повторних переглядів</string>
-    <string name="chinese_simplified">Китайська (спрощена)</string>
     <string name="related_anime">Пов\'язані аніме</string>
     <string name="related_manga">Пов\'язана манґа</string>
     <string name="content">Вміст</string>
@@ -241,8 +228,6 @@
     <string name="delete_all">Видалити все</string>
     <string name="manga_stats">Статистика манґи</string>
     <string name="last_used">Використано востаннє</string>
-    <string name="czech">Чеська</string>
-    <string name="indonesian">Індонезійська</string>
     <string name="romaji">Романджі</string>
     <string name="title_language">Мова назви</string>
     <string name="experimental">Експериментальні налаштування</string>
@@ -260,7 +245,6 @@
     <string name="invalid_start_date">Неправильна дата початку</string>
     <string name="invalid_broadcast">Неправильна трансляція</string>
     <string name="synopsis_background">Контекст</string>
-    <string name="portuguese">Португальська</string>
     <string name="very_low_value">Дуже низьке</string>
     <string name="low_value">Низький</string>
     <string name="medium_value">Середнє</string>
@@ -327,7 +311,6 @@
     <string name="genre_memoir">Мемуари</string>
     <string name="genre_villainess">Лиходійка</string>
     <string name="contributors">Співавтори</string>
-    <string name="slovak">Словацька</string>
     <string name="enable_list_tabs">Увімкнути вкладки списку</string>
     <string name="enable_list_tabs_subtitle">Використовуйте вкладки у списку аніме/манга замість плаваючої кнопки дії</string>
     <string name="always_load_characters">Завжди завантажувати персонажів</string>

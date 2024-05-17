@@ -130,11 +130,6 @@
     <string name="general_help">Ajuda geral</string>
     <string name="api_help">Ajuda com a API do MyAnimeList</string>
     <string name="translations">Traduções</string>
-    <string name="turkish">Turco</string>
-    <string name="brazilian">Português (Brasil)</string>
-    <string name="russian">Russo</string>
-    <string name="arabic">Árabe</string>
-    <string name="spanish">Espanhol</string>
     <string name="genre_action">Ação</string>
     <string name="genre_adventure">Aventura</string>
     <string name="genre_cars">Carros</string>
@@ -193,7 +188,6 @@
     <string name="discontinued">Descontinuado</string>
     <string name="opening">Aberturas</string>
     <string name="ending">Encerramentos</string>
-    <string name="german">Alemão</string>
     <string name="copied">Copiado!</string>
     <string name="login_browser_warning">Tente com outro navegador se você não conseguir fazer login.</string>
     <string name="parent_story">História principal</string>
@@ -204,8 +198,6 @@
     <string name="aired_ago">Exibido há %s</string>
     <string name="anime_stats">Estatísticas de Animes</string>
     <string name="delete_confirmation">Tem certeza que deseja excluir essa entrada?</string>
-    <string name="bulgarian">Búlgaro</string>
-    <string name="french">Francês</string>
     <string name="loading">Carregando</string>
     <string name="anime_manga_news"><![CDATA[Notícias de Animes e Mangás]]></string>
     <string name="mal_announcements">Anúncios do MyAnimeList</string>
@@ -217,14 +209,9 @@
     <string name="favorite">Favorito</string>
     <string name="use_external_browser">Usar navegador externo</string>
     <string name="calendar">Calendário</string>
-    <string name="english">Inglês</string>
-    <string name="ukrainian">Ucraniano</string>
     <string name="language">Idioma</string>
-    <string name="japanese">Japonês</string>
-    <string name="chinese_traditional">Chinês (Tradicional)</string>
     <string name="total_rereads">Total Relido</string>
     <string name="total_rewatches">Total Reassistido</string>
-    <string name="chinese_simplified">Chinês (Simplificado)</string>
     <string name="related_anime">Anime Relacionado</string>
     <string name="related_manga">Mangá Relacionado</string>
     <string name="content">Conteúdo</string>
@@ -241,8 +228,6 @@
     <string name="delete_all">Excluir todas</string>
     <string name="manga_stats">Estatísticas de Mangás</string>
     <string name="last_used">Último usado</string>
-    <string name="czech">Tcheco</string>
-    <string name="indonesian">Indonésio</string>
     <string name="romaji">Romaji</string>
     <string name="title_language">Idioma do título</string>
     <string name="experimental">Experimental</string>
@@ -260,7 +245,6 @@
     <string name="invalid_start_date">Data de início inválida</string>
     <string name="invalid_broadcast">Programação inválida</string>
     <string name="synopsis_background">Contexto</string>
-    <string name="portuguese">Português</string>
     <string name="very_low_value">Muito Baixo</string>
     <string name="low_value">Baixo</string>
     <string name="medium_value">Médio</string>
@@ -327,7 +311,6 @@
     <string name="genre_memoir">Memória Literária</string>
     <string name="genre_villainess">Vilã</string>
     <string name="contributors">Contribuidores</string>
-    <string name="slovak">Eslovaco</string>
     <string name="enable_list_tabs">Ativar as guias da lista</string>
     <string name="enable_list_tabs_subtitle">Use guias na lista de animes/mangás em vez do botão de ação flutuante</string>
     <string name="always_load_characters">Sempre carregar caracteres</string>

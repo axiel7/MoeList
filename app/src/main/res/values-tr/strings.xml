@@ -130,11 +130,6 @@
     <string name="general_help">Genel yardım</string>
     <string name="api_help">MyAnimeList API yardımı</string>
     <string name="translations">Çeviriler</string>
-    <string name="turkish">Türkçe</string>
-    <string name="brazilian">Portekizce</string>
-    <string name="russian">Rusça</string>
-    <string name="arabic">Arapça</string>
-    <string name="spanish">İspanyolca</string>
     <string name="genre_action">Aksiyon</string>
     <string name="genre_adventure">Macera</string>
     <string name="genre_cars">Arabalar</string>
@@ -193,7 +188,6 @@
     <string name="discontinued">Durduruldu</string>
     <string name="opening">Açılış Müzikleri</string>
     <string name="ending">Jenerik Müzikleri</string>
-    <string name="german">Almanca</string>
     <string name="copied">Kopyalandı!</string>
     <string name="login_browser_warning">Eğer giriş yapamıyorsanız, farklı bir tarayıcı ile deneyin.</string>
     <string name="parent_story">Ana hikaye</string>
@@ -204,8 +198,6 @@
     <string name="aired_ago">%s önce yayınlandı</string>
     <string name="anime_stats">Anime İstatistikleri</string>
     <string name="delete_confirmation">Bu girdiyi silmek istediğinize emin misiniz?</string>
-    <string name="bulgarian">Bulgarca</string>
-    <string name="french">Fransızca</string>
     <string name="loading">Yükleniyor</string>
     <string name="anime_manga_news"><![CDATA[Anime & Manga Haberleri]]></string>
     <string name="mal_announcements">MyAnimeList Duyuruları</string>
@@ -217,14 +209,9 @@
     <string name="favorite">Favori</string>
     <string name="use_external_browser">Harici tarayıcı kullan</string>
     <string name="calendar">Yayım Takvimi</string>
-    <string name="english">İngilizce</string>
-    <string name="ukrainian">Ukraynaca</string>
     <string name="language">Dil</string>
-    <string name="japanese">Japonca</string>
-    <string name="chinese_traditional">Çince (Geleneksel)</string>
     <string name="total_rereads">Toplam Tekrar Okuma</string>
     <string name="total_rewatches">Toplam Tekrar İzleme</string>
-    <string name="chinese_simplified">Çince (Basitleştirilmiş)</string>
     <string name="related_anime">Bağlatılı Anime</string>
     <string name="related_manga">Bağlantılı Manga</string>
     <string name="content">İçerik</string>
@@ -241,8 +228,6 @@
     <string name="delete_all">Tümünü sil</string>
     <string name="manga_stats">Manga İstatikleri</string>
     <string name="last_used">Son kullanım</string>
-    <string name="czech">Çekce</string>
-    <string name="indonesian">Endonezce</string>
     <string name="romaji">Romaji</string>
     <string name="title_language">Başlık dili</string>
     <string name="experimental">Deneysel</string>
@@ -260,7 +245,6 @@
     <string name="invalid_start_date">Geçersiz başlangıç tarihi</string>
     <string name="invalid_broadcast">Geçersiz yayın</string>
     <string name="synopsis_background">Arka Plan</string>
-    <string name="portuguese">Portekizce</string>
     <string name="very_low_value">Çok Düşük</string>
     <string name="low_value">Düşük</string>
     <string name="medium_value">Normal</string>
@@ -327,7 +311,6 @@
     <string name="genre_memoir">Hatırat</string>
     <string name="genre_villainess">Kötü Başrol</string>
     <string name="contributors">Katkıda Bulunanlar</string>
-    <string name="slovak">Slovakça</string>
     <string name="enable_list_tabs">Liste sekmelerini etkinleştir</string>
     <string name="enable_list_tabs_subtitle">Yüzen Eylem Düğmesi yerine Anime/Manga listesindeki sekmeleri kullan</string>
     <string name="always_load_characters">Karakterleri her zaman yükle</string>

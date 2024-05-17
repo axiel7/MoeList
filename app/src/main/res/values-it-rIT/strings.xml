@@ -113,11 +113,6 @@
     <string name="general_help">Aiuto generale</string>
     <string name="api_help">Aiuto API MyAnimeList</string>
     <string name="translations">Traduzioni</string>
-    <string name="turkish">Turco</string>
-    <string name="brazilian">Brasiliano</string>
-    <string name="russian">Russo</string>
-    <string name="arabic">Arabo</string>
-    <string name="spanish">Spagnolo</string>
     <string name="genre_action">Azione</string>
     <string name="genre_adventure">Avventura</string>
     <string name="genre_cars">Auto</string>
@@ -164,7 +159,6 @@
     <string name="discontinued">Interrotta</string>
     <string name="opening">Sigle d\'apertura</string>
     <string name="ending">Sigle di chiusura</string>
-    <string name="german">Tedesco</string>
     <string name="copied">Copiato!</string>
     <string name="hour_abbreviation">h</string>
     <string name="minutes_abbreviation">min</string>
@@ -172,8 +166,6 @@
     <string name="aired_ago">In onda %s fa</string>
     <string name="anime_stats">Statistiche Anime</string>
     <string name="delete_confirmation">Sei sicuro di voler eliminare questa voce?</string>
-    <string name="bulgarian">Bulgaro</string>
-    <string name="french">Francese</string>
     <string name="loading">Caricamento</string>
     <string name="anime_manga_news"><![CDATA[Notizie Anime & Manga]]></string>
     <string name="mal_announcements">Annunci MyAnimeList</string>
@@ -184,12 +176,7 @@
     <string name="favorite">Preferiti</string>
     <string name="use_external_browser">Usa browser esterno</string>
     <string name="calendar">Calendario</string>
-    <string name="english">Inglese</string>
-    <string name="ukrainian">Ucraino</string>
     <string name="language">Lingua</string>
-    <string name="japanese">Giapponese</string>
-    <string name="chinese_traditional">Cinese (Tradizionale)</string>
-    <string name="chinese_simplified">Cinese (Semplificato)</string>
     <string name="related_anime">Anime Correlati</string>
     <string name="related_manga">Manga Correlati</string>
     <string name="content">Contenuto</string>
@@ -203,8 +190,6 @@
     <string name="notifications">Notifiche</string>
     <string name="delete_all">Elimina tutto</string>
     <string name="manga_stats">Statistiche Manga</string>
-    <string name="czech">Ceco</string>
-    <string name="indonesian">Indonesiano</string>
     <string name="title_language">Lingua del titolo</string>
     <string name="experimental">Sperimentali</string>
     <string name="new_logo_design">Nuovo design del logo</string>
@@ -214,7 +199,6 @@
     <string name="changes_will_take_effect_on_app_restart">Le modifiche avranno effetto al riavvio dell\'app</string>
     <string name="invalid_start_date">Data inizio non valida</string>
     <string name="synopsis_background">Contesto</string>
-    <string name="portuguese">Portoghese</string>
     <string name="very_low_value">Molto Bassa</string>
     <string name="low_value">Bassa</string>
     <string name="medium_value">Media</string>
@@ -232,6 +216,5 @@
     <string name="genre_reincarnation">Reincarnazione</string>
     <string name="genre_survival">Sopravvivenza</string>
     <string name="contributors">Contributori</string>
-    <string name="slovak">Slovacco</string>
     <string name="always_load_characters">Carica sempre i personaggi</string>
 </resources>

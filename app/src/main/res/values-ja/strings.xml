@@ -130,11 +130,6 @@
     <string name="general_help">一般ヘルプ</string>
     <string name="api_help">MyAnimeList API ヘルプ</string>
     <string name="translations">翻訳</string>
-    <string name="turkish">トルコ語</string>
-    <string name="brazilian">ブラジル語</string>
-    <string name="russian">ロシア語</string>
-    <string name="arabic">アラビア語</string>
-    <string name="spanish">スペイン語</string>
     <string name="genre_action">アクション</string>
     <string name="genre_adventure">冒険</string>
     <string name="genre_cars">号車</string>
@@ -193,7 +188,6 @@
     <string name="discontinued">中止</string>
     <string name="opening">オープニング</string>
     <string name="ending">エンディング</string>
-    <string name="german">ドイツ語</string>
     <string name="copied">コピーしました！</string>
     <string name="login_browser_warning">ログインできない場合は、別のブラウザでお試しください。</string>
     <string name="parent_story">親ストーリー</string>
@@ -204,8 +198,6 @@
     <string name="aired_ago">%s前</string>
     <string name="anime_stats">アニメの統計</string>
     <string name="delete_confirmation">このエントリーを削除してもよろしいですか？</string>
-    <string name="bulgarian">ブルガリア語</string>
-    <string name="french">フランス語</string>
     <string name="loading">読み込み中</string>
     <string name="anime_manga_news"><![CDATA[アニメ＆マンガニュース]]></string>
     <string name="mal_announcements">MyAnimeList お知らせ</string>
@@ -217,14 +209,9 @@
     <string name="favorite">お気に入り</string>
     <string name="use_external_browser">外部ブラウザーを使用する</string>
     <string name="calendar">カレンダー</string>
-    <string name="english">英語</string>
-    <string name="ukrainian">ウクライナ語</string>
     <string name="language">言語</string>
-    <string name="japanese">日本語</string>
-    <string name="chinese_traditional">中国語（繁体字）</string>
     <string name="total_rereads">合計閲覧数</string>
     <string name="total_rewatches">合計視聴数</string>
-    <string name="chinese_simplified">中国語（簡体字）</string>
     <string name="related_anime">関連するアニメ</string>
     <string name="related_manga">関連するマンガ</string>
     <string name="content">コンテンツ</string>
@@ -241,8 +228,6 @@
     <string name="delete_all">すべて削除</string>
     <string name="manga_stats">マンガの統計</string>
     <string name="last_used">前回使用</string>
-    <string name="czech">チェコ語</string>
-    <string name="indonesian">インドネシア語</string>
     <string name="romaji">ローマ字</string>
     <string name="title_language">作品名の言語</string>
     <string name="experimental">実験的</string>
@@ -260,7 +245,6 @@
     <string name="invalid_start_date">無効な公開日</string>
     <string name="invalid_broadcast">無効な配信</string>
     <string name="synopsis_background">背景</string>
-    <string name="portuguese">ポルトガル語</string>
     <string name="very_low_value">非常に低い</string>
     <string name="low_value">低い</string>
     <string name="medium_value">中間</string>
@@ -324,7 +308,6 @@
     <string name="genre_memoir">回想録</string>
     <string name="genre_villainess">悪役</string>
     <string name="contributors">提供者</string>
-    <string name="slovak">スロバキア語</string>
     <string name="new_anime">新規</string>
     <string name="continuing_anime">継続</string>
     <string name="previous_season">前のシーズン</string>

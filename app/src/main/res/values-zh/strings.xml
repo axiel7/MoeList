@@ -129,11 +129,6 @@
     <string name="general_help">一般帮助</string>
     <string name="api_help">MyAnimeList API 帮助</string>
     <string name="translations">翻译</string>
-    <string name="turkish">土耳其语</string>
-    <string name="brazilian">葡萄牙语（巴西）</string>
-    <string name="russian">俄语</string>
-    <string name="arabic">阿拉伯语</string>
-    <string name="spanish">西班牙语</string>
     <string name="genre_action">动作</string>
     <string name="genre_adventure">冒险</string>
     <string name="genre_cars">车</string>
@@ -192,7 +187,6 @@
     <string name="discontinued">停止</string>
     <string name="opening">OP</string>
     <string name="ending">ED</string>
-    <string name="german">德语</string>
     <string name="copied">已复制！</string>
     <string name="login_browser_warning">如果你无法登入，请尝试使用其他浏览器。</string>
     <string name="parent_story">主要故事</string>
@@ -203,8 +197,6 @@
     <string name="aired_ago">%s前</string>
     <string name="anime_stats">动漫统计</string>
     <string name="delete_confirmation">您确定删除此条目吗？</string>
-    <string name="bulgarian">保加利亚语</string>
-    <string name="french">法语</string>
     <string name="loading">加载中</string>
     <string name="anime_manga_news"><![CDATA[动画＆漫画新闻]]></string>
     <string name="mal_announcements">MyAnimeList 公告</string>
@@ -216,14 +208,9 @@
     <string name="favorite">最爱</string>
     <string name="use_external_browser">使用外部浏览器</string>
     <string name="calendar">日历</string>
-    <string name="english">英语</string>
-    <string name="ukrainian">乌克兰语</string>
     <string name="language">语言</string>
-    <string name="japanese">日本语</string>
-    <string name="chinese_traditional">正体中文</string>
     <string name="total_rereads">重读次数</string>
     <string name="total_rewatches">重看次数</string>
-    <string name="chinese_simplified">简体中文</string>
     <string name="related_anime">相关动漫</string>
     <string name="related_manga">相关漫画</string>
     <string name="content">内容</string>
@@ -240,8 +227,6 @@
     <string name="delete_all">全部删除</string>
     <string name="manga_stats">漫画统计</string>
     <string name="last_used">最后使用</string>
-    <string name="czech">捷克语</string>
-    <string name="indonesian">印尼语</string>
     <string name="romaji">罗马字</string>
     <string name="title_language">标题语言</string>
     <string name="experimental">实验性功能</string>
@@ -259,7 +244,6 @@
     <string name="invalid_start_date">起始日期无效</string>
     <string name="invalid_broadcast">无效的广播</string>
     <string name="synopsis_background">背景</string>
-    <string name="portuguese">葡萄牙语</string>
     <string name="very_low_value">非常低</string>
     <string name="low_value">低</string>
     <string name="medium_value">中</string>
