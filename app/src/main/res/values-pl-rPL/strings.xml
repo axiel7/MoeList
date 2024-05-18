@@ -184,8 +184,8 @@
     <string name="filters">Filtry</string>
     <string name="manhua">Manhua</string>
     <string name="discontinued">Wycofane</string>
-    <string name="opening">Motywy otwierające</string>
-    <string name="ending">Motywy końcowe</string>
+    <string name="opening">Muzyka Początkowa</string>
+    <string name="ending">Muzyka Końcowa</string>
     <string name="copied">Skopiowano!</string>
     <string name="login_browser_warning">Jeśli nie możesz się zalogować, spróbuj użyć innej przeglądarki.</string>
     <string name="parent_story">Historia rodzica</string>
@@ -312,7 +312,7 @@
     <string name="genre_villainess">Złoczyńczyni</string>
     <string name="contributors">Współtwórcy</string>
     <string name="enable_list_tabs">Włącz karty listy</string>
-    <string name="enable_list_tabs_subtitle">Użyj kart na liście Anime/Manga zamiast Pływającego Przycisk Akcji</string>
+    <string name="enable_list_tabs_subtitle">Użyj kart na liście Anime/Manga zamiast Pływającego Przycisku Akcji</string>
     <string name="always_load_characters">Zawsze ładuj postacie</string>
     <string name="random_button_on_list">Losowy przycisk na liście anime/mangi</string>
     <string name="new_anime">Nowe</string>
