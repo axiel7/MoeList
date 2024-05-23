@@ -7,9 +7,10 @@
 
     <style name="AppTheme" parent="BaseTheme" />
 
-    <style name="Theme.MySplash" parent="Theme.SplashScreen">
+    <style name="Theme.MySplash" parent="Theme.SplashScreen.IconBackground">
         <item name="windowSplashScreenBackground">?android:colorBackground</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>
+        <item name="windowSplashScreenIconBackgroundColor">@color/colorMoeList</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_splash</item>
         <item name="postSplashScreenTheme">@style/AppTheme</item>
     </style>
 

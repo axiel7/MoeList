@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="BaseTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="android:colorAccent">@color/md_theme_primary</item>
-        <item name="android:windowLayoutInDisplayCutoutMode">default</item>
-    </style>
 
     <style name="Theme.MySplash" parent="Theme.SplashScreen.IconBackground">
         <item name="windowSplashScreenBackground">?android:colorBackground</item>
@@ -13,8 +9,5 @@
 
         <!-- API 23+ -->
         <item name="android:windowLightStatusBar">true</item>
-
-        <!-- API 27+ -->
-        <item name="android:windowLightNavigationBar">true</item>
     </style>
 </resources>
