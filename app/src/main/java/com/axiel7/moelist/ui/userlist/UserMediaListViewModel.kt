@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -52,18 +53,34 @@ class UserMediaListViewModel(
 
     override fun onChangeStatus(value: ListStatus) {
         viewModelScope.launch {
-            when (mutableUiState.value.mediaType) {
-                MediaType.ANIME -> defaultPreferencesRepository.setAnimeListStatus(value)
-                MediaType.MANGA -> defaultPreferencesRepository.setMangaListStatus(value)
+            mutableUiState.update {
+                when (it.mediaType) {
+                    MediaType.ANIME -> defaultPreferencesRepository.setAnimeListStatus(value)
+                    MediaType.MANGA -> defaultPreferencesRepository.setMangaListStatus(value)
+                }
+                it.mediaList.clear()
+                it.copy(
+                    listStatus = value,
+                    nextPage = null,
+                    loadMore = true
+                )
             }
         }
     }
 
     override fun onChangeSort(value: MediaSort) {
         viewModelScope.launch {
-            when (mutableUiState.value.mediaType) {
-                MediaType.ANIME -> defaultPreferencesRepository.setAnimeListSort(value)
-                MediaType.MANGA -> defaultPreferencesRepository.setMangaListSort(value)
+            mutableUiState.update {
+                when (it.mediaType) {
+                    MediaType.ANIME -> defaultPreferencesRepository.setAnimeListSort(value)
+                    MediaType.MANGA -> defaultPreferencesRepository.setMangaListSort(value)
+                }
+                it.mediaList.clear()
+                it.copy(
+                    listSort = value,
+                    nextPage = null,
+                    loadMore = true
+                )
             }
         }
     }
@@ -235,18 +252,11 @@ class UserMediaListViewModel(
                 MediaType.ANIME -> defaultPreferencesRepository.animeListStatus
                 MediaType.MANGA -> defaultPreferencesRepository.mangaListStatus
             }
-            listStatusFlow
-                .onEach { value ->
-                    mutableUiState.update {
-                        it.mediaList.clear()
-                        it.copy(
-                            listStatus = value,
-                            nextPage = null,
-                            loadMore = true
-                        )
-                    }
+            viewModelScope.launch {
+                mutableUiState.update {
+                    it.copy(listStatus = listStatusFlow.first())
                 }
-                .launchIn(viewModelScope)
+            }
         }
 
         // sort
@@ -254,18 +264,11 @@ class UserMediaListViewModel(
             MediaType.ANIME -> defaultPreferencesRepository.animeListSort
             MediaType.MANGA -> defaultPreferencesRepository.mangaListSort
         }
-        listSortFlow
-            .onEach { value ->
-                mutableUiState.update {
-                    it.mediaList.clear()
-                    it.copy(
-                        listSort = value,
-                        nextPage = null,
-                        loadMore = true
-                    )
-                }
+        viewModelScope.launch {
+            mutableUiState.update {
+                it.copy(listSort = listSortFlow.first())
             }
-            .launchIn(viewModelScope)
+        }
 
         // list styles
         combine(
