@@ -23,7 +23,13 @@
     <string name="cancel">取消</string>
     <string name="apply">确定</string>
     <string name="episodes">话</string>
+    <plurals name="num_episodes">
+        <item quantity="other">%d 话</item>
+    </plurals>
     <string name="chapters">章</string>
+    <plurals name="num_chapters">
+        <item quantity="other">%d 章</item>
+    </plurals>
     <string name="delete">删除</string>
     <string name="watching">正在观看</string>
     <string name="reading">正在阅读</string>
@@ -220,6 +226,18 @@
     <string name="list_mode_compact">紧凑</string>
     <string name="list_mode_minimal">极简</string>
     <string name="list_style">列表样式</string>
+    <plurals name="num_years">
+        <item quantity="other">%d 年</item>
+    </plurals>
+    <plurals name="num_months">
+        <item quantity="other">%d 月</item>
+    </plurals>
+    <plurals name="num_weeks">
+        <item quantity="other">%d 周</item>
+    </plurals>
+    <plurals name="num_days">
+        <item quantity="other">%d 天</item>
+    </plurals>
     <string name="open_mal_links_in_the_app">在应用中打开 MAL 链接</string>
     <string name="notifications">通知</string>
     <string name="delete_all">全部删除</string>
