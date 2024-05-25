@@ -24,8 +24,8 @@
     <string name="cancel">Batal</string>
     <string name="apply">Terapkan</string>
     <string name="episodes">Episode</string>
-    <string name="delete">Hapus</string>
     <string name="chapters">Chapter</string>
+    <string name="delete">Hapus</string>
     <string name="watching">Menonton</string>
     <string name="reading">Membaca</string>
     <string name="completed">Selesai</string>
@@ -221,11 +221,7 @@
     <string name="list_mode_compact">Sederhana</string>
     <string name="list_mode_minimal">Minimalis</string>
     <string name="list_style">Tampilan daftar</string>
-    <string name="num_years">%s tahun</string>
-    <string name="num_months">%s bulan</string>
-    <string name="num_weeks">%s minggu</string>
     <string name="open_mal_links_in_the_app">Buka tautan MAL di app</string>
-    <string name="num_days">%s hari</string>
     <string name="notifications">Notifikasi</string>
     <string name="delete_all">Hapus semua</string>
     <string name="manga_stats">Statistik Manga</string>
