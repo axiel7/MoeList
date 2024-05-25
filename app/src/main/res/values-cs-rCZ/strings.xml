@@ -23,8 +23,8 @@
     <string name="cancel">Zrušit</string>
     <string name="apply">Použít</string>
     <string name="episodes">Epizod</string>
-    <string name="delete">Odstranit</string>
     <string name="chapters">Kapitol</string>
+    <string name="delete">Odstranit</string>
     <string name="watching">Sledováno</string>
     <string name="reading">Čteno</string>
     <string name="completed">Dokončeno</string>
@@ -220,11 +220,7 @@
     <string name="list_mode_compact">Kompaktní</string>
     <string name="list_mode_minimal">Minimalistický</string>
     <string name="list_style">Styl seznamu</string>
-    <string name="num_years">%s let</string>
-    <string name="num_months">%s měsíců</string>
-    <string name="num_weeks">%s týdnů</string>
     <string name="open_mal_links_in_the_app">Otevření odkazů na MAL v aplikaci</string>
-    <string name="num_days">%s dnů</string>
     <string name="notifications">Oznámení</string>
     <string name="delete_all">Odstranit vše</string>
     <string name="manga_stats">Manga statistiky</string>
