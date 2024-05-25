@@ -5,20 +5,23 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
 import com.axiel7.moelist.R
+import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.ui.base.navigation.Route
-import com.uragiristereo.serializednavigationextension.runtime.routeOf
 
 sealed class BottomDestination(
     val value: String,
-    val route: String,
+    val route: Any,
     @StringRes val title: Int,
     @DrawableRes val icon: Int,
     @DrawableRes val iconSelected: Int,
 ) {
     data object Home : BottomDestination(
         value = "home",
-        route = routeOf<Route.Tab.Home>(),
+        route = Route.Tab.Home,
         title = R.string.title_home,
         icon = R.drawable.ic_outline_home_24,
         iconSelected = R.drawable.ic_round_home_24
@@ -26,7 +29,7 @@ sealed class BottomDestination(
 
     data object AnimeList : BottomDestination(
         value = "anime",
-        route = routeOf<Route.Tab.Anime>(),
+        route = Route.Tab.Anime(mediaType = MediaType.ANIME),
         title = R.string.title_anime_list,
         icon = R.drawable.ic_outline_local_movies_24,
         iconSelected = R.drawable.ic_round_local_movies_24
@@ -34,7 +37,7 @@ sealed class BottomDestination(
 
     data object MangaList : BottomDestination(
         value = "manga",
-        route = routeOf<Route.Tab.Manga>(),
+        route = Route.Tab.Manga(MediaType.MANGA),
         title = R.string.title_manga_list,
         icon = R.drawable.ic_outline_book_24,
         iconSelected = R.drawable.ic_round_book_24
@@ -42,7 +45,7 @@ sealed class BottomDestination(
 
     data object Profile : BottomDestination(
         value = "profile",
-        route = routeOf<Route.Profile>(),
+        route = Route.Profile,
         title = R.string.title_profile,
         icon = R.drawable.ic_outline_person_24,
         iconSelected = R.drawable.ic_round_person_24
@@ -50,7 +53,7 @@ sealed class BottomDestination(
 
     data object More : BottomDestination(
         value = "more",
-        route = routeOf<Route.Tab.More>(),
+        route = Route.Tab.More,
         title = R.string.more,
         icon = R.drawable.ic_more_horizontal,
         iconSelected = R.drawable.ic_more_horizontal
@@ -61,8 +64,6 @@ sealed class BottomDestination(
 
         val railValues = listOf(Home, AnimeList, MangaList, Profile, More)
 
-        val routes = values.map { it.route }
-
         fun String.toBottomDestinationIndex() = when (this) {
             Home.value -> 0
             AnimeList.value -> 1
@@ -71,6 +72,11 @@ sealed class BottomDestination(
             Profile.value -> 4
             else -> null
         }
+
+        fun NavBackStackEntry.isBottomDestination() =
+            destination.hierarchy.any { dest ->
+                values.any { value -> dest.hasRoute(value.route::class) }
+            }
 
         @Composable
         fun BottomDestination.Icon(selected: Boolean) {

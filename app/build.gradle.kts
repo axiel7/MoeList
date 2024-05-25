@@ -124,6 +124,7 @@ dependencies {
     implementation("androidx.compose.material3:material3-window-size-class:$materialVersion")
 
     implementation("androidx.activity:activity-compose:1.9.0")
+    implementation("androidx.navigation:navigation-compose:2.8.0-beta01")
 
     val lifecycleVersion = "2.8.0"
     implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion")
@@ -166,11 +167,6 @@ dependencies {
     implementation("io.insert-koin:koin-androidx-compose")
     implementation("io.insert-koin:koin-androidx-compose-navigation")
     implementation("io.insert-koin:koin-androidx-workmanager")
-
-    //Serialized Navigation
-    val serializedNavigationVersion = "e23f84fc1f" // TODO: use proper versioning once the library is released
-    implementation("com.github.uragiristereo.serialized-navigation-extension:navigation-compose:$serializedNavigationVersion")
-    implementation("com.github.uragiristereo.serialized-navigation-extension:serializer-kotlinx:$serializedNavigationVersion")
 
     //Room
     val roomVersion = "2.6.1"

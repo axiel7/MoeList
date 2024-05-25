@@ -2,23 +2,21 @@ package com.axiel7.moelist.ui.ranking
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.RankingType
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.data.repository.MangaRepository
 import com.axiel7.moelist.ui.base.navigation.Route
 import com.axiel7.moelist.ui.base.viewmodel.BaseViewModel
-import com.uragiristereo.serializednavigationextension.runtime.navArgsFlowOf
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.reflect.typeOf
 
 class MediaRankingViewModel(
     rankingType: RankingType,
@@ -27,9 +25,10 @@ class MediaRankingViewModel(
     private val mangaRepository: MangaRepository,
 ) : BaseViewModel<MediaRankingUiState>(), MediaRankingEvent {
 
-    private val mediaType = savedStateHandle.navArgsFlowOf<Route.MediaRanking>()
-        .map { it?.mediaType }
-        .filterNotNull()
+    private val args = savedStateHandle.toRoute<Route.MediaRanking>(
+        typeMap = mapOf(typeOf<MediaType>() to MediaType.navType)
+    )
+    private val mediaType = args.mediaType
 
     override val mutableUiState = MutableStateFlow(MediaRankingUiState(rankingType))
 
@@ -47,8 +46,7 @@ class MediaRankingViewModel(
                             && old.rankingType == new.rankingType
                 }
                 .filter { it.loadMore }
-                .combine(mediaType, ::Pair)
-                .collectLatest { (uiState, mediaType) ->
+                .collectLatest { uiState ->
                     setLoading(uiState.nextPage == null) // show indicator on first load
 
                     val result = if (mediaType == MediaType.ANIME) {
