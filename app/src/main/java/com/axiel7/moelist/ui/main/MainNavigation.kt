@@ -243,7 +243,12 @@ fun MainNavigation(
             )
         }
 
-        composable<Route.FullPoster> {
+        composable<Route.FullPoster>(
+            enterTransition = { fadeIn(tween(400)) },
+            exitTransition = { fadeOut(tween(400)) },
+            popEnterTransition = { fadeIn(tween(400)) },
+            popExitTransition = { fadeOut(tween(400)) },
+        ) {
             val args = it.toRoute<Route.FullPoster>()
 
             FullPosterView(
