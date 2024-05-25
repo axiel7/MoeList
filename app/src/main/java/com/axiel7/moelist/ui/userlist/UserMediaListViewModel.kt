@@ -52,34 +52,18 @@ class UserMediaListViewModel(
 
     override fun onChangeStatus(value: ListStatus) {
         viewModelScope.launch {
-            mutableUiState.update {
-                when (it.mediaType) {
-                    MediaType.ANIME -> defaultPreferencesRepository.setAnimeListStatus(value)
-                    MediaType.MANGA -> defaultPreferencesRepository.setMangaListStatus(value)
-                }
-                it.mediaList.clear()
-                it.copy(
-                    listStatus = value,
-                    nextPage = null,
-                    loadMore = true
-                )
+            when (mutableUiState.value.mediaType) {
+                MediaType.ANIME -> defaultPreferencesRepository.setAnimeListStatus(value)
+                MediaType.MANGA -> defaultPreferencesRepository.setMangaListStatus(value)
             }
         }
     }
 
     override fun onChangeSort(value: MediaSort) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             when (mutableUiState.value.mediaType) {
                 MediaType.ANIME -> defaultPreferencesRepository.setAnimeListSort(value)
                 MediaType.MANGA -> defaultPreferencesRepository.setMangaListSort(value)
-            }
-            mutableUiState.update {
-                it.mediaList.clear()
-                it.copy(
-                    listSort = value,
-                    nextPage = null,
-                    loadMore = true
-                )
             }
         }
     }
@@ -253,7 +237,14 @@ class UserMediaListViewModel(
             }
             listStatusFlow
                 .onEach { value ->
-                    mutableUiState.update { it.copy(listStatus = value) }
+                    mutableUiState.update {
+                        it.mediaList.clear()
+                        it.copy(
+                            listStatus = value,
+                            nextPage = null,
+                            loadMore = true
+                        )
+                    }
                 }
                 .launchIn(viewModelScope)
         }
@@ -265,7 +256,14 @@ class UserMediaListViewModel(
         }
         listSortFlow
             .onEach { value ->
-                mutableUiState.update { it.copy(listSort = value) }
+                mutableUiState.update {
+                    it.mediaList.clear()
+                    it.copy(
+                        listSort = value,
+                        nextPage = null,
+                        loadMore = true
+                    )
+                }
             }
             .launchIn(viewModelScope)
 
