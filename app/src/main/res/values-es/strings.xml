@@ -24,8 +24,8 @@
     <string name="cancel">Cancelar</string>
     <string name="apply">Aplicar</string>
     <string name="episodes">Episodios</string>
-    <string name="delete">Eliminar</string>
     <string name="chapters">Capítulos</string>
+    <string name="delete">Eliminar</string>
     <string name="watching">Viendo</string>
     <string name="reading">Leyendo</string>
     <string name="completed">Completado</string>
@@ -221,11 +221,7 @@
     <string name="list_mode_compact">Compacto</string>
     <string name="list_mode_minimal">Minimalista</string>
     <string name="list_style">Estilo de lista</string>
-    <string name="num_years">%s años</string>
-    <string name="num_months">%s meses</string>
-    <string name="num_weeks">%s semanas</string>
     <string name="open_mal_links_in_the_app">Abrir enlaces de MAL en la aplicación</string>
-    <string name="num_days">%s días</string>
     <string name="notifications">Notificaciones</string>
     <string name="delete_all">Borrar todos</string>
     <string name="manga_stats">Estadísticas de Manga</string>
