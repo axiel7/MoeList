@@ -24,8 +24,8 @@
     <string name="cancel">取消</string>
     <string name="apply">套用</string>
     <string name="episodes">單集</string>
-    <string name="delete">刪除</string>
     <string name="chapters">章節</string>
+    <string name="delete">刪除</string>
     <string name="watching">觀看中</string>
     <string name="reading">閱讀中</string>
     <string name="completed">已完成</string>
@@ -221,11 +221,7 @@
     <string name="list_mode_compact">緊湊</string>
     <string name="list_mode_minimal">最小</string>
     <string name="list_style">清單樣式</string>
-    <string name="num_years">%s 年</string>
-    <string name="num_months">%s 月</string>
-    <string name="num_weeks">%s 周</string>
     <string name="open_mal_links_in_the_app">在應用程式中打開 MAL 連結</string>
-    <string name="num_days">%s 天</string>
     <string name="notifications">通知</string>
     <string name="delete_all">全部刪除</string>
     <string name="manga_stats">漫畫統計</string>
