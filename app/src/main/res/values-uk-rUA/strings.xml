@@ -24,8 +24,8 @@
     <string name="cancel">Скасувати</string>
     <string name="apply">Застосувати</string>
     <string name="episodes">епізод(-ів)</string>
-    <string name="delete">Видалити</string>
     <string name="chapters">Розділи</string>
+    <string name="delete">Видалити</string>
     <string name="watching">Дивлюся</string>
     <string name="reading">Читаю</string>
     <string name="completed">Завершено</string>
@@ -221,11 +221,7 @@
     <string name="list_mode_compact">Компактний</string>
     <string name="list_mode_minimal">Мінімальний</string>
     <string name="list_style">Стиль списку</string>
-    <string name="num_years">%s років</string>
-    <string name="num_months">%s місяців</string>
-    <string name="num_weeks">%s тижнів</string>
     <string name="open_mal_links_in_the_app">Відкрити MAL посилання у додатку</string>
-    <string name="num_days">%s днів</string>
     <string name="notifications">Сповіщення</string>
     <string name="delete_all">Видалити все</string>
     <string name="manga_stats">Статистика манґи</string>
