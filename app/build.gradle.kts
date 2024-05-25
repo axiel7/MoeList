@@ -1,9 +1,9 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 import java.util.Properties
 
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.compose")
     id("org.jetbrains.kotlin.plugin.serialization")
     id("com.google.devtools.ksp")
 }
@@ -22,7 +22,7 @@ android {
         targetSdk = 34
         versionCode = 137
         versionName = "3.6.1"
-        archivesName.set("moelist-v$versionName")
+        setProperty("archivesBaseName", "moelist-v$versionName")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         resourceConfigurations.addAll(arrayOf(
@@ -90,9 +90,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.12"
     }
     ksp {
         arg("room.schemaLocation", "$projectDir/schemas")

@@ -2,6 +2,7 @@ package com.axiel7.moelist.data.model.media
 
 import com.axiel7.moelist.data.model.anime.AnimeNode
 import com.axiel7.moelist.data.model.anime.UserAnimeList
+import com.axiel7.moelist.data.model.manga.MyMangaListStatus
 import com.axiel7.moelist.data.model.manga.UserMangaList
 
 abstract class BaseUserMediaList<T : BaseMediaNode> {
@@ -11,10 +12,11 @@ abstract class BaseUserMediaList<T : BaseMediaNode> {
     fun userProgress() = when (this) {
         is UserAnimeList -> listStatus?.progress
         is UserMangaList -> {
-            if (listStatus?.isUsingVolumeProgress() == true) {
-                listStatus.numVolumesRead
+            val status = listStatus as? MyMangaListStatus
+            if (status?.isUsingVolumeProgress() == true) {
+                status.numVolumesRead
             } else {
-                listStatus?.progress
+                status?.progress
             }
         }
 
