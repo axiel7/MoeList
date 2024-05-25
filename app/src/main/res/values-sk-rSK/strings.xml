@@ -220,11 +220,7 @@
     <string name="list_mode_compact">Kompaktný</string>
     <string name="list_mode_minimal">Minimalistické</string>
     <string name="list_style">Štýl zoznamu</string>
-    <string name="num_years">%s rokov</string>
-    <string name="num_months">%s mesiacov</string>
-    <string name="num_weeks">%s týždňov</string>
     <string name="open_mal_links_in_the_app">Otváranie MAL odkazov v aplikácii</string>
-    <string name="num_days">%s dní</string>
     <string name="notifications">Oznámenia</string>
     <string name="delete_all">Výmazať všetko</string>
     <string name="manga_stats">Manga štatistiky</string>

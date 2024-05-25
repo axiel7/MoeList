@@ -1,6 +1,7 @@
 package com.axiel7.moelist.utils
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
 import java.time.DateTimeException
@@ -149,17 +150,33 @@ object DateUtils {
      */
     @Composable
     fun Long.secondsToLegibleText(): String {
-        val days = this / 86400
+        val days = (this / 86400).toInt()
         return if (days > 6) {
-            val weeks = this / 604800
+            val weeks = (this / 604800).toInt()
             if (weeks > 4) {
-                val months = this / 2629746
+                val months = (this / 2629746).toInt()
                 if (months > 12) {
-                    val years = this / 31556952
-                    stringResource(R.string.num_years).format(years)
-                } else stringResource(R.string.num_months).format(months)
-            } else stringResource(R.string.num_weeks).format(weeks)
-        } else if (days >= 1) stringResource(R.string.num_days).format(days)
+                    val years = (this / 31556952).toInt()
+                    pluralStringResource(
+                        id = R.plurals.num_years,
+                        count = years,
+                        years
+                    )
+                } else pluralStringResource(
+                    id = R.plurals.num_months,
+                    count = months,
+                    months
+                )
+            } else pluralStringResource(
+                id = R.plurals.num_weeks,
+                count = weeks,
+                weeks
+            )
+        } else if (days >= 1) pluralStringResource(
+            id = R.plurals.num_days,
+            count = days,
+            days
+        )
         else {
             val hours = this / 3600
             if (hours >= 1) "$hours ${stringResource(R.string.hour_abbreviation)}"

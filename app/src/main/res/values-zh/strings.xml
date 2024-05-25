@@ -220,11 +220,7 @@
     <string name="list_mode_compact">紧凑</string>
     <string name="list_mode_minimal">极简</string>
     <string name="list_style">列表样式</string>
-    <string name="num_years">%s 年</string>
-    <string name="num_months">%s 月</string>
-    <string name="num_weeks">%s 周</string>
     <string name="open_mal_links_in_the_app">在应用中打开 MAL 链接</string>
-    <string name="num_days">%s 天</string>
     <string name="notifications">通知</string>
     <string name="delete_all">全部删除</string>
     <string name="manga_stats">漫画统计</string>

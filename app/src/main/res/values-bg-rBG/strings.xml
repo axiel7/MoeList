@@ -203,11 +203,7 @@
     <string name="list_mode_compact">Компактен</string>
     <string name="list_mode_minimal">Минимален</string>
     <string name="list_style">Стил на списъка</string>
-    <string name="num_years">%s години</string>
-    <string name="num_months">%s месеца</string>
-    <string name="num_weeks">%s седмици</string>
     <string name="open_mal_links_in_the_app">Отваряне на връзки от MAL в приложението</string>
-    <string name="num_days">%s дни</string>
     <string name="notifications">Известия</string>
     <string name="delete_all">Изтрий всичко</string>
     <string name="manga_stats">Статистики на мангата</string>

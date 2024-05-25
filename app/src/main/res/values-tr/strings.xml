@@ -221,11 +221,7 @@
     <string name="list_mode_compact">Sıkışık</string>
     <string name="list_mode_minimal">Basit</string>
     <string name="list_style">Liste stili</string>
-    <string name="num_years">%s yıl</string>
-    <string name="num_months">%s ay</string>
-    <string name="num_weeks">%s hafta</string>
     <string name="open_mal_links_in_the_app">MAL bağlantılarını uygulama içinde aç</string>
-    <string name="num_days">%s gün</string>
     <string name="notifications">Bildirimler</string>
     <string name="delete_all">Tümünü sil</string>
     <string name="manga_stats">Manga İstatikleri</string>

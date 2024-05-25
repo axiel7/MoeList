@@ -220,11 +220,7 @@
     <string name="list_mode_compact">مضغوط</string>
     <string name="list_mode_minimal">مبسط</string>
     <string name="list_style">شكل القائمة</string>
-    <string name="num_years">%s سنة</string>
-    <string name="num_months">%s شهور</string>
-    <string name="num_weeks">%s أسابيع</string>
     <string name="open_mal_links_in_the_app">فتح روابط MAL في التطبيق</string>
-    <string name="num_days">%s أيام</string>
     <string name="notifications">الإشعارات</string>
     <string name="delete_all">حذف الكل</string>
     <string name="manga_stats">إحصائيات المانجا</string>

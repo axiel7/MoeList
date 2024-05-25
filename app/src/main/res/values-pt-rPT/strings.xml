@@ -220,11 +220,7 @@
     <string name="list_mode_compact">Compacto</string>
     <string name="list_mode_minimal">Minimalista</string>
     <string name="list_style">Estilo da lista</string>
-    <string name="num_years">%s anos</string>
-    <string name="num_months">%s meses</string>
-    <string name="num_weeks">%s semanas</string>
     <string name="open_mal_links_in_the_app">Abra links MAL na aplicação</string>
-    <string name="num_days">%s dias</string>
     <string name="notifications">Notificações</string>
     <string name="delete_all">Eliminar tudo</string>
     <string name="manga_stats">Estatísticas de Manga</string>

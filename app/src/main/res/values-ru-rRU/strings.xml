@@ -221,11 +221,7 @@
     <string name="list_mode_compact">Компактный</string>
     <string name="list_mode_minimal">Минимализм</string>
     <string name="list_style">Стиль списка</string>
-    <string name="num_years">%s года</string>
-    <string name="num_months">%s месяца</string>
-    <string name="num_weeks">%s недели</string>
     <string name="open_mal_links_in_the_app">Открыть ссылки MAL в приложении</string>
-    <string name="num_days">%s дня</string>
     <string name="notifications">Уведомления</string>
     <string name="delete_all">Удалить все</string>
     <string name="manga_stats">Статистика манги</string>
