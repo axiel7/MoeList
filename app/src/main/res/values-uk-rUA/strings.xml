@@ -24,7 +24,19 @@
     <string name="cancel">Скасувати</string>
     <string name="apply">Застосувати</string>
     <string name="episodes">епізод(-ів)</string>
+    <plurals name="num_episodes">
+        <item quantity="one">%d епізод</item>
+        <item quantity="few">%d епізоди</item>
+        <item quantity="many">%d епізодів</item>
+        <item quantity="other">%d епізодів</item>
+    </plurals>
     <string name="chapters">Розділи</string>
+    <plurals name="num_chapters">
+        <item quantity="one">%d розділ</item>
+        <item quantity="few">%d розділи</item>
+        <item quantity="many">%d розділів</item>
+        <item quantity="other">%d розділів</item>
+    </plurals>
     <string name="delete">Видалити</string>
     <string name="watching">Дивлюся</string>
     <string name="reading">Читаю</string>
@@ -221,6 +233,30 @@
     <string name="list_mode_compact">Компактний</string>
     <string name="list_mode_minimal">Мінімальний</string>
     <string name="list_style">Стиль списку</string>
+    <plurals name="num_years">
+        <item quantity="one">%d рік</item>
+        <item quantity="few">%d роки</item>
+        <item quantity="many">%d років</item>
+        <item quantity="other">%d років</item>
+    </plurals>
+    <plurals name="num_months">
+        <item quantity="one">%d місяць</item>
+        <item quantity="few">%d місяці</item>
+        <item quantity="many">%d місяців</item>
+        <item quantity="other">%d місяців</item>
+    </plurals>
+    <plurals name="num_weeks">
+        <item quantity="one">%d тиждень</item>
+        <item quantity="few">%d тижні</item>
+        <item quantity="many">%d тижнів</item>
+        <item quantity="other">%d тижнів</item>
+    </plurals>
+    <plurals name="num_days">
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дні</item>
+        <item quantity="many">%d днів</item>
+        <item quantity="other">%d днів</item>
+    </plurals>
     <string name="open_mal_links_in_the_app">Відкрити MAL посилання у додатку</string>
     <string name="notifications">Сповіщення</string>
     <string name="delete_all">Видалити все</string>
