@@ -24,7 +24,15 @@
     <string name="cancel">İptal</string>
     <string name="apply">Uygula</string>
     <string name="episodes">Bölüm</string>
+    <plurals name="num_episodes">
+        <item quantity="one">%d bölüm</item>
+        <item quantity="other">%d bölüm</item>
+    </plurals>
     <string name="chapters">Bölümler</string>
+    <plurals name="num_chapters">
+        <item quantity="one">%d bölüm</item>
+        <item quantity="other">%d bölüm</item>
+    </plurals>
     <string name="delete">Sil</string>
     <string name="watching">İzleniyor</string>
     <string name="reading">Okunuyor</string>
@@ -221,6 +229,22 @@
     <string name="list_mode_compact">Sıkışık</string>
     <string name="list_mode_minimal">Basit</string>
     <string name="list_style">Liste stili</string>
+    <plurals name="num_years">
+        <item quantity="one">%d yıl</item>
+        <item quantity="other">%d yıl</item>
+    </plurals>
+    <plurals name="num_months">
+        <item quantity="one">%d ay</item>
+        <item quantity="other">%d ay</item>
+    </plurals>
+    <plurals name="num_weeks">
+        <item quantity="one">%d hafta</item>
+        <item quantity="other">%d hafta</item>
+    </plurals>
+    <plurals name="num_days">
+        <item quantity="one">%d gün</item>
+        <item quantity="other">%d gün</item>
+    </plurals>
     <string name="open_mal_links_in_the_app">MAL bağlantılarını uygulama içinde aç</string>
     <string name="notifications">Bildirimler</string>
     <string name="delete_all">Tümünü sil</string>
