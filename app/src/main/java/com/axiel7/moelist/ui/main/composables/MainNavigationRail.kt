@@ -29,9 +29,11 @@ import com.axiel7.moelist.ui.base.navigation.Route
 fun MainNavigationRail(
     navController: NavController,
     onItemSelected: (Int) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     NavigationRail(
+        modifier = modifier,
         header = {
             FloatingActionButton(
                 onClick = {

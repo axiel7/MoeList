@@ -12,12 +12,12 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -266,13 +266,13 @@ fun MainView(
             .only(WindowInsetsSides.Horizontal)
     ) { padding ->
         if (!isCompactScreen) {
-            val systemBarsPadding = WindowInsets.systemBars.asPaddingValues()
             Row(
                 modifier = Modifier.padding(padding)
             ) {
                 MainNavigationRail(
                     navController = navController,
                     onItemSelected = saveLastTab,
+                    modifier = Modifier.safeDrawingPadding(),
                 )
                 MainNavigation(
                     navController = navController,
@@ -282,12 +282,7 @@ fun MainView(
                     isCompactScreen = false,
                     useListTabs = useListTabs,
                     modifier = Modifier,
-                    padding = PaddingValues(
-                        start = padding.calculateStartPadding(LocalLayoutDirection.current),
-                        top = systemBarsPadding.calculateTopPadding(),
-                        end = padding.calculateEndPadding(LocalLayoutDirection.current),
-                        bottom = systemBarsPadding.calculateBottomPadding()
-                    ),
+                    padding = PaddingValues(),
                     topBarHeightPx = topBarHeightPx,
                     topBarOffsetY = topBarOffsetY,
                 )
