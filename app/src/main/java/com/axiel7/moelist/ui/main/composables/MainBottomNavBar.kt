@@ -18,6 +18,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.axiel7.moelist.ui.base.BottomDestination
 import com.axiel7.moelist.ui.base.BottomDestination.Companion.Icon
+import com.axiel7.moelist.ui.base.navigation.Route
 import kotlinx.coroutines.launch
 
 @Composable
@@ -45,17 +46,21 @@ fun MainBottomNavBar(
                     label = { Text(text = stringResource(dest.title)) },
                     selected = isSelected,
                     onClick = {
-                        scope.launch {
-                            topBarOffsetY.animateTo(0f)
-                        }
-
-                        onItemSelected(index)
-                        navController.navigate(dest.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
+                        if (isSelected) {
+                            navController.navigate(Route.Search)
+                        } else {
+                            scope.launch {
+                                topBarOffsetY.animateTo(0f)
                             }
-                            launchSingleTop = true
-                            restoreState = true
+
+                            onItemSelected(index)
+                            navController.navigate(dest.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
                         }
                     }
                 )
