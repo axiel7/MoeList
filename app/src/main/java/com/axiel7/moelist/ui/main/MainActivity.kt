@@ -256,7 +256,7 @@ fun MainView(
                 MainBottomNavBar(
                     navController = navController,
                     navBackStackEntry = navBackStackEntry,
-                    isVisible = if (isBottomDestination) bottomBarState.value else false,
+                    isVisible = isBottomDestination && bottomBarState.value,
                     onItemSelected = saveLastTab,
                     topBarOffsetY = topBarOffsetY,
                 )
