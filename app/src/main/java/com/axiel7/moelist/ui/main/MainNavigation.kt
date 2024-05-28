@@ -4,11 +4,14 @@ import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
@@ -272,7 +275,20 @@ fun MainNavigation(
             }
         }
 
-        composable<Route.Search> {
+        composable<Route.Search>(
+            enterTransition = {
+                expandVertically(tween(400), expandFrom = Alignment.Top)
+            },
+            exitTransition = {
+                shrinkVertically(tween(400), shrinkTowards = Alignment.Top)
+            },
+            popEnterTransition = {
+                expandVertically(tween(400), expandFrom = Alignment.Top)
+            },
+            popExitTransition = {
+                shrinkVertically(tween(400), shrinkTowards = Alignment.Top)
+            },
+        ) {
             SearchHostView(
                 isCompactScreen = isCompactScreen,
                 padding = if (isCompactScreen) PaddingValues() else padding,
