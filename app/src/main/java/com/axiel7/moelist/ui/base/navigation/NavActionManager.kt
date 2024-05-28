@@ -40,14 +40,6 @@ class NavActionManager(
         navController.navigate(Route.Recommendations)
     }
 
-    fun toProfile() {
-        navController.navigate(Route.Profile)
-    }
-
-    fun toSearch() {
-        navController.navigate(Route.Search)
-    }
-
     fun toFullPoster(pictures: List<String>) {
         navController.navigate(Route.FullPoster(pictures))
     }

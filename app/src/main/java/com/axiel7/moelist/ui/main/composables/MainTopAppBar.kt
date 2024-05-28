@@ -44,7 +44,7 @@ fun MainTopAppBar(
         exit = slideOutVertically(targetOffsetY = { -it })
     ) {
         Card(
-            onClick = dropUnlessResumed { navController.navigate(Route.Search) },
+            onClick = dropUnlessResumed { navController.navigate(Route.Search()) },
             modifier = modifier
                 .statusBarsPadding()
                 .fillMaxWidth()

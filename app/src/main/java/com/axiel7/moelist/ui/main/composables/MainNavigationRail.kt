@@ -36,7 +36,7 @@ fun MainNavigationRail(
             FloatingActionButton(
                 onClick = {
                     onItemSelected(-1)
-                    navController.navigate(Route.Search) {
+                    navController.navigate(Route.Search()) {
                         popUpTo(navController.graph.findStartDestination().id) {
                             saveState = true
                         }

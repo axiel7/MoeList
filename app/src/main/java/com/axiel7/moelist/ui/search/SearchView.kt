@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -68,6 +69,7 @@ import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.DateUtils.parseDateAndLocalize
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrUnknown
+import com.axiel7.moelist.utils.UNKNOWN_CHAR
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -192,7 +194,7 @@ private fun SearchViewContent(
             subtitle1 = {
                 Text(
                     text = buildString {
-                        append(item.node.mediaFormat?.localized())
+                        append(item.node.mediaFormat?.localized() ?: UNKNOWN_CHAR)
                         if (item.node.totalDuration().toStringPositiveValueOrNull() != null) {
                             append(" (${item.node.durationText()})")
                         }
@@ -288,7 +290,7 @@ private fun SearchViewContent(
         }
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxSize(),
             state = listState,
             contentPadding = contentPadding
         ) {
@@ -342,7 +344,7 @@ private fun SearchViewContent(
             event?.loadMore()
         }
         LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxSize(),
             state = listState,
             contentPadding = contentPadding
         ) {
