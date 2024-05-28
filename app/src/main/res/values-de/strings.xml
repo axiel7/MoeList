@@ -220,6 +220,22 @@
     <string name="list_mode_compact">Kompakt</string>
     <string name="list_mode_minimal">Minimal</string>
     <string name="list_style">Listen-Stil</string>
+    <plurals name="num_years">
+        <item quantity="one">%d Jahr</item>
+        <item quantity="other">%d Jahre</item>
+    </plurals>
+    <plurals name="num_months">
+        <item quantity="one">%d Monat</item>
+        <item quantity="other">%d Monate</item>
+    </plurals>
+    <plurals name="num_weeks">
+        <item quantity="one">%d Woche</item>
+        <item quantity="other">%d Wochen</item>
+    </plurals>
+    <plurals name="num_days">
+        <item quantity="one">%d Tag</item>
+        <item quantity="other">%d Tage</item>
+    </plurals>
     <string name="open_mal_links_in_the_app">MAL-Links in der App öffnen</string>
     <string name="notifications">Benachrichtigungen</string>
     <string name="delete_all">Alle löschen</string>
