@@ -36,4 +36,7 @@ data class EditMediaUiState(
 
     val isNewEntry
         get() = myListStatus == null
+
+    val isPlanned
+        get() = isNewEntry || status.isPlanning()
 }
