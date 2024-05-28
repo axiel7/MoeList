@@ -40,7 +40,9 @@ sealed interface Route {
     data object Profile : Route
 
     @Serializable
-    data object Search : Route
+    data class Search(
+        val mediaType: MediaType = MediaType.ANIME
+    ) : Route
 
     @Serializable
     data class FullPoster(val pictures: List<String>) : Route

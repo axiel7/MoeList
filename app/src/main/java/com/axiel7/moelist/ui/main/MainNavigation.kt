@@ -276,6 +276,7 @@ fun MainNavigation(
         }
 
         composable<Route.Search>(
+            typeMap = mapOf(typeOf<MediaType>() to MediaType.navType),
             enterTransition = {
                 expandVertically(tween(400), expandFrom = Alignment.Top)
             },

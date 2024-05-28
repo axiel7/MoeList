@@ -16,6 +16,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.ui.base.BottomDestination
 import com.axiel7.moelist.ui.base.BottomDestination.Companion.Icon
 import com.axiel7.moelist.ui.base.navigation.Route
@@ -47,7 +48,11 @@ fun MainBottomNavBar(
                     selected = isSelected,
                     onClick = {
                         if (isSelected) {
-                            navController.navigate(Route.Search)
+                            if (dest == BottomDestination.MangaList) {
+                                navController.navigate(Route.Search(mediaType = MediaType.MANGA))
+                            } else {
+                                navController.navigate(Route.Search())
+                            }
                         } else {
                             scope.launch {
                                 topBarOffsetY.animateTo(0f)
