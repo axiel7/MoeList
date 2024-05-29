@@ -10,6 +10,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -26,13 +28,17 @@ fun EditMediaProgressRow(
     onMinusClick: () -> Unit,
     onPlusClick: () -> Unit,
 ) {
+    val haptic = LocalHapticFeedback.current
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
         OutlinedButton(
-            onClick = onMinusClick,
+            onClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                onMinusClick()
+            },
             modifier = Modifier.weight(1f)
         ) {
             Text(text = stringResource(R.string.minus_one))
@@ -51,7 +57,10 @@ fun EditMediaProgressRow(
         )
 
         OutlinedButton(
-            onClick = onPlusClick,
+            onClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                onPlusClick()
+            },
             modifier = Modifier.weight(1f)
         ) {
             Text(text = stringResource(R.string.plus_one))

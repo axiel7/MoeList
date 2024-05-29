@@ -72,8 +72,6 @@ object SeasonCalendar {
         else -> WeekDay.MONDAY
     }
 
-    val currentJapanHour get() = jpCalendar[Calendar.HOUR_OF_DAY]
-
     val currentJapanWeekday = when (jpCalendar[Calendar.DAY_OF_WEEK]) {
         2 -> WeekDay.MONDAY
         3 -> WeekDay.TUESDAY

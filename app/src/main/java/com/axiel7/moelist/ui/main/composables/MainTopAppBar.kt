@@ -19,9 +19,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,41 +27,24 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.dropUnlessResumed
 import androidx.navigation.NavController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import coil3.compose.AsyncImage
 import com.axiel7.moelist.R
-import com.axiel7.moelist.ui.base.BottomDestination
 import com.axiel7.moelist.ui.base.navigation.Route
-import com.uragiristereo.serializednavigationextension.runtime.navigate
 
 @Composable
 fun MainTopAppBar(
     profilePicture: String?,
+    isVisible: Boolean,
     navController: NavController,
     modifier: Modifier = Modifier,
 ) {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val isVisible by remember {
-        derivedStateOf {
-            when (navBackStackEntry?.destination?.route) {
-                BottomDestination.Home.route,
-                BottomDestination.AnimeList.route,
-                BottomDestination.MangaList.route,
-                BottomDestination.More.route,
-                null -> true
-
-                else -> false
-            }
-        }
-    }
-
     AnimatedVisibility(
         visible = isVisible,
         enter = slideInVertically(initialOffsetY = { -it }),
         exit = slideOutVertically(targetOffsetY = { -it })
     ) {
         Card(
-            onClick = dropUnlessResumed { navController.navigate(Route.Search) },
+            onClick = dropUnlessResumed { navController.navigate(Route.Search()) },
             modifier = modifier
                 .statusBarsPadding()
                 .fillMaxWidth()

@@ -33,7 +33,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -108,6 +110,7 @@ private fun EditMediaSheetContent(
     onDismissed: () -> Unit
 ) {
     val context = LocalContext.current
+    val haptic = LocalHapticFeedback.current
     val statusValues = remember(uiState.mediaType) {
         listStatusValues(uiState.mediaType)
     }
@@ -195,7 +198,10 @@ private fun EditMediaSheetContent(
                         tooltipText = status.localized(),
                         value = status,
                         selectedValue = uiState.status,
-                        onClick = { event?.onChangeStatus(status) }
+                        onClick = {
+                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                            event?.onChangeStatus(status)
+                        }
                     )
                 }
             }
@@ -236,7 +242,10 @@ private fun EditMediaSheetContent(
             )
             Slider(
                 value = uiState.score.toFloat(),
-                onValueChange = { event?.onChangeScore(it.roundToInt()) },
+                onValueChange = {
+                    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                    event?.onChangeScore(it.roundToInt())
+                },
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                 valueRange = 0f..10f,
                 steps = 9
@@ -304,7 +313,10 @@ private fun EditMediaSheetContent(
             )
             Slider(
                 value = uiState.priority.toFloat(),
-                onValueChange = { event?.onChangePriority(it.roundToInt()) },
+                onValueChange = {
+                    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                    event?.onChangePriority(it.roundToInt())
+                },
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                 valueRange = 0f..2f,
                 steps = 1
@@ -350,7 +362,10 @@ private fun EditMediaSheetContent(
             )
             Slider(
                 value = uiState.repeatValue.toFloat(),
-                onValueChange = { event?.onChangeRepeatValue(it.roundToInt()) },
+                onValueChange = {
+                    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                    event?.onChangeRepeatValue(it.roundToInt())
+                },
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                 valueRange = 0f..5f,
                 steps = 4

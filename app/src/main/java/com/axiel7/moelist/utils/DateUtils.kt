@@ -1,13 +1,13 @@
 package com.axiel7.moelist.utils
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
 import java.time.DateTimeException
 import java.time.DayOfWeek
 import java.time.Instant
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
@@ -15,24 +15,10 @@ import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.time.format.FormatStyle
 import java.time.temporal.TemporalAdjusters
-import java.util.TimeZone
 
 object DateUtils {
 
     val defaultZoneOffset: ZoneOffset get() = ZonedDateTime.now(ZoneId.systemDefault()).offset
-
-    fun unixtimeToStringDate(
-        time: Long?,
-        formatter: DateTimeFormatter = DateTimeFormatter.ISO_DATE
-    ): String? {
-        if (time == null) return null
-        return try {
-            LocalDateTime.ofInstant(Instant.ofEpochMilli(time), TimeZone.getDefault().toZoneId())
-                .format(formatter)
-        } catch (e: Exception) {
-            null
-        }
-    }
 
     /**
      * @return the date in LocalDate, null if fails
@@ -55,37 +41,6 @@ object DateUtils {
     fun getLocalDateFromMillis(millis: Long): LocalDate? {
         return try {
             Instant.ofEpochMilli(millis).atZone(ZoneId.of("UTC")).toLocalDate()
-        } catch (e: Exception) {
-            null
-        }
-    }
-
-    /**
-     * @return the date in unixtime, null if fails
-     */
-    fun getTimeInMillisFromDateString(
-        date: String?,
-        formatter: DateTimeFormatter = DateTimeFormatter.ISO_DATE
-    ): Long? {
-        if (date == null) return null
-        return try {
-            getLocalDateFromDateString(date, formatter)?.atStartOfDay()
-                ?.toInstant(defaultZoneOffset)?.toEpochMilli()
-        } catch (e: DateTimeException) {
-            null
-        }
-    }
-
-    /**
-     * Formats a date in a string with default format 'Jan 1, 1977'
-     */
-    fun formatLocalDateToString(
-        date: LocalDate?,
-        formatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
-    ): String? {
-        if (date == null) return null
-        return try {
-            date.format(formatter)
         } catch (e: Exception) {
             null
         }
@@ -132,9 +87,6 @@ object DateUtils {
         null
     }
 
-    fun String.toIsoFormat(inputFormat: DateTimeFormatter) =
-        LocalDate.parse(this, inputFormat).toString()
-
     fun LocalDate.toEpochMillis(
         offset: ZoneOffset = defaultZoneOffset
     ) = this.atStartOfDay().toInstant(offset).toEpochMilli()
@@ -149,17 +101,33 @@ object DateUtils {
      */
     @Composable
     fun Long.secondsToLegibleText(): String {
-        val days = this / 86400
+        val days = (this / 86400).toInt()
         return if (days > 6) {
-            val weeks = this / 604800
+            val weeks = (this / 604800).toInt()
             if (weeks > 4) {
-                val months = this / 2629746
+                val months = (this / 2629746).toInt()
                 if (months > 12) {
-                    val years = this / 31556952
-                    stringResource(R.string.num_years).format(years)
-                } else stringResource(R.string.num_months).format(months)
-            } else stringResource(R.string.num_weeks).format(weeks)
-        } else if (days >= 1) stringResource(R.string.num_days).format(days)
+                    val years = (this / 31556952).toInt()
+                    pluralStringResource(
+                        id = R.plurals.num_years,
+                        count = years,
+                        years
+                    )
+                } else pluralStringResource(
+                    id = R.plurals.num_months,
+                    count = months,
+                    months
+                )
+            } else pluralStringResource(
+                id = R.plurals.num_weeks,
+                count = weeks,
+                weeks
+            )
+        } else if (days >= 1) pluralStringResource(
+            id = R.plurals.num_days,
+            count = days,
+            days
+        )
         else {
             val hours = this / 3600
             if (hours >= 1) "$hours ${stringResource(R.string.hour_abbreviation)}"

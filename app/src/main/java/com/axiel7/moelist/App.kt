@@ -15,8 +15,6 @@ import com.axiel7.moelist.di.networkModule
 import com.axiel7.moelist.di.repositoryModule
 import com.axiel7.moelist.di.viewModelModule
 import com.axiel7.moelist.di.workerModule
-import com.uragiristereo.serializednavigationextension.runtime.installSerializer
-import com.uragiristereo.serializednavigationextension.serializer.KotlinxSerializer
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.workmanager.koin.workManagerFactory
@@ -27,8 +25,6 @@ class App : Application(), KoinComponent, SingletonImageLoader.Factory {
 
     override fun onCreate() {
         super.onCreate()
-
-        installSerializer(KotlinxSerializer())
 
         startKoin {
             if (BuildConfig.IS_DEBUG) {

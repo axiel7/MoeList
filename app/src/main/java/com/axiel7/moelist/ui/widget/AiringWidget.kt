@@ -21,6 +21,7 @@ import androidx.glance.layout.padding
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
+import com.axiel7.moelist.App
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeNode
 import com.axiel7.moelist.data.repository.AnimeRepository
@@ -38,6 +39,7 @@ class AiringWidget : GlanceAppWidget(), KoinComponent {
     private val animeRepository: AnimeRepository by inject()
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
+        App.accessToken = defaultPreferencesRepository.accessToken.first()
         val titleLanguage = defaultPreferencesRepository.titleLang.first()
         val animeList = getAiringAnime()
 

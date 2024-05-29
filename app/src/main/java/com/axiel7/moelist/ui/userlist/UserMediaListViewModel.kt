@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -68,12 +69,12 @@ class UserMediaListViewModel(
     }
 
     override fun onChangeSort(value: MediaSort) {
-        viewModelScope.launch(Dispatchers.IO) {
-            when (mutableUiState.value.mediaType) {
-                MediaType.ANIME -> defaultPreferencesRepository.setAnimeListSort(value)
-                MediaType.MANGA -> defaultPreferencesRepository.setMangaListSort(value)
-            }
+        viewModelScope.launch {
             mutableUiState.update {
+                when (it.mediaType) {
+                    MediaType.ANIME -> defaultPreferencesRepository.setAnimeListSort(value)
+                    MediaType.MANGA -> defaultPreferencesRepository.setMangaListSort(value)
+                }
                 it.mediaList.clear()
                 it.copy(
                     listSort = value,
@@ -251,11 +252,11 @@ class UserMediaListViewModel(
                 MediaType.ANIME -> defaultPreferencesRepository.animeListStatus
                 MediaType.MANGA -> defaultPreferencesRepository.mangaListStatus
             }
-            listStatusFlow
-                .onEach { value ->
-                    mutableUiState.update { it.copy(listStatus = value) }
+            viewModelScope.launch {
+                mutableUiState.update {
+                    it.copy(listStatus = listStatusFlow.first())
                 }
-                .launchIn(viewModelScope)
+            }
         }
 
         // sort
@@ -263,11 +264,11 @@ class UserMediaListViewModel(
             MediaType.ANIME -> defaultPreferencesRepository.animeListSort
             MediaType.MANGA -> defaultPreferencesRepository.mangaListSort
         }
-        listSortFlow
-            .onEach { value ->
-                mutableUiState.update { it.copy(listSort = value) }
+        viewModelScope.launch {
+            mutableUiState.update {
+                it.copy(listSort = listSortFlow.first())
             }
-            .launchIn(viewModelScope)
+        }
 
         // list styles
         combine(

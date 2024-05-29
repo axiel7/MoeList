@@ -1,15 +1,11 @@
 package com.axiel7.moelist.ui.base.navigation
 
-import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.data.model.media.MediaType
-import com.uragiristereo.serializednavigationextension.runtime.navigate
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 @Immutable
 class NavActionManager(
@@ -44,14 +40,6 @@ class NavActionManager(
         navController.navigate(Route.Recommendations)
     }
 
-    fun toProfile() {
-        navController.navigate(Route.Profile)
-    }
-
-    fun toSearch() {
-        navController.navigate(Route.Search)
-    }
-
     fun toFullPoster(pictures: List<String>) {
         navController.navigate(Route.FullPoster(pictures))
     }
@@ -83,7 +71,5 @@ class NavActionManager(
         ) = remember {
             NavActionManager(navController)
         }
-
-        fun List<String>.toNavArgument(): String = Uri.encode(Json.encodeToString(this))
     }
 }

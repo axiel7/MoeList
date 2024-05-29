@@ -9,44 +9,28 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.currentBackStackEntryAsState
+import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.ui.base.BottomDestination
 import com.axiel7.moelist.ui.base.BottomDestination.Companion.Icon
+import com.axiel7.moelist.ui.base.navigation.Route
 import kotlinx.coroutines.launch
 
 @Composable
 fun MainBottomNavBar(
     navController: NavController,
-    bottomBarState: State<Boolean>,
+    navBackStackEntry: NavBackStackEntry?,
+    isVisible: Boolean,
     onItemSelected: (Int) -> Unit,
     topBarOffsetY: Animatable<Float, AnimationVector1D>,
 ) {
     val scope = rememberCoroutineScope()
-
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val isVisible by remember {
-        derivedStateOf {
-            when (navBackStackEntry?.destination?.route) {
-                BottomDestination.Home.route,
-                BottomDestination.AnimeList.route,
-                BottomDestination.MangaList.route,
-                BottomDestination.More.route,
-                null -> {
-                    bottomBarState.value
-                }
-
-                else -> false
-            }
-        }
-    }
 
     AnimatedVisibility(
         visible = isVisible,
@@ -55,23 +39,33 @@ fun MainBottomNavBar(
     ) {
         NavigationBar {
             BottomDestination.values.forEachIndexed { index, dest ->
-                val isSelected = navBackStackEntry?.destination?.route == dest.route
+                val isSelected = navBackStackEntry?.destination?.hierarchy?.any {
+                    it.hasRoute(dest.route::class)
+                } == true
                 NavigationBarItem(
                     icon = { dest.Icon(selected = isSelected) },
                     label = { Text(text = stringResource(dest.title)) },
                     selected = isSelected,
                     onClick = {
-                        scope.launch {
-                            topBarOffsetY.animateTo(0f)
-                        }
-
-                        onItemSelected(index)
-                        navController.navigate(dest.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
+                        if (isSelected) {
+                            if (dest == BottomDestination.MangaList) {
+                                navController.navigate(Route.Search(mediaType = MediaType.MANGA))
+                            } else {
+                                navController.navigate(Route.Search())
                             }
-                            launchSingleTop = true
-                            restoreState = true
+                        } else {
+                            scope.launch {
+                                topBarOffsetY.animateTo(0f)
+                            }
+
+                            onItemSelected(index)
+                            navController.navigate(dest.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
                         }
                     }
                 )

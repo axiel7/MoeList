@@ -1,17 +1,23 @@
 package com.axiel7.moelist.ui.main
 
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.ui.base.BottomDestination
@@ -36,7 +42,7 @@ import com.axiel7.moelist.ui.search.SearchHostView
 import com.axiel7.moelist.ui.season.SeasonChartView
 import com.axiel7.moelist.ui.userlist.UserMediaListWithFabView
 import com.axiel7.moelist.ui.userlist.UserMediaListWithTabsView
-import com.uragiristereo.serializednavigationextension.navigation.compose.composable
+import kotlin.reflect.typeOf
 
 @Composable
 fun MainNavigation(
@@ -56,12 +62,37 @@ fun MainNavigation(
         startDestination = BottomDestination.values
             .getOrElse(lastTabOpened) { BottomDestination.Home }.route,
         modifier = modifier,
-        enterTransition = { fadeIn(tween(400)) },
-        exitTransition = { fadeOut(tween(400)) },
-        popEnterTransition = { fadeIn(tween(400)) },
-        popExitTransition = { fadeOut(tween(400)) }
+        enterTransition = {
+            slideIntoContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                animationSpec = tween(300)
+            )
+        },
+        exitTransition = {
+            slideOutOfContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.End,
+                animationSpec = tween(350)
+            )
+        },
+        popEnterTransition = {
+            slideIntoContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                animationSpec = tween(300)
+            )
+        },
+        popExitTransition = {
+            slideOutOfContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.End,
+                animationSpec = tween(350)
+            )
+        }
     ) {
-        composable<Route.Tab.Home> {
+        composable<Route.Tab.Home>(
+            enterTransition = { fadeIn(tween(400)) },
+            exitTransition = { fadeOut(tween(400)) },
+            popEnterTransition = { fadeIn(tween(400)) },
+            popExitTransition = { fadeOut(tween(400)) },
+        ) {
             HomeView(
                 isLoggedIn = isLoggedIn,
                 navActionManager = navActionManager,
@@ -71,7 +102,13 @@ fun MainNavigation(
             )
         }
 
-        composable<Route.Tab.Anime> {
+        composable<Route.Tab.Anime>(
+            typeMap = mapOf(typeOf<MediaType>() to MediaType.navType),
+            enterTransition = { fadeIn(tween(400)) },
+            exitTransition = { fadeOut(tween(400)) },
+            popEnterTransition = { fadeIn(tween(400)) },
+            popExitTransition = { fadeOut(tween(400)) },
+        ) {
             if (!isLoggedIn) {
                 LoginView()
             } else {
@@ -95,7 +132,13 @@ fun MainNavigation(
             }
         }
 
-        composable<Route.Tab.Manga> {
+        composable<Route.Tab.Manga>(
+            typeMap = mapOf(typeOf<MediaType>() to MediaType.navType),
+            enterTransition = { fadeIn(tween(400)) },
+            exitTransition = { fadeOut(tween(400)) },
+            popEnterTransition = { fadeIn(tween(400)) },
+            popExitTransition = { fadeOut(tween(400)) },
+        ) {
             if (!isLoggedIn) {
                 LoginView()
             } else {
@@ -119,7 +162,12 @@ fun MainNavigation(
             }
         }
 
-        composable<Route.Tab.More> {
+        composable<Route.Tab.More>(
+            enterTransition = { fadeIn(tween(400)) },
+            exitTransition = { fadeOut(tween(400)) },
+            popEnterTransition = { fadeIn(tween(400)) },
+            popExitTransition = { fadeOut(tween(400)) },
+        ) {
             MoreView(
                 navActionManager = navActionManager,
                 padding = padding,
@@ -129,11 +177,13 @@ fun MainNavigation(
             )
         }
 
-        composable<Route.MediaRanking> {
-            val args = rememberNavArgsOf()
+        composable<Route.MediaRanking>(
+            typeMap = mapOf(typeOf<MediaType>() to MediaType.navType)
+        ) {
+            val args = it.toRoute<Route.MediaRanking>()
 
             MediaRankingView(
-                mediaType = args?.mediaType ?: MediaType.ANIME,
+                mediaType = args.mediaType,
                 isCompactScreen = isCompactScreen,
                 navActionManager = navActionManager,
             )
@@ -187,18 +237,25 @@ fun MainNavigation(
             )
         }
 
-        composable<Route.MediaDetails> {
+        composable<Route.MediaDetails>(
+            typeMap = mapOf(typeOf<MediaType>() to MediaType.navType)
+        ) {
             MediaDetailsView(
                 isLoggedIn = isLoggedIn,
                 navActionManager = navActionManager
             )
         }
 
-        composable<Route.FullPoster> {
-            val args = rememberNavArgsOf()
+        composable<Route.FullPoster>(
+            enterTransition = { fadeIn(tween(400)) },
+            exitTransition = { fadeOut(tween(400)) },
+            popEnterTransition = { fadeIn(tween(400)) },
+            popExitTransition = { fadeOut(tween(400)) },
+        ) {
+            val args = it.toRoute<Route.FullPoster>()
 
             FullPosterView(
-                pictures = args?.pictures ?: emptyList(),
+                pictures = args.pictures,
                 navActionManager = navActionManager
             )
         }
@@ -218,7 +275,21 @@ fun MainNavigation(
             }
         }
 
-        composable<Route.Search> {
+        composable<Route.Search>(
+            typeMap = mapOf(typeOf<MediaType>() to MediaType.navType),
+            enterTransition = {
+                expandVertically(tween(400), expandFrom = Alignment.Top)
+            },
+            exitTransition = {
+                shrinkVertically(tween(400), shrinkTowards = Alignment.Top)
+            },
+            popEnterTransition = {
+                expandVertically(tween(400), expandFrom = Alignment.Top)
+            },
+            popExitTransition = {
+                shrinkVertically(tween(400), shrinkTowards = Alignment.Top)
+            },
+        ) {
             SearchHostView(
                 isCompactScreen = isCompactScreen,
                 padding = if (isCompactScreen) PaddingValues() else padding,

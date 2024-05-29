@@ -54,7 +54,7 @@ class EditMediaViewModel(
         mutableUiState.update {
             it.copy(
                 status = value,
-                startDate = if (it.isNewEntry && value.isCurrent()) LocalDate.now() else it.startDate,
+                startDate = if (it.isPlanned && value.isCurrent()) LocalDate.now() else it.startDate,
                 finishDate = if (value == ListStatus.COMPLETED) LocalDate.now() else it.finishDate,
                 progress = if (value == ListStatus.COMPLETED) {
                     it.mediaInfo?.totalDuration()?.takeIf { total -> total > 0 } ?: it.progress
@@ -73,8 +73,7 @@ class EditMediaViewModel(
                 val isUpdatingFromPlanning = it.status.isPlanning()
 
                 val isUpdatingFromAutoCompleted =
-                    value != null
-                            && progressLimit != null
+                    value != null && progressLimit != null
                             && it.status == ListStatus.COMPLETED
                             && value < progressLimit
 
@@ -96,9 +95,14 @@ class EditMediaViewModel(
                     else -> it.status
                 }
 
+                val startDate = if (isUpdatingFromPlanning) LocalDate.now() else it.startDate
+                val finishDate = if (isUpdatingToLastProgress) LocalDate.now() else it.finishDate
+
                 it.copy(
                     progress = value,
                     status = newStatus,
+                    startDate = startDate,
+                    finishDate = finishDate,
                 )
             } else {
                 it

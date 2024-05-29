@@ -25,8 +25,16 @@
     <string name="cancel">Cancel</string>
     <string name="apply">Apply</string>
     <string name="episodes">Episodes</string>
-    <string name="delete">Delete</string>
+    <plurals name="num_episodes">
+        <item quantity="one">%d episode</item>
+        <item quantity="other">%d episodes</item>
+    </plurals>
     <string name="chapters">Chapters</string>
+    <plurals name="num_chapters">
+        <item quantity="one">%d chapter</item>
+        <item quantity="other">%d chapters</item>
+    </plurals>
+    <string name="delete">Delete</string>
     <string name="watching">Watching</string>
     <string name="reading">Reading</string>
     <string name="completed">Completed</string>
@@ -240,11 +248,23 @@
     <string name="list_mode_compact">Compact</string>
     <string name="list_mode_minimal">Minimal</string>
     <string name="list_style">List style</string>
-    <string name="num_years">%s years</string>
-    <string name="num_months">%s months</string>
-    <string name="num_weeks">%s weeks</string>
+    <plurals name="num_years">
+        <item quantity="one">%d year</item>
+        <item quantity="other">%d years</item>
+    </plurals>
+    <plurals name="num_months">
+        <item quantity="one">%d month</item>
+        <item quantity="other">%d months</item>
+    </plurals>
+    <plurals name="num_weeks">
+        <item quantity="one">%d week</item>
+        <item quantity="other">%d weeks</item>
+    </plurals>
+    <plurals name="num_days">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
     <string name="open_mal_links_in_the_app">Open MAL links in the app</string>
-    <string name="num_days">%s days</string>
     <string name="notifications">Notifications</string>
     <string name="delete_all">Delete all</string>
     <string name="manga_stats">Manga Stats</string>

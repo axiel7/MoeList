@@ -1,19 +1,18 @@
 package com.axiel7.moelist.ui.base.navigation
 
 import com.axiel7.moelist.data.model.media.MediaType
-import com.uragiristereo.serializednavigationextension.runtime.NavRoute
 import kotlinx.serialization.Serializable
 
-sealed interface Route : NavRoute {
+sealed interface Route {
     sealed interface Tab : Route {
         @Serializable
         data object Home : Tab
 
         @Serializable
-        data class Anime(val mediaType: String) : Tab
+        data class Anime(val mediaType: MediaType) : Tab
 
         @Serializable
-        data class Manga(val mediaType: String) : Tab
+        data class Manga(val mediaType: MediaType) : Tab
 
         @Serializable
         data object More : Tab
@@ -41,7 +40,9 @@ sealed interface Route : NavRoute {
     data object Profile : Route
 
     @Serializable
-    data object Search : Route
+    data class Search(
+        val mediaType: MediaType = MediaType.ANIME
+    ) : Route
 
     @Serializable
     data class FullPoster(val pictures: List<String>) : Route

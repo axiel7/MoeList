@@ -12,12 +12,12 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -28,6 +28,7 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -46,7 +47,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.axiel7.moelist.App
 import com.axiel7.moelist.data.model.media.MediaType
-import com.axiel7.moelist.ui.base.BottomDestination
+import com.axiel7.moelist.ui.base.BottomDestination.Companion.isBottomDestination
 import com.axiel7.moelist.ui.base.BottomDestination.Companion.toBottomDestinationIndex
 import com.axiel7.moelist.ui.base.ThemeStyle
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
@@ -137,7 +138,7 @@ class MainActivity : AppCompatActivity() {
                             ) { isDark }
 
                             if (isCompactScreen
-                                && BottomDestination.routes.contains(navBackStackEntry?.destination?.route)
+                                && navBackStackEntry?.isBottomDestination() == true
                             ) {
                                 statusBarStyle =
                                     if (isDark) SystemBarStyle.dark(backgroundColor.toArgb())
@@ -231,11 +232,17 @@ fun MainView(
     var topBarHeightPx by remember { mutableFloatStateOf(0f) }
     val topBarOffsetY = remember { Animatable(0f) }
 
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val isBottomDestination by remember {
+        derivedStateOf { navBackStackEntry?.isBottomDestination() == true }
+    }
+
     Scaffold(
         topBar = {
             if (isCompactScreen) {
                 MainTopAppBar(
                     profilePicture = profilePicture,
+                    isVisible = isBottomDestination,
                     navController = navController,
                     modifier = Modifier
                         .graphicsLayer {
@@ -248,7 +255,8 @@ fun MainView(
             if (isCompactScreen) {
                 MainBottomNavBar(
                     navController = navController,
-                    bottomBarState = bottomBarState,
+                    navBackStackEntry = navBackStackEntry,
+                    isVisible = isBottomDestination && bottomBarState.value,
                     onItemSelected = saveLastTab,
                     topBarOffsetY = topBarOffsetY,
                 )
@@ -258,13 +266,13 @@ fun MainView(
             .only(WindowInsetsSides.Horizontal)
     ) { padding ->
         if (!isCompactScreen) {
-            val systemBarsPadding = WindowInsets.systemBars.asPaddingValues()
             Row(
                 modifier = Modifier.padding(padding)
             ) {
                 MainNavigationRail(
                     navController = navController,
                     onItemSelected = saveLastTab,
+                    modifier = Modifier.safeDrawingPadding(),
                 )
                 MainNavigation(
                     navController = navController,
@@ -274,12 +282,7 @@ fun MainView(
                     isCompactScreen = false,
                     useListTabs = useListTabs,
                     modifier = Modifier,
-                    padding = PaddingValues(
-                        start = padding.calculateStartPadding(LocalLayoutDirection.current),
-                        top = systemBarsPadding.calculateTopPadding(),
-                        end = padding.calculateEndPadding(LocalLayoutDirection.current),
-                        bottom = systemBarsPadding.calculateBottomPadding()
-                    ),
+                    padding = PaddingValues(),
                     topBarHeightPx = topBarHeightPx,
                     topBarOffsetY = topBarOffsetY,
                 )

@@ -1,6 +1,7 @@
 package com.axiel7.moelist.data.model.media
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -16,7 +17,6 @@ import com.axiel7.moelist.data.model.manga.MangaDetails
 import com.axiel7.moelist.data.model.manga.RelatedManga
 import com.axiel7.moelist.utils.ANIME_URL
 import com.axiel7.moelist.utils.MANGA_URL
-import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
 
 abstract class BaseMediaDetails : BaseResponse {
     abstract val id: Int
@@ -70,15 +70,23 @@ abstract class BaseMediaDetails : BaseResponse {
     @Composable
     fun durationText() = when (this) {
         is AnimeDetails -> {
-            val stringValue = numEpisodes.toStringPositiveValueOrNull()
-            if (stringValue == null) stringResource(R.string.unknown)
-            else "$stringValue ${stringResource(R.string.episodes)}"
+            if (numEpisodes != null && numEpisodes > 0) {
+                pluralStringResource(
+                    id = R.plurals.num_episodes,
+                    count = numEpisodes,
+                    numEpisodes
+                )
+            } else stringResource(R.string.unknown)
         }
 
         is MangaDetails -> {
-            val stringValue = numChapters.toStringPositiveValueOrNull()
-            if (stringValue == null) stringResource(R.string.unknown)
-            else "$stringValue ${stringResource(R.string.chapters)}"
+            if (numChapters != null && numChapters > 0) {
+                pluralStringResource(
+                    id = R.plurals.num_chapters,
+                    count = numChapters,
+                    numChapters
+                )
+            } else stringResource(R.string.unknown)
         }
 
         else -> stringResource(R.string.unknown)

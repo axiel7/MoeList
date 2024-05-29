@@ -1,13 +1,13 @@
 package com.axiel7.moelist.data.model.media
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.pluralStringResource
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeNode
 import com.axiel7.moelist.data.model.anime.NodeSeasonal
 import com.axiel7.moelist.data.model.manga.MangaNode
-import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrNull
+import com.axiel7.moelist.utils.UNKNOWN_CHAR
 
 abstract class BaseMediaNode {
     abstract val id: Int
@@ -45,17 +45,26 @@ abstract class BaseMediaNode {
     @Composable
     fun durationText() = when (this) {
         is AnimeNode, is NodeSeasonal -> {
-            val stringValue = this.totalDuration().toStringPositiveValueOrNull()
-            if (stringValue == null) "??"
-            else "$stringValue ${stringResource(R.string.episodes)}"
+            val totalDuration = this.totalDuration()
+            if (totalDuration != null && totalDuration > 0) {
+                pluralStringResource(
+                    id = R.plurals.num_episodes,
+                    count = totalDuration,
+                    totalDuration
+                )
+            } else UNKNOWN_CHAR
         }
 
         is MangaNode -> {
-            val stringValue = this.numChapters.toStringPositiveValueOrNull()
-            if (stringValue == null) "??"
-            else "$stringValue ${stringResource(R.string.chapters)}"
+            if (numChapters != null && numChapters > 0) {
+                pluralStringResource(
+                    id = R.plurals.num_chapters,
+                    count = numChapters,
+                    numChapters
+                )
+            } else UNKNOWN_CHAR
         }
 
-        else -> "??"
+        else -> UNKNOWN_CHAR
     }
 }
