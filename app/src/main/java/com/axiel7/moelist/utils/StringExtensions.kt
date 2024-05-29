@@ -19,7 +19,7 @@ object StringExtensions {
     fun String.buildQueryFromThemeText() = this
         .replace(" ", "+")
         .replace("\"", "")
-        .replaceFirst(Regex("#?\\d*:"), "") // theme number
+        .replaceFirst(Regex("#?\\w+:"), "") // theme number
         .replace(Regex("\\(ep.*\\)"), "") // episodes
         .trim()
 }
