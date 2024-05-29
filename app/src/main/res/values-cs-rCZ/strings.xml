@@ -23,8 +23,8 @@
     <string name="cancel">Zrušit</string>
     <string name="apply">Použít</string>
     <string name="episodes">Epizod</string>
-    <string name="delete">Odstranit</string>
     <string name="chapters">Kapitol</string>
+    <string name="delete">Odstranit</string>
     <string name="watching">Sledováno</string>
     <string name="reading">Čteno</string>
     <string name="completed">Dokončeno</string>

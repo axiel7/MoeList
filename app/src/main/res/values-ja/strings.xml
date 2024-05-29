@@ -24,8 +24,14 @@
     <string name="cancel">キャンセル</string>
     <string name="apply">OK</string>
     <string name="episodes">話</string>
-    <string name="delete">削除する</string>
+    <plurals name="num_episodes">
+        <item quantity="other">%d話</item>
+    </plurals>
     <string name="chapters">章</string>
+    <plurals name="num_chapters">
+        <item quantity="other">%d話</item>
+    </plurals>
+    <string name="delete">削除する</string>
     <string name="watching">視聴中</string>
     <string name="reading">読んでいます</string>
     <string name="completed">完了</string>
@@ -221,6 +227,18 @@
     <string name="list_mode_compact">コンパクト</string>
     <string name="list_mode_minimal">ミニマル</string>
     <string name="list_style">リストスタイル</string>
+    <plurals name="num_years">
+        <item quantity="other">%d年</item>
+    </plurals>
+    <plurals name="num_months">
+        <item quantity="other">%dヵ月</item>
+    </plurals>
+    <plurals name="num_weeks">
+        <item quantity="other">%d週間</item>
+    </plurals>
+    <plurals name="num_days">
+        <item quantity="other">%d日</item>
+    </plurals>
     <string name="open_mal_links_in_the_app">MALリンクをアプリで開く</string>
     <string name="notifications">通知</string>
     <string name="delete_all">すべて削除</string>

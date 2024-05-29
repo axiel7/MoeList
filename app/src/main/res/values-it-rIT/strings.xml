@@ -20,8 +20,8 @@
     <string name="cancel">Annulla</string>
     <string name="apply">Applica</string>
     <string name="episodes">Episodi</string>
-    <string name="delete">Cancella</string>
     <string name="chapters">Capitoli</string>
+    <string name="delete">Cancella</string>
     <string name="completed">Completato</string>
     <string name="dropped">Abbandonati</string>
     <string name="ptw">Da guardare</string>

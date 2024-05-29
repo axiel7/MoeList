@@ -23,8 +23,8 @@
     <string name="cancel">Отказ</string>
     <string name="apply">Приложи</string>
     <string name="episodes">Епизоди</string>
-    <string name="delete">Изтриване</string>
     <string name="chapters">Глави</string>
+    <string name="delete">Изтриване</string>
     <string name="watching">Гледа</string>
     <string name="reading">Четене</string>
     <string name="completed">Завършен</string>

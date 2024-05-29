@@ -24,8 +24,20 @@
     <string name="cancel">Anuluj</string>
     <string name="apply">Zastosuj</string>
     <string name="episodes">Odcinków</string>
-    <string name="delete">Usuń</string>
+    <plurals name="num_episodes">
+        <item quantity="one">%d odcinek</item>
+        <item quantity="few">%d odcinki</item>
+        <item quantity="many">%d odcinków</item>
+        <item quantity="other">%d odcinków</item>
+    </plurals>
     <string name="chapters">Rozdziałów</string>
+    <plurals name="num_chapters">
+        <item quantity="one">%d rozdział</item>
+        <item quantity="few">%d rozdziały</item>
+        <item quantity="many">%d rozdziałów</item>
+        <item quantity="other">%d rozdziałów</item>
+    </plurals>
+    <string name="delete">Usuń</string>
     <string name="watching">Oglądane</string>
     <string name="reading">Czytane</string>
     <string name="completed">Ukończone</string>
@@ -184,8 +196,8 @@
     <string name="filters">Filtry</string>
     <string name="manhua">Manhua</string>
     <string name="discontinued">Wycofane</string>
-    <string name="opening">Motywy otwierające</string>
-    <string name="ending">Motywy końcowe</string>
+    <string name="opening">Muzyka Początkowa</string>
+    <string name="ending">Muzyka Końcowa</string>
     <string name="copied">Skopiowano!</string>
     <string name="login_browser_warning">Jeśli nie możesz się zalogować, spróbuj użyć innej przeglądarki.</string>
     <string name="parent_story">Historia rodzica</string>
@@ -219,6 +231,30 @@
     <string name="list_mode_compact">Kompaktowy</string>
     <string name="list_mode_minimal">Minimalny</string>
     <string name="list_style">Styl listy</string>
+    <plurals name="num_years">
+        <item quantity="one">%d rok</item>
+        <item quantity="few">%d lata</item>
+        <item quantity="many">%d lat</item>
+        <item quantity="other">%d lat</item>
+    </plurals>
+    <plurals name="num_months">
+        <item quantity="one">%d miesiąc</item>
+        <item quantity="few">%d miesiące</item>
+        <item quantity="many">%d miesięcy</item>
+        <item quantity="other">%d miesięcy</item>
+    </plurals>
+    <plurals name="num_weeks">
+        <item quantity="one">%d tydzień</item>
+        <item quantity="few">%d tygodnie</item>
+        <item quantity="many">%d tygodni</item>
+        <item quantity="other">%d tygodni</item>
+    </plurals>
+    <plurals name="num_days">
+        <item quantity="one">%d dzień</item>
+        <item quantity="few">%d dni</item>
+        <item quantity="many">%d dni</item>
+        <item quantity="other">%d dni</item>
+    </plurals>
     <string name="open_mal_links_in_the_app">Otwórz linki MAL w aplikacji</string>
     <string name="notifications">Powiadomienia</string>
     <string name="delete_all">Usuń wszystko</string>
@@ -308,7 +344,7 @@
     <string name="genre_villainess">Złoczyńczyni</string>
     <string name="contributors">Współtwórcy</string>
     <string name="enable_list_tabs">Włącz karty listy</string>
-    <string name="enable_list_tabs_subtitle">Użyj kart na liście Anime/Manga zamiast Pływającego Przycisk Akcji</string>
+    <string name="enable_list_tabs_subtitle">Użyj kart na liście Anime/Manga zamiast Pływającego Przycisku Akcji</string>
     <string name="always_load_characters">Zawsze ładuj postacie</string>
     <string name="random_button_on_list">Losowy przycisk na liście anime/mangi</string>
     <string name="new_anime">Nowe</string>

@@ -23,8 +23,8 @@
     <string name="cancel">Annuler</string>
     <string name="apply">Appliquer</string>
     <string name="episodes">Épisodes</string>
-    <string name="delete">Supprimer</string>
     <string name="chapters">Chapitres</string>
+    <string name="delete">Supprimer</string>
     <string name="watching">En cours</string>
     <string name="reading">En cours</string>
     <string name="completed">Complété</string>

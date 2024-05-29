@@ -24,8 +24,16 @@
     <string name="cancel">Cancelar</string>
     <string name="apply">Aplicar</string>
     <string name="episodes">Episodios</string>
-    <string name="delete">Eliminar</string>
+    <plurals name="num_episodes">
+        <item quantity="one">%d episodio</item>
+        <item quantity="other">%d episodios</item>
+    </plurals>
     <string name="chapters">Capítulos</string>
+    <plurals name="num_chapters">
+        <item quantity="one">%d capítulo</item>
+        <item quantity="other">%d capítulos</item>
+    </plurals>
+    <string name="delete">Eliminar</string>
     <string name="watching">Viendo</string>
     <string name="reading">Leyendo</string>
     <string name="completed">Completado</string>
@@ -221,6 +229,22 @@
     <string name="list_mode_compact">Compacto</string>
     <string name="list_mode_minimal">Minimalista</string>
     <string name="list_style">Estilo de lista</string>
+    <plurals name="num_years">
+        <item quantity="one">%d año</item>
+        <item quantity="other">%d años</item>
+    </plurals>
+    <plurals name="num_months">
+        <item quantity="one">%d mes</item>
+        <item quantity="other">%d meses</item>
+    </plurals>
+    <plurals name="num_weeks">
+        <item quantity="one">%d semana</item>
+        <item quantity="other">%d semanas</item>
+    </plurals>
+    <plurals name="num_days">
+        <item quantity="one">%d día</item>
+        <item quantity="other">%d días</item>
+    </plurals>
     <string name="open_mal_links_in_the_app">Abrir enlaces de MAL en la aplicación</string>
     <string name="notifications">Notificaciones</string>
     <string name="delete_all">Borrar todos</string>

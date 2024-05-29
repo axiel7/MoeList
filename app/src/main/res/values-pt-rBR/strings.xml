@@ -24,8 +24,8 @@
     <string name="cancel">Cancelar</string>
     <string name="apply">Aplicar</string>
     <string name="episodes">Episódios</string>
-    <string name="delete">Excluir</string>
     <string name="chapters">Capítulos</string>
+    <string name="delete">Excluir</string>
     <string name="watching">Assistindo</string>
     <string name="reading">Lendo</string>
     <string name="completed">Concluído</string>

@@ -23,8 +23,8 @@
     <string name="cancel">إلغاء</string>
     <string name="apply">حفظ</string>
     <string name="episodes">الحلقات</string>
-    <string name="delete">حذف</string>
     <string name="chapters">الفصول</string>
+    <string name="delete">حذف</string>
     <string name="watching">أشاهده</string>
     <string name="reading">أقرأُه</string>
     <string name="completed">أكملته</string>
