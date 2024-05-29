@@ -24,7 +24,13 @@
     <string name="cancel">Batal</string>
     <string name="apply">Terapkan</string>
     <string name="episodes">Episode</string>
+    <plurals name="num_episodes">
+        <item quantity="other">%d episode</item>
+    </plurals>
     <string name="chapters">Chapter</string>
+    <plurals name="num_chapters">
+        <item quantity="other">%d chapter</item>
+    </plurals>
     <string name="delete">Hapus</string>
     <string name="watching">Menonton</string>
     <string name="reading">Membaca</string>
@@ -221,6 +227,18 @@
     <string name="list_mode_compact">Sederhana</string>
     <string name="list_mode_minimal">Minimalis</string>
     <string name="list_style">Tampilan daftar</string>
+    <plurals name="num_years">
+        <item quantity="other">%d tahun</item>
+    </plurals>
+    <plurals name="num_months">
+        <item quantity="other">%d bulan</item>
+    </plurals>
+    <plurals name="num_weeks">
+        <item quantity="other">%d minggu</item>
+    </plurals>
+    <plurals name="num_days">
+        <item quantity="other">%d hari</item>
+    </plurals>
     <string name="open_mal_links_in_the_app">Buka tautan MAL di app</string>
     <string name="notifications">Notifikasi</string>
     <string name="delete_all">Hapus semua</string>
