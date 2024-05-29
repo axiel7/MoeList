@@ -5,7 +5,9 @@ import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.base.Localizable
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 enum class MediaFormat : Localizable {
     @SerialName("tv")
     TV,
