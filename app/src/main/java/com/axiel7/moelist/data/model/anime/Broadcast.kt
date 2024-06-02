@@ -69,12 +69,15 @@ data class Broadcast(
         else stringResource(R.string.ago).format(remaining.absoluteValue.secondsToLegibleText())
     } else ""
 
-    fun nextAiringDayFormatted() =
+    fun nextAiringDayFormatted() = try {
         dateTimeUntilNextBroadcast()?.format(
             DateTimeFormatter.ofPattern(
                 DateFormat.getBestDateTimePattern(Locale.getDefault(), "EE, d MMM HH:mm")
             )
         )
+    } catch (e: Exception) {
+        null
+    }
 
     private fun remaining() =
         secondsUntilNextBroadcast() - LocalDateTime.now().toEpochSecond(DateUtils.defaultZoneOffset)

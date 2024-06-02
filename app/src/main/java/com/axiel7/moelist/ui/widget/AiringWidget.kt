@@ -89,7 +89,7 @@ class AiringWidget : GlanceAppWidget(), KoinComponent {
                                         maxLines = 1
                                     )
                                     Text(
-                                        text = item.broadcast!!.nextAiringDayFormatted()
+                                        text = item.broadcast?.nextAiringDayFormatted()
                                             ?: glanceStringResource(R.string.unknown),
                                         style = TextStyle(
                                             color = GlanceTheme.colors.onPrimaryContainer
