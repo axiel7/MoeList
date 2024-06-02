@@ -106,7 +106,7 @@ dependencies {
 
     //AndroidX
     implementation("androidx.core:core-ktx:1.13.1")
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.appcompat:appcompat:1.7.0")
 
     implementation("androidx.browser:browser:1.8.0")
     implementation("androidx.datastore:datastore-preferences:1.1.1")
