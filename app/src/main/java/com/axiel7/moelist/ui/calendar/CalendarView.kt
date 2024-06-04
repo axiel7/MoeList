@@ -111,7 +111,7 @@ private fun CalendarContent(
                     ) {
                         MediaItemVertical(
                             imageUrl = item.node.mainPicture?.large,
-                            title = item.node.title,
+                            title = item.node.userPreferredTitle(),
                             subtitle = {
                                 Text(
                                     text = item.node.broadcast?.startTime ?: "??",

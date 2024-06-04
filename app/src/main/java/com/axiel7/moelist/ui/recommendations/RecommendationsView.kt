@@ -96,7 +96,7 @@ private fun RecommendationsViewContent(
                 ) {
                     MediaItemVertical(
                         imageUrl = item.node.mainPicture?.large,
-                        title = item.node.title,
+                        title = item.node.userPreferredTitle(),
                         subtitle = {
                             SmallScoreIndicator(
                                 score = item.node.mean,
