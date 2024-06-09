@@ -135,7 +135,7 @@ dependencies {
     val accompanistVersion = "0.34.0"
     implementation("com.google.accompanist:accompanist-permissions:$accompanistVersion")
 
-    implementation("io.github.fornewid:placeholder-material3:1.1.3")
+    implementation("io.github.fornewid:placeholder-material3:2.0.0")
 
     //Test
     testImplementation("junit:junit:4.13.2")
