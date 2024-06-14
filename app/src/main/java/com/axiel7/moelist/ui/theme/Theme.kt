@@ -9,6 +9,8 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.platform.LocalContext
 
@@ -78,9 +80,12 @@ private val DarkColors = darkColorScheme(
 )
 
 private fun ColorScheme.toBlack() = this.copy(
-    background = md_theme_black_background,
-    surface = md_theme_black_background,
-    surfaceVariant = surfaceVariant.copy(alpha = 0.4f).compositeOver(md_theme_black_background)
+    background = Color.Black,
+    surface = Color.Black,
+    surfaceVariant = surfaceVariant.copy(alpha = 0.4f).compositeOver(Color.Black),
+    surfaceContainer = Color.Black,
+    surfaceContainerHigh = surfaceContainerHigh.copy(alpha = 0.5f).compositeOver(Color.Black),
+    surfaceContainerHighest = surfaceContainerHighest.copy(alpha = 0.6f).compositeOver(Color.Black)
 )
 
 @Composable
@@ -90,17 +95,19 @@ fun MoeListTheme(
     useBlackColors: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context).let {
-                return@let if (useBlackColors) it.toBlack() else it
+    val context = LocalContext.current
+    val colorScheme = remember(dynamicColor, darkTheme, useBlackColors) {
+        when {
+            dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+                if (darkTheme) dynamicDarkColorScheme(context).let {
+                    return@let if (useBlackColors) it.toBlack() else it
+                }
+                else dynamicLightColorScheme(context)
             }
-            else dynamicLightColorScheme(context)
-        }
 
-        darkTheme -> if (useBlackColors) DarkColors.toBlack() else DarkColors
-        else -> LightColors
+            darkTheme -> if (useBlackColors) DarkColors.toBlack() else DarkColors
+            else -> LightColors
+        }
     }
 
     MaterialTheme(
