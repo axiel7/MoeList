@@ -16,6 +16,7 @@ import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.data.repository.DefaultPreferencesRepository
 import com.axiel7.moelist.data.repository.MangaRepository
 import com.axiel7.moelist.ui.base.viewmodel.BaseViewModel
+import com.axiel7.moelist.utils.NumExtensions.isGreaterThanZero
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,6 +30,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class UserMediaListViewModel(
@@ -131,21 +134,58 @@ class UserMediaListViewModel(
     override fun onUpdateProgress(item: BaseUserMediaList<out BaseMediaNode>) {
         viewModelScope.launch(Dispatchers.IO) {
             setLoading(true)
-            val result = if (mutableUiState.value.mediaType == MediaType.ANIME) {
-                animeRepository.updateAnimeEntry(
-                    animeId = item.node.id,
-                    watchedEpisodes = item.listStatus?.progress?.plus(1),
-                )
-            } else {
-                val isVolumeProgress =
-                    (item as? UserMangaList)?.listStatus?.isUsingVolumeProgress() == true
-                mangaRepository.updateMangaEntry(
-                    mangaId = item.node.id,
-                    chaptersRead = item.listStatus?.progress?.plus(1)
-                        .takeIf { !isVolumeProgress },
-                    volumesRead = (item.listStatus as? MyMangaListStatus)?.numVolumesRead?.plus(1)
-                        .takeIf { isVolumeProgress },
-                )
+            val nowDate = LocalDate.now().format(DateTimeFormatter.ISO_DATE)
+            val result = when (item) {
+                is UserAnimeList -> {
+                    val newProgress = (item.listStatus?.progress ?: 0) + 1
+                    val maxProgress = item.node.numEpisodes
+                    val isCompleted = maxProgress != null && newProgress >= maxProgress
+                    val isPlanning = item.listStatus?.status == ListStatus.PLAN_TO_WATCH
+                    val newStatus = when {
+                        isCompleted -> ListStatus.COMPLETED
+                        isPlanning -> ListStatus.WATCHING
+                        else -> null
+                    }
+                    animeRepository.updateAnimeEntry(
+                        animeId = item.node.id,
+                        watchedEpisodes = newProgress,
+                        status = newStatus,
+                        startDate = nowDate.takeIf {
+                            isPlanning || item.listStatus?.progress.isGreaterThanZero()
+                        },
+                        endDate = nowDate.takeIf { isCompleted }
+                    )
+                }
+
+                is UserMangaList -> {
+                    val isVolumeProgress = item.listStatus?.isUsingVolumeProgress() == true
+                    val newProgress = if (isVolumeProgress) {
+                        (item.listStatus?.numVolumesRead ?: 0) + 1
+                    } else {
+                        (item.listStatus?.progress ?: 0) + 1
+                    }
+                    val maxProgress =
+                        if (isVolumeProgress) item.node.numVolumes else item.node.numChapters
+                    val isCompleted = maxProgress != null && newProgress >= maxProgress
+                    val isPlanning = item.listStatus?.status == ListStatus.PLAN_TO_READ
+                    val newStatus = when {
+                        isCompleted -> ListStatus.COMPLETED
+                        isPlanning -> ListStatus.READING
+                        else -> null
+                    }
+                    mangaRepository.updateMangaEntry(
+                        mangaId = item.node.id,
+                        chaptersRead = newProgress.takeIf { !isVolumeProgress },
+                        volumesRead = newProgress.takeIf { isVolumeProgress },
+                        status = newStatus,
+                        startDate = nowDate.takeIf {
+                            isPlanning || item.listStatus?.progress.isGreaterThanZero()
+                        },
+                        endDate = nowDate.takeIf { isCompleted }
+                    )
+                }
+
+                else -> null
             }
 
             if (result != null) {
