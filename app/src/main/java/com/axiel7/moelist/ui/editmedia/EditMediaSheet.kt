@@ -214,8 +214,8 @@ private fun EditMediaSheetContent(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 totalProgress = uiState.mediaInfo?.totalDuration(),
                 onValueChange = { event?.onChangeProgress(it.toIntOrNull()) },
-                onMinusClick = { event?.onChangeProgress(uiState.progress?.minus(1)) },
-                onPlusClick = { event?.onChangeProgress(uiState.progress?.plus(1)) }
+                onMinusClick = { event?.onChangeProgress((uiState.progress ?: 0) - 1) },
+                onPlusClick = { event?.onChangeProgress((uiState.progress ?: 0) + 1) }
             )
 
             if (uiState.mediaType == MediaType.MANGA) {
@@ -226,10 +226,10 @@ private fun EditMediaSheetContent(
                     totalProgress = (uiState.mediaInfo as? MangaNode)?.numVolumes,
                     onValueChange = { event?.onChangeVolumeProgress(it.toIntOrNull()) },
                     onMinusClick = {
-                        event?.onChangeVolumeProgress(uiState.volumeProgress?.minus(1))
+                        event?.onChangeVolumeProgress((uiState.volumeProgress ?: 0) - 1)
                     },
                     onPlusClick = {
-                        event?.onChangeVolumeProgress(uiState.volumeProgress?.plus(1))
+                        event?.onChangeVolumeProgress((uiState.volumeProgress ?: 0) + 1)
                     }
                 )
             }
