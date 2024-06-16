@@ -1,4 +1,4 @@
-package com.axiel7.moelist.ui.composables.media
+package com.axiel7.moelist.ui.composables.score
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding

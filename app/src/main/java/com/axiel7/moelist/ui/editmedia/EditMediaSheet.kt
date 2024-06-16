@@ -55,6 +55,7 @@ import com.axiel7.moelist.data.model.media.scoreText
 import com.axiel7.moelist.ui.composables.ClickableOutlinedTextField
 import com.axiel7.moelist.ui.composables.SelectableIconToggleButton
 import com.axiel7.moelist.ui.composables.TextCheckBox
+import com.axiel7.moelist.ui.composables.score.ScoreSlider
 import com.axiel7.moelist.ui.editmedia.composables.DeleteMediaEntryDialog
 import com.axiel7.moelist.ui.editmedia.composables.EditMediaDatePicker
 import com.axiel7.moelist.ui.editmedia.composables.EditMediaProgressRow
@@ -234,21 +235,16 @@ private fun EditMediaSheetContent(
             }
 
             Text(
-                text = stringResource(R.string.score_value).format(uiState.score.scoreText()),
+                text = stringResource(id = R.string.score_value, uiState.score.scoreText()),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp, start = 16.dp, end = 16.dp),
                 fontWeight = FontWeight.Bold
             )
-            Slider(
-                value = uiState.score.toFloat(),
-                onValueChange = {
-                    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                    event?.onChangeScore(it.roundToInt())
-                },
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                valueRange = 0f..10f,
-                steps = 9
+            ScoreSlider(
+                score = uiState.score,
+                onValueChange = { event?.onChangeScore(it) },
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
             )
 
             HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))

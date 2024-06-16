@@ -48,7 +48,7 @@ import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_SMALL_HEIGHT
 import com.axiel7.moelist.ui.composables.media.MediaItemDetailedPlaceholder
 import com.axiel7.moelist.ui.composables.media.MediaItemVertical
 import com.axiel7.moelist.ui.composables.media.MediaItemVerticalPlaceholder
-import com.axiel7.moelist.ui.composables.media.SmallScoreIndicator
+import com.axiel7.moelist.ui.composables.score.SmallScoreIndicator
 import com.axiel7.moelist.ui.home.composables.AiringAnimeHorizontalItem
 import com.axiel7.moelist.ui.home.composables.HomeCard
 import com.axiel7.moelist.ui.theme.MoeListTheme

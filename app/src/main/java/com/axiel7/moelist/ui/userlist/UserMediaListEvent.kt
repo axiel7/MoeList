@@ -13,10 +13,10 @@ interface UserMediaListEvent : PagedUiEvent {
     fun onUpdateProgress(item: BaseUserMediaList<out BaseMediaNode>)
     fun onItemSelected(item: BaseUserMediaList<*>)
     fun onChangeItemMyListStatus(value: BaseMyListStatus?, removed: Boolean = false)
-    fun setAsCompleted(mediaId: Int)
+    fun setScore(score: Int)
     fun refreshList()
     fun toggleSortDialog(open: Boolean)
-    fun toggleSetAsCompleteDialog(open: Boolean)
+    fun toggleSetScoreDialog(open: Boolean)
     fun getRandomIdOfList()
     fun onRandomIdOpen()
 }

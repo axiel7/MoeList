@@ -19,7 +19,7 @@ import com.axiel7.moelist.data.model.anime.AnimeRanking
 import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_SMALL_HEIGHT
 import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_SMALL_WIDTH
 import com.axiel7.moelist.ui.composables.media.MediaPoster
-import com.axiel7.moelist.ui.composables.media.SmallScoreIndicator
+import com.axiel7.moelist.ui.composables.score.SmallScoreIndicator
 
 @Composable
 fun AiringAnimeHorizontalItem(item: AnimeRanking, onClick: () -> Unit) {

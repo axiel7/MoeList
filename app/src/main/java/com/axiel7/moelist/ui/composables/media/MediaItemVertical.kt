@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.axiel7.moelist.ui.composables.defaultPlaceholder
+import com.axiel7.moelist.ui.composables.score.SmallScoreIndicator
 import com.axiel7.moelist.ui.theme.MoeListTheme
 
 const val MEDIA_ITEM_VERTICAL_HEIGHT = 200

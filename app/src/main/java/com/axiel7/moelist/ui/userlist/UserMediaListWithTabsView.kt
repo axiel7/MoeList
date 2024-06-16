@@ -27,7 +27,7 @@ import com.axiel7.moelist.ui.composables.LoadingDialog
 import com.axiel7.moelist.ui.composables.TabRowWithPager
 import com.axiel7.moelist.ui.editmedia.EditMediaSheet
 import com.axiel7.moelist.ui.userlist.composables.MediaListSortDialog
-import com.axiel7.moelist.ui.userlist.composables.SetAsCompletedDialog
+import com.axiel7.moelist.ui.userlist.composables.SetScoreDialog
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -81,10 +81,10 @@ fun UserMediaListWithTabsView(
             )
         }
 
-        if (uiState.openSetAtCompletedDialog) {
-            SetAsCompletedDialog(
-                uiState = uiState,
-                event = viewModel
+        if (uiState.openSetScoreDialog) {
+            SetScoreDialog(
+                onDismiss = { viewModel.toggleSetScoreDialog(false) },
+                onConfirm = viewModel::setScore
             )
         }
 

@@ -61,7 +61,7 @@ import com.axiel7.moelist.ui.composables.LoadingDialog
 import com.axiel7.moelist.ui.editmedia.EditMediaSheet
 import com.axiel7.moelist.ui.theme.MoeListTheme
 import com.axiel7.moelist.ui.userlist.composables.MediaListSortDialog
-import com.axiel7.moelist.ui.userlist.composables.SetAsCompletedDialog
+import com.axiel7.moelist.ui.userlist.composables.SetScoreDialog
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -146,8 +146,11 @@ private fun UserMediaListWithFabViewContent(
         MediaListSortDialog(uiState, event)
     }
 
-    if (uiState.openSetAtCompletedDialog) {
-        SetAsCompletedDialog(uiState, event)
+    if (uiState.openSetScoreDialog) {
+        SetScoreDialog(
+            onDismiss = { event?.toggleSetScoreDialog(false) },
+            onConfirm = { event?.setScore(it) }
+        )
     }
 
     if (uiState.isLoadingRandom) {
