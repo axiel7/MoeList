@@ -140,7 +140,7 @@ class UserMediaListViewModel(
             val result = when (item) {
                 is UserAnimeList -> {
                     val newProgress = (item.listStatus?.progress ?: 0) + 1
-                    val maxProgress = item.node.numEpisodes
+                    val maxProgress = item.node.numEpisodes.takeIf { it != 0 }
                     val isCompleted = maxProgress != null && newProgress >= maxProgress
                     val isPlanning = item.listStatus?.status == ListStatus.PLAN_TO_WATCH
                     newStatus = when {
@@ -167,7 +167,8 @@ class UserMediaListViewModel(
                         (item.listStatus?.progress ?: 0) + 1
                     }
                     val maxProgress =
-                        if (isVolumeProgress) item.node.numVolumes else item.node.numChapters
+                        (if (isVolumeProgress) item.node.numVolumes else item.node.numChapters)
+                            .takeIf { it != 0 }
                     val isCompleted = maxProgress != null && newProgress >= maxProgress
                     val isPlanning = item.listStatus?.status == ListStatus.PLAN_TO_READ
                     newStatus = when {
