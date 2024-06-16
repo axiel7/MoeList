@@ -225,12 +225,12 @@ class UserMediaListViewModel(
                 if (mediaType == MediaType.ANIME) {
                     animeRepository.updateAnimeEntry(
                         animeId = selectedItem.node.id,
-                        status = ListStatus.COMPLETED
+                        score = score
                     )
                 } else {
                     mangaRepository.updateMangaEntry(
                         mangaId = selectedItem.node.id,
-                        status = ListStatus.COMPLETED
+                        score = score
                     )
                 }
             }
