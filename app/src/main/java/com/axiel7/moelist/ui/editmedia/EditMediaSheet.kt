@@ -21,12 +21,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SheetState
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -35,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -403,7 +404,11 @@ fun EditMediaSheetPreview() {
             EditMediaSheetContent(
                 uiState = EditMediaUiState(mediaType = MediaType.ANIME),
                 event = null,
-                sheetState = rememberModalBottomSheetState(),
+                sheetState = SheetState(
+                    skipPartiallyExpanded = true,
+                    density = LocalDensity.current,
+                    initialValue = SheetValue.Expanded
+                ),
                 onEdited = { _, _ -> },
                 onDismissed = {},
             )

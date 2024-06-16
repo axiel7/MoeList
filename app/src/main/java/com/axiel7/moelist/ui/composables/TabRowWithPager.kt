@@ -1,6 +1,5 @@
 package com.axiel7.moelist.ui.composables
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.pager.HorizontalPager
@@ -24,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.axiel7.moelist.ui.base.TabRowItem
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T> TabRowWithPager(
     tabs: Array<TabRowItem<T>>,
