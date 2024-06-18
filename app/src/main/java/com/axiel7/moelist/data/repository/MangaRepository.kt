@@ -26,7 +26,8 @@ class MangaRepository(
                     "synopsis,mean,rank,popularity,num_list_users,num_scoring_users,media_type,status,genres," +
                     "my_list_status{$LIST_STATUS_FIELDS},num_chapters,num_volumes,source,authors{first_name,last_name}," +
                     "serialization,related_anime{media_type,alternative_titles{en,ja}}," +
-                    "related_manga{media_type,alternative_titles{en,ja}},recommendations,background"
+                    "related_manga{media_type,alternative_titles{en,ja}}," +
+                    "recommendations{alternative_titles{en,ja}},background"
         private const val USER_MANGA_LIST_FIELDS =
             "alternative_titles{en,ja},list_status{$LIST_STATUS_FIELDS},num_chapters,num_volumes,media_type,status"
         private const val SEARCH_FIELDS =

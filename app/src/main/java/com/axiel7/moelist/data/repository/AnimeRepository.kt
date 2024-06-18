@@ -40,7 +40,7 @@ class AnimeRepository(
                     "average_episode_duration,studios,opening_themes,ending_themes," +
                     "related_anime{media_type,alternative_titles{en,ja}}," +
                     "related_manga{media_type,alternative_titles{en,ja}}," +
-                    "recommendations,background,statistics"
+                    "recommendations{alternative_titles{en,ja}},background,statistics"
         private const val USER_ANIME_LIST_FIELDS =
             "alternative_titles{en,ja},list_status{$LIST_STATUS_FIELDS},num_episodes,media_type,status,broadcast"
         private const val SEARCH_FIELDS =
