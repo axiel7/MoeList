@@ -58,6 +58,7 @@ import com.axiel7.moelist.ui.main.composables.MainTopAppBar
 import com.axiel7.moelist.ui.theme.MoeListTheme
 import com.axiel7.moelist.ui.theme.dark_scrim
 import com.axiel7.moelist.ui.theme.light_scrim
+import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.MOELIST_PAGELINK
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -205,6 +206,19 @@ class MainActivity : AppCompatActivity() {
             //TODO: find a better solution :)
             val malSchemeIndex = intent.dataString?.indexOf("myanimelist.net")
             if (malSchemeIndex != null && malSchemeIndex != -1) {
+                // Only handle main details links
+                val isMainDetails = intent.data?.pathSegments?.any {
+                    when (it) {
+                        "character", "episode", "video", "reviews", "stacks", "news", "forum",
+                        "clubs", "moreinfo" -> true
+                        else -> false
+                    }
+                } == false
+                if (!isMainDetails) {
+                    intent.dataString?.let { openLink(it) }
+                    return null
+                }
+
                 val linkSplit = intent.dataString?.substring(malSchemeIndex)?.split('/').orEmpty()
                 val mediaType = linkSplit.getOrNull(1)?.uppercase()
                 val mediaId = linkSplit.getOrNull(2)?.toIntOrNull()
