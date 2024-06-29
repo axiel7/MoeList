@@ -222,7 +222,8 @@ private fun MediaDetailsContent(
                         )
                         .defaultPlaceholder(visible = uiState.isLoading)
                         .clickable(onClick = dropUnlessResumed {
-                            navActionManager.toFullPoster(uiState.picturesUrls)
+                            if (uiState.picturesUrls.isNotEmpty()) 
+                                navActionManager.toFullPoster(uiState.picturesUrls)
                         })
                 )
                 Column {
