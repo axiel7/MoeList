@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ProfileViewModel(
     private val userRepository: UserRepository,
@@ -19,9 +20,9 @@ class ProfileViewModel(
     override val mutableUiState = MutableStateFlow(ProfileUiState())
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             setLoading(true)
-            val user = userRepository.getMyUser()
+            val user = withContext(Dispatchers.IO) { userRepository.getMyUser() }
 
             if (user == null || user.message != null) {
                 showMessage(user?.message)
@@ -58,10 +59,10 @@ class ProfileViewModel(
                             value = stats.numItemsPlanToWatch?.toFloat() ?: 0f
                         )
                     )
-                }
 
-                if (user.picture != null && user.picture != mutableUiState.value.profilePictureUrl) {
-                    defaultPreferencesRepository.setProfilePicture(user.picture)
+                    if (user.picture != null && user.picture != mutableUiState.value.profilePictureUrl) {
+                        defaultPreferencesRepository.setProfilePicture(user.picture)
+                    }
                 }
 
                 mutableUiState.update {
@@ -77,7 +78,9 @@ class ProfileViewModel(
                 // get manga stats from jikan api because the official api has not implemented it
                 user.name?.let { username ->
                     // convert the username to lowercase because a bug in the jikan api
-                    val jikanUserStats = userRepository.getUserStats(username.lowercase())
+                    val jikanUserStats = withContext(Dispatchers.IO) {
+                        userRepository.getUserStats(username.lowercase())
+                    }
 
                     jikanUserStats.data?.manga?.let { stats ->
                         val tempMangaStatList = mutableListOf<Stat<ListStatus>>()

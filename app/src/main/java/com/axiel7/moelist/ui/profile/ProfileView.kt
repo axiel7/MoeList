@@ -1,5 +1,6 @@
 package com.axiel7.moelist.ui.profile
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -89,22 +90,33 @@ private fun ProfileViewContent(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                AsyncImage(
-                    model = uiState.profilePictureUrl,
-                    contentDescription = "profile",
-                    placeholder = painterResource(R.drawable.ic_round_account_circle_24),
-                    error = painterResource(R.drawable.ic_round_account_circle_24),
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .clip(RoundedCornerShape(100))
-                        .size(100.dp)
-                        .defaultPlaceholder(visible = uiState.isLoading)
-                        .clickable(onClick = dropUnlessResumed {
-                            navActionManager.toFullPoster(
-                                listOf(uiState.profilePictureUrl.orEmpty())
-                            )
-                        })
-                )
+                if (uiState.profilePictureUrl.isNullOrEmpty()) {
+                    Image(
+                        painter = painterResource(R.drawable.ic_round_account_circle_24),
+                        contentDescription = stringResource(R.string.title_profile),
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .clip(RoundedCornerShape(100))
+                            .defaultPlaceholder(true)
+                    )
+                } else {
+                    AsyncImage(
+                        model = uiState.profilePictureUrl,
+                        contentDescription = stringResource(R.string.title_profile),
+                        placeholder = painterResource(R.drawable.ic_round_account_circle_24),
+                        error = painterResource(R.drawable.ic_round_account_circle_24),
+                        fallback = painterResource(R.drawable.ic_round_account_circle_24),
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .clip(RoundedCornerShape(100))
+                            .size(100.dp)
+                            .clickable(onClick = dropUnlessResumed {
+                                navActionManager.toFullPoster(
+                                    listOf(uiState.profilePictureUrl)
+                                )
+                            })
+                    )
+                }
 
                 Column {
                     Text(
