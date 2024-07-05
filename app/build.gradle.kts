@@ -8,8 +8,6 @@ plugins {
     id("com.google.devtools.ksp")
 }
 
-android.buildFeatures.buildConfig = true
-
 val properties = Properties()
 properties.load(project.rootProject.file("local.properties").reader())
 
@@ -68,6 +66,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
