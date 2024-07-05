@@ -32,7 +32,7 @@ val ktorHttpClient = HttpClient(OkHttp) {
 
     install(HttpCache)
 
-    if (BuildConfig.IS_DEBUG) {
+    if (BuildConfig.DEBUG) {
         install(Logging) {
             logger = Logger.ANDROID
             level = LogLevel.ALL

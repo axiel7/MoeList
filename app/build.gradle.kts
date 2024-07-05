@@ -45,7 +45,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("boolean", "IS_DEBUG", "true")
             buildConfigField("String", "CLIENT_ID", properties.getProperty("CLIENT_ID"))
         }
         release {
@@ -56,7 +55,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("boolean", "IS_DEBUG", "false")
             buildConfigField("String", "CLIENT_ID", properties.getProperty("CLIENT_ID"))
         }
     }
