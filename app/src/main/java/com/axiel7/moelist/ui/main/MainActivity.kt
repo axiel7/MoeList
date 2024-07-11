@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -281,7 +282,9 @@ fun MainView(
     ) { padding ->
         if (!isCompactScreen) {
             Row(
-                modifier = Modifier.padding(padding)
+                modifier = Modifier
+                    .statusBarsPadding()
+                    .padding(padding)
             ) {
                 MainNavigationRail(
                     navController = navController,
