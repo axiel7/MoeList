@@ -153,7 +153,7 @@ class UserMediaListViewModel(
                         watchedEpisodes = newProgress,
                         status = newStatus,
                         startDate = nowDate.takeIf {
-                            isPlanning || item.listStatus?.progress.isGreaterThanZero()
+                            isPlanning || !item.listStatus?.progress.isGreaterThanZero()
                         },
                         endDate = nowDate.takeIf { isCompleted }
                     )
