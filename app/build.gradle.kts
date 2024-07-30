@@ -104,14 +104,14 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
 
-    val materialVersion = "1.3.0-beta04"
+    val materialVersion = "1.3.0-beta05"
     implementation("androidx.compose.material3:material3-android:$materialVersion")
     implementation("androidx.compose.material3:material3-window-size-class:$materialVersion")
 
     implementation("androidx.activity:activity-compose:1.9.1")
-    implementation("androidx.navigation:navigation-compose:2.8.0-beta05")
+    implementation("androidx.navigation:navigation-compose:2.8.0-beta06")
 
-    val lifecycleVersion = "2.8.3"
+    val lifecycleVersion = "2.8.4"
     implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycleVersion")
 
