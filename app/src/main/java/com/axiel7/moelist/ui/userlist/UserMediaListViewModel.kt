@@ -196,7 +196,9 @@ class UserMediaListViewModel(
                     val foundIndex = mediaList.indexOfFirst { it.node.id == item.node.id }
                     if (foundIndex != -1) {
                         if (newStatus != null) {
-                            if (newStatus == ListStatus.COMPLETED) toggleSetScoreDialog(true)
+                            if (newStatus == ListStatus.COMPLETED && result.score == 0) {
+                                toggleSetScoreDialog(true)
+                            }
                             mediaList.removeAt(foundIndex)
                         } else {
                             if (mediaType == MediaType.ANIME) {
