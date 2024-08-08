@@ -12,12 +12,12 @@ val properties = Properties()
 properties.load(project.rootProject.file("local.properties").reader())
 
 android {
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.axiel7.moelist"
         minSdk = 23
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 146
         versionName = "3.7.1"
         setProperty("archivesBaseName", "moelist-v$versionName")
