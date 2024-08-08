@@ -3,7 +3,8 @@ package com.axiel7.moelist.ui.main
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -63,35 +64,32 @@ fun MainNavigation(
             .getOrElse(lastTabOpened) { BottomDestination.Home }.route,
         modifier = modifier,
         enterTransition = {
-            slideIntoContainer(
+            fadeIn() + slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Start,
-                animationSpec = tween(300)
+                animationSpec = spring(stiffness = Spring.StiffnessMediumLow)
             )
         },
         exitTransition = {
-            slideOutOfContainer(
+            fadeOut() + slideOutOfContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.End,
-                animationSpec = tween(350)
+                animationSpec = spring(stiffness = Spring.StiffnessMediumLow)
             )
         },
         popEnterTransition = {
-            slideIntoContainer(
-                towards = AnimatedContentTransitionScope.SlideDirection.Start,
-                animationSpec = tween(300)
-            )
+            fadeIn()
         },
         popExitTransition = {
-            slideOutOfContainer(
+            fadeOut() + slideOutOfContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.End,
-                animationSpec = tween(350)
+                animationSpec = spring(stiffness = Spring.StiffnessMediumLow)
             )
         }
     ) {
         composable<Route.Tab.Home>(
-            enterTransition = { fadeIn(tween(400)) },
-            exitTransition = { fadeOut(tween(400)) },
-            popEnterTransition = { fadeIn(tween(400)) },
-            popExitTransition = { fadeOut(tween(400)) },
+            enterTransition = { fadeIn() },
+            exitTransition = { fadeOut() },
+            popEnterTransition = { fadeIn() },
+            popExitTransition = { fadeOut() },
         ) {
             HomeView(
                 isLoggedIn = isLoggedIn,
@@ -104,10 +102,10 @@ fun MainNavigation(
 
         composable<Route.Tab.Anime>(
             typeMap = mapOf(typeOf<MediaType>() to MediaType.navType),
-            enterTransition = { fadeIn(tween(400)) },
-            exitTransition = { fadeOut(tween(400)) },
-            popEnterTransition = { fadeIn(tween(400)) },
-            popExitTransition = { fadeOut(tween(400)) },
+            enterTransition = { fadeIn() },
+            exitTransition = { fadeOut() },
+            popEnterTransition = { fadeIn() },
+            popExitTransition = { fadeOut() },
         ) {
             if (!isLoggedIn) {
                 LoginView()
@@ -134,10 +132,10 @@ fun MainNavigation(
 
         composable<Route.Tab.Manga>(
             typeMap = mapOf(typeOf<MediaType>() to MediaType.navType),
-            enterTransition = { fadeIn(tween(400)) },
-            exitTransition = { fadeOut(tween(400)) },
-            popEnterTransition = { fadeIn(tween(400)) },
-            popExitTransition = { fadeOut(tween(400)) },
+            enterTransition = { fadeIn() },
+            exitTransition = { fadeOut() },
+            popEnterTransition = { fadeIn() },
+            popExitTransition = { fadeOut() },
         ) {
             if (!isLoggedIn) {
                 LoginView()
@@ -163,10 +161,10 @@ fun MainNavigation(
         }
 
         composable<Route.Tab.More>(
-            enterTransition = { fadeIn(tween(400)) },
-            exitTransition = { fadeOut(tween(400)) },
-            popEnterTransition = { fadeIn(tween(400)) },
-            popExitTransition = { fadeOut(tween(400)) },
+            enterTransition = { fadeIn() },
+            exitTransition = { fadeOut() },
+            popEnterTransition = { fadeIn() },
+            popExitTransition = { fadeOut() },
         ) {
             MoreView(
                 navActionManager = navActionManager,
@@ -247,10 +245,10 @@ fun MainNavigation(
         }
 
         composable<Route.FullPoster>(
-            enterTransition = { fadeIn(tween(400)) },
-            exitTransition = { fadeOut(tween(400)) },
-            popEnterTransition = { fadeIn(tween(400)) },
-            popExitTransition = { fadeOut(tween(400)) },
+            enterTransition = { fadeIn() },
+            exitTransition = { fadeOut() },
+            popEnterTransition = { fadeIn() },
+            popExitTransition = { fadeOut() },
         ) {
             val args = it.toRoute<Route.FullPoster>()
 
@@ -278,16 +276,16 @@ fun MainNavigation(
         composable<Route.Search>(
             typeMap = mapOf(typeOf<MediaType>() to MediaType.navType),
             enterTransition = {
-                expandVertically(tween(400), expandFrom = Alignment.Top)
+                expandVertically(expandFrom = Alignment.Top)
             },
             exitTransition = {
-                shrinkVertically(tween(400), shrinkTowards = Alignment.Top)
+                shrinkVertically(shrinkTowards = Alignment.Top)
             },
             popEnterTransition = {
-                expandVertically(tween(400), expandFrom = Alignment.Top)
+                expandVertically(expandFrom = Alignment.Top)
             },
             popExitTransition = {
-                shrinkVertically(tween(400), shrinkTowards = Alignment.Top)
+                shrinkVertically(shrinkTowards = Alignment.Top)
             },
         ) {
             SearchHostView(
