@@ -38,6 +38,9 @@ jobs:
       - name: Set MAL Client ID
         run: touch local.properties && echo """CLIENT_ID="${{secrets.CLIENT_ID}}"""" > local.properties
 
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
       - name: Build Android release
         run: fastlane release
         env:
