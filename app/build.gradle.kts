@@ -9,7 +9,7 @@ plugins {
 }
 
 val properties = Properties()
-properties.load(project.rootProject.file("local.properties").reader())
+properties.load(project.rootProject.file("private.properties").reader())
 
 android {
     compileSdk = 35

@@ -65,7 +65,7 @@ Want an AniList version? Check [AniHyou](https://github.com/axiel7/AniHyou-andro
 * [Coil](https://github.com/coil-kt/coil)
 
 # Building
-Put the following on your local.properties file:
+Put the following in a new ./private.properties file:
 
 ```properties
 CLIENT_ID="your_mal_api_client_id"
