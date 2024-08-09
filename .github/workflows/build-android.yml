@@ -1,0 +1,50 @@
+name: Android Build APK
+
+on:
+  push:
+    tags:
+      - '*'
+  workflow_dispatch:
+    inputs:
+      single_apk:
+        description: 'Build only the universal apk'
+        type: boolean
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Decode Keystore File
+        uses: timheuer/base64-to-file@v1
+        id: android_keystore
+        with:
+          fileName: "android_keystore.keystore"
+          encodedString: ${{secrets.KEYSTORE_FILE}}
+      
+      - name: Accept Android SDK license
+        run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: adopt
+
+      - if: ${{ inputs.single_apk == true }}
+        run: sed -i -e '/isEnable/s/true/false/' app/build.gradle.kts
+
+      - name: Build Android release
+        run: fastlane release
+        env:
+          KEYSTORE_FILE: ${{steps.android_keystore.outputs.filePath}}
+          KEYSTORE_PASSWORD: ${{secrets.KEYSTORE_PASSWORD}}
+          KEY_ALIAS: ${{secrets.KEY_ALIAS}}
+          KEY_PASSWORD: ${{secrets.KEY_PASSWORD}}
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: assets
+          path: ${{github.workspace}}/app/build/outputs/apk/release/*.apk
