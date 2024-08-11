@@ -2,13 +2,16 @@ name: Android Build APK
 
 on:
   push:
-    tags:
-      - '*'
+    paths:
+      - 'version.properties'
   workflow_dispatch:
     inputs:
       single_apk:
         description: 'Build only the universal apk'
         type: boolean
+
+env:
+  BRANCH_NAME: ${{ github.base_ref || github.ref_name }}
 
 jobs:
   build:
@@ -32,7 +35,7 @@ jobs:
           java-version: 17
           distribution: adopt
 
-      - if: ${{ inputs.single_apk == true }}
+      - if: ${{ inputs.single_apk == true || env.BRANCH_NAME == 'develop' }}
         run: sed -i -e '/isEnable/s/true/false/' app/build.gradle.kts
 
       - name: Set MAL Client ID

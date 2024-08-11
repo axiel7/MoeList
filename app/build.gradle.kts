@@ -8,8 +8,12 @@ plugins {
     id("com.google.devtools.ksp")
 }
 
-val properties = Properties()
-properties.load(project.rootProject.file("private.properties").reader())
+val properties = Properties().also {
+    it.load(project.rootProject.file("private.properties").reader())
+}
+val versionProps = Properties().also {
+    it.load(project.rootProject.file("version.properties").reader())
+}
 
 android {
     compileSdk = 35
@@ -18,8 +22,8 @@ android {
         applicationId = "com.axiel7.moelist"
         minSdk = 23
         targetSdk = 35
-        versionCode = 146
-        versionName = "3.7.1"
+        versionCode = versionProps.getProperty("code").toInt()
+        versionName = versionProps.getProperty("name")
         setProperty("archivesBaseName", "moelist-v$versionName")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
