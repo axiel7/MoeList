@@ -48,6 +48,7 @@ android {
                 "proguard-rules.pro"
             )
             buildConfigField("String", "CLIENT_ID", properties.getProperty("CLIENT_ID"))
+            resValue("string", "app_name", "MoeList Debug")
         }
         release {
             isDebuggable = false
