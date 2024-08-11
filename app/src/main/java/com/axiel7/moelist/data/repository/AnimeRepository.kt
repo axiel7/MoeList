@@ -300,7 +300,7 @@ class AnimeRepository(
                 sort = MediaSort.ANIME_START_DATE,
                 limit = null,
                 nsfw = defaultPreferencesRepository.nsfwInt(),
-                fields = "status,broadcast"
+                fields = "status,broadcast,alternative_titles{en,ja}"
             )
 
             return result.data?.map { it.node }
