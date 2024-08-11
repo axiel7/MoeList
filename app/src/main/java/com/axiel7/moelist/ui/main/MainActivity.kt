@@ -32,7 +32,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -41,6 +40,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -112,6 +112,7 @@ class MainActivity : AppCompatActivity() {
                 val accessToken by viewModel.accessToken.collectAsStateWithLifecycle(App.accessToken)
                 val useListTabs by viewModel.useListTabs.collectAsStateWithLifecycle()
                 val profilePicture by viewModel.profilePicture.collectAsStateWithLifecycle()
+                val pinnedNavBar by viewModel.pinnedNavBar.collectAsStateWithLifecycle(false)
 
                 MoeListTheme(
                     darkTheme = isDark,
@@ -130,6 +131,7 @@ class MainActivity : AppCompatActivity() {
                             navActionManager = navActionManager,
                             lastTabOpened = lastTabOpened,
                             saveLastTab = viewModel::saveLastTab,
+                            pinnedNavBar = pinnedNavBar,
                             profilePicture = profilePicture,
                         )
 
@@ -239,11 +241,11 @@ fun MainView(
     navActionManager: NavActionManager,
     lastTabOpened: Int,
     saveLastTab: (Int) -> Unit,
+    pinnedNavBar: Boolean,
     profilePicture: String?,
 ) {
     val density = LocalDensity.current
 
-    val bottomBarState = remember { mutableStateOf(true) }
     var topBarHeightPx by remember { mutableFloatStateOf(0f) }
     val topBarOffsetY = remember { Animatable(0f) }
 
@@ -271,7 +273,7 @@ fun MainView(
                 MainBottomNavBar(
                     navController = navController,
                     navBackStackEntry = navBackStackEntry,
-                    isVisible = isBottomDestination && bottomBarState.value,
+                    isVisible = isBottomDestination || pinnedNavBar,
                     onItemSelected = saveLastTab,
                     topBarOffsetY = topBarOffsetY,
                 )
@@ -318,8 +320,14 @@ fun MainView(
                 modifier = Modifier.padding(
                     start = padding.calculateStartPadding(LocalLayoutDirection.current),
                     end = padding.calculateEndPadding(LocalLayoutDirection.current),
+                    bottom = if (pinnedNavBar) padding.calculateBottomPadding() else 0.dp,
                 ),
-                padding = padding,
+                padding = PaddingValues(
+                    start = padding.calculateStartPadding(LocalLayoutDirection.current),
+                    top = padding.calculateTopPadding(),
+                    end = padding.calculateEndPadding(LocalLayoutDirection.current),
+                    bottom = if (pinnedNavBar) 0.dp else padding.calculateBottomPadding(),
+                ),
                 topBarHeightPx = topBarHeightPx,
                 topBarOffsetY = topBarOffsetY,
             )
@@ -340,6 +348,7 @@ fun MainPreview() {
                 navActionManager = rememberNavActionManager(),
                 lastTabOpened = 0,
                 saveLastTab = {},
+                pinnedNavBar = false,
                 profilePicture = null,
             )
         }

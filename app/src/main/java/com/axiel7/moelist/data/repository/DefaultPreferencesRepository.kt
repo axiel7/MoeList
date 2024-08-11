@@ -70,6 +70,11 @@ class DefaultPreferencesRepository(
         dataStore.setValue(LAST_TAB_KEY, value)
     }
 
+    val pinnedNavBar = dataStore.getValue(PINNED_NAV_BAR_KEY, false)
+    suspend fun setPinnedNavBar(value: Boolean) {
+        dataStore.setValue(PINNED_NAV_BAR_KEY, value)
+    }
+
     val profilePicture = dataStore.getValue(PROFILE_PICTURE_KEY)
     suspend fun setProfilePicture(value: String) {
         dataStore.setValue(PROFILE_PICTURE_KEY, value)
@@ -241,6 +246,7 @@ class DefaultPreferencesRepository(
         private val THEME_KEY = stringPreferencesKey("theme")
         private val USE_BLACK_COLORS_KEY = booleanPreferencesKey("use_black_colors")
         private val LAST_TAB_KEY = intPreferencesKey("last_tab")
+        private val PINNED_NAV_BAR_KEY = booleanPreferencesKey("pinned_nav_bar")
         private val PROFILE_PICTURE_KEY = stringPreferencesKey("profile_picture")
 
         private val ANIME_LIST_STATUS_KEY = stringPreferencesKey("anime_list_status")

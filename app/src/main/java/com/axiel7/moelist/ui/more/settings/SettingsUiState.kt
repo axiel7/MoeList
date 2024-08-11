@@ -17,6 +17,7 @@ data class SettingsUiState(
     val generalListStyle: ListStyle = ListStyle.STANDARD,
     val itemsPerRow: ItemsPerRow = ItemsPerRow.DEFAULT,
     val startTab: StartTab = StartTab.LAST_USED,
+    val pinnedNavBar: Boolean = false,
     val titleLanguage: TitleLanguage = TitleLanguage.ROMAJI,
     val useListTabs: Boolean = false,
     val loadCharacters: Boolean = false,

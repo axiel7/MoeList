@@ -107,6 +107,12 @@ private fun SettingsViewContent(
             )
 
             SwitchPreferenceView(
+                title = stringResource(R.string.pinned_navigation_bar),
+                value = uiState.pinnedNavBar,
+                onValueChange = { event?.setPinnedNavBar(it) }
+            )
+
+            SwitchPreferenceView(
                 title = stringResource(R.string.use_separated_list_styles),
                 value = !uiState.useGeneralListStyle,
                 onValueChange = { event?.setUseGeneralListStyle(!it) }

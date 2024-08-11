@@ -75,6 +75,12 @@ class SettingsViewModel(
         }
     }
 
+    override fun setPinnedNavBar(value: Boolean) {
+        viewModelScope.launch {
+            defaultPreferencesRepository.setPinnedNavBar(value)
+        }
+    }
+
     override fun setTitleLanguage(value: TitleLanguage) {
         viewModelScope.launch {
             defaultPreferencesRepository.setTitleLang(value)
@@ -146,6 +152,12 @@ class SettingsViewModel(
             .filterNotNull()
             .onEach { value ->
                 mutableUiState.update { it.copy(startTab = value) }
+            }
+            .launchIn(viewModelScope)
+
+        defaultPreferencesRepository.pinnedNavBar
+            .onEach { value ->
+                mutableUiState.update { it.copy(pinnedNavBar = value) }
             }
             .launchIn(viewModelScope)
 

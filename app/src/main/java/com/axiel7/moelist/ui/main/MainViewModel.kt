@@ -25,6 +25,8 @@ class MainViewModel(
         defaultPreferencesRepository.setLastTab(value)
     }
 
+    val pinnedNavBar = defaultPreferencesRepository.pinnedNavBar
+
     val theme = defaultPreferencesRepository.theme
         .stateIn(viewModelScope, SharingStarted.Eagerly, ThemeStyle.FOLLOW_SYSTEM)
 

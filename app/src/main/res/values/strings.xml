@@ -379,4 +379,5 @@
     <string name="pv">PV</string>
     <string name="black_theme_variant">Black theme variant</string>
     <string name="polish_native" translatable="false">Polski</string>
+    <string name="pinned_navigation_bar">Pinned navigation bar</string>
 </resources>

@@ -17,6 +17,7 @@ interface SettingsEvent : UiEvent {
     fun setGeneralListStyle(value: ListStyle)
     fun setItemsPerRow(value: ItemsPerRow)
     fun setStartTab(value: StartTab)
+    fun setPinnedNavBar(value: Boolean)
     fun setTitleLanguage(value: TitleLanguage)
     fun setUseListTabs(value: Boolean)
     fun setLoadCharacters(value: Boolean)
