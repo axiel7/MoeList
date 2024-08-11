@@ -4,6 +4,7 @@
     "config:base"
   ],
   "schedule": ["every sunday"],
+  "baseBranches": ["develop"],
   "packageRules": [
     {
       "managers": ["maven"],
