@@ -150,6 +150,15 @@ private fun SeasonChartViewContent(
                     MediaItemVertical(
                         imageUrl = item.node.mainPicture?.large,
                         title = item.node.userPreferredTitle(),
+                        badgeContent = item.node.myListStatus?.status?.let { status ->
+                            {
+                                Icon(
+                                    painter = painterResource(status.icon),
+                                    contentDescription = status.localized(),
+                                    tint = MaterialTheme.colorScheme.onPrimaryContainer
+                                )
+                            }
+                        },
                         subtitle = if (!uiState.hideScore) {
                             {
                                 SmallScoreIndicator(

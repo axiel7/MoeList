@@ -66,7 +66,7 @@ class HomeViewModel(
             year = currentStartSeason.year,
             season = currentStartSeason.season,
             limit = 25,
-            fields = "alternative_titles{en,ja},mean",
+            fields = "alternative_titles{en,ja},mean,my_list_status{status}",
         )
         if (result.data != null) {
             mutableUiState.update { it.copy(seasonAnimes = result.data) }

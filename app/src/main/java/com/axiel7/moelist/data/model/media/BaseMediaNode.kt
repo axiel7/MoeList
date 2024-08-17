@@ -18,6 +18,7 @@ abstract class BaseMediaNode {
     abstract val mediaFormat: MediaFormat?
     abstract val status: MediaStatus?
     abstract val mean: Float?
+    open val myListStatus: BasicMyListStatus? = null
 
     val mediaType
         get() = if (this is MangaNode) MediaType.MANGA else MediaType.ANIME

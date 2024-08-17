@@ -25,11 +25,13 @@ class AnimeRepository(
 
     companion object {
         const val TODAY_FIELDS =
-            "alternative_titles{en,ja},broadcast,mean,start_season,status"
+            "alternative_titles{en,ja},broadcast,mean,start_season,status,my_list_status{status}"
         const val CALENDAR_FIELDS =
-            "alternative_titles{en,ja},broadcast,mean,start_season,status,media_type,num_episodes"
+            "alternative_titles{en,ja},broadcast,mean,start_season,status,media_type,num_episodes," +
+                    "my_list_status{status}"
         const val SEASONAL_FIELDS =
-            "alternative_titles{en,ja},start_season,broadcast,num_episodes,media_type,mean,num_list_users"
+            "alternative_titles{en,ja},start_season,broadcast,num_episodes,media_type,mean,num_list_users" +
+                    ",my_list_status{status}"
         private const val RECOMMENDED_FIELDS = "alternative_titles{en,ja},mean"
         private const val LIST_STATUS_FIELDS =
             "start_date,finish_date,num_times_rewatched,is_rewatching,rewatch_value,priority,tags,comments"
@@ -44,9 +46,10 @@ class AnimeRepository(
         private const val USER_ANIME_LIST_FIELDS =
             "alternative_titles{en,ja},list_status{$LIST_STATUS_FIELDS},num_episodes,media_type,status,broadcast"
         private const val SEARCH_FIELDS =
-            "id,title,alternative_titles{en,ja},main_picture,mean,media_type,num_episodes,start_season"
+            "id,title,alternative_titles{en,ja},main_picture,mean,media_type,num_episodes,start_season," +
+                    "my_list_status{status}"
         const val RANKING_FIELDS =
-            "alternative_titles{en,ja},mean,media_type,num_episodes,num_list_users"
+            "alternative_titles{en,ja},mean,media_type,num_episodes,num_list_users,my_list_status{status}"
         private const val CHARACTERS_FIELDS =
             "id,first_name,last_name,alternative_name,main_picture"
     }

@@ -32,6 +32,7 @@ import com.axiel7.moelist.ui.theme.MoeListTheme
 fun MediaItemDetailed(
     title: String,
     imageUrl: String?,
+    topBadgeContent: @Composable (RowScope.() -> Unit)? = null,
     badgeContent: @Composable (RowScope.() -> Unit)? = null,
     subtitle1: @Composable RowScope.() -> Unit,
     subtitle2: @Composable RowScope.() -> Unit,
@@ -47,9 +48,7 @@ fun MediaItemDetailed(
         Row(
             modifier = Modifier.height(MEDIA_POSTER_SMALL_HEIGHT.dp)
         ) {
-            Box(
-                contentAlignment = Alignment.BottomStart
-            ) {
+            Box {
                 MediaPoster(
                     url = imageUrl,
                     showShadow = false,
@@ -65,9 +64,21 @@ fun MediaItemDetailed(
                         modifier = Modifier
                             .clip(RoundedCornerShape(topEnd = 8.dp))
                             .background(MaterialTheme.colorScheme.primaryContainer)
-                            .padding(horizontal = 8.dp, vertical = 4.dp),
+                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                            .align(Alignment.BottomStart),
                         verticalAlignment = Alignment.CenterVertically,
                         content = badgeContent
+                    )
+                }
+                if (topBadgeContent != null) {
+                    Row(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(bottomEnd = 8.dp))
+                            .background(MaterialTheme.colorScheme.primaryContainer)
+                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                            .align(Alignment.TopStart),
+                        verticalAlignment = Alignment.CenterVertically,
+                        content = topBadgeContent
                     )
                 }
             }

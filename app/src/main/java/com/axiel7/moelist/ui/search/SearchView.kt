@@ -191,6 +191,15 @@ private fun SearchViewContent(
         MediaItemDetailed(
             title = item.node.userPreferredTitle(),
             imageUrl = item.node.mainPicture?.large,
+            badgeContent = item.node.myListStatus?.status?.let { status ->
+                {
+                    Icon(
+                        painter = painterResource(status.icon),
+                        contentDescription = status.localized(),
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
+            },
             subtitle1 = {
                 Text(
                     text = buildString {

@@ -1,8 +1,11 @@
 package com.axiel7.moelist.ui.composables.media
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
@@ -30,6 +33,7 @@ fun MediaItemVertical(
     title: String,
     imageUrl: String?,
     modifier: Modifier = Modifier,
+    badgeContent: @Composable (RowScope.() -> Unit)? = null,
     subtitle: @Composable (() -> Unit)? = null,
     subtitle2: @Composable (() -> Unit)? = null,
     minLines: Int = 1,
@@ -45,14 +49,31 @@ fun MediaItemVertical(
             .clickable(onClick = onClick),
         horizontalAlignment = Alignment.Start
     ) {
-        MediaPoster(
-            url = imageUrl,
-            modifier = Modifier
-                .size(
-                    width = MEDIA_POSTER_SMALL_WIDTH.dp,
-                    height = MEDIA_POSTER_SMALL_HEIGHT.dp
+        Box(
+            modifier = Modifier.padding(start = 4.dp, top = 2.dp, end = 4.dp, bottom = 8.dp),
+            contentAlignment = Alignment.BottomStart
+        ) {
+            MediaPoster(
+                url = imageUrl,
+                showShadow = false,
+                modifier = Modifier
+                    .size(
+                        width = MEDIA_POSTER_SMALL_WIDTH.dp,
+                        height = MEDIA_POSTER_SMALL_HEIGHT.dp
+                    )
+            )
+
+            if (badgeContent != null) {
+                Row(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(topEnd = 8.dp))
+                        .background(MaterialTheme.colorScheme.primaryContainer)
+                        .padding(horizontal = 8.dp, vertical = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    content = badgeContent
                 )
-        )
+            }
+        }
 
         Text(
             text = title,

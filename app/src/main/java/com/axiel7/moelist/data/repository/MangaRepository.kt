@@ -31,9 +31,10 @@ class MangaRepository(
         private const val USER_MANGA_LIST_FIELDS =
             "alternative_titles{en,ja},list_status{$LIST_STATUS_FIELDS},num_chapters,num_volumes,media_type,status"
         private const val SEARCH_FIELDS =
-            "id,title,alternative_titles{en,ja},main_picture,mean,media_type,num_chapters,start_date"
+            "id,title,alternative_titles{en,ja},main_picture,mean,media_type,num_chapters,start_date," +
+                    "my_list_status{status}"
         private const val RANKING_FIELDS =
-            "alternative_titles{en,ja},mean,media_type,num_chapters,num_list_users"
+            "alternative_titles{en,ja},mean,media_type,num_chapters,num_list_users,my_list_status{status}"
     }
 
     suspend fun getMangaDetails(
