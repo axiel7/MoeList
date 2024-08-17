@@ -11,6 +11,7 @@ data class HomeUiState(
     val todayAnimes: List<AnimeRanking> = emptyList(),
     val seasonAnimes: List<AnimeSeasonal> = emptyList(),
     val recommendedAnimes: List<AnimeList> = emptyList(),
+    val hideScore: Boolean = false,
     override val isLoading: Boolean = true,
     override val message: String? = null
 ) : UiState() {

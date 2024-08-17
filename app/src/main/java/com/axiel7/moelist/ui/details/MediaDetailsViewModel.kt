@@ -169,6 +169,12 @@ class MediaDetailsViewModel(
             }
         }
 
+        defaultPreferencesRepository.hideScores
+            .onEach { value ->
+                mutableUiState.update { it.copy(hideScore = value) }
+            }
+            .launchIn(viewModelScope)
+
         notificationWorkerManager.getNotification(mediaId)
             .onEach { notification ->
                 mutableUiState.update { it.copy(notification = notification) }

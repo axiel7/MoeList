@@ -13,6 +13,7 @@ data class SettingsUiState(
     val theme: ThemeStyle = ThemeStyle.FOLLOW_SYSTEM,
     val useBlackColors: Boolean = false,
     val showNsfw: Boolean = false,
+    val hideScores: Boolean = false,
     val useGeneralListStyle: Boolean = true,
     val generalListStyle: ListStyle = ListStyle.STANDARD,
     val itemsPerRow: ItemsPerRow = ItemsPerRow.DEFAULT,

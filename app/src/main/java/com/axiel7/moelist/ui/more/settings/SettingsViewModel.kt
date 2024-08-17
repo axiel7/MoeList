@@ -51,6 +51,12 @@ class SettingsViewModel(
         }
     }
 
+    override fun setHideScores(value: Boolean) {
+        viewModelScope.launch {
+            defaultPreferencesRepository.setHideScores(value)
+        }
+    }
+
     override fun setUseGeneralListStyle(value: Boolean) {
         viewModelScope.launch {
             defaultPreferencesRepository.setUseGeneralListStyle(value)
@@ -127,6 +133,12 @@ class SettingsViewModel(
         defaultPreferencesRepository.nsfw
             .onEach { value ->
                 mutableUiState.update { it.copy(showNsfw = value) }
+            }
+            .launchIn(viewModelScope)
+
+        defaultPreferencesRepository.hideScores
+            .onEach { value ->
+                mutableUiState.update { it.copy(hideScores = value) }
             }
             .launchIn(viewModelScope)
 

@@ -97,12 +97,14 @@ private fun RecommendationsViewContent(
                     MediaItemVertical(
                         imageUrl = item.node.mainPicture?.large,
                         title = item.node.userPreferredTitle(),
-                        subtitle = {
-                            SmallScoreIndicator(
-                                score = item.node.mean,
-                                fontSize = 13.sp
-                            )
-                        },
+                        subtitle = if (!uiState.hideScore) {
+                            {
+                                SmallScoreIndicator(
+                                    score = item.node.mean,
+                                    fontSize = 13.sp
+                                )
+                            }
+                        } else null,
                         minLines = 2,
                         onClick = dropUnlessResumed {
                             navActionManager.toMediaDetails(MediaType.ANIME, item.node.id)

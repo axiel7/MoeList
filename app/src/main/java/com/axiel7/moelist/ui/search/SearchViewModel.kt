@@ -6,6 +6,7 @@ import androidx.navigation.toRoute
 import com.axiel7.moelist.data.model.SearchHistory
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.repository.AnimeRepository
+import com.axiel7.moelist.data.repository.DefaultPreferencesRepository
 import com.axiel7.moelist.data.repository.MangaRepository
 import com.axiel7.moelist.data.repository.SearchHistoryRepository
 import com.axiel7.moelist.ui.base.navigation.Route
@@ -15,6 +16,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.reflect.typeOf
@@ -23,6 +26,7 @@ class SearchViewModel(
     private val animeRepository: AnimeRepository,
     private val mangaRepository: MangaRepository,
     private val searchHistoryRepository: SearchHistoryRepository,
+    defaultPreferencesRepository: DefaultPreferencesRepository,
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<SearchUiState>(), SearchEvent {
 
@@ -133,5 +137,11 @@ class SearchViewModel(
                 }
             }
         }
+
+        defaultPreferencesRepository.hideScores
+            .onEach { value ->
+                mutableUiState.update { it.copy(hideScore = value) }
+            }
+            .launchIn(viewModelScope)
     }
 }

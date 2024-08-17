@@ -13,6 +13,7 @@ interface SettingsEvent : UiEvent {
     fun setTheme(value: ThemeStyle)
     fun setUseBlackColors(value: Boolean)
     fun setShowNsfw(value: Boolean)
+    fun setHideScores(value: Boolean)
     fun setUseGeneralListStyle(value: Boolean)
     fun setGeneralListStyle(value: ListStyle)
     fun setItemsPerRow(value: ItemsPerRow)

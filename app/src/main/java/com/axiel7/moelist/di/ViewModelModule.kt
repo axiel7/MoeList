@@ -45,6 +45,7 @@ val viewModelModule = module {
         MediaRankingViewModel(
             rankingType = params.get(),
             savedStateHandle = get(),
+            defaultPreferencesRepository = get(),
             animeRepository = get(),
             mangaRepository = get()
         )

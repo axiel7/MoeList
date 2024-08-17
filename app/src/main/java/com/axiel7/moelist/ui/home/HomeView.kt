@@ -192,6 +192,7 @@ private fun HomeViewContent(
             ) {
                 AiringAnimeHorizontalItem(
                     item = it,
+                    hideScore = uiState.hideScore,
                     onClick = dropUnlessResumed {
                         navActionManager.toMediaDetails(MediaType.ANIME, it.node.id)
                     }
@@ -238,12 +239,14 @@ private fun HomeViewContent(
                     imageUrl = it.node.mainPicture?.large,
                     title = it.node.userPreferredTitle(),
                     modifier = Modifier.padding(end = 8.dp),
-                    subtitle = {
-                        SmallScoreIndicator(
-                            score = it.node.mean,
-                            fontSize = 13.sp
-                        )
-                    },
+                    subtitle = if (!uiState.hideScore) {
+                        {
+                            SmallScoreIndicator(
+                                score = it.node.mean,
+                                fontSize = 13.sp
+                            )
+                        }
+                    } else null,
                     minLines = 2,
                     onClick = dropUnlessResumed {
                         navActionManager.toMediaDetails(MediaType.ANIME, it.node.id)
@@ -303,12 +306,14 @@ private fun HomeViewContent(
                     imageUrl = it.node.mainPicture?.large,
                     title = it.node.userPreferredTitle(),
                     modifier = Modifier.padding(end = 8.dp),
-                    subtitle = {
-                        SmallScoreIndicator(
-                            score = it.node.mean,
-                            fontSize = 13.sp
-                        )
-                    },
+                    subtitle = if (!uiState.hideScore) {
+                        {
+                            SmallScoreIndicator(
+                                score = it.node.mean,
+                                fontSize = 13.sp
+                            )
+                        }
+                    } else null,
                     minLines = 2,
                     onClick = dropUnlessResumed {
                         navActionManager.toMediaDetails(MediaType.ANIME, it.node.id)

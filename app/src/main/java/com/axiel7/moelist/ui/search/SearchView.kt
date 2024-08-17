@@ -216,16 +216,18 @@ private fun SearchViewContent(
                 )
             },
             subtitle3 = {
-                Icon(
-                    painter = painterResource(R.drawable.ic_round_details_star_24),
-                    contentDescription = "star",
-                    modifier = Modifier.padding(end = 4.dp),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Text(
-                    text = item.node.mean.toStringPositiveValueOrUnknown(),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                if (!uiState.hideScore) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_round_details_star_24),
+                        contentDescription = "star",
+                        modifier = Modifier.padding(end = 4.dp),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Text(
+                        text = item.node.mean.toStringPositiveValueOrUnknown(),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             },
             onClick = dropUnlessResumed {
                 navActionManager.toMediaDetails(uiState.mediaType, item.node.id)

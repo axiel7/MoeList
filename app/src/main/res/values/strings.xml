@@ -380,4 +380,5 @@
     <string name="black_theme_variant">Black theme variant</string>
     <string name="polish_native" translatable="false">Polski</string>
     <string name="pinned_navigation_bar">Pinned navigation bar</string>
+    <string name="hide_scores">Hide scores</string>
 </resources>

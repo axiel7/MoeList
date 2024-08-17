@@ -6,15 +6,19 @@ import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.model.media.MediaStatus
 import com.axiel7.moelist.data.model.media.RankingType
 import com.axiel7.moelist.data.repository.AnimeRepository
+import com.axiel7.moelist.data.repository.DefaultPreferencesRepository
 import com.axiel7.moelist.ui.base.viewmodel.BaseViewModel
 import com.axiel7.moelist.utils.SeasonCalendar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val animeRepository: AnimeRepository
+    private val animeRepository: AnimeRepository,
+    defaultPreferencesRepository: DefaultPreferencesRepository,
 ) : BaseViewModel<HomeUiState>(), HomeEvent {
 
     override val mutableUiState = MutableStateFlow(HomeUiState())
@@ -80,5 +84,13 @@ class HomeViewModel(
         } else {
             showMessage(result.message ?: result.error)
         }
+    }
+
+    init {
+        defaultPreferencesRepository.hideScores
+            .onEach { value ->
+                mutableUiState.update { it.copy(hideScore = value) }
+            }
+            .launchIn(viewModelScope)
     }
 }

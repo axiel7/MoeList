@@ -273,13 +273,15 @@ private fun MediaDetailsContent(
                                 .defaultPlaceholder(visible = uiState.isLoading)
                         )
                     }
-                    TextIconHorizontal(
-                        text = uiState.mediaDetails?.mean.toStringOrNull() ?: "??",
-                        icon = R.drawable.ic_round_details_star_24,
-                        modifier = Modifier
-                            .padding(bottom = 8.dp)
-                            .defaultPlaceholder(visible = uiState.isLoading)
-                    )
+                    if (!uiState.hideScore) {
+                        TextIconHorizontal(
+                            text = uiState.mediaDetails?.mean.toStringOrNull() ?: "??",
+                            icon = R.drawable.ic_round_details_star_24,
+                            modifier = Modifier
+                                .padding(bottom = 8.dp)
+                                .defaultPlaceholder(visible = uiState.isLoading)
+                        )
+                    }
                 }
             }//:Row
 

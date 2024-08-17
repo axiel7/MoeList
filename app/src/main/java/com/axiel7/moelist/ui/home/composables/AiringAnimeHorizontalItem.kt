@@ -22,7 +22,11 @@ import com.axiel7.moelist.ui.composables.media.MediaPoster
 import com.axiel7.moelist.ui.composables.score.SmallScoreIndicator
 
 @Composable
-fun AiringAnimeHorizontalItem(item: AnimeRanking, onClick: () -> Unit) {
+fun AiringAnimeHorizontalItem(
+    item: AnimeRanking,
+    hideScore: Boolean,
+    onClick: () -> Unit
+) {
     Row(
         modifier = Modifier
             .padding(horizontal = 8.dp)
@@ -54,9 +58,11 @@ fun AiringAnimeHorizontalItem(item: AnimeRanking, onClick: () -> Unit) {
                 modifier = Modifier.padding(bottom = 8.dp)
             )
 
-            SmallScoreIndicator(
-                score = item.node.mean
-            )
+            if (!hideScore) {
+                SmallScoreIndicator(
+                    score = item.node.mean
+                )
+            }
         }
     }
 }

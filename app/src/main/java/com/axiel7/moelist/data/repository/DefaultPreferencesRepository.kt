@@ -48,6 +48,11 @@ class DefaultPreferencesRepository(
         dataStore.setValue(NSFW_KEY, value)
     }
 
+    val hideScores = dataStore.getValue(HIDE_SCORES_KEY, false)
+    suspend fun setHideScores(value: Boolean) {
+        dataStore.setValue(HIDE_SCORES_KEY, value)
+    }
+
     val lang = dataStore.getValue(LANG_KEY, AppLanguage.FOLLOW_SYSTEM.value)
         .map { AppLanguage.valueOf(isoTag = it) ?: AppLanguage.FOLLOW_SYSTEM }
     suspend fun setLang(value: AppLanguage) {
@@ -242,6 +247,7 @@ class DefaultPreferencesRepository(
         private val REFRESH_TOKEN_KEY = stringPreferencesKey("refresh_token")
 
         private val NSFW_KEY = booleanPreferencesKey("nsfw")
+        private val HIDE_SCORES_KEY = booleanPreferencesKey("hide_scores")
         private val LANG_KEY = stringPreferencesKey("lang")
         private val THEME_KEY = stringPreferencesKey("theme")
         private val USE_BLACK_COLORS_KEY = booleanPreferencesKey("use_black_colors")

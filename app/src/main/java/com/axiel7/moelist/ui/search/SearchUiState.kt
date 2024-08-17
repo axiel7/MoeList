@@ -13,6 +13,7 @@ data class SearchUiState(
     val query: String = "",
     val mediaType: MediaType = MediaType.ANIME,
     val mediaList: SnapshotStateList<BaseMediaList> = mutableStateListOf(),
+    val hideScore: Boolean = false,
     val searchHistoryList: List<SearchHistory> = emptyList(),
     val performSearch: Boolean = false,
     val noResults: Boolean = false,

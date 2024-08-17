@@ -150,12 +150,14 @@ private fun SeasonChartViewContent(
                     MediaItemVertical(
                         imageUrl = item.node.mainPicture?.large,
                         title = item.node.userPreferredTitle(),
-                        subtitle = {
-                            SmallScoreIndicator(
-                                score = item.node.mean,
-                                fontSize = 13.sp
-                            )
-                        },
+                        subtitle = if (!uiState.hideScore) {
+                            {
+                                SmallScoreIndicator(
+                                    score = item.node.mean,
+                                    fontSize = 13.sp
+                                )
+                            }
+                        } else null,
                         subtitle2 = {
                             item.node.numListUsers?.format()?.let { users ->
                                 TextIconHorizontal(

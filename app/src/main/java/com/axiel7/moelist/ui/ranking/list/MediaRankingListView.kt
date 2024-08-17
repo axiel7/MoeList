@@ -104,11 +104,13 @@ private fun MediaRankingListViewContent(
                 )
             },
             subtitle2 = {
-                TextIconHorizontal(
-                    text = item.node.mean.toStringPositiveValueOrUnknown(),
-                    icon = R.drawable.ic_round_details_star_24,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                if (!uiState.hideScore) {
+                    TextIconHorizontal(
+                        text = item.node.mean.toStringPositiveValueOrUnknown(),
+                        icon = R.drawable.ic_round_details_star_24,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             },
             subtitle3 = {
                 TextIconHorizontal(

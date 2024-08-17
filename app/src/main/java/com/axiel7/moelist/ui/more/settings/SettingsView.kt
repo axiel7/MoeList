@@ -154,6 +154,13 @@ private fun SettingsViewContent(
                 onValueChange = { event?.setShowNsfw(it) }
             )
 
+            SwitchPreferenceView(
+                title = stringResource(R.string.hide_scores),
+                value = uiState.hideScores,
+                icon = R.drawable.ic_round_details_star_24,
+                onValueChange = { event?.setHideScores(it) }
+            )
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 PlainPreferenceView(
                     title = stringResource(R.string.open_mal_links_in_the_app),
