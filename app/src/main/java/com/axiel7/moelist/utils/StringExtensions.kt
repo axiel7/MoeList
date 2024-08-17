@@ -1,5 +1,7 @@
 package com.axiel7.moelist.utils
 
+import android.net.Uri
+
 object StringExtensions {
     /**
      * Returns a string representation of the object.
@@ -13,13 +15,15 @@ object StringExtensions {
      */
     fun Any?.toStringOrEmpty() = this.toString().let { if (it == "null") "" else it }
 
+    fun String.urlEncode(): String? = Uri.encode(this)
+
     /**
      * Format the opening/ending text from MAL to use it on YouTube search
      */
     fun String.buildQueryFromThemeText() = this
-        .replace(" ", "+")
         .replace("\"", "")
         .replaceFirst(Regex("#?\\w+:"), "") // theme number
         .replace(Regex("\\(ep.*\\)"), "") // episodes
         .trim()
+        .urlEncode()
 }
