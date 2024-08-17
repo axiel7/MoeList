@@ -3,7 +3,6 @@ package com.axiel7.moelist.data.model.media
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
@@ -24,10 +23,6 @@ import com.axiel7.moelist.ui.theme.stat_on_hold_content_dark
 import com.axiel7.moelist.ui.theme.stat_on_hold_content_light
 import com.axiel7.moelist.ui.theme.stat_on_hold_dark
 import com.axiel7.moelist.ui.theme.stat_on_hold_light
-import com.axiel7.moelist.ui.theme.stat_planned_content_dark
-import com.axiel7.moelist.ui.theme.stat_planned_content_light
-import com.axiel7.moelist.ui.theme.stat_planned_dark
-import com.axiel7.moelist.ui.theme.stat_planned_light
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -93,7 +88,7 @@ enum class ListStatus(
     @Composable
     override fun primaryColor() = when (this) {
         WATCHING, READING -> if (isSystemInDarkTheme()) stat_current_dark else stat_current_light
-        PLAN_TO_WATCH, PLAN_TO_READ -> if (isSystemInDarkTheme()) stat_planned_dark else stat_planned_light
+        PLAN_TO_WATCH, PLAN_TO_READ -> MaterialTheme.colorScheme.outline
         COMPLETED -> if (isSystemInDarkTheme()) stat_completed_dark else stat_completed_light
         ON_HOLD -> if (isSystemInDarkTheme()) stat_on_hold_dark else stat_on_hold_light
         DROPPED -> if (isSystemInDarkTheme()) stat_dropped_dark else stat_dropped_light
@@ -102,7 +97,7 @@ enum class ListStatus(
     @Composable
     override fun onPrimaryColor() = when (this) {
         WATCHING, READING -> if (isSystemInDarkTheme()) stat_current_content_dark else stat_current_content_light
-        PLAN_TO_WATCH, PLAN_TO_READ -> if (isSystemInDarkTheme()) stat_planned_content_dark else stat_planned_content_light
+        PLAN_TO_WATCH, PLAN_TO_READ -> if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.inverseOnSurface
         COMPLETED -> if (isSystemInDarkTheme()) stat_completed_content_dark else stat_completed_content_light
         ON_HOLD -> if (isSystemInDarkTheme()) stat_on_hold_content_dark else stat_on_hold_content_light
         DROPPED -> if (isSystemInDarkTheme()) stat_dropped_content_dark else stat_dropped_content_light
