@@ -25,13 +25,13 @@ class HomeViewModel(
 
     override fun initRequestChain(isLoggedIn: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
+            mutableUiState.update { it.copy(isLoading = true) }
             mutableUiState.value.run {
-                setLoading(true)
                 if (todayAnimes.isEmpty()) getTodayAiringAnimes()
                 if (seasonAnimes.isEmpty()) getSeasonAnimes()
                 if (isLoggedIn && recommendedAnimes.isEmpty()) getRecommendedAnimes()
-                setLoading(false)
             }
+            mutableUiState.update { it.copy(isLoading = false) }
         }
     }
 
