@@ -357,8 +357,7 @@ class UserMediaListViewModel(
                         )
                     }
                     
-                    // trigger HandleResponse. which refreshes invaldToken.
-                    // so, the next query will run without error.
+                    // trigger HandleResponseError . which refreshes invaldToken.
                     val dummy = animeRepository.getRecommendedAnimes( limit: 1 )
                     
                     val result = if (uiState.mediaType == MediaType.ANIME) {
