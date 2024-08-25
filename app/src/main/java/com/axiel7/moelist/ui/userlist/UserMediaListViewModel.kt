@@ -356,6 +356,11 @@ class UserMediaListViewModel(
                             isLoading = uiState.nextPage == null
                         )
                     }
+                    
+                    // trigger HandleResponse. which refreshes invaldToken.
+                    // so, the next query will run without error.
+                    val dummy = animeRepository.getRecommendedAnimes( limit: 1 )
+                    
                     val result = if (uiState.mediaType == MediaType.ANIME) {
                         animeRepository.getUserAnimeList(
                             status = uiState.listStatus!!,
