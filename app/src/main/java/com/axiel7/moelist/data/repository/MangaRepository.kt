@@ -61,8 +61,8 @@ class MangaRepository(
                 fields = USER_MANGA_LIST_FIELDS,
             )
             else api.getUserMangaList(page)
-            result.error?.let { handleResponseError(it) }
-            return result
+            val retry = result.error?.let { handleResponseError(it) }
+            return if (retry == true) getUserMangaList(status, sort, page) else result
         } catch (e: Exception) {
             Response(message = e.message)
         }
@@ -99,8 +99,24 @@ class MangaRepository(
                 tags,
                 comments
             )
-            result.error?.let { handleResponseError(it) }
-            return result
+            val retry = result.error?.let { handleResponseError(it) }
+            return if (retry == true) {
+                updateMangaEntry(
+                    mangaId,
+                    status,
+                    score,
+                    chaptersRead,
+                    volumesRead,
+                    startDate,
+                    endDate,
+                    isRereading,
+                    numRereads,
+                    rereadValue,
+                    priority,
+                    tags,
+                    comments
+                )
+            } else result
         } catch (e: Exception) {
             null
         }

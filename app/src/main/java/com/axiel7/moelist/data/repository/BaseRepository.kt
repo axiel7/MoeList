@@ -9,7 +9,10 @@ abstract class BaseRepository(
     private val api: Api,
     private val defaultPreferencesRepository: DefaultPreferencesRepository
 ) {
-    suspend fun handleResponseError(error: String) {
+    /**
+     * @return `true` if should retry the call
+     */
+    suspend fun handleResponseError(error: String): Boolean {
         when (error) {
             "invalid_token" -> {
                 val refreshToken = defaultPreferencesRepository.refreshToken.first()
@@ -27,7 +30,10 @@ abstract class BaseRepository(
                 } else {
                     defaultPreferencesRepository.removeTokens()
                 }
+                return true
             }
+
+            else -> return false
         }
     }
 }

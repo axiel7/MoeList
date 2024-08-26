@@ -101,8 +101,8 @@ class AnimeRepository(
                 fields = RECOMMENDED_FIELDS
             )
             else api.getAnimeRecommendations(page)
-            result.error?.let { handleResponseError(it) }
-            return result
+            val retry = result.error?.let { handleResponseError(it) }
+            return if (retry == true) getRecommendedAnimes(limit, page) else result
         } catch (e: Exception) {
             Response(message = e.message)
         }
@@ -132,8 +132,8 @@ class AnimeRepository(
                 fields = USER_ANIME_LIST_FIELDS
             )
             else api.getUserAnimeList(page)
-            result.error?.let { handleResponseError(it) }
-            return result
+            val retry = result.error?.let { handleResponseError(it) }
+            return if (retry == true) getUserAnimeList(status, sort, page) else result
         } catch (e: Exception) {
             Response(message = e.message)
         }
@@ -168,8 +168,23 @@ class AnimeRepository(
                 tags,
                 comments
             )
-            result.error?.let { handleResponseError(it) }
-            return result
+            val retry = result.error?.let { handleResponseError(it) }
+            return if (retry == true) {
+                updateAnimeEntry(
+                    animeId,
+                    status,
+                    score,
+                    watchedEpisodes,
+                    startDate,
+                    endDate,
+                    isRewatching,
+                    numRewatches,
+                    rewatchValue,
+                    priority,
+                    tags,
+                    comments
+                )
+            } else result
         } catch (e: Exception) {
             null
         }
@@ -306,7 +321,9 @@ class AnimeRepository(
                 fields = "status,broadcast,alternative_titles{en,ja}"
             )
 
-            return result.data?.map { it.node }
+            val retry = result.error?.let { handleResponseError(it) }
+            return if (retry == true) getAiringAnimeOnList()
+            else result.data?.map { it.node }
                 ?.filter { it.broadcast != null && it.status == MediaStatus.AIRING }
                 ?.sortedBy { it.broadcast!!.secondsUntilNextBroadcast() }
         } catch (e: Exception) {
