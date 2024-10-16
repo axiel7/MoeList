@@ -381,4 +381,5 @@
     <string name="polish_native" translatable="false">Polski</string>
     <string name="pinned_navigation_bar">Pinned navigation bar</string>
     <string name="hide_scores">Hide scores</string>
+    <string name="italian_native" translatable="false">Italiano</string>
 </resources>
