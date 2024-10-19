@@ -25,6 +25,7 @@ import com.axiel7.moelist.ui.base.AppLanguage
 import com.axiel7.moelist.ui.base.ItemsPerRow
 import com.axiel7.moelist.ui.base.ListStyle
 import com.axiel7.moelist.ui.base.StartTab
+import com.axiel7.moelist.ui.base.TabletMode
 import com.axiel7.moelist.ui.base.ThemeStyle
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.DefaultScaffoldWithTopAppBar
@@ -110,6 +111,14 @@ private fun SettingsViewContent(
                 title = stringResource(R.string.pinned_navigation_bar),
                 value = uiState.pinnedNavBar,
                 onValueChange = { event?.setPinnedNavBar(it) }
+            )
+
+            ListPreferenceView(
+                title = stringResource(R.string.tablet_mode),
+                entriesValues = TabletMode.entriesLocalized,
+                value = uiState.tabletMode,
+                icon = R.drawable.tablet_android_24,
+                onValueChange = { event?.setTabletMode(it) }
             )
 
             SwitchPreferenceView(

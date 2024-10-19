@@ -5,6 +5,7 @@ import com.axiel7.moelist.ui.base.AppLanguage
 import com.axiel7.moelist.ui.base.ItemsPerRow
 import com.axiel7.moelist.ui.base.ListStyle
 import com.axiel7.moelist.ui.base.StartTab
+import com.axiel7.moelist.ui.base.TabletMode
 import com.axiel7.moelist.ui.base.ThemeStyle
 import com.axiel7.moelist.ui.base.state.UiState
 
@@ -18,6 +19,7 @@ data class SettingsUiState(
     val generalListStyle: ListStyle = ListStyle.STANDARD,
     val itemsPerRow: ItemsPerRow = ItemsPerRow.DEFAULT,
     val startTab: StartTab = StartTab.LAST_USED,
+    val tabletMode: TabletMode = TabletMode.AUTO,
     val pinnedNavBar: Boolean = false,
     val titleLanguage: TitleLanguage = TitleLanguage.ROMAJI,
     val useListTabs: Boolean = false,

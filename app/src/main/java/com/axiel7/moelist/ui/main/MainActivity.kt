@@ -1,6 +1,7 @@
 package com.axiel7.moelist.ui.main
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
@@ -37,6 +38,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,6 +52,7 @@ import com.axiel7.moelist.App
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.ui.base.BottomDestination.Companion.isBottomDestination
 import com.axiel7.moelist.ui.base.BottomDestination.Companion.toBottomDestinationIndex
+import com.axiel7.moelist.ui.base.TabletMode
 import com.axiel7.moelist.ui.base.ThemeStyle
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.base.navigation.NavActionManager.Companion.rememberNavActionManager
@@ -92,6 +95,7 @@ class MainActivity : AppCompatActivity() {
         val lastTabOpened = findLastTabOpened()
         val initialTheme = runBlocking { viewModel.theme.first() }
         val initialUseBlackColors = runBlocking { viewModel.useBlackColors.first() }
+        val initialTabletMode = runBlocking { viewModel.tabletMode.first() }
 
         setContent {
             KoinAndroidContext {
@@ -106,8 +110,14 @@ class MainActivity : AppCompatActivity() {
                 val navActionManager = rememberNavActionManager(navController)
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
 
+                val tabletMode by viewModel.tabletMode.collectAsStateWithLifecycle(initialTabletMode)
                 val windowSizeClass = calculateWindowSizeClass(this)
-                val isCompactScreen = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact
+                val isCompactScreen = when (tabletMode) {
+                    TabletMode.AUTO -> windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact
+                    TabletMode.ALWAYS -> false
+                    TabletMode.LANDSCAPE -> LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE
+                    TabletMode.NEVER -> true
+                }
 
                 val accessToken by viewModel.accessToken.collectAsStateWithLifecycle(App.accessToken)
                 val useListTabs by viewModel.useListTabs.collectAsStateWithLifecycle()

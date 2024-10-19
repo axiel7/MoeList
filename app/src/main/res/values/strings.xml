@@ -382,4 +382,9 @@
     <string name="pinned_navigation_bar">Pinned navigation bar</string>
     <string name="hide_scores">Hide scores</string>
     <string name="italian_native" translatable="false">Italiano</string>
+    <string name="mode_auto">Auto</string>
+    <string name="mode_always">Always</string>
+    <string name="mode_landscape">Landscape</string>
+    <string name="mode_never">Never</string>
+    <string name="tablet_mode">Tablet mode</string>
 </resources>

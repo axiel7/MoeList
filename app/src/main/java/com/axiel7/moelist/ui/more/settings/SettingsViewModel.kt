@@ -7,6 +7,7 @@ import com.axiel7.moelist.ui.base.AppLanguage
 import com.axiel7.moelist.ui.base.ItemsPerRow
 import com.axiel7.moelist.ui.base.ListStyle
 import com.axiel7.moelist.ui.base.StartTab
+import com.axiel7.moelist.ui.base.TabletMode
 import com.axiel7.moelist.ui.base.ThemeStyle
 import com.axiel7.moelist.ui.base.viewmodel.BaseViewModel
 import com.axiel7.moelist.utils.ContextExtensions.changeLocale
@@ -78,6 +79,12 @@ class SettingsViewModel(
     override fun setStartTab(value: StartTab) {
         viewModelScope.launch {
             defaultPreferencesRepository.setStartTab(value)
+        }
+    }
+
+    override fun setTabletMode(value: TabletMode) {
+        viewModelScope.launch {
+            defaultPreferencesRepository.setTabletMode(value)
         }
     }
 
@@ -164,6 +171,13 @@ class SettingsViewModel(
             .filterNotNull()
             .onEach { value ->
                 mutableUiState.update { it.copy(startTab = value) }
+            }
+            .launchIn(viewModelScope)
+
+        defaultPreferencesRepository.tabletMode
+            .filterNotNull()
+            .onEach { value ->
+                mutableUiState.update { it.copy(tabletMode = value) }
             }
             .launchIn(viewModelScope)
 
