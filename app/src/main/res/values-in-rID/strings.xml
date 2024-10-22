@@ -341,4 +341,11 @@
     <string name="cm">CM</string>
     <string name="pv">PV</string>
     <string name="black_theme_variant">Variasi tema hitam</string>
+    <string name="pinned_navigation_bar">Pin navigasi bar</string>
+    <string name="hide_scores">Sembunyikan skor</string>
+    <string name="mode_auto" comment="tablet mode">Otomatis</string>
+    <string name="mode_always" comment="tablet mode">Selalu</string>
+    <string name="mode_landscape" comment="tablet mode">Lanskap</string>
+    <string name="mode_never" comment="tablet mode">Jangan pernah</string>
+    <string name="tablet_mode">Mode tablet</string>
 </resources>
