@@ -143,7 +143,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
 
     //Utils
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.2")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
     implementation("org.apache.commons:commons-text:1.12.0")
 
