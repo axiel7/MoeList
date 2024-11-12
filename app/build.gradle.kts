@@ -9,15 +9,17 @@ plugins {
 }
 
 val properties = Properties()
+properties.load(project.rootProject.file("local.properties").reader())
+
 properties.load(project.rootProject.file("private.properties").reader())
 
 android {
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.axiel7.moelist"
         minSdk = 23
-        targetSdk = 35
+        targetSdk = 34
         versionCode = 146
         versionName = "3.7.1"
         setProperty("archivesBaseName", "moelist-v$versionName")
@@ -34,6 +36,8 @@ android {
 
     buildTypes {
         debug {
+            resValue("string", "app_name", "Moelist debug")
+
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-DEBUG"
             isDebuggable = true
@@ -95,7 +99,7 @@ dependencies {
 
     implementation("androidx.browser:browser:1.8.0")
     implementation("androidx.datastore:datastore-preferences:1.1.1")
-    implementation("androidx.work:work-runtime:2.9.1")
+    implementation("androidx.work:work-runtime:2.9.0")
     implementation("androidx.core:core-splashscreen:1.0.1")
 
     //Compose
@@ -104,14 +108,14 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
 
-    val materialVersion = "1.3.0-beta05"
+    val materialVersion = "1.3.0-beta04"
     implementation("androidx.compose.material3:material3-android:$materialVersion")
     implementation("androidx.compose.material3:material3-window-size-class:$materialVersion")
 
-    implementation("androidx.activity:activity-compose:1.9.1")
-    implementation("androidx.navigation:navigation-compose:2.8.0-beta07")
+    implementation("androidx.activity:activity-compose:1.9.0")
+    implementation("androidx.navigation:navigation-compose:2.8.0-beta05")
 
-    val lifecycleVersion = "2.8.4"
+    val lifecycleVersion = "2.8.3"
     implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycleVersion")
 
@@ -143,7 +147,7 @@ dependencies {
     implementation("org.apache.commons:commons-text:1.12.0")
 
     //Image
-    val coilVersion = "3.0.0-alpha10"
+    val coilVersion = "3.0.0-alpha08"
     implementation("io.coil-kt.coil3:coil-compose:$coilVersion")
     implementation("io.coil-kt.coil3:coil-network-okhttp:$coilVersion")
 
