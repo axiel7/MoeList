@@ -30,6 +30,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -44,8 +45,11 @@ import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.ui.composables.TextIconHorizontal
 import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_SMALL_WIDTH
+import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_SMALL_WIDTH_2pr
 import com.axiel7.moelist.ui.composables.media.MediaItemDetailedPlaceholder
 import com.axiel7.moelist.ui.composables.media.MediaItemVertical
+import com.axiel7.moelist.ui.composables.media.MediaItemVertical_2perRow
+import com.axiel7.moelist.ui.composables.media.MediaItemVertical_2perRowPlaceholder
 import com.axiel7.moelist.ui.composables.score.SmallScoreIndicator
 import com.axiel7.moelist.ui.season.composables.SeasonChartFilterSheet
 import com.axiel7.moelist.ui.theme.MoeListTheme
@@ -53,6 +57,10 @@ import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.NumExtensions.format
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
+
+//val Teal200 = Color(0xFF03DAC5)
+val _textColor = Color(200, 200, 200);
+
 
 @Composable
 fun SeasonChartView(
@@ -125,18 +133,19 @@ private fun SeasonChartViewContent(
             .only(WindowInsetsSides.Horizontal)
     ) { padding ->
         LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = MEDIA_POSTER_SMALL_WIDTH.dp),
+            //columns = GridCells.Adaptive(minSize = MEDIA_POSTER_SMALL_WIDTH_2pr.dp),
+            columns = GridCells.Fixed(2),
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize(),
             contentPadding = PaddingValues(
-                start = 8.dp,
+                start = 2.dp,
                 top = 8.dp,
-                end = 8.dp,
+                end = 2.dp,
                 bottom = bottomBarPadding
             ),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            horizontalArrangement = Arrangement.spacedBy(2.dp, Alignment.CenterHorizontally)
         ) {
             items(
                 items = uiState.animes,
@@ -147,13 +156,16 @@ private fun SeasonChartViewContent(
                     modifier = Modifier.fillMaxWidth(),
                     contentAlignment = Alignment.TopCenter
                 ) {
-                    MediaItemVertical(
+//                    val _textColor = Color(200,200,200);
+
+                    MediaItemVertical_2perRow(
                         imageUrl = item.node.mainPicture?.large,
                         title = item.node.userPreferredTitle(),
                         subtitle = {
                             SmallScoreIndicator(
                                 score = item.node.mean,
-                                fontSize = 13.sp
+                                fontSize = 13.sp,
+                                textColor = _textColor,
                             )
                         },
                         subtitle2 = {
@@ -161,7 +173,7 @@ private fun SeasonChartViewContent(
                                 TextIconHorizontal(
                                     text = users,
                                     icon = R.drawable.ic_round_group_24,
-                                    color = MaterialTheme.colorScheme.outline,
+                                    color = _textColor,
                                     fontSize = 13.sp,
                                     iconSize = 16.dp
                                 )
@@ -175,8 +187,9 @@ private fun SeasonChartViewContent(
                 }
             }
             if (uiState.isLoading) {
-                items(12) {
-                    MediaItemDetailedPlaceholder()
+                items(11) {
+                    MediaItemVertical_2perRowPlaceholder()
+                    //MediaItemDetailedPlaceholder()
                 }
             }
             item(contentType = { 0 }) {

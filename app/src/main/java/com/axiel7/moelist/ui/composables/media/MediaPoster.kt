@@ -27,6 +27,7 @@ const val MEDIA_POSTER_MEDIUM_WIDTH = 110
 const val MEDIA_POSTER_BIG_HEIGHT = 213
 const val MEDIA_POSTER_BIG_WIDTH = 150
 
+
 @Composable
 fun MediaPoster(
     url: String?,
