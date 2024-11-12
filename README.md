@@ -75,6 +75,14 @@ CLIENT_ID="your_mal_api_client_id"
 
 To get a Client ID, go to the [API panel](https://myanimelist.net/apiconfig) and create a new app with *App Type* set to `android` and *Redirect URL* set to `moelist://moelist.page.link/`
 
+_2_
+put this in App/build.gradle.Kts
+```properties
+val properties = Properties()                                              
+properties.load(project.rootProject.file("local.properties").reader())
+properties.load(project.rootProject.file("private.properties").reader())       //add this line..
+```
+
 # Donate 💸
 Support the development of MoeList by making a donation via:
 
