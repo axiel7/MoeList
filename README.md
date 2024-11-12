@@ -67,21 +67,22 @@ Want an AniList version? Check [AniHyou](https://github.com/axiel7/AniHyou-andro
 * [Coil](https://github.com/coil-kt/coil)
 
 # Building
-Put the following in a new ./private.properties file:
 
-```properties
-CLIENT_ID="your_mal_api_client_id"
-```
+1) Put the following in a new ./private.properties file:
 
-To get a Client ID, go to the [API panel](https://myanimelist.net/apiconfig) and create a new app with *App Type* set to `android` and *Redirect URL* set to `moelist://moelist.page.link/`
+   ```properties
+   CLIENT_ID="your_mal_api_client_id"
+   ```
 
-_2_
-put this in App/build.gradle.Kts
-```properties
-val properties = Properties()                                              
-properties.load(project.rootProject.file("local.properties").reader())
-properties.load(project.rootProject.file("private.properties").reader())       //add this line..
-```
+   To get a Client ID, go to the [API panel](https://myanimelist.net/apiconfig) and create a new app with *App Type* set to `android` and *Redirect URL* set to `moelist://moelist.page.link/`
+
+2) put this in App/build.gradle.Kts : 
+
+   ```properties
+   val properties = Properties()                                              
+   properties.load(project.rootProject.file("local.properties").reader())
+   properties.load(project.rootProject.file("private.properties").reader())       //add this line..
+   ```
 
 # Donate 💸
 Support the development of MoeList by making a donation via:
