@@ -1,5 +1,6 @@
 package com.axiel7.moelist.ui.season
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -31,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -59,8 +61,17 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 //val Teal200 = Color(0xFF03DAC5)
-val _textColor = Color(200, 200, 200);
+val DarkTheme_textColor = Color(200, 200, 200)
 
+@Composable
+fun getGridCellFixed_Count_ForOrientation():Int
+{
+    var orient = LocalConfiguration.current.orientation
+    if(orient == Configuration.ORIENTATION_LANDSCAPE)
+        return 3
+    else
+        return 2
+}
 
 @Composable
 fun SeasonChartView(
@@ -91,7 +102,6 @@ private fun SeasonChartViewContent(
     fun hideSheet() {
         scope.launch { sheetState.hide() }.invokeOnCompletion { showSheet = false }
     }
-
     val bottomBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
     if (showSheet) {
@@ -133,8 +143,9 @@ private fun SeasonChartViewContent(
             .only(WindowInsetsSides.Horizontal)
     ) { padding ->
         LazyVerticalGrid(
-            //columns = GridCells.Adaptive(minSize = MEDIA_POSTER_SMALL_WIDTH_2pr.dp),
-            columns = GridCells.Fixed(2),
+//            columns = GridCells.Adaptive(minSize = MEDIA_POSTER_SMALL_WIDTH_2pr.dp),
+//            columns = GridCells.Fixed(2),
+            columns = GridCells.Fixed(getGridCellFixed_Count_ForOrientation() ),
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize(),
@@ -156,8 +167,6 @@ private fun SeasonChartViewContent(
                     modifier = Modifier.fillMaxWidth(),
                     contentAlignment = Alignment.TopCenter
                 ) {
-//                    val _textColor = Color(200,200,200);
-
                     MediaItemVertical_2perRow(
                         imageUrl = item.node.mainPicture?.large,
                         title = item.node.userPreferredTitle(),
@@ -165,7 +174,7 @@ private fun SeasonChartViewContent(
                             SmallScoreIndicator(
                                 score = item.node.mean,
                                 fontSize = 13.sp,
-                                textColor = _textColor,
+                                textColor = DarkTheme_textColor,
                             )
                         },
                         subtitle2 = {
@@ -173,7 +182,7 @@ private fun SeasonChartViewContent(
                                 TextIconHorizontal(
                                     text = users,
                                     icon = R.drawable.ic_round_group_24,
-                                    color = _textColor,
+                                    color = DarkTheme_textColor,
                                     fontSize = 13.sp,
                                     iconSize = 16.dp
                                 )
