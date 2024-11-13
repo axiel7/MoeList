@@ -46,12 +46,6 @@ import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.ui.composables.TextIconHorizontal
-import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_SMALL_WIDTH
-import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_SMALL_WIDTH_2pr
-import com.axiel7.moelist.ui.composables.media.MediaItemDetailedPlaceholder
-import com.axiel7.moelist.ui.composables.media.MediaItemVertical
-import com.axiel7.moelist.ui.composables.media.MediaItemVertical_2perRow
-import com.axiel7.moelist.ui.composables.media.MediaItemVertical_2perRowPlaceholder
 import com.axiel7.moelist.ui.composables.score.SmallScoreIndicator
 import com.axiel7.moelist.ui.season.composables.SeasonChartFilterSheet
 import com.axiel7.moelist.ui.theme.MoeListTheme
@@ -60,18 +54,16 @@ import com.axiel7.moelist.utils.NumExtensions.format
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
-//val Teal200 = Color(0xFF03DAC5)
-val DarkTheme_textColor = Color(200, 200, 200)
+import com.axiel7.moelist.ui.composables.media.MediaItemDetailedPlaceholder
+import com.axiel7.moelist.ui.composables.media.MediaItemVertical
+import com.axiel7.moelist.ui.composables.media.DarkTheme_textColor
+import com.axiel7.moelist.ui.composables.media.MediaItemVertical_2perRow
+import com.axiel7.moelist.ui.composables.media.MediaItemVertical_2perRowPlaceholder
+import com.axiel7.moelist.ui.composables.media.getGridCellFixed_Count_ForOrientation
+import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_SMALL_WIDTH
+import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_SMALL_WIDTH_2pr
+import com.axiel7.moelist.ui.composables.media.MediaItemVertical_2perRowPreview
 
-@Composable
-fun getGridCellFixed_Count_ForOrientation():Int
-{
-    var orient = LocalConfiguration.current.orientation
-    if(orient == Configuration.ORIENTATION_LANDSCAPE)
-        return 3
-    else
-        return 2
-}
 
 @Composable
 fun SeasonChartView(
@@ -155,9 +147,9 @@ private fun SeasonChartViewContent(
                 end = 2.dp,
                 bottom = bottomBarPadding
             ),
-            verticalArrangement = Arrangement.spacedBy(4.dp),
-            horizontalArrangement = Arrangement.spacedBy(2.dp, Alignment.CenterHorizontally)
-        ) {
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(0.dp, Alignment.CenterHorizontally)
+         ) {
             items(
                 items = uiState.animes,
                 key = { it.node.id },
@@ -173,9 +165,11 @@ private fun SeasonChartViewContent(
                         subtitle = {
                             SmallScoreIndicator(
                                 score = item.node.mean,
-                                fontSize = 13.sp,
                                 textColor = DarkTheme_textColor,
-                            )
+                                fontSize = 15.sp,
+                                lineHeight =  16.sp,
+                                iconPaddingEnd= 4.dp,
+                                )
                         },
                         subtitle2 = {
                             item.node.numListUsers?.format()?.let { users ->
@@ -184,8 +178,9 @@ private fun SeasonChartViewContent(
                                     icon = R.drawable.ic_round_group_24,
                                     color = DarkTheme_textColor,
                                     fontSize = 13.sp,
-                                    iconSize = 16.dp
-                                )
+                                    iconSize = 16.dp,
+                                    lineHeight =  16.sp,
+                                    )
                             }
                         },
                         minLines = 2,
@@ -196,9 +191,10 @@ private fun SeasonChartViewContent(
                 }
             }
             if (uiState.isLoading) {
-                items(11) {
+                items(5) {
                     MediaItemVertical_2perRowPlaceholder()
-                    //MediaItemDetailedPlaceholder()
+//                    MediaItemVertical_2perRowPreview()//debug
+//                    MediaItemDetailedPlaceholder()
                 }
             }
             item(contentType = { 0 }) {

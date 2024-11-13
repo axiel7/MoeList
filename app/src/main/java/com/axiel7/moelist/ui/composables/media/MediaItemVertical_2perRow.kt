@@ -1,7 +1,9 @@
 package com.axiel7.moelist.ui.composables.media
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
@@ -21,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,14 +37,13 @@ import com.axiel7.moelist.ui.theme.MoeListTheme
 import com.axiel7.moelist.utils.NumExtensions.format
 
 //MAL app style. its easier to see poster on phoneScreen.
-
-//consts for 2perRow
+//const for 2perRow
 const val multi =1.7;
 const val MEDIA_POSTER_COMPACT_HEIGHT_2pr = 100*multi
 const val MEDIA_POSTER_COMPACT_WIDTH_2pr = 100*multi
 
 const val MEDIA_POSTER_SMALL_HEIGHT_2pr = 140*multi
-const val MEDIA_POSTER_SMALL_WIDTH_2pr = 100*multi
+const val MEDIA_POSTER_SMALL_WIDTH_2pr = 100*multi +0 //+100 for debug center img
 
 const val MEDIA_POSTER_MEDIUM_HEIGHT_2pr = 156*multi
 const val MEDIA_POSTER_MEDIUM_WIDTH_2pr = 110*multi
@@ -48,8 +51,21 @@ const val MEDIA_POSTER_MEDIUM_WIDTH_2pr = 110*multi
 const val MEDIA_POSTER_BIG_HEIGHT_2pr = 213*multi
 const val MEDIA_POSTER_BIG_WIDTH_2pr = 150*multi
 
-const val MEDIA_ITEM_VERTICAL_HEIGHT_2pr = 200*multi
+const val MEDIA_ITEM_VERTICAL_HEIGHT_2pr = (156+25)*multi
 
+//val Teal200 = Color(0xFF03DAC5)
+val DarkTheme_textColor = Color(220, 220, 220)
+
+
+@Composable
+fun getGridCellFixed_Count_ForOrientation():Int
+{
+    var orient = LocalConfiguration.current.orientation
+    var landScape = Configuration.ORIENTATION_LANDSCAPE
+
+    val count = if(orient == landScape ) 3 else 2;
+    return  count;
+}
 
 
 @Composable
@@ -67,18 +83,15 @@ fun MediaItemVertical_2perRow(
             .width(MEDIA_POSTER_SMALL_WIDTH_2pr.dp)
             //.width(300.dp)
             .sizeIn(
-                minHeight = MEDIA_ITEM_VERTICAL_HEIGHT_2pr.dp -100.dp
+                minHeight = MEDIA_ITEM_VERTICAL_HEIGHT_2pr.dp // -100.dp
             )
             .clip(RoundedCornerShape(8.dp))
             .clickable(onClick = onClick),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-        /*use box to overlay*/
-        //val shape =  RoundedCornerShape(8.dp)
+        /*Poster And StartCount Container - use box to overlay*/
         Box(
             modifier = modifier
-                //.background(Color.Red )
                 .fillMaxWidth(),
             contentAlignment = Alignment.BottomStart
         )
@@ -88,15 +101,17 @@ fun MediaItemVertical_2perRow(
                 url = imageUrl,
                 modifier = Modifier
                     .size(
-                        width = MEDIA_POSTER_MEDIUM_WIDTH_2pr.dp ,
+                        width = MEDIA_POSTER_MEDIUM_WIDTH_2pr.dp  ,
                         height = MEDIA_POSTER_MEDIUM_HEIGHT_2pr.dp
-                    )
+                    ),
             )
-            //layer2
+            //layer2 - StartCount -PeopleCount
             Column(
                 modifier = modifier
-                    .offset(x=5.dp ,y= -14.dp)
+                    .offset(x=4.dp ,y= -15.dp)
                     .background(Color.DarkGray)
+                    .padding(vertical = 3.dp, horizontal = 0.dp),
+//                horizontalAlignment = Alignment.Start,
             )
             {
                 subtitle?.let { it() }
@@ -129,6 +144,7 @@ fun MediaItemVertical_2perRow(
 fun MediaItemVertical_2perRowPlaceholder(
     modifier: Modifier = Modifier
 ) {
+
     Column(
         modifier = modifier
             .size(
@@ -164,25 +180,26 @@ fun MediaItemVertical_2perRowPlaceholder(
 fun MediaItemVertical_2perRowPreview() {
     MoeListTheme {
         Surface {
-            val _textColor = Color(200,200,200);
-
             MediaItemVertical_2perRow (
                 imageUrl = null,
                 title = "This is a very large anime title that should serve as a preview example",
                 subtitle = {
                     SmallScoreIndicator(
-                        score = 8.34f,
-                        fontSize = 14.sp,
-                        textColor = _textColor,
+                        score = 8.55f,
+                        textColor = DarkTheme_textColor,
+                        fontSize = 15.sp,
+                        lineHeight =  16.sp,
+                        iconPaddingEnd= 4.dp,
                     )
                 },
                 subtitle2 = {
                         TextIconHorizontal(
-                            text = "222.123",
+                            text = "200.555",
                             icon = R.drawable.ic_round_group_24,
-                            color = _textColor,
+                            color = DarkTheme_textColor,
                             fontSize = 13.sp,
-                            iconSize = 16.dp
+                            iconSize = 16.dp,
+                            lineHeight =  16.sp,
                         )
                 },
                 onClick = {}

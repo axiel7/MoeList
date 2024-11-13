@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
@@ -36,6 +37,7 @@ fun TextIconHorizontal(
     color: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     fontSize: TextUnit = TextUnit.Unspecified,
     iconSize: Dp = 24.dp,
+    lineHeight: TextUnit = TextUnit.Unspecified,
 ) {
     Row(
         modifier = modifier,
@@ -53,10 +55,25 @@ fun TextIconHorizontal(
             text = text,
             modifier = Modifier.padding(horizontal = 4.dp),
             color = color,
-            fontSize = fontSize
+            fontSize = fontSize,
+            lineHeight = lineHeight,
+
         )
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun TextIconHorizontalPreview() {
+    MoeListTheme {
+        TextIconHorizontal(text = "This is an example", icon = R.drawable.ic_round_details_star_24)
+    }
+}
+
+
+
+
+
 
 @Composable
 fun TextIconVertical(
@@ -118,13 +135,6 @@ fun TextIconVertical(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun TextIconHorizontalPreview() {
-    MoeListTheme {
-        TextIconHorizontal(text = "This is an example", icon = R.drawable.ic_round_details_star_24)
-    }
-}
 
 @Preview(showBackground = true)
 @Composable
