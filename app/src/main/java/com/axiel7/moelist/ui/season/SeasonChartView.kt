@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.compose.dropUnlessResumed
 import com.axiel7.moelist.R
+import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.DefaultScaffoldWithTopAppBar
@@ -147,8 +148,8 @@ private fun SeasonChartViewContent(
                 end = 2.dp,
                 bottom = bottomBarPadding
             ),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(0.dp, Alignment.CenterHorizontally)
+            verticalArrangement = Arrangement.spacedBy(26.dp),
+            horizontalArrangement = Arrangement.spacedBy(2.dp, Alignment.CenterHorizontally)
          ) {
             items(
                 items = uiState.animes,
@@ -163,24 +164,11 @@ private fun SeasonChartViewContent(
                         imageUrl = item.node.mainPicture?.large,
                         title = item.node.userPreferredTitle(),
                         subtitle = {
-                            SmallScoreIndicator(
-                                score = item.node.mean,
-                                textColor = DarkTheme_textColor,
-                                fontSize = 15.sp,
-                                lineHeight =  16.sp,
-                                iconPaddingEnd= 4.dp,
-                                )
+                            SmallScoreIndicator_Style1(item)
                         },
                         subtitle2 = {
                             item.node.numListUsers?.format()?.let { users ->
-                                TextIconHorizontal(
-                                    text = users,
-                                    icon = R.drawable.ic_round_group_24,
-                                    color = DarkTheme_textColor,
-                                    fontSize = 13.sp,
-                                    iconSize = 16.dp,
-                                    lineHeight =  16.sp,
-                                    )
+                                SmallMemberIndicator_Style1(users)
                             }
                         },
                         minLines = 2,
@@ -204,6 +192,30 @@ private fun SeasonChartViewContent(
             }
         }
     }//:Scaffold
+}
+
+//Concise Overloads - Move to ScoreIndicator.kt
+@Composable
+private fun SmallMemberIndicator_Style1(users: String) {
+    TextIconHorizontal(
+        text = users,
+        icon = R.drawable.ic_round_group_24,
+        color = DarkTheme_textColor,
+        fontSize = 13.sp,
+        iconSize = 16.dp,
+        lineHeight = 16.sp,
+    )
+}
+
+@Composable
+private fun SmallScoreIndicator_Style1(item: AnimeSeasonal) {
+    SmallScoreIndicator(
+        score = item.node.mean,
+        textColor = DarkTheme_textColor,
+        fontSize = 15.sp,
+        lineHeight = 16.sp,
+        iconPaddingEnd = 4.dp,
+    )
 }
 
 @Preview

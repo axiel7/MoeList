@@ -36,14 +36,13 @@ import com.axiel7.moelist.ui.composables.score.SmallScoreIndicator
 import com.axiel7.moelist.ui.theme.MoeListTheme
 import com.axiel7.moelist.utils.NumExtensions.format
 
-//MAL app style. its easier to see poster on phoneScreen.
-//const for 2perRow
-const val multi =1.7;
+//MAL app style. 2perRow - its easier to see poster on phoneScreen.
+const val multi =2.0;
 const val MEDIA_POSTER_COMPACT_HEIGHT_2pr = 100*multi
 const val MEDIA_POSTER_COMPACT_WIDTH_2pr = 100*multi
 
 const val MEDIA_POSTER_SMALL_HEIGHT_2pr = 140*multi
-const val MEDIA_POSTER_SMALL_WIDTH_2pr = 100*multi +0 //+100 for debug center img
+const val MEDIA_POSTER_SMALL_WIDTH_2pr = 100*multi  +20 //+100 see if img is centered
 
 const val MEDIA_POSTER_MEDIUM_HEIGHT_2pr = 156*multi
 const val MEDIA_POSTER_MEDIUM_WIDTH_2pr = 110*multi
@@ -60,11 +59,11 @@ val DarkTheme_textColor = Color(220, 220, 220)
 @Composable
 fun getGridCellFixed_Count_ForOrientation():Int
 {
-    var orient = LocalConfiguration.current.orientation
-    var landScape = Configuration.ORIENTATION_LANDSCAPE
+    val orient = LocalConfiguration.current.orientation
+    val landScape = Configuration.ORIENTATION_LANDSCAPE
 
-    val count = if(orient == landScape ) 3 else 2;
-    return  count;
+    val count = if(orient == landScape ) 3 else 2
+    return  count
 }
 
 
@@ -140,6 +139,7 @@ fun MediaItemVertical_2perRow(
 
 
 
+@Preview // for debug
 @Composable
 fun MediaItemVertical_2perRowPlaceholder(
     modifier: Modifier = Modifier
@@ -148,23 +148,27 @@ fun MediaItemVertical_2perRowPlaceholder(
     Column(
         modifier = modifier
             .size(
-                width = (MEDIA_POSTER_SMALL_WIDTH_2pr + 8).dp,
+                width = (MEDIA_POSTER_SMALL_WIDTH_2pr ).dp,
                 height = MEDIA_ITEM_VERTICAL_HEIGHT_2pr.dp
             )
-            .padding(end = 8.dp),
+            //.padding(end = 8.dp ),
+            .padding(start = 8.dp,end = 8.dp, top=4.dp ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
             modifier = Modifier
                 .size(
-                    width = MEDIA_POSTER_SMALL_WIDTH_2pr.dp,
-                    height = MEDIA_POSTER_SMALL_HEIGHT_2pr.dp
+//                    width = MEDIA_POSTER_SMALL_WIDTH_2pr.dp,
+//                    height = MEDIA_POSTER_SMALL_HEIGHT_2pr.dp +14.dp
+                    width = MEDIA_POSTER_MEDIUM_WIDTH_2pr.dp,
+                    height = MEDIA_POSTER_MEDIUM_HEIGHT_2pr.dp -6.dp
                 )
+                .padding( bottom=4.dp )
                 .defaultPlaceholder(visible = true)
         )
 
         Text(
-            text = "This is a placeholder",
+            text = "This is a placeholder - i need to make it 2 lines  ",
             modifier = Modifier
                 .padding(top = 8.dp)
                 .defaultPlaceholder(visible = true),
