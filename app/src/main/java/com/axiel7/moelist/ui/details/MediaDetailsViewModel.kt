@@ -3,6 +3,7 @@ package com.axiel7.moelist.ui.details
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.axiel7.moelist.data.model.Response
 import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
 import com.axiel7.moelist.data.model.anime.Recommendations
@@ -10,6 +11,7 @@ import com.axiel7.moelist.data.model.manga.MangaDetails
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseMyListStatus
+import com.axiel7.moelist.data.model.media.Character
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.WeekDay
 import com.axiel7.moelist.data.repository.AnimeRepository
@@ -91,12 +93,17 @@ class MediaDetailsViewModel(
             } else {
                 mutableUiState.update {
                     it.copy(
-                        characters = result.data.orEmpty(),
+                        characters = Sort_Characters(result.data), //result.data.orEmpty(),
                         isLoadingCharacters = false
                     )
                 }
             }
         }
+    }
+
+    private fun Sort_Characters( data: List<Character>? ): List<Character> {
+        //sort By Roles ,  1st Main, 2nd Support
+        return  data.orEmpty().sortedBy { it.role };
     }
 
     override fun scheduleAiringAnimeNotification(
