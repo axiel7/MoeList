@@ -49,7 +49,6 @@ class AnimeRepository(
             "alternative_titles{en,ja},mean,media_type,num_episodes,num_list_users"
 
         // https://myanimelist.net/forum/?topicid=2111811
-        // v2/anime/10357/characters?fields=id,first_name,last_name,alternative_name,role,main_picture&limit=500
         private const val CHARACTERS_FIELDS =
             "id,first_name,last_name,alternative_name,main_picture,role"
     }

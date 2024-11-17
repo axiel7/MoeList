@@ -93,17 +93,12 @@ class MediaDetailsViewModel(
             } else {
                 mutableUiState.update {
                     it.copy(
-                        characters = Sort_Characters(result.data), //result.data.orEmpty(),
+                        characters = result.data.orEmpty().sortedBy { it.role },
                         isLoadingCharacters = false
                     )
                 }
             }
         }
-    }
-
-    private fun Sort_Characters( data: List<Character>? ): List<Character> {
-        //sort By Roles ,  1st Main, 2nd Support
-        return  data.orEmpty().sortedBy { it.role };
     }
 
     override fun scheduleAiringAnimeNotification(

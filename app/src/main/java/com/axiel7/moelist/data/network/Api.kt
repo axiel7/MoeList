@@ -187,7 +187,6 @@ class Api(private val client: HttpClient) {
         offset: Int?,
         fields: String?,
     ): Response<List<Character>> = client.get("${MAL_API_URL}anime/$animeId/characters") {
-//        parameter("limit", limit)
         parameter("limit", 40)
         parameter("offset", offset)
         parameter("fields", fields)
