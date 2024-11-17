@@ -78,7 +78,7 @@ class MediaDetailsViewModel(
 
             val result = animeRepository.getAnimeCharacters(
                 animeId = mediaId,
-                limit = null,
+                limit = 40,
                 offset = null,
                 page = null,
             )
