@@ -1,6 +1,8 @@
 package com.axiel7.moelist.data.repository
 
 import androidx.annotation.IntRange
+import com.axiel7.moelist.Anilist.AnilistQuery
+import com.axiel7.moelist.Anilist.secondsToDays
 import com.axiel7.moelist.data.model.Response
 import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.anime.AnimeList
@@ -17,6 +19,7 @@ import com.axiel7.moelist.data.model.media.MediaStatus
 import com.axiel7.moelist.data.model.media.RankingType
 import com.axiel7.moelist.data.network.Api
 import io.ktor.http.HttpStatusCode
+import kotlin.system.measureTimeMillis
 
 class AnimeRepository(
     private val api: Api,
@@ -131,6 +134,10 @@ class AnimeRepository(
                 fields = USER_ANIME_LIST_FIELDS
             )
             else api.getUserAnimeList(page)
+
+            //inject my logic ,here. since i couldnt update ui.
+            AddNextAiringEpInfo_v2_withMeasureTime(result)
+
             result.error?.let { handleResponseError(it) }
             return result
         } catch (e: Exception) {

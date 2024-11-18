@@ -158,4 +158,10 @@ dependencies {
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
+
+    //kache
+    // For in-memory cache
+    implementation("com.mayakapps.kache:kache:2.1.0")
+    // For persistent cache
+    implementation("com.mayakapps.kache:file-kache:2.1.0")
 }

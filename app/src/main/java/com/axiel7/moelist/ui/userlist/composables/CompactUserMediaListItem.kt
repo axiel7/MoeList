@@ -43,6 +43,7 @@ import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_SMALL_WIDTH
 import com.axiel7.moelist.ui.composables.media.MediaPoster
 import com.axiel7.moelist.ui.theme.MoeListTheme
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrUnknown
+import com.axiel7.moelist.utils.StringExtensions.toStringOrEmpty
 import com.axiel7.moelist.utils.UNKNOWN_CHAR
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -121,8 +122,16 @@ fun CompactUserMediaListItem(
                 )
 
                 if (isAiring) {
+
+                    var textXX =  broadcast?.airingInString() ?: stringResource(R.string.airing)
+                    if(item.node is AnimeNode)
+                    {
+                        textXX = (item.node as AnimeNode)?.al_nextAiringEpisode.toStringOrEmpty()
+                    }
+
                     Text(
-                        text = broadcast?.airingInString() ?: stringResource(R.string.airing),
+                        //text = broadcast?.airingInString() ?: stringResource(R.string.airing),
+                        text = textXX,
                         modifier = Modifier.padding(horizontal = 16.dp),
                         color = MaterialTheme.colorScheme.primary,
                         fontSize = 16.sp,
