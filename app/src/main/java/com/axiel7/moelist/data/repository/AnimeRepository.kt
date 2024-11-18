@@ -47,8 +47,10 @@ class AnimeRepository(
             "id,title,alternative_titles{en,ja},main_picture,mean,media_type,num_episodes,start_season"
         const val RANKING_FIELDS =
             "alternative_titles{en,ja},mean,media_type,num_episodes,num_list_users"
+
+        // https://myanimelist.net/forum/?topicid=2111811
         private const val CHARACTERS_FIELDS =
-            "id,first_name,last_name,alternative_name,main_picture"
+            "id,first_name,last_name,alternative_name,main_picture,role"
     }
 
     suspend fun getSeasonalAnimes(

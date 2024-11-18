@@ -3,6 +3,7 @@ package com.axiel7.moelist.ui.details
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.axiel7.moelist.data.model.Response
 import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
 import com.axiel7.moelist.data.model.anime.Recommendations
@@ -10,6 +11,7 @@ import com.axiel7.moelist.data.model.manga.MangaDetails
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseMyListStatus
+import com.axiel7.moelist.data.model.media.Character
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.WeekDay
 import com.axiel7.moelist.data.repository.AnimeRepository
@@ -76,7 +78,7 @@ class MediaDetailsViewModel(
 
             val result = animeRepository.getAnimeCharacters(
                 animeId = mediaId,
-                limit = null,
+                limit = 40,
                 offset = null,
                 page = null,
             )
@@ -91,7 +93,7 @@ class MediaDetailsViewModel(
             } else {
                 mutableUiState.update {
                     it.copy(
-                        characters = result.data.orEmpty(),
+                        characters = result.data.orEmpty().sortedBy { it.role },
                         isLoadingCharacters = false
                     )
                 }
