@@ -2,6 +2,7 @@ package com.axiel7.moelist.data.repository
 
 import androidx.annotation.IntRange
 import com.axiel7.moelist.Anilist.AnilistQuery
+import com.axiel7.moelist.Anilist.AnilistQuery.Companion.AddNextAiringEpInfo_v2_withMeasureTime
 import com.axiel7.moelist.Anilist.secondsToDays
 import com.axiel7.moelist.data.model.Response
 import com.axiel7.moelist.data.model.anime.AnimeDetails
