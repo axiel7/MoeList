@@ -10,6 +10,7 @@ plugins {
 
 val properties = Properties()
 properties.load(project.rootProject.file("private.properties").reader())
+properties.load(project.rootProject.file("private.properties").reader())
 
 android {
     compileSdk = 35
@@ -44,6 +45,8 @@ android {
                 "proguard-rules.pro"
             )
             buildConfigField("String", "CLIENT_ID", properties.getProperty("CLIENT_ID"))
+            buildConfigField("String", "ANILIST_CLIENT_ID", properties.getProperty("ANILIST_CLIENT_ID"))
+            buildConfigField("String", "ANILIST_CLIENT_SECRET", properties.getProperty("ANILIST_CLIENT_SECRET"))
         }
         release {
             isDebuggable = false
@@ -54,6 +57,8 @@ android {
                 "proguard-rules.pro"
             )
             buildConfigField("String", "CLIENT_ID", properties.getProperty("CLIENT_ID"))
+            buildConfigField("String", "ANILIST_CLIENT_ID", properties.getProperty("ANILIST_CLIENT_ID"))
+            buildConfigField("String", "ANILIST_CLIENT_SECRET", properties.getProperty("ANILIST_CLIENT_SECRET"))
         }
     }
     splits {
