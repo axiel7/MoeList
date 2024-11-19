@@ -39,7 +39,7 @@ class AnilistQuery {
             result: com.axiel7.moelist.data.model.Response<List<UserAnimeList>>) {
             result.data?.let {
                 val timeInMillis: Long = measureTimeMillis {
-                    AnilistQuery.AddNextAiringEpInfo_v2(it)
+                    AddNextAiringEpInfo_v2(it)
                 }
                 println("AddNextAiringEpInfo_v2 : elapsedTime(ms):" + timeInMillis)
             };

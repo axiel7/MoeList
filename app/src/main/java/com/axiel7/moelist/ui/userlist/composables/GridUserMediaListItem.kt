@@ -33,6 +33,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.axiel7.moelist.Anilist.AiringEpN_in_Ndays_ToShortString
+import com.axiel7.moelist.Anilist.AiringEpN_in_Ndays_ToString
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeNode
 import com.axiel7.moelist.data.model.anime.exampleUserAnimeList
@@ -121,7 +123,8 @@ fun GridUserMediaListItem(
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Text(
-                            text = broadcast?.airingInShortString() ?: stringResource(R.string.airing),
+                            //text = broadcast?.airingInShortString() ?: stringResource(R.string.airing),
+                            text = AiringEpN_in_Ndays_ToShortString(broadcast, item),
                             modifier = Modifier.padding(end = 8.dp),
                             fontSize = 15.sp,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
