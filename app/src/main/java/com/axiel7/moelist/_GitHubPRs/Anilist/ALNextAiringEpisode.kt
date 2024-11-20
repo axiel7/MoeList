@@ -93,32 +93,56 @@ data class Title(
  * Supports Days , Hours , Minutes. less than a minute will be 0
  */
 fun secondsToDays_AsString(seconds: Long): String {
+    val _1month :Long = 30 *24 * 60 * 60
     val _1day :Long = 24 * 60 * 60
     val _1hour :Long = 60 * 60
     val _1min :Long =  60
 
     var HumanReadbleTime =""
-    var pluralSuffix =""
-    if(seconds> _1day)
-    { val days = seconds / _1day; HumanReadbleTime="${days} days" }
-    else if(seconds== _1day)
-    { val days = seconds / _1day; HumanReadbleTime="${days} day" }
-    else if(seconds>_1hour)
-    { val days = seconds / _1hour; HumanReadbleTime="${days} hours" }
-    else if(seconds==_1hour)
-    { val days = seconds / _1hour; HumanReadbleTime="${days} hour"}
-    else if(seconds>_1min)
-    { val days = seconds / _1min; HumanReadbleTime="${days} mins"}
-    else if(seconds==_1min)
-    { val days = seconds / _1min; HumanReadbleTime="${days} min"}
-    else
-    { val days = seconds / _1min; HumanReadbleTime="? sec"}
+
+    HumanReadbleTime =
+        GetNLDatesString_OrNull(seconds, _1month , "months" ,"month" )
+        ?: GetNLDatesString_OrNull(seconds, _1day , "days" ,"day" )
+        ?: GetNLDatesString_OrNull(seconds, _1hour , "hours" ,"hour" )
+        ?: GetNLDatesString_OrNull(seconds, _1min , "mins" ,"min" )
+        ?: "? sec" ;
+
+
+//    if(seconds> _1day)
+//    { val days = seconds / _1day; HumanReadbleTime="${days} days" }
+//    else if(seconds== _1day)
+//    { val days = seconds / _1day; HumanReadbleTime="${days} day" }
+//
+//    else if(seconds>_1hour)
+//    { val days = seconds / _1hour; HumanReadbleTime="${days} hours" }
+//    else if(seconds==_1hour)
+//    { val days = seconds / _1hour; HumanReadbleTime="${days} hour"}
+//
+//    else if(seconds>_1min)
+//    { val days = seconds / _1min; HumanReadbleTime="${days} mins"}
+//    else if(seconds==_1min)
+//    { val days = seconds / _1min; HumanReadbleTime="${days} min"}
+//    else
+//    { val days = seconds / _1min; HumanReadbleTime="? sec"}
 
     return HumanReadbleTime;
 }
 
+private fun GetNLDatesString_OrNull(
+    seconds: Long,
+    _1Period: Long,
+    PluaralText:String,
+    SingularText:String,
+): String? {
+    var HumanReadbleTime: String? = null
 
-
+    if (seconds > _1Period) {
+        val days = seconds / _1Period; HumanReadbleTime = "${days} ${PluaralText}"
+    } else if (seconds == _1Period) {
+        val days = seconds / _1Period; HumanReadbleTime = "${days} ${SingularText}"
+    }
+    return HumanReadbleTime;
+}
 
 
 @Composable
