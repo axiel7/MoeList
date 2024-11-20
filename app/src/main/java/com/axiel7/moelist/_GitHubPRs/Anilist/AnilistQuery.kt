@@ -1,4 +1,4 @@
-package com.axiel7.moelist.Anilist
+package com.axiel7.moelist._GitHubPRs.Anilist
 
 import android.app.Application
 import com.axiel7.moelist.data.model.anime.UserAnimeList

@@ -33,8 +33,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.axiel7.moelist.Anilist.AiringEpN_in_Ndays_ToShortString
-import com.axiel7.moelist.Anilist.AiringEpN_in_Ndays_ToString
+import com.axiel7.moelist._GitHubPRs.Anilist.AiringEpN_in_Ndays_ToShortString
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeNode
 import com.axiel7.moelist.data.model.anime.exampleUserAnimeList

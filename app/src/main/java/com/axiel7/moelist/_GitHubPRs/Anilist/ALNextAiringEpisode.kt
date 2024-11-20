@@ -1,4 +1,4 @@
-package com.axiel7.moelist.Anilist
+package com.axiel7.moelist._GitHubPRs.Anilist
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -8,13 +8,9 @@ import com.axiel7.moelist.data.model.anime.AnimeNode
 import com.axiel7.moelist.data.model.anime.Broadcast
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseUserMediaList
-import com.axiel7.moelist.utils.DateUtils.secondsToLegibleText
 import com.axiel7.moelist.utils.StringExtensions.toStringOrEmpty
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
-import kotlin.math.pow
-import kotlin.math.round
-import kotlin.time.Duration.Companion.seconds
 
 @Serializable
 data class ALNextAiringEpisode(
