@@ -99,13 +99,20 @@ fun secondsToDays_AsString(seconds: Long): String {
 
     var HumanReadbleTime =""
     var pluralSuffix =""
-    if(seconds> _1day) { val days = seconds / _1day; HumanReadbleTime="${days} days" }
-    if(seconds== _1day) { val days = seconds / _1day; HumanReadbleTime="${days} day" }
-    else if(seconds>_1hour) { val days = seconds / _1hour; HumanReadbleTime="${days} hours" }
-    else if(seconds==_1hour) { val days = seconds / _1hour; HumanReadbleTime="${days} hour"}
-    else if(seconds>_1min) { val days = seconds / _1min; HumanReadbleTime="${days} mins"}
-    else if(seconds==_1min) { val days = seconds / _1min; HumanReadbleTime="${days} min"}
-    else { val days = seconds / _1min; HumanReadbleTime="? sec"}
+    if(seconds> _1day)
+    { val days = seconds / _1day; HumanReadbleTime="${days} days" }
+    else if(seconds== _1day)
+    { val days = seconds / _1day; HumanReadbleTime="${days} day" }
+    else if(seconds>_1hour)
+    { val days = seconds / _1hour; HumanReadbleTime="${days} hours" }
+    else if(seconds==_1hour)
+    { val days = seconds / _1hour; HumanReadbleTime="${days} hour"}
+    else if(seconds>_1min)
+    { val days = seconds / _1min; HumanReadbleTime="${days} mins"}
+    else if(seconds==_1min)
+    { val days = seconds / _1min; HumanReadbleTime="${days} min"}
+    else
+    { val days = seconds / _1min; HumanReadbleTime="? sec"}
 
     return HumanReadbleTime;
 }
