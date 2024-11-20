@@ -30,10 +30,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.axiel7.moelist.Anilist.AiringEpN_in_Ndays_ToString
+import com.axiel7.moelist._GitHubPRs.Anilist.AiringEpN_in_Ndays_ToString
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeNode
-import com.axiel7.moelist.data.model.anime.Broadcast
 import com.axiel7.moelist.data.model.anime.exampleUserAnimeList
 import com.axiel7.moelist.data.model.manga.UserMangaList
 import com.axiel7.moelist.data.model.media.BaseMediaNode
@@ -45,7 +44,6 @@ import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_SMALL_WIDTH
 import com.axiel7.moelist.ui.composables.media.MediaPoster
 import com.axiel7.moelist.ui.theme.MoeListTheme
 import com.axiel7.moelist.utils.NumExtensions.toStringPositiveValueOrUnknown
-import com.axiel7.moelist.utils.StringExtensions.toStringOrEmpty
 import com.axiel7.moelist.utils.UNKNOWN_CHAR
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -125,7 +123,6 @@ fun CompactUserMediaListItem(
 
                 if (isAiring) {
                     Text(
-                        //text = broadcast?.airingInString() ?: stringResource(R.string.airing),
                         text = AiringEpN_in_Ndays_ToString(broadcast, item),
                         modifier = Modifier.padding(horizontal = 16.dp),
                         color = MaterialTheme.colorScheme.primary,
@@ -193,7 +190,6 @@ fun CompactUserMediaListItem(
         }//:Row
     }//:Card
 }
-
 
 @Composable
 fun CompactUserMediaListItemPlaceholder() {

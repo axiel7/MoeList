@@ -1,4 +1,4 @@
-package com.axiel7.moelist.Anilist
+package com.axiel7.moelist._GitHubPRs.Anilist
 //package com.axiel7.anihyou.di
 
 

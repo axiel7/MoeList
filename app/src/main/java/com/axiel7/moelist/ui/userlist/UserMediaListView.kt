@@ -25,6 +25,7 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.currentRecomposeScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -34,12 +35,9 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.dropUnlessResumed
-import com.axiel7.moelist.Anilist.AnilistQuery
-import com.axiel7.moelist.Anilist.secondsToDays
-import com.axiel7.moelist.data.model.anime.AnimeNode
+import com.axiel7.moelist._GitHubPRs.Anilist.AddNextAiringEpInfo_Compose
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseUserMediaList
-import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.ui.base.ListStyle
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.OnBottomReached
@@ -55,7 +53,6 @@ import com.axiel7.moelist.ui.userlist.composables.RandomChip
 import com.axiel7.moelist.ui.userlist.composables.SortChip
 import com.axiel7.moelist.ui.userlist.composables.StandardUserMediaListItem
 import com.axiel7.moelist.ui.userlist.composables.StandardUserMediaListItemPlaceholder
-import kotlinx.coroutines.runBlocking
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -75,9 +72,12 @@ fun UserMediaListView(
     val haptic = LocalHapticFeedback.current
     val pullRefreshState = rememberPullToRefreshState()
 
-    //add Airing NextEp No from AnilistApi
-    //AddNextAiringEpInfo(uiState,event)
-    //using AddNextAiringEpInfo_v2 at AniRepo
+    // --causing wrong item dialog on longpress??
+//    //fix - endless loop
+//    LaunchedEffect(key1 = "AddNextAiringEpInfo_Compose",
+//        AddNextAiringEpInfo_Compose(uiState, event)
+//    ) { }
+
 
     @Composable
     fun StandardItemView(item: BaseUserMediaList<out BaseMediaNode>) {
@@ -393,61 +393,3 @@ fun UserMediaListView(
         }
     }//:Box
 }
-
-
-
-@Composable
-private fun AddNextAiringEpInfo(uiState: UserMediaListUiState, event: UserMediaListEvent?  ) {
-
-    if (uiState.listStatus != ListStatus.WATCHING)
-        return
-
-    val airingAnimes_idlist = uiState.mediaList.filter { it.isAiring }.map{ it.node.id }
-    if (airingAnimes_idlist.isNullOrEmpty())
-        return
-
-    uiState.mediaList
-        .filter {  it.isAiring }
-        .forEach { (it.node as? AnimeNode)?.al_nextAiringEpisode = "AL loading...";  }
-
-    Thread {
-        println("alquery.getAiringInfo run. if this is run too much. cache it. ")
-
-        // Perform network operation here
-        runBlocking {
-//            var alquery = AnilistQuery();
-            var al_mediaList = AnilistQuery.GetAiringInfo_ToPoco_FromCache(airingAnimes_idlist)
-            if (al_mediaList?.isEmpty() == true)
-                return@runBlocking
-
-            uiState.mediaList.filter { it.isAiring }.forEach { it ->
-
-                // val broadcast = remember { (it.node as? AnimeNode)?.broadcast }
-                if (!(it.node is AnimeNode))
-                    return@runBlocking
-
-                var _id = (it.node as? AnimeNode)?.id?.toLong()
-                // (it.node as? AnimeNode)?.al_nextAiringEpisode = "test success"
-                var it_AirInfo = al_mediaList?.firstOrNull { it2 -> it2.idMal == _id }?.nextAiringEpisode
-                var str = """Ep ${it_AirInfo?.episode} in ${secondsToDays(it_AirInfo?.timeUntilAiring ?: Long.MAX_VALUE)} day(s) """
-                //  runBlocking {}
-                (it.node as? AnimeNode)?.al_nextAiringEpisode = str
-            }
-
-            //completed - Need to Trigger ui refresh. --help please
-            //also added memory cache - if i pull to refresh.
-            // next time it shows up.
-
-        }
-
-
-
-    }.start()
-
-
-}
-
-
-
-
-
