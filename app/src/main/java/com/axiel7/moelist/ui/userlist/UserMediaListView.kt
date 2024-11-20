@@ -35,11 +35,11 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.dropUnlessResumed
 import com.axiel7.moelist.Anilist.AnilistQuery
-import com.axiel7.moelist.Anilist.secondsToDays
 import com.axiel7.moelist.data.model.anime.AnimeNode
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseUserMediaList
 import com.axiel7.moelist.data.model.media.ListStatus
+import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.ui.base.ListStyle
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.OnBottomReached
@@ -76,7 +76,7 @@ fun UserMediaListView(
     val pullRefreshState = rememberPullToRefreshState()
 
     //add Airing NextEp No from AnilistApi
-    //AddNextAiringEpInfo(uiState,event)
+    AddNextAiringEpInfo_Compose(uiState,event)
     //using AddNextAiringEpInfo_v2 at AniRepo
 
     @Composable
@@ -397,9 +397,12 @@ fun UserMediaListView(
 
 
 @Composable
-private fun AddNextAiringEpInfo(uiState: UserMediaListUiState, event: UserMediaListEvent?  ) {
+private fun AddNextAiringEpInfo_Compose(uiState: UserMediaListUiState, event: UserMediaListEvent?  ) {
 
-    if (uiState.listStatus != ListStatus.WATCHING)
+    if (uiState.mediaType != MediaType.ANIME)
+        return
+    if ( !(uiState.listStatus == ListStatus.WATCHING
+        || uiState.listStatus == ListStatus.PLAN_TO_WATCH) )
         return
 
     val airingAnimes_idlist = uiState.mediaList.filter { it.isAiring }.map{ it.node.id }
@@ -410,44 +413,35 @@ private fun AddNextAiringEpInfo(uiState: UserMediaListUiState, event: UserMediaL
         .filter {  it.isAiring }
         .forEach { (it.node as? AnimeNode)?.al_nextAiringEpisode = "AL loading...";  }
 
+
     Thread {
         println("alquery.getAiringInfo run. if this is run too much. cache it. ")
 
         // Perform network operation here
         runBlocking {
-//            var alquery = AnilistQuery();
             var al_mediaList = AnilistQuery.GetAiringInfo_ToPoco_FromCache(airingAnimes_idlist)
             if (al_mediaList?.isEmpty() == true)
                 return@runBlocking
 
             uiState.mediaList.filter { it.isAiring }.forEach { it ->
-
-                // val broadcast = remember { (it.node as? AnimeNode)?.broadcast }
                 if (!(it.node is AnimeNode))
                     return@runBlocking
 
                 var _id = (it.node as? AnimeNode)?.id?.toLong()
                 // (it.node as? AnimeNode)?.al_nextAiringEpisode = "test success"
                 var it_AirInfo = al_mediaList?.firstOrNull { it2 -> it2.idMal == _id }?.nextAiringEpisode
-                var str = """Ep ${it_AirInfo?.episode} in ${secondsToDays(it_AirInfo?.timeUntilAiring ?: Long.MAX_VALUE)} day(s) """
-                //  runBlocking {}
-                (it.node as? AnimeNode)?.al_nextAiringEpisode = str
+
+                (it.node as? AnimeNode)?.al_nextAiringEpisode = it_AirInfo?.EpN_in_Mdays_ToString()
+                runBlocking {
+//                    event?.RedrawSingleItem(it)
+                    event?.onItemSelected(it)
+                }
             }
 
-            //completed - Need to Trigger ui refresh. --help please
-            //also added memory cache - if i pull to refresh.
-            // next time it shows up.
-
         }
-
-
 
     }.start()
 
 
 }
-
-
-
-
 

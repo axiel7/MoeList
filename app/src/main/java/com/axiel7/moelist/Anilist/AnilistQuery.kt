@@ -13,6 +13,8 @@ import okhttp3.Response
 import com.mayakapps.kache.InMemoryKache
 import com.mayakapps.kache.KacheStrategy
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.runBlocking
+import kotlin.concurrent.thread
 import kotlin.system.measureTimeMillis
 
 import kotlin.time.Duration.Companion.hours
@@ -35,21 +37,77 @@ class AnilistQuery {
             return cache
         }
 
-        suspend fun AddNextAiringEpInfo_v2_withMeasureTime(
+
+        // ------------with SharedFlow
+        suspend fun AddNextAiringEpInfo_SharedFlow_withMeasureTime(
+            result: com.axiel7.moelist.data.model.Response<List<UserAnimeList>>) {
+            result.data?.let {
+                thread{
+                    val timeInMillis: Long = measureTimeMillis {
+                        runBlocking { // i dont wanna block ui?? but here it goes??
+                            AddNextAiringEpInfo_SharedFlow(it)
+                        }
+                    }
+                    println("AddNextAiringEpInfo_SharedFlow : elapsedTime(ms):" + timeInMillis)
+                }.start()
+
+            };
+        }
+
+        suspend fun AddNextAiringEpInfo_SharedFlow( userAnimeList :List<UserAnimeList>
+        ):List<UserAnimeList>?
+        {
+
+            fun _isAiring(it: UserAnimeList) =
+                (
+                        (it.listStatus?.status == ListStatus.WATCHING
+                        || it.listStatus?.status == ListStatus.PLAN_TO_WATCH
+                        )
+                        && it.isAiring
+                )
+
+            var airingAnimes = userAnimeList.filter{ _isAiring(it) }
+
+            val airingAnimes_idlist = airingAnimes.map{ it.node.id }
+            if (airingAnimes_idlist.isEmpty())
+                return null
+
+//        Thread {
+//            println("alquery.getAiringInfo run. if this is run too much. cache it. ")
+//            runBlocking {
+//            }
+//        }.start()
+            var al_mediaList = GetAiringInfo_ToPoco_FromCache(airingAnimes_idlist)
+            if (al_mediaList?.isEmpty() == true)
+                return null
+
+            userAnimeList.filter  { _isAiring(it) }.forEach { it ->
+                var _id = it.node.id.toLong();
+                // it.node.al_nextAiringEpisode = "test success";
+                var it_AirInfo = al_mediaList?.firstOrNull {  it.idMal == _id }?.nextAiringEpisode
+
+                it.node.al_nextAiringEpisode = it_AirInfo?.EpN_in_Mdays_ToString()
+
+            }
+            return userAnimeList;
+        }
+
+
+        //----------------Normal
+        suspend fun AddNextAiringEpInfo_withMeasureTime(
             result: com.axiel7.moelist.data.model.Response<List<UserAnimeList>>) {
             result.data?.let {
                 val timeInMillis: Long = measureTimeMillis {
-                    AddNextAiringEpInfo_v2(it)
+                    AddNextAiringEpInfo(it)
                 }
-                println("AddNextAiringEpInfo_v2 : elapsedTime(ms):" + timeInMillis)
+                println("AddNextAiringEpInfo : elapsedTime(ms):" + timeInMillis)
             };
         }
 
         //AnimeRepository
-        suspend fun AddNextAiringEpInfo_v2( userAnimeList :List<UserAnimeList>
+        suspend fun AddNextAiringEpInfo( userAnimeList :List<UserAnimeList>
         ):List<UserAnimeList>?
         {
-
             fun _isAiring(it: UserAnimeList) =
                 (
                         (it.listStatus?.status == ListStatus.WATCHING
@@ -63,18 +121,6 @@ class AnilistQuery {
             if (airingAnimes_idlist.isEmpty())
                 return null
 
-//        //unnecessary since on same thread
-//        userAnimeList
-//            .filter  { _isAiring(it) }
-//            .forEach { it.node.al_nextAiringEpisode = "AL loading...";  }
-
-//        Thread {
-//            println("alquery.getAiringInfo run. if this is run too much. cache it. ")
-//            runBlocking {
-//            }
-//        }.start()
-
-//        var alquery = AnilistQuery();
             var al_mediaList = GetAiringInfo_ToPoco_FromCache(airingAnimes_idlist)
             if (al_mediaList?.isEmpty() == true)
                 return null
@@ -84,16 +130,14 @@ class AnilistQuery {
                 // it.node.al_nextAiringEpisode = "test success";
                 var it_AirInfo = al_mediaList?.firstOrNull {  it.idMal == _id }?.nextAiringEpisode
 
-                var str = """Ep ${it_AirInfo?.episode} in ${secondsToDays(it_AirInfo?.timeUntilAiring ?: Long.MAX_VALUE)} day(s) """
-                it.node.al_nextAiringEpisode = str;
+                it.node.al_nextAiringEpisode = it_AirInfo?.EpN_in_Mdays_ToString()
             }
             return userAnimeList;
         }
 
 
-        suspend fun GetAiringInfo_ToPoco_FromCache(
-            airingAnimes_id_list: List<Int>
-        ): List<Media>?
+
+        suspend fun GetAiringInfo_ToPoco_FromCache( airingAnimes_id_list: List<Int>): List<Media>?
         {
             val key = airingAnimes_id_list;
 
@@ -107,17 +151,15 @@ class AnilistQuery {
             return data;
         }
 
-
         fun GetAiringInfo_ToPoco( airingAnimes_id_list: List<Int> ): List<Media>?
         {
-
             var resp1 = getAiringInfo(airingAnimes_id_list)
             var resp1_bodSTR = resp1.body?.string().toStringOrEmpty()
             val al_AirDataList = Json.decodeFromString<ALNextAiringEpisode>(resp1_bodSTR)
             var al_mediaList = al_AirDataList.data?.Page?.media;
             return al_mediaList
         }
-
+        
         fun getAiringInfo (mal_id_list: List<Int>): Response
         {
             var url =  "https://com.example/graphql";

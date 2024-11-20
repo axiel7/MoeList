@@ -1,29 +1,20 @@
 package com.axiel7.moelist.Anilist
 
-import android.app.Application
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeNode
 import com.axiel7.moelist.data.model.anime.Broadcast
-import com.axiel7.moelist.data.model.anime.UserAnimeList
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseUserMediaList
-import com.axiel7.moelist.data.model.media.ListStatus
+import com.axiel7.moelist.utils.DateUtils.secondsToLegibleText
 import com.axiel7.moelist.utils.StringExtensions.toStringOrEmpty
-import com.mayakapps.kache.InMemoryKache
-import com.mayakapps.kache.KacheStrategy
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
-import kotlinx.serialization.json.Json
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.Response
-import kotlin.system.measureTimeMillis
-import kotlin.time.Duration.Companion.hours
+import kotlin.math.pow
+import kotlin.math.round
+import kotlin.time.Duration.Companion.seconds
 
 @Serializable
 data class ALNextAiringEpisode(
@@ -58,17 +49,74 @@ data class NextAiringEpisode(
     val episode: Long,
     val timeUntilAiring: Long,
 )
+{
+    fun EpN_in_Mdays_ToString():String
+    {
+        var days = secondsToDays_AsString(timeUntilAiring)
+        var str = """Ep ${episode} in ${days}"""
+        return str
+    }
+
+//    @Composable //compoable error all the way up
+//    fun EpN_in_Mdays_ToString():String
+//    {
+//        var daysStr = timeUntilAiring.secondsToLegibleText();
+//        return """Ep ${episode} in ${daysStr}"""
+//    }
+
+//    fun EpN_in_Mdays_ToShortString() =
+//        """Ep${episode}, ${secondsToDays(timeUntilAiring)}d"""
+
+}
 @Serializable
 data class Title(
     val english: String,
 )
+{
 
-
-//this behaves likes Static Func of c#. interesting?
-fun secondsToDays(seconds: Long): String {
-    val days = seconds.toDouble() / (24 * 60 * 60)
-    return String.format("%.1f", days)
 }
+
+
+//fun EpN_in_Mdays_ToString(it_AirInfo: NextAiringEpisode?) =
+//    """Ep ${it_AirInfo?.episode} in ${secondsToDays(it_AirInfo?.timeUntilAiring ?: Long.MAX_VALUE)} day(s) """
+
+////this behaves likes Static Func of c#. interesting?
+//fun secondsToDays_AsStr(seconds: Long): String {
+//    val days = seconds.toDouble() / (24 * 60 * 60)
+//    return String.format("%.1f", days)
+//}
+//fun secondsToDays(seconds: Long): Double {
+//    val days = seconds.toDouble() / (24 * 60 * 60)
+//    return Math_Round(days,1)
+//}
+//fun Math_Round(value: Double , fractionalDigits:Int): Double {
+//    return round(value * 10.0.pow(fractionalDigits)) / 10.0.pow(fractionalDigits)
+//}
+
+/**
+ * Supports Days , Hours , Minutes. less than a minute will be 0
+ */
+fun secondsToDays_AsString(seconds: Long): String {
+    val _1day :Long = 24 * 60 * 60
+    val _1hour :Long = 60 * 60
+    val _1min :Long =  60
+
+    var HumanReadbleTime =""
+    var pluralSuffix =""
+    if(seconds> _1day) { val days = seconds / _1day; HumanReadbleTime="${days} days" }
+    if(seconds== _1day) { val days = seconds / _1day; HumanReadbleTime="${days} day" }
+    else if(seconds>_1hour) { val days = seconds / _1hour; HumanReadbleTime="${days} hours" }
+    else if(seconds==_1hour) { val days = seconds / _1hour; HumanReadbleTime="${days} hour"}
+    else if(seconds>_1min) { val days = seconds / _1min; HumanReadbleTime="${days} mins"}
+    else if(seconds==_1min) { val days = seconds / _1min; HumanReadbleTime="${days} min"}
+    else { val days = seconds / _1min; HumanReadbleTime="? sec"}
+
+    return HumanReadbleTime;
+}
+
+
+
+
 
 @Composable
 fun AiringEpN_in_Ndays_ToString(
@@ -88,8 +136,8 @@ fun AiringEpN_in_Ndays_ToString(
 }
 
 /**
- * For Grid  ie: 8d
-  */
+ * For Grid - ie: 8d
+ */
 @Composable
 fun AiringEpN_in_Ndays_ToShortString(
     broadcast: Broadcast?,
