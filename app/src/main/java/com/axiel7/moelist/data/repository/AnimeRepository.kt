@@ -1,6 +1,7 @@
 package com.axiel7.moelist.data.repository
 
 import androidx.annotation.IntRange
+import com.axiel7.moelist._GitHubPRs.Anilist.AnilistQuery
 import com.axiel7.moelist.data.model.Response
 import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.anime.AnimeList
@@ -132,6 +133,11 @@ class AnimeRepository(
             )
             else api.getUserAnimeList(page)
             result.error?.let { handleResponseError(it) }
+
+            //updated gui with compose , but it messed up who UI logic.. -HERE is SAFEST.
+            //inject my logic ,here. since i couldnt update ui.
+            AnilistQuery.AddNextAiringEpInfo_withMeasureTime(result)
+
             return result
         } catch (e: Exception) {
             Response(message = e.message)

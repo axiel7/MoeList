@@ -66,7 +66,7 @@ data class NextAiringEpisode(
 }
 @Serializable
 data class Title(
-    val english: String,
+    val english: String?,
 )
 {
 

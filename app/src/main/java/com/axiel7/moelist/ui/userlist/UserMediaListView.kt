@@ -25,6 +25,7 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.currentRecomposeScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -71,7 +72,12 @@ fun UserMediaListView(
     val haptic = LocalHapticFeedback.current
     val pullRefreshState = rememberPullToRefreshState()
 
-    AddNextAiringEpInfo_Compose(uiState,event)
+    // --causing wrong item dialog on longpress??
+//    //fix - endless loop
+//    LaunchedEffect(key1 = "AddNextAiringEpInfo_Compose",
+//        AddNextAiringEpInfo_Compose(uiState, event)
+//    ) { }
+
 
     @Composable
     fun StandardItemView(item: BaseUserMediaList<out BaseMediaNode>) {

@@ -36,7 +36,7 @@ fun AddNextAiringEpInfo_Compose(uiState: UserMediaListUiState, event: UserMediaL
         // Perform network operation here
         runBlocking {
             var al_mediaList = AnilistQuery.GetAiringInfo_ToPoco_FromCache(airingAnimes_idlist)
-            if (al_mediaList?.isEmpty() == true)
+            if (al_mediaList.isNullOrEmpty() == true)
                 return@runBlocking
 
             uiState.mediaList.filter { it.isAiring }.forEach { it ->

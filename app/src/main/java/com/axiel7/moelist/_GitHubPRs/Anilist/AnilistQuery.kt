@@ -51,49 +51,10 @@ class AnilistQuery {
                     println("AddNextAiringEpInfo_SharedFlow : elapsedTime(ms):" + timeInMillis)
                 }.start()
 
-            };
-        }
-
-        suspend fun AddNextAiringEpInfo_SharedFlow( userAnimeList :List<UserAnimeList>
-        ):List<UserAnimeList>?
-        {
-
-            fun _isAiring(it: UserAnimeList) =
-                (
-                        (it.listStatus?.status == ListStatus.WATCHING
-                        || it.listStatus?.status == ListStatus.PLAN_TO_WATCH
-                        )
-                        && it.isAiring
-                )
-
-            var airingAnimes = userAnimeList.filter{ _isAiring(it) }
-
-            val airingAnimes_idlist = airingAnimes.map{ it.node.id }
-            if (airingAnimes_idlist.isEmpty())
-                return null
-
-//        Thread {
-//            println("alquery.getAiringInfo run. if this is run too much. cache it. ")
-//            runBlocking {
-//            }
-//        }.start()
-            var al_mediaList = GetAiringInfo_ToPoco_FromCache(airingAnimes_idlist)
-            if (al_mediaList?.isEmpty() == true)
-                return null
-
-            userAnimeList.filter  { _isAiring(it) }.forEach { it ->
-                var _id = it.node.id.toLong();
-                // it.node.al_nextAiringEpisode = "test success";
-                var it_AirInfo = al_mediaList?.firstOrNull {  it.idMal == _id }?.nextAiringEpisode
-
-                it.node.al_nextAiringEpisode = it_AirInfo?.EpN_in_Mdays_ToString()
-
-            }
-            return userAnimeList;
-        }
-
-
-        //----------------Normal
+        //---------------Normal
+        /**
+         * Uses withCache
+         */
         suspend fun AddNextAiringEpInfo_withMeasureTime(
             result: com.axiel7.moelist.data.model.Response<List<UserAnimeList>>) {
             result.data?.let {
@@ -105,6 +66,9 @@ class AnilistQuery {
         }
 
         //AnimeRepository
+        /**
+         * Uses withCache
+         */
         suspend fun AddNextAiringEpInfo( userAnimeList :List<UserAnimeList>
         ):List<UserAnimeList>?
         {
@@ -145,6 +109,9 @@ class AnilistQuery {
                 try {
                     GetAiringInfo_ToPoco(key)
                 } catch (ex: Throwable) {
+                    println(ex.message )
+                    println(ex.cause )
+                    println("GetAiringInfo_ToPoco_FromCache" )
                     null // returning null, The value (null) will not be cached
                 }
             }
