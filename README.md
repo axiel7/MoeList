@@ -1,3 +1,36 @@
+# "myMAL"   
+- (  Fork of  Moelist )  , MAL Anime Tracker - MyAnimelist.net
+- **myMAL**  - **[download Here](https://github.com/blackholeearth/MoeList/releases)**
+
+**Plan:** 
+ I will try to fetch every new release of Moelist(The Original). Apply My Patches on it. Release it
+
+
+
+
+### What's different ?? 
+
+
+| -                                                             |                              -                              |
+| --------------------------------------------------------------- | :---------------------------------------------------------------: |
+|                                                                 |     charecters moved above                                        |
+|       season view 2item per row like MAL app                    |     all crucial info at to top     - dont have to scroll down     |
+| <img alt="ss" width="280" src="/screenshot/ss1.png?raw=true" /> |  <img alt="ss" width="280" src="/screenshot/ss3.png?raw=true" />  |
+
+| -                                                             |                              -                              |
+| --------------------------------------------------------------- | :---------------------------------------------------------------: |
+|   see which EP is Airing Next  in Your Anime List               |                                                                   |
+|    CompatctView also Has  ProgressBar                           |   Plan To Watch --  More MeaningFull  Icon                        |
+| <img alt="ss" width="280" src="/screenshot/ss2.png?raw=true" /> |  <img alt="ss" width="280" src="/screenshot/ss4.png?raw=true" />  |
+|                                                                 |                                                                   |
+
+
+
+-------------------
+
+## ---------Down Below is From Original Repo------------
+
+
 # <img alt="app-icon" height="50" src="https://github.com/axiel7/MoeList/blob/master/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png"/>MoeList
 
 [![Downloads](https://img.shields.io/github/downloads/axiel7/MoeList/total.svg)](https://github.com/axiel7/MoeList/releases/latest)
