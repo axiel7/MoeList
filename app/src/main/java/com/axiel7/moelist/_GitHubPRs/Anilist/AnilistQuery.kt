@@ -38,18 +38,6 @@ class AnilistQuery {
         }
 
 
-        // ------------with SharedFlow
-        suspend fun AddNextAiringEpInfo_SharedFlow_withMeasureTime(
-            result: com.axiel7.moelist.data.model.Response<List<UserAnimeList>>) {
-            result.data?.let {
-                thread{
-                    val timeInMillis: Long = measureTimeMillis {
-                        runBlocking { // i dont wanna block ui?? but here it goes??
-                            AddNextAiringEpInfo_SharedFlow(it)
-                        }
-                    }
-                    println("AddNextAiringEpInfo_SharedFlow : elapsedTime(ms):" + timeInMillis)
-                }.start()
 
         //---------------Normal
         /**

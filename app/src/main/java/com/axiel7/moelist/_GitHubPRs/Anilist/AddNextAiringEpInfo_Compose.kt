@@ -9,6 +9,8 @@ import com.axiel7.moelist.ui.userlist.UserMediaListUiState
 import kotlinx.coroutines.runBlocking
 
 /**
+ * ---!!!! DO NOT USER THİS IN VİEW -- İT CAUSES endless LOOP, wrong EditDialog values ,
+ *
  * add Airing Next Ep No from AnilistApi
  * --  ie:Ep 8 in 5 days
  */
