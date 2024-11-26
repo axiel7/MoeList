@@ -153,10 +153,11 @@ dependencies {
     implementation("io.coil-kt.coil3:coil-network-okhttp:$coilVersion")
 
     //Koin
-    implementation(platform("io.insert-koin:koin-bom:4.0.0"))
+    implementation(platform("io.insert-koin:koin-bom:4.0.1-Beta1"))
     implementation("io.insert-koin:koin-androidx-compose")
     implementation("io.insert-koin:koin-androidx-compose-navigation")
     implementation("io.insert-koin:koin-androidx-workmanager")
+    implementation("io.insert-koin:koin-androidx-startup")
 
     //Room
     val roomVersion = "2.6.1"
