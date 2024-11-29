@@ -82,7 +82,7 @@ fun MediaItemVertical_2perRow(
             .width(MEDIA_POSTER_SMALL_WIDTH_2pr.dp)
             //.width(300.dp)
             .sizeIn(
-                minHeight = MEDIA_ITEM_VERTICAL_HEIGHT_2pr.dp // -100.dp
+                minHeight = MEDIA_ITEM_VERTICAL_HEIGHT_2pr.dp -60.dp // -100.dp
             )
             .clip(RoundedCornerShape(8.dp))
             .clickable(onClick = onClick),
@@ -101,7 +101,7 @@ fun MediaItemVertical_2perRow(
                 modifier = Modifier
                     .size(
                         width = MEDIA_POSTER_MEDIUM_WIDTH_2pr.dp  ,
-                        height = MEDIA_POSTER_MEDIUM_HEIGHT_2pr.dp
+                        height = MEDIA_POSTER_MEDIUM_HEIGHT_2pr.dp -50.dp
                     ),
             )
             //layer2 - StartCount -PeopleCount
@@ -124,7 +124,7 @@ fun MediaItemVertical_2perRow(
             text = title,
             modifier = Modifier
                 .width(MEDIA_POSTER_SMALL_WIDTH_2pr.dp)
-                .padding(top = 2.dp, bottom = 4.dp),
+                .padding(top = 0.dp, bottom = 4.dp),
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontSize = 15.sp,
             lineHeight = 18.sp,
@@ -149,7 +149,7 @@ fun MediaItemVertical_2perRowPlaceholder(
         modifier = modifier
             .size(
                 width = (MEDIA_POSTER_SMALL_WIDTH_2pr ).dp,
-                height = MEDIA_ITEM_VERTICAL_HEIGHT_2pr.dp
+                height = MEDIA_ITEM_VERTICAL_HEIGHT_2pr.dp -60.dp
             )
             //.padding(end = 8.dp ),
             .padding(start = 8.dp,end = 8.dp, top=4.dp ),
@@ -161,7 +161,7 @@ fun MediaItemVertical_2perRowPlaceholder(
 //                    width = MEDIA_POSTER_SMALL_WIDTH_2pr.dp,
 //                    height = MEDIA_POSTER_SMALL_HEIGHT_2pr.dp +14.dp
                     width = MEDIA_POSTER_MEDIUM_WIDTH_2pr.dp,
-                    height = MEDIA_POSTER_MEDIUM_HEIGHT_2pr.dp -6.dp
+                    height = MEDIA_POSTER_MEDIUM_HEIGHT_2pr.dp -6.dp -50.dp
                 )
                 .padding( bottom=4.dp )
                 .defaultPlaceholder(visible = true)
@@ -170,7 +170,7 @@ fun MediaItemVertical_2perRowPlaceholder(
         Text(
             text = "This is a placeholder - i need to make it 2 lines  ",
             modifier = Modifier
-                .padding(top = 8.dp)
+                .padding(top = 4.dp)
                 .defaultPlaceholder(visible = true),
             fontSize = 15.sp,
             overflow = TextOverflow.Ellipsis,

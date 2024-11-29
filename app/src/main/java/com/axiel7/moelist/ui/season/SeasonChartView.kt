@@ -148,7 +148,7 @@ private fun SeasonChartViewContent(
                 end = 2.dp,
                 bottom = bottomBarPadding
             ),
-            verticalArrangement = Arrangement.spacedBy(26.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(2.dp, Alignment.CenterHorizontally)
          ) {
             items(
