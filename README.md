@@ -5,7 +5,8 @@
 **Plan:** 
  I will try to fetch every new release of Moelist(The Original). Apply My Patches on it. Release it
 
-
+**How to make Release:** 
+https://stackoverflow.com/a/57551857/3137362  - dont wanna hunt down it again ...
 
 
 ### What's different ?? 
