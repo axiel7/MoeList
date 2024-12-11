@@ -1,4 +1,7 @@
 # "myMAL"   
+
+[![Downloads](https://img.shields.io/github/downloads/blackholeearth/MoeList/total.svg)](https://github.com/blackholeearth/MoeList/releases/latest)
+
 - (  Fork of  Moelist )  , MAL Anime Tracker - MyAnimelist.net
 - **myMAL**  - **[download Here](https://github.com/blackholeearth/MoeList/releases)**
 
