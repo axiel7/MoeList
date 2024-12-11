@@ -12,7 +12,7 @@ import com.axiel7.moelist.utils.SeasonCalendar
 
 @Stable
 data class SeasonChartUiState(
-    val season: StartSeason = SeasonCalendar.currentStartSeason,
+    val season: StartSeason = SeasonCalendar.currentStartSeason(),
     val sort: MediaSort = MediaSort.ANIME_NUM_USERS,
     val isNew: Boolean = true,
     val seasonType: SeasonType? = SeasonType.CURRENT,
@@ -26,7 +26,7 @@ data class SeasonChartUiState(
     override fun setMessage(value: String?) = copy(message = value)
 
     companion object {
-        private const val BASE_YEAR = 1917
+        private const val BASE_YEAR = 1950
         val years = ((SeasonCalendar.currentYear + 1) downTo BASE_YEAR).toList()
     }
 }

@@ -23,43 +23,115 @@ object SeasonCalendar {
 
     val currentYear = calendar[Calendar.YEAR]
 
-    val currentSeason = when (month) {
-        0, 1, 11 -> Season.WINTER
-        2, 3, 4 -> Season.SPRING
-        5, 6, 7 -> Season.SUMMER
-        8, 9, 10 -> Season.FALL
+
+    val currentSeason = when (month)
+    {
+         0, 1,  -> Season.WINTER
+         2, 3, 4 -> Season.SPRING
+         5, 6, 7 -> Season.SUMMER
+         8, 9, 10,11 -> Season.FALL  /*according to mal,  "12 december 2024" should show -> Fall in SeasonChart */
         else -> Season.SPRING
     }
 
-    private val nextSeason = when (currentSeason) {
-        Season.WINTER -> Season.SPRING
-        Season.SPRING -> Season.SUMMER
-        Season.SUMMER -> Season.FALL
-        Season.FALL -> Season.WINTER
+    /*  Assert
+       --- MAL APP --button values  --- expecting the same from moelist.
+       ---- tested -- on 12.12.2024
+
+       previous: summer 2024
+       current : fall 2024
+       next: winter 2025
+   */
+
+    private fun nextSeason (seasonx : Season): Season
+    {
+        var ret = when (seasonx)
+        {
+            Season.SPRING -> Season.SUMMER
+            Season.SUMMER -> Season.FALL
+            Season.FALL -> Season.WINTER
+            Season.WINTER -> Season.SPRING
+        }
+
+        return ret;
+    }
+    private fun prevSeason (seasonx : Season ):Season
+    {
+        var ret = when (seasonx)
+        {
+            Season.SPRING -> Season.WINTER
+            Season.SUMMER -> Season.SPRING
+            Season.FALL -> Season.SUMMER
+            Season.WINTER -> Season.FALL
+        }
+        return ret;
     }
 
-    private val prevSeason = when (currentSeason) {
-        Season.WINTER -> Season.FALL
-        Season.SPRING -> Season.WINTER
-        Season.SUMMER -> Season.SPRING
-        Season.FALL -> Season.SUMMER
+
+//    val currentStartSeason = StartSeason(
+//        // if december, the season is next year winter
+//        year = if (month == 11) currentYear + 1 else currentYear,
+//        season = currentSeason
+//    )
+
+    fun currentStartSeason() :StartSeason
+    {
+        var curYear = currentYear;
+        var curSeason = currentSeason;
+
+        val ss = StartSeason(
+            year = curYear,
+            season = curSeason
+        )
+        return ss;
     }
 
-    val currentStartSeason = StartSeason(
-        // if december, the season is next year winter
-        year = if (month == 11) currentYear + 1 else currentYear,
-        season = currentSeason
-    )
+    fun nextStartSeasonv2() :StartSeason
+    {
+        var curSS = currentStartSeason();
 
-    val nextStartSeason = StartSeason(
-        year = if (nextSeason == Season.WINTER) currentYear + 1 else currentYear,
-        season = nextSeason
-    )
+        val year = if (curSS.season == Season.FALL) currentYear + 1 else currentYear;
+        val season = nextSeason(curSS.season);
 
-    val prevStartSeason = StartSeason(
-        year = if (prevSeason == Season.FALL) currentYear - 1 else currentYear,
-        season = prevSeason
-    )
+        val ss = StartSeason(
+            year = year,
+            season = season
+        )
+        return ss;
+    }
+    fun prevStartSeasonv2() :StartSeason
+    {
+        var curSS = currentStartSeason();
+
+        val year = if (curSS.season == Season.WINTER) currentYear -1 else currentYear;
+        val season = prevSeason(curSS.season);
+
+        val ss = StartSeason(
+            year = year,
+            season = season
+        )
+        return ss;
+    }
+
+
+//    /**
+//     * wrong
+//     */
+//    val nextStartSeason = StartSeason(
+//        year = if (nextSeason == Season.WINTER) currentYear + 1 else currentYear,
+//        season = nextSeason
+//    )
+//    /**
+//     * wrong
+//     */
+//    val prevStartSeason = StartSeason(
+//        year = if (prevSeason == Season.FALL) currentYear - 1 else currentYear,
+//        season = prevSeason
+//    )
+
+
+
+
+
 
     val currentWeekday = when (weekDay) {
         2 -> WeekDay.MONDAY

@@ -40,6 +40,7 @@ import com.axiel7.moelist.ui.season.SeasonChartEvent
 import com.axiel7.moelist.ui.season.SeasonChartUiState
 import com.axiel7.moelist.ui.theme.MoeListTheme
 import com.axiel7.moelist.ui.userlist.composables.SortChip
+import com.axiel7.moelist.utils.SeasonCalendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -92,7 +93,10 @@ fun SeasonChartFilterSheet(
                 SeasonType.entries.forEach {
                     SegmentedButton(
                         selected = it == uiState.seasonType,
-                        onClick = { event?.setSeason(it) },
+                        onClick =
+                        {
+                            event?.setSeason(it)
+                        },
                         shape = SegmentedButtonDefaults.itemShape(
                             index = it.ordinal,
                             count = SeasonType.entries.size
