@@ -23,7 +23,6 @@ object SeasonCalendar {
 
     val currentYear = calendar[Calendar.YEAR]
 
-
     val currentSeason = when (month)
     {
          0, 1,  -> Season.WINTER
@@ -33,9 +32,9 @@ object SeasonCalendar {
         else -> Season.SPRING
     }
 
-    /*  Assert
+    /*
        --- MAL APP --button values  --- expecting the same from moelist.
-       ---- tested -- on 12.12.2024
+       ---- tested on 12.12.2024
 
        previous: summer 2024
        current : fall 2024
@@ -65,13 +64,6 @@ object SeasonCalendar {
         }
         return ret;
     }
-
-
-//    val currentStartSeason = StartSeason(
-//        // if december, the season is next year winter
-//        year = if (month == 11) currentYear + 1 else currentYear,
-//        season = currentSeason
-//    )
 
     fun currentStartSeason() :StartSeason
     {
@@ -111,26 +103,6 @@ object SeasonCalendar {
         )
         return ss;
     }
-
-
-//    /**
-//     * wrong
-//     */
-//    val nextStartSeason = StartSeason(
-//        year = if (nextSeason == Season.WINTER) currentYear + 1 else currentYear,
-//        season = nextSeason
-//    )
-//    /**
-//     * wrong
-//     */
-//    val prevStartSeason = StartSeason(
-//        year = if (prevSeason == Season.FALL) currentYear - 1 else currentYear,
-//        season = prevSeason
-//    )
-
-
-
-
 
 
     val currentWeekday = when (weekDay) {
