@@ -20,8 +20,8 @@ enum class SeasonType : Localizable {
 
     val season
         get() = when (this) {
-            PREVIOUS -> SeasonCalendar.prevStartSeasonv2() //SeasonCalendar.prevStartSeason
-            CURRENT -> SeasonCalendar.currentStartSeason() //SeasonCalendar.currentStartSeason
-            NEXT -> SeasonCalendar.nextStartSeasonv2() //SeasonCalendar.nextStartSeason
+            PREVIOUS -> SeasonCalendar.prevStartSeason()
+            CURRENT -> SeasonCalendar.currentStartSeason()
+            NEXT -> SeasonCalendar.nextStartSeason()
         }
 }

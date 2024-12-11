@@ -77,7 +77,7 @@ object SeasonCalendar {
         return ss;
     }
 
-    fun nextStartSeasonv2() :StartSeason
+    fun nextStartSeason() :StartSeason
     {
         var curSS = currentStartSeason();
 
@@ -90,7 +90,7 @@ object SeasonCalendar {
         )
         return ss;
     }
-    fun prevStartSeasonv2() :StartSeason
+    fun prevStartSeason() :StartSeason
     {
         var curSS = currentStartSeason();
 
