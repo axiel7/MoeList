@@ -122,7 +122,7 @@ dependencies {
 
     implementation("androidx.glance:glance-appwidget:1.1.1")
 
-    val accompanistVersion = "0.36.0"
+    val accompanistVersion = "0.37.0"
     implementation("com.google.accompanist:accompanist-permissions:$accompanistVersion")
 
     implementation("io.github.fornewid:placeholder-material3:2.0.0")
