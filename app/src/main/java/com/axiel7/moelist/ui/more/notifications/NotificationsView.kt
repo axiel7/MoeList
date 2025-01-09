@@ -83,12 +83,12 @@ private fun NotificationsViewContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable(onClick = dropUnlessResumed {
-                            navActionManager.toMediaDetails(
-                                mediaType = MediaType.ANIME,
-                                id = key
-                                    .toString()
-                                    .toInt()
-                            )
+                            key.toString().toIntOrNull()?.let { id ->
+                                navActionManager.toMediaDetails(
+                                    mediaType = MediaType.ANIME,
+                                    id = id
+                                )
+                            }
                         }),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
