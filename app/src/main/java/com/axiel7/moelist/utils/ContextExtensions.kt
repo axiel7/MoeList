@@ -69,7 +69,7 @@ object ContextExtensions {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 try {
                     launchUrl(this@openCustomTab, Uri.parse(url))
-                } catch (e: ActivityNotFoundException) {
+                } catch (_: ActivityNotFoundException) {
                     openLink(url)
                 }
             }
@@ -85,7 +85,7 @@ object ContextExtensions {
                 try {
                     setPackage(defaultBrowser.activityInfo.packageName)
                     startActivity(this)
-                } catch (e: ActivityNotFoundException) {
+                } catch (_: ActivityNotFoundException) {
                     startActivity(Intent.createChooser(this, null))
                 }
             } else {

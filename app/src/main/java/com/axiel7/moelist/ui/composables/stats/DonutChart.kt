@@ -60,7 +60,7 @@ fun <T : LocalizableAndColorable> DonutChart(
         contentAlignment = Alignment.Center
     ) {
 
-        val canvasSize = min(constraints.maxWidth, constraints.maxHeight)
+        val canvasSize = min(this.constraints.maxWidth, this.constraints.maxHeight)
         val size = Size(canvasSize.toFloat(), canvasSize.toFloat())
         val canvasSizeDp = with(LocalDensity.current) { canvasSize.toDp() }
         val sliceWidth = with(LocalDensity.current) { 16.dp.toPx() }
