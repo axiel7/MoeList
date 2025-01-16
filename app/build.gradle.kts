@@ -8,7 +8,7 @@ plugins {
     id("com.google.devtools.ksp")
 }
 
-val properties = Properties().also {
+val privateProps = Properties().also {
     it.load(project.rootProject.file("private.properties").reader())
 }
 val versionProps = Properties().also {
@@ -47,7 +47,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "CLIENT_ID", properties.getProperty("CLIENT_ID"))
+            buildConfigField("String", "CLIENT_ID", privateProps.getProperty("CLIENT_ID"))
             resValue("string", "app_name", "MoeList Debug")
         }
         release {
@@ -58,7 +58,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "CLIENT_ID", properties.getProperty("CLIENT_ID"))
+            buildConfigField("String", "CLIENT_ID", privateProps.getProperty("CLIENT_ID"))
         }
     }
     splits {
