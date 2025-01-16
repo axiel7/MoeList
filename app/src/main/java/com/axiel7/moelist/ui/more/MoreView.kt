@@ -32,7 +32,7 @@ import com.axiel7.moelist.ui.composables.collapsable
 import com.axiel7.moelist.ui.more.composables.FeedbackDialog
 import com.axiel7.moelist.ui.more.composables.MoreItem
 import com.axiel7.moelist.ui.theme.MoeListTheme
-import com.axiel7.moelist.utils.ContextExtensions.openLink
+import com.axiel7.moelist.utils.ContextExtensions.openCustomTab
 import com.axiel7.moelist.utils.MAL_ANNOUNCEMENTS_URL
 import com.axiel7.moelist.utils.MAL_NEWS_URL
 import org.koin.androidx.compose.koinViewModel
@@ -104,14 +104,14 @@ private fun MoreViewContent(
             title = stringResource(R.string.anime_manga_news),
             subtitle = stringResource(R.string.news_summary),
             icon = R.drawable.ic_new_releases,
-            onClick = { context.openLink(MAL_NEWS_URL) }
+            onClick = { context.openCustomTab(MAL_NEWS_URL) }
         )
 
         MoreItem(
             title = stringResource(R.string.mal_announcements),
             subtitle = stringResource(R.string.mal_announcements_summary),
             icon = R.drawable.ic_campaign,
-            onClick = { context.openLink(MAL_ANNOUNCEMENTS_URL) }
+            onClick = { context.openCustomTab(MAL_ANNOUNCEMENTS_URL) }
         )
 
         HorizontalDivider()
