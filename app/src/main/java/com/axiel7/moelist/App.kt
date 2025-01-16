@@ -21,12 +21,12 @@ import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.androix.startup.KoinStartup
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.component.KoinComponent
-import org.koin.dsl.KoinAppDeclaration
+import org.koin.dsl.koinConfiguration
 
 @OptIn(KoinExperimentalAPI::class)
 class App : Application(), KoinComponent, KoinStartup, SingletonImageLoader.Factory {
 
-    override fun onKoinStartup(): KoinAppDeclaration = {
+    override fun onKoinStartup() = koinConfiguration {
         if (BuildConfig.DEBUG) {
             androidLogger()
         }

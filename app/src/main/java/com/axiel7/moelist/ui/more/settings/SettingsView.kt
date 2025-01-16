@@ -34,13 +34,13 @@ import com.axiel7.moelist.ui.composables.preferences.PlainPreferenceView
 import com.axiel7.moelist.ui.composables.preferences.SwitchPreferenceView
 import com.axiel7.moelist.ui.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.openByDefaultSettings
-import org.koin.androidx.compose.navigation.koinNavViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SettingsView(
     navActionManager: NavActionManager
 ) {
-    val viewModel: SettingsViewModel = koinNavViewModel()
+    val viewModel: SettingsViewModel = koinViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     SettingsViewContent(
