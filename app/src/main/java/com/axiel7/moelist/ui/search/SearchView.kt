@@ -91,7 +91,7 @@ fun SearchHostView(
     LifecycleStartEffect(focusRequester) {
         if (query.text.isEmpty()) focusRequester.requestFocus()
 
-        onStopOrDispose { focusRequester.freeFocus() }
+        onStopOrDispose { }
     }
 
     Column(
