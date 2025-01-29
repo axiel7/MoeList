@@ -1,10 +1,12 @@
 package com.axiel7.moelist.ui.main.composables
 
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,51 +40,57 @@ fun MainTopAppBar(
     navController: NavController,
     modifier: Modifier = Modifier,
 ) {
-    AnimatedVisibility(
-        visible = isVisible,
-        enter = slideInVertically(initialOffsetY = { -it }),
-        exit = slideOutVertically(targetOffsetY = { -it })
-    ) {
-        Card(
-            onClick = dropUnlessResumed { navController.navigate(Route.Search()) },
-            modifier = modifier
-                .statusBarsPadding()
-                .fillMaxWidth()
-                .height(56.dp)
-                .padding(start = 16.dp, end = 16.dp, bottom = 4.dp),
-            shape = RoundedCornerShape(50),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
-            )
-        ) {
-            Row(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .fillMaxHeight(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalAlignment = Alignment.CenterVertically
+    AnimatedContent(
+        targetState = isVisible,
+        transitionSpec = {
+            slideInVertically(initialOffsetY = { -it }) togetherWith
+                    slideOutVertically(targetOffsetY = { -it })
+        }
+    ) { isVisible ->
+        if (isVisible) {
+            Card(
+                onClick = dropUnlessResumed { navController.navigate(Route.Search()) },
+                modifier = modifier
+                    .statusBarsPadding()
+                    .fillMaxWidth()
+                    .height(56.dp)
+                    .padding(start = 16.dp, end = 16.dp, bottom = 4.dp),
+                shape = RoundedCornerShape(50),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
+                )
             ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_round_search_24),
-                    contentDescription = "search",
-                    tint = MaterialTheme.colorScheme.onSurface
-                )
-                Text(
-                    text = stringResource(R.string.search),
-                    modifier = Modifier.weight(1f),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                AsyncImage(
-                    model = profilePicture,
-                    contentDescription = "profile",
-                    placeholder = painterResource(R.drawable.ic_round_account_circle_24),
-                    error = painterResource(R.drawable.ic_round_account_circle_24),
+                Row(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(100))
-                        .size(32.dp)
-                        .clickable { navController.navigate(Route.Profile) }
-                )
-            }
-        }//:Card
+                        .padding(horizontal = 16.dp)
+                        .fillMaxHeight(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_round_search_24),
+                        contentDescription = "search",
+                        tint = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        text = stringResource(R.string.search),
+                        modifier = Modifier.weight(1f),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    AsyncImage(
+                        model = profilePicture,
+                        contentDescription = "profile",
+                        placeholder = painterResource(R.drawable.ic_round_account_circle_24),
+                        error = painterResource(R.drawable.ic_round_account_circle_24),
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(100))
+                            .size(32.dp)
+                            .clickable { navController.navigate(Route.Profile) }
+                    )
+                }
+            }//:Card
+        } else {
+            Box(modifier = Modifier.fillMaxWidth())
+        }
     }
 }

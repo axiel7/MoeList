@@ -3,8 +3,10 @@ package com.axiel7.moelist.ui.main
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.EaseIn
+import androidx.compose.animation.core.EaseOut
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -64,26 +66,26 @@ fun MainNavigation(
             .getOrElse(lastTabOpened) { BottomDestination.Home }.route,
         modifier = modifier,
         enterTransition = {
-            fadeIn() + slideIntoContainer(
-                towards = AnimatedContentTransitionScope.SlideDirection.Start,
-                animationSpec = spring(stiffness = Spring.StiffnessMediumLow)
+            fadeIn(
+                animationSpec = tween(250, easing = LinearEasing)
+            ) + slideIntoContainer(
+                animationSpec = tween(250, easing = EaseIn),
+                towards = AnimatedContentTransitionScope.SlideDirection.Start
             )
         },
         exitTransition = {
-            fadeOut() + slideOutOfContainer(
-                towards = AnimatedContentTransitionScope.SlideDirection.End,
-                animationSpec = spring(stiffness = Spring.StiffnessMediumLow)
+            fadeOut(
+                animationSpec = tween(300, easing = LinearEasing)
+            ) + slideOutOfContainer(
+                animationSpec = tween(300, easing = EaseOut),
+                towards = AnimatedContentTransitionScope.SlideDirection.End
             )
         },
         popEnterTransition = {
-            fadeIn()
-        },
-        popExitTransition = {
-            fadeOut() + slideOutOfContainer(
-                towards = AnimatedContentTransitionScope.SlideDirection.End,
-                animationSpec = spring(stiffness = Spring.StiffnessMediumLow)
+            fadeIn(
+                animationSpec = tween(250, easing = LinearEasing)
             )
-        }
+        },
     ) {
         composable<Route.Tab.Home>(
             enterTransition = { fadeIn() },
