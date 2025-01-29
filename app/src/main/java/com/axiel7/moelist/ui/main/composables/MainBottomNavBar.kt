@@ -48,10 +48,18 @@ fun MainBottomNavBar(
                     selected = isSelected,
                     onClick = {
                         if (isSelected) {
-                            if (dest == BottomDestination.MangaList) {
-                                navController.navigate(Route.Search(mediaType = MediaType.MANGA))
-                            } else {
-                                navController.navigate(Route.Search())
+                            when (dest) {
+                                BottomDestination.More -> {
+                                    navController.navigate(Route.Settings)
+                                }
+
+                                else -> {
+                                    navController.navigate(Route.Search(
+                                        mediaType = MediaType.MANGA
+                                            .takeIf { dest == BottomDestination.MangaList }
+                                            ?: MediaType.ANIME
+                                    ))
+                                }
                             }
                         } else {
                             scope.launch {
