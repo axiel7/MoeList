@@ -37,5 +37,5 @@ data class StatisticsStatus(
             type = ListStatus.PLAN_TO_WATCH,
             value = planToWatch.toFloatOrNull() ?: 0f
         )
-    )
+    ).sortedByDescending { it.value }
 }
