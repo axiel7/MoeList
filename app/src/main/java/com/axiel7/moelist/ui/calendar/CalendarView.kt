@@ -125,7 +125,7 @@ private fun CalendarContent(
                             },
                             subtitle = {
                                 Text(
-                                    text = item.node.broadcast?.startTime ?: "??",
+                                    text = item.node.broadcast?.localStartTime() ?: "??",
                                     color = MaterialTheme.colorScheme.outline
                                 )
                             },

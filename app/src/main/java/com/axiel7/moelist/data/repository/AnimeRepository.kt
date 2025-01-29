@@ -264,8 +264,10 @@ class AnimeRepository(
                 mutableListOf(),//5: SATURDAY
                 mutableListOf(),//6: SUNDAY
             )
-            rankResponse.data?.forEach { anime ->
-                anime.node.broadcast?.dayOfTheWeek?.let { day ->
+            rankResponse.data
+                ?.sortedBy { it.node.broadcast?.secondsUntilNextBroadcast() }
+                ?.forEach { anime ->
+                anime.node.broadcast?.localDayOfTheWeek()?.let { day ->
                     tempWeekArray[day.ordinal].add(anime)
                 }
             }
