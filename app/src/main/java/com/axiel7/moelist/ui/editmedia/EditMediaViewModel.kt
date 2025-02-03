@@ -134,7 +134,9 @@ class EditMediaViewModel(
     }
 
     override fun onChangeScore(value: Int) {
-        mutableUiState.update { it.copy(score = value) }
+        if (value >= 0 && value <= 10) {
+            mutableUiState.update { it.copy(score = value) }
+        }
     }
 
     override fun onChangeStartDate(value: LocalDate?) {

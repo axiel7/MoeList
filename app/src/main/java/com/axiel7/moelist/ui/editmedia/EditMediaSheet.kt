@@ -4,6 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,19 +15,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalBottomSheetProperties
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.SheetValue
-import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -37,6 +37,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -44,13 +45,11 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.axiel7.moelist.R
-import com.axiel7.moelist.data.model.manga.MangaNode
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseMyListStatus
 import com.axiel7.moelist.data.model.media.ListStatus.Companion.listStatusValues
@@ -58,22 +57,20 @@ import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.priorityLocalized
 import com.axiel7.moelist.data.model.media.repeatValueLocalized
 import com.axiel7.moelist.data.model.media.scoreText
-import com.axiel7.moelist.ui.composables.ClickableOutlinedTextField
 import com.axiel7.moelist.ui.composables.SelectableIconToggleButton
-import com.axiel7.moelist.ui.composables.TextCheckBox
-import com.axiel7.moelist.ui.composables.score.ScoreSlider
+import com.axiel7.moelist.ui.composables.preferences.PlainPreferenceView
+import com.axiel7.moelist.ui.composables.preferences.SwitchPreferenceView
 import com.axiel7.moelist.ui.editmedia.composables.DeleteMediaEntryDialog
+import com.axiel7.moelist.ui.editmedia.composables.EditMediaDateField
 import com.axiel7.moelist.ui.editmedia.composables.EditMediaDatePicker
 import com.axiel7.moelist.ui.editmedia.composables.EditMediaProgressRow
+import com.axiel7.moelist.ui.editmedia.composables.EditMediaValueRow
 import com.axiel7.moelist.ui.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.DateUtils
 import com.axiel7.moelist.utils.DateUtils.toEpochMillis
-import com.axiel7.moelist.utils.DateUtils.toLocalized
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
-import java.time.ZoneOffset
-import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -178,7 +175,6 @@ private fun EditMediaSheetContent(
                 .verticalScroll(rememberScrollState())
                 .padding(bottom = 32.dp + bottomPadding)
                 .imePadding(),
-            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(
                 modifier = Modifier
@@ -199,6 +195,7 @@ private fun EditMediaSheetContent(
                 }
             }
 
+            // Status
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -220,13 +217,18 @@ private fun EditMediaSheetContent(
                 }
             }
 
+            // Progress
             EditMediaProgressRow(
                 label = if (uiState.mediaType == MediaType.ANIME) stringResource(R.string.episodes)
                 else stringResource(R.string.chapters),
+                icon = if (uiState.mediaType == MediaType.ANIME) R.drawable.play_circle_outline_24
+                else R.drawable.ic_outline_book_24,
                 progress = uiState.progress,
-                modifier = Modifier.padding(horizontal = 16.dp),
+                modifier = Modifier.padding(start = 0.dp, end = 16.dp),
                 totalProgress = uiState.mediaInfo?.totalDuration(),
                 onValueChange = { event?.onChangeProgress(it.toIntOrNull()) },
+                minValue = 0,
+                maxValue = uiState.mediaInfo?.totalDuration(),
                 onMinusClick = { event?.onChangeProgress((uiState.progress ?: 0) - 1) },
                 onPlusClick = { event?.onChangeProgress((uiState.progress ?: 0) + 1) }
             )
@@ -234,10 +236,13 @@ private fun EditMediaSheetContent(
             if (uiState.mediaType == MediaType.MANGA) {
                 EditMediaProgressRow(
                     label = stringResource(R.string.volumes),
+                    icon = R.drawable.round_bookmark_24,
                     progress = uiState.volumeProgress,
-                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
-                    totalProgress = (uiState.mediaInfo as? MangaNode)?.numVolumes,
+                    modifier = Modifier.padding(end = 16.dp, top = 8.dp),
+                    totalProgress = uiState.mediaInfo?.totalVolumes(),
                     onValueChange = { event?.onChangeVolumeProgress(it.toIntOrNull()) },
+                    minValue = 0,
+                    maxValue = uiState.mediaInfo?.totalVolumes(),
                     onMinusClick = {
                         event?.onChangeVolumeProgress((uiState.volumeProgress ?: 0) - 1)
                     },
@@ -247,102 +252,101 @@ private fun EditMediaSheetContent(
                 )
             }
 
-            Text(
-                text = stringResource(id = R.string.score_value, uiState.score.scoreText()),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp, start = 16.dp, end = 16.dp),
-                fontWeight = FontWeight.Bold
-            )
-            ScoreSlider(
-                score = uiState.score,
-                onValueChange = { event?.onChangeScore(it) },
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+            // Score
+            EditMediaProgressRow(
+                label = uiState.score.scoreText(),
+                icon = R.drawable.ic_round_details_star_24,
+                progress = uiState.score,
+                modifier = Modifier.padding(start = 0.dp, top = 8.dp, end = 16.dp),
+                totalProgress = 10,
+                onValueChange = { value ->
+                    value.toIntOrNull()?.let { event?.onChangeScore(it) }
+                },
+                minValue = 0,
+                maxValue = 10,
+                onMinusClick = {
+                    event?.onChangeScore(uiState.score.minus(1))
+                },
+                onPlusClick = {
+                    event?.onChangeScore(uiState.score.plus(1))
+                }
             )
 
             HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
 
-            ClickableOutlinedTextField(
-                value = uiState.startDate.toLocalized(),
-                onValueChange = { },
-                label = { Text(text = stringResource(R.string.start_date)) },
-                trailingIcon = {
-                    if (uiState.startDate != null) {
-                        IconButton(onClick = { event?.onChangeStartDate(null) }) {
-                            Icon(
-                                painter = painterResource(R.drawable.outline_cancel_24),
-                                contentDescription = stringResource(R.string.delete)
-                            )
-                        }
-                    }
-                },
+            // Dates
+            EditMediaDateField(
+                date = uiState.startDate,
+                label = stringResource(R.string.start_date),
+                icon = R.drawable.round_calendar_today_24,
+                removeDate = { event?.onChangeStartDate(null) },
                 onClick = {
-                    datePickerState.selectedDateMillis = uiState.startDate
-                        ?.toEpochMillis(offset = ZoneOffset.UTC)
+                    datePickerState.selectedDateMillis = uiState.startDate?.toEpochMillis()
                     event?.openStartDatePicker()
                 }
             )
-            ClickableOutlinedTextField(
-                value = uiState.finishDate.toLocalized(),
-                onValueChange = { },
-                modifier = Modifier.padding(vertical = 8.dp),
-                label = { Text(text = stringResource(R.string.end_date)) },
-                trailingIcon = {
-                    if (uiState.finishDate != null) {
-                        IconButton(onClick = { event?.onChangeFinishDate(null) }) {
-                            Icon(
-                                painter = painterResource(R.drawable.outline_cancel_24),
-                                contentDescription = stringResource(R.string.delete)
-                            )
-                        }
-                    }
-                },
+            EditMediaDateField(
+                date = uiState.finishDate,
+                label = stringResource(R.string.end_date),
+                icon = R.drawable.round_event_available_24,
+                removeDate = { event?.onChangeFinishDate(null) },
                 onClick = {
-                    datePickerState.selectedDateMillis = uiState.finishDate
-                        ?.toEpochMillis(offset = ZoneOffset.UTC)
+                    datePickerState.selectedDateMillis = uiState.finishDate?.toEpochMillis()
                     event?.openFinishDatePicker()
                 }
             )
 
-            OutlinedTextField(
-                value = uiState.tags.orEmpty(),
-                onValueChange = {
-                    event?.onChangeTags(it)
+            // Tags
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.round_label_24),
+                    contentDescription = stringResource(R.string.tags),
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+                OutlinedTextField(
+                    value = uiState.tags.orEmpty(),
+                    onValueChange = { event?.onChangeTags(it) },
+                    placeholder = {
+                        Text(text = stringResource(R.string.tags))
+                    },
+                    singleLine = false,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        unfocusedBorderColor = Color.Transparent,
+                        focusedBorderColor = Color.Transparent
+                    )
+                )
+            }
+
+            EditMediaValueRow(
+                label = stringResource(R.string.priority_value, uiState.priority.priorityLocalized()),
+                icon = R.drawable.round_priority_high_24,
+                modifier = Modifier.padding(start = 0.dp, end = 16.dp, bottom = 8.dp),
+                minusEnabled = uiState.priority > 0,
+                onMinusClick = {
+                    event?.onChangePriority(uiState.priority.minus(1))
                 },
-                modifier = Modifier.padding(16.dp),
-                label = { Text(text = stringResource(R.string.tags)) }
+                plusEnabled = uiState.priority < 2,
+                onPlusClick = {
+                    event?.onChangePriority(uiState.priority.plus(1))
+                }
             )
 
-            Text(
-                text = stringResource(R.string.priority_value).format(uiState.priority.priorityLocalized()),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp, start = 16.dp, end = 16.dp),
-                fontWeight = FontWeight.Bold
-            )
-            Slider(
-                value = uiState.priority.toFloat(),
-                onValueChange = {
-                    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                    event?.onChangePriority(it.roundToInt())
-                },
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                valueRange = 0f..2f,
-                steps = 1
-            )
-
-            TextCheckBox(
-                text = stringResource(
+            SwitchPreferenceView(
+                title = stringResource(
                     if (uiState.mediaType == MediaType.ANIME) R.string.rewatching
                     else R.string.rereading
                 ),
-                checked = uiState.isRepeating,
-                onCheckedChange = {
-                    event?.onChangeIsRepeating(it)
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                value = uiState.isRepeating,
+                icon = R.drawable.round_repeat_24,
+                iconTint = LocalContentColor.current,
+                iconPadding = PaddingValues(
+                    start = 16.dp,
+                    top = 16.dp,
+                    bottom = 16.dp
+                ),
+                onValueChange = { event?.onChangeIsRepeating(it) },
             )
 
             EditMediaProgressRow(
@@ -350,59 +354,71 @@ private fun EditMediaSheetContent(
                     if (uiState.mediaType == MediaType.ANIME) R.string.total_rewatches
                     else R.string.total_rereads
                 ),
+                icon = R.drawable.round_repeat_one_24,
                 progress = uiState.repeatCount,
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(start = 0.dp, top = 8.dp, end = 16.dp),
                 totalProgress = null,
                 onValueChange = { event?.onChangeRepeatCount(it.toIntOrNull()) },
+                minValue = 0,
                 onMinusClick = { event?.onChangeRepeatCount(uiState.repeatCount?.minus(1)) },
                 onPlusClick = { event?.onChangeRepeatCount(uiState.repeatCount?.plus(1)) }
             )
 
-            Text(
-                text = stringResource(
+            EditMediaValueRow(
+                label = stringResource(
                     id = if (uiState.mediaType == MediaType.ANIME) R.string.rewatch_value
                     else R.string.reread_value,
                     uiState.repeatValue.repeatValueLocalized()
                 ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp, start = 16.dp, end = 16.dp),
-                fontWeight = FontWeight.Bold
-            )
-            Slider(
-                value = uiState.repeatValue.toFloat(),
-                onValueChange = {
-                    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                    event?.onChangeRepeatValue(it.roundToInt())
+                icon = R.drawable.round_event_repeat_24,
+                modifier = Modifier.padding(start = 0.dp, top = 8.dp, end = 16.dp),
+                minusEnabled = uiState.repeatValue > 0,
+                onMinusClick = {
+                    event?.onChangeRepeatValue(uiState.repeatValue.minus(1))
                 },
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                valueRange = 0f..5f,
-                steps = 4
+                plusEnabled = uiState.repeatValue < 5,
+                onPlusClick = {
+                    event?.onChangeRepeatValue(uiState.repeatValue.plus(1))
+                }
             )
 
-            OutlinedTextField(
-                value = uiState.comments.orEmpty(),
-                onValueChange = {
-                    event?.onChangeComments(it)
-                },
-                modifier = Modifier.padding(16.dp),
-                label = { Text(text = stringResource(R.string.notes)) },
-                minLines = 2
-            )
-
-            Button(
-                onClick = { event?.toggleDeleteDialog(true) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 32.dp, vertical = 16.dp),
-                enabled = !uiState.isNewEntry,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.errorContainer,
-                    contentColor = MaterialTheme.colorScheme.error
-                )
+            // Notes
+            Row(
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = stringResource(R.string.delete))
+                Icon(
+                    painter = painterResource(R.drawable.round_notes_24),
+                    contentDescription = stringResource(R.string.tags),
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+                OutlinedTextField(
+                    value = uiState.comments.orEmpty(),
+                    onValueChange = { event?.onChangeComments(it) },
+                    placeholder = {
+                        Text(text = stringResource(R.string.notes))
+                    },
+                    singleLine = false,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        unfocusedBorderColor = Color.Transparent,
+                        focusedBorderColor = Color.Transparent
+                    )
+                )
             }
+
+            // Delete
+            PlainPreferenceView(
+                title = stringResource(R.string.delete),
+                titleTint = MaterialTheme.colorScheme.error,
+                icon = R.drawable.delete_outline_24,
+                iconTint = MaterialTheme.colorScheme.error,
+                iconPadding = PaddingValues(
+                    start = 16.dp,
+                    top = 8.dp,
+                    bottom = 8.dp
+                ),
+                enabled = !uiState.isNewEntry,
+                onClick = { event?.toggleDeleteDialog(true) }
+            )
         }//:Column
     }//:Sheet
 }
