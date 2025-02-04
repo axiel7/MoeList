@@ -241,7 +241,7 @@ private fun MediaDetailsContent(
                         fontWeight = FontWeight.SemiBold
                     )
                     TextIconHorizontal(
-                        text = uiState.mediaDetails?.mediaFormat?.localized() ?: "Loading",
+                        text = uiState.mediaDetails?.mediaFormatWithYear() ?: "Loading",
                         icon = if (uiState.isAnime) R.drawable.ic_round_local_movies_24
                         else R.drawable.ic_round_book_24,
                         modifier = Modifier
