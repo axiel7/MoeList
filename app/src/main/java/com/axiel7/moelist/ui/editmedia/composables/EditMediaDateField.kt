@@ -63,7 +63,10 @@ fun EditMediaDateField(
                 )
             }
             Column(
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(
+                    horizontal = 16.dp,
+                    vertical = if (dateLocalized != null) 8.dp else 16.dp
+                )
             ) {
                 Text(
                     text = label,
