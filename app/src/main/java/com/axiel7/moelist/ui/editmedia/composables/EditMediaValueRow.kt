@@ -49,7 +49,6 @@ fun EditMediaValueRow(
                 text = label,
                 color = MaterialTheme.colorScheme.onSurface,
                 overflow = TextOverflow.Ellipsis,
-                maxLines = 1,
             )
         }
 
