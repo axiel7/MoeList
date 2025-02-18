@@ -341,4 +341,11 @@
     <string name="cm">廣告</string>
     <string name="pv">預告片</string>
     <string name="black_theme_variant">黑色主題變體</string>
+    <string name="pinned_navigation_bar">釘選導覽列</string>
+    <string name="hide_scores">隱藏分數</string>
+    <string name="mode_auto" comment="tablet mode">自動</string>
+    <string name="mode_always" comment="tablet mode">永遠</string>
+    <string name="mode_landscape" comment="tablet mode">橫向</string>
+    <string name="mode_never" comment="tablet mode">永不</string>
+    <string name="tablet_mode">平板模式</string>
 </resources>
