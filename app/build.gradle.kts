@@ -120,7 +120,7 @@ dependencies {
     implementation("androidx.compose.material3:material3-window-size-class:$materialVersion")
 
     implementation("androidx.activity:activity-compose:1.10.0")
-    implementation("androidx.navigation:navigation-compose:2.8.7")
+    implementation("androidx.navigation:navigation-compose:2.8.8")
 
     val lifecycleVersion = "2.8.7"
     implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion")
