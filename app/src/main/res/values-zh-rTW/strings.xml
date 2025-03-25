@@ -3,7 +3,7 @@
     <string name="title_home">首頁</string>
     <string name="title_anime_list">動畫</string>
     <string name="title_manga_list">漫畫</string>
-    <string name="stats">統計</string>
+    <string name="stats">統計數據</string>
     <string name="more_info">更多資訊</string>
     <string name="synonyms">同義詞</string>
     <string name="jp_title">日文</string>
@@ -282,7 +282,7 @@
     <string name="role_supporting">配角</string>
     <string name="view_characters">查看登場人物 (測試中)</string>
     <string name="characters">主角</string>
-    <string name="genre_adult_cast">社會派動畫</string>
+    <string name="genre_adult_cast">成年角色動畫</string>
     <string name="genre_avant_garde">前衛</string>
     <string name="genre_award_winning">獲獎</string>
     <string name="genre_gourmet">美食料理</string>
