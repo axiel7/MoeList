@@ -18,16 +18,16 @@ val versionProps = Properties().also {
 android {
     compileSdk = 35
 
+    base {
+        archivesName = "moelist-v${versionProps.getProperty("name")}"
+    }
+
     defaultConfig {
         applicationId = "com.axiel7.moelist"
         minSdk = 23
         targetSdk = 35
         versionCode = versionProps.getProperty("code").toInt()
         versionName = versionProps.getProperty("name")
-
-        base {
-            archivesName = "moelist-v$versionName"
-        }
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
