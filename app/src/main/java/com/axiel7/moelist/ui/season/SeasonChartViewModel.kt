@@ -81,8 +81,7 @@ class SeasonChartViewModel(
 
                     val result = animeRepository.getSeasonalAnimes(
                         sort = uiState.sort,
-                        year = uiState.season.year,
-                        season = uiState.season.season,
+                        startSeason = uiState.season,
                         isNew = uiState.isNew,
                         limit = 25,
                         fields = AnimeRepository.SEASONAL_FIELDS,

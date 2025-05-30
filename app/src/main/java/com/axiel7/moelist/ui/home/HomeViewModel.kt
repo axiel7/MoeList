@@ -62,9 +62,8 @@ class HomeViewModel(
     private suspend fun getSeasonAnimes() {
         val currentStartSeason = SeasonCalendar.currentStartSeason
         val result = animeRepository.getSeasonalAnimes(
-            sort = MediaSort.ANIME_START_DATE,
-            year = currentStartSeason.year,
-            season = currentStartSeason.season,
+            sort = MediaSort.SCORE,
+            startSeason = currentStartSeason,
             limit = 25,
             fields = "alternative_titles{en,ja},mean,my_list_status{status}",
         )

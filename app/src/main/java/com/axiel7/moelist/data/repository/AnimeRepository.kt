@@ -8,7 +8,7 @@ import com.axiel7.moelist.data.model.anime.AnimeNode
 import com.axiel7.moelist.data.model.anime.AnimeRanking
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
-import com.axiel7.moelist.data.model.anime.Season
+import com.axiel7.moelist.data.model.anime.StartSeason
 import com.axiel7.moelist.data.model.anime.UserAnimeList
 import com.axiel7.moelist.data.model.media.Character
 import com.axiel7.moelist.data.model.media.ListStatus
@@ -56,8 +56,7 @@ class AnimeRepository(
 
     suspend fun getSeasonalAnimes(
         sort: MediaSort,
-        year: Int,
-        season: Season,
+        startSeason: StartSeason,
         isNew: Boolean? = null,
         limit: Int,
         fields: String?,
@@ -66,8 +65,8 @@ class AnimeRepository(
         return try {
             val result = if (page == null) api.getSeasonalAnime(
                 sort = sort,
-                year = year,
-                season = season.value,
+                year = startSeason.year,
+                season = startSeason.season.value,
                 limit = limit,
                 nsfw = defaultPreferencesRepository.nsfwInt(),
                 fields = fields,
@@ -78,8 +77,8 @@ class AnimeRepository(
                 result.copy(
                     // filter for new or continuing anime
                     data = result.data?.filter {
-                        if (isNew) it.node.startSeason?.year == year
-                        else it.node.startSeason?.year != year
+                        if (isNew) it.node.startSeason == startSeason
+                        else it.node.startSeason != startSeason
                     }
                 )
             } else {
