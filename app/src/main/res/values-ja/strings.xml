@@ -86,16 +86,6 @@
     <string name="visual_novel">ビジュアルノベル</string>
     <string name="game">ゲーム</string>
     <string name="web_manga">Web漫画</string>
-    <string name="score_apalling">恐ろしい</string>
-    <string name="score_horrible">ひどい</string>
-    <string name="score_very_bad">とても悪い</string>
-    <string name="score_bad">悪い</string>
-    <string name="score_average">普通</string>
-    <string name="score_fine">そこそこ</string>
-    <string name="score_good">良い</string>
-    <string name="score_very_good">とても良い</string>
-    <string name="score_great">素晴らしい</string>
-    <string name="score_masterpiece">傑作</string>
     <string name="monday">月曜日</string>
     <string name="tuesday">火曜日</string>
     <string name="wednesday">水曜日</string>
@@ -333,5 +323,4 @@
     <string name="tv_special">TV　スペシャル</string>
     <string name="cm">CM</string>
     <string name="pv">PV</string>
-    <string name="refresh">更新する</string>
 </resources>
