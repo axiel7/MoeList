@@ -16,7 +16,7 @@ val versionProps = Properties().also {
 }
 
 android {
-    compileSdk = 35
+    compileSdk = 36
 
     base {
         archivesName = "moelist-v${versionProps.getProperty("name")}"
@@ -25,7 +25,7 @@ android {
     defaultConfig {
         applicationId = "com.axiel7.moelist"
         minSdk = 23
-        targetSdk = 35
+        targetSdk = 36
         versionCode = versionProps.getProperty("code").toInt()
         versionName = versionProps.getProperty("name")
 
