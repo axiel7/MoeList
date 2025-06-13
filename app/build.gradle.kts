@@ -159,7 +159,7 @@ dependencies {
     implementation("io.coil-kt.coil3:coil-network-okhttp:$coilVersion")
 
     //Koin
-    implementation(platform("io.insert-koin:koin-bom:4.0.4"))
+    implementation(platform("io.insert-koin:koin-bom:4.1.0"))
     implementation("io.insert-koin:koin-androidx-compose")
     implementation("io.insert-koin:koin-androidx-compose-navigation")
     implementation("io.insert-koin:koin-androidx-workmanager")
