@@ -312,4 +312,5 @@
     <string name="enable_list_tabs_subtitle">Použití karet v seznamu Anime/Manga místo plovoucího akčního tlačítka</string>
     <string name="always_load_characters">Vždy načtěte znaky</string>
     <string name="random_button_on_list">Náhodné tlačítko na seznamu anime/manga</string>
+    <string name="refresh">Obnovit</string>
 </resources>

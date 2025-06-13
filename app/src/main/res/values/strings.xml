@@ -387,4 +387,5 @@
     <string name="mode_landscape">Landscape</string>
     <string name="mode_never">Never</string>
     <string name="tablet_mode">Tablet mode</string>
+    <string name="refresh">Refresh</string>
 </resources>

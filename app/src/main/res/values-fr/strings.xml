@@ -312,4 +312,5 @@
     <string name="enable_list_tabs_subtitle">Utiliser les onglets dans la liste Anime/Manga au lieu du bouton d\'action flottant</string>
     <string name="always_load_characters">Toujours charger les caractères</string>
     <string name="random_button_on_list">Bouton aléatoire sur la liste des anime/manga</string>
+    <string name="refresh">Actualiser</string>
 </resources>

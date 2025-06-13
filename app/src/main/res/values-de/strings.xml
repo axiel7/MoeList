@@ -328,4 +328,5 @@
     <string name="enable_list_tabs_subtitle">Tabs in der Anime/Manga-Liste anstelle der schwebenden Aktionsschaltfläche verwenden</string>
     <string name="always_load_characters">Zeichen immer laden</string>
     <string name="random_button_on_list">Zufällige Schaltfläche auf der Anime/Manga-Liste</string>
+    <string name="refresh">Aktualisieren</string>
 </resources>

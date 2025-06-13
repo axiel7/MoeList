@@ -275,4 +275,5 @@
     <string name="ago">%s前</string>
     <string name="set_as_completed">设为已完成？</string>
     <string name="relation_character">人物</string>
+    <string name="refresh">更新</string>
 </resources>

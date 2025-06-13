@@ -354,4 +354,5 @@
     <string name="mode_landscape" comment="tablet mode">Horizontal</string>
     <string name="mode_never" comment="tablet mode">Nunca</string>
     <string name="tablet_mode">Modo tablet</string>
+    <string name="refresh">Actualizar</string>
 </resources>

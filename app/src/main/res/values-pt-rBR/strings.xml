@@ -322,4 +322,5 @@
     <string name="tv_special">Especial de TV</string>
     <string name="cm">CM</string>
     <string name="pv">PV</string>
+    <string name="refresh">Atualizar</string>
 </resources>
