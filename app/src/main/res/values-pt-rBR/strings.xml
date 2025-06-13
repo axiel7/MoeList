@@ -88,16 +88,6 @@
     <string name="visual_novel">Visual Novel</string>
     <string name="game">Jogo</string>
     <string name="web_manga">Web Mangá</string>
-    <string name="score_apalling">Abominável</string>
-    <string name="score_horrible">Horrível</string>
-    <string name="score_very_bad">Muito Ruim</string>
-    <string name="score_bad">Ruim</string>
-    <string name="score_average">Razoável</string>
-    <string name="score_fine">Aceitável</string>
-    <string name="score_good">Bom</string>
-    <string name="score_very_good">Muito Bom</string>
-    <string name="score_great">Excelente</string>
-    <string name="score_masterpiece">Obra-prima</string>
     <string name="monday">Segunda-Feira</string>
     <string name="tuesday">Terça-Feira</string>
     <string name="wednesday">Quarta-Feira</string>
@@ -349,10 +339,9 @@
     <string name="black_theme_variant">Variação do tema preto</string>
     <string name="pinned_navigation_bar">Barra de navegação fixa</string>
     <string name="hide_scores">Ocultar notas</string>
-    <string name="mode_auto" comment="tablet mode">Automático</string>
-    <string name="mode_always" comment="tablet mode">Sempre</string>
-    <string name="mode_landscape" comment="tablet mode">Paisagem</string>
-    <string name="mode_never" comment="tablet mode">Nunca</string>
+    <string name="mode_auto">Automático</string>
+    <string name="mode_always">Sempre</string>
+    <string name="mode_landscape">Paisagem</string>
+    <string name="mode_never">Nunca</string>
     <string name="tablet_mode">Modo tablet</string>
-    <string name="refresh">Atualizar</string>
 </resources>
