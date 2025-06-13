@@ -359,5 +359,12 @@
     <string name="cm">КП</string>
     <string name="pv">РВ</string>
     <string name="black_theme_variant">Чорний варіант теми</string>
+    <string name="pinned_navigation_bar">Закріплена панель навігації</string>
+    <string name="hide_scores">Приховати оцінки</string>
+    <string name="mode_auto" comment="tablet mode">Авто</string>
+    <string name="mode_always" comment="tablet mode">Завжди</string>
+    <string name="mode_landscape" comment="tablet mode">Горизонтальний</string>
+    <string name="mode_never" comment="tablet mode">Ніколи</string>
+    <string name="tablet_mode">Режим планшета</string>
     <string name="refresh">Оновити</string>
 </resources>

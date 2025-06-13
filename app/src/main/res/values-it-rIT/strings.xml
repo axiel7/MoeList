@@ -199,7 +199,7 @@
     <string name="copied">Copiato!</string>
     <string name="login_browser_warning">Prova con un altro browser se non riesci ad effettuare il login.</string>
     <string name="parent_story">Storia correlata</string>
-    <string name="hour_abbreviation">o</string>
+    <string name="hour_abbreviation">ora(e)</string>
     <string name="minutes_abbreviation">min</string>
     <string name="full_story">Storia completa</string>
     <string name="theme_black">Nero</string>
@@ -347,5 +347,12 @@
     <string name="cm">CM</string>
     <string name="pv">PV</string>
     <string name="black_theme_variant">Variante tema nero</string>
+    <string name="pinned_navigation_bar">Blocca barra di navigazione</string>
+    <string name="hide_scores">Nascondi punteggi</string>
+    <string name="mode_auto" comment="tablet mode">Auto</string>
+    <string name="mode_always" comment="tablet mode">Sempre</string>
+    <string name="mode_landscape" comment="tablet mode">Orizzontale</string>
+    <string name="mode_never" comment="tablet mode">Mai</string>
+    <string name="tablet_mode">Modalità tablet</string>
     <string name="refresh">Aggiorna</string>
 </resources>

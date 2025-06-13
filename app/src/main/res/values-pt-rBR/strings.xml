@@ -24,7 +24,15 @@
     <string name="cancel">Cancelar</string>
     <string name="apply">Aplicar</string>
     <string name="episodes">Episódios</string>
+    <plurals name="num_episodes">
+        <item quantity="one">%d episódio</item>
+        <item quantity="other">%d episódios</item>
+    </plurals>
     <string name="chapters">Capítulos</string>
+    <plurals name="num_chapters">
+        <item quantity="one">%d capítulo</item>
+        <item quantity="other">%d capítulos</item>
+    </plurals>
     <string name="delete">Excluir</string>
     <string name="watching">Assistindo</string>
     <string name="reading">Lendo</string>
@@ -221,6 +229,22 @@
     <string name="list_mode_compact">Compacto</string>
     <string name="list_mode_minimal">Mínimo</string>
     <string name="list_style">Estilo da lista</string>
+    <plurals name="num_years">
+        <item quantity="one">%d ano</item>
+        <item quantity="other">%d anos</item>
+    </plurals>
+    <plurals name="num_months">
+        <item quantity="one">%d mês</item>
+        <item quantity="other">%d meses</item>
+    </plurals>
+    <plurals name="num_weeks">
+        <item quantity="one">%d semana</item>
+        <item quantity="other">%d semanas</item>
+    </plurals>
+    <plurals name="num_days">
+        <item quantity="one">%d dia</item>
+        <item quantity="other">%d dias</item>
+    </plurals>
     <string name="open_mal_links_in_the_app">Abrir links do MAL no app</string>
     <string name="notifications">Notificações</string>
     <string name="delete_all">Excluir todas</string>
@@ -257,7 +281,7 @@
     <string name="rereading">Relendo</string>
     <string name="ago">%s atrás</string>
     <string name="set_as_completed">Definir como concluído?</string>
-    <string name="relation_character">Caráter</string>
+    <string name="relation_character">Personagem</string>
     <string name="web_novel">Web Novel</string>
     <string name="mixed_media">Várias Fontes</string>
     <string name="role_main">Principal</string>
@@ -311,7 +335,7 @@
     <string name="contributors">Contribuidores</string>
     <string name="enable_list_tabs">Ativar as guias da lista</string>
     <string name="enable_list_tabs_subtitle">Use guias na lista de animes/mangás em vez do botão de ação flutuante</string>
-    <string name="always_load_characters">Sempre carregar caracteres</string>
+    <string name="always_load_characters">Sempre carregar personagens</string>
     <string name="random_button_on_list">Botão aleatório na lista de anime/mangá</string>
     <string name="new_anime">Novo</string>
     <string name="continuing_anime">Continuando</string>
@@ -322,5 +346,13 @@
     <string name="tv_special">Especial de TV</string>
     <string name="cm">CM</string>
     <string name="pv">PV</string>
+    <string name="black_theme_variant">Variação do tema preto</string>
+    <string name="pinned_navigation_bar">Barra de navegação fixa</string>
+    <string name="hide_scores">Ocultar notas</string>
+    <string name="mode_auto" comment="tablet mode">Automático</string>
+    <string name="mode_always" comment="tablet mode">Sempre</string>
+    <string name="mode_landscape" comment="tablet mode">Paisagem</string>
+    <string name="mode_never" comment="tablet mode">Nunca</string>
+    <string name="tablet_mode">Modo tablet</string>
     <string name="refresh">Atualizar</string>
 </resources>

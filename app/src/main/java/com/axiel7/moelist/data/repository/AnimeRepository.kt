@@ -50,8 +50,10 @@ class AnimeRepository(
                     "my_list_status{status}"
         const val RANKING_FIELDS =
             "alternative_titles{en,ja},mean,media_type,num_episodes,num_list_users,my_list_status{status}"
+
+        // https://myanimelist.net/forum/?topicid=2111811
         private const val CHARACTERS_FIELDS =
-            "id,first_name,last_name,alternative_name,main_picture"
+            "id,first_name,last_name,alternative_name,main_picture,role"
     }
 
     suspend fun getSeasonalAnimes(

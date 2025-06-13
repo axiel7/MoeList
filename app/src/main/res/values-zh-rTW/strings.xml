@@ -3,7 +3,7 @@
     <string name="title_home">首頁</string>
     <string name="title_anime_list">動畫</string>
     <string name="title_manga_list">漫畫</string>
-    <string name="stats">統計</string>
+    <string name="stats">統計數據</string>
     <string name="more_info">更多資訊</string>
     <string name="synonyms">同義詞</string>
     <string name="jp_title">日文</string>
@@ -282,7 +282,7 @@
     <string name="role_supporting">配角</string>
     <string name="view_characters">查看登場人物 (測試中)</string>
     <string name="characters">主角</string>
-    <string name="genre_adult_cast">社會派動畫</string>
+    <string name="genre_adult_cast">成年角色動畫</string>
     <string name="genre_avant_garde">前衛</string>
     <string name="genre_award_winning">獲獎</string>
     <string name="genre_gourmet">美食料理</string>
@@ -341,5 +341,12 @@
     <string name="cm">廣告</string>
     <string name="pv">預告片</string>
     <string name="black_theme_variant">黑色主題變體</string>
+    <string name="pinned_navigation_bar">釘選導覽列</string>
+    <string name="hide_scores">隱藏分數</string>
+    <string name="mode_auto" comment="tablet mode">自動</string>
+    <string name="mode_always" comment="tablet mode">永遠</string>
+    <string name="mode_landscape" comment="tablet mode">橫向</string>
+    <string name="mode_never" comment="tablet mode">永不</string>
+    <string name="tablet_mode">平板模式</string>
     <string name="refresh">重新整理</string>
 </resources>
