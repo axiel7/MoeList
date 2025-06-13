@@ -79,16 +79,6 @@
     <string name="visual_novel">Vizuální Novela</string>
     <string name="game">Hra</string>
     <string name="web_manga">Webová Manga</string>
-    <string name="score_apalling">Otřesné</string>
-    <string name="score_horrible">Hrozné</string>
-    <string name="score_very_bad">Velmi Špatné</string>
-    <string name="score_bad">Špatné</string>
-    <string name="score_average">Průměrné</string>
-    <string name="score_fine">Nadprůměrné</string>
-    <string name="score_good">Dobré</string>
-    <string name="score_very_good">Velmi Dobré</string>
-    <string name="score_great">Skvělé</string>
-    <string name="score_masterpiece">Mistrovké Dílo</string>
     <string name="monday">Pondělí</string>
     <string name="tuesday">Úterý</string>
     <string name="wednesday">Středa</string>
@@ -312,5 +302,4 @@
     <string name="enable_list_tabs_subtitle">Použití karet v seznamu Anime/Manga místo plovoucího akčního tlačítka</string>
     <string name="always_load_characters">Vždy načtěte znaky</string>
     <string name="random_button_on_list">Náhodné tlačítko na seznamu anime/manga</string>
-    <string name="refresh">Obnovit</string>
 </resources>

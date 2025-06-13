@@ -79,16 +79,6 @@
     <string name="visual_novel">رواية تفاعلية</string>
     <string name="game">لعبة</string>
     <string name="web_manga">مانجا على النت</string>
-    <string name="score_apalling">مروع</string>
-    <string name="score_horrible">فظيع</string>
-    <string name="score_very_bad">سيء جدًا</string>
-    <string name="score_bad">سيء</string>
-    <string name="score_average">متوسط</string>
-    <string name="score_fine">حسن</string>
-    <string name="score_good">جيد</string>
-    <string name="score_very_good">جيد جدًا</string>
-    <string name="score_great">رائع</string>
-    <string name="score_masterpiece">تحفة فنية</string>
     <string name="monday">الأثنين</string>
     <string name="tuesday">الثلاثاء</string>
     <string name="wednesday">الأربعاء</string>
@@ -257,5 +247,4 @@
     <string name="ago">%s منذ</string>
     <string name="set_as_completed">تعيين كمكتمل؟</string>
     <string name="relation_character">شخصية</string>
-    <string name="refresh">تحديث</string>
 </resources>
