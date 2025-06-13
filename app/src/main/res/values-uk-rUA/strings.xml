@@ -92,16 +92,6 @@
     <string name="visual_novel">Візуальна новела</string>
     <string name="game">Гра</string>
     <string name="web_manga">Веб-манґа</string>
-    <string name="score_apalling">Страхіття</string>
-    <string name="score_horrible">Жах</string>
-    <string name="score_very_bad">Дуже погано</string>
-    <string name="score_bad">Погано</string>
-    <string name="score_average">Посередньо</string>
-    <string name="score_fine">Задовільно</string>
-    <string name="score_good">Добре</string>
-    <string name="score_very_good">Дуже добре</string>
-    <string name="score_great">Чудово</string>
-    <string name="score_masterpiece">Шедевр</string>
     <string name="monday">Понеділок</string>
     <string name="tuesday">Вівторок</string>
     <string name="wednesday">Середа</string>
@@ -361,10 +351,9 @@
     <string name="black_theme_variant">Чорний варіант теми</string>
     <string name="pinned_navigation_bar">Закріплена панель навігації</string>
     <string name="hide_scores">Приховати оцінки</string>
-    <string name="mode_auto" comment="tablet mode">Авто</string>
-    <string name="mode_always" comment="tablet mode">Завжди</string>
-    <string name="mode_landscape" comment="tablet mode">Горизонтальний</string>
-    <string name="mode_never" comment="tablet mode">Ніколи</string>
+    <string name="mode_auto">Авто</string>
+    <string name="mode_always">Завжди</string>
+    <string name="mode_landscape">Горизонтальний</string>
+    <string name="mode_never">Ніколи</string>
     <string name="tablet_mode">Режим планшета</string>
-    <string name="refresh">Оновити</string>
 </resources>
