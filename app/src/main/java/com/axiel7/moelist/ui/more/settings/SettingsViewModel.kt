@@ -7,6 +7,7 @@ import com.axiel7.moelist.ui.base.AppLanguage
 import com.axiel7.moelist.ui.base.ItemsPerRow
 import com.axiel7.moelist.ui.base.ListStyle
 import com.axiel7.moelist.ui.base.StartTab
+import com.axiel7.moelist.ui.base.TabletMode
 import com.axiel7.moelist.ui.base.ThemeStyle
 import com.axiel7.moelist.ui.base.viewmodel.BaseViewModel
 import com.axiel7.moelist.utils.ContextExtensions.changeLocale
@@ -51,6 +52,12 @@ class SettingsViewModel(
         }
     }
 
+    override fun setHideScores(value: Boolean) {
+        viewModelScope.launch {
+            defaultPreferencesRepository.setHideScores(value)
+        }
+    }
+
     override fun setUseGeneralListStyle(value: Boolean) {
         viewModelScope.launch {
             defaultPreferencesRepository.setUseGeneralListStyle(value)
@@ -72,6 +79,18 @@ class SettingsViewModel(
     override fun setStartTab(value: StartTab) {
         viewModelScope.launch {
             defaultPreferencesRepository.setStartTab(value)
+        }
+    }
+
+    override fun setTabletMode(value: TabletMode) {
+        viewModelScope.launch {
+            defaultPreferencesRepository.setTabletMode(value)
+        }
+    }
+
+    override fun setPinnedNavBar(value: Boolean) {
+        viewModelScope.launch {
+            defaultPreferencesRepository.setPinnedNavBar(value)
         }
     }
 
@@ -124,6 +143,12 @@ class SettingsViewModel(
             }
             .launchIn(viewModelScope)
 
+        defaultPreferencesRepository.hideScores
+            .onEach { value ->
+                mutableUiState.update { it.copy(hideScores = value) }
+            }
+            .launchIn(viewModelScope)
+
         defaultPreferencesRepository.useGeneralListStyle
             .onEach { value ->
                 mutableUiState.update { it.copy(useGeneralListStyle = value) }
@@ -146,6 +171,19 @@ class SettingsViewModel(
             .filterNotNull()
             .onEach { value ->
                 mutableUiState.update { it.copy(startTab = value) }
+            }
+            .launchIn(viewModelScope)
+
+        defaultPreferencesRepository.tabletMode
+            .filterNotNull()
+            .onEach { value ->
+                mutableUiState.update { it.copy(tabletMode = value) }
+            }
+            .launchIn(viewModelScope)
+
+        defaultPreferencesRepository.pinnedNavBar
+            .onEach { value ->
+                mutableUiState.update { it.copy(pinnedNavBar = value) }
             }
             .launchIn(viewModelScope)
 

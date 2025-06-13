@@ -51,6 +51,8 @@ abstract class BaseMediaDetails : BaseResponse {
     val mediaType
         get() = if (this is MangaDetails) MediaType.MANGA else MediaType.ANIME
 
+    val startYear get() = startDate?.split('-')?.firstOrNull()
+
     val malUrl
         get() = if (this is MangaDetails) MANGA_URL + id else ANIME_URL + id
 
@@ -90,6 +92,13 @@ abstract class BaseMediaDetails : BaseResponse {
         }
 
         else -> stringResource(R.string.unknown)
+    }
+
+    @Composable
+    fun mediaFormatWithYear() = if (startYear != null) {
+        mediaFormat?.localized() + " · " + startYear
+    } else {
+        mediaFormat?.localized()
     }
 
     @Composable

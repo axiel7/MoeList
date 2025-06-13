@@ -18,6 +18,7 @@ abstract class BaseMediaNode {
     abstract val mediaFormat: MediaFormat?
     abstract val status: MediaStatus?
     abstract val mean: Float?
+    open val myListStatus: BasicMyListStatus? = null
 
     val mediaType
         get() = if (this is MangaNode) MediaType.MANGA else MediaType.ANIME
@@ -36,11 +37,13 @@ abstract class BaseMediaNode {
     }
 
     fun totalDuration() = when (this) {
-        is AnimeNode -> this.numEpisodes
-        is MangaNode -> this.numChapters
-        is NodeSeasonal -> this.numEpisodes
+        is AnimeNode -> this.numEpisodes.takeIf { it != 0 }
+        is MangaNode -> this.numChapters.takeIf { it != 0 }
+        is NodeSeasonal -> this.numEpisodes.takeIf { it != 0 }
         else -> null
     }
+
+    fun totalVolumes() = (this as? MangaNode)?.numVolumes?.takeIf { it != 0 }
 
     @Composable
     fun durationText() = when (this) {

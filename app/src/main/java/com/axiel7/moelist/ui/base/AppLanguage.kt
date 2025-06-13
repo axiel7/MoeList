@@ -13,6 +13,7 @@ enum class AppLanguage(val value: String) {
     FRENCH("fr"),
     GERMAN("de"),
     INDONESIAN("in-ID"),
+    ITALIAN("it-IT"),
     JAPANESE("ja"),
     POLISH("pl-PL"),
     PORTUGUESE("pt-PT"),
@@ -35,6 +36,7 @@ enum class AppLanguage(val value: String) {
             FRENCH -> R.string.french_native
             GERMAN -> R.string.german_native
             INDONESIAN -> R.string.indonesian_native
+            ITALIAN -> R.string.italian_native
             JAPANESE -> R.string.japanese_native
             POLISH -> R.string.polish_native
             PORTUGUESE -> R.string.portuguese_native

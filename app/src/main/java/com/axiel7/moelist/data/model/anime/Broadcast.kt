@@ -17,6 +17,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.Locale
 import kotlin.math.absoluteValue
 
@@ -30,29 +31,44 @@ data class Broadcast(
 
     @Composable
     fun timeText(isAiring: Boolean) = buildString {
-        if (dayOfTheWeek != null) {
-            append(dayOfTheWeek.localized())
-            append(" ")
-            if (startTime != null) {
-                append(startTime)
-                append(" (JST)")
-                if (isAiring) {
-                    val airingIn = airingInString()
-                    if (airingIn.isNotEmpty()) {
-                        append("\n$airingIn")
-                    }
+        val firstText = when {
+            dayOfTheWeek != null && startTime != null -> {
+                dateTimeUntilNextBroadcast()
+                    ?.format(
+                        DateTimeFormatter.ofPattern("EE HH:mm").withLocale(Locale.getDefault())
+                    )
+            }
+
+            dayOfTheWeek != null -> dayOfTheWeek.localized()
+
+            startTime != null -> "$startTime (JST)"
+
+            else -> null
+        }
+
+        if (firstText != null) {
+            append(firstText)
+
+            if (isAiring) {
+                val airingIn = airingInString()
+                if (airingIn.isNotEmpty()) {
+                    append("\n$airingIn")
                 }
             }
-        } else append(stringResource(R.string.unknown))
+        } else {
+            append(stringResource(R.string.unknown))
+        }
     }
 
-    @Composable
-    fun dayTimeText() = buildString {
-        if (dayOfTheWeek != null) append(dayOfTheWeek.localized())
-        if (startTime != null) append(" $startTime")
-        if (dayOfTheWeek == null && startTime == null)
-            append(stringResource(R.string.unknown))
-    }
+    fun localStartTime() = runCatching {
+        dateTimeUntilNextBroadcast()?.format(
+            DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
+        )
+    }.getOrNull()
+
+    fun localDayOfTheWeek() = runCatching {
+        dateTimeUntilNextBroadcast()?.dayOfWeek
+    }.getOrNull()
 
     @Composable
     fun airingInString() = if (startTime != null && dayOfTheWeek != null) {
@@ -69,15 +85,13 @@ data class Broadcast(
         else stringResource(R.string.ago).format(remaining.absoluteValue.secondsToLegibleText())
     } else ""
 
-    fun nextAiringDayFormatted() = try {
+    fun nextAiringDayFormatted() = runCatching {
         dateTimeUntilNextBroadcast()?.format(
             DateTimeFormatter.ofPattern(
                 DateFormat.getBestDateTimePattern(Locale.getDefault(), "EE, d MMM HH:mm")
             )
         )
-    } catch (e: Exception) {
-        null
-    }
+    }.getOrNull()
 
     private fun remaining() =
         secondsUntilNextBroadcast() - LocalDateTime.now().toEpochSecond(DateUtils.defaultZoneOffset)

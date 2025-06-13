@@ -6,6 +6,7 @@ import androidx.navigation.toRoute
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.RankingType
 import com.axiel7.moelist.data.repository.AnimeRepository
+import com.axiel7.moelist.data.repository.DefaultPreferencesRepository
 import com.axiel7.moelist.data.repository.MangaRepository
 import com.axiel7.moelist.ui.base.navigation.Route
 import com.axiel7.moelist.ui.base.viewmodel.BaseViewModel
@@ -14,6 +15,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.reflect.typeOf
@@ -21,6 +24,7 @@ import kotlin.reflect.typeOf
 class MediaRankingViewModel(
     rankingType: RankingType,
     savedStateHandle: SavedStateHandle,
+    defaultPreferencesRepository: DefaultPreferencesRepository,
     private val animeRepository: AnimeRepository,
     private val mangaRepository: MangaRepository,
 ) : BaseViewModel<MediaRankingUiState>(), MediaRankingEvent {
@@ -86,6 +90,14 @@ class MediaRankingViewModel(
                         }
                     }
                 }
+        }
+
+        if (rankingType != RankingType.SCORE) {
+            defaultPreferencesRepository.hideScores
+                .onEach { value ->
+                    mutableUiState.update { it.copy(hideScore = value) }
+                }
+                .launchIn(viewModelScope)
         }
     }
 }

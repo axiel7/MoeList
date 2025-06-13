@@ -8,7 +8,7 @@ import com.axiel7.moelist.data.model.anime.AnimeNode
 import com.axiel7.moelist.data.model.anime.AnimeRanking
 import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
-import com.axiel7.moelist.data.model.anime.Season
+import com.axiel7.moelist.data.model.anime.StartSeason
 import com.axiel7.moelist.data.model.anime.UserAnimeList
 import com.axiel7.moelist.data.model.media.Character
 import com.axiel7.moelist.data.model.media.ListStatus
@@ -25,11 +25,13 @@ class AnimeRepository(
 
     companion object {
         const val TODAY_FIELDS =
-            "alternative_titles{en,ja},broadcast,mean,start_season,status"
+            "alternative_titles{en,ja},broadcast,mean,start_season,status,my_list_status{status}"
         const val CALENDAR_FIELDS =
-            "alternative_titles{en,ja},broadcast,mean,start_season,status,media_type,num_episodes"
+            "alternative_titles{en,ja},broadcast,mean,start_season,status,media_type,num_episodes," +
+                    "my_list_status{status}"
         const val SEASONAL_FIELDS =
-            "alternative_titles{en,ja},start_season,broadcast,num_episodes,media_type,mean,num_list_users"
+            "alternative_titles{en,ja},start_season,broadcast,num_episodes,media_type,mean,num_list_users" +
+                    ",my_list_status{status}"
         private const val RECOMMENDED_FIELDS = "alternative_titles{en,ja},mean"
         private const val LIST_STATUS_FIELDS =
             "start_date,finish_date,num_times_rewatched,is_rewatching,rewatch_value,priority,tags,comments"
@@ -44,9 +46,10 @@ class AnimeRepository(
         private const val USER_ANIME_LIST_FIELDS =
             "alternative_titles{en,ja},list_status{$LIST_STATUS_FIELDS},num_episodes,media_type,status,broadcast"
         private const val SEARCH_FIELDS =
-            "id,title,alternative_titles{en,ja},main_picture,mean,media_type,num_episodes,start_season"
+            "id,title,alternative_titles{en,ja},main_picture,mean,media_type,num_episodes,start_season," +
+                    "my_list_status{status}"
         const val RANKING_FIELDS =
-            "alternative_titles{en,ja},mean,media_type,num_episodes,num_list_users"
+            "alternative_titles{en,ja},mean,media_type,num_episodes,num_list_users,my_list_status{status}"
 
         // https://myanimelist.net/forum/?topicid=2111811
         private const val CHARACTERS_FIELDS =
@@ -55,8 +58,7 @@ class AnimeRepository(
 
     suspend fun getSeasonalAnimes(
         sort: MediaSort,
-        year: Int,
-        season: Season,
+        startSeason: StartSeason,
         isNew: Boolean? = null,
         limit: Int,
         fields: String?,
@@ -65,8 +67,8 @@ class AnimeRepository(
         return try {
             val result = if (page == null) api.getSeasonalAnime(
                 sort = sort,
-                year = year,
-                season = season.value,
+                year = startSeason.year,
+                season = startSeason.season.value,
                 limit = limit,
                 nsfw = defaultPreferencesRepository.nsfwInt(),
                 fields = fields,
@@ -77,8 +79,8 @@ class AnimeRepository(
                 result.copy(
                     // filter for new or continuing anime
                     data = result.data?.filter {
-                        if (isNew) it.node.startSeason?.year == year
-                        else it.node.startSeason?.year != year
+                        if (isNew) it.node.startSeason == startSeason
+                        else it.node.startSeason != startSeason
                     }
                 )
             } else {
@@ -100,8 +102,8 @@ class AnimeRepository(
                 fields = RECOMMENDED_FIELDS
             )
             else api.getAnimeRecommendations(page)
-            result.error?.let { handleResponseError(it) }
-            return result
+            val retry = result.error?.let { handleResponseError(it) }
+            return if (retry == true) getRecommendedAnimes(limit, page) else result
         } catch (e: Exception) {
             Response(message = e.message)
         }
@@ -131,8 +133,8 @@ class AnimeRepository(
                 fields = USER_ANIME_LIST_FIELDS
             )
             else api.getUserAnimeList(page)
-            result.error?.let { handleResponseError(it) }
-            return result
+            val retry = result.error?.let { handleResponseError(it) }
+            return if (retry == true) getUserAnimeList(status, sort, page) else result
         } catch (e: Exception) {
             Response(message = e.message)
         }
@@ -167,8 +169,23 @@ class AnimeRepository(
                 tags,
                 comments
             )
-            result.error?.let { handleResponseError(it) }
-            return result
+            val retry = result.error?.let { handleResponseError(it) }
+            return if (retry == true) {
+                updateAnimeEntry(
+                    animeId,
+                    status,
+                    score,
+                    watchedEpisodes,
+                    startDate,
+                    endDate,
+                    isRewatching,
+                    numRewatches,
+                    rewatchValue,
+                    priority,
+                    tags,
+                    comments
+                )
+            } else result
         } catch (e: Exception) {
             null
         }
@@ -248,8 +265,10 @@ class AnimeRepository(
                 mutableListOf(),//5: SATURDAY
                 mutableListOf(),//6: SUNDAY
             )
-            rankResponse.data?.forEach { anime ->
-                anime.node.broadcast?.dayOfTheWeek?.let { day ->
+            rankResponse.data
+                ?.sortedBy { it.node.broadcast?.secondsUntilNextBroadcast() }
+                ?.forEach { anime ->
+                anime.node.broadcast?.localDayOfTheWeek()?.let { day ->
                     tempWeekArray[day.ordinal].add(anime)
                 }
             }
@@ -302,10 +321,12 @@ class AnimeRepository(
                 sort = MediaSort.ANIME_START_DATE,
                 limit = null,
                 nsfw = defaultPreferencesRepository.nsfwInt(),
-                fields = "status,broadcast"
+                fields = "status,broadcast,alternative_titles{en,ja}"
             )
 
-            return result.data?.map { it.node }
+            val retry = result.error?.let { handleResponseError(it) }
+            return if (retry == true) getAiringAnimeOnList()
+            else result.data?.map { it.node }
                 ?.filter { it.broadcast != null && it.status == MediaStatus.AIRING }
                 ?.sortedBy { it.broadcast!!.secondsUntilNextBroadcast() }
         } catch (e: Exception) {

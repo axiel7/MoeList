@@ -2,6 +2,7 @@ package com.axiel7.moelist.data.model.anime
 
 import com.axiel7.moelist.data.model.media.AlternativeTitles
 import com.axiel7.moelist.data.model.media.BaseMediaNode
+import com.axiel7.moelist.data.model.media.BasicMyListStatus
 import com.axiel7.moelist.data.model.media.MainPicture
 import com.axiel7.moelist.data.model.media.MediaFormat
 import com.axiel7.moelist.data.model.media.MediaStatus
@@ -32,4 +33,6 @@ data class NodeSeasonal(
     override val status: MediaStatus? = null,
     @SerialName("mean")
     override val mean: Float? = null,
+    @SerialName("my_list_status")
+    override val myListStatus: BasicMyListStatus? = null,
 ) : BaseMediaNode()

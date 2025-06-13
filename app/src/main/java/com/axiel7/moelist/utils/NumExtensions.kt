@@ -7,11 +7,7 @@ object NumExtensions {
 
     private val numberFormat: NumberFormat = NumberFormat.getInstance()
 
-    fun Number.format(): String? = try {
-        numberFormat.format(this)
-    } catch (e: IllegalArgumentException) {
-        null
-    }
+    fun Number.format(): String? = runCatching { numberFormat.format(this) }.getOrNull()
 
     /**
      * @return if true 1 else 0

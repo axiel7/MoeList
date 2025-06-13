@@ -36,6 +36,7 @@ val translationsCredits = mapOf(
     "es" to "@axiel7",
     "fr" to "@mamanamgae, @frosqh, @Eria78, @nesquick",
     "in-ID" to "@Clxf12",
+    "it-IT" to "@AntoF98, @DomeF, @pasthor",
     "ja" to "@axiel7, @Ulong32, @watashibeme",
     "pl" to "@YOGI_AOGI",
     "pt-BR" to "@RickyM7, @SamOak",

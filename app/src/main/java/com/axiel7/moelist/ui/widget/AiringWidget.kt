@@ -2,10 +2,15 @@ package com.axiel7.moelist.ui.widget
 
 import android.content.Context
 import android.content.Intent
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.unit.dp
+import androidx.glance.ColorFilter
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
+import androidx.glance.Image
+import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
@@ -16,6 +21,7 @@ import androidx.glance.appwidget.lazy.items
 import androidx.glance.appwidget.provideContent
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Column
+import androidx.glance.layout.Row
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
 import androidx.glance.text.Text
@@ -23,13 +29,13 @@ import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
-import com.axiel7.moelist.data.model.anime.AnimeNode
 import com.axiel7.moelist.data.repository.AnimeRepository
 import com.axiel7.moelist.data.repository.DefaultPreferencesRepository
 import com.axiel7.moelist.ui.main.MainActivity
 import com.axiel7.moelist.ui.theme.AppWidgetColumn
 import com.axiel7.moelist.ui.theme.glanceStringResource
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -41,9 +47,10 @@ class AiringWidget : GlanceAppWidget(), KoinComponent {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         App.accessToken = defaultPreferencesRepository.accessToken.first()
         val titleLanguage = defaultPreferencesRepository.titleLang.first()
-        val animeList = getAiringAnime()
+        val animeList = animeRepository.getAiringAnimeOnList()
 
         provideContent {
+            val scope = rememberCoroutineScope()
             GlanceTheme {
                 if (animeList.isNullOrEmpty()) {
                     AppWidgetColumn(
@@ -57,6 +64,9 @@ class AiringWidget : GlanceAppWidget(), KoinComponent {
                                 color = GlanceTheme.colors.onSurface,
                                 textAlign = TextAlign.Center
                             )
+                        )
+                        RefreshButton(
+                            onClick = { scope.launch { update(context, id) } }
                         )
                     }//: Column
                 } else {
@@ -98,6 +108,11 @@ class AiringWidget : GlanceAppWidget(), KoinComponent {
                                     )
                                 }
                             }
+                            item {
+                                RefreshButton(
+                                    onClick = { scope.launch { update(context, id) } }
+                                )
+                            }
                         }//: LazyColumn
                     }//: Column
                 }
@@ -105,11 +120,27 @@ class AiringWidget : GlanceAppWidget(), KoinComponent {
         }
     }
 
-    private suspend fun getAiringAnime(): List<AnimeNode>? {
-        return try {
-            animeRepository.getAiringAnimeOnList()!!
-        } catch (e: Exception) {
-            null
+    @Composable
+    private fun RefreshButton(onClick: () -> Unit) {
+        Row(
+            modifier = GlanceModifier
+                .padding(vertical = 8.dp)
+                .fillMaxWidth()
+                .clickable(onClick),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                provider = ImageProvider(R.drawable.replay_20),
+                contentDescription = glanceStringResource(R.string.refresh),
+                modifier = GlanceModifier.padding(end = 8.dp),
+                colorFilter = ColorFilter.tint(GlanceTheme.colors.onSurface)
+            )
+            Text(
+                text = glanceStringResource(R.string.refresh),
+                style = TextStyle(
+                    color = GlanceTheme.colors.onSurface
+                ),
+            )
         }
     }
 }

@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -192,6 +193,7 @@ private fun HomeViewContent(
             ) {
                 AiringAnimeHorizontalItem(
                     item = it,
+                    hideScore = uiState.hideScore,
                     onClick = dropUnlessResumed {
                         navActionManager.toMediaDetails(MediaType.ANIME, it.node.id)
                     }
@@ -238,12 +240,23 @@ private fun HomeViewContent(
                     imageUrl = it.node.mainPicture?.large,
                     title = it.node.userPreferredTitle(),
                     modifier = Modifier.padding(end = 8.dp),
-                    subtitle = {
-                        SmallScoreIndicator(
-                            score = it.node.mean,
-                            fontSize = 13.sp
-                        )
+                    badgeContent = it.node.myListStatus?.status?.let { status ->
+                        {
+                            Icon(
+                                painter = painterResource(status.icon),
+                                contentDescription = status.localized(),
+                                tint = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                        }
                     },
+                    subtitle = if (!uiState.hideScore) {
+                        {
+                            SmallScoreIndicator(
+                                score = it.node.mean,
+                                fontSize = 13.sp
+                            )
+                        }
+                    } else null,
                     minLines = 2,
                     onClick = dropUnlessResumed {
                         navActionManager.toMediaDetails(MediaType.ANIME, it.node.id)
@@ -303,12 +316,14 @@ private fun HomeViewContent(
                     imageUrl = it.node.mainPicture?.large,
                     title = it.node.userPreferredTitle(),
                     modifier = Modifier.padding(end = 8.dp),
-                    subtitle = {
-                        SmallScoreIndicator(
-                            score = it.node.mean,
-                            fontSize = 13.sp
-                        )
-                    },
+                    subtitle = if (!uiState.hideScore) {
+                        {
+                            SmallScoreIndicator(
+                                score = it.node.mean,
+                                fontSize = 13.sp
+                            )
+                        }
+                    } else null,
                     minLines = 2,
                     onClick = dropUnlessResumed {
                         navActionManager.toMediaDetails(MediaType.ANIME, it.node.id)

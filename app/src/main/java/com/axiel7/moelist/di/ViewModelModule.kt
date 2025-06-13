@@ -15,8 +15,8 @@ import com.axiel7.moelist.ui.recommendations.RecommendationsViewModel
 import com.axiel7.moelist.ui.search.SearchViewModel
 import com.axiel7.moelist.ui.season.SeasonChartViewModel
 import com.axiel7.moelist.ui.userlist.UserMediaListViewModel
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.androidx.viewmodel.dsl.viewModelOf
+import org.koin.core.module.dsl.viewModel
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -45,6 +45,7 @@ val viewModelModule = module {
         MediaRankingViewModel(
             rankingType = params.get(),
             savedStateHandle = get(),
+            defaultPreferencesRepository = get(),
             animeRepository = get(),
             mangaRepository = get()
         )

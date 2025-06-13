@@ -6,17 +6,21 @@ import com.axiel7.moelist.data.model.anime.SeasonType
 import com.axiel7.moelist.data.model.anime.StartSeason
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.data.repository.AnimeRepository
+import com.axiel7.moelist.data.repository.DefaultPreferencesRepository
 import com.axiel7.moelist.ui.base.viewmodel.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SeasonChartViewModel(
-    private val animeRepository: AnimeRepository
+    private val animeRepository: AnimeRepository,
+    defaultPreferencesRepository: DefaultPreferencesRepository
 ) : BaseViewModel<SeasonChartUiState>(), SeasonChartEvent {
 
     override val mutableUiState = MutableStateFlow(SeasonChartUiState())
@@ -77,8 +81,7 @@ class SeasonChartViewModel(
 
                     val result = animeRepository.getSeasonalAnimes(
                         sort = uiState.sort,
-                        year = uiState.season.year,
-                        season = uiState.season.season,
+                        startSeason = uiState.season,
                         isNew = uiState.isNew,
                         limit = 25,
                         fields = AnimeRepository.SEASONAL_FIELDS,
@@ -108,5 +111,11 @@ class SeasonChartViewModel(
                     }
                 }
         }
+
+        defaultPreferencesRepository.hideScores
+            .onEach { value ->
+                mutableUiState.update { it.copy(hideScore = value) }
+            }
+            .launchIn(viewModelScope)
     }
 }

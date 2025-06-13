@@ -38,12 +38,11 @@ fun MainNavigationRail(
             FloatingActionButton(
                 onClick = {
                     onItemSelected(-1)
-                    navController.navigate(Route.Search()) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
+                    val isInSearch = navBackStackEntry?.destination?.hasRoute(Route.Search::class) == true
+                    if (!isInSearch) {
+                        navController.navigate(Route.Search()) {
+                            launchSingleTop = true
                         }
-                        launchSingleTop = true
-                        restoreState = true
                     }
                 }
             ) {

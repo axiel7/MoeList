@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -18,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -86,11 +88,20 @@ private fun MediaRankingListViewContent(
         MediaItemDetailed(
             title = item.node.userPreferredTitle(),
             imageUrl = item.node.mainPicture?.large,
-            badgeContent = {
+            topBadgeContent = {
                 Text(
                     text = "#${item.ranking?.rank}",
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
+            },
+            badgeContent = item.node.myListStatus?.status?.let { status ->
+                {
+                    Icon(
+                        painter = painterResource(status.icon),
+                        contentDescription = status.localized(),
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
             },
             subtitle1 = {
                 Text(
@@ -104,11 +115,13 @@ private fun MediaRankingListViewContent(
                 )
             },
             subtitle2 = {
-                TextIconHorizontal(
-                    text = item.node.mean.toStringPositiveValueOrUnknown(),
-                    icon = R.drawable.ic_round_details_star_24,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                if (!uiState.hideScore) {
+                    TextIconHorizontal(
+                        text = item.node.mean.toStringPositiveValueOrUnknown(),
+                        icon = R.drawable.ic_round_details_star_24,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             },
             subtitle3 = {
                 TextIconHorizontal(

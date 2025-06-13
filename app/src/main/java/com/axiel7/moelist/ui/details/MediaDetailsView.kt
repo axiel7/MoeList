@@ -77,21 +77,19 @@ import com.axiel7.moelist.ui.composables.stats.HorizontalStatsBar
 import com.axiel7.moelist.ui.details.composables.AnimeThemeItem
 import com.axiel7.moelist.ui.details.composables.MediaDetailsTopAppBar
 import com.axiel7.moelist.ui.details.composables.MediaInfoView
+import com.axiel7.moelist.ui.details.composables.MusicStreamingSheet
 import com.axiel7.moelist.ui.editmedia.EditMediaSheet
 import com.axiel7.moelist.ui.theme.MoeListTheme
 import com.axiel7.moelist.utils.CHARACTER_URL
 import com.axiel7.moelist.utils.ContextExtensions.copyToClipBoard
 import com.axiel7.moelist.utils.ContextExtensions.getCurrentLanguageTag
-import com.axiel7.moelist.utils.ContextExtensions.openAction
 import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.DateUtils.parseDateAndLocalize
 import com.axiel7.moelist.utils.NumExtensions.format
-import com.axiel7.moelist.utils.StringExtensions.buildQueryFromThemeText
 import com.axiel7.moelist.utils.StringExtensions.toStringOrNull
 import com.axiel7.moelist.utils.TranslateUtils.openTranslator
 import com.axiel7.moelist.utils.UNKNOWN_CHAR
-import com.axiel7.moelist.utils.YOUTUBE_QUERY_URL
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
@@ -222,7 +220,7 @@ private fun MediaDetailsContent(
                         )
                         .defaultPlaceholder(visible = uiState.isLoading)
                         .clickable(onClick = dropUnlessResumed {
-                            if (uiState.picturesUrls.isNotEmpty()) 
+                            if (uiState.picturesUrls.isNotEmpty())
                                 navActionManager.toFullPoster(uiState.picturesUrls)
                         })
                 )
@@ -243,7 +241,7 @@ private fun MediaDetailsContent(
                         fontWeight = FontWeight.SemiBold
                     )
                     TextIconHorizontal(
-                        text = uiState.mediaDetails?.mediaFormat?.localized() ?: "Loading",
+                        text = uiState.mediaDetails?.mediaFormatWithYear() ?: "Loading",
                         icon = if (uiState.isAnime) R.drawable.ic_round_local_movies_24
                         else R.drawable.ic_round_book_24,
                         modifier = Modifier
@@ -275,13 +273,15 @@ private fun MediaDetailsContent(
                                 .defaultPlaceholder(visible = uiState.isLoading)
                         )
                     }
-                    TextIconHorizontal(
-                        text = uiState.mediaDetails?.mean.toStringOrNull() ?: "??",
-                        icon = R.drawable.ic_round_details_star_24,
-                        modifier = Modifier
-                            .padding(bottom = 8.dp)
-                            .defaultPlaceholder(visible = uiState.isLoading)
-                    )
+                    if (!uiState.hideScore) {
+                        TextIconHorizontal(
+                            text = uiState.mediaDetails?.mean.toStringOrNull() ?: "??",
+                            icon = R.drawable.ic_round_details_star_24,
+                            modifier = Modifier
+                                .padding(bottom = 8.dp)
+                                .defaultPlaceholder(visible = uiState.isLoading)
+                        )
+                    }
                 }
             }//:Row
 
@@ -543,6 +543,20 @@ private fun MediaDetailsContent(
             }
 
             //Themes
+            var showMusicSheet by remember { mutableStateOf(false) }
+            var selectedSong by remember { mutableStateOf<String?>(null) }
+
+            if (showMusicSheet && selectedSong != null) {
+                MusicStreamingSheet(
+                    songTitle = selectedSong.orEmpty(),
+                    bottomPadding = WindowInsets.navigationBars.asPaddingValues()
+                        .calculateBottomPadding(),
+                    onDismiss = {
+                        showMusicSheet = false
+                        selectedSong = null
+                    }
+                )
+            }
             if (uiState.mediaDetails is AnimeDetails) {
                 uiState.mediaDetails.openingThemes?.let { themes ->
                     InfoTitle(text = stringResource(R.string.opening))
@@ -550,9 +564,8 @@ private fun MediaDetailsContent(
                         AnimeThemeItem(
                             text = theme.text,
                             onClick = {
-                                context.openAction(
-                                    YOUTUBE_QUERY_URL + theme.text.buildQueryFromThemeText()
-                                )
+                                selectedSong = theme.text
+                                showMusicSheet = true
                             }
                         )
                     }
@@ -564,9 +577,8 @@ private fun MediaDetailsContent(
                         AnimeThemeItem(
                             text = theme.text,
                             onClick = {
-                                context.openAction(
-                                    YOUTUBE_QUERY_URL + theme.text.buildQueryFromThemeText()
-                                )
+                                selectedSong = theme.text
+                                showMusicSheet = true
                             }
                         )
                     }

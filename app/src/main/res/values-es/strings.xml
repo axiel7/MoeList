@@ -88,16 +88,16 @@
     <string name="visual_novel">Novela Visual</string>
     <string name="game">Videojuego</string>
     <string name="web_manga">Web Manga</string>
-    <string name="score_apalling">1 Pésimo</string>
-    <string name="score_horrible">2 Horrible</string>
-    <string name="score_very_bad">3 Muy Malo</string>
-    <string name="score_bad">4 Malo</string>
-    <string name="score_average">5 Mediocre</string>
-    <string name="score_fine">6 Aceptable</string>
-    <string name="score_good">7 Bueno</string>
-    <string name="score_very_good">8 Muy Bueno</string>
-    <string name="score_great">9 Genial</string>
-    <string name="score_masterpiece">10 Obra Maestra</string>
+    <string name="score_apalling">Pésimo</string>
+    <string name="score_horrible">Horrible</string>
+    <string name="score_very_bad">Muy Malo</string>
+    <string name="score_bad">Malo</string>
+    <string name="score_average">Mediocre</string>
+    <string name="score_fine">Aceptable</string>
+    <string name="score_good">Bueno</string>
+    <string name="score_very_good">Muy Bueno</string>
+    <string name="score_great">Genial</string>
+    <string name="score_masterpiece">Obra Maestra</string>
     <string name="monday">Lunes</string>
     <string name="tuesday">Martes</string>
     <string name="wednesday">Miércoles</string>
@@ -354,4 +354,5 @@
     <string name="mode_landscape" comment="tablet mode">Horizontal</string>
     <string name="mode_never" comment="tablet mode">Nunca</string>
     <string name="tablet_mode">Modo tablet</string>
+    <string name="refresh">Actualizar</string>
 </resources>

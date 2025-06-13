@@ -52,12 +52,12 @@ object SeasonCalendar {
     )
 
     val nextStartSeason = StartSeason(
-        year = if (nextSeason == Season.WINTER) currentYear + 1 else currentYear,
+        year = if (month == 11) currentYear + 1 else currentYear,
         season = nextSeason
     )
 
     val prevStartSeason = StartSeason(
-        year = if (prevSeason == Season.FALL) currentYear - 1 else currentYear,
+        year = if (month == 0 || month == 1) currentYear - 1 else currentYear,
         season = prevSeason
     )
 

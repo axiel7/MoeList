@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
-import java.time.DateTimeException
 import java.time.DayOfWeek
 import java.time.Instant
 import java.time.LocalDate
@@ -12,7 +11,6 @@ import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeParseException
 import java.time.format.FormatStyle
 import java.time.temporal.TemporalAdjusters
 
@@ -26,46 +24,29 @@ object DateUtils {
     fun getLocalDateFromDateString(
         date: String?,
         formatter: DateTimeFormatter = DateTimeFormatter.ISO_DATE
-    ): LocalDate? {
-        if (date == null) return null
-        return try {
-            LocalDate.parse(date, formatter)
-        } catch (e: DateTimeException) {
-            null
-        }
-    }
+    ): LocalDate? = runCatching { LocalDate.parse(date, formatter) }.getOrNull()
 
     /**
      * @return the date in LocalDate, null if fails
      */
-    fun getLocalDateFromMillis(millis: Long): LocalDate? {
-        return try {
-            Instant.ofEpochMilli(millis).atZone(ZoneId.of("UTC")).toLocalDate()
-        } catch (e: Exception) {
-            null
-        }
-    }
+    fun getLocalDateFromMillis(millis: Long): LocalDate? = runCatching {
+        Instant.ofEpochMilli(millis).atZone(ZoneId.of("UTC")).toLocalDate()
+    }.getOrNull()
 
     fun LocalDate?.toLocalized(
         style: FormatStyle = FormatStyle.MEDIUM
-    ): String = try {
+    ): String = runCatching {
         this?.format(DateTimeFormatter.ofLocalizedDate(style)).orEmpty()
-    } catch (e: DateTimeException) {
-        ""
-    }
+    }.getOrElse { "" }
 
     fun String.parseDate(
         inputFormat: DateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE
-    ): LocalDate? = try {
-        LocalDate.parse(this, inputFormat)
-    } catch (e: DateTimeParseException) {
-        null
-    }
+    ): LocalDate? = runCatching { LocalDate.parse(this, inputFormat) }.getOrNull()
 
     fun String.parseDateAndLocalize(
         inputFormat: DateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE,
         style: FormatStyle = FormatStyle.MEDIUM
-    ): String? = try {
+    ): String? = runCatching {
         when (this.count { it == '-' }) {
             0 -> this //only the year (2007)
             1 -> { //year and month (2007-11)
@@ -81,11 +62,7 @@ object DateUtils {
                     ?.format(DateTimeFormatter.ofLocalizedDate(style))
             }
         }
-    } catch (e: DateTimeParseException) {
-        null
-    } catch (e: DateTimeException) {
-        null
-    }
+    }.getOrNull()
 
     fun LocalDate.toEpochMillis(
         offset: ZoneOffset = defaultZoneOffset

@@ -17,6 +17,7 @@ import com.axiel7.moelist.ui.base.AppLanguage
 import com.axiel7.moelist.ui.base.ItemsPerRow
 import com.axiel7.moelist.ui.base.ListStyle
 import com.axiel7.moelist.ui.base.StartTab
+import com.axiel7.moelist.ui.base.TabletMode
 import com.axiel7.moelist.ui.base.ThemeStyle
 import com.axiel7.moelist.utils.NumExtensions.toInt
 import kotlinx.coroutines.flow.first
@@ -48,6 +49,11 @@ class DefaultPreferencesRepository(
         dataStore.setValue(NSFW_KEY, value)
     }
 
+    val hideScores = dataStore.getValue(HIDE_SCORES_KEY, false)
+    suspend fun setHideScores(value: Boolean) {
+        dataStore.setValue(HIDE_SCORES_KEY, value)
+    }
+
     val lang = dataStore.getValue(LANG_KEY, AppLanguage.FOLLOW_SYSTEM.value)
         .map { AppLanguage.valueOf(isoTag = it) ?: AppLanguage.FOLLOW_SYSTEM }
     suspend fun setLang(value: AppLanguage) {
@@ -68,6 +74,11 @@ class DefaultPreferencesRepository(
     val lastTab = dataStore.getValue(LAST_TAB_KEY, 0)
     suspend fun setLastTab(value: Int) {
         dataStore.setValue(LAST_TAB_KEY, value)
+    }
+
+    val pinnedNavBar = dataStore.getValue(PINNED_NAV_BAR_KEY, false)
+    suspend fun setPinnedNavBar(value: Boolean) {
+        dataStore.setValue(PINNED_NAV_BAR_KEY, value)
     }
 
     val profilePicture = dataStore.getValue(PROFILE_PICTURE_KEY)
@@ -107,6 +118,12 @@ class DefaultPreferencesRepository(
         .map { StartTab.valueOf(tabName = it) }
     suspend fun setStartTab(value: StartTab) {
         dataStore.setValue(START_TAB_KEY, value.value)
+    }
+
+    val tabletMode = dataStore.getValue(TABLET_MODE_KEY, TabletMode.AUTO.name)
+        .map { TabletMode.valueOf(it) }
+    suspend fun setTabletMode(value: TabletMode) {
+        dataStore.setValue(TABLET_MODE_KEY, value.name)
     }
 
     val titleLang = dataStore.getValue(TITLE_LANG_KEY, TitleLanguage.ROMAJI.name)
@@ -237,10 +254,12 @@ class DefaultPreferencesRepository(
         private val REFRESH_TOKEN_KEY = stringPreferencesKey("refresh_token")
 
         private val NSFW_KEY = booleanPreferencesKey("nsfw")
+        private val HIDE_SCORES_KEY = booleanPreferencesKey("hide_scores")
         private val LANG_KEY = stringPreferencesKey("lang")
         private val THEME_KEY = stringPreferencesKey("theme")
         private val USE_BLACK_COLORS_KEY = booleanPreferencesKey("use_black_colors")
         private val LAST_TAB_KEY = intPreferencesKey("last_tab")
+        private val PINNED_NAV_BAR_KEY = booleanPreferencesKey("pinned_nav_bar")
         private val PROFILE_PICTURE_KEY = stringPreferencesKey("profile_picture")
 
         private val ANIME_LIST_STATUS_KEY = stringPreferencesKey("anime_list_status")
@@ -249,6 +268,7 @@ class DefaultPreferencesRepository(
         private val MANGA_LIST_SORT_KEY = stringPreferencesKey("manga_list_sort")
 
         private val START_TAB_KEY = stringPreferencesKey("start_tab")
+        private val TABLET_MODE_KEY = stringPreferencesKey("tablet_mode")
         private val TITLE_LANG_KEY = stringPreferencesKey("title_lang")
         private val USE_LIST_TABS_KEY = booleanPreferencesKey("use_list_tabs")
         private val LOAD_CHARACTERS_KEY = booleanPreferencesKey("load_characters")

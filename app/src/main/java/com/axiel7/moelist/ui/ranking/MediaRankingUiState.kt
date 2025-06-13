@@ -11,6 +11,7 @@ import com.axiel7.moelist.ui.base.state.PagedUiState
 data class MediaRankingUiState(
     val rankingType: RankingType,
     val mediaList: SnapshotStateList<BaseRanking> = mutableStateListOf(),
+    val hideScore: Boolean = false,
     override val nextPage: String? = null,
     override val loadMore: Boolean = true,
     override val isLoading: Boolean = true,

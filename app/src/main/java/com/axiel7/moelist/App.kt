@@ -18,29 +18,28 @@ import com.axiel7.moelist.di.workerModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.workmanager.koin.workManagerFactory
+import org.koin.androix.startup.KoinStartup
+import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.component.KoinComponent
-import org.koin.core.context.startKoin
+import org.koin.dsl.koinConfiguration
 
-class App : Application(), KoinComponent, SingletonImageLoader.Factory {
+@OptIn(KoinExperimentalAPI::class)
+class App : Application(), KoinComponent, KoinStartup, SingletonImageLoader.Factory {
 
-    override fun onCreate() {
-        super.onCreate()
-
-        startKoin {
-            if (BuildConfig.DEBUG) {
-                androidLogger()
-            }
-            androidContext(this@App)
-            workManagerFactory()
-            modules(
-                networkModule,
-                dataStoreModule,
-                repositoryModule,
-                viewModelModule,
-                workerModule,
-                databaseModule,
-            )
+    override fun onKoinStartup() = koinConfiguration {
+        if (BuildConfig.DEBUG) {
+            androidLogger()
         }
+        androidContext(this@App)
+        workManagerFactory()
+        modules(
+            networkModule,
+            dataStoreModule,
+            repositoryModule,
+            viewModelModule,
+            workerModule,
+            databaseModule,
+        )
     }
 
     override fun newImageLoader(context: PlatformContext) =
@@ -53,7 +52,7 @@ class App : Application(), KoinComponent, SingletonImageLoader.Factory {
             .diskCache {
                 DiskCache.Builder()
                     .directory(cacheDir.resolve("image_cache"))
-                    .maxSizePercent(0.02)
+                    .maxSizePercent(0.15)
                     .build()
             }
             .crossfade(true)

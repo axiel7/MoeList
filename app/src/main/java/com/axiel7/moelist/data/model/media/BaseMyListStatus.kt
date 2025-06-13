@@ -34,7 +34,7 @@ abstract class BaseMyListStatus : BaseResponse {
 
 @Composable
 fun Int.scoreText() = when (this) {
-    0 -> "─"
+    0 -> ""
     1 -> stringResource(R.string.score_apalling)
     2 -> stringResource(R.string.score_horrible)
     3 -> stringResource(R.string.score_very_bad)
@@ -45,7 +45,7 @@ fun Int.scoreText() = when (this) {
     8 -> stringResource(R.string.score_very_good)
     9 -> stringResource(R.string.score_great)
     10 -> stringResource(R.string.score_masterpiece)
-    else -> "─"
+    else -> ""
 }
 
 @Composable

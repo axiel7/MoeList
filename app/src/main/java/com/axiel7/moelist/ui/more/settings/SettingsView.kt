@@ -25,6 +25,7 @@ import com.axiel7.moelist.ui.base.AppLanguage
 import com.axiel7.moelist.ui.base.ItemsPerRow
 import com.axiel7.moelist.ui.base.ListStyle
 import com.axiel7.moelist.ui.base.StartTab
+import com.axiel7.moelist.ui.base.TabletMode
 import com.axiel7.moelist.ui.base.ThemeStyle
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.DefaultScaffoldWithTopAppBar
@@ -33,13 +34,13 @@ import com.axiel7.moelist.ui.composables.preferences.PlainPreferenceView
 import com.axiel7.moelist.ui.composables.preferences.SwitchPreferenceView
 import com.axiel7.moelist.ui.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.openByDefaultSettings
-import org.koin.androidx.compose.navigation.koinNavViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SettingsView(
     navActionManager: NavActionManager
 ) {
-    val viewModel: SettingsViewModel = koinNavViewModel()
+    val viewModel: SettingsViewModel = koinViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     SettingsViewContent(
@@ -107,6 +108,20 @@ private fun SettingsViewContent(
             )
 
             SwitchPreferenceView(
+                title = stringResource(R.string.pinned_navigation_bar),
+                value = uiState.pinnedNavBar,
+                onValueChange = { event?.setPinnedNavBar(it) }
+            )
+
+            ListPreferenceView(
+                title = stringResource(R.string.tablet_mode),
+                entriesValues = TabletMode.entriesLocalized,
+                value = uiState.tabletMode,
+                icon = R.drawable.tablet_android_24,
+                onValueChange = { event?.setTabletMode(it) }
+            )
+
+            SwitchPreferenceView(
                 title = stringResource(R.string.use_separated_list_styles),
                 value = !uiState.useGeneralListStyle,
                 onValueChange = { event?.setUseGeneralListStyle(!it) }
@@ -146,6 +161,13 @@ private fun SettingsViewContent(
                 value = uiState.showNsfw,
                 icon = R.drawable.no_adult_content_24,
                 onValueChange = { event?.setShowNsfw(it) }
+            )
+
+            SwitchPreferenceView(
+                title = stringResource(R.string.hide_scores),
+                value = uiState.hideScores,
+                icon = R.drawable.ic_round_details_star_24,
+                onValueChange = { event?.setHideScores(it) }
             )
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {

@@ -79,16 +79,16 @@
     <string name="visual_novel">Visuelle Novelle</string>
     <string name="game">Spiel</string>
     <string name="web_manga">Web Manga</string>
-    <string name="score_apalling">1 - Erschreckend</string>
-    <string name="score_horrible">2 - Schrecklich</string>
-    <string name="score_very_bad">3 - Sehr Schlecht</string>
-    <string name="score_bad">4 - Schlecht</string>
-    <string name="score_average">5 - Durchschnittlich</string>
-    <string name="score_fine">6 - Okay</string>
-    <string name="score_good">7 - Gut</string>
-    <string name="score_very_good">8 - Sehr Gut</string>
-    <string name="score_great">9 - Großartig</string>
-    <string name="score_masterpiece">10 - Meisterwerk</string>
+    <string name="score_apalling">Erschreckend</string>
+    <string name="score_horrible">Schrecklich</string>
+    <string name="score_very_bad">Sehr Schlecht</string>
+    <string name="score_bad">Schlecht</string>
+    <string name="score_average">Durchschnittlich</string>
+    <string name="score_fine">Okay</string>
+    <string name="score_good">Gut</string>
+    <string name="score_very_good">Sehr Gut</string>
+    <string name="score_great">Großartig</string>
+    <string name="score_masterpiece">Meisterwerk</string>
     <string name="monday">Montag</string>
     <string name="tuesday">Dienstag</string>
     <string name="wednesday">Mittwoch</string>
@@ -328,4 +328,5 @@
     <string name="enable_list_tabs_subtitle">Tabs in der Anime/Manga-Liste anstelle der schwebenden Aktionsschaltfläche verwenden</string>
     <string name="always_load_characters">Zeichen immer laden</string>
     <string name="random_button_on_list">Zufällige Schaltfläche auf der Anime/Manga-Liste</string>
+    <string name="refresh">Aktualisieren</string>
 </resources>

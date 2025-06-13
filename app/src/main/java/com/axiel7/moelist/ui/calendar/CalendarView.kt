@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -25,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -112,9 +114,18 @@ private fun CalendarContent(
                         MediaItemVertical(
                             imageUrl = item.node.mainPicture?.large,
                             title = item.node.userPreferredTitle(),
+                            badgeContent = item.node.myListStatus?.status?.let { status ->
+                                {
+                                    Icon(
+                                        painter = painterResource(status.icon),
+                                        contentDescription = status.localized(),
+                                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                                    )
+                                }
+                            },
                             subtitle = {
                                 Text(
-                                    text = item.node.broadcast?.startTime ?: "??",
+                                    text = item.node.broadcast?.localStartTime() ?: "??",
                                     color = MaterialTheme.colorScheme.outline
                                 )
                             },

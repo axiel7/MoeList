@@ -51,6 +51,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.LifecycleStartEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.compose.dropUnlessResumed
 import com.axiel7.moelist.R
@@ -87,8 +88,10 @@ fun SearchHostView(
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    LaunchedEffect(focusRequester) {
-        focusRequester.requestFocus()
+    LifecycleStartEffect(focusRequester) {
+        if (query.text.isEmpty()) focusRequester.requestFocus()
+
+        onStopOrDispose { }
     }
 
     Column(
@@ -191,6 +194,15 @@ private fun SearchViewContent(
         MediaItemDetailed(
             title = item.node.userPreferredTitle(),
             imageUrl = item.node.mainPicture?.large,
+            badgeContent = item.node.myListStatus?.status?.let { status ->
+                {
+                    Icon(
+                        painter = painterResource(status.icon),
+                        contentDescription = status.localized(),
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
+            },
             subtitle1 = {
                 Text(
                     text = buildString {
@@ -216,16 +228,18 @@ private fun SearchViewContent(
                 )
             },
             subtitle3 = {
-                Icon(
-                    painter = painterResource(R.drawable.ic_round_details_star_24),
-                    contentDescription = "star",
-                    modifier = Modifier.padding(end = 4.dp),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Text(
-                    text = item.node.mean.toStringPositiveValueOrUnknown(),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                if (!uiState.hideScore) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_round_details_star_24),
+                        contentDescription = "star",
+                        modifier = Modifier.padding(end = 4.dp),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Text(
+                        text = item.node.mean.toStringPositiveValueOrUnknown(),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             },
             onClick = dropUnlessResumed {
                 navActionManager.toMediaDetails(uiState.mediaType, item.node.id)
