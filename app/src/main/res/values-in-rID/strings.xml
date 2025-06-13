@@ -86,16 +86,6 @@
     <string name="visual_novel">Novel Visual</string>
     <string name="game">Game</string>
     <string name="web_manga">Manga Web</string>
-    <string name="score_apalling">Sangat Mengerikan</string>
-    <string name="score_horrible">Mengerikan</string>
-    <string name="score_very_bad">Sangat Buruk</string>
-    <string name="score_bad">Buruk</string>
-    <string name="score_average">Rata-rata</string>
-    <string name="score_fine">Baik</string>
-    <string name="score_good">Bagus</string>
-    <string name="score_very_good">Sangat Baik</string>
-    <string name="score_great">Hebat</string>
-    <string name="score_masterpiece">Karya Terbaik</string>
     <string name="monday">Senin</string>
     <string name="tuesday">Selasa</string>
     <string name="wednesday">Rabu</string>
@@ -343,10 +333,9 @@
     <string name="black_theme_variant">Variasi tema hitam</string>
     <string name="pinned_navigation_bar">Pin navigasi bar</string>
     <string name="hide_scores">Sembunyikan skor</string>
-    <string name="mode_auto" comment="tablet mode">Otomatis</string>
-    <string name="mode_always" comment="tablet mode">Selalu</string>
-    <string name="mode_landscape" comment="tablet mode">Lanskap</string>
-    <string name="mode_never" comment="tablet mode">Jangan pernah</string>
+    <string name="mode_auto">Otomatis</string>
+    <string name="mode_always">Selalu</string>
+    <string name="mode_landscape">Lanskap</string>
+    <string name="mode_never">Jangan pernah</string>
     <string name="tablet_mode">Mode tablet</string>
-    <string name="refresh">Memperbarui</string>
 </resources>
