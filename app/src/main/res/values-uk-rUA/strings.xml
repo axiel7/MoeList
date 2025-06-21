@@ -92,6 +92,16 @@
     <string name="visual_novel">Візуальна новела</string>
     <string name="game">Гра</string>
     <string name="web_manga">Веб-манґа</string>
+    <string name="score_apalling">Гидота</string>
+    <string name="score_horrible">Жахливо</string>
+    <string name="score_very_bad">Дуже погано</string>
+    <string name="score_bad">Погано</string>
+    <string name="score_average">Посередньо</string>
+    <string name="score_fine">Задовільно</string>
+    <string name="score_good">Добре</string>
+    <string name="score_very_good">Дуже добре</string>
+    <string name="score_great">Чудово</string>
+    <string name="score_masterpiece">Шедевр</string>
     <string name="monday">Понеділок</string>
     <string name="tuesday">Вівторок</string>
     <string name="wednesday">Середа</string>
@@ -338,7 +348,7 @@
     <string name="enable_list_tabs">Увімкнути вкладки списку</string>
     <string name="enable_list_tabs_subtitle">Використовуйте вкладки у списку аніме/манга замість плаваючої кнопки дії</string>
     <string name="always_load_characters">Завжди завантажувати персонажів</string>
-    <string name="random_button_on_list">Випадкова кнопка у списку аніме/манги</string>
+    <string name="random_button_on_list">Кнопка «Випадкове» у списку аніме/манги</string>
     <string name="new_anime">Нове</string>
     <string name="continuing_anime">Продовжується</string>
     <string name="previous_season">Попередній</string>
@@ -356,4 +366,5 @@
     <string name="mode_landscape">Горизонтальний</string>
     <string name="mode_never">Ніколи</string>
     <string name="tablet_mode">Режим планшета</string>
+    <string name="refresh">Оновити</string>
 </resources>
