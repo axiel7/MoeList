@@ -86,6 +86,16 @@
     <string name="visual_novel">視覺小說</string>
     <string name="game">遊戲</string>
     <string name="web_manga">網路漫畫</string>
+    <string name="score_apalling">駭人聽聞</string>
+    <string name="score_horrible">可怕的</string>
+    <string name="score_very_bad">非常差</string>
+    <string name="score_bad">差</string>
+    <string name="score_average">普通</string>
+    <string name="score_fine">可接受</string>
+    <string name="score_good">好的</string>
+    <string name="score_very_good">非常好</string>
+    <string name="score_great">很讚</string>
+    <string name="score_masterpiece">傑作</string>
     <string name="monday">週一</string>
     <string name="tuesday">週二</string>
     <string name="wednesday">週三</string>
@@ -338,4 +348,5 @@
     <string name="mode_landscape">橫向</string>
     <string name="mode_never">永不</string>
     <string name="tablet_mode">平板模式</string>
+    <string name="refresh">重新整理</string>
 </resources>
