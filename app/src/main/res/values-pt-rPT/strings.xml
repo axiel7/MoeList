@@ -79,6 +79,16 @@
     <string name="visual_novel">Novela Visual</string>
     <string name="game">Jogo</string>
     <string name="web_manga">Web Manga</string>
+    <string name="score_apalling">Deplorável</string>
+    <string name="score_horrible">Horrível</string>
+    <string name="score_very_bad">Péssimo</string>
+    <string name="score_bad">Mau</string>
+    <string name="score_average">Medíocre</string>
+    <string name="score_fine">Aceitável</string>
+    <string name="score_good">Bom</string>
+    <string name="score_very_good">Ótimo</string>
+    <string name="score_great">Excelente</string>
+    <string name="score_masterpiece">Obra-prima</string>
     <string name="monday">Segunda-feira</string>
     <string name="tuesday">Terça-feira</string>
     <string name="wednesday">Quarta-feira</string>
@@ -302,4 +312,5 @@
     <string name="enable_list_tabs_subtitle">Utilizar separadores na lista Anime/Manga em vez do Botão de Ação Flutuante</string>
     <string name="always_load_characters">Carregar sempre personagens</string>
     <string name="random_button_on_list">Botão aleatório na lista de anime/manga</string>
+    <string name="refresh">Atualizar</string>
 </resources>
