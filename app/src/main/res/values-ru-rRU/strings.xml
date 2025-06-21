@@ -92,6 +92,16 @@
     <string name="visual_novel">Визуальная новелла</string>
     <string name="game">Игра</string>
     <string name="web_manga">Веб-манга</string>
+    <string name="score_apalling">Ужасно</string>
+    <string name="score_horrible">Страшно</string>
+    <string name="score_very_bad">Очень плохо</string>
+    <string name="score_bad">Плохо</string>
+    <string name="score_average">Посредственно</string>
+    <string name="score_fine">Приемлемо</string>
+    <string name="score_good">Хорошо</string>
+    <string name="score_very_good">Очень хорошо</string>
+    <string name="score_great">Великолепно</string>
+    <string name="score_masterpiece">Шедевр</string>
     <string name="monday">Понедельник</string>
     <string name="tuesday">Вторник</string>
     <string name="wednesday">Среда</string>
@@ -349,4 +359,5 @@
     <string name="cm">КС</string>
     <string name="pv">РВ</string>
     <string name="black_theme_variant">Черный вариант темы</string>
+    <string name="refresh">Обновить</string>
 </resources>
