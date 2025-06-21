@@ -88,6 +88,16 @@
     <string name="visual_novel">Visual Novel</string>
     <string name="game">Gioco</string>
     <string name="web_manga">Web Manga</string>
+    <string name="score_apalling">Pessimo</string>
+    <string name="score_horrible">Orribile</string>
+    <string name="score_very_bad">Molto Brutto</string>
+    <string name="score_bad">Brutto</string>
+    <string name="score_average">Mediocre</string>
+    <string name="score_fine">Accettabile</string>
+    <string name="score_good">Buono</string>
+    <string name="score_very_good">Molto Buono</string>
+    <string name="score_great">Ottimo</string>
+    <string name="score_masterpiece">Capolavoro</string>
     <string name="monday">Lunedì</string>
     <string name="tuesday">Martedì</string>
     <string name="wednesday">Mercoledì</string>
@@ -344,4 +354,5 @@
     <string name="mode_landscape">Orizzontale</string>
     <string name="mode_never">Mai</string>
     <string name="tablet_mode">Modalità tablet</string>
+    <string name="refresh">Aggiorna</string>
 </resources>
