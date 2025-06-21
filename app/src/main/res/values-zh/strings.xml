@@ -85,6 +85,16 @@
     <string name="visual_novel">视觉小说</string>
     <string name="game">游戏</string>
     <string name="web_manga">Web 漫画</string>
+    <string name="score_apalling">骇人听闻</string>
+    <string name="score_horrible">恐怖的</string>
+    <string name="score_very_bad">非常差</string>
+    <string name="score_bad">差</string>
+    <string name="score_average">普通</string>
+    <string name="score_fine">可接受</string>
+    <string name="score_good">好的</string>
+    <string name="score_very_good">非常好</string>
+    <string name="score_great">很赞</string>
+    <string name="score_masterpiece">杰作</string>
     <string name="monday">星期一</string>
     <string name="tuesday">星期二</string>
     <string name="wednesday">星期三</string>
