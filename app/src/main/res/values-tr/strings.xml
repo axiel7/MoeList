@@ -349,10 +349,10 @@
     <string name="black_theme_variant">Siyah tema varyantı</string>
     <string name="pinned_navigation_bar">Sabitlenmiş gezinme çubuğu</string>
     <string name="hide_scores">Puanları gizle</string>
-    <string name="mode_auto" comment="tablet mode">Otomatik</string>
-    <string name="mode_always" comment="tablet mode">Her zaman</string>
-    <string name="mode_landscape" comment="tablet mode">Yatay</string>
-    <string name="mode_never" comment="tablet mode">Hiçbir zaman</string>
+    <string name="mode_auto">Otomatik</string>
+    <string name="mode_always">Her zaman</string>
+    <string name="mode_landscape">Yatay</string>
+    <string name="mode_never">Hiçbir zaman</string>
     <string name="tablet_mode">Tablet modu</string>
     <string name="refresh">Yenile</string>
 </resources>
