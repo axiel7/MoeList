@@ -217,8 +217,7 @@ class MainActivity : AppCompatActivity() {
             // matches this -> https://myanimelist.net/manga/11514
             // but not this -> https://myanimelist.net/manga/11514/Otoyomegatari
             //TODO: find a better solution :)
-            val malSchemeIndex = intent.dataString?.indexOf("myanimelist.net")
-            if (malSchemeIndex != null && malSchemeIndex != -1) {
+            if (intent.data?.host == "myanimelist.net") {
                 // Only handle main details links
                 val isMainDetails = intent.data?.pathSegments?.any {
                     when (it) {
@@ -232,9 +231,8 @@ class MainActivity : AppCompatActivity() {
                     return null
                 }
 
-                val linkSplit = intent.dataString?.substring(malSchemeIndex)?.split('/').orEmpty()
-                val mediaType = linkSplit.getOrNull(1)?.uppercase()
-                val mediaId = linkSplit.getOrNull(2)?.toIntOrNull()
+                val mediaType = intent.data?.pathSegments?.getOrNull(0)?.uppercase()
+                val mediaId = intent.data?.pathSegments?.getOrNull(1)?.toIntOrNull()
                 if (mediaType != null && mediaId != null) return mediaId to mediaType
             }
         }
