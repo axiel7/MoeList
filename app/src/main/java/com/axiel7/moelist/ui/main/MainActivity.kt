@@ -98,86 +98,84 @@ class MainActivity : AppCompatActivity() {
         val initialTabletMode = runBlocking { viewModel.tabletMode.first() }
 
         setContent {
-            KoinAndroidContext {
-                val theme by viewModel.theme.collectAsStateWithLifecycle(initialValue = initialTheme)
-                val useBlackColors by viewModel.useBlackColors.collectAsStateWithLifecycle(
-                    initialValue = initialUseBlackColors
-                )
-                val isDark = if (theme == ThemeStyle.FOLLOW_SYSTEM) isSystemInDarkTheme()
-                else theme == ThemeStyle.DARK
+            val theme by viewModel.theme.collectAsStateWithLifecycle(initialValue = initialTheme)
+            val useBlackColors by viewModel.useBlackColors.collectAsStateWithLifecycle(
+                initialValue = initialUseBlackColors
+            )
+            val isDark = if (theme == ThemeStyle.FOLLOW_SYSTEM) isSystemInDarkTheme()
+            else theme == ThemeStyle.DARK
 
-                val navController = rememberNavController()
-                val navActionManager = rememberNavActionManager(navController)
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val navController = rememberNavController()
+            val navActionManager = rememberNavActionManager(navController)
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-                val tabletMode by viewModel.tabletMode.collectAsStateWithLifecycle(initialTabletMode)
-                val windowSizeClass = calculateWindowSizeClass(this)
-                val isCompactScreen = when (tabletMode) {
-                    TabletMode.AUTO -> windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact
-                    TabletMode.ALWAYS -> false
-                    TabletMode.LANDSCAPE -> LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE
-                    TabletMode.NEVER -> true
-                }
+            val tabletMode by viewModel.tabletMode.collectAsStateWithLifecycle(initialTabletMode)
+            val windowSizeClass = calculateWindowSizeClass(this)
+            val isCompactScreen = when (tabletMode) {
+                TabletMode.AUTO -> windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact
+                TabletMode.ALWAYS -> false
+                TabletMode.LANDSCAPE -> LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE
+                TabletMode.NEVER -> true
+            }
 
-                val accessToken by viewModel.accessToken.collectAsStateWithLifecycle(App.accessToken)
-                val useListTabs by viewModel.useListTabs.collectAsStateWithLifecycle()
-                val profilePicture by viewModel.profilePicture.collectAsStateWithLifecycle()
-                val pinnedNavBar by viewModel.pinnedNavBar.collectAsStateWithLifecycle(false)
+            val accessToken by viewModel.accessToken.collectAsStateWithLifecycle(App.accessToken)
+            val useListTabs by viewModel.useListTabs.collectAsStateWithLifecycle()
+            val profilePicture by viewModel.profilePicture.collectAsStateWithLifecycle()
+            val pinnedNavBar by viewModel.pinnedNavBar.collectAsStateWithLifecycle(false)
 
-                MoeListTheme(
-                    darkTheme = isDark,
-                    useBlackColors = useBlackColors
+            MoeListTheme(
+                darkTheme = isDark,
+                useBlackColors = useBlackColors
+            ) {
+                val backgroundColor = MaterialTheme.colorScheme.background
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = backgroundColor
                 ) {
-                    val backgroundColor = MaterialTheme.colorScheme.background
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = backgroundColor
-                    ) {
-                        MainView(
-                            isCompactScreen = isCompactScreen,
-                            isLoggedIn = !accessToken.isNullOrEmpty(),
-                            useListTabs = useListTabs,
-                            navController = navController,
-                            navActionManager = navActionManager,
-                            lastTabOpened = lastTabOpened,
-                            saveLastTab = viewModel::saveLastTab,
-                            pinnedNavBar = pinnedNavBar,
-                            profilePicture = profilePicture,
-                        )
+                    MainView(
+                        isCompactScreen = isCompactScreen,
+                        isLoggedIn = !accessToken.isNullOrEmpty(),
+                        useListTabs = useListTabs,
+                        navController = navController,
+                        navActionManager = navActionManager,
+                        lastTabOpened = lastTabOpened,
+                        saveLastTab = viewModel::saveLastTab,
+                        pinnedNavBar = pinnedNavBar,
+                        profilePicture = profilePicture,
+                    )
 
-                        DisposableEffect(isDark, navBackStackEntry) {
-                            var statusBarStyle = SystemBarStyle.auto(
-                                android.graphics.Color.TRANSPARENT,
-                                android.graphics.Color.TRANSPARENT
-                            ) { isDark }
+                    DisposableEffect(isDark, navBackStackEntry) {
+                        var statusBarStyle = SystemBarStyle.auto(
+                            android.graphics.Color.TRANSPARENT,
+                            android.graphics.Color.TRANSPARENT
+                        ) { isDark }
 
-                            if (isCompactScreen
-                                && navBackStackEntry?.isBottomDestination() == true
-                            ) {
-                                statusBarStyle =
-                                    if (isDark) SystemBarStyle.dark(backgroundColor.toArgb())
-                                    else SystemBarStyle.light(
-                                        backgroundColor.toArgb(),
-                                        dark_scrim.toArgb()
-                                    )
-                            }
-                            enableEdgeToEdge(
-                                statusBarStyle = statusBarStyle,
-                                navigationBarStyle = SystemBarStyle.auto(
-                                    light_scrim.toArgb(),
-                                    dark_scrim.toArgb(),
-                                ) { isDark },
-                            )
-                            onDispose {}
+                        if (isCompactScreen
+                            && navBackStackEntry?.isBottomDestination() == true
+                        ) {
+                            statusBarStyle =
+                                if (isDark) SystemBarStyle.dark(backgroundColor.toArgb())
+                                else SystemBarStyle.light(
+                                    backgroundColor.toArgb(),
+                                    dark_scrim.toArgb()
+                                )
                         }
+                        enableEdgeToEdge(
+                            statusBarStyle = statusBarStyle,
+                            navigationBarStyle = SystemBarStyle.auto(
+                                light_scrim.toArgb(),
+                                dark_scrim.toArgb(),
+                            ) { isDark },
+                        )
+                        onDispose {}
                     }
                 }
+            }
 
-                LaunchedEffect(mediaId) {
-                    if (mediaId != null && mediaTypeArg != null) {
-                        val mediaType = MediaType.valueOf(mediaTypeArg)
-                        navActionManager.toMediaDetails(mediaType, mediaId)
-                    }
+            LaunchedEffect(mediaId) {
+                if (mediaId != null && mediaTypeArg != null) {
+                    val mediaType = MediaType.valueOf(mediaTypeArg)
+                    navActionManager.toMediaDetails(mediaType, mediaId)
                 }
             }
         }
