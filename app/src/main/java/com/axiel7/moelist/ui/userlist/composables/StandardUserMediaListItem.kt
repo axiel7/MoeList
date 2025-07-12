@@ -81,8 +81,10 @@ fun StandardUserMediaListItem(
                     url = item.node.mainPicture?.large,
                     showShadow = false,
                     modifier = Modifier
-                        .fillMaxHeight()
-                        .width(MEDIA_POSTER_SMALL_WIDTH.dp)
+                        .size(
+                            width = MEDIA_POSTER_SMALL_WIDTH.dp,
+                            height = MEDIA_POSTER_SMALL_HEIGHT.dp
+                        )
                 )
 
                 Row(
