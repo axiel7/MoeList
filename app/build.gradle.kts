@@ -156,7 +156,7 @@ dependencies {
     implementation("org.apache.commons:commons-text:1.14.0")
 
     //Image
-    val coilVersion = "3.2.0"
+    val coilVersion = "3.3.0"
     implementation("io.coil-kt.coil3:coil-compose:$coilVersion")
     implementation("io.coil-kt.coil3:coil-network-okhttp:$coilVersion")
 
