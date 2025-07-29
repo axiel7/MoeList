@@ -29,7 +29,8 @@ abstract class BaseMyListStatus : BaseResponse {
     fun hasNotes() = !comments.isNullOrBlank() || !tags.isNullOrEmpty()
 
     // MAL API returns special characters escaped
-    fun notesEscaped() = StringEscapeUtils.unescapeHtml4(comments)
+    fun notesEscaped(): String? = StringEscapeUtils.unescapeHtml4(comments)
+        ?.replace("<br />", "")
 }
 
 @Composable
