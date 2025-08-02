@@ -4,6 +4,7 @@
     <string name="title_anime_list">Anime</string>
     <string name="title_manga_list">Manga</string>
     <string name="stats">Statistiken</string>
+    <string name="more_info">Weitere Informationen</string>
     <string name="synonyms">Synonyme</string>
     <string name="jp_title">Japanisch</string>
     <string name="start_date">Startdatum</string>
@@ -23,6 +24,10 @@
     <string name="cancel">Abbrechen</string>
     <string name="apply">Übernehmen</string>
     <string name="episodes">Folgen</string>
+    <plurals name="num_episodes">
+        <item quantity="one">%d Folge</item>
+        <item quantity="other">%d Folgen</item>
+    </plurals>
     <string name="chapters">Kapitel</string>
     <string name="delete">Löschen</string>
     <string name="watching">Am Schauen</string>
@@ -328,5 +333,22 @@
     <string name="enable_list_tabs_subtitle">Tabs in der Anime/Manga-Liste anstelle der schwebenden Aktionsschaltfläche verwenden</string>
     <string name="always_load_characters">Zeichen immer laden</string>
     <string name="random_button_on_list">Zufällige Schaltfläche auf der Anime/Manga-Liste</string>
+    <string name="new_anime">Neu</string>
+    <string name="continuing_anime">Weiterlaufend</string>
+    <string name="previous_season">Vorherige</string>
+    <string name="current_season">Aktuelle</string>
+    <string name="next_season">Nächste</string>
+    <string name="status_distribution">Statusverteilung</string>
+    <string name="tv_special">TV Special</string>
+    <string name="cm">CM</string>
+    <string name="pv">PV</string>
+    <string name="black_theme_variant">Tiefschwarzes Design</string>
+    <string name="pinned_navigation_bar">Navigationsleiste immer sichtbar</string>
+    <string name="hide_scores">Bewertungen verstecken</string>
+    <string name="mode_auto">Auto</string>
+    <string name="mode_always">Immer</string>
+    <string name="mode_landscape">Querformat</string>
+    <string name="mode_never">Nie</string>
+    <string name="tablet_mode">Tablet-Modus</string>
     <string name="refresh">Aktualisieren</string>
 </resources>

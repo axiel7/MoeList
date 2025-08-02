@@ -359,5 +359,12 @@
     <string name="cm">КС</string>
     <string name="pv">РВ</string>
     <string name="black_theme_variant">Черный вариант темы</string>
+    <string name="pinned_navigation_bar">Прикреплённая панель навигации</string>
+    <string name="hide_scores">Скрыть оценки</string>
+    <string name="mode_auto">Авто</string>
+    <string name="mode_always">Всегда</string>
+    <string name="mode_landscape">Альбомный</string>
+    <string name="mode_never">Никогда</string>
+    <string name="tablet_mode">Альбомный режим</string>
     <string name="refresh">Обновить</string>
 </resources>
