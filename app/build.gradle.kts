@@ -103,7 +103,7 @@ android {
 dependencies {
 
     //AndroidX
-    implementation("androidx.core:core-ktx:1.16.0")
+    implementation("androidx.core:core-ktx:1.17.0")
     implementation("androidx.appcompat:appcompat:1.7.1")
 
     implementation("androidx.browser:browser:1.9.0")
