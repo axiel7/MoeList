@@ -29,6 +29,10 @@
         <item quantity="other">%d Folgen</item>
     </plurals>
     <string name="chapters">Kapitel</string>
+    <plurals name="num_chapters">
+        <item quantity="one">%d Kapitel</item>
+        <item quantity="other">%d Kapitel</item>
+    </plurals>
     <string name="delete">Löschen</string>
     <string name="watching">Am Schauen</string>
     <string name="reading">Am Lesen</string>
