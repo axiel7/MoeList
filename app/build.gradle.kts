@@ -97,6 +97,9 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    dependenciesInfo {
+        includeInApk = false
+    }
     namespace = "com.axiel7.moelist"
 }
 
