@@ -15,14 +15,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -105,87 +108,114 @@ fun CompactUserMediaListItem(
                 }
             }//:Box
 
-            Column(
-                modifier = Modifier.fillMaxHeight(),
-                verticalArrangement = Arrangement.SpaceBetween
+            //box2 right - For progressbar
+            Box(
+                contentAlignment = Alignment.BottomStart
             ) {
-                Text(
-                    text = item.node.userPreferredTitle(),
-                    modifier = Modifier
-                        .padding(start = 16.dp, end = 16.dp, top = 8.dp),
-                    color = MaterialTheme.colorScheme.onSurface,
-                    fontSize = 16.sp,
-                    lineHeight = 19.sp,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = if (isAiring) 1 else 2
+//              Row for ProgressBAR
+                Row( modifier = Modifier
+                    .fillMaxWidth()
+//                  .padding(start = 16.dp, end = 16.dp, bottom = 0.dp)
+                    .padding(start = 16.dp, end = 0.dp, bottom = 0.dp)
                 )
-
-                if (isAiring) {
-                    Text(
-                        text = broadcast?.airingInString() ?: stringResource(R.string.airing),
-                        modifier = Modifier.padding(horizontal = 16.dp),
+                {
+                    LinearProgressIndicator(
+                        progress = { item.calculateProgressBarValue() },
+                        modifier = Modifier.fillMaxWidth(),
                         color = MaterialTheme.colorScheme.primary,
-                        fontSize = 16.sp,
-                        lineHeight = 19.sp,
+                        trackColor = MaterialTheme.colorScheme.surfaceColorAtElevation(94.dp),
+                        strokeCap = StrokeCap.Round
                     )
                 }
+                Row()
+                {
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 16.dp, end = 16.dp, bottom = 4.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.Bottom
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
+
+                    Column(
+                        modifier = Modifier.fillMaxHeight(),
+                        verticalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = "${item.userProgress() ?: 0}/${
-                                item.totalProgress().toStringPositiveValueOrUnknown()
-                            }",
+                            text = item.node.userPreferredTitle(),
+                            modifier = Modifier
+                                .padding(start = 16.dp, end = 16.dp, top = 8.dp),
+                            color = MaterialTheme.colorScheme.onSurface,
                             fontSize = 16.sp,
                             lineHeight = 19.sp,
+                            overflow = TextOverflow.Ellipsis,
+                            maxLines = if (isAiring) 1 else 2
                         )
-                        if ((item as? UserMangaList)?.listStatus?.isUsingVolumeProgress() == true) {
-                            Icon(
-                                painter = painterResource(R.drawable.round_bookmark_24),
-                                contentDescription = stringResource(R.string.volumes),
-                                modifier = Modifier
-                                    .padding(start = 4.dp)
-                                    .size(16.dp)
-                            )
-                        }
-                    }
 
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalAlignment = Alignment.Bottom
-                    ) {
-                        if (item.listStatus?.hasRepeated() == true) {
-                            Icon(
-                                painter = painterResource(R.drawable.round_repeat_24),
-                                contentDescription = stringResource(R.string.rewatching),
-                                modifier = Modifier.size(20.dp)
+                        if (isAiring) {
+                            Text(
+                                text = broadcast?.airingInString() ?: stringResource(R.string.airing),
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                color = MaterialTheme.colorScheme.primary,
+                                fontSize = 16.sp,
+                                lineHeight = 19.sp,
                             )
                         }
 
-                        if (item.listStatus?.hasNotes() == true) {
-                            Icon(
-                                painter = painterResource(R.drawable.round_notes_24),
-                                contentDescription = stringResource(R.string.notes),
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-
-                        if (listStatus?.isCurrent() == true) {
-                            OutlinedButton(onClick = onClickPlus) {
-                                Text(text = stringResource(R.string.plus_one))
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 16.dp, end = 16.dp, bottom = 4.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.Bottom
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = "${item.userProgress() ?: 0}/${
+                                        item.totalProgress().toStringPositiveValueOrUnknown()
+                                    }",
+                                    fontSize = 16.sp,
+                                    lineHeight = 19.sp,
+                                )
+                                if ((item as? UserMangaList)?.listStatus?.isUsingVolumeProgress() == true) {
+                                    Icon(
+                                        painter = painterResource(R.drawable.round_bookmark_24),
+                                        contentDescription = stringResource(R.string.volumes),
+                                        modifier = Modifier
+                                            .padding(start = 4.dp)
+                                            .size(16.dp)
+                                    )
+                                }
                             }
-                        }
-                    }
-                }//:Row
-            }//:Column
+
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                verticalAlignment = Alignment.Bottom
+                            ) {
+                                if (item.listStatus?.hasRepeated() == true) {
+                                    Icon(
+                                        painter = painterResource(R.drawable.round_repeat_24),
+                                        contentDescription = stringResource(R.string.rewatching),
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                }
+
+                                if (item.listStatus?.hasNotes() == true) {
+                                    Icon(
+                                        painter = painterResource(R.drawable.round_notes_24),
+                                        contentDescription = stringResource(R.string.notes),
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                }
+
+                                if (listStatus?.isCurrent() == true) {
+                                    OutlinedButton(onClick = onClickPlus) {
+                                        Text(text = stringResource(R.string.plus_one))
+                                    }
+                                }
+                            }
+                        }//:Row
+                    }//:Column
+
+                }
+            }
+
         }//:Row
     }//:Card
 }
