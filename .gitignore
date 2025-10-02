@@ -10,3 +10,4 @@
 .cxx
 /app/src/main/java/com/axiel7/moelist/private/ClientId.kt
 /app/release
+*.salive
