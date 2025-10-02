@@ -55,8 +55,8 @@ android {
             )
             buildConfigField("String", "CLIENT_ID", privateProps.getProperty("CLIENT_ID"))
             resValue("string", "app_name", "MoeList Debug")
-            buildConfigField("String", "ANILIST_CLIENT_ID", properties.getProperty("ANILIST_CLIENT_ID"))
-            buildConfigField("String", "ANILIST_CLIENT_SECRET", properties.getProperty("ANILIST_CLIENT_SECRET"))
+            buildConfigField("String", "ANILIST_CLIENT_ID", privateProps.getProperty("ANILIST_CLIENT_ID"))
+            buildConfigField("String", "ANILIST_CLIENT_SECRET", privateProps.getProperty("ANILIST_CLIENT_SECRET"))
         }
         release {
             isDebuggable = false
@@ -66,9 +66,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "CLIENT_ID", properties.getProperty("CLIENT_ID"))
-            buildConfigField("String", "ANILIST_CLIENT_ID", properties.getProperty("ANILIST_CLIENT_ID"))
-            buildConfigField("String", "ANILIST_CLIENT_SECRET", properties.getProperty("ANILIST_CLIENT_SECRET"))
+            buildConfigField("String", "CLIENT_ID", privateProps.getProperty("CLIENT_ID"))
+            buildConfigField("String", "ANILIST_CLIENT_ID", privateProps.getProperty("ANILIST_CLIENT_ID"))
+            buildConfigField("String", "ANILIST_CLIENT_SECRET", privateProps.getProperty("ANILIST_CLIENT_SECRET"))
         }
     }
     splits {
