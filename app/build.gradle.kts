@@ -8,7 +8,7 @@ plugins {
     id("com.google.devtools.ksp")
 }
 
-val privateProps = Properties().also {
+val properties = Properties().also {
     it.load(project.rootProject.file("private.properties").reader())
 }
 val versionProps = Properties().also {
@@ -53,7 +53,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "CLIENT_ID", privateProps.getProperty("CLIENT_ID"))
+            buildConfigField("String", "CLIENT_ID", properties.getProperty("CLIENT_ID"))
             resValue("string", "app_name", "MoeList Debug")
             buildConfigField("String", "ANILIST_CLIENT_ID", properties.getProperty("ANILIST_CLIENT_ID"))
             buildConfigField("String", "ANILIST_CLIENT_SECRET", properties.getProperty("ANILIST_CLIENT_SECRET"))
