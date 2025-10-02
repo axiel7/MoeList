@@ -53,15 +53,6 @@ data class NextAiringEpisode(
         return str
     }
 
-//    @Composable //compoable error all the way up
-//    fun EpN_in_Mdays_ToString():String
-//    {
-//        var daysStr = timeUntilAiring.secondsToLegibleText();
-//        return """Ep ${episode} in ${daysStr}"""
-//    }
-
-//    fun EpN_in_Mdays_ToShortString() =
-//        """Ep${episode}, ${secondsToDays(timeUntilAiring)}d"""
 
 }
 @Serializable
@@ -72,22 +63,9 @@ data class Title(
 
 }
 
-
-//fun EpN_in_Mdays_ToString(it_AirInfo: NextAiringEpisode?) =
-//    """Ep ${it_AirInfo?.episode} in ${secondsToDays(it_AirInfo?.timeUntilAiring ?: Long.MAX_VALUE)} day(s) """
-
-////this behaves likes Static Func of c#. interesting?
-//fun secondsToDays_AsStr(seconds: Long): String {
-//    val days = seconds.toDouble() / (24 * 60 * 60)
-//    return String.format("%.1f", days)
-//}
-//fun secondsToDays(seconds: Long): Double {
-//    val days = seconds.toDouble() / (24 * 60 * 60)
-//    return Math_Round(days,1)
-//}
-//fun Math_Round(value: Double , fractionalDigits:Int): Double {
-//    return round(value * 10.0.pow(fractionalDigits)) / 10.0.pow(fractionalDigits)
-//}
+/**
+ * ALl Funcs Below are Helper. they Makes date Human Readable.
+ */
 
 /**
  * Supports Days , Hours , Minutes. less than a minute will be 0
@@ -106,24 +84,6 @@ fun secondsToDays_AsString(seconds: Long): String {
         ?: GetNLDatesString_OrNull(seconds, _1hour , "hours" ,"hour" )
         ?: GetNLDatesString_OrNull(seconds, _1min , "mins" ,"min" )
         ?: "? sec" ;
-
-
-//    if(seconds> _1day)
-//    { val days = seconds / _1day; HumanReadbleTime="${days} days" }
-//    else if(seconds== _1day)
-//    { val days = seconds / _1day; HumanReadbleTime="${days} day" }
-//
-//    else if(seconds>_1hour)
-//    { val days = seconds / _1hour; HumanReadbleTime="${days} hours" }
-//    else if(seconds==_1hour)
-//    { val days = seconds / _1hour; HumanReadbleTime="${days} hour"}
-//
-//    else if(seconds>_1min)
-//    { val days = seconds / _1min; HumanReadbleTime="${days} mins"}
-//    else if(seconds==_1min)
-//    { val days = seconds / _1min; HumanReadbleTime="${days} min"}
-//    else
-//    { val days = seconds / _1min; HumanReadbleTime="? sec"}
 
     return HumanReadbleTime;
 }
