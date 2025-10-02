@@ -161,38 +161,33 @@ private fun SeasonChartViewContent(
                     contentAlignment = Alignment.TopCenter
                 ) {
                     MediaItemVertical_2perRow(
-                        imageUrl = item.node.mainPicture?.large,
-                        title = item.node.userPreferredTitle(),
-                        badgeContent = item.node.myListStatus?.status?.let { status ->
-                            {
-                                Icon(
-                                    painter = painterResource(status.icon),
-                                    contentDescription = status.localized(),
-                                    tint = MaterialTheme.colorScheme.onPrimaryContainer
-                                )
+                            imageUrl = item.node.mainPicture?.large,
+                            title = item.node.userPreferredTitle(),
+                            badgeContent = item.node.myListStatus?.status?.let
+                            { status ->
+                                {
+                                    Icon(
+                                        painter = painterResource(status.icon),
+                                        contentDescription = status.localized(),
+                                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                                    )
+                                }
+                            },
+                            subtitle = {
+                                SmallScoreIndicator_Style1(item)
+                            },
+                            subtitle2 = {
+                                item.node.numListUsers?.format()?.let { users ->
+                                    SmallMemberIndicator_Style1(users)
+                                }
+                            },
+                            minLines = 2,
+                            onClick = dropUnlessResumed {
+                                navActionManager.toMediaDetails(MediaType.ANIME, item.node.id)
                             }
-                        subtitle = {
-                            SmallScoreIndicator_Style1(item)
-                        },
-                        subtitle = if (!uiState.hideScore) {
-                            {
-                                SmallScoreIndicator(
-                                    score = item.node.mean,
-                                    fontSize = 13.sp
-                                )
-                            }
-                        } else null,
-                        subtitle2 = {
-                            item.node.numListUsers?.format()?.let { users ->
-                                SmallMemberIndicator_Style1(users)
-                            }
-                        },
-                        minLines = 2,
-                        onClick = dropUnlessResumed {
-                            navActionManager.toMediaDetails(MediaType.ANIME, item.node.id)
-                        }
-                    )
+                        )
                 }
+
             }
             if (uiState.isLoading) {
                 items(5) {

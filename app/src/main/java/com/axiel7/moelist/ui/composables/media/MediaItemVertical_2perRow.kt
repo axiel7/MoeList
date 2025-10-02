@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -72,6 +73,7 @@ fun MediaItemVertical_2perRow(
     title: String,
     imageUrl: String?,
     modifier: Modifier = Modifier,
+    badgeContent: @Composable (RowScope.() -> Unit)? = null,
     subtitle: @Composable (() -> Unit)? = null,
     subtitle2: @Composable (() -> Unit)? = null,
     minLines: Int = 1,
