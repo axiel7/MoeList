@@ -136,7 +136,7 @@ class AnimeRepository(
             else api.getUserAnimeList(page)
 
             //inject my logic ,here. since i couldnt update ui.
-            AddNextAiringEpInfo_v2_withMeasureTime(result)
+            AnilistQuery.AddNextAiringEpInfo_withMeasureTime(result)
 
             val retry = result.error?.let { handleResponseError(it) }
             return if (retry == true) getUserAnimeList(status, sort, page) else result
