@@ -6,17 +6,16 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -26,16 +25,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.axiel7.moelist.R
+import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.ui.composables.TextIconHorizontal
 import com.axiel7.moelist.ui.composables.defaultPlaceholder
 import com.axiel7.moelist.ui.composables.score.SmallScoreIndicator
 import com.axiel7.moelist.ui.theme.MoeListTheme
-import com.axiel7.moelist.utils.NumExtensions.format
 
 //MAL app style. 2perRow - its easier to see poster on phoneScreen.
 const val multi =2.0;
@@ -71,6 +71,7 @@ fun getGridCellFixed_Count_ForOrientation():Int
 @Composable
 fun MediaItemVertical_2perRow(
     title: String,
+    status: ListStatus?,
     imageUrl: String?,
     modifier: Modifier = Modifier,
     badgeContent: @Composable (RowScope.() -> Unit)? = null,
@@ -110,6 +111,7 @@ fun MediaItemVertical_2perRow(
             Column(
                 modifier = modifier
                     .offset(x=4.dp ,y= -15.dp)
+                    .clip(RoundedCornerShape(topEnd = 8.dp, bottomEnd = 8.dp))
                     .background(Color.DarkGray)
                     .padding(vertical = 3.dp, horizontal = 0.dp),
 //                horizontalAlignment = Alignment.Start,
@@ -118,6 +120,25 @@ fun MediaItemVertical_2perRow(
                 subtitle?.let { it() }
                 subtitle2?.let { it() }
             }
+
+            //layer3 - badge content - at user list indicator
+            if (badgeContent != null) {
+                Row(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .offset(x=-4.dp ,y= -15.dp)
+                        .clip(RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp))
+                        //.background(MaterialTheme.colorScheme.primaryContainer)
+                        .background(getStatusColor(status = status))
+                        .padding(horizontal = 8.dp, vertical = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End,
+                    content = badgeContent
+                )
+            }
+
+
+
 
         }
 
@@ -189,6 +210,14 @@ fun MediaItemVertical_2perRowPreview() {
             MediaItemVertical_2perRow (
                 imageUrl = null,
                 title = "This is a very large anime title that should serve as a preview example",
+                status = ListStatus.WATCHING,
+                badgeContent = {
+                    Icon(
+                        painter = painterResource(R.drawable.check_circle_outline_24),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                },
                 subtitle = {
                     SmallScoreIndicator(
                         score = 8.55f,

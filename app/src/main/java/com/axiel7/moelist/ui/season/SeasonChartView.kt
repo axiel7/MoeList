@@ -1,6 +1,5 @@
 package com.axiel7.moelist.ui.season
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -31,8 +30,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -55,15 +52,10 @@ import com.axiel7.moelist.utils.NumExtensions.format
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
-import com.axiel7.moelist.ui.composables.media.MediaItemDetailedPlaceholder
-import com.axiel7.moelist.ui.composables.media.MediaItemVertical
 import com.axiel7.moelist.ui.composables.media.DarkTheme_textColor
 import com.axiel7.moelist.ui.composables.media.MediaItemVertical_2perRow
 import com.axiel7.moelist.ui.composables.media.MediaItemVertical_2perRowPlaceholder
 import com.axiel7.moelist.ui.composables.media.getGridCellFixed_Count_ForOrientation
-import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_SMALL_WIDTH
-import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_SMALL_WIDTH_2pr
-import com.axiel7.moelist.ui.composables.media.MediaItemVertical_2perRowPreview
 
 
 @Composable
@@ -163,6 +155,7 @@ private fun SeasonChartViewContent(
                     MediaItemVertical_2perRow(
                             imageUrl = item.node.mainPicture?.large,
                             title = item.node.userPreferredTitle(),
+                            status = item.node.myListStatus?.status,
                             badgeContent = item.node.myListStatus?.status?.let
                             { status ->
                                 {
