@@ -59,7 +59,7 @@ class EditMediaViewModel(
                 progress = if (value == ListStatus.COMPLETED) {
                     it.mediaInfo?.totalDuration()?.takeIf { total -> total > 0 } ?: it.progress
                 } else it.progress,
-                volumeProgress = if (it.mediaInfo is MangaNode) {
+                volumeProgress = if (it.mediaInfo is MangaNode && value == ListStatus.COMPLETED) {
                     it.mediaInfo.numVolumes?.takeIf { vols -> vols > 0 } ?: it.volumeProgress
                 } else it.volumeProgress
             )
