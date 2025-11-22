@@ -237,7 +237,7 @@ private fun HomeViewContent(
                 .padding(top = 8.dp)
                 .sizeIn(minHeight = MEDIA_ITEM_VERTICAL_HEIGHT.dp),
             state = seasonListState,
-            contentPadding = PaddingValues(horizontal = 16.dp),
+            contentPadding = PaddingValues(horizontal = 8.dp),
             flingBehavior = rememberSnapFlingBehavior(lazyListState = seasonListState)
         ) {
             items(
@@ -248,7 +248,7 @@ private fun HomeViewContent(
                 MediaItemVertical(
                     imageUrl = it.node.mainPicture?.large,
                     title = it.node.userPreferredTitle(),
-                    modifier = Modifier.padding(end = 8.dp),
+                    modifier = Modifier.padding(horizontal = 8.dp),
                     badgeContent = it.node.myListStatus?.status?.let { status ->
                         {
                             Icon(
@@ -313,7 +313,7 @@ private fun HomeViewContent(
                 .padding(vertical = 8.dp)
                 .sizeIn(minHeight = MEDIA_ITEM_VERTICAL_HEIGHT.dp),
             state = recommendListState,
-            contentPadding = PaddingValues(horizontal = 16.dp),
+            contentPadding = PaddingValues(horizontal = 8.dp),
             flingBehavior = rememberSnapFlingBehavior(lazyListState = recommendListState)
         ) {
             items(
@@ -324,7 +324,7 @@ private fun HomeViewContent(
                 MediaItemVertical(
                     imageUrl = it.node.mainPicture?.large,
                     title = it.node.userPreferredTitle(),
-                    modifier = Modifier.padding(end = 8.dp),
+                    modifier = Modifier.padding(horizontal = 8.dp),
                     subtitle = if (!uiState.hideScore) {
                         {
                             SmallScoreIndicator(

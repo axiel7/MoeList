@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -53,7 +54,7 @@ fun MediaItemVertical(
         horizontalAlignment = Alignment.Start
     ) {
         Box(
-            modifier = Modifier.padding(start = 4.dp, top = 2.dp, end = 4.dp, bottom = 8.dp),
+            modifier = Modifier.wrapContentSize(),
             contentAlignment = Alignment.BottomStart
         ) {
             MediaPoster(
@@ -82,7 +83,7 @@ fun MediaItemVertical(
             text = title,
             modifier = Modifier
                 .width(MEDIA_POSTER_SMALL_WIDTH.dp)
-                .padding(top = 2.dp, bottom = 4.dp),
+                .padding(top = 8.dp, bottom = 2.dp),
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontSize = 15.sp,
             lineHeight = 18.sp,
