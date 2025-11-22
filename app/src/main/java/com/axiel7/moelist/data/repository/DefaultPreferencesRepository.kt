@@ -82,8 +82,9 @@ class DefaultPreferencesRepository(
     }
 
     val profilePicture = dataStore.getValue(PROFILE_PICTURE_KEY)
-    suspend fun setProfilePicture(value: String) {
-        dataStore.setValue(PROFILE_PICTURE_KEY, value)
+    suspend fun setProfilePicture(value: String?) {
+        if (value != null) dataStore.setValue(PROFILE_PICTURE_KEY, value)
+        else dataStore.edit { it.remove(PROFILE_PICTURE_KEY) }
     }
 
     val animeListStatus = dataStore.getValue(ANIME_LIST_STATUS_KEY, ListStatus.WATCHING.name)

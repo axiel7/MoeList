@@ -45,5 +45,6 @@ class LoginRepository(
     suspend fun logOut() {
         defaultPreferencesRepository.removeTokens()
         App.accessToken = null
+        defaultPreferencesRepository.setProfilePicture(null)
     }
 }

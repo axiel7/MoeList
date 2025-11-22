@@ -28,6 +28,7 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.collapsable
 import com.axiel7.moelist.ui.more.composables.FeedbackDialog
+import com.axiel7.moelist.ui.more.composables.LogOutDialog
 import com.axiel7.moelist.ui.more.composables.MoreItem
 import com.axiel7.moelist.ui.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.openCustomTab
@@ -74,10 +75,19 @@ private fun MoreViewContent(
     val scrollState = rememberScrollState()
 
     var openFeedbackDialog by remember { mutableStateOf(false) }
+    var openLogOutDialog by remember { mutableStateOf(false) }
 
     if (openFeedbackDialog) {
         FeedbackDialog(
             onDismiss = { openFeedbackDialog = false }
+        )
+    } else if (openLogOutDialog) {
+        LogOutDialog(
+            onAccept = {
+                event?.logOut()
+                openLogOutDialog = false
+            },
+            onDismiss = { openLogOutDialog = false }
         )
     }
 
@@ -156,7 +166,7 @@ private fun MoreViewContent(
                 subtitle = stringResource(R.string.logout_summary),
                 icon = R.drawable.ic_round_power_settings_new_24,
                 onClick = {
-                    event?.logOut()
+                    openLogOutDialog = true
                 }
             )
         }
