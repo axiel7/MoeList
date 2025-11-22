@@ -15,7 +15,7 @@ data class MyMangaListStatus(
     override val status: ListStatus,
 
     @SerialName("score")
-    @IntRange(0, 10)
+    @param:IntRange(0, 10)
     override val score: Int = 0,
 
     @SerialName("updated_at")
@@ -40,11 +40,11 @@ data class MyMangaListStatus(
     override val repeatCount: Int? = 0,
 
     @SerialName("reread_value")
-    @IntRange(0, 5)
+    @param:IntRange(0, 5)
     override val repeatValue: Int? = 0,
 
     @SerialName("priority")
-    @IntRange(0, 2)
+    @param:IntRange(0, 2)
     override val priority: Int = 0,
 
     @SerialName("tags")

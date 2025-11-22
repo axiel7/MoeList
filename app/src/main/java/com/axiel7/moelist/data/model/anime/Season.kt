@@ -11,7 +11,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 enum class Season(
     val value: String,
-    @DrawableRes val icon: Int
+    @param:DrawableRes val icon: Int
 ) : Localizable {
     @SerialName("winter")
     WINTER(

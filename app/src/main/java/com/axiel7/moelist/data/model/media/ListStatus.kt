@@ -28,7 +28,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 enum class ListStatus(
-    @DrawableRes val icon: Int
+    @param:DrawableRes val icon: Int
 ) : LocalizableAndColorable {
     @SerialName("watching")
     WATCHING(
