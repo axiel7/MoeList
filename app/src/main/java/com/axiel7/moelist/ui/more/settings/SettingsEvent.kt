@@ -9,12 +9,14 @@ import com.axiel7.moelist.ui.base.StartTab
 import com.axiel7.moelist.ui.base.TabletMode
 import com.axiel7.moelist.ui.base.ThemeStyle
 import com.axiel7.moelist.ui.base.event.UiEvent
+import com.materialkolor.PaletteStyle
 
 @Stable
 interface SettingsEvent : UiEvent {
     fun setLanguage(value: AppLanguage)
     fun setTheme(value: ThemeStyle)
     fun setUseBlackColors(value: Boolean)
+    fun setPaletteStyle(value: PaletteStyle)
     fun setShowNsfw(value: Boolean)
     fun setHideScores(value: Boolean)
     fun setUseGeneralListStyle(value: Boolean)

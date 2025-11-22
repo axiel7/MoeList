@@ -15,10 +15,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -102,7 +104,9 @@ fun EditMediaSheet(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
+    ExperimentalMaterial3ExpressiveApi::class
+)
 @Composable
 private fun EditMediaSheetContent(
     uiState: EditMediaUiState,
@@ -181,15 +185,21 @@ private fun EditMediaSheetContent(
                     .padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                TextButton(onClick = onDismissed) {
+                TextButton(
+                    onClick = onDismissed,
+                    shapes = ButtonDefaults.shapes(),
+                ) {
                     Text(text = stringResource(R.string.cancel))
                 }
 
                 if (uiState.isLoading) {
-                    CircularProgressIndicator(modifier = Modifier.size(24.dp))
+                    LoadingIndicator(modifier = Modifier.size(24.dp))
                 }
 
-                Button(onClick = { event?.updateListItem() }) {
+                Button(
+                    onClick = { event?.updateListItem() },
+                    shapes = ButtonDefaults.shapes(),
+                ) {
                     Text(text = stringResource(if (uiState.isNewEntry) R.string.add else R.string.apply))
                 }
             }

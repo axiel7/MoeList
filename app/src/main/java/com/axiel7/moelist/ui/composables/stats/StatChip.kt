@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.ElevatedAssistChip
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Text
 import androidx.compose.material3.TooltipAnchorPosition
@@ -17,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.axiel7.moelist.data.model.base.LocalizableAndColorable
 import com.axiel7.moelist.data.model.media.Stat
 import com.axiel7.moelist.utils.NumExtensions.format
+import com.materialkolor.ktx.harmonize
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -28,6 +30,9 @@ fun <T : LocalizableAndColorable> StatChip(
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {
     val tooltipState = rememberTooltipState()
+    val onPrimaryColor = stat.type.onPrimaryColor().harmonize(MaterialTheme.colorScheme.primary)
+    val primaryColor = stat.type.primaryColor().harmonize(MaterialTheme.colorScheme.primary)
+
     TooltipBox(
         positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
             positioning = TooltipAnchorPosition.Above
@@ -48,13 +53,13 @@ fun <T : LocalizableAndColorable> StatChip(
             leadingIcon = {
                 Text(
                     text = stat.value.format() ?: stat.value.toString(),
-                    color = stat.type.onPrimaryColor()
+                    color = onPrimaryColor
                 )
             },
             colors = AssistChipDefaults.elevatedAssistChipColors(
-                containerColor = stat.type.primaryColor(),
-                labelColor = stat.type.onPrimaryColor(),
-                leadingIconContentColor = stat.type.onPrimaryColor()
+                containerColor = primaryColor,
+                labelColor = onPrimaryColor,
+                leadingIconContentColor = onPrimaryColor,
             ),
         )
     }

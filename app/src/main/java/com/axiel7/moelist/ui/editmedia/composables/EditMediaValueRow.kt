@@ -3,8 +3,10 @@ package com.axiel7.moelist.ui.editmedia.composables
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,6 +20,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.axiel7.moelist.R
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun EditMediaValueRow(
     label: String,
@@ -58,6 +61,7 @@ fun EditMediaValueRow(
                 onMinusClick()
             },
             enabled = minusEnabled,
+            shapes = IconButtonDefaults.shapes(),
         ) {
             Icon(
                 painter = painterResource(R.drawable.round_remove_24),
@@ -70,6 +74,7 @@ fun EditMediaValueRow(
                 onPlusClick()
             },
             enabled = plusEnabled,
+            shapes = IconButtonDefaults.shapes()
         ) {
             Icon(
                 painter = painterResource(R.drawable.ic_round_add_24),

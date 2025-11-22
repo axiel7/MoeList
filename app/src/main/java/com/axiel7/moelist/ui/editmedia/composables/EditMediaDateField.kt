@@ -9,8 +9,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -27,6 +29,7 @@ import com.axiel7.moelist.ui.theme.MoeListTheme
 import com.axiel7.moelist.utils.DateUtils.toLocalized
 import java.time.LocalDate
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun EditMediaDateField(
     date: LocalDate?,
@@ -85,7 +88,8 @@ fun EditMediaDateField(
         if (date != null) {
             IconButton(
                 onClick = removeDate,
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(horizontal = 16.dp),
+                shapes = IconButtonDefaults.shapes()
             ) {
                 Icon(
                     painter = painterResource(R.drawable.round_close_24),

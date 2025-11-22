@@ -24,7 +24,6 @@ data class UserMediaListUiState(
     val itemsPerRow: ItemsPerRow = ItemsPerRow.DEFAULT,
     val mediaList: SnapshotStateList<BaseUserMediaList<out BaseMediaNode>> = mutableStateListOf(),
     val isLoadingMore: Boolean = false,
-    val openSortDialog: Boolean = false,
     val openSetScoreDialog: Boolean = false,
     val selectedItem: BaseUserMediaList<*>? = null,
     val showRandomButton: Boolean = false,

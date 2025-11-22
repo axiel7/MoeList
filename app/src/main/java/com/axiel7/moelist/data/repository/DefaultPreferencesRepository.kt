@@ -20,6 +20,7 @@ import com.axiel7.moelist.ui.base.StartTab
 import com.axiel7.moelist.ui.base.TabletMode
 import com.axiel7.moelist.ui.base.ThemeStyle
 import com.axiel7.moelist.utils.NumExtensions.toInt
+import com.materialkolor.PaletteStyle
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
@@ -69,6 +70,13 @@ class DefaultPreferencesRepository(
     val useBlackColors = dataStore.getValue(USE_BLACK_COLORS_KEY, false)
     suspend fun setUseBlackColors(value: Boolean) {
         dataStore.setValue(USE_BLACK_COLORS_KEY, value)
+    }
+
+    val paletteStyle = dataStore.getValue(PALETTE_STYLE_KEY, PaletteStyle.Expressive.name)
+        .map { PaletteStyle.valueOf(it) }
+
+    suspend fun setPaletteStyle(value: PaletteStyle) {
+        dataStore.setValue(PALETTE_STYLE_KEY, value.name)
     }
 
     val lastTab = dataStore.getValue(LAST_TAB_KEY, 0)
@@ -259,6 +267,7 @@ class DefaultPreferencesRepository(
         private val LANG_KEY = stringPreferencesKey("lang")
         private val THEME_KEY = stringPreferencesKey("theme")
         private val USE_BLACK_COLORS_KEY = booleanPreferencesKey("use_black_colors")
+        private val PALETTE_STYLE_KEY = stringPreferencesKey("palette_style")
         private val LAST_TAB_KEY = intPreferencesKey("last_tab")
         private val PINNED_NAV_BAR_KEY = booleanPreferencesKey("pinned_nav_bar")
         private val PROFILE_PICTURE_KEY = stringPreferencesKey("profile_picture")

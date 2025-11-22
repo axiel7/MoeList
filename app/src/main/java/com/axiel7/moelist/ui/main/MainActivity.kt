@@ -98,6 +98,7 @@ class MainActivity : AppCompatActivity() {
         val lastTabOpened = findLastTabOpened()
         val initialTheme = runBlocking { viewModel.theme.first() }
         val initialUseBlackColors = runBlocking { viewModel.useBlackColors.first() }
+        val initialPaletteStyle = runBlocking { viewModel.paletteStyle.first() }
         val initialTabletMode = runBlocking { viewModel.tabletMode.first() }
 
         setContent {
@@ -107,6 +108,7 @@ class MainActivity : AppCompatActivity() {
             )
             val isDark = if (theme == ThemeStyle.FOLLOW_SYSTEM) isSystemInDarkTheme()
             else theme == ThemeStyle.DARK
+            val paletteStyle by viewModel.paletteStyle.collectAsStateWithLifecycle(initialPaletteStyle)
 
             val startKey = remember(lastTabOpened) {
                 lastTabOpened.toBottomDestinationRoute() ?: BottomDestination.Home.route
@@ -135,7 +137,8 @@ class MainActivity : AppCompatActivity() {
 
             MoeListTheme(
                 darkTheme = isDark,
-                useBlackColors = useBlackColors
+                useBlackColors = useBlackColors,
+                paletteStyle = paletteStyle,
             ) {
                 val backgroundColor = MaterialTheme.colorScheme.background
                 Surface(

@@ -17,9 +17,11 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -50,7 +52,7 @@ import com.axiel7.moelist.ui.userlist.composables.SortChip
 import com.axiel7.moelist.ui.userlist.composables.StandardUserMediaListItem
 import com.axiel7.moelist.ui.userlist.composables.StandardUserMediaListItemPlaceholder
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun UserMediaListView(
     uiState: UserMediaListUiState,
@@ -142,6 +144,13 @@ fun UserMediaListView(
         onRefresh = { event?.refreshList() },
         modifier = modifier.fillMaxSize(),
         state = pullRefreshState,
+        indicator = {
+            PullToRefreshDefaults.LoadingIndicator(
+                state = pullRefreshState,
+                isRefreshing = uiState.isLoading,
+                modifier = Modifier.align(Alignment.TopCenter),
+            )
+        }
     ) {
         val listModifier = Modifier
             .fillMaxWidth()
@@ -205,7 +214,7 @@ fun UserMediaListView(
                 item(contentType = { 0 }) {
                     if (uiState.canLoadMore) {
                         Box(modifier = Modifier.align(Alignment.Center)) {
-                            CircularProgressIndicator(
+                            LoadingIndicator(
                                 modifier = Modifier.align(Alignment.Center)
                             )
                         }
@@ -375,7 +384,7 @@ fun UserMediaListView(
                 item(contentType = { 0 }) {
                     if (uiState.canLoadMore) {
                         Box(modifier = Modifier.align(Alignment.Center)) {
-                            CircularProgressIndicator(
+                            LoadingIndicator(
                                 modifier = Modifier.align(Alignment.Center)
                             )
                         }

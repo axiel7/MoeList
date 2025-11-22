@@ -21,12 +21,13 @@ kotlinx-coroutines = "1.10.2"
 kotlinx-serialization-json = "1.9.0"
 ktor = "3.3.1"
 lifecycle = "2.10.0"
-material3 = "1.4.0"
+material3 = "1.5.0-alpha09"
 navigation3 = "1.0.0"
 placeholder-material3 = "2.0.0"
 room = "2.8.4"
 work-runtime = "2.11.0"
 commons-text = "1.14.0"
+materialKolor = "5.0.0-alpha03"
 
 [libraries]
 accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist" }
@@ -72,6 +73,7 @@ ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version
 ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 placeholder-material3 = { group = "io.github.fornewid", name = "placeholder-material3", version.ref = "placeholder-material3" }
+material-kolor = { group = "com.materialkolor", name = "material-kolor", version.ref = "materialKolor" }
 
 [bundles]
 coil = ["coil-compose", "coil-network-okhttp"]

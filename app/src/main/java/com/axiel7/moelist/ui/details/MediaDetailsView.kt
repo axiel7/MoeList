@@ -22,12 +22,15 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AssistChip
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -112,7 +115,9 @@ fun MediaDetailsView(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class,
+    ExperimentalMaterial3ExpressiveApi::class
+)
 @Composable
 private fun MediaDetailsContent(
     uiState: MediaDetailsUiState,
@@ -330,7 +335,8 @@ private fun MediaDetailsContent(
                         IconButton(
                             onClick = {
                                 uiState.mediaDetails?.synopsis?.let { context.openTranslator(it) }
-                            }
+                            },
+                            shapes = IconButtonDefaults.shapes()
                         ) {
                             Icon(
                                 painter = painterResource(R.drawable.ic_outline_translate_24),
@@ -340,7 +346,8 @@ private fun MediaDetailsContent(
                     } else Spacer(modifier = Modifier.size(48.dp))
 
                     IconButton(
-                        onClick = { isSynopsisExpanded = !isSynopsisExpanded }
+                        onClick = { isSynopsisExpanded = !isSynopsisExpanded },
+                        shapes = IconButtonDefaults.shapes()
                     ) {
                         Icon(painter = painterResource(iconExpand), contentDescription = "expand")
                     }
@@ -348,7 +355,8 @@ private fun MediaDetailsContent(
                     IconButton(
                         onClick = {
                             uiState.mediaDetails?.synopsis?.let { context.copyToClipBoard(it) }
-                        }
+                        },
+                        shapes = IconButtonDefaults.shapes()
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.round_content_copy_24),
@@ -528,7 +536,7 @@ private fun MediaDetailsContent(
                         }
                         if (uiState.isLoadingCharacters) {
                             item {
-                                CircularProgressIndicator()
+                                LoadingIndicator()
                             }
                         }
                     }
@@ -538,7 +546,8 @@ private fun MediaDetailsContent(
                             showCharacters = true
                             event?.getCharacters()
                         },
-                        modifier = Modifier.padding(8.dp)
+                        modifier = Modifier.padding(8.dp),
+                        shapes = ButtonDefaults.shapes(),
                     ) {
                         Text(text = stringResource(R.string.view_characters))
                     }

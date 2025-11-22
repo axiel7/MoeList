@@ -17,7 +17,6 @@ interface UserMediaListEvent : PagedUiEvent {
     fun onChangeItemMyListStatus(value: BaseMyListStatus?, removed: Boolean = false)
     fun setScore(score: Int)
     fun refreshList()
-    fun toggleSortDialog(open: Boolean)
     fun toggleSetScoreDialog(open: Boolean)
     fun getRandomIdOfList()
     fun onRandomIdOpen()

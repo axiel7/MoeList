@@ -2,6 +2,8 @@ package com.axiel7.moelist.ui.more.composables
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -12,6 +14,7 @@ import com.axiel7.moelist.utils.ContextExtensions.openAction
 import com.axiel7.moelist.utils.DISCORD_SERVER_URL
 import com.axiel7.moelist.utils.GITHUB_ISSUES_URL
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun FeedbackDialog(
     onDismiss: () -> Unit
@@ -20,7 +23,10 @@ fun FeedbackDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         confirmButton = {
-            TextButton(onClick = onDismiss) {
+            TextButton(
+                onClick = onDismiss,
+                shapes = ButtonDefaults.shapes(),
+            ) {
                 Text(text = stringResource(R.string.cancel))
             }
         },

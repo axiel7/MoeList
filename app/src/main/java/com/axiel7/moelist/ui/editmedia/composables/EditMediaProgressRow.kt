@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import com.axiel7.moelist.R
 import com.axiel7.moelist.utils.NumExtensions.format
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun EditMediaProgressRow(
     label: String,
@@ -107,7 +110,8 @@ fun EditMediaProgressRow(
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                 onMinusClick()
             },
-            enabled = if (progress != null && minValue != null) progress > minValue else true
+            enabled = if (progress != null && minValue != null) progress > minValue else true,
+            shapes = IconButtonDefaults.shapes()
         ) {
             Icon(
                 painter = painterResource(R.drawable.round_remove_24),
@@ -119,7 +123,8 @@ fun EditMediaProgressRow(
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                 onPlusClick()
             },
-            enabled = if (progress != null && maxValue != null) progress < maxValue else true
+            enabled = if (progress != null && maxValue != null) progress < maxValue else true,
+            shapes = IconButtonDefaults.shapes()
         ) {
             Icon(
                 painter = painterResource(R.drawable.ic_round_add_24),

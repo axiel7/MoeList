@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -60,6 +62,7 @@ fun ProfileView(
     )
 }
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 private fun ProfileViewContent(
     uiState: ProfileUiState,
@@ -179,7 +182,8 @@ private fun ProfileViewContent(
 
             TextButton(
                 onClick = { context.openLink(MAL_PROFILE_URL + uiState.user?.name) },
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.padding(bottom = 16.dp),
+                shapes = ButtonDefaults.shapes(),
             ) {
                 Text(
                     text = stringResource(R.string.view_profile_mal),

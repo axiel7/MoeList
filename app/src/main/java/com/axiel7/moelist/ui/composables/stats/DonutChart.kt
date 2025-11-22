@@ -4,6 +4,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.axiel7.moelist.data.model.base.LocalizableAndColorable
 import com.axiel7.moelist.data.model.media.Stat
 import com.axiel7.moelist.ui.theme.MoeListTheme
+import com.materialkolor.ktx.harmonize
 import java.lang.Integer.min
 
 private const val chartDegrees = 340f // circle shape with spacing
@@ -65,7 +67,9 @@ fun <T : LocalizableAndColorable> DonutChart(
         val canvasSizeDp = with(LocalDensity.current) { canvasSize.toDp() }
         val sliceWidth = with(LocalDensity.current) { 16.dp.toPx() }
 
-        val colors = stats.map { it.type.primaryColor() }
+        val colors = stats.map {
+            it.type.primaryColor().harmonize(MaterialTheme.colorScheme.primary)
+        }
         Canvas(
             modifier = Modifier
                 .size(canvasSizeDp)

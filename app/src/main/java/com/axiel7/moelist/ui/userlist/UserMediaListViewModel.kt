@@ -243,10 +243,6 @@ class UserMediaListViewModel(
         }
     }
 
-    override fun toggleSortDialog(open: Boolean) {
-        mutableUiState.update { it.copy(openSortDialog = open) }
-    }
-
     override fun toggleSetScoreDialog(open: Boolean) {
         mutableUiState.update { it.copy(openSetScoreDialog = open) }
     }

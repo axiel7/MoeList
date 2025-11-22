@@ -3,8 +3,10 @@ package com.axiel7.moelist.ui.details.composables
 import android.Manifest
 import android.os.Build
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
@@ -27,7 +29,9 @@ import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import java.time.LocalTime
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class,
+    ExperimentalMaterial3ExpressiveApi::class
+)
 @Composable
 fun MediaDetailsTopAppBar(
     uiState: MediaDetailsUiState,
@@ -110,7 +114,8 @@ fun MediaDetailsTopAppBar(
                         } else {
                             notificationPermission.launchPermissionRequest()
                         }
-                    }
+                    },
+                    shapes = IconButtonDefaults.shapes()
                 ) {
                     Icon(
                         painter = painterResource(

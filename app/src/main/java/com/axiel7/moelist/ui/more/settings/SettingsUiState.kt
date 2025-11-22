@@ -9,12 +9,14 @@ import com.axiel7.moelist.ui.base.StartTab
 import com.axiel7.moelist.ui.base.TabletMode
 import com.axiel7.moelist.ui.base.ThemeStyle
 import com.axiel7.moelist.ui.base.state.UiState
+import com.materialkolor.PaletteStyle
 
 @Stable
 data class SettingsUiState(
     val language: AppLanguage = AppLanguage.FOLLOW_SYSTEM,
     val theme: ThemeStyle = ThemeStyle.FOLLOW_SYSTEM,
     val useBlackColors: Boolean = false,
+    val paletteStyle: PaletteStyle = PaletteStyle.Expressive,
     val showNsfw: Boolean = false,
     val hideScores: Boolean = false,
     val useGeneralListStyle: Boolean = true,

@@ -11,6 +11,8 @@ import com.axiel7.moelist.ui.base.TabletMode
 import com.axiel7.moelist.ui.base.ThemeStyle
 import com.axiel7.moelist.ui.base.viewmodel.BaseViewModel
 import com.axiel7.moelist.utils.ContextExtensions.changeLocale
+import com.materialkolor.PaletteStyle
+import io.ktor.util.valuesOf
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
@@ -43,6 +45,12 @@ class SettingsViewModel(
     override fun setUseBlackColors(value: Boolean) {
         viewModelScope.launch {
             defaultPreferencesRepository.setUseBlackColors(value)
+        }
+    }
+
+    override fun setPaletteStyle(value: PaletteStyle) {
+        viewModelScope.launch {
+            defaultPreferencesRepository.setPaletteStyle(value)
         }
     }
 
@@ -134,6 +142,12 @@ class SettingsViewModel(
         defaultPreferencesRepository.useBlackColors
             .onEach { value ->
                 mutableUiState.update { it.copy(useBlackColors = value) }
+            }
+            .launchIn(viewModelScope)
+
+        defaultPreferencesRepository.paletteStyle
+            .onEach { value ->
+                mutableUiState.update { it.copy(paletteStyle = value) }
             }
             .launchIn(viewModelScope)
 

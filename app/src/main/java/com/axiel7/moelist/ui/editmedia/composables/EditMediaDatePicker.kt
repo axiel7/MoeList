@@ -1,9 +1,11 @@
 package com.axiel7.moelist.ui.editmedia.composables
 
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -14,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun EditMediaDatePicker(
     datePickerState: DatePickerState,
@@ -32,13 +34,17 @@ fun EditMediaDatePicker(
                 onClick = {
                     onDateSelected(datePickerState.selectedDateMillis!!)
                 },
-                enabled = dateConfirmEnabled
+                enabled = dateConfirmEnabled,
+                shapes = ButtonDefaults.shapes(),
             ) {
                 Text(text = stringResource(R.string.ok))
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
+            TextButton(
+                onClick = onDismiss,
+                shapes = ButtonDefaults.shapes(),
+            ) {
                 Text(text = stringResource(R.string.cancel))
             }
         }

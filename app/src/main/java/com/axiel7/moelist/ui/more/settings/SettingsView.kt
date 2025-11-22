@@ -34,6 +34,7 @@ import com.axiel7.moelist.ui.composables.preferences.PlainPreferenceView
 import com.axiel7.moelist.ui.composables.preferences.SwitchPreferenceView
 import com.axiel7.moelist.ui.theme.MoeListTheme
 import com.axiel7.moelist.utils.ContextExtensions.openByDefaultSettings
+import com.materialkolor.PaletteStyle
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -75,6 +76,15 @@ private fun SettingsViewContent(
                 value = uiState.theme,
                 icon = R.drawable.ic_round_color_lens_24,
                 onValueChange = { event?.setTheme(it) }
+            )
+
+            ListPreferenceView(
+                title = stringResource(R.string.color_palette),
+                values = PaletteStyle.entries,
+                labelForValue = { it.name },
+                value = uiState.paletteStyle,
+                icon = R.drawable.format_paint_24,
+                onValueChange = { event?.setPaletteStyle(it) }
             )
 
             SwitchPreferenceView(

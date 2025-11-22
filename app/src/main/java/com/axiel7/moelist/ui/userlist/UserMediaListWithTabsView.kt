@@ -26,7 +26,6 @@ import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.LoadingDialog
 import com.axiel7.moelist.ui.composables.TabRowWithPager
 import com.axiel7.moelist.ui.editmedia.EditMediaSheet
-import com.axiel7.moelist.ui.userlist.composables.MediaListSortDialog
 import com.axiel7.moelist.ui.userlist.composables.SetScoreDialog
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import kotlinx.coroutines.launch
@@ -73,13 +72,6 @@ fun UserMediaListWithTabsView(
             parameters = { parametersOf(mediaType, listStatus) }
         )
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-        if (uiState.openSortDialog && uiState.listSort != null) {
-            MediaListSortDialog(
-                uiState = uiState,
-                event = viewModel
-            )
-        }
 
         if (uiState.openSetScoreDialog) {
             SetScoreDialog(

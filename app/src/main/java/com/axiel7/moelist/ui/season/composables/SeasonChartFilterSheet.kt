@@ -12,8 +12,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
@@ -27,6 +30,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -35,13 +39,14 @@ import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.Season
 import com.axiel7.moelist.data.model.anime.SeasonType
 import com.axiel7.moelist.data.model.media.MediaSort
+import com.axiel7.moelist.ui.composables.ChipWithMenu
 import com.axiel7.moelist.ui.composables.SelectableIconToggleButton
 import com.axiel7.moelist.ui.season.SeasonChartEvent
 import com.axiel7.moelist.ui.season.SeasonChartUiState
 import com.axiel7.moelist.ui.theme.MoeListTheme
 import com.axiel7.moelist.ui.userlist.composables.SortChip
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SeasonChartFilterSheet(
     uiState: SeasonChartUiState,
@@ -75,11 +80,17 @@ fun SeasonChartFilterSheet(
                     .padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                TextButton(onClick = onDismiss) {
+                TextButton(
+                    onClick = onDismiss,
+                    shapes = ButtonDefaults.shapes(),
+                ) {
                     Text(text = stringResource(R.string.cancel))
                 }
 
-                Button(onClick = onApply) {
+                Button(
+                    onClick = onApply,
+                    shapes = ButtonDefaults.shapes(),
+                ) {
                     Text(text = stringResource(R.string.apply))
                 }
             }
@@ -144,15 +155,20 @@ fun SeasonChartFilterSheet(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                SortChip(
-                    text = uiState.sort.localized(),
-                    onClick = {
-                        if (uiState.sort == MediaSort.ANIME_NUM_USERS) {
-                            event?.onChangeSort(MediaSort.ANIME_SCORE)
-                        } else {
-                            event?.onChangeSort(MediaSort.ANIME_NUM_USERS)
-                        }
-                    }
+                ChipWithMenu(
+                    title = uiState.sort.localized(),
+                    values = listOf(MediaSort.ANIME_NUM_USERS, MediaSort.ANIME_SCORE, MediaSort.ANIME_START_DATE),
+                    selectedValue = uiState.sort,
+                    onValueSelected = { value ->
+                        if (value != null) event?.onChangeSort(value)
+                    },
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_round_sort_24),
+                            contentDescription = stringResource(R.string.sort_by)
+                        )
+                    },
+                    valueString = { it.localized() }
                 )
                 AssistChip(
                     onClick = {

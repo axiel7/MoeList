@@ -34,6 +34,8 @@ class MainViewModel(
 
     val useBlackColors = defaultPreferencesRepository.useBlackColors
 
+    val paletteStyle = defaultPreferencesRepository.paletteStyle
+
     val accessToken = defaultPreferencesRepository.accessToken
 
     val useListTabs = defaultPreferencesRepository.useListTabs

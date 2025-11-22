@@ -130,6 +130,7 @@ dependencies {
     implementation(libs.accompanist.permissions)
 
     implementation(libs.placeholder.material3)
+    implementation(libs.material.kolor)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

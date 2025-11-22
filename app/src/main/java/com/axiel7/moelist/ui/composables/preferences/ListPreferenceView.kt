@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
@@ -32,12 +34,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.axiel7.moelist.R
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun <T> ListPreferenceView(
     title: String,
-    entriesValues: Map<T, Int>,
-    modifier: Modifier = Modifier,
+    values: List<T>,
+    labelForValue: @Composable (T) -> String,
     value: T,
+    modifier: Modifier = Modifier,
     @DrawableRes icon: Int? = null,
     onValueChange: (T) -> Unit
 ) {
@@ -74,7 +78,7 @@ fun <T> ListPreferenceView(
             )
 
             Text(
-                text = entriesValues[value]?.let { stringResource(it) }.orEmpty(),
+                text = value?.let { labelForValue(it) }.orEmpty(),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 13.sp
             )
@@ -91,18 +95,18 @@ fun <T> ListPreferenceView(
                         maxHeight = (configuration.screenHeightDp - 48).dp
                     )
                 ) {
-                    items(entriesValues.entries.toList()) { entry ->
+                    items(values) { entry ->
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clickable { onValueChange(entry.key) },
+                                .clickable { onValueChange(entry) },
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             RadioButton(
-                                selected = value == entry.key,
-                                onClick = { onValueChange(entry.key) }
+                                selected = value == entry,
+                                onClick = { onValueChange(entry) }
                             )
-                            Text(text = stringResource(entry.value))
+                            Text(text = labelForValue(entry))
                         }
                     }
                 }
@@ -112,11 +116,34 @@ fun <T> ListPreferenceView(
                     onClick = {
                         openDialog = false
                         onValueChange(value)
-                    }
+                    },
+                    shapes = ButtonDefaults.shapes(),
                 ) {
                     Text(text = stringResource(R.string.ok))
                 }
             }
         )
     }
+}
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun <T> ListPreferenceView(
+    title: String,
+    entriesValues: Map<T, Int>,
+    modifier: Modifier = Modifier,
+    value: T,
+    @DrawableRes icon: Int? = null,
+    onValueChange: (T) -> Unit
+) {
+    ListPreferenceView(
+        title = title,
+        values = entriesValues.entries.map { it.key },
+        labelForValue = {
+            entriesValues[value]?.let { stringResource(it) }.orEmpty()
+        },
+        value = value,
+        modifier = modifier,
+        icon = icon,
+        onValueChange = onValueChange,
+    )
 }
