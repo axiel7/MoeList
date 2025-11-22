@@ -1,11 +1,11 @@
 import java.util.Properties
 
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.compose")
-    id("org.jetbrains.kotlin.plugin.serialization")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
 }
 
 val privateProps = Properties().also {
@@ -104,75 +104,49 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
 
-    //AndroidX
-    implementation("androidx.core:core-ktx:1.17.0")
-    implementation("androidx.appcompat:appcompat:1.7.1")
+    implementation(libs.androidx.browser)
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.work.runtime)
+    implementation(libs.androidx.core.splashscreen)
 
-    implementation("androidx.browser:browser:1.9.0")
-    implementation("androidx.datastore:datastore-preferences:1.1.7")
-    implementation("androidx.work:work-runtime:2.11.0")
-    implementation("androidx.core:core-splashscreen:1.2.0")
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.bundles.compose)
+    debugImplementation(libs.androidx.compose.ui.tooling)
 
-    //Compose
-    implementation(platform("androidx.compose:compose-bom:2025.11.00"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    debugImplementation("androidx.compose.ui:ui-tooling")
+    implementation(libs.bundles.material3)
 
-    val materialVersion = "1.4.0"
-    implementation("androidx.compose.material3:material3-android:$materialVersion")
-    implementation("androidx.compose.material3:material3-window-size-class:$materialVersion")
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.navigation.compose)
 
-    implementation("androidx.activity:activity-compose:1.11.0")
-    implementation("androidx.navigation:navigation-compose:2.9.6")
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.savedstate)
 
-    val lifecycleVersion = "2.9.4"
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycleVersion")
+    implementation(libs.androidx.glance.appwidget)
 
-    implementation("androidx.glance:glance-appwidget:1.1.1")
+    implementation(libs.accompanist.permissions)
 
-    val accompanistVersion = "0.37.3"
-    implementation("com.google.accompanist:accompanist-permissions:$accompanistVersion")
+    implementation(libs.placeholder.material3)
 
-    implementation("io.github.fornewid:placeholder-material3:2.0.0")
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.test.espresso.core)
 
-    //Test
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.3.0")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.7.0")
+    implementation(libs.bundles.ktor)
 
-    //Ktor
-    val ktorVersion = "3.3.2"
-    implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
-    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
-    implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
-    implementation("io.ktor:ktor-client-auth:$ktorVersion")
-    implementation("io.ktor:ktor-client-logging:$ktorVersion")
+    implementation(libs.kotlinx.serialization.json)
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.commons.text)
 
-    //Utils
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
-    implementation("org.apache.commons:commons-text:1.14.0")
+    implementation(libs.bundles.coil)
 
-    //Image
-    val coilVersion = "3.3.0"
-    implementation("io.coil-kt.coil3:coil-compose:$coilVersion")
-    implementation("io.coil-kt.coil3:coil-network-okhttp:$coilVersion")
+    implementation(platform(libs.koin.bom))
+    implementation(libs.bundles.koin)
 
-    //Koin
-    implementation(platform("io.insert-koin:koin-bom:4.1.1"))
-    implementation("io.insert-koin:koin-androidx-compose")
-    implementation("io.insert-koin:koin-androidx-compose-navigation")
-    implementation("io.insert-koin:koin-androidx-workmanager")
-    implementation("io.insert-koin:koin-androidx-startup")
-
-    //Room
-    val roomVersion = "2.8.3"
-    implementation("androidx.room:room-runtime:$roomVersion")
-    implementation("androidx.room:room-ktx:$roomVersion")
-    ksp("androidx.room:room-compiler:$roomVersion")
+    implementation(libs.bundles.room)
+    ksp(libs.androidx.room.compiler)
 }
