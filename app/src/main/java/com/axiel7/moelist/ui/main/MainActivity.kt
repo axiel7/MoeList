@@ -45,17 +45,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.rememberNavBackStack
 import com.axiel7.moelist.App
 import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.ui.base.BottomDestination
 import com.axiel7.moelist.ui.base.BottomDestination.Companion.isBottomDestination
 import com.axiel7.moelist.ui.base.BottomDestination.Companion.toBottomDestinationIndex
+import com.axiel7.moelist.ui.base.BottomDestination.Companion.toBottomDestinationRoute
 import com.axiel7.moelist.ui.base.TabletMode
 import com.axiel7.moelist.ui.base.ThemeStyle
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.base.navigation.NavActionManager.Companion.rememberNavActionManager
+import com.axiel7.moelist.ui.base.navigation.TopLevelBackStack
 import com.axiel7.moelist.ui.main.composables.MainBottomNavBar
 import com.axiel7.moelist.ui.main.composables.MainNavigationRail
 import com.axiel7.moelist.ui.main.composables.MainTopAppBar
@@ -66,7 +68,6 @@ import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.MOELIST_PAGELINK
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import org.koin.androidx.compose.KoinAndroidContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -105,10 +106,17 @@ class MainActivity : AppCompatActivity() {
             val isDark = if (theme == ThemeStyle.FOLLOW_SYSTEM) isSystemInDarkTheme()
             else theme == ThemeStyle.DARK
 
-            val navController = rememberNavController()
-            val navActionManager = rememberNavActionManager(navController)
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-
+            val startKey = remember(lastTabOpened) {
+                lastTabOpened.toBottomDestinationRoute() ?: BottomDestination.Home.route
+            }
+            val backStack = rememberNavBackStack(startKey)
+            val topLevelBackStack = remember { TopLevelBackStack(startKey, backStack) }
+            val navActionManager = rememberNavActionManager(topLevelBackStack)
+            val isBottomDestination by remember {
+                derivedStateOf {
+                    topLevelBackStack.backStack.lastOrNull()?.isBottomDestination() == true
+                }
+            }
             val tabletMode by viewModel.tabletMode.collectAsStateWithLifecycle(initialTabletMode)
             val windowSizeClass = calculateWindowSizeClass(this)
             val isCompactScreen = when (tabletMode) {
@@ -136,7 +144,8 @@ class MainActivity : AppCompatActivity() {
                         isCompactScreen = isCompactScreen,
                         isLoggedIn = !accessToken.isNullOrEmpty(),
                         useListTabs = useListTabs,
-                        navController = navController,
+                        isBottomDestination = isBottomDestination,
+                        topLevelBackStack = topLevelBackStack,
                         navActionManager = navActionManager,
                         lastTabOpened = lastTabOpened,
                         saveLastTab = viewModel::saveLastTab,
@@ -144,15 +153,13 @@ class MainActivity : AppCompatActivity() {
                         profilePicture = profilePicture,
                     )
 
-                    DisposableEffect(isDark, navBackStackEntry) {
+                    DisposableEffect(isDark, isBottomDestination) {
                         var statusBarStyle = SystemBarStyle.auto(
                             android.graphics.Color.TRANSPARENT,
                             android.graphics.Color.TRANSPARENT
                         ) { isDark }
 
-                        if (isCompactScreen
-                            && navBackStackEntry?.isBottomDestination() == true
-                        ) {
+                        if (isCompactScreen && isBottomDestination) {
                             statusBarStyle =
                                 if (isDark) SystemBarStyle.dark(backgroundColor.toArgb())
                                 else SystemBarStyle.light(
@@ -221,6 +228,7 @@ class MainActivity : AppCompatActivity() {
                     when (it) {
                         "character", "episode", "video", "reviews", "stacks", "news", "forum",
                         "clubs", "moreinfo" -> true
+
                         else -> false
                     }
                 } == false
@@ -243,7 +251,8 @@ fun MainView(
     isCompactScreen: Boolean,
     isLoggedIn: Boolean,
     useListTabs: Boolean,
-    navController: NavHostController,
+    isBottomDestination: Boolean,
+    topLevelBackStack: TopLevelBackStack<NavKey>,
     navActionManager: NavActionManager,
     lastTabOpened: Int,
     saveLastTab: (Int) -> Unit,
@@ -255,18 +264,13 @@ fun MainView(
     var topBarHeightPx by remember { mutableFloatStateOf(0f) }
     val topBarOffsetY = remember { Animatable(0f) }
 
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val isBottomDestination by remember {
-        derivedStateOf { navBackStackEntry?.isBottomDestination() == true }
-    }
-
     Scaffold(
         topBar = {
             if (isCompactScreen) {
                 MainTopAppBar(
                     profilePicture = profilePicture,
                     isVisible = isBottomDestination,
-                    navController = navController,
+                    navActionManager = navActionManager,
                     modifier = Modifier
                         .graphicsLayer {
                             translationY = topBarOffsetY.value
@@ -277,8 +281,8 @@ fun MainView(
         bottomBar = {
             if (isCompactScreen) {
                 MainBottomNavBar(
-                    navController = navController,
-                    navBackStackEntry = navBackStackEntry,
+                    topLevelBackStack = topLevelBackStack,
+                    navActionManager = navActionManager,
                     isVisible = isBottomDestination || pinnedNavBar,
                     onItemSelected = saveLastTab,
                     topBarOffsetY = topBarOffsetY,
@@ -295,12 +299,12 @@ fun MainView(
                     .padding(padding)
             ) {
                 MainNavigationRail(
-                    navController = navController,
+                    topLevelBackStack = topLevelBackStack,
                     onItemSelected = saveLastTab,
                     modifier = Modifier.safeDrawingPadding(),
                 )
                 MainNavigation(
-                    navController = navController,
+                    topLevelBackStack = topLevelBackStack,
                     navActionManager = navActionManager,
                     lastTabOpened = lastTabOpened,
                     isLoggedIn = isLoggedIn,
@@ -317,7 +321,7 @@ fun MainView(
                 topBarHeightPx = density.run { padding.calculateTopPadding().toPx() }
             }
             MainNavigation(
-                navController = navController,
+                topLevelBackStack = topLevelBackStack,
                 navActionManager = navActionManager,
                 lastTabOpened = lastTabOpened,
                 isLoggedIn = isLoggedIn,
@@ -344,14 +348,20 @@ fun MainView(
 @Preview
 @Composable
 fun MainPreview() {
+    val topLevelBackStack = TopLevelBackStack(
+        startKey = BottomDestination.Home.route,
+        backStack = rememberNavBackStack()
+    )
+    val navActionManager = rememberNavActionManager(topLevelBackStack)
     MoeListTheme {
         Surface {
             MainView(
                 isCompactScreen = true,
                 isLoggedIn = false,
                 useListTabs = false,
-                navController = rememberNavController(),
-                navActionManager = rememberNavActionManager(),
+                isBottomDestination = true,
+                topLevelBackStack = topLevelBackStack,
+                navActionManager = navActionManager,
                 lastTabOpened = 0,
                 saveLastTab = {},
                 pinnedNavBar = false,

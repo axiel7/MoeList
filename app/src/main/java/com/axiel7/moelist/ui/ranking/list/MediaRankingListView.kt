@@ -29,6 +29,7 @@ import com.axiel7.moelist.data.model.media.BaseRanking
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.RankingType
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
+import com.axiel7.moelist.ui.base.navigation.Route
 import com.axiel7.moelist.ui.composables.OnBottomReached
 import com.axiel7.moelist.ui.composables.TextIconHorizontal
 import com.axiel7.moelist.ui.composables.media.MediaItemDetailed
@@ -47,19 +48,19 @@ import org.koin.core.parameter.parametersOf
 
 @Composable
 fun MediaRankingListView(
-    mediaType: MediaType,
+    arguments: Route.MediaRanking,
     rankingType: RankingType,
     isCompactScreen: Boolean,
     navActionManager: NavActionManager,
 ) {
     val viewModel: MediaRankingViewModel =
-        koinViewModel(key = rankingType.name) { parametersOf(rankingType) }
+        koinViewModel(key = rankingType.name) { parametersOf(arguments, rankingType) }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     MediaRankingListViewContent(
         uiState = uiState,
         event = viewModel,
-        mediaType = mediaType,
+        mediaType = arguments.mediaType,
         isCompactScreen = isCompactScreen,
         navActionManager = navActionManager,
     )

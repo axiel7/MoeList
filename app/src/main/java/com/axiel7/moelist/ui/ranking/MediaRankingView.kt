@@ -16,18 +16,19 @@ import com.axiel7.moelist.data.model.media.RankingType.Companion.rankingAnimeVal
 import com.axiel7.moelist.data.model.media.RankingType.Companion.rankingMangaValues
 import com.axiel7.moelist.ui.base.TabRowItem
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
+import com.axiel7.moelist.ui.base.navigation.Route
 import com.axiel7.moelist.ui.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.ui.composables.TabRowWithPager
 import com.axiel7.moelist.ui.ranking.list.MediaRankingListView
 
 @Composable
 fun MediaRankingView(
-    mediaType: MediaType,
+    arguments: Route.MediaRanking,
     isCompactScreen: Boolean,
     navActionManager: NavActionManager,
 ) {
     val tabRowItems = remember {
-        (if (mediaType == MediaType.ANIME) rankingAnimeValues else rankingMangaValues)
+        (if (arguments.mediaType == MediaType.ANIME) rankingAnimeValues else rankingMangaValues)
             .map {
                 TabRowItem(value = it, title = it.stringRes)
             }.toTypedArray()
@@ -35,7 +36,7 @@ fun MediaRankingView(
 
     DefaultScaffoldWithTopAppBar(
         title = stringResource(
-            if (mediaType == MediaType.ANIME) R.string.anime_ranking
+            if (arguments.mediaType == MediaType.ANIME) R.string.anime_ranking
             else R.string.manga_ranking
         ),
         navigateBack = navActionManager::goBack,
@@ -50,7 +51,7 @@ fun MediaRankingView(
             isTabScrollable = true
         ) {
             MediaRankingListView(
-                mediaType = mediaType,
+                arguments = arguments,
                 rankingType = tabRowItems[it].value,
                 isCompactScreen = isCompactScreen,
                 navActionManager = navActionManager,

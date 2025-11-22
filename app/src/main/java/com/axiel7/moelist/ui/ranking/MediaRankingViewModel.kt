@@ -1,8 +1,6 @@
 package com.axiel7.moelist.ui.ranking
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.toRoute
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.RankingType
 import com.axiel7.moelist.data.repository.AnimeRepository
@@ -19,20 +17,15 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlin.reflect.typeOf
 
 class MediaRankingViewModel(
     rankingType: RankingType,
-    savedStateHandle: SavedStateHandle,
     defaultPreferencesRepository: DefaultPreferencesRepository,
+    arguments: Route.MediaRanking,
     private val animeRepository: AnimeRepository,
     private val mangaRepository: MangaRepository,
 ) : BaseViewModel<MediaRankingUiState>(), MediaRankingEvent {
-
-    private val args = savedStateHandle.toRoute<Route.MediaRanking>(
-        typeMap = mapOf(typeOf<MediaType>() to MediaType.navType)
-    )
-    private val mediaType = args.mediaType
+    private val mediaType = arguments.mediaType
 
     override val mutableUiState = MutableStateFlow(MediaRankingUiState(rankingType))
 

@@ -1,31 +1,33 @@
 package com.axiel7.moelist.ui.main
 
-import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
-import androidx.compose.animation.core.EaseIn
-import androidx.compose.animation.core.EaseOut
-import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
+import androidx.navigation3.ui.NavDisplay
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.media.MediaType
-import com.axiel7.moelist.ui.base.BottomDestination
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.base.navigation.Route
+import com.axiel7.moelist.ui.base.navigation.TopLevelBackStack
 import com.axiel7.moelist.ui.calendar.CalendarView
 import com.axiel7.moelist.ui.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.ui.details.MediaDetailsView
@@ -45,11 +47,27 @@ import com.axiel7.moelist.ui.search.SearchHostView
 import com.axiel7.moelist.ui.season.SeasonChartView
 import com.axiel7.moelist.ui.userlist.UserMediaListWithFabView
 import com.axiel7.moelist.ui.userlist.UserMediaListWithTabsView
-import kotlin.reflect.typeOf
+
+private val topNavigationTransitionSpec = NavDisplay.transitionSpec {
+    ContentTransform(
+        fadeIn(animationSpec = tween()),
+        fadeOut(animationSpec = tween()),
+    )
+} + NavDisplay.popTransitionSpec {
+    ContentTransform(
+        fadeIn(animationSpec = tween()),
+        fadeOut(animationSpec = tween()),
+    )
+} + NavDisplay.predictivePopTransitionSpec {
+    ContentTransform(
+        fadeIn(spring(dampingRatio = 1f, stiffness = 1600f)),
+        fadeOut(spring(dampingRatio = 1f, stiffness = 1600f))
+    )
+}
 
 @Composable
 fun MainNavigation(
-    navController: NavHostController,
+    topLevelBackStack: TopLevelBackStack<NavKey>,
     navActionManager: NavActionManager,
     lastTabOpened: Int,
     isLoggedIn: Boolean,
@@ -60,241 +78,220 @@ fun MainNavigation(
     topBarHeightPx: Float,
     topBarOffsetY: Animatable<Float, AnimationVector1D>,
 ) {
-    NavHost(
-        navController = navController,
-        startDestination = BottomDestination.values
-            .getOrElse(lastTabOpened) { BottomDestination.Home }.route,
+    NavDisplay(
+        backStack = topLevelBackStack.backStack,
+        onBack = { topLevelBackStack.removeLast() },
         modifier = modifier,
-        enterTransition = {
-            fadeIn(
-                animationSpec = tween(250, easing = LinearEasing)
-            ) + slideIntoContainer(
-                animationSpec = tween(250, easing = EaseIn),
-                towards = AnimatedContentTransitionScope.SlideDirection.Start
-            )
+        entryDecorators = listOf(
+            rememberSaveableStateHolderNavEntryDecorator(),
+            rememberViewModelStoreNavEntryDecorator()
+        ),
+        transitionSpec = {
+            // Slide in from right when navigating forward
+            (slideInHorizontally(initialOffsetX = { it })) togetherWith
+                    (slideOutHorizontally(targetOffsetX = { -it })
+                            + fadeOut(animationSpec = tween()))
         },
-        exitTransition = {
-            fadeOut(
-                animationSpec = tween(300, easing = LinearEasing)
-            ) + slideOutOfContainer(
-                animationSpec = tween(300, easing = EaseOut),
-                towards = AnimatedContentTransitionScope.SlideDirection.End
-            )
+        popTransitionSpec = {
+            // Slide in from left when navigating back
+            (slideInHorizontally(initialOffsetX = { -it }) + fadeIn()) togetherWith
+                    slideOutHorizontally(targetOffsetX = { it })
         },
-        popEnterTransition = {
-            fadeIn(
-                animationSpec = tween(250, easing = LinearEasing)
-            )
+        predictivePopTransitionSpec = {
+            // Slide in from left when navigating back
+            (slideInHorizontally(initialOffsetX = { -it })
+                    + fadeIn(animationSpec = tween())) togetherWith
+                    (slideOutHorizontally(targetOffsetX = { it }))
         },
-    ) {
-        composable<Route.Tab.Home>(
-            enterTransition = { fadeIn() },
-            exitTransition = { fadeOut() },
-            popEnterTransition = { fadeIn() },
-            popExitTransition = { fadeOut() },
-        ) {
-            HomeView(
-                isLoggedIn = isLoggedIn,
-                navActionManager = navActionManager,
-                padding = padding,
-                topBarHeightPx = topBarHeightPx,
-                topBarOffsetY = topBarOffsetY,
-            )
-        }
+        entryProvider = entryProvider {
+            entry<Route.Tab.Home>(
+                metadata = topNavigationTransitionSpec
+            ) {
+                HomeView(
+                    isLoggedIn = isLoggedIn,
+                    navActionManager = navActionManager,
+                    padding = padding,
+                    topBarHeightPx = topBarHeightPx,
+                    topBarOffsetY = topBarOffsetY,
+                )
+            }
 
-        composable<Route.Tab.Anime>(
-            typeMap = mapOf(typeOf<MediaType>() to MediaType.navType),
-            enterTransition = { fadeIn() },
-            exitTransition = { fadeOut() },
-            popEnterTransition = { fadeIn() },
-            popExitTransition = { fadeOut() },
-        ) {
-            if (!isLoggedIn) {
-                LoginView()
-            } else {
-                if (useListTabs) {
-                    UserMediaListWithTabsView(
-                        mediaType = MediaType.ANIME,
-                        isCompactScreen = isCompactScreen,
-                        navActionManager = navActionManager,
-                        padding = padding
-                    )
+            entry<Route.Tab.Anime>(
+                metadata = topNavigationTransitionSpec
+            ) {
+                if (!isLoggedIn) {
+                    LoginView()
                 } else {
-                    UserMediaListWithFabView(
-                        mediaType = MediaType.ANIME,
-                        isCompactScreen = isCompactScreen,
-                        navActionManager = navActionManager,
-                        topBarHeightPx = topBarHeightPx,
-                        topBarOffsetY = topBarOffsetY,
-                        padding = padding
+                    if (useListTabs) {
+                        UserMediaListWithTabsView(
+                            mediaType = MediaType.ANIME,
+                            isCompactScreen = isCompactScreen,
+                            navActionManager = navActionManager,
+                            padding = padding
+                        )
+                    } else {
+                        UserMediaListWithFabView(
+                            mediaType = MediaType.ANIME,
+                            isCompactScreen = isCompactScreen,
+                            navActionManager = navActionManager,
+                            topBarHeightPx = topBarHeightPx,
+                            topBarOffsetY = topBarOffsetY,
+                            padding = padding
+                        )
+                    }
+                }
+            }
+
+            entry<Route.Tab.Manga>(
+                metadata = topNavigationTransitionSpec
+            ) {
+                if (!isLoggedIn) {
+                    LoginView()
+                } else {
+                    if (useListTabs) {
+                        UserMediaListWithTabsView(
+                            mediaType = MediaType.MANGA,
+                            isCompactScreen = isCompactScreen,
+                            navActionManager = navActionManager,
+                            padding = padding
+                        )
+                    } else {
+                        UserMediaListWithFabView(
+                            mediaType = MediaType.MANGA,
+                            isCompactScreen = isCompactScreen,
+                            navActionManager = navActionManager,
+                            topBarHeightPx = topBarHeightPx,
+                            topBarOffsetY = topBarOffsetY,
+                            padding = padding
+                        )
+                    }
+                }
+            }
+
+            entry<Route.Tab.More>(
+                metadata = topNavigationTransitionSpec
+            ) {
+                MoreView(
+                    navActionManager = navActionManager,
+                    padding = padding,
+                    topBarHeightPx = topBarHeightPx,
+                    topBarOffsetY = topBarOffsetY,
+                    isLoggedIn = isLoggedIn
+                )
+            }
+
+            entry<Route.MediaRanking> {
+                MediaRankingView(
+                    arguments = it,
+                    isCompactScreen = isCompactScreen,
+                    navActionManager = navActionManager,
+                )
+            }
+
+            entry<Route.Calendar> {
+                CalendarView(
+                    navActionManager = navActionManager
+                )
+            }
+
+            entry<Route.SeasonChart> {
+                SeasonChartView(
+                    navActionManager = navActionManager
+                )
+            }
+
+            entry<Route.Recommendations> {
+                RecommendationsView(
+                    navActionManager = navActionManager
+                )
+            }
+
+            entry<Route.Settings> {
+                SettingsView(
+                    navActionManager = navActionManager
+                )
+            }
+
+            entry<Route.ListStyleSettings> {
+                ListStyleSettingsView(
+                    navActionManager = navActionManager
+                )
+            }
+
+            entry<Route.Notifications> {
+                NotificationsView(
+                    navActionManager = navActionManager
+                )
+            }
+
+            entry<Route.About> {
+                AboutView(
+                    navActionManager = navActionManager
+                )
+            }
+
+            entry<Route.Credits> {
+                CreditsView(
+                    navActionManager = navActionManager
+                )
+            }
+
+            entry<Route.MediaDetails> {
+                MediaDetailsView(
+                    arguments = it,
+                    isLoggedIn = isLoggedIn,
+                    navActionManager = navActionManager
+                )
+            }
+
+            entry<Route.FullPoster>(
+                metadata = NavDisplay.transitionSpec {
+                    ContentTransform(fadeIn(), fadeOut())
+                } + NavDisplay.popTransitionSpec {
+                    ContentTransform(fadeIn(), fadeOut())
+                },
+            ) {
+                FullPosterView(
+                    pictures = it.pictures,
+                    navActionManager = navActionManager
+                )
+            }
+
+            entry<Route.Profile> {
+                if (!isLoggedIn) {
+                    DefaultScaffoldWithTopAppBar(
+                        title = stringResource(R.string.title_profile),
+                        navigateBack = { navActionManager.goBack() }
+                    ) { padding ->
+                        LoginView(modifier = Modifier.padding(padding))
+                    }
+                } else {
+                    ProfileView(
+                        navActionManager = navActionManager
                     )
                 }
             }
-        }
 
-        composable<Route.Tab.Manga>(
-            typeMap = mapOf(typeOf<MediaType>() to MediaType.navType),
-            enterTransition = { fadeIn() },
-            exitTransition = { fadeOut() },
-            popEnterTransition = { fadeIn() },
-            popExitTransition = { fadeOut() },
-        ) {
-            if (!isLoggedIn) {
-                LoginView()
-            } else {
-                if (useListTabs) {
-                    UserMediaListWithTabsView(
-                        mediaType = MediaType.MANGA,
-                        isCompactScreen = isCompactScreen,
-                        navActionManager = navActionManager,
-                        padding = padding
+            entry<Route.Search>(
+                metadata = NavDisplay.transitionSpec {
+                    ContentTransform(
+                        expandVertically(expandFrom = Alignment.Top),
+                        shrinkVertically(shrinkTowards = Alignment.Top)
                     )
-                } else {
-                    UserMediaListWithFabView(
-                        mediaType = MediaType.MANGA,
-                        isCompactScreen = isCompactScreen,
-                        navActionManager = navActionManager,
-                        topBarHeightPx = topBarHeightPx,
-                        topBarOffsetY = topBarOffsetY,
-                        padding = padding
+                } + NavDisplay.popTransitionSpec {
+                    ContentTransform(
+                        expandVertically(expandFrom = Alignment.Top),
+                        shrinkVertically(shrinkTowards = Alignment.Top)
                     )
-                }
-            }
-        }
-
-        composable<Route.Tab.More>(
-            enterTransition = { fadeIn() },
-            exitTransition = { fadeOut() },
-            popEnterTransition = { fadeIn() },
-            popExitTransition = { fadeOut() },
-        ) {
-            MoreView(
-                navActionManager = navActionManager,
-                padding = padding,
-                topBarHeightPx = topBarHeightPx,
-                topBarOffsetY = topBarOffsetY,
-                isLoggedIn = isLoggedIn
-            )
-        }
-
-        composable<Route.MediaRanking>(
-            typeMap = mapOf(typeOf<MediaType>() to MediaType.navType)
-        ) {
-            val args = it.toRoute<Route.MediaRanking>()
-
-            MediaRankingView(
-                mediaType = args.mediaType,
-                isCompactScreen = isCompactScreen,
-                navActionManager = navActionManager,
-            )
-        }
-
-        composable<Route.Calendar> {
-            CalendarView(
-                navActionManager = navActionManager
-            )
-        }
-
-        composable<Route.SeasonChart> {
-            SeasonChartView(
-                navActionManager = navActionManager
-            )
-        }
-
-        composable<Route.Recommendations> {
-            RecommendationsView(
-                navActionManager = navActionManager
-            )
-        }
-
-        composable<Route.Settings> {
-            SettingsView(
-                navActionManager = navActionManager
-            )
-        }
-
-        composable<Route.ListStyleSettings> {
-            ListStyleSettingsView(
-                navActionManager = navActionManager
-            )
-        }
-
-        composable<Route.Notifications> {
-            NotificationsView(
-                navActionManager = navActionManager
-            )
-        }
-
-        composable<Route.About> {
-            AboutView(
-                navActionManager = navActionManager
-            )
-        }
-
-        composable<Route.Credits> {
-            CreditsView(
-                navActionManager = navActionManager
-            )
-        }
-
-        composable<Route.MediaDetails>(
-            typeMap = mapOf(typeOf<MediaType>() to MediaType.navType)
-        ) {
-            MediaDetailsView(
-                isLoggedIn = isLoggedIn,
-                navActionManager = navActionManager
-            )
-        }
-
-        composable<Route.FullPoster>(
-            enterTransition = { fadeIn() },
-            exitTransition = { fadeOut() },
-            popEnterTransition = { fadeIn() },
-            popExitTransition = { fadeOut() },
-        ) {
-            val args = it.toRoute<Route.FullPoster>()
-
-            FullPosterView(
-                pictures = args.pictures,
-                navActionManager = navActionManager
-            )
-        }
-
-        composable<Route.Profile> {
-            if (!isLoggedIn) {
-                DefaultScaffoldWithTopAppBar(
-                    title = stringResource(R.string.title_profile),
-                    navigateBack = { navController.popBackStack() }
-                ) { padding ->
-                    LoginView(modifier = Modifier.padding(padding))
-                }
-            } else {
-                ProfileView(
+                },
+            ) {
+                SearchHostView(
+                    arguments = it,
+                    isCompactScreen = isCompactScreen,
+                    padding = if (isCompactScreen) PaddingValues() else padding,
                     navActionManager = navActionManager
                 )
             }
         }
-
-        composable<Route.Search>(
-            typeMap = mapOf(typeOf<MediaType>() to MediaType.navType),
-            enterTransition = {
-                expandVertically(expandFrom = Alignment.Top)
-            },
-            exitTransition = {
-                shrinkVertically(shrinkTowards = Alignment.Top)
-            },
-            popEnterTransition = {
-                expandVertically(expandFrom = Alignment.Top)
-            },
-            popExitTransition = {
-                shrinkVertically(shrinkTowards = Alignment.Top)
-            },
-        ) {
-            SearchHostView(
-                isCompactScreen = isCompactScreen,
-                padding = if (isCompactScreen) PaddingValues() else padding,
-                navActionManager = navActionManager
-            )
-        }
-    }//:NavHost
+    )
 }

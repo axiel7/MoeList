@@ -3,24 +3,25 @@ package com.axiel7.moelist.ui.base.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.rememberNavBackStack
 import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.ui.base.BottomDestination
 
 @Immutable
 class NavActionManager(
-    private val navController: NavHostController
+    private val backStack: TopLevelBackStack<NavKey>
 ) {
     fun goBack() {
-        navController.popBackStack()
+        backStack.removeLast()
     }
 
     fun toMediaRanking(mediaType: MediaType) {
-        navController.navigate(Route.MediaRanking(mediaType))
+        backStack.add(Route.MediaRanking(mediaType))
     }
 
     fun toMediaDetails(mediaType: MediaType, id: Int) {
-        navController.navigate(
+        backStack.add(
             Route.MediaDetails(
                 mediaType = mediaType,
                 mediaId = id,
@@ -29,47 +30,58 @@ class NavActionManager(
     }
 
     fun toCalendar() {
-        navController.navigate(Route.Calendar)
+        backStack.add(Route.Calendar)
     }
 
     fun toSeasonChart() {
-        navController.navigate(Route.SeasonChart)
+        backStack.add(Route.SeasonChart)
     }
 
     fun toRecommendations() {
-        navController.navigate(Route.Recommendations)
+        backStack.add(Route.Recommendations)
     }
 
     fun toFullPoster(pictures: List<String>) {
-        navController.navigate(Route.FullPoster(pictures))
+        backStack.add(Route.FullPoster(pictures))
     }
 
     fun toSettings() {
-        navController.navigate(Route.Settings)
+        backStack.add(Route.Settings)
     }
 
     fun toListStyleSettings() {
-        navController.navigate(Route.ListStyleSettings)
+        backStack.add(Route.ListStyleSettings)
     }
 
     fun toNotifications() {
-        navController.navigate(Route.Notifications)
+        backStack.add(Route.Notifications)
     }
 
     fun toAbout() {
-        navController.navigate(Route.About)
+        backStack.add(Route.About)
     }
 
     fun toCredits() {
-        navController.navigate(Route.Credits)
+        backStack.add(Route.Credits)
+    }
+
+    fun toSearch(mediaType: MediaType) {
+        backStack.add(Route.Search(mediaType))
+    }
+
+    fun toProfile() {
+        backStack.add(Route.Profile)
     }
 
     companion object {
         @Composable
         fun rememberNavActionManager(
-            navController: NavHostController = rememberNavController()
+            backStack: TopLevelBackStack<NavKey> = TopLevelBackStack(
+                startKey = BottomDestination.Home.route,
+                backStack = rememberNavBackStack()
+            )
         ) = remember {
-            NavActionManager(navController)
+            NavActionManager(backStack)
         }
     }
 }

@@ -24,13 +24,7 @@ val viewModelModule = module {
     viewModelOf(::SettingsViewModel)
     viewModelOf(::CalendarViewModel)
     viewModelOf(::MediaDetailsViewModel)
-    viewModel { params ->
-        EditMediaViewModel(
-            mediaType = params.get(),
-            animeRepository = get(),
-            mangaRepository = get()
-        )
-    }
+    viewModelOf(::EditMediaViewModel)
     viewModelOf(::HomeViewModel)
     viewModelOf(::MainViewModel)
     viewModelOf(::ListStyleSettingsViewModel)
@@ -41,15 +35,7 @@ val viewModelModule = module {
         )
     }
     viewModelOf(::ProfileViewModel)
-    viewModel { params ->
-        MediaRankingViewModel(
-            rankingType = params.get(),
-            savedStateHandle = get(),
-            defaultPreferencesRepository = get(),
-            animeRepository = get(),
-            mangaRepository = get()
-        )
-    }
+    viewModelOf(::MediaRankingViewModel)
     viewModelOf(::RecommendationsViewModel)
     viewModelOf(::SearchViewModel)
     viewModelOf(::SeasonChartViewModel)

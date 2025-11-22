@@ -16,22 +16,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination.Companion.hasRoute
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation3.runtime.NavKey
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.ui.base.BottomDestination
 import com.axiel7.moelist.ui.base.BottomDestination.Companion.Icon
-import com.axiel7.moelist.ui.base.navigation.Route
+import com.axiel7.moelist.ui.base.navigation.NavActionManager
+import com.axiel7.moelist.ui.base.navigation.TopLevelBackStack
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun MainBottomNavBar(
-    navController: NavController,
-    navBackStackEntry: NavBackStackEntry?,
+    topLevelBackStack: TopLevelBackStack<NavKey>,
+    navActionManager: NavActionManager,
     isVisible: Boolean,
     onItemSelected: (Int) -> Unit,
     topBarOffsetY: Animatable<Float, AnimationVector1D>,
@@ -48,9 +45,7 @@ fun MainBottomNavBar(
         if (isVisible) {
             NavigationBar {
                 BottomDestination.values.forEachIndexed { index, dest ->
-                    val isSelected = navBackStackEntry?.destination?.hierarchy?.any {
-                        it.hasRoute(dest.route::class)
-                    } == true
+                    val isSelected = dest.route == topLevelBackStack.topLevelKey
                     NavigationBarItem(
                         icon = { dest.Icon(selected = isSelected) },
                         label = { Text(text = stringResource(dest.title)) },
@@ -59,15 +54,15 @@ fun MainBottomNavBar(
                             if (isSelected) {
                                 when (dest) {
                                     BottomDestination.More -> {
-                                        navController.navigate(Route.Settings)
+                                        navActionManager.toSettings()
                                     }
 
                                     else -> {
-                                        navController.navigate(Route.Search(
+                                        navActionManager.toSearch(
                                             mediaType = MediaType.MANGA
                                                 .takeIf { dest == BottomDestination.MangaList }
                                                 ?: MediaType.ANIME
-                                        ))
+                                        )
                                     }
                                 }
                             } else {
@@ -76,13 +71,7 @@ fun MainBottomNavBar(
                                 }
 
                                 onItemSelected(index)
-                                navController.navigate(dest.route) {
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
-                                    }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
+                                topLevelBackStack.addTopLevel(dest.route)
                             }
                         }
                     )

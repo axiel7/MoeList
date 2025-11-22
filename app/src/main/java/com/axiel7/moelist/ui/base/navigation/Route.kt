@@ -1,9 +1,11 @@
 package com.axiel7.moelist.ui.base.navigation
 
+import androidx.compose.runtime.Stable
+import androidx.navigation3.runtime.NavKey
 import com.axiel7.moelist.data.model.media.MediaType
 import kotlinx.serialization.Serializable
 
-sealed interface Route {
+sealed interface Route : NavKey {
     sealed interface Tab : Route {
         @Serializable
         data object Home : Tab
@@ -19,9 +21,11 @@ sealed interface Route {
     }
 
     @Serializable
+    @Stable
     data class MediaRanking(val mediaType: MediaType) : Route
 
     @Serializable
+    @Stable
     data class MediaDetails(
         val mediaType: MediaType,
         val mediaId: Int,
@@ -40,6 +44,7 @@ sealed interface Route {
     data object Profile : Route
 
     @Serializable
+    @Stable
     data class Search(
         val mediaType: MediaType = MediaType.ANIME
     ) : Route

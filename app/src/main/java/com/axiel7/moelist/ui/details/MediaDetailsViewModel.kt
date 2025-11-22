@@ -1,9 +1,6 @@
 package com.axiel7.moelist.ui.details
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.toRoute
-import com.axiel7.moelist.data.model.Response
 import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.anime.MyAnimeListStatus
 import com.axiel7.moelist.data.model.anime.Recommendations
@@ -11,7 +8,6 @@ import com.axiel7.moelist.data.model.manga.MangaDetails
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseMyListStatus
-import com.axiel7.moelist.data.model.media.Character
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.model.media.WeekDay
 import com.axiel7.moelist.data.repository.AnimeRepository
@@ -29,22 +25,17 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
-import kotlin.reflect.typeOf
 
 @Suppress("UNCHECKED_CAST")
 class MediaDetailsViewModel(
-    savedStateHandle: SavedStateHandle,
+    arguments: Route.MediaDetails,
+    defaultPreferencesRepository: DefaultPreferencesRepository,
     private val animeRepository: AnimeRepository,
     private val mangaRepository: MangaRepository,
     private val notificationWorkerManager: NotificationWorkerManager,
-    defaultPreferencesRepository: DefaultPreferencesRepository,
 ) : BaseViewModel<MediaDetailsUiState>(), MediaDetailsEvent {
-
-    private val args = savedStateHandle.toRoute<Route.MediaDetails>(
-        typeMap = mapOf(typeOf<MediaType>() to MediaType.navType)
-    )
-    private val mediaType = args.mediaType
-    private val mediaId = args.mediaId
+    private val mediaType = arguments.mediaType
+    private val mediaId = arguments.mediaId
 
     override val mutableUiState = MutableStateFlow(MediaDetailsUiState())
 

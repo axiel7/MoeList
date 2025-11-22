@@ -1,8 +1,6 @@
 package com.axiel7.moelist.ui.search
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.toRoute
 import com.axiel7.moelist.data.model.SearchHistory
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.data.repository.AnimeRepository
@@ -20,20 +18,16 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlin.reflect.typeOf
 
 class SearchViewModel(
+    arguments: Route.Search,
+    defaultPreferencesRepository: DefaultPreferencesRepository,
     private val animeRepository: AnimeRepository,
     private val mangaRepository: MangaRepository,
     private val searchHistoryRepository: SearchHistoryRepository,
-    defaultPreferencesRepository: DefaultPreferencesRepository,
-    savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<SearchUiState>(), SearchEvent {
 
-    private val args = savedStateHandle.toRoute<Route.Search>(
-        typeMap = mapOf(typeOf<MediaType>() to MediaType.navType)
-    )
-    private val mediaType = args.mediaType
+    private val mediaType = arguments.mediaType
 
     override val mutableUiState = MutableStateFlow(SearchUiState(mediaType = mediaType))
 

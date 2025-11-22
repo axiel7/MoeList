@@ -65,6 +65,7 @@ import com.axiel7.moelist.data.model.manga.MangaDetails
 import com.axiel7.moelist.data.model.media.MediaStatus
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
+import com.axiel7.moelist.ui.base.navigation.Route
 import com.axiel7.moelist.ui.composables.InfoTitle
 import com.axiel7.moelist.ui.composables.TextIconHorizontal
 import com.axiel7.moelist.ui.composables.TextIconVertical
@@ -92,13 +93,15 @@ import com.axiel7.moelist.utils.TranslateUtils.openTranslator
 import com.axiel7.moelist.utils.UNKNOWN_CHAR
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun MediaDetailsView(
+    arguments: Route.MediaDetails,
     isLoggedIn: Boolean,
     navActionManager: NavActionManager
 ) {
-    val viewModel: MediaDetailsViewModel = koinViewModel()
+    val viewModel: MediaDetailsViewModel = koinViewModel(parameters = { parametersOf(arguments) })
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     MediaDetailsContent(

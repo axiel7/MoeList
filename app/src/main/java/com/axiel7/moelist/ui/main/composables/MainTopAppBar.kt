@@ -28,16 +28,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.dropUnlessResumed
-import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.axiel7.moelist.R
-import com.axiel7.moelist.ui.base.navigation.Route
+import com.axiel7.moelist.data.model.media.MediaType
+import com.axiel7.moelist.ui.base.navigation.NavActionManager
 
 @Composable
 fun MainTopAppBar(
     profilePicture: String?,
     isVisible: Boolean,
-    navController: NavController,
+    navActionManager: NavActionManager,
     modifier: Modifier = Modifier,
 ) {
     AnimatedContent(
@@ -49,7 +49,7 @@ fun MainTopAppBar(
     ) { isVisible ->
         if (isVisible) {
             Card(
-                onClick = dropUnlessResumed { navController.navigate(Route.Search()) },
+                onClick = dropUnlessResumed { navActionManager.toSearch(MediaType.ANIME) },
                 modifier = modifier
                     .statusBarsPadding()
                     .fillMaxWidth()
@@ -85,7 +85,7 @@ fun MainTopAppBar(
                         modifier = Modifier
                             .clip(RoundedCornerShape(100))
                             .size(32.dp)
-                            .clickable { navController.navigate(Route.Profile) }
+                            .clickable { navActionManager.toProfile() }
                     )
                 }
             }//:Card
