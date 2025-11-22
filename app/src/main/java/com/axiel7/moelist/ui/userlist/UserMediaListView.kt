@@ -1,7 +1,5 @@
 package com.axiel7.moelist.ui.userlist
 
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -62,7 +60,9 @@ fun UserMediaListView(
     modifier: Modifier = Modifier,
     nestedScrollConnection: NestedScrollConnection? = null,
     topBarHeightPx: Float = 0f,
-    topBarOffsetY: Animatable<Float, AnimationVector1D> = Animatable(0f),
+    topBarOffsetY: Float = 0f,
+    topBarAnimateTo: suspend (Float) -> Unit = {},
+    topBarSnapTo: suspend (Float) -> Unit = {},
     contentPadding: PaddingValues = PaddingValues(),
     onShowEditSheet: (BaseUserMediaList<out BaseMediaNode>) -> Unit,
 ) {
@@ -162,6 +162,8 @@ fun UserMediaListView(
                         state = listState,
                         topBarHeightPx = topBarHeightPx,
                         topBarOffsetY = topBarOffsetY,
+                        animateTo = topBarAnimateTo,
+                        snapTo = topBarSnapTo,
                     ),
                 state = listState,
                 contentPadding = PaddingValues(
@@ -224,6 +226,8 @@ fun UserMediaListView(
                         state = listState,
                         topBarHeightPx = topBarHeightPx,
                         topBarOffsetY = topBarOffsetY,
+                        animateTo = topBarAnimateTo,
+                        snapTo = topBarSnapTo,
                     ),
                 state = listState,
                 contentPadding = PaddingValues(

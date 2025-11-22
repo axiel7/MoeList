@@ -1,5 +1,6 @@
 package com.axiel7.moelist.ui.more.settings
 
+import androidx.compose.runtime.Stable
 import com.axiel7.moelist.data.model.media.TitleLanguage
 import com.axiel7.moelist.ui.base.AppLanguage
 import com.axiel7.moelist.ui.base.ItemsPerRow
@@ -9,6 +10,7 @@ import com.axiel7.moelist.ui.base.TabletMode
 import com.axiel7.moelist.ui.base.ThemeStyle
 import com.axiel7.moelist.ui.base.event.UiEvent
 
+@Stable
 interface SettingsEvent : UiEvent {
     fun setLanguage(value: AppLanguage)
     fun setTheme(value: ThemeStyle)

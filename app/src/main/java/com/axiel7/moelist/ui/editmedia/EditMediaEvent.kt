@@ -1,11 +1,13 @@
 package com.axiel7.moelist.ui.editmedia
 
+import androidx.compose.runtime.Stable
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseMyListStatus
 import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.ui.base.event.UiEvent
 import java.time.LocalDate
 
+@Stable
 interface EditMediaEvent : UiEvent {
 
     fun setMediaInfo(value: BaseMediaNode)

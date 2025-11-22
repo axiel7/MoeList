@@ -1,5 +1,6 @@
 package com.axiel7.moelist.data.model.anime
 
+import androidx.compose.runtime.Stable
 import com.axiel7.moelist.data.model.media.AlternativeTitles
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BasicMyListStatus
@@ -10,6 +11,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
+@Stable
 data class AnimeNode(
     @SerialName("id")
     override val id: Int,

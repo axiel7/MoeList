@@ -1,7 +1,5 @@
 package com.axiel7.moelist.ui.home
 
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -62,7 +60,9 @@ fun HomeView(
     isLoggedIn: Boolean,
     navActionManager: NavActionManager,
     topBarHeightPx: Float,
-    topBarOffsetY: Animatable<Float, AnimationVector1D>,
+    topBarOffsetY: Float,
+    topBarAnimateTo: suspend (Float) -> Unit,
+    topBarSnapTo: suspend (Float) -> Unit,
     padding: PaddingValues,
 ) {
     val viewModel: HomeViewModel = koinViewModel()
@@ -75,6 +75,8 @@ fun HomeView(
         navActionManager = navActionManager,
         topBarHeightPx = topBarHeightPx,
         topBarOffsetY = topBarOffsetY,
+        topBarAnimateTo = topBarAnimateTo,
+        topBarSnapTo = topBarSnapTo,
         padding = padding,
     )
 }
@@ -86,7 +88,9 @@ private fun HomeViewContent(
     isLoggedIn: Boolean,
     navActionManager: NavActionManager,
     topBarHeightPx: Float = 0f,
-    topBarOffsetY: Animatable<Float, AnimationVector1D> = Animatable(0f),
+    topBarOffsetY: Float = 0f,
+    topBarAnimateTo: suspend (Float) -> Unit = {},
+    topBarSnapTo: suspend (Float) -> Unit = {},
     padding: PaddingValues = PaddingValues(),
 ) {
     val context = LocalContext.current
@@ -112,6 +116,8 @@ private fun HomeViewContent(
                 state = scrollState,
                 topBarHeightPx = topBarHeightPx,
                 topBarOffsetY = topBarOffsetY,
+                animateTo = topBarAnimateTo,
+                snapTo = topBarSnapTo,
             )
             .verticalScroll(scrollState)
             .padding(padding)

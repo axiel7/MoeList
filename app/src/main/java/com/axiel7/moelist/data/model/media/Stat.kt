@@ -1,7 +1,9 @@
 package com.axiel7.moelist.data.model.media
 
+import androidx.compose.runtime.Stable
 import com.axiel7.moelist.data.model.base.LocalizableAndColorable
 
+@Stable
 data class Stat<T : LocalizableAndColorable>(
     val type: T,
     val value: Float,

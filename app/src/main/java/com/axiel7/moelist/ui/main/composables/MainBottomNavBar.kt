@@ -31,10 +31,8 @@ fun MainBottomNavBar(
     navActionManager: NavActionManager,
     isVisible: Boolean,
     onItemSelected: (Int) -> Unit,
-    topBarOffsetY: Animatable<Float, AnimationVector1D>,
+    showTopBar: () -> Unit,
 ) {
-    val scope = rememberCoroutineScope()
-
     AnimatedContent(
         targetState = isVisible,
         transitionSpec = {
@@ -66,9 +64,7 @@ fun MainBottomNavBar(
                                     }
                                 }
                             } else {
-                                scope.launch {
-                                    topBarOffsetY.animateTo(0f)
-                                }
+                                showTopBar()
 
                                 onItemSelected(index)
                                 topLevelBackStack.addTopLevel(dest.route)

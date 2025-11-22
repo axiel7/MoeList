@@ -1,11 +1,13 @@
 package com.axiel7.moelist.ui.details
 
+import androidx.compose.runtime.Stable
 import com.axiel7.moelist.data.model.media.BaseMyListStatus
 import com.axiel7.moelist.data.model.media.WeekDay
 import com.axiel7.moelist.ui.base.event.UiEvent
 import java.time.LocalDate
 import java.time.LocalTime
 
+@Stable
 interface MediaDetailsEvent : UiEvent {
 
     fun onChangedMyListStatus(value: BaseMyListStatus?, removed: Boolean = false)

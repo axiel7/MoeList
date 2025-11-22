@@ -1,10 +1,12 @@
 package com.axiel7.moelist.data.model.media
 
+import androidx.compose.runtime.Stable
 import com.axiel7.moelist.data.model.anime.AnimeNode
 import com.axiel7.moelist.data.model.anime.UserAnimeList
 import com.axiel7.moelist.data.model.manga.MyMangaListStatus
 import com.axiel7.moelist.data.model.manga.UserMangaList
 
+@Stable
 abstract class BaseUserMediaList<T : BaseMediaNode> {
     abstract val node: T
     abstract val listStatus: BaseMyListStatus?

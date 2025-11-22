@@ -1,12 +1,14 @@
 package com.axiel7.moelist.data.model.media
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.res.stringResource
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.BaseResponse
 import com.axiel7.moelist.utils.NumExtensions.isGreaterThanZero
 import org.apache.commons.text.StringEscapeUtils
 
+@Stable
 abstract class BaseMyListStatus : BaseResponse {
     abstract val status: ListStatus
     abstract val score: Int

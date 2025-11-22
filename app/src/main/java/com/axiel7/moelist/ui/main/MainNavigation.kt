@@ -69,14 +69,15 @@ private val topNavigationTransitionSpec = NavDisplay.transitionSpec {
 fun MainNavigation(
     topLevelBackStack: TopLevelBackStack<NavKey>,
     navActionManager: NavActionManager,
-    lastTabOpened: Int,
     isLoggedIn: Boolean,
     isCompactScreen: Boolean,
     useListTabs: Boolean,
     modifier: Modifier,
     padding: PaddingValues,
     topBarHeightPx: Float,
-    topBarOffsetY: Animatable<Float, AnimationVector1D>,
+    topBarOffsetY: Float,
+    topBarAnimateTo: suspend (Float) -> Unit,
+    topBarSnapTo: suspend (Float) -> Unit,
 ) {
     NavDisplay(
         backStack = topLevelBackStack.backStack,
@@ -113,6 +114,8 @@ fun MainNavigation(
                     padding = padding,
                     topBarHeightPx = topBarHeightPx,
                     topBarOffsetY = topBarOffsetY,
+                    topBarAnimateTo = topBarAnimateTo,
+                    topBarSnapTo = topBarSnapTo,
                 )
             }
 
@@ -136,6 +139,8 @@ fun MainNavigation(
                             navActionManager = navActionManager,
                             topBarHeightPx = topBarHeightPx,
                             topBarOffsetY = topBarOffsetY,
+                            topBarAnimateTo = topBarAnimateTo,
+                            topBarSnapTo = topBarSnapTo,
                             padding = padding
                         )
                     }
@@ -162,6 +167,8 @@ fun MainNavigation(
                             navActionManager = navActionManager,
                             topBarHeightPx = topBarHeightPx,
                             topBarOffsetY = topBarOffsetY,
+                            topBarAnimateTo = topBarAnimateTo,
+                            topBarSnapTo = topBarSnapTo,
                             padding = padding
                         )
                     }
@@ -176,6 +183,8 @@ fun MainNavigation(
                     padding = padding,
                     topBarHeightPx = topBarHeightPx,
                     topBarOffsetY = topBarOffsetY,
+                    topBarAnimateTo = topBarAnimateTo,
+                    topBarSnapTo = topBarSnapTo,
                     isLoggedIn = isLoggedIn
                 )
             }

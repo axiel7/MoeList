@@ -1,7 +1,5 @@
 package com.axiel7.moelist.ui.more
 
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -42,7 +40,9 @@ fun MoreView(
     isLoggedIn: Boolean,
     navActionManager: NavActionManager,
     topBarHeightPx: Float,
-    topBarOffsetY: Animatable<Float, AnimationVector1D>,
+    topBarOffsetY: Float,
+    topBarAnimateTo: suspend (Float) -> Unit,
+    topBarSnapTo: suspend (Float) -> Unit,
     padding: PaddingValues,
 ) {
     val viewModel: MoreViewModel = koinViewModel()
@@ -52,6 +52,8 @@ fun MoreView(
         navActionManager = navActionManager,
         topBarHeightPx = topBarHeightPx,
         topBarOffsetY = topBarOffsetY,
+        topBarAnimateTo = topBarAnimateTo,
+        topBarSnapTo = topBarSnapTo,
         padding = padding,
         isLoggedIn = isLoggedIn
     )
@@ -63,7 +65,9 @@ private fun MoreViewContent(
     event: MoreEvent?,
     navActionManager: NavActionManager,
     topBarHeightPx: Float = 0f,
-    topBarOffsetY: Animatable<Float, AnimationVector1D> = Animatable(0f),
+    topBarOffsetY: Float = 0f,
+    topBarAnimateTo: suspend (Float) -> Unit = {},
+    topBarSnapTo: suspend (Float) -> Unit = {},
     padding: PaddingValues = PaddingValues(),
 ) {
     val context = LocalContext.current
@@ -84,6 +88,8 @@ private fun MoreViewContent(
                 state = scrollState,
                 topBarHeightPx = topBarHeightPx,
                 topBarOffsetY = topBarOffsetY,
+                animateTo = topBarAnimateTo,
+                snapTo = topBarSnapTo,
             )
             .verticalScroll(scrollState)
             .padding(padding)

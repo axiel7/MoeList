@@ -34,6 +34,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
@@ -67,6 +68,7 @@ import com.axiel7.moelist.ui.theme.light_scrim
 import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.MOELIST_PAGELINK
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -147,7 +149,6 @@ class MainActivity : AppCompatActivity() {
                         isBottomDestination = isBottomDestination,
                         topLevelBackStack = topLevelBackStack,
                         navActionManager = navActionManager,
-                        lastTabOpened = lastTabOpened,
                         saveLastTab = viewModel::saveLastTab,
                         pinnedNavBar = pinnedNavBar,
                         profilePicture = profilePicture,
@@ -254,11 +255,11 @@ fun MainView(
     isBottomDestination: Boolean,
     topLevelBackStack: TopLevelBackStack<NavKey>,
     navActionManager: NavActionManager,
-    lastTabOpened: Int,
     saveLastTab: (Int) -> Unit,
     pinnedNavBar: Boolean,
     profilePicture: String?,
 ) {
+    val scope = rememberCoroutineScope()
     val density = LocalDensity.current
 
     var topBarHeightPx by remember { mutableFloatStateOf(0f) }
@@ -285,7 +286,11 @@ fun MainView(
                     navActionManager = navActionManager,
                     isVisible = isBottomDestination || pinnedNavBar,
                     onItemSelected = saveLastTab,
-                    topBarOffsetY = topBarOffsetY,
+                    showTopBar = {
+                        scope.launch {
+                            topBarOffsetY.animateTo(0f)
+                        }
+                    }
                 )
             }
         },
@@ -306,14 +311,15 @@ fun MainView(
                 MainNavigation(
                     topLevelBackStack = topLevelBackStack,
                     navActionManager = navActionManager,
-                    lastTabOpened = lastTabOpened,
                     isLoggedIn = isLoggedIn,
                     isCompactScreen = false,
                     useListTabs = useListTabs,
                     modifier = Modifier,
                     padding = PaddingValues(),
                     topBarHeightPx = topBarHeightPx,
-                    topBarOffsetY = topBarOffsetY,
+                    topBarOffsetY = topBarOffsetY.value,
+                    topBarAnimateTo = topBarOffsetY::animateTo,
+                    topBarSnapTo = topBarOffsetY::snapTo,
                 )
             }
         } else {
@@ -323,7 +329,6 @@ fun MainView(
             MainNavigation(
                 topLevelBackStack = topLevelBackStack,
                 navActionManager = navActionManager,
-                lastTabOpened = lastTabOpened,
                 isLoggedIn = isLoggedIn,
                 isCompactScreen = true,
                 useListTabs = useListTabs,
@@ -339,7 +344,9 @@ fun MainView(
                     bottom = if (pinnedNavBar) 0.dp else padding.calculateBottomPadding(),
                 ),
                 topBarHeightPx = topBarHeightPx,
-                topBarOffsetY = topBarOffsetY,
+                topBarOffsetY = topBarOffsetY.value,
+                topBarAnimateTo = topBarOffsetY::animateTo,
+                topBarSnapTo = topBarOffsetY::snapTo,
             )
         }
     }
@@ -362,7 +369,6 @@ fun MainPreview() {
                 isBottomDestination = true,
                 topLevelBackStack = topLevelBackStack,
                 navActionManager = navActionManager,
-                lastTabOpened = 0,
                 saveLastTab = {},
                 pinnedNavBar = false,
                 profilePicture = null,

@@ -82,6 +82,9 @@ android {
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
     }
+    composeCompiler {
+        stabilityConfigurationFiles.add(rootProject.layout.projectDirectory.file("stability_config.conf"))
+    }
     kotlin {
         jvmToolchain(17)
     }

@@ -1,9 +1,11 @@
 package com.axiel7.moelist.ui.search
 
+import androidx.compose.runtime.Stable
 import com.axiel7.moelist.data.model.SearchHistory
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.ui.base.event.PagedUiEvent
 
+@Stable
 interface SearchEvent : PagedUiEvent {
     fun search(query: String)
     fun onChangeMediaType(value: MediaType)

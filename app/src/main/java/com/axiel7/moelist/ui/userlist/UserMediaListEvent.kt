@@ -1,5 +1,6 @@
 package com.axiel7.moelist.ui.userlist
 
+import androidx.compose.runtime.Stable
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseMyListStatus
 import com.axiel7.moelist.data.model.media.BaseUserMediaList
@@ -7,6 +8,7 @@ import com.axiel7.moelist.data.model.media.ListStatus
 import com.axiel7.moelist.data.model.media.MediaSort
 import com.axiel7.moelist.ui.base.event.PagedUiEvent
 
+@Stable
 interface UserMediaListEvent : PagedUiEvent {
     fun onChangeStatus(value: ListStatus)
     fun onChangeSort(value: MediaSort)

@@ -1,6 +1,7 @@
 package com.axiel7.moelist.data.model.media
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.res.pluralStringResource
 import com.axiel7.moelist.App
 import com.axiel7.moelist.R
@@ -9,6 +10,7 @@ import com.axiel7.moelist.data.model.anime.NodeSeasonal
 import com.axiel7.moelist.data.model.manga.MangaNode
 import com.axiel7.moelist.utils.UNKNOWN_CHAR
 
+@Stable
 abstract class BaseMediaNode {
     abstract val id: Int
     abstract val title: String

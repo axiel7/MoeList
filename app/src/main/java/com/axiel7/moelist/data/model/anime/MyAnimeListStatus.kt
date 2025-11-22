@@ -1,13 +1,13 @@
 package com.axiel7.moelist.data.model.anime
 
 import androidx.annotation.IntRange
-import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import com.axiel7.moelist.data.model.media.BaseMyListStatus
 import com.axiel7.moelist.data.model.media.ListStatus
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Immutable
+@Stable
 @Serializable
 data class MyAnimeListStatus(
 

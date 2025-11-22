@@ -1,7 +1,5 @@
 package com.axiel7.moelist.ui.composables
 
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.foundation.gestures.ScrollableState
 import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.runtime.LaunchedEffect
@@ -18,26 +16,27 @@ import kotlin.math.abs
 fun Modifier.collapsable(
     state: ScrollableState,
     topBarHeightPx: Float,
-    topBarOffsetY: Animatable<Float, AnimationVector1D>,
+    topBarOffsetY: Float,
+    animateTo: suspend (Float) -> Unit,
+    snapTo: suspend (Float) -> Unit,
 ) = composed {
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(key1 = state.isScrollInProgress) {
-        if (!state.isScrollInProgress && topBarOffsetY.value != 0f && topBarOffsetY.value != -topBarHeightPx) {
+        if (!state.isScrollInProgress && topBarOffsetY != 0f && topBarOffsetY != -topBarHeightPx) {
             val half = topBarHeightPx / 2
-            val oldOffsetY = topBarOffsetY.value
 
             val targetOffsetY = when {
-                abs(topBarOffsetY.value) >= half -> -topBarHeightPx
+                abs(topBarOffsetY) >= half -> -topBarHeightPx
                 else -> 0f
             }
 
             launch {
-                state.animateScrollBy(oldOffsetY - targetOffsetY)
+                state.animateScrollBy(topBarOffsetY - targetOffsetY)
             }
 
             launch {
-                topBarOffsetY.animateTo(targetOffsetY)
+                animateTo(targetOffsetY)
             }
         }
     }
@@ -47,8 +46,8 @@ fun Modifier.collapsable(
             override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
                 scope.launch {
                     if (state.canScrollForward) {
-                        topBarOffsetY.snapTo(
-                            targetValue = (topBarOffsetY.value + available.y).coerceIn(
+                        snapTo(
+                            (topBarOffsetY + available.y).coerceIn(
                                 minimumValue = -topBarHeightPx,
                                 maximumValue = 0f,
                             )

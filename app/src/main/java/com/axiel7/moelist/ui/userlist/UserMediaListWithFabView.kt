@@ -1,8 +1,6 @@
 package com.axiel7.moelist.ui.userlist
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.clickable
@@ -73,7 +71,9 @@ fun UserMediaListWithFabView(
     isCompactScreen: Boolean,
     navActionManager: NavActionManager,
     topBarHeightPx: Float,
-    topBarOffsetY: Animatable<Float, AnimationVector1D>,
+    topBarOffsetY: Float,
+    topBarAnimateTo: suspend (Float) -> Unit,
+    topBarSnapTo: suspend (Float) -> Unit,
     padding: PaddingValues,
 ) {
     val viewModel: UserMediaListViewModel = koinViewModel { parametersOf(mediaType) }
@@ -86,6 +86,8 @@ fun UserMediaListWithFabView(
         isCompactScreen = isCompactScreen,
         topBarHeightPx = topBarHeightPx,
         topBarOffsetY = topBarOffsetY,
+        topBarAnimateTo = topBarAnimateTo,
+        topBarSnapTo = topBarSnapTo,
         padding = padding,
     )
 }
@@ -98,7 +100,9 @@ private fun UserMediaListWithFabViewContent(
     navActionManager: NavActionManager,
     isCompactScreen: Boolean,
     topBarHeightPx: Float = 0f,
-    topBarOffsetY: Animatable<Float, AnimationVector1D> = Animatable(0f),
+    topBarOffsetY: Float = 0f,
+    topBarAnimateTo: suspend (Float) -> Unit= {},
+    topBarSnapTo: suspend (Float) -> Unit = {},
     padding: PaddingValues = PaddingValues(),
 ) {
     val context = LocalContext.current
@@ -224,6 +228,8 @@ private fun UserMediaListWithFabViewContent(
                 nestedScrollConnection = nestedScrollConnection,
                 topBarHeightPx = topBarHeightPx,
                 topBarOffsetY = topBarOffsetY,
+                topBarAnimateTo = topBarAnimateTo,
+                topBarSnapTo = topBarSnapTo,
                 contentPadding = PaddingValues(
                     start = padding.calculateStartPadding(LocalLayoutDirection.current),
                     top = padding.calculateTopPadding(),

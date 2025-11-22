@@ -1,5 +1,6 @@
 package com.axiel7.moelist.ui.editmedia
 
+import androidx.compose.runtime.Stable
 import com.axiel7.moelist.data.model.media.BaseMediaNode
 import com.axiel7.moelist.data.model.media.BaseMyListStatus
 import com.axiel7.moelist.data.model.media.ListStatus
@@ -7,6 +8,7 @@ import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.ui.base.state.UiState
 import java.time.LocalDate
 
+@Stable
 data class EditMediaUiState(
     val mediaType: MediaType,
     val status: ListStatus = if (mediaType == MediaType.ANIME) ListStatus.PLAN_TO_WATCH else ListStatus.PLAN_TO_READ,
