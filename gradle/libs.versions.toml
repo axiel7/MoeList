@@ -27,7 +27,7 @@ placeholder-material3 = "2.0.0"
 room = "2.8.4"
 work-runtime = "2.11.0"
 commons-text = "1.14.0"
-materialKolor = "5.0.0-alpha03"
+materialKolor = "5.0.0-alpha04"
 
 [libraries]
 accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist" }
