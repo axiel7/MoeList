@@ -1,7 +1,7 @@
 [versions]
 accompanist = "0.37.3"
 activity-compose = "1.12.1"
-agp = "8.13.1"
+agp = "8.13.2"
 android-desugar = "2.1.5"
 appcompat = "1.7.1"
 browser = "1.9.0"
