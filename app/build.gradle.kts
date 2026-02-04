@@ -2,7 +2,6 @@ import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
@@ -17,10 +16,6 @@ val versionProps = Properties().also {
 
 android {
     compileSdk = 36
-
-    base {
-        archivesName = "moelist-v${versionProps.getProperty("name")}"
-    }
 
     defaultConfig {
         applicationId = "com.axiel7.moelist"
@@ -54,7 +49,6 @@ android {
                 "proguard-rules.pro"
             )
             buildConfigField("String", "CLIENT_ID", privateProps.getProperty("CLIENT_ID"))
-            resValue("string", "app_name", "MoeList Debug")
         }
         release {
             isDebuggable = false
@@ -91,15 +85,6 @@ android {
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
     }
-    composeCompiler {
-        stabilityConfigurationFiles.add(rootProject.layout.projectDirectory.file("stability_config.conf"))
-    }
-    kotlin {
-        jvmToolchain(17)
-    }
-    ksp {
-        arg("room.schemaLocation", "$projectDir/schemas")
-    }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -109,6 +94,20 @@ android {
         includeInApk = false
     }
     namespace = "com.axiel7.moelist"
+}
+
+base {
+    archivesName = "moelist-v${versionProps.getProperty("name")}"
+}
+
+composeCompiler {
+    stabilityConfigurationFiles.add(rootProject.layout.projectDirectory.file("stability_config.conf"))
+}
+kotlin {
+    jvmToolchain(17)
+}
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
 }
 
 dependencies {
