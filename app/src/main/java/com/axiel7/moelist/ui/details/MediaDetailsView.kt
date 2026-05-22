@@ -4,7 +4,6 @@ import android.content.ClipData
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -38,13 +37,34 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
+import androidx.compose.material.icons.rounded.AccessTime
+import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.BarChart
+import androidx.compose.material.icons.rounded.Book
+import androidx.compose.material.icons.rounded.CalendarToday
+import androidx.compose.material.icons.rounded.Edit
+import androidx.compose.material.icons.rounded.Group
+import androidx.compose.material.icons.rounded.Language
+import androidx.compose.material.icons.automirrored.rounded.MenuBook
+import androidx.compose.material.icons.rounded.Movie
 import androidx.compose.material.icons.rounded.MusicNote
+import androidx.compose.material.icons.rounded.OpenInBrowser
+import androidx.compose.material.icons.rounded.Person
+import androidx.compose.material.icons.rounded.Share
+import androidx.compose.material.icons.rounded.Spellcheck
+import androidx.compose.material.icons.rounded.Translate
+import androidx.compose.material.icons.automirrored.rounded.TrendingUp
+import androidx.compose.material.icons.rounded.WbSunny
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.OutlinedIconButton
+import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -69,13 +89,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -386,9 +406,8 @@ private fun MediaHeaderSection(
                 if (totalCount == "1") stringResource(R.string.chapter) else stringResource(R.string.chapters)
             }
 
-            FlowRow(
+            Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 MetadataBadge(
                     text = uiState.mediaDetails?.mediaFormat?.localized() ?: "??",
@@ -414,8 +433,6 @@ private fun MediaHeaderSection(
                 MetadataBadge(
                     text = uiState.mediaDetails?.status?.localized() ?: "Loading",
                     isLoading = uiState.isLoading,
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.6f),
-                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer
                 )
             }
         }
@@ -451,22 +468,18 @@ private fun ModernScoreDisplay(
 private fun MetadataBadge(
     text: String,
     isLoading: Boolean,
-    containerColor: Color = MaterialTheme.colorScheme.surfaceContainerHighest.copy(alpha = 0.5f),
-    contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant
 ) {
-    Surface(
+    SuggestionChip(
+        onClick = { },
+        label = {
+            Text(
+                text = text,
+                style = MaterialTheme.typography.labelMedium,
+                fontWeight = FontWeight.Medium,
+            )
+        },
         modifier = Modifier.defaultPlaceholder(visible = isLoading),
-        shape = CircleShape,
-        color = containerColor,
-    ) {
-        Text(
-            text = text,
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-            style = MaterialTheme.typography.labelMedium,
-            fontWeight = FontWeight.Medium,
-            color = contentColor
-        )
-    }
+    )
 }
 
 // ============================================
@@ -504,10 +517,7 @@ private fun MediaActionDock(
             )
         ) {
             Icon(
-                painter = painterResource(
-                    if (uiState.isNewEntry) R.drawable.ic_round_add_24
-                    else R.drawable.ic_round_edit_24
-                ),
+                imageVector = if (uiState.isNewEntry) Icons.Rounded.Add else Icons.Rounded.Edit,
                 contentDescription = null,
                 modifier = Modifier.size(20.dp)
             )
@@ -523,35 +533,24 @@ private fun MediaActionDock(
             )
         }
 
-        ActionCircleButton(
-            icon = R.drawable.ic_open_in_browser,
-            onClick = onMalClick
-        )
-
-        ActionCircleButton(
-            icon = R.drawable.round_share_24,
-            onClick = onShareClick
-        )
-    }
-}
-
-@Composable
-private fun ActionCircleButton(
-    icon: Int,
-    onClick: () -> Unit
-) {
-    Surface(
-        onClick = onClick,
-        modifier = Modifier.size(ButtonHeight),
-        shape = CircleShape,
-        color = MaterialTheme.colorScheme.surfaceContainerHigh,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
-    ) {
-        Box(contentAlignment = Alignment.Center) {
+        OutlinedIconButton(
+            onClick = onMalClick,
+            modifier = Modifier.size(ButtonHeight)
+        ) {
             Icon(
-                painter = painterResource(icon),
+                imageVector = Icons.Rounded.OpenInBrowser,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(22.dp)
+            )
+        }
+
+        OutlinedIconButton(
+            onClick = onShareClick,
+            modifier = Modifier.size(ButtonHeight)
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.Share,
+                contentDescription = null,
                 modifier = Modifier.size(22.dp)
             )
         }
@@ -574,23 +573,16 @@ private fun MediaGenresSection(uiState: MediaDetailsUiState) {
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         genres.forEach { genre ->
-            Surface(
+            SuggestionChip(
                 onClick = { },
-                shape = CircleShape,
-                color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.4f),
-                border = BorderStroke(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.15f)
-                )
-            ) {
-                Text(
-                    text = genre.localized(),
-                    modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp),
-                    style = MaterialTheme.typography.labelMedium,
-                    fontWeight = FontWeight.Medium,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer
-                )
-            }
+                label = {
+                    Text(
+                        text = genre.localized(),
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = FontWeight.Medium,
+                    )
+                }
+            )
         }
     }
 }
@@ -665,16 +657,14 @@ private fun MediaSynopsisSection(
 private fun MediaDetailsInfoCard(uiState: MediaDetailsUiState) {
     val englishTitle = uiState.mediaDetails?.alternativeTitles?.en
     val japaneseTitle = uiState.mediaDetails?.alternativeTitles?.ja
-    val synonyms = uiState.mediaDetails?.alternativeTitles?.synonyms
-    val hasAltTitles = !englishTitle.isNullOrBlank() || !japaneseTitle.isNullOrBlank() || !synonyms.isNullOrEmpty()
+    val romajiTitle = uiState.mediaDetails?.title
+    val hasAltTitles = !englishTitle.isNullOrBlank() || !japaneseTitle.isNullOrBlank() || !romajiTitle.isNullOrBlank()
 
-    Surface(
+    ElevatedCard(
         modifier = Modifier
             .padding(horizontal = PageHorizontalPadding)
             .fillMaxWidth(),
         shape = RoundedCornerShape(CardRadius),
-        color = MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.6f),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f))
     ) {
         Column(
             modifier = Modifier.padding(CardPadding),
@@ -682,7 +672,7 @@ private fun MediaDetailsInfoCard(uiState: MediaDetailsUiState) {
         ) {
             Text(
                 text = stringResource(R.string.more_info),
-                style = MaterialTheme.typography.titleSmall,
+                style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -692,14 +682,14 @@ private fun MediaDetailsInfoCard(uiState: MediaDetailsUiState) {
                     MediaInfoView(
                         title = stringResource(R.string.duration),
                         info = uiState.mediaDetails.episodeDurationLocalized(),
-                        icon = R.drawable.ic_round_access_time_24,
+                        iconVector = Icons.Rounded.AccessTime,
                         modifier = Modifier.weight(1f)
                     )
                     MediaInfoView(
                         title = stringResource(R.string.source),
                         info = uiState.mediaDetails.source?.localized()
                             ?: stringResource(R.string.unknown),
-                        icon = R.drawable.ic_round_menu_book_24,
+                        iconVector = Icons.AutoMirrored.Rounded.MenuBook,
                         modifier = Modifier.weight(1f)
                     )
                 }
@@ -708,38 +698,46 @@ private fun MediaDetailsInfoCard(uiState: MediaDetailsUiState) {
                 MediaInfoView(
                     title = stringResource(R.string.volumes),
                     info = if (volumes == null || volumes == 0) "-" else volumes.toString(),
-                    icon = R.drawable.ic_round_book_24,
+                    iconVector = Icons.Rounded.Book,
                     modifier = Modifier.fillMaxWidth()
                 )
             }
+
+            HorizontalDivider(
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+            )
 
             Row(modifier = Modifier.fillMaxWidth()) {
                 MediaInfoView(
                     title = stringResource(R.string.start_date),
                     info = uiState.mediaDetails?.startDate?.parseDateAndLocalize(),
-                    icon = R.drawable.round_calendar_today_24,
+                    iconVector = Icons.Rounded.CalendarToday,
                     modifier = Modifier.weight(1f)
                 )
                 MediaInfoView(
                     title = stringResource(R.string.end_date),
                     info = uiState.mediaDetails?.endDate?.parseDateAndLocalize(),
-                    icon = R.drawable.round_calendar_today_24,
+                    iconVector = Icons.Rounded.CalendarToday,
                     modifier = Modifier.weight(1f)
                 )
             }
+
+            HorizontalDivider(
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+            )
 
             if (uiState.mediaDetails is AnimeDetails) {
                 Row(modifier = Modifier.fillMaxWidth()) {
                     MediaInfoView(
                         title = stringResource(R.string.season),
                         info = uiState.mediaDetails.startSeason?.seasonYearText(),
-                        icon = R.drawable.ic_spring_24,
+                        iconVector = Icons.Rounded.WbSunny,
                         modifier = Modifier.weight(1f)
                     )
                     MediaInfoView(
                         title = stringResource(R.string.studios),
                         info = uiState.studiosJoined,
-                        icon = R.drawable.ic_round_movie_24,
+                        iconVector = Icons.Rounded.Movie,
                         modifier = Modifier.weight(1f)
                     )
                 }
@@ -748,30 +746,30 @@ private fun MediaDetailsInfoCard(uiState: MediaDetailsUiState) {
                     title = stringResource(R.string.authors),
                     info = uiState.mediaDetails.authors
                         ?.joinToString { "${it.node.firstName} ${it.node.lastName}" },
-                    icon = R.drawable.ic_round_person_24,
+                    iconVector = Icons.Rounded.Person,
                     modifier = Modifier.fillMaxWidth()
                 )
             }
 
             if (hasAltTitles) {
                 HorizontalDivider(
-                    modifier = Modifier.padding(vertical = 8.dp),
+                    modifier = Modifier.padding(vertical = 4.dp),
                     color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
                 )
 
                 Text(
                     text = stringResource(R.string.title_language),
-                    style = MaterialTheme.typography.titleSmall,
+                    style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.padding(bottom = 8.dp)
+                    modifier = Modifier.padding(bottom = 4.dp)
                 )
 
                 if (!englishTitle.isNullOrBlank()) {
                     MediaInfoView(
                         title = stringResource(R.string.english),
                         info = englishTitle,
-                        icon = R.drawable.ic_round_language_24,
+                        iconVector = Icons.Rounded.Language,
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
@@ -780,16 +778,16 @@ private fun MediaDetailsInfoCard(uiState: MediaDetailsUiState) {
                     MediaInfoView(
                         title = stringResource(R.string.japanese),
                         info = japaneseTitle,
-                        icon = R.drawable.ic_outline_translate_24,
+                        iconVector = Icons.Rounded.Translate,
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
 
-                if (!synonyms.isNullOrEmpty()) {
+                if (!romajiTitle.isNullOrBlank()) {
                     MediaInfoView(
-                        title = stringResource(R.string.synonyms),
-                        info = synonyms.joinToString(", "),
-                        icon = R.drawable.round_title_24,
+                        title = stringResource(R.string.romaji),
+                        info = romajiTitle,
+                        iconVector = Icons.Rounded.Spellcheck,
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
@@ -809,17 +807,26 @@ private fun MediaFranchiseTimelineSection(
     val coreRelated = uiState.coreRelatedMedia
     if (coreRelated.isNotEmpty()) {
         Column {
-            Text(
-                text = stringResource(R.string.franchise_timeline),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(horizontal = PageHorizontalPadding, vertical = 16.dp)
-            )
+            Column(
+                modifier = Modifier.padding(horizontal = PageHorizontalPadding, vertical = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(2.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.franchise_timeline),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+                Text(
+                    text = "Viewing order",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
             LazyRow(
                 modifier = Modifier.fillMaxWidth(),
                 contentPadding = PaddingValues(horizontal = PageHorizontalPadding),
-                horizontalArrangement = Arrangement.spacedBy(20.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 itemsIndexed(coreRelated) { index, item ->
@@ -834,14 +841,13 @@ private fun MediaFranchiseTimelineSection(
                         )
 
                         if (index < coreRelated.size - 1) {
-                            Box(
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowRight,
+                                contentDescription = null,
                                 modifier = Modifier
-                                    .padding(horizontal = 12.dp)
-                                    .size(4.dp)
-                                    .background(
-                                        MaterialTheme.colorScheme.outlineVariant,
-                                        CircleShape
-                                    )
+                                    .padding(horizontal = 2.dp)
+                                    .size(20.dp),
+                                tint = MaterialTheme.colorScheme.outlineVariant
                             )
                         }
                     }
@@ -857,61 +863,59 @@ private fun TimelineItem(
     isCurrent: Boolean,
     onClick: () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .width(120.dp)
-            .clickable { onClick() }
-            .padding(vertical = 8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ElevatedCard(
+        onClick = onClick,
+        modifier = Modifier.width(120.dp),
+        shape = RoundedCornerShape(16.dp),
+        colors = if (isCurrent) CardDefaults.elevatedCardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+        ) else CardDefaults.elevatedCardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+        )
     ) {
-        Box(contentAlignment = Alignment.Center) {
+        Column {
             AsyncImage(
                 model = item.node.mainPicture?.medium,
                 contentDescription = null,
                 modifier = Modifier
-                    .size(width = 90.dp, height = 120.dp)
-                    .clip(RoundedCornerShape(16.dp))
-                    .border(
-                        width = if (isCurrent) 2.dp else 1.dp,
-                        color = if (isCurrent) MaterialTheme.colorScheme.primary
-                        else MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
-                        shape = RoundedCornerShape(16.dp)
-                    ),
+                    .fillMaxWidth()
+                    .height(100.dp)
+                    .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
                 contentScale = ContentScale.Crop
             )
-            if (isCurrent) {
+            Column(
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
                 Surface(
-                    shape = CircleShape,
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .offset(x = (-4).dp, y = 4.dp)
-                        .size(10.dp)
-                ) { }
+                    shape = RoundedCornerShape(6.dp),
+                    color = if (isCurrent) MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
+                    else MaterialTheme.colorScheme.secondaryContainer,
+                ) {
+                    Text(
+                        text = item.relationType.localized(),
+                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp),
+                        style = MaterialTheme.typography.labelSmall,
+                        fontWeight = FontWeight.SemiBold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        color = if (isCurrent) MaterialTheme.colorScheme.primary
+                        else MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                }
+                Text(
+                    text = item.node.userPreferredTitle(),
+                    modifier = Modifier.fillMaxWidth(),
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = if (isCurrent) FontWeight.SemiBold else FontWeight.Medium,
+                    textAlign = TextAlign.Center,
+                    maxLines = 2,
+                    minLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    color = if (isCurrent) MaterialTheme.colorScheme.onPrimaryContainer
+                    else MaterialTheme.colorScheme.onSurface
+                )
             }
-        }
-        Text(
-            text = item.node.userPreferredTitle(),
-            style = MaterialTheme.typography.labelMedium,
-            fontWeight = if (isCurrent) FontWeight.SemiBold else FontWeight.Medium,
-            textAlign = TextAlign.Center,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-            color = if (isCurrent) MaterialTheme.colorScheme.primary
-            else MaterialTheme.colorScheme.onSurface
-        )
-        Surface(
-            shape = CircleShape,
-            color = MaterialTheme.colorScheme.surfaceContainerHighest.copy(alpha = 0.6f)
-        ) {
-            Text(
-                text = item.relationType.localized(),
-                modifier = Modifier.padding(horizontal = 10.dp, vertical = 3.dp),
-                style = MaterialTheme.typography.labelSmall,
-                fontWeight = FontWeight.Medium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
         }
     }
 }
@@ -952,14 +956,29 @@ private fun MediaCharactersSection(
                         )
                     }
                     if (uiState.isLoadingCharacters) {
-                        item {
-                            Box(
-                                modifier = Modifier.size(96.dp),
-                                contentAlignment = Alignment.Center
+                        items(4) {
+                            Column(
+                                modifier = Modifier.width(96.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.spacedBy(8.dp)
                             ) {
-                                CircularProgressIndicator(
-                                    modifier = Modifier.size(28.dp),
-                                    strokeWidth = 2.dp
+                                Box(
+                                    modifier = Modifier
+                                        .size(96.dp)
+                                        .clip(RoundedCornerShape(16.dp))
+                                        .defaultPlaceholder(visible = true)
+                                )
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(12.dp)
+                                        .defaultPlaceholder(visible = true)
+                                )
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth(0.65f)
+                                        .height(12.dp)
+                                        .defaultPlaceholder(visible = true)
                                 )
                             }
                         }
@@ -1120,14 +1139,12 @@ private fun ThemePlayerCard(
     count: Int,
     onClick: () -> Unit
 ) {
-    Surface(
+    ElevatedCard(
         onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = PageHorizontalPadding, vertical = 6.dp),
         shape = RoundedCornerShape(20.dp),
-        color = MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.5f),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f))
     ) {
         Row(
             modifier = Modifier
@@ -1180,8 +1197,6 @@ private fun ThemeListSheet(
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = rememberModalBottomSheetState(),
-        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = 0.95f),
-        shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)
     ) {
         Column(
             modifier = Modifier
@@ -1191,31 +1206,45 @@ private fun ThemeListSheet(
         ) {
             Text(
                 text = title,
-                modifier = Modifier.padding(24.dp),
+                modifier = Modifier.padding(start = 24.dp, end = 24.dp, bottom = 8.dp),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.SemiBold
             )
-            themes.forEach { theme ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            onThemeClick(theme)
-                            onDismiss()
+            themes.forEachIndexed { index, theme ->
+                ListItem(
+                    headlineContent = {
+                        Text(
+                            text = theme,
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontWeight = FontWeight.Medium,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    },
+                    leadingContent = {
+                        Surface(
+                            shape = CircleShape,
+                            color = MaterialTheme.colorScheme.primaryContainer
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.MusicNote,
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .padding(8.dp)
+                                    .size(20.dp),
+                                tint = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
                         }
-                        .padding(horizontal = 24.dp, vertical = 14.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        painter = rememberVectorPainter(Icons.Rounded.MusicNote),
-                        contentDescription = null,
-                        modifier = Modifier.size(20.dp),
-                        tint = MaterialTheme.colorScheme.primary
-                    )
-                    Spacer(modifier = Modifier.width(14.dp))
-                    Text(
-                        text = theme,
-                        style = MaterialTheme.typography.bodyLarge
+                    },
+                    modifier = Modifier.clickable {
+                        onThemeClick(theme)
+                        onDismiss()
+                    }
+                )
+                if (index < themes.lastIndex) {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(horizontal = 24.dp),
+                        color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
                     )
                 }
             }
@@ -1237,14 +1266,12 @@ private fun MediaStatsSection(uiState: MediaDetailsUiState) {
             modifier = Modifier.padding(horizontal = PageHorizontalPadding, vertical = 16.dp)
         )
 
-        Surface(
+        ElevatedCard(
             modifier = Modifier
                 .padding(horizontal = PageHorizontalPadding)
                 .fillMaxWidth()
                 .defaultPlaceholder(visible = uiState.isLoading),
             shape = RoundedCornerShape(CardRadius),
-            color = MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.6f),
-            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f))
         ) {
             Column(
                 modifier = Modifier.padding(CardPadding),
@@ -1258,7 +1285,7 @@ private fun MediaStatsSection(uiState: MediaDetailsUiState) {
                     MetricItem(
                         label = stringResource(R.string.top_ranked),
                         value = uiState.mediaDetails?.rankText().orEmpty(),
-                        icon = R.drawable.ic_round_bar_chart_24
+                        icon = Icons.Rounded.BarChart
                     )
 
                     Box(
@@ -1271,7 +1298,7 @@ private fun MediaStatsSection(uiState: MediaDetailsUiState) {
                     MetricItem(
                         label = stringResource(R.string.popularity),
                         value = "#${uiState.mediaDetails?.popularity}",
-                        icon = R.drawable.ic_round_trending_up_24
+                        icon = Icons.AutoMirrored.Rounded.TrendingUp
                     )
 
                     Box(
@@ -1284,7 +1311,7 @@ private fun MediaStatsSection(uiState: MediaDetailsUiState) {
                     MetricItem(
                         label = stringResource(R.string.members),
                         value = uiState.mediaDetails?.numListUsers?.format() ?: UNKNOWN_CHAR,
-                        icon = R.drawable.ic_round_group_24
+                        icon = Icons.Rounded.Group
                     )
                 }
 
@@ -1375,7 +1402,7 @@ private fun StatusBarRow(
 private fun MetricItem(
     label: String,
     value: String,
-    icon: Int,
+    icon: ImageVector,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -1384,7 +1411,7 @@ private fun MetricItem(
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Icon(
-            painter = painterResource(icon),
+            imageVector = icon,
             contentDescription = null,
             modifier = Modifier.size(18.dp),
             tint = MaterialTheme.colorScheme.primary

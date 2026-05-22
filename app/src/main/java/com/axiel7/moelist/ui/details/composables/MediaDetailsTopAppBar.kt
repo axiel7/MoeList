@@ -4,8 +4,10 @@ import android.Manifest
 import android.os.Build
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Notifications
+import androidx.compose.material.icons.rounded.NotificationsOff
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -23,7 +25,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import com.axiel7.moelist.R
@@ -31,7 +32,6 @@ import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.media.MediaStatus
 import com.axiel7.moelist.ui.details.MediaDetailsEvent
 import com.axiel7.moelist.ui.details.MediaDetailsUiState
-import com.axiel7.moelist.utils.ContextExtensions.openLink
 import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.DateUtils.parseDate
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -106,26 +106,22 @@ fun MediaDetailsTopAppBar(
             )
         } else null
 
-    // Threshold for showing the title and changing background
     val isScrolled by remember {
         derivedStateOf { scrollBehavior.state.contentOffset < -120f }
     }
-    
+
     val titleAlpha by animateFloatAsState(
         targetValue = if (isScrolled) 1f else 0f,
         label = "titleAlpha"
     )
 
-    // Background color transitions from transparent to surface
     val backgroundColor by animateColorAsState(
-        targetValue = if (isScrolled) MaterialTheme.colorScheme.surface
-        else Color.Transparent,
+        targetValue = if (isScrolled) MaterialTheme.colorScheme.surface else Color.Transparent,
         label = "appBarBackgroundColor"
     )
 
     val contentColor by animateColorAsState(
-        targetValue = if (isScrolled) MaterialTheme.colorScheme.onSurface
-        else MaterialTheme.colorScheme.onSurface,
+        targetValue = if (isScrolled) MaterialTheme.colorScheme.onSurface else Color.White,
         label = "appBarContentColor"
     )
 
@@ -144,7 +140,7 @@ fun MediaDetailsTopAppBar(
         navigationIcon = {
             IconButton(onClick = navigateBack) {
                 Icon(
-                    painter = painterResource(R.drawable.ic_arrow_back),
+                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                     contentDescription = null,
                     tint = contentColor
                 )
@@ -164,28 +160,12 @@ fun MediaDetailsTopAppBar(
                     }
                 ) {
                     Icon(
-                        painter = painterResource(
-                            if (savedForNotification != null) R.drawable.round_notifications_active_24
-                            else R.drawable.round_notifications_off_24
-                        ),
+                        imageVector = if (savedForNotification != null) Icons.Rounded.Notifications
+                        else Icons.Rounded.NotificationsOff,
                         contentDescription = "notification",
                         tint = contentColor
                     )
                 }
-            }
-            IconButton(onClick = { context.openLink(uiState.mediaDetails?.malUrl.orEmpty()) }) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_open_in_browser),
-                    contentDescription = null,
-                    tint = contentColor
-                )
-            }
-            IconButton(onClick = { /* Share action */ }) {
-                Icon(
-                    painter = painterResource(R.drawable.round_share_24),
-                    contentDescription = null,
-                    tint = contentColor
-                )
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
