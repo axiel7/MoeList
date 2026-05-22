@@ -145,6 +145,76 @@ class DefaultPreferencesRepository(
         dataStore.setValue(MANGA_LIST_SORT_KEY, value.value)
     }
 
+    val animeWatchingSort = dataStore.getValue(ANIME_WATCHING_SORT_KEY, MediaSort.ANIME_TITLE.value)
+        .map { MediaSort.valueOf(malValue = it) ?: MediaSort.ANIME_TITLE }
+
+    suspend fun setAnimeWatchingSort(value: MediaSort) {
+        dataStore.setValue(ANIME_WATCHING_SORT_KEY, value.value)
+    }
+
+    val animePlannedSort = dataStore.getValue(ANIME_PLANNED_SORT_KEY, MediaSort.ANIME_TITLE.value)
+        .map { MediaSort.valueOf(malValue = it) ?: MediaSort.ANIME_TITLE }
+
+    suspend fun setAnimePlannedSort(value: MediaSort) {
+        dataStore.setValue(ANIME_PLANNED_SORT_KEY, value.value)
+    }
+
+    val animeCompletedSort = dataStore.getValue(ANIME_COMPLETED_SORT_KEY, MediaSort.ANIME_TITLE.value)
+        .map { MediaSort.valueOf(malValue = it) ?: MediaSort.ANIME_TITLE }
+
+    suspend fun setAnimeCompletedSort(value: MediaSort) {
+        dataStore.setValue(ANIME_COMPLETED_SORT_KEY, value.value)
+    }
+
+    val animePausedSort = dataStore.getValue(ANIME_PAUSED_SORT_KEY, MediaSort.ANIME_TITLE.value)
+        .map { MediaSort.valueOf(malValue = it) ?: MediaSort.ANIME_TITLE }
+
+    suspend fun setAnimePausedSort(value: MediaSort) {
+        dataStore.setValue(ANIME_PAUSED_SORT_KEY, value.value)
+    }
+
+    val animeDroppedSort = dataStore.getValue(ANIME_DROPPED_SORT_KEY, MediaSort.ANIME_TITLE.value)
+        .map { MediaSort.valueOf(malValue = it) ?: MediaSort.ANIME_TITLE }
+
+    suspend fun setAnimeDroppedSort(value: MediaSort) {
+        dataStore.setValue(ANIME_DROPPED_SORT_KEY, value.value)
+    }
+
+    val mangaReadingSort = dataStore.getValue(MANGA_READING_SORT_KEY, MediaSort.MANGA_TITLE.value)
+        .map { MediaSort.valueOf(malValue = it) ?: MediaSort.MANGA_TITLE }
+
+    suspend fun setMangaReadingSort(value: MediaSort) {
+        dataStore.setValue(MANGA_READING_SORT_KEY, value.value)
+    }
+
+    val mangaPlannedSort = dataStore.getValue(MANGA_PLANNED_SORT_KEY, MediaSort.MANGA_TITLE.value)
+        .map { MediaSort.valueOf(malValue = it) ?: MediaSort.MANGA_TITLE }
+
+    suspend fun setMangaPlannedSort(value: MediaSort) {
+        dataStore.setValue(MANGA_PLANNED_SORT_KEY, value.value)
+    }
+
+    val mangaCompletedSort = dataStore.getValue(MANGA_COMPLETED_SORT_KEY, MediaSort.MANGA_TITLE.value)
+        .map { MediaSort.valueOf(malValue = it) ?: MediaSort.MANGA_TITLE }
+
+    suspend fun setMangaCompletedSort(value: MediaSort) {
+        dataStore.setValue(MANGA_COMPLETED_SORT_KEY, value.value)
+    }
+
+    val mangaPausedSort = dataStore.getValue(MANGA_PAUSED_SORT_KEY, MediaSort.MANGA_TITLE.value)
+        .map { MediaSort.valueOf(malValue = it) ?: MediaSort.MANGA_TITLE }
+
+    suspend fun setMangaPausedSort(value: MediaSort) {
+        dataStore.setValue(MANGA_PAUSED_SORT_KEY, value.value)
+    }
+
+    val mangaDroppedSort = dataStore.getValue(MANGA_DROPPED_SORT_KEY, MediaSort.MANGA_TITLE.value)
+        .map { MediaSort.valueOf(malValue = it) ?: MediaSort.MANGA_TITLE }
+
+    suspend fun setMangaDroppedSort(value: MediaSort) {
+        dataStore.setValue(MANGA_DROPPED_SORT_KEY, value.value)
+    }
+
     val startTab = dataStore.getValue(START_TAB_KEY, StartTab.LAST_USED.value)
         .map { StartTab.valueOf(tabName = it) }
     suspend fun setStartTab(value: StartTab) {
@@ -312,6 +382,16 @@ class DefaultPreferencesRepository(
         private val MANGA_LIST_STATUS_KEY = stringPreferencesKey("manga_list_status")
         private val ANIME_LIST_SORT_KEY = stringPreferencesKey("anime_list_sort")
         private val MANGA_LIST_SORT_KEY = stringPreferencesKey("manga_list_sort")
+        private val ANIME_WATCHING_SORT_KEY = stringPreferencesKey("anime_watching_sort")
+        private val ANIME_PLANNED_SORT_KEY = stringPreferencesKey("anime_planned_sort")
+        private val ANIME_COMPLETED_SORT_KEY = stringPreferencesKey("anime_completed_sort")
+        private val ANIME_PAUSED_SORT_KEY = stringPreferencesKey("anime_paused_sort")
+        private val ANIME_DROPPED_SORT_KEY = stringPreferencesKey("anime_dropped_sort")
+        private val MANGA_READING_SORT_KEY = stringPreferencesKey("manga_reading_sort")
+        private val MANGA_PLANNED_SORT_KEY = stringPreferencesKey("manga_planned_sort")
+        private val MANGA_COMPLETED_SORT_KEY = stringPreferencesKey("manga_completed_sort")
+        private val MANGA_PAUSED_SORT_KEY = stringPreferencesKey("manga_paused_sort")
+        private val MANGA_DROPPED_SORT_KEY = stringPreferencesKey("manga_dropped_sort")
 
         private val START_TAB_KEY = stringPreferencesKey("start_tab")
         private val TABLET_MODE_KEY = stringPreferencesKey("tablet_mode")

@@ -85,9 +85,15 @@ class UserMediaListViewModel(
     override fun onChangeSort(value: MediaSort) {
         if (mutableUiState.value.listSort == value) return
         viewModelScope.launch {
-            when (mutableUiState.value.mediaType) {
-                MediaType.ANIME -> defaultPreferencesRepository.setAnimeListSort(value)
-                MediaType.MANGA -> defaultPreferencesRepository.setMangaListSort(value)
+            val listStatus = mutableUiState.value.listStatus
+            if (listStatus != null) {
+                ListType(listStatus, mutableUiState.value.mediaType)
+                    .setSortPreference(defaultPreferencesRepository, value)
+            } else {
+                when (mutableUiState.value.mediaType) {
+                    MediaType.ANIME -> defaultPreferencesRepository.setAnimeListSort(value)
+                    MediaType.MANGA -> defaultPreferencesRepository.setMangaListSort(value)
+                }
             }
             mutableUiState.update { state ->
                 state.copy(
@@ -382,12 +388,16 @@ class UserMediaListViewModel(
             }
         }
 
-        val listSortFlow = when (mediaType) {
-            MediaType.ANIME -> defaultPreferencesRepository.animeListSort
-            MediaType.MANGA -> defaultPreferencesRepository.mangaListSort
+        val listSortFlow = if (initialListStatus != null) {
+            ListType(initialListStatus, mediaType).sortPreference(defaultPreferencesRepository)
+        } else {
+            when (mediaType) {
+                MediaType.ANIME -> defaultPreferencesRepository.animeListSort
+                MediaType.MANGA -> defaultPreferencesRepository.mangaListSort
+            }
         }
         viewModelScope.launch {
-            val sort = listSortFlow.first() ?: defaultSort
+            val sort = listSortFlow.first()
             mutableUiState.update { state ->
                 state.copy(listSort = sort)
             }
