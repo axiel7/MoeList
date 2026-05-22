@@ -1,10 +1,16 @@
 package com.axiel7.moelist.data.model.media
 
 import android.os.Bundle
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.CheckCircleOutline
+import androidx.compose.material.icons.rounded.HighlightOff
+import androidx.compose.material.icons.rounded.PauseCircleOutline
+import androidx.compose.material.icons.rounded.PlayCircleOutline
+import androidx.compose.material.icons.rounded.Schedule
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavType
 import com.axiel7.moelist.R
@@ -30,41 +36,41 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 enum class ListStatus(
-    @DrawableRes val icon: Int
+    val icon: ImageVector
 ) : LocalizableAndColorable {
     @SerialName("watching")
     WATCHING(
-        icon = R.drawable.play_circle_outline_24
+        icon = Icons.Rounded.PlayCircleOutline
     ),
 
     @SerialName("reading")
     READING(
-        icon = R.drawable.play_circle_outline_24
+        icon = Icons.Rounded.PlayCircleOutline
     ),
 
     @SerialName("plan_to_watch")
     PLAN_TO_WATCH(
-        icon = R.drawable.ic_round_access_time_24
+        icon = Icons.Rounded.Schedule
     ),
 
     @SerialName("plan_to_read")
     PLAN_TO_READ(
-        icon = R.drawable.ic_round_access_time_24
+        icon = Icons.Rounded.Schedule
     ),
 
     @SerialName("completed")
     COMPLETED(
-        icon = R.drawable.check_circle_outline_24
+        icon = Icons.Rounded.CheckCircleOutline
     ),
 
     @SerialName("on_hold")
     ON_HOLD(
-        icon = R.drawable.pause_circle_outline_24
+        icon = Icons.Rounded.PauseCircleOutline
     ),
 
     @SerialName("dropped")
     DROPPED(
-        icon = R.drawable.delete_outline_24
+        icon = Icons.Rounded.HighlightOff
     );
 
     val value get() = name.lowercase()

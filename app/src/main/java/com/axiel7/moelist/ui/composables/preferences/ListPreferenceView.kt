@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -38,7 +39,7 @@ fun <T> ListPreferenceView(
     entriesValues: Map<T, Int>,
     modifier: Modifier = Modifier,
     value: T,
-    @DrawableRes icon: Int? = null,
+    icon: Any? = null,
     onValueChange: (T) -> Unit
 ) {
     val configuration = LocalConfiguration.current
@@ -51,12 +52,20 @@ fun <T> ListPreferenceView(
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (icon != null) {
-            Icon(
-                painter = painterResource(icon),
-                contentDescription = "",
-                modifier = Modifier.padding(16.dp),
-                tint = MaterialTheme.colorScheme.primary
-            )
+            when (icon) {
+                is Int -> Icon(
+                    painter = painterResource(icon),
+                    contentDescription = "",
+                    modifier = Modifier.padding(16.dp),
+                    tint = MaterialTheme.colorScheme.primary
+                )
+                is ImageVector -> Icon(
+                    imageVector = icon,
+                    contentDescription = "",
+                    modifier = Modifier.padding(16.dp),
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
         } else {
             Spacer(
                 modifier = Modifier

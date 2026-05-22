@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
@@ -40,7 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.axiel7.moelist.ui.theme.MoeListTheme
 
-const val MEDIA_ITEM_VERTICAL_HEIGHT = 210
+const val MEDIA_ITEM_VERTICAL_HEIGHT = 220
 
 @Composable
 fun MediaItemVertical(
@@ -56,7 +58,7 @@ fun MediaItemVertical(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
-    val scale by animateFloatAsState(if (isPressed) 0.96f else 1f, label = "scale")
+    val scale by animateFloatAsState(if (isPressed) 0.95f else 1f, label = "scale")
 
     Column(
         modifier = modifier
@@ -86,7 +88,7 @@ fun MediaItemVertical(
                         width = MEDIA_POSTER_SMALL_WIDTH.dp,
                         height = MEDIA_POSTER_SMALL_HEIGHT.dp
                     )
-                    .clip(RoundedCornerShape(20.dp))
+                    .clip(RoundedCornerShape(24.dp))
             )
 
             posterOverlay?.invoke(this)
@@ -97,11 +99,10 @@ fun MediaItemVertical(
                         .padding(8.dp)
                         .align(Alignment.TopEnd),
                     shape = RoundedCornerShape(12.dp),
-                    color = MaterialTheme.colorScheme.surfaceContainerHighest.copy(alpha = 0.85f),
-                    tonalElevation = 4.dp
+                    color = MaterialTheme.colorScheme.surfaceContainerHighest.copy(alpha = 0.9f),
                 ) {
                     Row(
-                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         content = badgeContent
                     )
@@ -115,7 +116,7 @@ fun MediaItemVertical(
                 .width(MEDIA_POSTER_SMALL_WIDTH.dp)
                 .padding(horizontal = 4.dp),
             color = MaterialTheme.colorScheme.onSurface,
-            style = MaterialTheme.typography.titleSmall,
+            style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.Bold,
             overflow = TextOverflow.Ellipsis,
             maxLines = 2,
@@ -144,9 +145,9 @@ fun Modifier.shimmerEffect(): Modifier = composed {
     )
 
     val shimmerColors = listOf(
-        MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f),
-        MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.2f),
-        MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f),
+        MaterialTheme.colorScheme.surfaceContainerHighest,
+        MaterialTheme.colorScheme.surfaceContainerLow,
+        MaterialTheme.colorScheme.surfaceContainerHighest,
     )
 
     val brush = Brush.linearGradient(
@@ -172,14 +173,16 @@ fun MediaItemVerticalPlaceholder(
                     width = MEDIA_POSTER_SMALL_WIDTH.dp,
                     height = MEDIA_POSTER_SMALL_HEIGHT.dp
                 )
-                .clip(RoundedCornerShape(20.dp))
+                .clip(RoundedCornerShape(24.dp))
                 .shimmerEffect()
         )
 
+        Spacer(modifier = Modifier.height(8.dp))
+
         Box(
             modifier = Modifier
-                .padding(top = 8.dp, start = 4.dp)
-                .size(width = 80.dp, height = 16.dp)
+                .padding(horizontal = 4.dp)
+                .size(width = 80.dp, height = 12.dp)
                 .clip(RoundedCornerShape(4.dp))
                 .shimmerEffect()
         )

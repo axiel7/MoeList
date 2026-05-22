@@ -7,7 +7,6 @@ import androidx.compose.animation.core.spring
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,6 +23,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Bookmark
+import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -44,7 +47,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -104,16 +106,16 @@ fun StandardUserMediaListItem(
                 },
                 onClick = onClick
             ),
-        shape = RoundedCornerShape(24.dp),
+        shape = RoundedCornerShape(28.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainer
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Row(
             modifier = Modifier
                 .height(IntrinsicSize.Max)
-                .padding(12.dp),
+                .padding(14.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box {
@@ -123,7 +125,7 @@ fun StandardUserMediaListItem(
                     modifier = Modifier
                         .height(MEDIA_POSTER_MEDIUM_HEIGHT.dp)
                         .width(MEDIA_POSTER_MEDIUM_WIDTH.dp)
-                        .clip(RoundedCornerShape(16.dp))
+                        .clip(RoundedCornerShape(20.dp))
                 )
 
                 // Glassmorphism Score Badge
@@ -133,7 +135,7 @@ fun StandardUserMediaListItem(
                         .padding(6.dp)
                         .clip(CircleShape)
                         .background(
-                            MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.7f)
+                            MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.8f)
                         )
                         .padding(horizontal = 8.dp, vertical = 4.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -145,7 +147,7 @@ fun StandardUserMediaListItem(
                         fontWeight = FontWeight.Bold
                     )
                     Icon(
-                        painter = painterResource(R.drawable.ic_round_star_16),
+                        imageVector = Icons.Rounded.Star,
                         contentDescription = "star",
                         modifier = Modifier
                             .padding(start = 2.dp)
@@ -166,21 +168,21 @@ fun StandardUserMediaListItem(
                     text = item.node.userPreferredTitle(),
                     color = MaterialTheme.colorScheme.onSurface,
                     style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.ExtraBold,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 2
                 )
 
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(6.dp))
 
                 // Badges row
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     ExpressiveBadge(
                         text = item.node.mediaFormat?.localized().orEmpty(),
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.7f),
                         contentColor = MaterialTheme.colorScheme.onSecondaryContainer
                     )
                     if (isAiring) {
@@ -197,23 +199,19 @@ fun StandardUserMediaListItem(
                 // Integrated Progress Section
                 Column(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    // Progress Container with outline
+                    // Progress Container
                     Surface(
                         modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(16.dp),
-                        color = MaterialTheme.colorScheme.surfaceContainerHighest.copy(alpha = 0.3f),
-                        border = BorderStroke(
-                            0.5.dp,
-                            MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.25f)
-                        ),
+                        shape = RoundedCornerShape(20.dp),
+                        color = MaterialTheme.colorScheme.surfaceContainerHigh,
                         tonalElevation = 1.dp
                     ) {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(10.dp),
+                                .padding(8.dp),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
@@ -225,12 +223,7 @@ fun StandardUserMediaListItem(
                                     modifier = Modifier
                                         .clip(CircleShape)
                                         .background(
-                                            MaterialTheme.colorScheme.surface.copy(alpha = 0.6f)
-                                        )
-                                        .border(
-                                            width = 0.5.dp,
-                                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f),
-                                            shape = CircleShape
+                                            MaterialTheme.colorScheme.surfaceContainerHighest
                                         )
                                         .padding(horizontal = 12.dp, vertical = 6.dp)
                                 ) {
@@ -245,49 +238,44 @@ fun StandardUserMediaListItem(
                                         style = MaterialTheme.typography.labelLarge,
                                         fontWeight = FontWeight.ExtraBold,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
-                                            alpha = 0.5f
+                                            alpha = 0.6f
                                         )
                                     )
                                 }
                                 if ((item as? UserMangaList)?.listStatus?.isUsingVolumeProgress() == true) {
                                     Icon(
-                                        painter = painterResource(R.drawable.round_bookmark_24),
+                                        imageVector = Icons.Rounded.Bookmark,
                                         contentDescription = stringResource(R.string.volumes),
                                         modifier = Modifier
-                                            .padding(start = 4.dp)
-                                            .size(16.dp),
+                                            .padding(start = 6.dp)
+                                            .size(18.dp),
                                         tint = MaterialTheme.colorScheme.primary
                                     )
                                 }
                             }
 
                             if (listStatus?.isCurrent() == true) {
-                                val buttonScale by animateFloatAsState(
-                                    targetValue = 1f,
-                                    animationSpec = spring(
-                                        dampingRatio = Spring.DampingRatioMediumBouncy,
-                                        stiffness = Spring.StiffnessMedium
-                                    ),
-                                    label = "buttonScale"
-                                )
-
                                 FilledTonalButton(
                                     onClick = {
                                         haptic.performHapticFeedback(HapticFeedbackType.Confirm)
                                         onClickPlus()
                                     },
-                                    modifier = Modifier
-                                        .height(40.dp)
-                                        .scale(buttonScale),
-                                    shape = RoundedCornerShape(20.dp),
-                                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 0.dp),
+                                    modifier = Modifier.height(36.dp),
+                                    shape = RoundedCornerShape(18.dp),
+                                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp),
                                     colors = ButtonDefaults.filledTonalButtonColors(
-                                        containerColor = MaterialTheme.colorScheme.primaryContainer,
-                                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                                        containerColor = MaterialTheme.colorScheme.primary,
+                                        contentColor = MaterialTheme.colorScheme.onPrimary
                                     )
                                 ) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.Add,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(18.dp)
+                                    )
+                                    Spacer(modifier = Modifier.width(4.dp))
                                     Text(
-                                        text = stringResource(R.string.plus_one),
+                                        text = "1",
                                         style = MaterialTheme.typography.labelLarge,
                                         fontWeight = FontWeight.Bold
                                     )
@@ -325,10 +313,10 @@ fun StandardUserMediaListItem(
                             progress = { animatedProgress },
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(4.dp)
+                                .height(6.dp)
                                 .clip(CircleShape),
                             color = animatedProgressBarColor,
-                            trackColor = MaterialTheme.colorScheme.surfaceVariant,
+                            trackColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                             strokeCap = StrokeCap.Round
                         )
                     }
@@ -344,28 +332,19 @@ fun ExpressiveBadge(
     containerColor: Color,
     contentColor: Color,
     modifier: Modifier = Modifier,
-    textStyle: TextStyle = MaterialTheme.typography.labelMedium,
-    paddingValues: PaddingValues = PaddingValues(horizontal = 10.dp, vertical = 4.dp),
+    textStyle: TextStyle = MaterialTheme.typography.labelSmall,
+    paddingValues: PaddingValues = PaddingValues(horizontal = 8.dp, vertical = 2.dp),
     border: BorderStroke? = null,
-    tonalElevation: androidx.compose.ui.unit.Dp = 1.dp,
+    tonalElevation: androidx.compose.ui.unit.Dp = 0.dp,
     content: @Composable (() -> Unit)? = null
 ) {
     if (text.isEmpty() && content == null) return
 
-    val scale by animateFloatAsState(
-        targetValue = 1f,
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessMedium
-        ),
-        label = "badgeScale"
-    )
-
     Surface(
-        modifier = modifier.scale(scale),
+        modifier = modifier,
         color = containerColor,
         contentColor = contentColor,
-        shape = CircleShape,
+        shape = RoundedCornerShape(8.dp),
         border = border,
         tonalElevation = tonalElevation
     ) {
@@ -389,25 +368,22 @@ fun StandardUserMediaListItemPlaceholder() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp),
-        shape = RoundedCornerShape(24.dp),
+        shape = RoundedCornerShape(28.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainer
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+        )
     ) {
         Row(
             modifier = Modifier
                 .height(IntrinsicSize.Max)
-                .padding(12.dp),
+                .padding(14.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
                 modifier = Modifier
-                    .size(
-                        width = MEDIA_POSTER_MEDIUM_WIDTH.dp,
-                        height = MEDIA_POSTER_MEDIUM_HEIGHT.dp
-                    )
-                    .clip(RoundedCornerShape(16.dp))
+                    .height(MEDIA_POSTER_MEDIUM_HEIGHT.dp)
+                    .width(MEDIA_POSTER_MEDIUM_WIDTH.dp)
+                    .clip(RoundedCornerShape(20.dp))
                     .defaultPlaceholder(visible = true)
             )
 
@@ -419,17 +395,19 @@ fun StandardUserMediaListItemPlaceholder() {
             ) {
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth(0.8f)
-                        .height(16.dp)
-                        .clip(RoundedCornerShape(4.dp))
+                        .fillMaxWidth()
+                        .height(20.dp)
+                        .clip(CircleShape)
                         .defaultPlaceholder(visible = true)
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+
+                Spacer(modifier = Modifier.height(6.dp))
+
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth(0.4f)
-                        .height(12.dp)
-                        .clip(RoundedCornerShape(4.dp))
+                        .width(100.dp)
+                        .height(16.dp)
+                        .clip(CircleShape)
                         .defaultPlaceholder(visible = true)
                 )
 
@@ -438,8 +416,8 @@ fun StandardUserMediaListItemPlaceholder() {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(54.dp)
-                        .clip(RoundedCornerShape(16.dp))
+                        .height(52.dp)
+                        .clip(RoundedCornerShape(20.dp))
                         .defaultPlaceholder(visible = true)
                 )
             }

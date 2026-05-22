@@ -1,6 +1,5 @@
 package com.axiel7.moelist.ui.composables.media
 
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -31,19 +30,19 @@ const val MEDIA_POSTER_BIG_HEIGHT = 225
 @Composable
 fun MediaPoster(
     url: String?,
-    showShadow: Boolean = true, // Kept for compatibility, but M3 avoids shadows
+    showShadow: Boolean = true,
     contentScale: ContentScale = ContentScale.Crop,
     modifier: Modifier
 ) {
     AsyncImage(
         model = url,
         contentDescription = "poster",
-        placeholder = ColorPainter(MaterialTheme.colorScheme.surfaceVariant),
-        error = ColorPainter(MaterialTheme.colorScheme.surfaceVariant),
-        fallback = ColorPainter(MaterialTheme.colorScheme.surfaceVariant),
+        placeholder = ColorPainter(MaterialTheme.colorScheme.surfaceContainerHighest),
+        error = ColorPainter(MaterialTheme.colorScheme.surfaceContainerHighest),
+        fallback = ColorPainter(MaterialTheme.colorScheme.surfaceContainerHighest),
         contentScale = contentScale,
         modifier = modifier
-            .clip(RoundedCornerShape(16.dp)) // M3 Large Shape
+            .clip(RoundedCornerShape(20.dp)) // Updated for M3/ColorOS consistency
     )
 }
 

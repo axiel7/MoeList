@@ -137,6 +137,10 @@ class AnimeRepository(
         sort: MediaSort,
         page: String? = null,
     ): Response<List<UserAnimeList>> {
+        if (page == null) {
+            // Clear existing items for this status immediately to force UI into loading state
+            _userAnimeList.update { current -> current.filter { it.listStatus?.status != status } }
+        }
         return try {
             val result = if (page == null) api.getUserAnimeList(
                 status = status,
@@ -150,11 +154,6 @@ class AnimeRepository(
             if (result.data != null) {
                 _userAnimeList.update { currentList ->
                     val newList = currentList.toMutableList()
-                    if (page == null) {
-                        // Maintain existing items until we have the new result to avoid list clearing
-                        val newNodeIds = result.data.map { it.node.id }.toSet()
-                        newList.removeAll { it.listStatus?.status == status && it.node.id !in newNodeIds }
-                    }
                     result.data.forEach { newItem ->
                         val existingIndex = newList.indexOfFirst { it.node.id == newItem.node.id }
                         if (existingIndex != -1) {

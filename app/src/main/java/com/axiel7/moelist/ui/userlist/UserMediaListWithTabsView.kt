@@ -26,7 +26,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
@@ -111,27 +110,30 @@ fun UserMediaListWithTabsView(
         ) {
             Surface(
                 modifier = Modifier.fillMaxWidth(),
-                color = Color.Transparent,
-                shadowElevation = 0.dp
+                color = MaterialTheme.colorScheme.surfaceContainerLowest,
+                shadowElevation = 4.dp,
+                tonalElevation = 4.dp
             ) {
-                TabRowWithPager(
-                    tabs = tabRowItems,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 4.dp),
-                    isTabScrollable = true,
-                    isPrimaryTab = true,
-                    containerColor = Color.Transparent,
-                    pagerState = pagerState,
-                    showPager = false,
-                    pageContent = { _, _ -> }
-                )
-            }
+                Column {
+                    TabRowWithPager(
+                        tabs = tabRowItems,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp),
+                        isTabScrollable = true,
+                        isPrimaryTab = true,
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+                        pagerState = pagerState,
+                        showPager = false,
+                        pageContent = { _, _ -> }
+                    )
 
-            UserMediaListControlBar(
-                uiState = currentUiState,
-                event = currentViewModel
-            )
+                    UserMediaListControlBar(
+                        uiState = currentUiState,
+                        event = currentViewModel
+                    )
+                }
+            }
 
             if (currentUiState.openSortDialog && currentUiState.listSort != null) {
                 MediaListSortDialog(

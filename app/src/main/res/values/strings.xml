@@ -56,6 +56,7 @@
     <string name="this_season">This Season</string>
     <string name="recommendations">Recommendations</string>
     <string name="total_entries">Total: %s</string>
+    <string name="anime_count">%d Anime</string>
     <string name="mean_score">Mean Score</string>
     <string name="rewatched">Rewatched</string>
     <string name="view_profile_mal">View profile on MAL</string>
@@ -137,6 +138,7 @@
     <string name="title_details">Details</string>
     <string name="view_on_mal">View on MAL</string>
     <string name="share">Share</string>
+    <string name="open_in_browser">Open in browser</string>
     <string name="sort_title">Title</string>
     <string name="sort_score">Score</string>
     <string name="sort_last_updated">Last updated</string>

@@ -23,7 +23,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -105,7 +104,7 @@ private fun MediaRankingListViewContent(
             badgeContent = item.node.myListStatus?.status?.let { status ->
                 {
                     Icon(
-                        painter = painterResource(status.icon),
+                        imageVector = status.icon,
                         contentDescription = status.localized(),
                         tint = MaterialTheme.colorScheme.onPrimaryContainer,
                         modifier = Modifier.size(16.dp)

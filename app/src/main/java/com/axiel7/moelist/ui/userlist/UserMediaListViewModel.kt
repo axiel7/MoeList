@@ -96,6 +96,8 @@ class UserMediaListViewModel(
                     loadMore = true,
                     isLoading = true,
                     isError = false,
+                    // Clear the status from loaded set to force a full re-render and trigger scroll to top
+                    loadedStatuses = state.loadedStatuses - (state.listStatus ?: return@update state),
                     scrollToTopTrigger = state.scrollToTopTrigger + 1
                 )
             }
@@ -123,7 +125,16 @@ class UserMediaListViewModel(
     }
 
     override fun refreshList() {
-        mutableUiState.update { state -> state.copy(nextPage = null, loadMore = true, isError = false) }
+        mutableUiState.update { state -> 
+            state.copy(
+                nextPage = null, 
+                loadMore = true, 
+                isError = false,
+                // Force fresh fetch and scroll reset
+                loadedStatuses = state.loadedStatuses - (state.listStatus ?: return@update state),
+                scrollToTopTrigger = state.scrollToTopTrigger + 1
+            ) 
+        }
     }
 
     override fun loadMore() {

@@ -1,18 +1,19 @@
 package com.axiel7.moelist.ui.details.composables
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Movie
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,16 +26,16 @@ fun MediaInfoView(
     title: String,
     info: String?,
     modifier: Modifier = Modifier,
-    @DrawableRes icon: Int? = null
+    iconVector: ImageVector? = null
 ) {
     Row(
         modifier = modifier.padding(vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        if (icon != null) {
+        if (iconVector != null) {
             Icon(
-                painter = painterResource(id = icon),
+                imageVector = iconVector,
                 contentDescription = null,
                 modifier = Modifier.size(18.dp),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
@@ -63,7 +64,7 @@ fun MediaInfoPreview() {
         MediaInfoView(
             title = "Studio",
             info = "Wit Studio",
-            icon = R.drawable.ic_round_movie_24
+            iconVector = Icons.Rounded.Movie
         )
     }
 }

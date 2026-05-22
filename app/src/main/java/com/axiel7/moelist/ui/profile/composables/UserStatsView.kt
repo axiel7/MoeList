@@ -9,6 +9,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.MenuBook
+import androidx.compose.material.icons.outlined.Book
+import androidx.compose.material.icons.rounded.Event
+import androidx.compose.material.icons.rounded.PlayCircleOutline
+import androidx.compose.material.icons.rounded.Refresh
+import androidx.compose.material.icons.rounded.Repeat
+import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -20,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -72,8 +81,8 @@ fun UserStatsView(
     val progressLabel = if (mediaType == MediaType.ANIME) stringResource(R.string.episodes)
     else stringResource(R.string.chapters)
     
-    val progressIcon = if (mediaType == MediaType.ANIME) R.drawable.play_circle_outline_24
-    else R.drawable.ic_round_menu_book_24
+    val progressIcon = if (mediaType == MediaType.ANIME) Icons.Rounded.PlayCircleOutline
+    else Icons.AutoMirrored.Rounded.MenuBook
 
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -100,7 +109,7 @@ fun UserStatsView(
                         modifier = Modifier.size(28.dp)
                     ) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_round_refresh_24),
+                            imageVector = Icons.Rounded.Refresh,
                             contentDescription = stringResource(R.string.refresh),
                             modifier = Modifier.size(18.dp),
                             tint = MaterialTheme.colorScheme.primary
@@ -122,7 +131,7 @@ fun UserStatsView(
             BentoStatCard(
                 title = stringResource(R.string.days),
                 value = if (isError) UNKNOWN_CHAR else days.toStringOrZero(),
-                icon = R.drawable.ic_round_event_24,
+                icon = Icons.Rounded.Event,
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
                 contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier.weight(1.6f),
@@ -132,7 +141,7 @@ fun UserStatsView(
             BentoStatCard(
                 title = stringResource(R.string.mean_score),
                 value = if (isError) UNKNOWN_CHAR else meanScore.toStringOrZero(),
-                icon = R.drawable.ic_round_details_star_24,
+                icon = Icons.Rounded.Star,
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                 modifier = Modifier.weight(1f),
@@ -224,7 +233,7 @@ fun UserStatsView(
             BentoStatCard(
                 title = if (mediaType == MediaType.ANIME) stringResource(R.string.rewatched) else stringResource(R.string.total_rereads),
                 value = if (isError) UNKNOWN_CHAR else rewatched.toStringOrZero(),
-                icon = R.drawable.round_repeat_24,
+                icon = Icons.Rounded.Repeat,
                 containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                 contentColor = MaterialTheme.colorScheme.outline,
                 modifier = Modifier.weight(1f),
@@ -236,7 +245,7 @@ fun UserStatsView(
             BentoStatCard(
                 title = stringResource(R.string.volumes),
                 value = if (isError) UNKNOWN_CHAR else uiState.userMangaStats?.volumesRead.toStringOrZero(),
-                icon = R.drawable.ic_outline_book_24,
+                icon = Icons.Outlined.Book,
                 containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                 contentColor = MaterialTheme.colorScheme.outline,
                 modifier = Modifier.fillMaxWidth().height(56.dp),
@@ -250,7 +259,7 @@ fun UserStatsView(
 fun BentoStatCard(
     title: String,
     value: String,
-    icon: Int,
+    icon: Any,
     containerColor: Color,
     contentColor: Color,
     modifier: Modifier = Modifier,
@@ -277,12 +286,20 @@ fun BentoStatCard(
                 horizontalArrangement = if (isHero) Arrangement.Start else Arrangement.Center,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Icon(
-                    painter = painterResource(id = icon),
-                    contentDescription = null,
-                    modifier = Modifier.size(if (isHero) 20.dp else 16.dp),
-                    tint = contentColor.copy(alpha = 0.8f)
-                )
+                when (icon) {
+                    is ImageVector -> Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        modifier = Modifier.size(if (isHero) 20.dp else 16.dp),
+                        tint = contentColor.copy(alpha = 0.8f)
+                    )
+                    is Int -> Icon(
+                        painter = painterResource(id = icon),
+                        contentDescription = null,
+                        modifier = Modifier.size(if (isHero) 20.dp else 16.dp),
+                        tint = contentColor.copy(alpha = 0.8f)
+                    )
+                }
                 if (isHero) {
                     Spacer(modifier = Modifier.size(6.dp))
                     Text(

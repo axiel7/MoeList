@@ -300,7 +300,7 @@ private fun SearchViewContent(
             badgeContent = item.node.myListStatus?.status?.let { status ->
                 {
                     Icon(
-                        painter = painterResource(status.icon),
+                        imageVector = status.icon,
                         contentDescription = status.localized(),
                         tint = MaterialTheme.colorScheme.primary
                     )

@@ -288,7 +288,7 @@ private fun EditMediaSheetContent(
                                 horizontalArrangement = Arrangement.spacedBy(4.dp)
                             ) {
                                 Icon(
-                                    painter = painterResource(id = uiState.status.icon),
+                                    imageVector = uiState.status.icon,
                                     contentDescription = null,
                                     modifier = Modifier.size(12.dp),
                                     tint = MaterialTheme.colorScheme.onTertiaryContainer
@@ -356,7 +356,7 @@ private fun EditMediaSheetContent(
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
-                                painter = painterResource(id = status.icon),
+                                imageVector = status.icon,
                                 contentDescription = status.localized(),
                                 tint = contentColor,
                                 modifier = Modifier.size(24.dp)
