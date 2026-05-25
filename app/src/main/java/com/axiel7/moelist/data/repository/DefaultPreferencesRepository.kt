@@ -233,18 +233,6 @@ class DefaultPreferencesRepository(
     suspend fun setTitleLang(value: TitleLanguage) {
         dataStore.setValue(TITLE_LANG_KEY, value.name)
         App.titleLanguage = value
-        setAnimeNeedsReindex(true)
-        setMangaNeedsReindex(true)
-    }
-
-    val animeNeedsReindex = dataStore.getValue(ANIME_NEEDS_REINDEX_KEY, false)
-    suspend fun setAnimeNeedsReindex(value: Boolean) {
-        dataStore.setValue(ANIME_NEEDS_REINDEX_KEY, value)
-    }
-
-    val mangaNeedsReindex = dataStore.getValue(MANGA_NEEDS_REINDEX_KEY, false)
-    suspend fun setMangaNeedsReindex(value: Boolean) {
-        dataStore.setValue(MANGA_NEEDS_REINDEX_KEY, value)
     }
 
     val useListTabs = dataStore.getValue(USE_LIST_TABS_KEY, false)
@@ -396,8 +384,6 @@ class DefaultPreferencesRepository(
         private val START_TAB_KEY = stringPreferencesKey("start_tab")
         private val TABLET_MODE_KEY = stringPreferencesKey("tablet_mode")
         private val TITLE_LANG_KEY = stringPreferencesKey("title_lang")
-        private val ANIME_NEEDS_REINDEX_KEY = booleanPreferencesKey("anime_needs_reindex")
-        private val MANGA_NEEDS_REINDEX_KEY = booleanPreferencesKey("manga_needs_reindex")
         private val USE_LIST_TABS_KEY = booleanPreferencesKey("use_list_tabs")
         private val LOAD_CHARACTERS_KEY = booleanPreferencesKey("load_characters")
         private val RANDOM_LIST_ENTRY_KEY = booleanPreferencesKey("random_list_entry_enabled")

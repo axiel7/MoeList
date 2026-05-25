@@ -18,7 +18,6 @@ import com.axiel7.moelist.ui.base.viewmodel.BaseViewModel
 import com.axiel7.moelist.utils.NumExtensions.isGreaterThanZero
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
@@ -28,7 +27,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -335,45 +333,6 @@ class UserMediaListViewModel(
         }
     }
 
-    private fun performReindexing(fullListSize: Int) {
-        viewModelScope.launch(Dispatchers.Default) {
-            mutableUiState.update { state ->
-                state.copy(
-                    isReindexing = true,
-                    reindexProgress = 0f,
-                    reindexPercentageText = "0%",
-                    reindexProgressText = "0/$fullListSize"
-                )
-            }
-
-            // We iterate in chunks or with a small delay to show progress
-            val step = (fullListSize / 100).coerceAtLeast(1)
-            for (i in 0..fullListSize) {
-                if (i % step == 0 || i == fullListSize) {
-                    val progress = i.toFloat() / fullListSize
-                    val percentage = (progress * 100).toInt()
-                    mutableUiState.update { state ->
-                        state.copy(
-                            reindexProgress = progress,
-                            reindexPercentageText = "$percentage%",
-                            reindexProgressText = "$i/$fullListSize"
-                        )
-                    }
-                    delay(10) // Small delay to make it visible
-                }
-            }
-
-            delay(300) // Brief pause at 100%
-
-            when (mediaType) {
-                MediaType.ANIME -> defaultPreferencesRepository.setAnimeNeedsReindex(false)
-                MediaType.MANGA -> defaultPreferencesRepository.setMangaNeedsReindex(false)
-            }
-
-            mutableUiState.update { it.copy(isReindexing = false) }
-        }
-    }
-
     init {
         if (initialListStatus == null) {
             val listStatusFlow = when (mediaType) {
@@ -443,15 +402,21 @@ class UserMediaListViewModel(
             mangaRepository.userMangaList
         }
 
-        userListFlow
+        // Combine with titleLang so that changing the title-language preference
+        // re-runs the local sort step (sortMediaList reads App.titleLanguage via
+        // userPreferredTitle()). titleLang itself isn't used in the body — it only
+        // acts as a re-emit trigger.
+        combine(userListFlow, defaultPreferencesRepository.titleLang) { fullList, _ ->
+            fullList
+        }
             .onEach { fullList ->
                 val currentStatus = mutableUiState.value.listStatus ?: return@onEach
                 val currentSort = mutableUiState.value.listSort ?: defaultSort
                 val currentFormat = mutableUiState.value.selectedFormat
-                
+
                 // 1. Filter and Sort FIRST on background thread to ensure initial alignment
                 val statusFilteredList = fullList.filter { it.listStatus?.status == currentStatus }
-                
+
                 // Calculate counts based on statusFilteredList
                 val counts = statusFilteredList.groupBy { it.node.mediaFormat }
                     .mapValues { it.value.size }
@@ -483,23 +448,6 @@ class UserMediaListViewModel(
                 }
             }
             .launchIn(viewModelScope)
-
-        // Trigger reindexing if needed
-        val needsReindexFlow = if (mediaType == MediaType.ANIME) {
-            defaultPreferencesRepository.animeNeedsReindex
-        } else {
-            defaultPreferencesRepository.mangaNeedsReindex
-        }
-
-        viewModelScope.launch {
-            val needsReindex = needsReindexFlow.first()
-            if (needsReindex) {
-                // Wait for the first emission of data to know the size
-                userListFlow.filter { it.isNotEmpty() }.take(1).collect { fullList ->
-                    performReindexing(fullList.size)
-                }
-            }
-        }
 
         viewModelScope.launch(Dispatchers.IO) {
             mutableUiState
