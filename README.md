@@ -4,6 +4,8 @@
 [![Crowdin](https://badges.crowdin.net/moelist/localized.svg)](https://crowdin.com/project/moelist)
 [![Donate](https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg)](https://ko-fi.com/axiel7)
 
+# ⚠️ New development will be done in [MoeListKMP](https://github.com/axiel7/MoeListKMP)
+
 Another unofficial Android MAL client
 
 [<img alt="Get it on Google Play" height="80" src="https://play.google.com/intl/en_US/badges/images/generic/en_badge_web_generic.png"/>](https://play.google.com/store/apps/details?id=com.axiel7.moelist)
