@@ -39,13 +39,11 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.compose.dropUnlessResumed
 import com.axiel7.moelist.R
+import com.axiel7.moelist.data.model.anime.AnimeSeasonal
 import com.axiel7.moelist.data.model.media.MediaType
 import com.axiel7.moelist.ui.base.navigation.NavActionManager
 import com.axiel7.moelist.ui.composables.DefaultScaffoldWithTopAppBar
 import com.axiel7.moelist.ui.composables.TextIconHorizontal
-import com.axiel7.moelist.ui.composables.media.MEDIA_POSTER_SMALL_WIDTH
-import com.axiel7.moelist.ui.composables.media.MediaItemDetailedPlaceholder
-import com.axiel7.moelist.ui.composables.media.MediaItemVertical
 import com.axiel7.moelist.ui.composables.score.SmallScoreIndicator
 import com.axiel7.moelist.ui.season.composables.SeasonChartFilterSheet
 import com.axiel7.moelist.ui.theme.MoeListTheme
@@ -53,6 +51,12 @@ import com.axiel7.moelist.utils.ContextExtensions.showToast
 import com.axiel7.moelist.utils.NumExtensions.format
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
+
+import com.axiel7.moelist.ui.composables.media.DarkTheme_textColor
+import com.axiel7.moelist.ui.composables.media.MediaItemVertical_2perRow
+import com.axiel7.moelist.ui.composables.media.MediaItemVertical_2perRowPlaceholder
+import com.axiel7.moelist.ui.composables.media.getGridCellFixed_Count_ForOrientation
+
 
 @Composable
 fun SeasonChartView(
@@ -83,7 +87,6 @@ private fun SeasonChartViewContent(
     fun hideSheet() {
         scope.launch { sheetState.hide() }.invokeOnCompletion { showSheet = false }
     }
-
     val bottomBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
     if (showSheet) {
@@ -125,19 +128,21 @@ private fun SeasonChartViewContent(
             .only(WindowInsetsSides.Horizontal)
     ) { padding ->
         LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = MEDIA_POSTER_SMALL_WIDTH.dp),
+//            columns = GridCells.Adaptive(minSize = MEDIA_POSTER_SMALL_WIDTH_2pr.dp),
+//            columns = GridCells.Fixed(2),
+            columns = GridCells.Fixed(getGridCellFixed_Count_ForOrientation() ),
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize(),
             contentPadding = PaddingValues(
-                start = 8.dp,
+                start = 2.dp,
                 top = 8.dp,
-                end = 8.dp,
+                end = 2.dp,
                 bottom = bottomBarPadding
             ),
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
-        ) {
+            horizontalArrangement = Arrangement.spacedBy(2.dp, Alignment.CenterHorizontally)
+         ) {
             items(
                 items = uiState.animes,
                 key = { it.node.id },
@@ -147,47 +152,41 @@ private fun SeasonChartViewContent(
                     modifier = Modifier.fillMaxWidth(),
                     contentAlignment = Alignment.TopCenter
                 ) {
-                    MediaItemVertical(
-                        imageUrl = item.node.mainPicture?.large,
-                        title = item.node.userPreferredTitle(),
-                        badgeContent = item.node.myListStatus?.status?.let { status ->
-                            {
-                                Icon(
-                                    painter = painterResource(status.icon),
-                                    contentDescription = status.localized(),
-                                    tint = MaterialTheme.colorScheme.onPrimaryContainer
-                                )
+                    MediaItemVertical_2perRow(
+                            imageUrl = item.node.mainPicture?.large,
+                            title = item.node.userPreferredTitle(),
+                            status = item.node.myListStatus?.status,
+                            badgeContent = item.node.myListStatus?.status?.let
+                            { status ->
+                                {
+                                    Icon(
+                                        painter = painterResource(status.icon),
+                                        contentDescription = status.localized(),
+                                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                                    )
+                                }
+                            },
+                            subtitle = {
+                                SmallScoreIndicator_Style1(item)
+                            },
+                            subtitle2 = {
+                                item.node.numListUsers?.format()?.let { users ->
+                                    SmallMemberIndicator_Style1(users)
+                                }
+                            },
+                            minLines = 2,
+                            onClick = dropUnlessResumed {
+                                navActionManager.toMediaDetails(MediaType.ANIME, item.node.id)
                             }
-                        },
-                        subtitle = if (!uiState.hideScore) {
-                            {
-                                SmallScoreIndicator(
-                                    score = item.node.mean,
-                                    fontSize = 13.sp
-                                )
-                            }
-                        } else null,
-                        subtitle2 = {
-                            item.node.numListUsers?.format()?.let { users ->
-                                TextIconHorizontal(
-                                    text = users,
-                                    icon = R.drawable.ic_round_group_24,
-                                    color = MaterialTheme.colorScheme.outline,
-                                    fontSize = 13.sp,
-                                    iconSize = 16.dp
-                                )
-                            }
-                        },
-                        minLines = 2,
-                        onClick = dropUnlessResumed {
-                            navActionManager.toMediaDetails(MediaType.ANIME, item.node.id)
-                        }
-                    )
+                        )
                 }
+
             }
             if (uiState.isLoading) {
-                items(12) {
-                    MediaItemDetailedPlaceholder()
+                items(5) {
+                    MediaItemVertical_2perRowPlaceholder()
+//                    MediaItemVertical_2perRowPreview()//debug
+//                    MediaItemDetailedPlaceholder()
                 }
             }
             item(contentType = { 0 }) {
@@ -197,6 +196,30 @@ private fun SeasonChartViewContent(
             }
         }
     }//:Scaffold
+}
+
+//Concise Overloads - Move to ScoreIndicator.kt
+@Composable
+private fun SmallMemberIndicator_Style1(users: String) {
+    TextIconHorizontal(
+        text = users,
+        icon = R.drawable.ic_round_group_24,
+        color = DarkTheme_textColor,
+        fontSize = 13.sp,
+        iconSize = 16.dp,
+        lineHeight = 16.sp,
+    )
+}
+
+@Composable
+private fun SmallScoreIndicator_Style1(item: AnimeSeasonal) {
+    SmallScoreIndicator(
+        score = item.node.mean,
+        textColor = DarkTheme_textColor,
+        fontSize = 15.sp,
+        lineHeight = 16.sp,
+        iconPaddingEnd = 4.dp,
+    )
 }
 
 @Preview
