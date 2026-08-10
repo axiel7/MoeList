@@ -349,10 +349,10 @@
     <string name="black_theme_variant">Variante tema nero</string>
     <string name="pinned_navigation_bar">Blocca barra di navigazione</string>
     <string name="hide_scores">Nascondi punteggi</string>
-    <string name="mode_auto" comment="tablet mode">Auto</string>
-    <string name="mode_always" comment="tablet mode">Sempre</string>
-    <string name="mode_landscape" comment="tablet mode">Orizzontale</string>
-    <string name="mode_never" comment="tablet mode">Mai</string>
+    <string name="mode_auto">Auto</string>
+    <string name="mode_always">Sempre</string>
+    <string name="mode_landscape">Orizzontale</string>
+    <string name="mode_never">Mai</string>
     <string name="tablet_mode">Modalità tablet</string>
     <string name="refresh">Aggiorna</string>
 </resources>
