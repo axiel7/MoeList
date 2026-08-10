@@ -30,6 +30,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.axiel7.moelist._GitHubPRs.Anilist.AiringEpN_in_Ndays_ToString
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeNode
 import com.axiel7.moelist.data.model.anime.exampleUserAnimeList
@@ -122,7 +123,7 @@ fun CompactUserMediaListItem(
 
                 if (isAiring) {
                     Text(
-                        text = broadcast?.airingInString() ?: stringResource(R.string.airing),
+                        text = AiringEpN_in_Ndays_ToString(broadcast, item),
                         modifier = Modifier.padding(horizontal = 16.dp),
                         color = MaterialTheme.colorScheme.primary,
                         fontSize = 16.sp,

@@ -35,4 +35,8 @@ data class AnimeNode(
     override val mean: Float? = null,
     @SerialName("my_list_status")
     override val myListStatus: BasicMyListStatus? = null,
+
+    /* Anilist NextEp Airing in */
+    var al_nextAiringEpisode: String? = null,
+
 ) : BaseMediaNode()

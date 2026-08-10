@@ -1,6 +1,7 @@
 package com.axiel7.moelist.data.repository
 
 import androidx.annotation.IntRange
+import com.axiel7.moelist._GitHubPRs.Anilist.AnilistQuery
 import com.axiel7.moelist.data.model.Response
 import com.axiel7.moelist.data.model.anime.AnimeDetails
 import com.axiel7.moelist.data.model.anime.AnimeList
@@ -133,6 +134,10 @@ class AnimeRepository(
                 fields = USER_ANIME_LIST_FIELDS
             )
             else api.getUserAnimeList(page)
+
+            //inject my logic ,here. since i couldnt update ui.
+            AnilistQuery.AddNextAiringEpInfo_withMeasureTime(result)
+
             val retry = result.error?.let { handleResponseError(it) }
             return if (retry == true) getUserAnimeList(status, sort, page) else result
         } catch (e: Exception) {

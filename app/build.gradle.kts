@@ -55,6 +55,8 @@ android {
             )
             buildConfigField("String", "CLIENT_ID", privateProps.getProperty("CLIENT_ID"))
             resValue("string", "app_name", "MoeList Debug")
+            buildConfigField("String", "ANILIST_CLIENT_ID", privateProps.getProperty("ANILIST_CLIENT_ID"))
+            buildConfigField("String", "ANILIST_CLIENT_SECRET", privateProps.getProperty("ANILIST_CLIENT_SECRET"))
         }
         release {
             isDebuggable = false
@@ -65,6 +67,8 @@ android {
                 "proguard-rules.pro"
             )
             buildConfigField("String", "CLIENT_ID", privateProps.getProperty("CLIENT_ID"))
+            buildConfigField("String", "ANILIST_CLIENT_ID", privateProps.getProperty("ANILIST_CLIENT_ID"))
+            buildConfigField("String", "ANILIST_CLIENT_SECRET", privateProps.getProperty("ANILIST_CLIENT_SECRET"))
         }
     }
     splits {
@@ -170,4 +174,10 @@ dependencies {
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
+
+    //kache
+    // For in-memory cache
+    implementation("com.mayakapps.kache:kache:2.1.0")
+    // For persistent cache
+    implementation("com.mayakapps.kache:file-kache:2.1.0")
 }

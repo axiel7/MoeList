@@ -8,6 +8,7 @@ import coil3.disk.DiskCache
 import coil3.disk.directory
 import coil3.memory.MemoryCache
 import coil3.request.crossfade
+import com.axiel7.moelist._GitHubPRs.Anilist.AnilistQuery
 import com.axiel7.moelist.data.model.media.TitleLanguage
 import com.axiel7.moelist.di.dataStoreModule
 import com.axiel7.moelist.di.databaseModule
@@ -15,6 +16,9 @@ import com.axiel7.moelist.di.networkModule
 import com.axiel7.moelist.di.repositoryModule
 import com.axiel7.moelist.di.viewModelModule
 import com.axiel7.moelist.di.workerModule
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.workmanager.koin.workManagerFactory
@@ -40,6 +44,11 @@ class App : Application(), KoinComponent, KoinStartup, SingletonImageLoader.Fact
             workerModule,
             databaseModule,
         )
+
+        GlobalScope.launch(Dispatchers.IO) {
+            AnilistQuery.cache = AnilistQuery.New_ObjectKache()
+        }
+
     }
 
     override fun newImageLoader(context: PlatformContext) =

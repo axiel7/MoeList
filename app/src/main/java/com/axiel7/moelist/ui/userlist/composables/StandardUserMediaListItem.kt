@@ -36,6 +36,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.axiel7.moelist._GitHubPRs.Anilist.AiringEpN_in_Ndays_ToString
 import com.axiel7.moelist.R
 import com.axiel7.moelist.data.model.anime.AnimeNode
 import com.axiel7.moelist.data.model.anime.exampleUserAnimeList
@@ -128,9 +129,7 @@ fun StandardUserMediaListItem(
                         maxLines = 2
                     )
                     Text(
-                        text = if (isAiring && broadcast != null) broadcast.airingInString()
-                        else if (isAiring) stringResource(R.string.airing)
-                        else item.node.mediaFormat?.localized().orEmpty(),
+                        text = AiringEpN_in_Ndays_ToString(broadcast, item),
                         modifier = Modifier.padding(horizontal = 16.dp),
                         color = if (isAiring) MaterialTheme.colorScheme.primary
                         else MaterialTheme.colorScheme.onSurfaceVariant
