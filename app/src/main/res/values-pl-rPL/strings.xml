@@ -359,10 +359,10 @@
     <string name="black_theme_variant">Czarny motyw</string>
     <string name="pinned_navigation_bar">Przypięty pasek nawigacji</string>
     <string name="hide_scores">Ukryj oceny</string>
-    <string name="mode_auto" comment="tablet mode">Automatyczny</string>
-    <string name="mode_always" comment="tablet mode">Zawsze</string>
-    <string name="mode_landscape" comment="tablet mode">Tryb poziomy</string>
-    <string name="mode_never" comment="tablet mode">Nigdy</string>
+    <string name="mode_auto">Automatyczny</string>
+    <string name="mode_always">Zawsze</string>
+    <string name="mode_landscape">Tryb poziomy</string>
+    <string name="mode_never">Nigdy</string>
     <string name="tablet_mode">Tryb tabletu</string>
     <string name="refresh">Odśwież</string>
 </resources>
