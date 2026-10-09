@@ -47,7 +47,7 @@
     <string name="seasonal_chart">Saisonplan</string>
     <string name="random">Zufall</string>
     <string name="today">Heute</string>
-    <string name="nothing_today">Nichts heute\n( ≧Д≦)</string>
+    <string name="nothing_today">Heute nichts\n( ≧Д≦)</string>
     <string name="this_season">Diese Saison</string>
     <string name="recommendations">Empfehlungen</string>
     <string name="total_entries">Gesamt: %s</string>
